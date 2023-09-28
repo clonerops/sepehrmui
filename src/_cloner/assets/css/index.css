@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer components {
+    .glassmorphism-card {
+        @apply w-full rounded-3xl p-4 backdrop-blur-3xl bg-white/90 
+    }
+}
+
+@font-face {
+    font-family: Yekan_reqular;
+    src: url("../fonts/YekanBakhFaNum-Regular.ttf");
+    font-style: normal;
+}
+@font-face {
+    font-family: Yekan_medium;
+    src: url("../fonts/YekanBakhFaNum-Black.ttf");
+    font-style: normal;
+}
+@font-face {
+    font-family: Yekan_light;
+    src: url("../fonts/YekanBakhFaNum-Light.ttf");
+    font-style: normal;
+}
+@font-face {
+    font-family: Yekan_bold;
+    src: url("../fonts/YekanBakhFaNum-Bold.ttf");
+    font-style: normal;
+}
