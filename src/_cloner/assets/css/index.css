@@ -30,3 +30,6 @@
     src: url("../fonts/YekanBakhFaNum-Bold.ttf");
     font-style: normal;
 }
+.rmdp-container {
+    width: 100% !important;
+}

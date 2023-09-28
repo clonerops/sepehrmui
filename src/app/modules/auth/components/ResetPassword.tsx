@@ -46,8 +46,8 @@ const ResetPassword = (props: {
             open={props.isOpen}
             onClose={() => props.setIsOpen(false)}
         >
-            <form className="tw-flex tw-justify-center tw-items-center tw-flex-col tw-mx-16 tw-my-8">
-                <div className="tw-w-full">
+            <form className="flex justify-center items-center flex-col mx-16 my-8">
+                <div className="w-full">
                     <Inputs
                         type="text"
                         login={true}
@@ -58,7 +58,7 @@ const ResetPassword = (props: {
                         title="نام کاربری"
                     ></Inputs>
                 </div>
-                <div className="tw-w-full">
+                <div className="w-full">
                     <Inputs
                         type="text"
                         login={true}
@@ -69,7 +69,7 @@ const ResetPassword = (props: {
                         title="کلمه عبور جدید"
                     ></Inputs>
                 </div>
-                <div className="tw-w-full">
+                <div className="w-full">
                     <Inputs
                         type="text"
                         login={true}
@@ -80,7 +80,7 @@ const ResetPassword = (props: {
                         title="تکرار کلمه عبور جدید"
                     ></Inputs>
                 </div>
-                <div className="d-grid tw-mb-10 tw-w-50">
+                <div className="d-grid mb-10 w-50">
                     <button
                         type="submit"
                         id="kt_sign_in_submit"

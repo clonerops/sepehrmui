@@ -14,7 +14,7 @@ const CreateCustomer = (props: {
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>,
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }) => {
-    const { mutate, data, isLoading } = useCreateCustomer();
+    const { mutate } = useCreateCustomer();
     const { data: customerValidityData } = useGetCustomerValidities()
     const initialValues = {
         firstName: "",
@@ -35,10 +35,6 @@ const CreateCustomer = (props: {
     };
     return (
         <>
-
-            {/* {data?.data?.status === 400 && (
-                <ErrorText text={data?.data?.title} />
-            )} */}
             <Formik initialValues={initialValues} validationSchema={createValiadtion} onSubmit={
                 async (values, { setStatus, setSubmitting }) => {
                     try {
@@ -86,7 +82,6 @@ const CreateCustomer = (props: {
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                             <Typography variant="h3" className="px-8 py-2">ثبت مشتری</Typography>
                         </Button>
-                        {/* <SubmitButton isLoading={isLoading} title="ثبت مشتری" /> */}
                     </Form>
                 }}
             </Formik>

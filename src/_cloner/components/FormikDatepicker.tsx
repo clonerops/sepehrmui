@@ -14,7 +14,7 @@ export type Label = keyof typeof translation;
 type Props = {
     boxClassName?: string;
     name: string;
-    label: Label;
+    label: string;
     value?: string;
     setFieldValue?: (
         field: string,
@@ -37,7 +37,7 @@ const FormikDatepicker = forwardRef((props: Props) => {
 
     return (
         <>
-            <Box component="div" className={cx("w-full", boxClassName)}>
+            <Box component="div" className={cx("w-full my-2", boxClassName)}>
                 <MultiDatepicker
                     {...field}
                     {...rest}
@@ -46,6 +46,7 @@ const FormikDatepicker = forwardRef((props: Props) => {
                     onChange={handleChange}
                     locale={persian_fa}
                     calendar={persian}
+                    className={cx("w-full")}
                     id={name}                       
                     render={
                         <TextField
@@ -58,26 +59,6 @@ const FormikDatepicker = forwardRef((props: Props) => {
                         />
                     }
                 />
-
-                {/* <DatePicker
-            {...field}
-            {...rest}
-            {...validationProps}
-            selected={field.value}
-            wrapperClassName={"w-full"}
-            onChange={(value) => helpers.setValue(value)}
-            ref={ref}
-            customInput={
-              <TextField
-                size="small"
-                fullWidth
-                variant="outlined"
-                label={label}
-                id={name}
-                error={validationProps.error}
-              />
-            }
-          /> */}
                 {validationProps.error && (
                     <Typography variant="body2" className="text-red-500 pl-4">
                         {validationProps.helperText}

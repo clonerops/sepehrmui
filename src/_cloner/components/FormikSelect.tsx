@@ -48,7 +48,7 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
   };
 
   return (
-    <Box component={"div"} className={cx("w-full", boxClassName)}>
+    <Box component={"div"} className={cx("w-full my-2", boxClassName)}>
       <FormControl fullWidth size={"small"}>
         <InputLabel id={label + "-label"}>{label}</InputLabel>
         <Select

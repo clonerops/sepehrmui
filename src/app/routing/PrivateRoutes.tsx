@@ -1,6 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import MasterLayout from "../modules/layout/MasterLayout";
 import Customer from "../modules/customer/Customer";
+import Products from "../modules/product/Products";
+import Suppliers from "../modules/product/Suppliers";
+import ProductPrice from "../modules/product/ProductPrice";
 
 const PrivateRoutes = () => {
   return (
@@ -10,6 +13,9 @@ const PrivateRoutes = () => {
           {/* Redirect to Dashboard after success login/registartion */}
           <Route path="auth/*" element={<Navigate to="/dashboard" />} />
           <Route path="dashboard/customers" element={<Customer />} />
+          <Route path="dashboard/products" element={<Products />} />
+          <Route path="dashboard/suppliers" element={<Suppliers />} />
+          <Route path="dashboard/productPrices" element={<ProductPrice />} />
           {/* Lazy Modules */}
           {/* Page Not Found */}
           <Route path="*" element={<Navigate to="/error/404" />} />

@@ -19,7 +19,7 @@ export default function MuiDataGrid(props: Props) {
                 pagination
                 initialState={{
                     ...data?.initialState,
-                    pagination: { paginationModel: { pageSize: 2 } },
+                    pagination: { paginationModel: { pageSize: 8 } },
                 }}
             />
         </Box>

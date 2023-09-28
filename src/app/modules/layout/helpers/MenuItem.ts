@@ -14,6 +14,32 @@ const menuItem = [
       },
     ],
   },
+  {
+    id: 2,
+    title: "محصولات",
+    to: "",
+    iconName: "User",
+    submenu: [
+      {
+        id: 1321,
+        iconName: "Plus",
+        title: "مدیریت محصولات",
+        to: "dashboard/products",
+      },
+      {
+        id: 1321,
+        iconName: "Plus",
+        title: "مدیریت تامین کنندگان",
+        to: "dashboard/suppliers",
+      },
+      {
+        id: 1321,
+        iconName: "Plus",
+        title: "مدیریت قیمت محصولات",
+        to: "dashboard/productPrices",
+      },
+    ],
+  },
 ];
 
 export { menuItem };
