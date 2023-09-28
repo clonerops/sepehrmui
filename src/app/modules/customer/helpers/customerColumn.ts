@@ -28,8 +28,15 @@ export const columns = (renderAction: any) => {
     { field: 'firstName', headerName: 'نام', headerClassName: "bg-[#2E4374] text-white" },
     { field: 'lastName', headerName: 'نام خانوادگی', headerClassName: "bg-[#2E4374] text-white" },
     { field: 'nationalId', headerName: 'کدملی', headerClassName: "bg-[#2E4374] text-white" },
-    { field: 'customerType', headerName: 'نوع مشتری', headerClassName: "bg-[#2E4374] text-white" },
-    { field: 'customerValidityId', headerName: 'نوع اعتبار', headerClassName: "bg-[#2E4374] text-white" },
+    {
+      field: 'customerType', headerName: 'نوع مشتری', renderCell: (params: any) => (
+        params.value === 0 ? "حقیقی" : "حقوقی"
+      ), headerClassName: "bg-[#2E4374] text-white"
+    },
+    { field: 'customerValidityId', headerName: 'نوع اعتبار',
+    renderCell: (params: any) => (
+      params.value === 1 ? "عادی" : params.value === 2 ? "VIP" : "سیاه"
+    ), headerClassName: "bg-[#2E4374] text-white" },
     { field: 'mobile', headerName: 'موبایل', headerClassName: "bg-[#2E4374] text-white" },
     { field: 'isSupplier', headerName: 'تامین کننده؟', headerClassName: "bg-[#2E4374] text-white" },
     { field: 'address1', headerName: 'آدرس یک', headerClassName: "bg-[#2E4374] text-white" },

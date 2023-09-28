@@ -11,6 +11,7 @@ import ReusableTable from "../../../_cloner/components/Tables";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { DataGrid } from "@mui/x-data-grid";
+import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 
 const Customer = () => {
     const {
@@ -18,7 +19,7 @@ const Customer = () => {
         isLoading: customersLoading,
         refetch,
     } = useGetCustomers();
-    const { mutate, isLoading: deleteLoading } = useDeleteCustomer();
+    const { mutate,data: deleteData, isLoading: deleteLoading } = useDeleteCustomer();
     const [results, setResults] = useState<ICustomer[]>([]);
 
     useEffect(() => {
@@ -28,17 +29,18 @@ const Customer = () => {
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ICustomer>();
+    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
     const handleEdit = (item: ICustomer) => {
-        setIsEditOpen(true);
         setItemForEdit(item);
+        setIsEditOpen(true);
     };
 
     const handleDelete = (id: string | undefined) => {
         if (id)
             mutate(id, {
                 onSuccess: (message) => {
-                    // ToastComponent(message?.message)
+                    setSnackeOpen(true)
                     refetch();
                 },
             });
@@ -48,7 +50,7 @@ const Customer = () => {
         return (
             <Box component="div" className="flex gap-4">
                 <Box component="div"
-                    onClick={() => handleEdit(item?.data)}
+                    onClick={() => handleEdit(item?.row)}
                     className="bg-yellow-500 px-2 py-1 cursor-pointer rounded-md"
                 >
                     <Box component="div" className="cursor-pointer text-white">
@@ -69,7 +71,7 @@ const Customer = () => {
                     </Box>
                 </Box>
                 <Box component="div"
-                    onClick={() => handleDelete(item?.data?.id)}
+                    onClick={() => handleDelete(item?.row?.id)}
                     className="bg-red-500 px-2 py-1 cursor-pointer rounded-md"
                 >
                     <Box component="div" className="cursor-pointer text-white">
@@ -92,17 +94,29 @@ const Customer = () => {
             </Box>
         );
     };
+
     if (customersLoading) {
         return <p>Loading...</p>;
     }
 
-
     return (
         <>
+            {snackeOpen && (
+                <PositionedSnackbar
+                    open={snackeOpen}
+                    setState={setSnackeOpen}
+                    title={
+                        deleteData?.data?.Message ||
+                        deleteData?.message || "حذف با موفقیت انجام شد"
+                    }
+                />
+            )}
+
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
             <Container>
                 <Card className="p-8">
+                    <Typography color="primary" variant="h1" className="pb-8">مدیریت مشتری</Typography>
                     <Box component="div" className="flex justify-between items-center">
                         <Box component="div" className="w-80 md:w-[40%]">
                             <FuzzySearch
@@ -130,31 +144,8 @@ const Customer = () => {
                         </Button>
                     </Box>
                     <MuiDataGrid columns={columns(renderAction)} rows={results} data={customers?.data} />
-                    {/* <DataGrid columns={columns(renderAction)} rowData={currentItems} /> */}
-                    {/* <Box component="div">
-                        <Typography variant="h5">
-                            صفحه {currentPage} از {totalPages}
-                        </Typography>
-                        <Box component="div" className="flex justify-between">
-                            <Button
-                                disabled={currentPage === 1}
-                                onClick={() => goToPage(currentPage - 1)}
-                                className="bg-gray-200 rounded-md px-6 py-2"
-                            >
-                                قبلی
-                            </Button>
-                            <Button
-                                disabled={currentPage === totalPages}
-                                onClick={() => goToPage(currentPage + 1)}
-                                className="bg-gray-200 rounded-md px-6 py-2"
-                            >
-                                بعدی
-                            </Button>
-                        </Box>
-                    </Box> */}
                 </Card>
             </Container>
-
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
@@ -166,14 +157,12 @@ const Customer = () => {
                 />
 
             </TransitionsModal>
-            <Modal
+            <TransitionsModal
                 open={isEditOpen}
-                onClose={() => setIsEditOpen(false)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                isClose={() => setIsEditOpen(false)}
             >
                 <EditCustomer refetch={refetch} item={itemForEdit} />
-            </Modal>
+            </TransitionsModal>
         </>
     );
 };
