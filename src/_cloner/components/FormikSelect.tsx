@@ -14,7 +14,7 @@ import cx from "classnames";
 
 export type FormikSelectPropsType<Value> = {
   name: string;
-  label: Label;
+  label: string;
   value?: any;
   boxClassName?: string;
   disabeld?: boolean;

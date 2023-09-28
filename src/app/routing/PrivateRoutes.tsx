@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import MasterLayout from "../modules/layout/MasterLayout";
+import Customer from "../modules/customer/Customer";
 
 const PrivateRoutes = () => {
   return (
@@ -8,7 +9,7 @@ const PrivateRoutes = () => {
         <Route>
           {/* Redirect to Dashboard after success login/registartion */}
           <Route path="auth/*" element={<Navigate to="/dashboard" />} />
-          {/* <Route path="dashboard" element={<Dashboard />} /> */}
+          <Route path="dashboard/customers" element={<Customer />} />
           {/* Lazy Modules */}
           {/* Page Not Found */}
           <Route path="*" element={<Navigate to="/error/404" />} />

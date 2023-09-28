@@ -35,14 +35,14 @@ root.render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
             <StyledEngineProvider injectFirst>
-                <StylesProvider jss={jss}>
-                    <CacheProvider value={cacheRtl}>
-                        <ThemeProvider theme={theme}>
+                <ThemeProvider theme={theme}>
+                    <StylesProvider jss={jss}>
+                        <CacheProvider value={cacheRtl}>
                             <AppRoutes />
                             <ReactQueryDevtools initialIsOpen={false} />
-                        </ThemeProvider>
-                    </CacheProvider>
-                </StylesProvider>
+                        </CacheProvider>
+                    </StylesProvider>
+                </ThemeProvider>
             </StyledEngineProvider>
         </QueryClientProvider>
     </React.StrictMode>

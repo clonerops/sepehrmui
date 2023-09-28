@@ -43,7 +43,7 @@ const FuzzySearch = <T extends {}>({
         onChange={handleInputChange}
         fullWidth
         size="small"
-        label={"Search"}
+        label={"جستجو پیشرفته"}
       />
     </>
   );

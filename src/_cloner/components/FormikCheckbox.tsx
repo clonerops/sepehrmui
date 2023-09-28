@@ -1,10 +1,9 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Checkbox, Typography } from "@mui/material";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
-  TextFieldProps,
-  TextFieldVariants,
-} from "@mui/material/TextField/TextField";
+  CheckboxProps,
+} from "@mui/material/Checkbox/Checkbox";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
 
@@ -16,11 +15,11 @@ type Props = {
   disabled?: boolean;
   value?: string;
   title?: string
-  variant?: TextFieldVariants;
+  variant?: any;
   boxClassName?: string;
-} & Omit<TextFieldProps, "variant">;
+} & Omit<CheckboxProps, "variant">;
 
-const FormikInput = (props: Props) => {
+const FormikCheckbox = (props: Props) => {
   const { boxClassName, label, title, disabled, name, value, ...rest } = props;
 
 
@@ -28,12 +27,9 @@ const FormikInput = (props: Props) => {
   const formikProps = useFormikContext();
 
   return (
-    <Box component={"div"} className={cx("w-full my-2", boxClassName)}>
-      {/* {title && <Typography variant="h4">{title}</Typography>} */}
-      <TextField
-        fullWidth
+    <Box component={"div"} className={cx("my-2", boxClassName)}>
+      <Checkbox
         size="small"
-        label={label}
         disabled={disabled}
         variant={"outlined"}
         id={name}
@@ -44,4 +40,4 @@ const FormikInput = (props: Props) => {
     </Box>
   );
 };
-export default FormikInput;
+export default FormikCheckbox;
