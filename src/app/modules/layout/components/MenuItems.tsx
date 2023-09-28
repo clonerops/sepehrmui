@@ -8,8 +8,8 @@ import {
     Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { IconComponent } from "../../../../_helpers/components/DynamicIcon";
 import { IMenuItem } from "../core/_models";
+import { IconComponent } from "../../../../_cloner/components/DynamicIcon";
 
 const MenuItems = (props: { menuItems: any }) => {
     const [openSubMenu, setOpenSubMenu] = useState(

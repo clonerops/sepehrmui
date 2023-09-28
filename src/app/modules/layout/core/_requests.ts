@@ -1,7 +1,7 @@
-import { http } from "../../../../_helpers/helpers/axiosConfig";
+import { http } from "../../../../_cloner/helpers/axiosConfig";
 
 export const getMenuItems = async () => {
-  return await http
-    .get("/v1/RoleMenu/GetApplicationMenus")
-    .then((res) => res?.data);
+
+  const {data} = await http.get('/v1/RoleMenu/GetApplicationMenus')
+  return data
 };

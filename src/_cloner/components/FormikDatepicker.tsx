@@ -46,8 +46,8 @@ const FormikDatepicker = forwardRef((props: Props) => {
                     onChange={handleChange}
                     locale={persian_fa}
                     calendar={persian}
-                    id={name}
-                    customInput={
+                    id={name}                       
+                    render={
                         <TextField
                             size="small"
                             fullWidth

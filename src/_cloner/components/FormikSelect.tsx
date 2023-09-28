@@ -9,7 +9,6 @@ import {
 import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
 import { Label } from "./FormikInput";
 import { useField, useFormikContext } from "formik";
-import { useTranslation } from "react-i18next";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
 import cx from "classnames";
 
@@ -38,7 +37,6 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
     ...rest
   } = props;
   const [field] = useField({ name, value });
-  const { t } = useTranslation();
   const formikProps = useFormikContext();
   console.log(options);
   const handleSelectChange = (event: SelectChangeEvent<Value>) => {
@@ -57,8 +55,8 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
           size={"small"}
           variant={"outlined"}
           labelId={label + "-label"}
-          id={t(label)}
-          label={t(label)}
+          id={label}
+          label={label}
           disabled={disabeld}
           {...field}
           {...rest}
@@ -67,7 +65,7 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
           onChange={handleSelectChange}
         >
           {options?.map((node) => (
-            <MenuItem value={node.value}>{t(node.label)}</MenuItem>
+            <MenuItem value={node.value}>{node.label}</MenuItem>
           ))}
         </Select>
         <FormHelperText className={"text-red-600"}>

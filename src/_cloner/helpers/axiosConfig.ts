@@ -1,17 +1,23 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+export const dashboardHttp = axios.create({
+    baseURL: "https://iraniansepehr.com/api/",
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("token")}`,
+    },
+});
+
 export const http = axios.create({
-    baseURL: "http://testvsaleapi.saipacorp.com/api/",
-    // baseURL: "http://api.vensale.com/api/",
+    baseURL: "https://iraniansepehr.com/api/",
     headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${Cookies.get("token")}`,
     },
 });
 export const httpFormData = axios.create({
-    baseURL: "http://testvsaleapi.saipacorp.com/api/",
-    // baseURL: "http://api.vensale.com/api/",
+    baseURL: "https://iraniansepehr.com/api/",
     headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${Cookies.get("token")}`,

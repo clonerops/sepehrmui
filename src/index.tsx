@@ -14,6 +14,7 @@ import App from "./app/App";
 import theme from "./_cloner/theme/theme";
 
 import "./_cloner/assets/css/index.css"
+import { AppRoutes } from "./app/routing/AppRoutes";
 
 const cacheRtl = createCache({
     key: "muirtl",
@@ -37,7 +38,7 @@ root.render(
                 <StylesProvider jss={jss}>
                     <CacheProvider value={cacheRtl}>
                         <ThemeProvider theme={theme}>
-                            <App />
+                            <AppRoutes />
                             <ReactQueryDevtools initialIsOpen={false} />
                         </ThemeProvider>
                     </CacheProvider>

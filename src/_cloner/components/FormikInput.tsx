@@ -1,5 +1,4 @@
 import { Box, TextField } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
@@ -23,7 +22,6 @@ type Props = {
 const FormikInput = (props: Props) => {
   const { boxClassName, label, disabled, name, value, ...rest } = props;
 
-  const { t } = useTranslation();
 
   const [field] = useField({ name, value });
   const formikProps = useFormikContext();
@@ -33,7 +31,7 @@ const FormikInput = (props: Props) => {
       <TextField
         fullWidth
         size="small"
-        label={t(label)}
+        label={label}
         disabled={disabled}
         variant={"outlined"}
         id={name}

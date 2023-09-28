@@ -4,9 +4,8 @@ import { Box, Toolbar, Typography, IconButton } from "@mui/material";
 
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
-import MultiLanguages from "../../../../_helpers/components/MultiLanguages";
-import ToolbarComponent from "../../../../_helpers/components/Toolbar";
-import { toAbsoulteUrl } from "../../../../_helpers/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import ToolbarComponent from "../../../../_cloner/components/Toolbar";
 
 interface IProps {
     open?: boolean;
@@ -81,7 +80,6 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             open ? "right-[0px]" : "right-[65px]"
                         }`}
                     >
-                        <MultiLanguages />
                         <ToolbarComponent />
                     </Box>
                 </Box>

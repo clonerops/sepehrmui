@@ -21,6 +21,7 @@ import { useMenuItems } from "./core/_hooks";
 import { IMenuItem } from "./core/_models";
 import { parseMenuItems } from "./helpers/parseMenuItems";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { menuItem } from "./helpers/MenuItem";
 
 const drawerWidth = 240;
 
@@ -75,11 +76,11 @@ const MasterLayout = () => {
   const theme = useTheme();
   const { data } = useMenuItems();
   const [open, setOpen] = React.useState(false);
-  const [menuItemsData, setMenuItemsData] = useState<IMenuItem[]>([]);
+  // const [menuItemsData, setMenuItemsData] = useState<IMenuItem[]>([]);
 
-  useEffect(() => {
-    setMenuItemsData(parseMenuItems(data?.data));
-  }, [data?.data]);
+  // useEffect(() => {
+  //   setMenuItemsData(parseMenuItems(data?.data));
+  // }, [data?.data]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -89,7 +90,6 @@ const MasterLayout = () => {
     setOpen(false);
   };
 
-  console.log("menuItemsData", menuItemsData)
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -107,7 +107,7 @@ const MasterLayout = () => {
           onClose={handleDrawerClose}
         >
           <List>
-            <MenuItems menuItems={menuItemsData} />
+            <MenuItems menuItems={menuItem} />
           </List>
         </SwipeableDrawer>
       ) : (
@@ -135,7 +135,7 @@ const MasterLayout = () => {
           </DrawerHeader>
           <Divider />
           <List>
-            <MenuItems menuItems={menuItemsData} />
+            <MenuItems menuItems={menuItem} />
           </List>
         </Drawer>
       )}

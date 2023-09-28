@@ -11,6 +11,7 @@ const theme = createTheme({
             main: "#313866",
         },
     },
+
     typography: {
         h1: {
             fontFamily: "Yekan_bold",
