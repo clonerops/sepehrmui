@@ -5,10 +5,10 @@ const theme = createTheme({
     direction: 'rtl',
     palette: {
         primary: {
-            main: "#d90824",
+            main: "#2E4374",
         },
         secondary: {
-            main: "#313866",
+            main: "#071952",
         },
     },
 

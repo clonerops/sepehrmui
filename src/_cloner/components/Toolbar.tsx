@@ -65,7 +65,7 @@ const ToolbarComponent = () => {
               className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
             >
               <ExitToAppIcon />
-              <Typography>Logout</Typography>
+              <Typography>خروج</Typography>
             </Box>
             <Box
               onClick={onChangePassword}
@@ -73,7 +73,7 @@ const ToolbarComponent = () => {
               className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
             >
               <LockReset />
-              <Typography>Change Password</Typography>
+              <Typography>تغییر کلمه عبور</Typography>
             </Box>
           </Box>
         </Box>

@@ -1,10 +1,9 @@
 import { FC } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Toolbar, Typography, IconButton } from "@mui/material";
+import { Box, Toolbar, IconButton } from "@mui/material";
 
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import ToolbarComponent from "../../../../_cloner/components/Toolbar";
 
 interface IProps {
@@ -42,15 +41,14 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
         <AppBar
             position="fixed"
             open={open}
+            color="secondary"
             sx={{
-                // ...(!open ? { left: "0px" } : { left: "65px" }),
                 ...(!open && { left: "0px" }),
             }}
-            className={`${
-                isMobile && open ? "hidden" : ""
-            } bg-white shadow-md app_bar`}
+            className={`${isMobile && open ? "hidden" : ""
+                } bg-white shadow-md app_bar`}
         >
-            <Toolbar>
+            <Toolbar className="flex justify-between items-center">
                 <IconButton
                     aria-label="open drawer"
                     onClick={handleDrawerOpen}
@@ -64,24 +62,10 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                 </IconButton>
                 <Box
                     component="div"
-                    className="flex justify-between items-center w-full"
-                >
-                    <Box component="div" className="flex">
-                        <Box
-                            component="img"
-                            src={toAbsoulteUrl("/media/logos/vlogo.png")}
-                            width={68}
-                            height={38}
-                        />
-                    </Box>
-                    <Box
-                        component="div"
-                        className={`flex flex-row items-center absolute ${
-                            open ? "right-[0px]" : "right-[65px]"
+                    className={`flex flex-row items-center absolute ${open ? "left-[0px]" : "left-[65px]"
                         }`}
-                    >
-                        <ToolbarComponent />
-                    </Box>
+                >
+                    <ToolbarComponent />
                 </Box>
             </Toolbar>
         </AppBar>
