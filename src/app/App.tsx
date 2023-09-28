@@ -1,11 +1,12 @@
-import { TextField } from "@mui/material"
+import { Suspense } from "react";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
-  return (
-    <div>
-      <TextField label="این تست می باشد" />
-    </div>
-  )
-}
+    return (
+        <Suspense>
+            <Outlet />
+        </Suspense>
+    );
+};
 
-export default App
+export default App;

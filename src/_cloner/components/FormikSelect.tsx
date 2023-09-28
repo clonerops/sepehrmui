@@ -1,0 +1,80 @@
+import {
+  Box,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
+import { Label } from "./FormikInput";
+import { useField, useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
+import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import cx from "classnames";
+
+export type FormikSelectPropsType<Value> = {
+  name: string;
+  label: Label;
+  value?: any;
+  boxClassName?: string;
+  disabeld?: boolean;
+  onChange?: (selectedValue: any) => void;
+  options: {
+    label: string;
+    value: any;
+  }[];
+} & SelectProps<Value>;
+
+const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
+  const {
+    boxClassName,
+    name,
+    label,
+    disabeld,
+    value,
+    options,
+    onChange,
+    ...rest
+  } = props;
+  const [field] = useField({ name, value });
+  const { t } = useTranslation();
+  const formikProps = useFormikContext();
+  console.log(options);
+  const handleSelectChange = (event: SelectChangeEvent<Value>) => {
+    const selectedValue = event.target.value;
+    if (onChange) {
+      onChange(selectedValue);
+    }
+    formikProps.setFieldValue(name, selectedValue);
+  };
+
+  return (
+    <Box component={"div"} className={cx("w-full", boxClassName)}>
+      <FormControl fullWidth size={"small"}>
+        <InputLabel id={label + "-label"}>{label}</InputLabel>
+        <Select
+          size={"small"}
+          variant={"outlined"}
+          labelId={label + "-label"}
+          id={t(label)}
+          label={t(label)}
+          disabled={disabeld}
+          {...field}
+          {...rest}
+          {...getFormikFieldValidationProps(formikProps, name)}
+          aria-errormessage={"asdfsdf"}
+          onChange={handleSelectChange}
+        >
+          {options?.map((node) => (
+            <MenuItem value={node.value}>{t(node.label)}</MenuItem>
+          ))}
+        </Select>
+        <FormHelperText className={"text-red-600"}>
+          {getFormikFieldValidationProps(formikProps, name).helperText}
+        </FormHelperText>
+      </FormControl>
+    </Box>
+  );
+};
+export default FormikSelect;
