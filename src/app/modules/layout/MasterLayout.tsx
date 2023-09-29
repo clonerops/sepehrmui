@@ -63,11 +63,18 @@ const Drawer = styled(MuiDrawer, {
   boxSizing: "border-box",
   ...(open && {
     ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
+    "& .MuiDrawer-paper": {
+      ...openedMixin(theme),
+      backgroundColor: "#071952",
+    } 
   }),
   ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
+    "& .MuiDrawer-paper": 
+    {
+      ...closedMixin(theme),
+      backgroundColor: "#071952",
+    }
   }),
 }));
 
@@ -144,13 +151,13 @@ const MasterLayout = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          // backgroundImage: `url(${toAbsoulteUrl(
-          //   "/media/logos/blob-scene-haikei.svg",
-          // )})`,
-          // backgroundRepeat: "no-repeat",
-          // backgroundSize: "cover",
-          // minHeight: "100vh",
-          // overflow: "hidden",
+          backgroundImage: `url(${toAbsoulteUrl(
+            "/media/logos/layered-waves-haikei.svg",
+          )})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          minHeight: "100vh",
+          overflow: "hidden",
         }}
       >
         <DrawerHeader />

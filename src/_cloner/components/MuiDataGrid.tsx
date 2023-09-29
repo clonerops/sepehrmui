@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useEffect } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
 
 type Props = {
     columns: any

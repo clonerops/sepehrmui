@@ -28,7 +28,6 @@ const FuzzySearch = <T extends {}>({
     const inputValue = e.target.value;
     setQuery(inputValue);
     if (inputValue === "") {
-      console.log("inputValue", inputValue, data);
       setResults(data);
     } else {
       const fuzzyResults = fuse.search(inputValue);

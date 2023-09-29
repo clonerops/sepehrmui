@@ -38,7 +38,6 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
   } = props;
   const [field] = useField({ name, value });
   const formikProps = useFormikContext();
-  console.log(options);
   const handleSelectChange = (event: SelectChangeEvent<Value>) => {
     const selectedValue = event.target.value;
     if (onChange) {

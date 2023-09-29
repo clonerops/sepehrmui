@@ -1,11 +1,11 @@
 export const columns = (renderAction: any) => {
   const col = [
-    { field: 'productIntegratedName', flex: 1, headerName: 'شرح کالا', headerClass: "tw-bg-[#6501FD] tw-text-black" },
-    { field: 'productName', headerName: 'کالا', headerClass: "tw-bg-[#6501FD] tw-text-black" },
-    { field: 'approximateWeight', width: 120, headerName: 'وزن تقریبی', headerClass: "tw-bg-[#6501FD] tw-text-black" },
-    { field: 'warehouseName', width: 120, headerName: 'انبار', headerClass: "tw-bg-[#6501FD] tw-text-black" },
-    { field: 'approximateInventory', width: 120, headerName: 'موجودی', headerClass: "tw-bg-[#6501FD] tw-text-black" },
-    { field: 'thickness', width: 120, headerName: 'قیمت', headerClass: "tw-bg-[#6501FD] tw-text-black" },
+    { field: 'productIntegratedName', flex: 1, headerName: 'شرح کالا', headerClassName: "bg-[#2E4374] text-white" },
+    { field: 'productName', headerName: 'کالا', headerClassName: "bg-[#2E4374] text-white" },
+    { field: 'approximateWeight', width: 120, headerName: 'وزن تقریبی', headerClassName: "bg-[#2E4374] text-white" },
+    { field: 'warehouseName', width: 120, headerName: 'انبار', headerClassName: "bg-[#2E4374] text-white" },
+    { field: 'approximateInventory', width: 120, headerName: 'موجودی', headerClassName: "bg-[#2E4374] text-white" },
+    { field: 'thickness', width: 120, headerName: 'قیمت', headerClassName: "bg-[#2E4374] text-white" },
   ]
   return col
 }
