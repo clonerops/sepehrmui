@@ -6,12 +6,14 @@ import Suppliers from "../modules/product/Suppliers";
 import ProductPrice from "../modules/product/ProductPrice";
 import Cargo from "../modules/cargo/Cargo";
 import Confirm from "../modules/cargo/components/Confirm";
+import CreateUser from "../modules/user/CreateUser";
 
 const PrivateRoutes = () => {
   return (
     <Routes>
       <Route element={<MasterLayout />}>
         <Route>
+          <Route path="dashboard/user/create" element={<CreateUser />} />
           {/* Redirect to Dashboard after success login/registartion */}
           <Route path="auth/*" element={<Navigate to="/dashboard" />} />
           <Route path="dashboard/customers" element={<Customer />} />

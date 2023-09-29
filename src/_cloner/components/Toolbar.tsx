@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Popover, Typography } from "@mui/material";
 import { toAbsoulteUrl } from "../helpers/AssetsHelper";
 import Cookies from "js-cookie";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { LockReset } from "@mui/icons-material";
+import { LockReset, VerifiedUser  } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const ToolbarComponent = () => {
@@ -27,6 +27,9 @@ const ToolbarComponent = () => {
 
   const onChangePassword = () => {
     navigate("dashboard/change-pass");
+  };
+  const onCreateUser = () => {
+    navigate("dashboard/user/create");
   };
 
   return (
@@ -60,12 +63,12 @@ const ToolbarComponent = () => {
             }}
           >
             <Box
-              onClick={logout}
+              onClick={onCreateUser}
               component="div"
               className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
             >
-              <ExitToAppIcon />
-              <Typography>خروج</Typography>
+              <VerifiedUser />
+              <Typography>ایجاد کاربر جدید</Typography>
             </Box>
             <Box
               onClick={onChangePassword}
@@ -74,6 +77,14 @@ const ToolbarComponent = () => {
             >
               <LockReset />
               <Typography>تغییر کلمه عبور</Typography>
+            </Box>
+            <Box
+              onClick={logout}
+              component="div"
+              className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
+            >
+              <ExitToAppIcon />
+              <Typography>خروج</Typography>
             </Box>
           </Box>
         </Box>
