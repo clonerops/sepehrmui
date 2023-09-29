@@ -55,10 +55,12 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                     edge="start"
                     sx={{
                         marginRight: 5,
-                        ...(open && { display: "none", color: "black" }),
+                        ...(open && { display: "none", color: "white" }),
                     }}
                 >
-                    <MenuIcon />
+                    <Box component="div" className="text-white">
+                        <MenuIcon />
+                    </Box>
                 </IconButton>
                 <Box
                     component="div"

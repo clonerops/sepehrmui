@@ -28,6 +28,8 @@
     "classnames": "^2.3.2",
     "formik": "^2.4.5",
     "fuse.js": "^6.6.2",
+    "highcharts": "^11.1.0",
+    "highcharts-react-official": "^3.2.1",
     "js-cookie": "^3.0.5",
     "jss-rtl": "^0.3.0",
     "moment-jalaali": "^0.10.0",

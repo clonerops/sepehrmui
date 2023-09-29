@@ -14,6 +14,7 @@ import Order from "../modules/order/Order";
 import OrderList from "../modules/order/OrderList";
 import OrderDetail from "../../_cloner/components/OrderDetail";
 import OrderConfirm from "../modules/order/OrderConfirm";
+import Dashboard from "../modules/Dashboard";
 
 const PrivateRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const PrivateRoutes = () => {
           <Route path="dashboard/user/create" element={<CreateUser />} />
           {/* Redirect to Dashboard after success login/registartion */}
           <Route path="auth/*" element={<Navigate to="/dashboard" />} />
+          <Route path='dashboard' element={<Dashboard />} />
           <Route path='dashboard/order' element={<Order />} />
           <Route path='dashboard/order/lists' element={<OrderList />} />
           <Route path='dashboard/order/confirm' element={<OrderConfirm />} />

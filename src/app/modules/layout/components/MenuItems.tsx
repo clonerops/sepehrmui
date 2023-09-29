@@ -34,7 +34,9 @@ const MenuItems = (props: { menuItems: any }) => {
         >
           <ListItem onClick={() => toggleSubMenu(index)}>
             <ListItemIcon className="text-white">
-              <IconComponent iconName={"Home"} />
+              <Box component="div" className="text-white">
+                <IconComponent iconName={menuItem.iconName} />
+              </Box>
             </ListItemIcon>
             <ListItemText primary={menuItem.title} />
             {openSubMenu[index] ? (
@@ -67,7 +69,7 @@ const MenuItems = (props: { menuItems: any }) => {
           <ListItem key={menuItem.id}>
             <ListItemIcon className="text-white">
               <Box component="div" className="text-white">
-                <IconComponent iconName={"Home"} />
+                <IconComponent iconName={menuItem.iconName} />
               </Box>
             </ListItemIcon>
             <ListItemText primary={menuItem.title} />
@@ -77,7 +79,7 @@ const MenuItems = (props: { menuItems: any }) => {
     }
   });
 }
-  export default MenuItems;
+export default MenuItems;
 // const toggleSubMenu = (index: number) => {
 //   const updatedOpenSubMenu = [...openSubMenu];
 //   updatedOpenSubMenu[index] = !updatedOpenSubMenu[index];
