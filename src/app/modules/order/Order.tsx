@@ -149,9 +149,9 @@ const Order = () => {
     const [orderCode, setOrderCode] = useState<number>(0);
     const [warehouseNameSelect, setWarehouseSelected] = useState<string>("")
 
-    const handleWarehouseSelect = (values: any) =>{
+    const handleWarehouseSelect = (values: any) => {
         const warehouseName = warehouse.find((i: any) => i.id === values)
-        if(values === 1) {
+        if (values === 1) {
             setIsBuy(true)
         } else {
             setIsBuy(false)
@@ -193,7 +193,7 @@ const Order = () => {
             )}
             <Container>
                 <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-8">ثبت سفارش جدید</Typography>
+                    {/* <Typography color="primary" variant="h1" className="pb-8">ثبت سفارش جدید</Typography> */}
                     <Formik
                         initialValues={initialValues}
                         validationSchema={orderValidation}
@@ -264,8 +264,13 @@ const Order = () => {
                                 <Form onSubmit={handleSubmit}>
                                     <Box component="div" className="flex justify-between items-end mb-4">
                                         <Box component="div" className="bg-gray-200 px-8 py-2 rounded-md">
-                                            <Typography variant="h2" className="flex items-center text-black-500">شماره سفارش: 
+                                            <Typography variant="h2" className="flex items-center text-black-500">شماره سفارش:
                                                 <Typography variant="h1" className="text-green-500 px-4">{orderCode}</Typography>
+                                            </Typography>
+                                        </Box>
+                                        <Box component="div" className="bg-gray-200 px-8 py-2 rounded-md">
+                                            <Typography variant="h2" className="flex items-center text-black-500">تاریخ سفارش:
+                                                <Typography variant="h1" className="text-green-500 px-4">{moment(new Date()).format('jYYYY/jMM/jDD')}</Typography>
                                             </Typography>
                                         </Box>
                                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
@@ -273,7 +278,7 @@ const Order = () => {
                                         </Button>
                                     </Box>
                                     <Box component="div" className="mb-4">
-                                        <Card className="p-4">
+                                        <Card className="p-2">
                                             <Box component="div" className="grid grid-cols-1 md:grid-cols-3">
                                                 <Box component="div" className="md:border-l-2 md:border-gray-300">
                                                     <Typography variant="h2" className="flex justify-start items-start font-yekan_bold text-xl">
@@ -300,13 +305,13 @@ const Order = () => {
                                             </Box>
                                         </Card>
                                     </Box>
-                                    <Box component="div" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                                        <Card className="p-4">
+                                    <Box component="div" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+                                        <Card className="p-2">
                                             <Box component="div" className="flex justify-between flex-col">
                                                 <Box component="div" className="pt-2">
-                                                    <Typography variant="h2" className="font-yekan_bold text-lg">
+                                                    {/* <Typography variant="h2" className="font-yekan_bold text-lg">
                                                         مشتری و تاریخ تسویه
-                                                    </Typography>
+                                                    </Typography> */}
                                                     <Box component="div" className="mt-2">
                                                         <Box component="div" className="flex flex-row items-center gap-x-4">
                                                             <Box component="div" className="w-full md:w-full">
@@ -322,7 +327,7 @@ const Order = () => {
                                                                 onClick={() =>
                                                                     setIsOpen(true)
                                                                 }
-                                                                className="flex w-10 my-2 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer"
+                                                                className="flex w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer"
                                                             >
                                                                 {" "}
                                                                 <svg
@@ -351,11 +356,11 @@ const Order = () => {
                                                 </Box>
                                             </Box>
                                         </Card>
-                                        <Card className="p-4">
-                                            <Typography variant="h2" className="font-yekan_bold text-lg py-4">
+                                        <Card className="p-2">
+                                            {/* <Typography variant="h2" className="font-yekan_bold text-lg py-4">
                                                 مشخصه سفارش
-                                            </Typography>
-                                            <Box component="div" className="md:grid md:grid-cols-2 md:gap-4">
+                                            </Typography> */}
+                                            <Box component="div" className="md:grid md:grid-cols-2 md:gap-2">
                                                 <FormikSelect
                                                     name="orderSendTypeId"
                                                     label="نوع ارسال"
@@ -386,34 +391,33 @@ const Order = () => {
                                         </Card>
                                     </Box>
                                     <Box component="div" className="mt-4">
-                                        <Card className="p-4">
-                                            <Button
-                                                onClick={() => setSelectedProductOpen(true)}
-                                                variant="contained"
-                                                color="primary"
-                                            >
-                                                <Typography>انتخاب محصول</Typography>
-                                            </Button>
-                                            <TransitionsModal
-                                                open={selectedProductOpen}
-                                                isClose={() =>
-                                                    setSelectedProductOpen(false)
-                                                }
-                                            >
-                                                <ProductSelectedListInModal
-                                                    products={products?.data}
-                                                    productLoading={productLoading}
-                                                    productError={productError}
-                                                    setSelectedProductOpen={
-                                                        setSelectedProductOpen
-                                                    }
-                                                    setSelectProductFromModal={
-                                                        setSelectProductFromModal
-                                                    }
-                                                />
-                                            </TransitionsModal>
+                                        <Card className="p-2">
                                             <Box component="div" className="md:flex md:items-center flex-wrap md:gap-x-8">
-                                                <Box component="div" className="relative md:w-[20%] my-2">
+                                                <Box component="div" className="">
+                                                    <Button
+                                                        onClick={() => setSelectedProductOpen(true)}
+                                                        variant="contained"
+                                                        color="primary"
+                                                    >
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            strokeWidth="1.5"
+                                                            stroke="currentColor"
+                                                            className="w-6 h-6"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M12 4.5v15m7.5-7.5h-15"
+                                                            />
+                                                        </svg>
+
+                                                    </Button>
+                                                </Box>
+
+                                                <Box component="div" className="relative md:w-[20%]">
                                                     <input
                                                         onFocus={handleFocuse}
                                                         onBlur={handleBlur}
@@ -486,7 +490,7 @@ const Order = () => {
                                                         </Box>
                                                     )}
                                                 </Box>
-                                                <Box component="div" className="md:w-[20%] my-2">
+                                                <Box component="div" className="md:w-[20%]">
                                                     <FormikSelect
                                                         name="warehouseId"
                                                         label="انبار"
@@ -496,28 +500,28 @@ const Order = () => {
                                                         onChange={(values) => handleWarehouseSelect(values)}
                                                     />
                                                 </Box>
-                                                <Box component="div" className="md:w-[20%] my-2">
+                                                <Box component="div" className="md:w-[20%]">
                                                     <FormikInput
                                                         name="proximateAmount"
                                                         label="مقدار (کیلوگرم)"
                                                         type="text"
                                                     />
                                                 </Box>
-                                                <Box component="div" className="md:w-[20%] my-2">
+                                                <Box component="div" className="md:w-[20%]">
                                                     <FormikInput
                                                         name="price"
                                                         label="قیمت"
                                                         type="text"
                                                     />
                                                 </Box>
-                                                <Box component="div" className="md:w-[20%] my-2">
+                                                <Box component="div" className="md:w-[20%]">
                                                     <FormikInput
                                                         name="productDesc"
                                                         label="توضیحات کالا"
                                                         type="text"
                                                     />
                                                 </Box>
-                                                <Box component="div" className="md:w-[20%] my-2">
+                                                <Box component="div" className="md:w-[20%]">
                                                     <FormikInput
                                                         name="rowId"
                                                         label="ردیف فروش"
@@ -526,21 +530,21 @@ const Order = () => {
                                                 </Box>
                                                 {isBuy && (
                                                     <>
-                                                        <Box component="div" className="md:w-[20%] my-2">
+                                                        <Box component="div" className="md:w-[20%]">
                                                             <FormikInput
                                                                 name="sellerCompanyRow"
                                                                 label="خرید از"
                                                                 type="text"
                                                             />
                                                         </Box>
-                                                        <Box component="div" className="md:w-[20%] my-2">
+                                                        <Box component="div" className="md:w-[20%]">
                                                             <FormikInput
                                                                 name="buyPrice"
                                                                 label="قیمت خرید"
                                                                 type="text"
                                                             />
                                                         </Box>
-                                                        <Box component="div" className="md:w-[20%] my-2">
+                                                        <Box component="div" className="md:w-[20%]">
                                                             <FormikSelect
                                                                 value={
                                                                     purchaseInvoiceTypeSelected
@@ -559,7 +563,7 @@ const Order = () => {
                                                                 )}
                                                             />
                                                         </Box>
-                                                        <Box component="div" className="md:w-[20%] my-2">
+                                                        <Box component="div" className="md:w-[20%]">
                                                             <FormikDatepicker
                                                                 value={
                                                                     purchaseSettlementDate
@@ -572,7 +576,7 @@ const Order = () => {
                                                 )}
                                                 <Box component="div"
                                                     onClick={() => handleOrder(values)}
-                                                    className="md:w-[10%] my-2 bg-green-500 text-white text-center py-2 rounded-lg cursor-pointer"
+                                                    className="md:w-[10%] bg-green-500 text-white text-center py-2 rounded-lg cursor-pointer"
                                                 >
                                                     افزودن
                                                 </Box>
@@ -598,6 +602,25 @@ const Order = () => {
                         setIsCreateOpen={setIsOpen}
                     />
                 </TransitionsModal>
+                <TransitionsModal
+                    open={selectedProductOpen}
+                    isClose={() =>
+                        setSelectedProductOpen(false)
+                    }
+                >
+                    <ProductSelectedListInModal
+                        products={products?.data}
+                        productLoading={productLoading}
+                        productError={productError}
+                        setSelectedProductOpen={
+                            setSelectedProductOpen
+                        }
+                        setSelectProductFromModal={
+                            setSelectProductFromModal
+                        }
+                    />
+                </TransitionsModal>
+
             </Container>
         </>
     );
