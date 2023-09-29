@@ -40,6 +40,20 @@ const menuItem = [
       },
     ],
   },
+  {
+    id: 2,
+    title: "اعلام بار",
+    to: "",
+    iconName: "User",
+    submenu: [
+      {
+        id: 1321,
+        iconName: "Plus",
+        title: "مدیریت اعلام بار",
+        to: "dashboard/cargo",
+      },
+    ],
+  },
 ];
 
 export { menuItem };

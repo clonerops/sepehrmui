@@ -1,6 +1,6 @@
 export const columns = (renderAction: any) => {
   const col = [
-    { field: 'id', headerName: 'کد مشتری', headerClassName: "bg-[#2E4374] text-white" },
+    { field: 'customerCode', headerName: 'کد مشتری', headerClassName: "bg-[#2E4374] text-white", width: 80 },
     { field: 'firstName', headerName: 'نام', headerClassName: "bg-[#2E4374] text-white" },
     { field: 'lastName', headerName: 'نام خانوادگی', headerClassName: "bg-[#2E4374] text-white", width: 150 },
     { field: 'nationalId', headerName: 'کدملی', headerClassName: "bg-[#2E4374] text-white" },
