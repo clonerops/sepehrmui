@@ -10,6 +10,10 @@ import CreateUser from "../modules/user/CreateUser";
 import RecievePayment from "../modules/payment/RecievePayment";
 import PaymentAccounting from "../modules/payment/PaymentAccounting";
 import Detail from "../modules/payment/components/Detail";
+import Order from "../modules/order/Order";
+import OrderList from "../modules/order/OrderList";
+import OrderDetail from "../../_cloner/components/OrderDetail";
+import OrderConfirm from "../modules/order/OrderConfirm";
 
 const PrivateRoutes = () => {
   return (
@@ -19,6 +23,11 @@ const PrivateRoutes = () => {
           <Route path="dashboard/user/create" element={<CreateUser />} />
           {/* Redirect to Dashboard after success login/registartion */}
           <Route path="auth/*" element={<Navigate to="/dashboard" />} />
+          <Route path='dashboard/order' element={<Order />} />
+          <Route path='dashboard/order/lists' element={<OrderList />} />
+          <Route path='dashboard/order/confirm' element={<OrderConfirm />} />
+          <Route path='dashboard/order/detail/:id' element={<OrderDetail data={undefined} isError={false} isLoading={false} />} />
+
           <Route path="dashboard/customers" element={<Customer />} />
           <Route path="dashboard/products" element={<Products />} />
           <Route path="dashboard/suppliers" element={<Suppliers />} />

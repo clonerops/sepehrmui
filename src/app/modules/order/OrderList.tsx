@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRetrieveOrders } from "./core/_hooks";
 import { Link } from "react-router-dom";
-import { columns } from "./helpers/orderListColumns";
+import { columns } from "./helpers/orderColumns";
 import { IOrder } from "./core/_models";
-import { Button, Card, Typography } from "@mui/material";
+import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 
@@ -17,11 +17,10 @@ const OrderList = () => {
 
     const renderAction = (item: any) => {
         return <Link
-            to={`/dashboard/order/detail/${item?.data?.id}`}
+            to={`/dashboard/order/detail/${item?.row?.id}`}
             state={{ isConfirmed: false }}
-
         >
-            <Button color='primary'>
+            <Button variant="contained" color='primary'>
                 <Typography>جزئیات</Typography>
             </Button>
 
@@ -29,9 +28,10 @@ const OrderList = () => {
 
     }
     return (
-        <>
-            <Card>
-                <div className="tw-w-80 md:tw-w-[40%] tw-mb-4">
+        <Container>
+            <Card className="p-8">
+            <Typography color="primary" variant="h1" className="pb-8">لیست سفارشات</Typography>
+                <Box component="div" className="tw-w-80 md:tw-w-[40%] tw-mb-4">
                     <FuzzySearch
                         keys={[
                             "orderCode",
@@ -49,10 +49,10 @@ const OrderList = () => {
                         threshold={0.5}
                         setResults={setResults}
                     />
-                </div>
+                </Box>
                 <MuiDataGrid columns={columns(renderAction)} rows={results} data={orders?.data} />
             </Card>
-        </>
+        </Container>
     );
 };
 

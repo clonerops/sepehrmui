@@ -21,7 +21,7 @@ const Cargo = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/cargo/confirm/${item?.row?.id}`} state={{isConfirmed: true}}>
+            <Link to={`/dashboard/cargo/confirm/${item?.row?.id}`} state={{isConfirmed: false}}>
                 <Button variant="contained" color="secondary">
                     <Typography>اعلام بار</Typography>
                 </Button>

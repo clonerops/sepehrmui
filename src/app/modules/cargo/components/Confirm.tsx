@@ -34,8 +34,6 @@ const Confirm = () => {
         { value: 2, label: "ماهیانه باربری" }
     ]
 
-    console.log(orderDetail)
-
     return (
         <>
             {snackeOpen && (
