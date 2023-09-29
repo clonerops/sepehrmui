@@ -54,6 +54,26 @@ const menuItem = [
       },
     ],
   },
+  {
+    id: 2,
+    title: "حسابداری",
+    to: "",
+    iconName: "User",
+    submenu: [
+      {
+        id: 1321,
+        iconName: "Plus",
+        title: "دریافت و پرداخت",
+        to: "dashboard/payment",
+      },
+      {
+        id: 1321,
+        iconName: "Plus",
+        title: "حسابداری دریافت و پرداخت",
+        to: "dashboard/payment/accounting ",
+      },
+    ],
+  },
 ];
 
 export { menuItem };
