@@ -26,3 +26,12 @@ export const dropdownProduct = (data: any) => {
         })
     );
 };
+export const dropdownProductIntegrated = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: any; productIntegratedName: any }): any => {
+            const { id, productIntegratedName } = obj;
+            return { value: id, label: productIntegratedName };
+        })
+    );
+};

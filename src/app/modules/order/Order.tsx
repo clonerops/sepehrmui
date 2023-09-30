@@ -39,6 +39,9 @@ import TextValue from "./components/TextValue";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import { PlusOne, } from '@mui/icons-material'
 import { ICustomer } from "../customer/core/_models";
+import { dropdownProductIntegrated } from "../generic/_functions";
+import FormikComboBox from "../../../_cloner/components/FormikComboBox";
+import FormikProductComboSelect from "./components/FormikProductComboSelect";
 
 const Order = () => {
     // Fetching Data
@@ -61,7 +64,7 @@ const Order = () => {
         useState<boolean>(false);
     const [selectProductFromModal, setSelectProductFromModal] =
         useState<IProducts>();
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState<any>("");
     const [productSelected, setProductSelected] = useState<any>("");
     const [showProducts, setShowProducts] = useState(false);
     const [filteredData, setFilteredData] = useState<IProducts[]>();
@@ -151,8 +154,9 @@ const Order = () => {
         purchaserCustomerId: "",
         purchaseSettlementDate: "",
         sellerCompanyRow: "",
+        productIntegratedName: ""
     };
-    const { mutate, data, isLoading } = useCreateOrder();
+    const { mutate, data: createOrder } = useCreateOrder();
 
     const [isBuy, setIsBuy] = useState<boolean>(false);
     const [orderCode, setOrderCode] = useState<number>(0);
@@ -170,8 +174,8 @@ const Order = () => {
 
     const handleOrder = (values: any) => {
         const productOrder = {
-            productId: productSelected,
-            productName: searchQuery,
+            productId: searchQuery.value,
+            productName: searchQuery.label,
             warehouseId: values.warehouseId,
             warehouseTypeId: values?.warehouseTypeId,
             warehouseName: warehouseNameSelect,
@@ -195,7 +199,7 @@ const Order = () => {
         setFindCustomer(findCustomer)
     }
 
-    // console.log(findCustomer)
+    console.log(createOrder)
 
     return (
         <>
@@ -204,10 +208,9 @@ const Order = () => {
                     open={snackeOpen}
                     setState={setSnackeOpen}
                     title={
-                        data?.data?.Message ||
+                        createOrder?.data?.Message ||
                         // data?.data?.Errors[0] ||
-                        data?.message ||
-                        "ثبت سفارش با موفقیت انجام شد"
+                        createOrder?.message
                     }
                 />
             )}
@@ -277,6 +280,7 @@ const Order = () => {
                             };
                             mutate(formData, {
                                 onSuccess: (orderData) => {
+                                    console.log("orderData", orderData)
                                     setOrderCode(orderData?.data[0].orderCode);
                                     setSnackeOpen(true);
                                 },
@@ -327,128 +331,21 @@ const Order = () => {
                                     </Card>
                                 </Box>
 
-                                
-                                {/* <Box component="div" className="mt-4">
-                                    <Card className="p-2">
-                                        <Box
-                                            component="div"
-                                            className="md:flex md:items-center flex-wrap md:gap-x-2"
-                                        >
-                                            <Box
-                                                component="div"
-                                                className="relative md:w-[20%]"
-                                            >
-                                                <input
-                                                    onFocus={handleFocuse}
-                                                    onBlur={handleBlur}
-                                                    value={searchQuery}
-                                                    onChange={handleInputChange}
-                                                    placeholder="محصول / محصول"
-                                                    type="text"
-                                                    className="customInput border border-gray-300 rounded-md py-2 w-full outline-none"
-                                                />
 
-                                                {showProducts && (
-                                                    <Box
-                                                        component="div"
-                                                        className="border w-[340px] overflow-auto max-h-[250px] min-h-[48px] absolute top-[42px] box-border bg-white shadow-md z-[9999] rounded-md"
-                                                    >
-                                                        <Box
-                                                            component="ul"
-                                                            onClick={(e: any) =>
-                                                                e.stopPropagation()
-                                                            }
-                                                            className="serach__product-lists"
-                                                        >
-                                                            {productLoading && (
-                                                                <Typography variant="body1">
-                                                                    درحال
-                                                                    بارگزاری
-                                                                    محصولها
-                                                                </Typography>
-                                                            )}
-                                                            {productError && (
-                                                                <Typography variant="body1">
-                                                                    خطا هنگام
-                                                                    بارگزاری
-                                                                    محصولها رخ
-                                                                    داده است!
-                                                                </Typography>
-                                                            )}
-                                                            {filteredData?.map(
-                                                                (
-                                                                    item: IProducts,
-                                                                    index: number
-                                                                ) => {
-                                                                    return (
-                                                                        <Box
-                                                                            component="li"
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                            onClick={() =>
-                                                                                handleProductSelect(
-                                                                                    item
-                                                                                )
-                                                                            }
-                                                                            className="min-h-[60px] cursor-pointer"
-                                                                        >
-                                                                            <Box
-                                                                                component="div"
-                                                                                className="flex flex-row justify-between items-center"
-                                                                            >
-                                                                                <Box
-                                                                                    component="div"
-                                                                                    className=" relative flex flex-col pt-4"
-                                                                                >
-                                                                                    <Typography className="text-sm px-4">
-                                                                                        {" "}
-                                                                                        {
-                                                                                            item?.productIntegratedName
-                                                                                        }
-                                                                                    </Typography>
-                                                                                </Box>
-                                                                                <Typography className="text-xs px-4">
-                                                                                    {" "}
-                                                                                    {
-                                                                                        item?.productState
-                                                                                    }
-                                                                                </Typography>
-                                                                            </Box>
-                                                                        </Box>
-                                                                    );
-                                                                }
-                                                            )}
-                                                        </Box>
-                                                    </Box>
-                                                )}
+
+                                <Box component="div" className="mt-2">
+                                    <Card className="p-2">
+                                        <Box component="div" className="md:flex md:items-center flex-wrap md:gap-x-2">
+                                            <Box component="div" className="relative md:w-[20%]">
+                                                <FormikProductComboSelect setSearchQuery={setSearchQuery} productIntegratedName={values.productIntegratedName} label="محصول" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
                                             </Box>
                                             <Box component="div" className="">
-                                                <Button
-                                                    onClick={() =>
-                                                        setSelectedProductOpen(
-                                                            true
-                                                        )
-                                                    }
-                                                    variant="contained"
-                                                    color="primary"
-                                                >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        strokeWidth="1.5"
-                                                        stroke="currentColor"
-                                                        className="w-6 h-6"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M12 4.5v15m7.5-7.5h-15"
-                                                        />
-                                                    </svg>
+                                                <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="primary" >
+                                                    <PlusOne />
                                                 </Button>
                                             </Box>
+
+
                                             <Box
                                                 component="div"
                                                 className="md:w-[20%]"
@@ -576,7 +473,7 @@ const Order = () => {
                                             setOrders={setOrders}
                                         />
                                     </Card>
-                                </Box> */}
+                                </Box>
                             </Form>
                         );
                     }}
