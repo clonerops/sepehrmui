@@ -37,7 +37,7 @@ const FormikDatepicker = forwardRef((props: Props) => {
 
     return (
         <>
-            <Box component="div" className={cx("w-full my-2", boxClassName)}>
+            <Box component="div" className={cx("w-full", boxClassName)}>
                 <MultiDatepicker
                     {...field}
                     {...rest}

@@ -35,6 +35,10 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
+import TextValue from "./components/TextValue";
+import CustomButton from "../../../_cloner/components/CustomButton";
+import { PlusOne, } from '@mui/icons-material'
+import { ICustomer } from "../customer/core/_models";
 
 const Order = () => {
     // Fetching Data
@@ -183,6 +187,16 @@ const Order = () => {
         };
         setOrders([...orders, productOrder]);
     };
+
+    const [findCustomer, setFindCustomer] = useState<ICustomer>()
+
+    const handleChangeCustomer = (value: string) => {
+        const findCustomer = customers?.data.find((i: any) => i.id === value)
+        setFindCustomer(findCustomer)
+    }
+
+    // console.log(findCustomer)
+
     return (
         <>
             {snackeOpen && (
@@ -197,8 +211,7 @@ const Order = () => {
                     }
                 />
             )}
-            <Card className="p-8">
-                {/* <Typography color="primary" variant="h1" className="pb-8">ثبت سفارش جدید</Typography> */}
+            <Card className="px-8 py-4">
                 <Formik
                     initialValues={initialValues}
                     validationSchema={orderValidation}
@@ -230,14 +243,14 @@ const Order = () => {
                                             proximateAmount:
                                                 item.proximateAmount
                                                     ? Number(
-                                                          item.proximateAmount
-                                                      )
+                                                        item.proximateAmount
+                                                    )
                                                     : null,
                                             numberInPackage:
                                                 item.proximateAmount
                                                     ? Number(
-                                                          item.proximateAmount
-                                                      )
+                                                        item.proximateAmount
+                                                    )
                                                     : null,
                                             price: item.price
                                                 ? Number(item.price)
@@ -274,213 +287,48 @@ const Order = () => {
                     {({ handleSubmit, values }) => {
                         return (
                             <Form onSubmit={handleSubmit}>
-                                <Box
-                                    component="div"
-                                    className="flex justify-between items-end mb-4"
-                                >
-                                    <Box
-                                        component="div"
-                                        className="bg-gray-200 px-8 py-2 rounded-md"
-                                    >
-                                        <Typography
-                                            variant="h2"
-                                            className="flex items-center text-black-500"
-                                        >
-                                            شماره سفارش:
-                                            <Typography
-                                                variant="h1"
-                                                className="text-green-500 px-4"
-                                            >
-                                                {orderCode}
-                                            </Typography>
-                                        </Typography>
-                                    </Box>
-                                    <Box
-                                        component="div"
-                                        className="bg-gray-200 px-8 py-2 rounded-md"
-                                    >
-                                        <Typography
-                                            variant="h2"
-                                            className="flex items-center text-black-500"
-                                        >
-                                            تاریخ سفارش:
-                                            <Typography
-                                                variant="h1"
-                                                className="text-green-500 px-4"
-                                            >
-                                                {moment(new Date()).format(
-                                                    "jYYYY/jMM/jDD"
-                                                )}
-                                            </Typography>
-                                        </Typography>
-                                    </Box>
-                                    <Button
-                                        onClick={() => handleSubmit()}
-                                        variant="contained"
-                                        color="secondary"
-                                    >
-                                        <Typography
-                                            variant="h3"
-                                            className="px-8 py-2"
-                                        >
-                                            ثبت سفارش
-                                        </Typography>
-                                    </Button>
+                                {/* Order Code, Order Date, Order Submit */}
+                                <Box component="div" className="md:flex p-2 rounded-md gap-x-10">
+                                    <TextValue title="شماره سفارش" value={orderCode} valueClassName="px-8 text-[#405189]" />
+                                    <TextValue title="تاریخ سفارش" value={moment(new Date()).format("jYYYY/jMM/jDD")} valueClassName="text-[#405189]" />
                                 </Box>
-                                <Box component="div" className="mb-4">
+                                <Box component="div" className="md:flex p-2 rounded-md">
+                                    <TextValue title="قیمت کل" value={sliceNumberPrice(totalAmount)} valueClassName="!text-lg" insideValue={"ریال"} />
+                                    <TextValue title="قیمت به حروف" value={convertToPersianWord(totalAmount)} valueClassName="!text-lg" insideValue={"تومان"} />
+                                </Box>
+                                <Box component="div" className="flex justify-center items-center md:justify-end md:items-end">
+                                    <CustomButton title="ثبت سفارش" onClick={() => handleSubmit()} />
+                                </Box>
+                                {/* Customer, Settlement Date*/}
+                                <Box component="div" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
                                     <Card className="p-2">
-                                        <Box
-                                            component="div"
-                                            className="grid grid-cols-1 md:grid-cols-3"
-                                        >
-                                            <Box
-                                                component="div"
-                                                className="md:border-l-2 md:border-gray-300"
-                                            >
-                                                <Typography
-                                                    variant="h2"
-                                                    className="flex justify-start items-start font-yekan_bold text-xl"
-                                                >
-                                                    قیمت کل:{" "}
-                                                    <Typography className="text-green-500 text-2xl font-bold px-8">
-                                                        {sliceNumberPrice(
-                                                            totalAmount
-                                                        )}{" "}
-                                                        ریال
-                                                    </Typography>
-                                                </Typography>
+                                        <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
+                                            <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer my-1">
+                                                <PlusOne />
                                             </Box>
-                                            <Box
-                                                component="div"
-                                                className="col-span-2"
-                                            >
-                                                <Typography
-                                                    variant="h2"
-                                                    className="flex pr-8 justify-start items-start font-yekan_bold text-xl"
-                                                >
-                                                    قیمت به حروف:{" "}
-                                                    <Typography className="text-green-500 text-sm font-bold px-8">
-                                                        {convertToPersianWord(
-                                                            totalAmount
-                                                        )}{" "}
-                                                        تومان
-                                                    </Typography>
-                                                </Typography>
+                                            <FormikSelect onChange={(value) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
+                                            <FormikDatepicker name="settlementDate" label="تاریخ تسویه" />
+                                        </Box>
+                                        {findCustomer &&
+                                            <Box component="div" className="pt-2 flex flex-col gap-y-2">
+                                                <Typography variant="h4">شماره همراه مشتری: {findCustomer?.mobile}</Typography>
+                                                <Typography variant="h4">نوع اعتبار: {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : "سیاه"}</Typography>
                                             </Box>
+                                        }
+                                    </Card>
+                                    {/* orderSendTypeId, invoiceTypeId, paymentTypeId, exitType */}
+                                    <Card className="p-2">
+                                        <Box component="div" className="md:grid md:grid-cols-2 md:gap-2" >
+                                            <FormikSelect name="orderSendTypeId" label="نوع ارسال" options={dropdownOrderSendType(orderSendType)} />
+                                            <FormikSelect name="invoiceTypeId" label="نوع فاکتور" options={dropdownInvoiceType(factor)} />
+                                            <FormikSelect name="paymentTypeId" label="نوع پرداخت" options={dropdownRentPaymentType(rent)} />
+                                            <FormikSelect name="exitType" label="نوع خروج" options={dropdownExitType(exit)} />
                                         </Box>
                                     </Card>
                                 </Box>
-                                <Box
-                                    component="div"
-                                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2"
-                                >
-                                    <Card className="p-2">
-                                        <Box
-                                            component="div"
-                                            className="flex justify-between flex-col"
-                                        >
-                                            <Box
-                                                component="div"
-                                                className="pt-2"
-                                            >
-                                                {/* <Typography variant="h2" className="font-yekan_bold text-lg">
-                                                        مشتری و تاریخ تسویه
-                                                    </Typography> */}
-                                                <Box
-                                                    component="div"
-                                                    className="mt-2"
-                                                >
-                                                    <Box
-                                                        component="div"
-                                                        className="flex flex-row items-center gap-x-4"
-                                                    >
-                                                        <Box
-                                                            component="div"
-                                                            className="w-full md:w-full"
-                                                        >
-                                                            <FormikSelect
-                                                                name="customerId"
-                                                                label="مشتری"
-                                                                options={dropdownCustomer(
-                                                                    customers?.data
-                                                                )}
-                                                            />
-                                                        </Box>
-                                                        <Box
-                                                            component="span"
-                                                            onClick={() =>
-                                                                setIsOpen(true)
-                                                            }
-                                                            className="flex w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer"
-                                                        >
-                                                            {" "}
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                strokeWidth="1.5"
-                                                                stroke="currentColor"
-                                                                className="w-6 h-6"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M12 4.5v15m7.5-7.5h-15"
-                                                                />
-                                                            </svg>
-                                                        </Box>
-                                                    </Box>
-                                                    <Box
-                                                        component="div"
-                                                        className="mt-2"
-                                                    >
-                                                        <FormikDatepicker
-                                                            name="settlementDate"
-                                                            label="تاریخ تسویه"
-                                                        />
-                                                    </Box>
-                                                </Box>
-                                            </Box>
-                                        </Box>
-                                    </Card>
-                                    <Card className="p-2">
-                                        {/* <Typography variant="h2" className="font-yekan_bold text-lg py-4">
-                                                مشخصه سفارش
-                                            </Typography> */}
-                                        <Box
-                                            component="div"
-                                            className="md:grid md:grid-cols-2 md:gap-2"
-                                        >
-                                            <FormikSelect
-                                                name="orderSendTypeId"
-                                                label="نوع ارسال"
-                                                options={dropdownOrderSendType(
-                                                    orderSendType
-                                                )}
-                                            />
-                                            <FormikSelect
-                                                name="invoiceTypeId"
-                                                label="نوع فاکتور"
-                                                options={dropdownInvoiceType(
-                                                    factor
-                                                )}
-                                            />
-                                            <FormikSelect
-                                                name="paymentTypeId"
-                                                label="نوع پرداخت"
-                                                options={dropdownRentPaymentType(
-                                                    rent
-                                                )}
-                                            />
-                                            <FormikSelect
-                                                name="exitType"
-                                                label="نوع خروج"
-                                                options={dropdownExitType(exit)}
-                                            />
-                                        </Box>
-                                    </Card>
-                                </Box>
-                                <Box component="div" className="mt-4">
+
+                                
+                                {/* <Box component="div" className="mt-4">
                                     <Card className="p-2">
                                         <Box
                                             component="div"
@@ -728,7 +576,7 @@ const Order = () => {
                                             setOrders={setOrders}
                                         />
                                     </Card>
-                                </Box>
+                                </Box> */}
                             </Form>
                         );
                     }}
