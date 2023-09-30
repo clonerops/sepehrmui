@@ -42,12 +42,12 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
         <AppBar
             position="fixed"
             open={open}
-            elevation={0.9}
+            elevation={1}
             // color="secondary"
             sx={{
                 ...(!open && { left: "0px" }),
             }}
-            className={`${isMobile && open ? "hidden" : ""} !bg-white app_bar`}
+            className={`${isMobile && open ? "hidden !w-full" : ""} !bg-slate-50 app_bar`}
         >
             <Toolbar className="flex justify-between items-center">
                 <Box component="div" className="flex items-center">
@@ -64,7 +64,7 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             <MenuIcon />
                         </Box>
                     </IconButton>
-                    <Typography color="primary" variant="h3">بازرگانی سپهر ایرانیان</Typography>
+                    <Typography color="primary" variant="h3" className="">بازرگانی سپهر ایرانیان</Typography>
                     {/* <Box className="">
                         <TextField inputProps={{
                             style: {
@@ -72,13 +72,13 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             }
                         }} label="جستجو" size="small" />
                     </Box> */}
-                    <Box component="div" className="mx-8">
+                    <Box component="div" className="mx-8 hidden md:block">
                         <img src={toAbsoulteUrl('/media/logos/folladlogo.png')} width={30} />
                     </Box>
                 </Box>
                 <Box
                     component="div"
-                    className={`flex flex-row items-center absolute ${open ? "left-[0px]" : "left-[65px]"
+                    className={`flex flex-row items-center absolute ${open ? "left-[0px]" : "left-[0px]"
                         }`}
                 >
                     <ToolbarComponent />

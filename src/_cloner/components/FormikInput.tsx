@@ -28,7 +28,7 @@ const FormikInput = (props: Props) => {
   const formikProps = useFormikContext();
 
   return (
-    <Box component={"div"} className={cx("w-full my-2", boxClassName)}>
+    <Box component={"div"} className={cx("w-full", boxClassName)}>
       {/* {title && <Typography variant="h4">{title}</Typography>} */}
       <TextField
         fullWidth

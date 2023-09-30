@@ -39,6 +39,8 @@ const RecievePayment = () => {
 
     const [files, setFiles] = useState<File[]>([]);
 
+    console.log(data?.data?.errors?.ReceivePaymentSourceFromId[0])
+
     return (
         <>
             {snackeOpen && (
@@ -47,18 +49,20 @@ const RecievePayment = () => {
                     setState={setSnackeOpen}
                     title={
                         data?.data?.Message ||
-                        data?.message || "ثبت دریافت و پرداخت با موفقیت انجام شد"
+                        data?.message || 
+                        data?.data?.errors?.ReceivePaymentSourceFromId[0] ||
+                        data?.data?.errors?.ReceivePaymentSourceToId[0]
                     }
                 />
             )}
             {isLoading && <Backdrop loading={isLoading} />}
                 <Card className='p-8'>
-                    <Typography color="primary" variant="h1" className="pb-8">ثبت دریافت و پرداخت</Typography>
-                    <Box component="div" className='flex justify-between items-center'>
-                        <Box component="div" className='flex justify-center items-center font-bold text-lg bg-slate-200 py-4 px-16 text-black rounded-lg'>شماره: <Typography variant='h3' className='px-4'>{trachingCode}</Typography></Box>
-                        <Box component="div" className='flex justify-center items-center font-bold text-lg bg-gray-200 text-black py-4 px-16 rounded-lg'>تاریخ ثبت: <Typography variant='h3' className='pr-4'>{moment(Date.now()).format('jYYYY/jMM/jDD').toString()}</Typography></Box>
+                    <Typography color="primary" variant="h1" className="pb-2">ثبت دریافت و پرداخت</Typography>
+                    <Box component="div" className='md:flex md:justify-between md:first-letter:items-center'>
+                        <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-slate-200 py-4 px-16 text-black rounded-lg'>شماره: <Typography variant='h3' className='px-4'>{trachingCode}</Typography></Box>
+                        <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-gray-200 text-black py-4 px-16 rounded-lg'>تاریخ ثبت: <Typography variant='h3' className='pr-4'>{moment(Date.now()).format('jYYYY/jMM/jDD').toString()}</Typography></Box>
                     </Box>
-                    <Box component="div" className='mt-8'>
+                    <Box component="div" className='mt-2'>
                         <Formik initialValues={initialValues} onSubmit={
                             async (values) => {
                                 const formData = new FormData()
@@ -79,7 +83,7 @@ const RecievePayment = () => {
                                 mutate(formData, {
                                     onSuccess: (message) => {
                                         if (message?.succeeded) {
-                                            setTrachingCode(message?.data?.id)
+                                            setTrachingCode(message?.data?.orderCode)
                                         } 
                                         setSnackeOpen(true)
                                     }
@@ -88,7 +92,7 @@ const RecievePayment = () => {
                         }>
                             {({ handleSubmit, values }) => {
                                 return <Form onSubmit={handleSubmit}>
-                                    <Box component="div" className='grid grid-cols-1 md:grid-cols-3 gap-4 my-4'>
+                                    <Box component="div" className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
                                         <FormikSelect name='ReceivePaymentSourceFromId' label='دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
                                         {Number(values.ReceivePaymentSourceFromId) == 1 &&
                                             <FormikSelect name='ReceiveFromCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
@@ -103,10 +107,10 @@ const RecievePayment = () => {
                                         <FormikInput name='CompanyName' label='نام شرکت' type='text' />
                                         <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
                                     </Box>
-                                    <Box component="div" className='grid grid-cols-1 my-4'>
+                                    <Box component="div" className='grid grid-cols-1 py-4'>
                                         <FormikInput name='Description' label='توضیحات' type='text' />
                                     </Box>
-                                    <Box component="div">
+                                    <Box component="div" className='grid grid-cols-1'>
                                         <FileUpload files={files} setFiles={setFiles} />
                                     </Box>
                                     <Button onClick={() => handleSubmit()} variant="contained" color="secondary">

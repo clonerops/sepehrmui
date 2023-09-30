@@ -54,7 +54,7 @@ const MenuItems = (props: { menuItems: any }) => {
             <List component="div" disablePadding>
               <Link
                 id="RouterLink"
-                className="text-gray-400"
+                className="text-gray-300"
                 to={`${menuItem.to}`}
               >
                 <MenuItems menuItems={menuItem.submenu} />

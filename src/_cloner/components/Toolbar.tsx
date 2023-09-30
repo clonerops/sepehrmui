@@ -46,13 +46,13 @@ const ToolbarComponent = () => {
         <>
             <Box component="div" className="flex justify-between items-center">
                 <Box component="div" className="flex items-center">
-                    <Box component="div" className="text-[#2E4374] cursor-pointer px-2">
+                    <Box component="div" className="text-[#2E4374] cursor-pointer px-2 hidden md:block">
                         <Assessment />
                     </Box>
-                    <Box component="div" className="text-[#2E4374] cursor-pointer px-2">
+                    <Box component="div" className="text-[#2E4374] cursor-pointer px-2 hidden md:block">
                         <Announcement />
                     </Box>
-                    <Box component="div" className="text-[#2E4374] cursor-pointer px-2">
+                    <Box component="div" className="text-[#2E4374] cursor-pointer px-2 hidden md:block">
                         <Notifications />
                     </Box>
                     <Button
