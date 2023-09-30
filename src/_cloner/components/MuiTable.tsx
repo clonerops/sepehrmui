@@ -20,13 +20,13 @@ const MuiTable: React.FC<TableProps> = ({ data, columns }) => {
         <Table>
           <TableHead className='bg-[#2E4374]'>
             <TableRow>
-              {columns.map((column) => (
+              {columns?.map((column) => (
                 <TableCell className='!text-white' key={column.accessor}>{column.header}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row, rowIndex) => (
+            {data?.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {columns.map((column) => (
                   <TableCell key={column.accessor}>

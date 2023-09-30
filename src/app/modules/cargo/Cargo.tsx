@@ -31,10 +31,10 @@ const Cargo = () => {
 
     return (
         <Card className="p-8">
-            <Typography color="primary" variant="h1" className="pb-8">
+            <Typography color="primary" variant="h1" className="pb-2">
                 محصولات اعلام بار نشده
             </Typography>
-            <Box component="div" className="w-80 md:w-[40%]">
+            <Box component="div" className="w-auto md:w-[40%]">
                 <FuzzySearch
                     keys={[
                         "orderCode",

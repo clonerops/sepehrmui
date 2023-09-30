@@ -5,6 +5,7 @@ import MuiDataGrid from "./MuiDataGrid";
 import { columns } from '../../app/modules/order/helpers/orderListColumns'
 import PositionedSnackbar from "./Snackbar";
 import { useState } from "react";
+import MuiTable from "./MuiTable";
 
 type Props = {
     data: any | undefined;
@@ -55,31 +56,29 @@ const OrderDetail = (props: Props) => {
                     }
                 />
             )}
-            <Container>
-                <Card className="p-8">
-                    <Box component="div" className="flex justify-between">
-                        <Typography variant="h3" color="primary" className="pb-4">
-                            <Typography variant="h1">جزئیات سفارش {data?.data?.orderCode}</Typography>
-                        </Typography>
-                        {isConfirmed &&
-                            <Button variant="contained" color="secondary" onClick={handleConfirmOrder}>
-                                <Typography>{isLoading ? "در حال پردازش" : "تایید سفارش"}</Typography>
-                            </Button>
-                        }
-                    </Box>
-                    <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4">
-                        {FieldItems.map((item: any) => {
-                            return <Card className="px-8 py-4">
-                                <Box component="div" className="text-lg text-gray-500">{item.title}: <span className="px-4 font-yekan_bold font-bold text-xl text-black">{item.value}</span></Box>
-                            </Card>
+            <Card className="p-8">
+                <Box component="div" className="flex justify-between">
+                    <Typography variant="h3" color="primary" className="pb-4">
+                        <Typography variant="h1">جزئیات سفارش {data?.data?.orderCode}</Typography>
+                    </Typography>
+                    {isConfirmed &&
+                        <Button variant="contained" color="secondary" onClick={handleConfirmOrder}>
+                            <Typography>{isLoading ? "در حال پردازش" : "تایید سفارش"}</Typography>
+                        </Button>
+                    }
+                </Box>
+                <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4">
+                    {FieldItems.map((item: any) => {
+                        return <Card className="px-8 py-4">
+                            <Box component="div" className="text-lg text-gray-500">{item.title}: <span className="px-4 font-yekan_bold font-bold text-sm md:text-xl text-black">{item.value}</span></Box>
+                        </Card>
 
-                        })}
-                    </Box>
-                    <Box component="div">
-                        <MuiDataGrid columns={columns(renderAction)} rows={data?.data?.details} data={data?.data?.details} />
-                    </Box>
-                </Card>
-            </Container>
+                    })}
+                </Box>
+                <Box component="div" className="mt-4">
+                    <MuiTable columns={columns} data={data?.data?.details} />
+                </Box>
+            </Card>
         </>
     )
 }
