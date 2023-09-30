@@ -1,55 +1,63 @@
-import { useDeleteProductPrice, useRetrieveProductPrice } from "./core/_hooks"
-import { columns } from "./helpers/productPriceColumns"
-import { IProductPrice } from "./core/_models"
-import { useState, useEffect } from "react"
-import CreateProductPrice from "./components/CreateProductPrice"
-import EditProductPrice from "./components/EditProductPrice"
-import { Box, Button, Card, Container, Typography } from "@mui/material"
-import EditGridButton from "../../../_cloner/components/EditGridButton"
-import DeleteGridButton from "../../../_cloner/components/DeleteGridButton"
-import Backdrop from "../../../_cloner/components/Backdrop"
-import FuzzySearch from "../../../_cloner/helpers/Fuse"
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
-import TransitionsModal from "../../../_cloner/components/ReusableModal"
-import PositionedSnackbar from "../../../_cloner/components/Snackbar"
-
+import { useDeleteProductPrice, useRetrieveProductPrice } from "./core/_hooks";
+import { columns } from "./helpers/productPriceColumns";
+import { IProductPrice } from "./core/_models";
+import { useState, useEffect } from "react";
+import CreateProductPrice from "./components/CreateProductPrice";
+import EditProductPrice from "./components/EditProductPrice";
+import { Box, Button, Card, Container, Typography } from "@mui/material";
+import EditGridButton from "../../../_cloner/components/EditGridButton";
+import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import TransitionsModal from "../../../_cloner/components/ReusableModal";
+import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 
 const ProductPrice = () => {
-    const { refetch, data: productPrice, isLoading: productPriceLoading } = useRetrieveProductPrice();
-    const { mutate: deleteMutate, data: deleteData, isLoading: deleteLoading } = useDeleteProductPrice()
+    const {
+        refetch,
+        data: productPrice,
+        isLoading: productPriceLoading,
+    } = useRetrieveProductPrice();
+    const {
+        mutate: deleteMutate,
+        data: deleteData,
+        isLoading: deleteLoading,
+    } = useDeleteProductPrice();
     // State
     const [itemForEdit, setItemForEdit] = useState<IProductPrice | undefined>();
-    const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false)
-    const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [results, setResults] = useState<IProductPrice[]>([])
+    const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [results, setResults] = useState<IProductPrice[]>([]);
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
-
     useEffect(() => {
-        setResults(productPrice?.data)
-    }, [productPrice])
-
+        setResults(productPrice?.data);
+    }, [productPrice]);
 
     const handleEdit = (item: IProductPrice | undefined) => {
-        setIsOpen(true)
+        setIsOpen(true);
         setItemForEdit(item);
     };
 
     const handleDelete = (id: string | undefined) => {
-        if (id) deleteMutate(id, {
-            onSuccess: (message) => {
-                setSnackeOpen(true)
-                refetch()
-            }
-        });
+        if (id)
+            deleteMutate(id, {
+                onSuccess: (message) => {
+                    setSnackeOpen(true);
+                    refetch();
+                },
+            });
     };
 
     const renderAction = (item: any) => {
-        return <Box component="div" className="flex gap-4">
-            <EditGridButton onClick={() => handleEdit(item?.row)} />
-            <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
-        </Box>
-    }
+        return (
+            <Box component="div" className="flex gap-4">
+                <EditGridButton onClick={() => handleEdit(item?.row)} />
+                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+            </Box>
+        );
+    };
 
     return (
         <>
@@ -61,32 +69,55 @@ const ProductPrice = () => {
                     setState={setSnackeOpen}
                     title={
                         deleteData?.data?.Message ||
-                        deleteData?.message || "حذف با موفقیت انجام شد"
+                        deleteData?.message ||
+                        "حذف با موفقیت انجام شد"
                     }
                 />
             )}
-            <Container>
-                <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-8">مدیریت قیمت محصولات</Typography>
-                    <Box component="div" className="flex justify-between items-center">
-                        <Box component="div" className="w-80 md:w-[40%] mb-2">
-                            <FuzzySearch keys={['productName', 'brandName', 'price',]} data={productPrice?.data} threshold={0.5} setResults={setResults} />
-                        </Box>
-                        <Button onClick={() => setIsCreateOpen(true)} variant="contained" color="secondary">
-                            <Typography>ایجاد قیمت محصول</Typography>
-                        </Button>
+            <Card className="p-8">
+                <Typography color="primary" variant="h1" className="pb-8">
+                    مدیریت قیمت محصولات
+                </Typography>
+                <Box
+                    component="div"
+                    className="flex justify-between items-center"
+                >
+                    <Box component="div" className="w-80 md:w-[40%] mb-2">
+                        <FuzzySearch
+                            keys={["productName", "brandName", "price"]}
+                            data={productPrice?.data}
+                            threshold={0.5}
+                            setResults={setResults}
+                        />
                     </Box>
-                    <MuiDataGrid columns={columns(renderAction)} rows={results} data={productPrice?.data} />
-                    <TransitionsModal open={isCreateOpen} isClose={() => setIsCreateOpen(false)}>
-                        <CreateProductPrice refetch={refetch} />
-                    </TransitionsModal>
-                    <TransitionsModal open={isOpen} isClose={() => setIsOpen(false)}>
-                        <EditProductPrice refetch={refetch} item={itemForEdit} />
-                    </TransitionsModal>
-                </Card>
-            </Container>
+                    <Button
+                        onClick={() => setIsCreateOpen(true)}
+                        variant="contained"
+                        color="secondary"
+                    >
+                        <Typography>ایجاد قیمت محصول</Typography>
+                    </Button>
+                </Box>
+                <MuiDataGrid
+                    columns={columns(renderAction)}
+                    rows={results}
+                    data={productPrice?.data}
+                />
+                <TransitionsModal
+                    open={isCreateOpen}
+                    isClose={() => setIsCreateOpen(false)}
+                >
+                    <CreateProductPrice refetch={refetch} />
+                </TransitionsModal>
+                <TransitionsModal
+                    open={isOpen}
+                    isClose={() => setIsOpen(false)}
+                >
+                    <EditProductPrice refetch={refetch} item={itemForEdit} />
+                </TransitionsModal>
+            </Card>
         </>
-    )
-}
+    );
+};
 
-export default ProductPrice
+export default ProductPrice;

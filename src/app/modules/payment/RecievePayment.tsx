@@ -52,7 +52,6 @@ const RecievePayment = () => {
                 />
             )}
             {isLoading && <Backdrop loading={isLoading} />}
-            <Container>
                 <Card className='p-8'>
                     <Typography color="primary" variant="h1" className="pb-8">ثبت دریافت و پرداخت</Typography>
                     <Box component="div" className='flex justify-between items-center'>
@@ -119,7 +118,6 @@ const RecievePayment = () => {
                     </Box>
 
                 </Card>
-            </Container>
         </>
     )
 }

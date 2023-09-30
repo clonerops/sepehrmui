@@ -63,7 +63,6 @@ const Products = () => {
                   }
                 />
               )}
-            <Container>
                 <Card className="p-8">
                     <Typography color="primary" variant="h1" className="pb-8">مدیریت محصولات</Typography>
                     <Box component="div" className="flex justify-between items-center">
@@ -89,7 +88,6 @@ const Products = () => {
                 >
                     <EditProduct refetch={refetch} item={itemForEdit} />
                 </TransitionsModal>
-            </Container>
         </>
     );
 };

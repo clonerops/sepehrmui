@@ -14,39 +14,49 @@ import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 
 const Suppliers = () => {
-    const { data: suppliers, isLoading: suppliersLoading, refetch } = useRetrieveSuppliers();
-    const { mutate, data: deleteData, isLoading: deleteLoading } = useDeleteSupplier();
-    const [results, setResults] = useState<ISuppliers[]>([])
+    const {
+        data: suppliers,
+        isLoading: suppliersLoading,
+        refetch,
+    } = useRetrieveSuppliers();
+    const {
+        mutate,
+        data: deleteData,
+        isLoading: deleteLoading,
+    } = useDeleteSupplier();
+    const [results, setResults] = useState<ISuppliers[]>([]);
 
     useEffect(() => {
-        setResults(suppliers?.data)
-    }, [suppliers?.data])
+        setResults(suppliers?.data);
+    }, [suppliers?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ISuppliers>();
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
-
     const handleEdit = (item: ISuppliers) => {
         setIsEditOpen(true);
         setItemForEdit(item);
     };
     const handleDelete = (id: string | undefined) => {
-        if (id) mutate(id, {
-            onSuccess: (message) => {
-                setSnackeOpen(true)
-                refetch()
-            }
-        });
+        if (id)
+            mutate(id, {
+                onSuccess: (message) => {
+                    setSnackeOpen(true);
+                    refetch();
+                },
+            });
     };
 
     const renderAction = (item: any) => {
-        return <Box component="div" className="flex gap-4">
-            <EditGridButton onClick={() => handleEdit(item?.row)} />
-            <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
-        </Box>
-    }
+        return (
+            <Box component="div" className="flex gap-4">
+                <EditGridButton onClick={() => handleEdit(item?.row)} />
+                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+            </Box>
+        );
+    };
 
     return (
         <>
@@ -54,40 +64,69 @@ const Suppliers = () => {
             {suppliersLoading && <Backdrop loading={suppliersLoading} />}
             {snackeOpen && (
                 <PositionedSnackbar
-                  open={snackeOpen}
-                  setState={setSnackeOpen}
-                  title={
-                    deleteData?.data?.Message ||
-                    deleteData?.message || "حذف با موفقیت انجام شد"
-                  }
+                    open={snackeOpen}
+                    setState={setSnackeOpen}
+                    title={
+                        deleteData?.data?.Message ||
+                        deleteData?.message ||
+                        "حذف با موفقیت انجام شد"
+                    }
                 />
-              )}
-            <Container>
-                <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-8">مدیریت تامین کنندگان</Typography>
-                    <Box component="div" className="flex justify-between items-center">
-                        <Box component="div" className="w-80 md:w-[40%]">
-                            <FuzzySearch keys={['customerFirstName', 'customerLastName', 'productName', 'price', 'rentAmount', 'overPrice', 'priceDatepriceDate', 'rate']} data={suppliers?.data} threshold={0.5} setResults={setResults} />
-                        </Box>
-                        <Button onClick={() => setIsCreateOpen(true)} variant="contained" color="secondary">
-                            <Typography>ایجاد تامین کننده</Typography>
-                        </Button>
+            )}
+            <Card className="p-8">
+                <Typography color="primary" variant="h1" className="pb-8">
+                    مدیریت تامین کنندگان
+                </Typography>
+                <Box
+                    component="div"
+                    className="flex justify-between items-center"
+                >
+                    <Box component="div" className="w-80 md:w-[40%]">
+                        <FuzzySearch
+                            keys={[
+                                "customerFirstName",
+                                "customerLastName",
+                                "productName",
+                                "price",
+                                "rentAmount",
+                                "overPrice",
+                                "priceDatepriceDate",
+                                "rate",
+                            ]}
+                            data={suppliers?.data}
+                            threshold={0.5}
+                            setResults={setResults}
+                        />
                     </Box>
-                    <MuiDataGrid columns={columns(renderAction)} rows={results} data={suppliers?.data} />
-                </Card>
-                <TransitionsModal
-                    open={isCreateOpen}
-                    isClose={() => setIsCreateOpen(false)}
-                >
-                    <CreateSupplier refetch={refetch} setIsCreateOpen={setIsCreateOpen} />
-                </TransitionsModal>
-                <TransitionsModal
-                    open={isEditOpen}
-                    isClose={() => setIsEditOpen(false)}
-                >
-                    <EditSupplier refetch={refetch} item={itemForEdit} />
-                </TransitionsModal>
-            </Container>
+                    <Button
+                        onClick={() => setIsCreateOpen(true)}
+                        variant="contained"
+                        color="secondary"
+                    >
+                        <Typography>ایجاد تامین کننده</Typography>
+                    </Button>
+                </Box>
+                <MuiDataGrid
+                    columns={columns(renderAction)}
+                    rows={results}
+                    data={suppliers?.data}
+                />
+            </Card>
+            <TransitionsModal
+                open={isCreateOpen}
+                isClose={() => setIsCreateOpen(false)}
+            >
+                <CreateSupplier
+                    refetch={refetch}
+                    setIsCreateOpen={setIsCreateOpen}
+                />
+            </TransitionsModal>
+            <TransitionsModal
+                open={isEditOpen}
+                isClose={() => setIsEditOpen(false)}
+            >
+                <EditSupplier refetch={refetch} item={itemForEdit} />
+            </TransitionsModal>
         </>
     );
 };

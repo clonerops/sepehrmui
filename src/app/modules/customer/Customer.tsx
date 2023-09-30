@@ -19,7 +19,11 @@ const Customer = () => {
         isLoading: customersLoading,
         refetch,
     } = useGetCustomers();
-    const { mutate, data: deleteData, isLoading: deleteLoading } = useDeleteCustomer();
+    const {
+        mutate,
+        data: deleteData,
+        isLoading: deleteLoading,
+    } = useDeleteCustomer();
     const [results, setResults] = useState<ICustomer[]>([]);
 
     useEffect(() => {
@@ -40,7 +44,7 @@ const Customer = () => {
         if (id)
             mutate(id, {
                 onSuccess: (message) => {
-                    setSnackeOpen(true)
+                    setSnackeOpen(true);
                     refetch();
                 },
             });
@@ -67,55 +71,65 @@ const Customer = () => {
                     setState={setSnackeOpen}
                     title={
                         deleteData?.data?.Message ||
-                        deleteData?.message || "حذف با موفقیت انجام شد"
+                        deleteData?.message ||
+                        "حذف با موفقیت انجام شد"
                     }
                 />
             )}
 
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
-            <Container>
-                <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-8">مدیریت مشتری</Typography>
-                    <Box component="div" className="flex justify-between items-center">
-                        <Box component="div" className="w-80 md:w-[40%]">
-                            <FuzzySearch
-                                keys={[
-                                    "firstName",
-                                    "lastName",
-                                    "nationalId",
-                                    "customerType",
-                                    "customerValidityId",
-                                    "mobile",
-                                    "tel1",
-                                    "tel2",
-                                    "isSupplier",
-                                    "address1",
-                                    "address2",
-                                    "representative",
-                                ]}
-                                data={customers?.data}
-                                threshold={0.5}
-                                setResults={setResults}
-                            />
-                        </Box>
-                        <Button onClick={() => setIsCreateOpen(true)} variant="contained" color="secondary">
-                            <Typography>ایجاد مشتری</Typography>
-                        </Button>
+            <Card className="p-8">
+                <Typography color="primary" variant="h1" className="pb-8">
+                    مدیریت مشتری
+                </Typography>
+                <Box
+                    component="div"
+                    className="flex justify-between items-center"
+                >
+                    <Box component="div" className="w-80 md:w-[40%]">
+                        <FuzzySearch
+                            keys={[
+                                "firstName",
+                                "lastName",
+                                "nationalId",
+                                "customerType",
+                                "customerValidityId",
+                                "mobile",
+                                "tel1",
+                                "tel2",
+                                "isSupplier",
+                                "address1",
+                                "address2",
+                                "representative",
+                            ]}
+                            data={customers?.data}
+                            threshold={0.5}
+                            setResults={setResults}
+                        />
                     </Box>
-                    <MuiDataGrid columns={columns(renderAction)} rows={results} data={customers?.data} />
-                </Card>
-            </Container>
+                    <Button
+                        onClick={() => setIsCreateOpen(true)}
+                        variant="contained"
+                        color="secondary"
+                    >
+                        <Typography>ایجاد مشتری</Typography>
+                    </Button>
+                </Box>
+                <MuiDataGrid
+                    columns={columns(renderAction)}
+                    rows={results}
+                    data={customers?.data}
+                />
+            </Card>
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
             >
-
                 <CreateCustomer
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
-
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}

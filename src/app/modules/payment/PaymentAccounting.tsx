@@ -44,7 +44,6 @@ const PaymentAccounting = () => {
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
-            <Container>
                 <Card className="p-8">
                     <Typography color="primary" variant="h1" className="pb-8">ثبت حسابداری دریافت و پرداخت</Typography>
                     <Box component="div" className="w-80 md:w-[40%]">
@@ -69,7 +68,6 @@ const PaymentAccounting = () => {
                     </Box>
                     <MuiDataGrid columns={columns(renderActions)} rows={results} data={data?.data} />
                 </Card>
-            </Container>
         </>
     )
 }

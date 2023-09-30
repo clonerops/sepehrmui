@@ -16,43 +16,47 @@ const OrderList = () => {
     }, [orders?.data]);
 
     const renderAction = (item: any) => {
-        return <Link
-            to={`/dashboard/order/detail/${item?.row?.id}`}
-            state={{ isConfirmed: false }}
-        >
-            <Button variant="contained" color='primary'>
-                <Typography>جزئیات</Typography>
-            </Button>
-
-        </Link>
-
-    }
+        return (
+            <Link
+                to={`/dashboard/order/detail/${item?.row?.id}`}
+                state={{ isConfirmed: false }}
+            >
+                <Button variant="contained" color="primary">
+                    <Typography>جزئیات</Typography>
+                </Button>
+            </Link>
+        );
+    };
     return (
-        <Container>
-            <Card className="p-8">
-            <Typography color="primary" variant="h1" className="pb-8">لیست سفارشات</Typography>
-                <Box component="div" className="tw-w-80 md:tw-w-[40%] tw-mb-4">
-                    <FuzzySearch
-                        keys={[
-                            "orderCode",
-                            "registerDate",
-                            "customerFirstName",
-                            "customerLastName",
-                            "orderSendTypeDesc",
-                            "paymentTypeDesc",
-                            "invoiceTypeDesc",
-                            "totalAmount",
-                            "exitType",
-                            "description",
-                        ]}
-                        data={orders?.data}
-                        threshold={0.5}
-                        setResults={setResults}
-                    />
-                </Box>
-                <MuiDataGrid columns={columns(renderAction)} rows={results} data={orders?.data} />
-            </Card>
-        </Container>
+        <Card className="p-8">
+            <Typography color="primary" variant="h1" className="pb-8">
+                لیست سفارشات
+            </Typography>
+            <Box component="div" className="tw-w-80 md:tw-w-[40%] tw-mb-4">
+                <FuzzySearch
+                    keys={[
+                        "orderCode",
+                        "registerDate",
+                        "customerFirstName",
+                        "customerLastName",
+                        "orderSendTypeDesc",
+                        "paymentTypeDesc",
+                        "invoiceTypeDesc",
+                        "totalAmount",
+                        "exitType",
+                        "description",
+                    ]}
+                    data={orders?.data}
+                    threshold={0.5}
+                    setResults={setResults}
+                />
+            </Box>
+            <MuiDataGrid
+                columns={columns(renderAction)}
+                rows={results}
+                data={orders?.data}
+            />
+        </Card>
     );
 };
 
