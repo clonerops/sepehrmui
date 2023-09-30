@@ -15,34 +15,38 @@ import OrderList from "../modules/order/OrderList";
 import OrderDetail from "../../_cloner/components/OrderDetail";
 import OrderConfirm from "../modules/order/OrderConfirm";
 import Dashboard from "../modules/Dashboard";
+import DynamicBreadcrumbs from "../../_cloner/components/Breadcumbs";
 
 const PrivateRoutes = () => {
+
   return (
     <Routes>
       <Route element={<MasterLayout />}>
         <Route>
-          <Route path="dashboard/user/create" element={<CreateUser />} />
-          {/* Redirect to Dashboard after success login/registartion */}
-          <Route path="auth/*" element={<Navigate to="/dashboard" />} />
-          <Route path='dashboard' element={<Dashboard />} />
-          <Route path='dashboard/order' element={<Order />} />
-          <Route path='dashboard/order/lists' element={<OrderList />} />
-          <Route path='dashboard/order/confirm' element={<OrderConfirm />} />
-          <Route path='dashboard/order/detail/:id' element={<OrderDetail data={undefined} isError={false} isLoading={false} />} />
+          <Route element={<DynamicBreadcrumbs />}>
+            <Route path="dashboard/user/create" element={<CreateUser />} />
+            {/* Redirect to Dashboard after success login/registartion */}
+            <Route path="auth/*" element={<Navigate to="/dashboard" />} />
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='dashboard/order' element={<Order />} />
+            <Route path='dashboard/order/lists' element={<OrderList />} />
+            <Route path='dashboard/order/confirm' element={<OrderConfirm />} />
+            <Route path='dashboard/order/detail/:id' element={<OrderDetail data={undefined} isError={false} isLoading={false} />} />
 
-          <Route path="dashboard/customers" element={<Customer />} />
-          <Route path="dashboard/products" element={<Products />} />
-          <Route path="dashboard/suppliers" element={<Suppliers />} />
-          <Route path="dashboard/productPrices" element={<ProductPrice />} />
-          <Route path='dashboard/cargo' element={<Cargo />} />
-          <Route path='dashboard/cargo/confirm/:id' element={<Confirm />} />
-          <Route path='dashboard/payment' element={<RecievePayment />} />
-          <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
-          <Route path='dashboard/payment/accounting/:id' element={<Detail />} />
+            <Route path="dashboard/customers" element={<Customer />} />
+            <Route path="dashboard/products" element={<Products />} />
+            <Route path="dashboard/suppliers" element={<Suppliers />} />
+            <Route path="dashboard/productPrices" element={<ProductPrice />} />
+            <Route path='dashboard/cargo' element={<Cargo />} />
+            <Route path='dashboard/cargo/confirm/:id' element={<Confirm />} />
+            <Route path='dashboard/payment' element={<RecievePayment />} />
+            <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
+            <Route path='dashboard/payment/accounting/:id' element={<Detail />} />
 
-          {/* Lazy Modules */}
-          {/* Page Not Found */}
-          <Route path="*" element={<Navigate to="/error/404" />} />
+            {/* Lazy Modules */}
+            {/* Page Not Found */}
+            <Route path="*" element={<Navigate to="/error/404" />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

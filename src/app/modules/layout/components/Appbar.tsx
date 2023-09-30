@@ -5,6 +5,7 @@ import { Box, Toolbar, IconButton, TextField, Typography } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import ToolbarComponent from "../../../../_cloner/components/Toolbar";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 
 interface IProps {
     open?: boolean;
@@ -71,12 +72,14 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             }
                         }} label="جستجو" size="small" />
                     </Box> */}
+                    <Box component="div" className="mx-8">
+                        <img src={toAbsoulteUrl('/media/logos/folladlogo.png')} width={30} />
+                    </Box>
                 </Box>
                 <Box
                     component="div"
-                    className={`flex flex-row items-center absolute ${
-                        open ? "left-[0px]" : "left-[65px]"
-                    }`}
+                    className={`flex flex-row items-center absolute ${open ? "left-[0px]" : "left-[65px]"
+                        }`}
                 >
                     <ToolbarComponent />
                 </Box>

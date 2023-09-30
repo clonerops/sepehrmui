@@ -1,6 +1,7 @@
 import { Box, Card, Typography } from "@mui/material";
 import { useRetrieveProducts } from "./product/core/_hooks";
 import { VerticalCharts } from "../../_cloner/components/VerticalCharts";
+import BreadcrumbsComponent from "../../_cloner/components/Breadcumbs";
 
 const Dashboard = () => {
     const { data: products, isError, isLoading } = useRetrieveProducts()
