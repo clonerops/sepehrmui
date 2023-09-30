@@ -45,13 +45,14 @@ const PaymentAccounting = () => {
         <>
             {isLoading && <Backdrop loading={isLoading} />}
                 <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-8">ثبت حسابداری دریافت و پرداخت</Typography>
-                    <Box component="div" className="w-80 md:w-[40%]">
+                    <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">ثبت حسابداری دریافت و پرداخت</Typography>
+                    <Box component="div" className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
-                                "id",
+                                "receivePayCode",
                                 "receivePaymentSourceFromDesc",
                                 "receivePaymentSourceToDesc",
+                                "Amount",
                                 "accountOwner",
                                 "trachingCode",
                                 "companyName",

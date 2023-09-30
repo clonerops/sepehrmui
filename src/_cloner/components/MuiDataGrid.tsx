@@ -10,7 +10,7 @@ type Props = {
 export default function MuiDataGrid(props: Props) {
     const { columns, rows, data } = props;
     return (
-        <Box sx={{ height: 400, width: '100%', marginTop: 4 }}>
+        <Box sx={{ height: 400, width: '100%', marginTop: 1 }}>
             <DataGrid
                 {...data}
                 rows={rows ? rows : []}

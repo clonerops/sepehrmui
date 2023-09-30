@@ -1,8 +1,9 @@
   export const columns = (renderAction: any) => {
     const col = [
-      { field: 'id', headerName: 'شماره ثبت', headerClassName: "bg-[#2E4374] text-white", width: 160 },
+      { field: 'receivePayCode', headerName: 'شماره ثبت', headerClassName: "bg-[#2E4374] text-white", width: 80 },
       { field: 'receivePaymentSourceFromDesc', headerName: 'دریافت از', headerClassName: "bg-[#2E4374] text-white", width: 100 },
       { field: 'receivePaymentSourceToDesc', headerName: 'پرداخت به', headerClassName: "bg-[#2E4374] text-white", width: 100 },
+      { field: 'Amount', headerName: 'مبلغ', headerClassName: "bg-[#2E4374] text-white", width: 100 },
       { field: 'accountOwner', headerName: 'صاحب حساب', headerClassName: "bg-[#2E4374] text-white", width: 100 },
       { field: 'trachingCode', headerName: 'کد پیگیری', headerClassName: "bg-[#2E4374] text-white", width: 100 },
       { field: 'companyName', headerName: 'صاحب شرکت', headerClassName: "bg-[#2E4374] text-white", width: 100 },

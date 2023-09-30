@@ -92,19 +92,19 @@ const Detail = () => {
             <Container>
                 <Card className="p-8">
                     <Typography color="primary" variant="h1" className="pb-8">جزئیات حسابداری دریافت و پرداخت</Typography>
-                    <Box component="div" className="flex justify-end items-end gap-x-8 pb-8">
-                        <Button variant="outlined" onClick={hadelDownload} >
+                    <Box component="div" className="md:flex md:justify-end md:items-end gap-x-8 pb-2">
+                        <Button variant="outlined" onClick={hadelDownload} className='mb-2'>
                             <Typography>{"دانلود ضمیمه ها"}</Typography>
                         </Button>
-                        <Button variant="contained" onClick={handleConfirm} >
-                            <Typography>{isLoading ? "در حال پردازش" : "ثبت تایید حسابداری"}</Typography>
+                        <Button variant="contained" onClick={handleConfirm} className='mb-2'>
+                            <Typography>{isLoading ? "در حال پردازش..." : "ثبت تایید حسابداری"}</Typography>
                         </Button>
                     </Box>
 
                     <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4">
                         {fieldsValue.map((item: any) =>
                             <Card className="px-8 py-4">
-                                <Box component="div" className=" text-lg text-gray-500">{item.title}<span className="px-4 font-yekan_bold font-bold text-xl text-black">{item.value}</span></Box>
+                                <Box component="div" className=" text-lg text-gray-500">{item.title}<span className="px-4 font-yekan_bold font-bold text-sm md:text-xl text-black">{item.value}</span></Box>
                             </Card>
                         )}
                     </Box>
