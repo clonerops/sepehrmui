@@ -495,7 +495,7 @@ const Order = () => {
                                                     onBlur={handleBlur}
                                                     value={searchQuery}
                                                     onChange={handleInputChange}
-                                                    placeholder="کالا / کالا"
+                                                    placeholder="محصول / محصول"
                                                     type="text"
                                                     className="customInput border border-gray-300 rounded-md py-2 w-full outline-none"
                                                 />
@@ -516,14 +516,14 @@ const Order = () => {
                                                                 <Typography variant="body1">
                                                                     درحال
                                                                     بارگزاری
-                                                                    کالاها
+                                                                    محصولها
                                                                 </Typography>
                                                             )}
                                                             {productError && (
                                                                 <Typography variant="body1">
                                                                     خطا هنگام
                                                                     بارگزاری
-                                                                    کالاها رخ
+                                                                    محصولها رخ
                                                                     داده است!
                                                                 </Typography>
                                                             )}
@@ -644,7 +644,7 @@ const Order = () => {
                                             >
                                                 <FormikInput
                                                     name="productDesc"
-                                                    label="توضیحات کالا"
+                                                    label="توضیحات محصول"
                                                     type="text"
                                                 />
                                             </Box>

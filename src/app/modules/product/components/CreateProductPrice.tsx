@@ -7,11 +7,12 @@ import { dropdownBrand, dropdownProduct } from "../../generic/_functions"
 import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
+import { createProductPriceValidations } from "../validations/createProductPrice"
 
 const initialValues = {
     price: "",
     productId: "",
-    productBrandId: 0
+    productBrandId: ""
 }
 
 type Props = {
@@ -39,13 +40,13 @@ const CreateProductPrice = (props: Props) => {
                 />
             )}
 
-            <Formik initialValues={initialValues} onSubmit={
+            <Formik initialValues={initialValues} validationSchema={createProductPriceValidations} onSubmit={
                 async (values, { setStatus, setSubmitting }) => {
                     try {
                         const formData = {
                             price: Number(values.price),
                             productId: values.productId,
-                            productBrandId: values.productBrandId
+                            productBrandId: Number(values.productBrandId)
                         }
                         mutate(formData, {
                             onSuccess: (message) => {
@@ -62,7 +63,7 @@ const CreateProductPrice = (props: Props) => {
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit}>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <FormikSelect label="کالا" name="productId" options={dropdownProduct(products?.data)} />
+                            <FormikSelect label="محصول" name="productId" options={dropdownProduct(products?.data)} />
                             <FormikSelect label="برند" name="productBrandId" options={dropdownBrand(brands)} />
                             <FormikInput label="قیمت" name="price" type="text" />
                         </Box>

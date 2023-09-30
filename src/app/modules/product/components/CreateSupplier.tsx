@@ -75,7 +75,7 @@ const CreateSupplier = (props: {
                     return <Form onSubmit={handleSubmit} className="container">
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
                             <FormikSelect name={"customerId"} label="مشتری" options={dropdownCustomer(customers?.data)} />
-                            <FormikSelect name={"productId"} label="کالا" options={dropdownProduct(products?.data)} />
+                            <FormikSelect name={"productId"} label="محصول" options={dropdownProduct(products?.data)} />
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-8 my-4">
                             <FormikInput name="price" label="قیمت" type="text" />

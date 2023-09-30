@@ -64,10 +64,10 @@ const Products = () => {
                 />
               )}
                 <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-8">مدیریت محصولات</Typography>
-                    <Box component="div" className="flex justify-between items-center">
-                        <Box component="div" className="w-80 md:w-[40%]">
-                            <FuzzySearch keys={['productName', 'productDetail.size', 'productDetail.productIntegratedName', 'approximateWeight', 'numberInPackage', 'productDetail.standard', 'productDetail.productState', 'description']} data={products?.data} threshold={0.5} setResults={setResults} />
+                    <Typography color="primary" variant="h1" className="pb-2">مدیریت محصولات</Typography>
+                    <Box component="div" className="md:flex md:justify-between md:items-center space-y-2">
+                        <Box component="div" className="w-auto md:w-[40%]">
+                            <FuzzySearch keys={['productCode','productName', 'productDetail.size', 'productDetail.productIntegratedName', 'approximateWeight', 'numberInPackage', 'productDetail.standard', 'productDetail.productState', 'description']} data={products?.data} threshold={0.5} setResults={setResults} />
                         </Box>
                         <Button onClick={() => setIsCreateOpen(true)} variant="contained" color="secondary">
                             <Typography>ایجاد محصول</Typography>

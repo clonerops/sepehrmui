@@ -74,14 +74,14 @@ const Suppliers = () => {
                 />
             )}
             <Card className="p-8">
-                <Typography color="primary" variant="h1" className="pb-8">
+                <Typography color="primary" variant="h1" className="pb-2">
                     مدیریت تامین کنندگان
                 </Typography>
                 <Box
                     component="div"
-                    className="flex justify-between items-center"
+                    className="md:flex md:justify-between md:items-center space-y-2"
                 >
-                    <Box component="div" className="w-80 md:w-[40%]">
+                    <Box component="div" className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
                                 "customerFirstName",

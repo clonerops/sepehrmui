@@ -65,7 +65,7 @@ const EditProductPrice = (props: Props) => {
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit}>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <FormikSelect defaultValue={{ value: props.item?.product?.id, label: props.item?.product?.productName }} name="productId" options={dropdownProduct(products?.data)} label="کالا" />
+                            <FormikSelect defaultValue={{ value: props.item?.product?.id, label: props.item?.product?.productName }} name="productId" options={dropdownProduct(products?.data)} label="محصول" />
                             <FormikSelect defaultValue={{ value: props.item?.productBrandId, label: props.item?.brandName }} name="productBrandId" options={dropdownBrand(brands)} label="برند" />
                             <FormikInput name="price" type="text" label="قیمت" />
                         </Box>

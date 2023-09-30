@@ -60,7 +60,7 @@ const CreateProduct = (props: {
                             },
                         });
                     } catch (error) {
-                        setStatus("اطلاعات ثبت کالا نادرست می باشد");
+                        setStatus("اطلاعات ثبت محصول نادرست می باشد");
                         setSubmitting(false);
                         setSnackeOpen(true)
                     }
@@ -72,7 +72,7 @@ const CreateProduct = (props: {
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <FormikInput
                                     name="productName"
-                                    label="نام کالا"
+                                    label="نام محصول"
                                     type="text"
                                     autoFocus={true}
                                 />

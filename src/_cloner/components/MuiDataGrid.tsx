@@ -16,11 +16,13 @@ export default function MuiDataGrid(props: Props) {
                 rows={rows ? rows : []}
                 columns={columns}
                 getRowId={(row) => row.id+row.rowId}
-                pagination
-                initialState={{
-                    ...data?.initialState,
-                    pagination: { paginationModel: { pageSize: 8 } },
-                }}
+                pagination={false}
+                hideFooter={true}
+                // pagination
+                // initialState={{
+                //     ...data?.initialState,
+                //     pagination: { paginationModel: { pageSize: 8 } },
+                // }}
             />
         </Box>
     );

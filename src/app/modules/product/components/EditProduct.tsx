@@ -60,7 +60,7 @@ const EditProduct = (props: {
                             },
                         });
                     } catch (error) {
-                        setStatus("ویرایش ثبت کالا نادرست می باشد");
+                        setStatus("ویرایش ثبت محصول نادرست می باشد");
                         setSubmitting(false);
                     }
                 }}
@@ -71,7 +71,7 @@ const EditProduct = (props: {
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <FormikInput
                                     name="productName"
-                                    label="نام کالا"
+                                    label="نام محصول"
                                     type="text"
                                 />
                                 <FormikInput
