@@ -27,7 +27,7 @@ import {
     useGetSendTypes,
     useGetWarehouses,
 } from "../generic/_hooks";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Box, Button, Card, Typography } from "@mui/material";
 import { sliceNumberPrice } from "../../../_cloner/helpers/sliceNumberPrice";
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
@@ -68,7 +68,6 @@ const Order = () => {
             value: number | null;
             label: string | null;
         }>();
-    const [purchaseSettlementDate, setPurchaseSettlementDate] = useState<any>();
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         const newInputValue = event.target.value;
@@ -708,9 +707,6 @@ const Order = () => {
                                                         className="md:w-[20%]"
                                                     >
                                                         <FormikDatepicker
-                                                            value={
-                                                                purchaseSettlementDate
-                                                            }
                                                             name="purchaseSettlementDate"
                                                             label="تاریخ تسویه خرید"
                                                         />

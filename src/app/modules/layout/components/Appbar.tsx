@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Toolbar, IconButton } from "@mui/material";
+import { Box, Toolbar, IconButton, TextField, Typography } from "@mui/material";
 
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -41,31 +41,42 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
         <AppBar
             position="fixed"
             open={open}
-            color="secondary"
+            elevation={0.9}
+            // color="secondary"
             sx={{
                 ...(!open && { left: "0px" }),
             }}
-            className={`${isMobile && open ? "hidden" : ""
-                } bg-white shadow-md app_bar`}
+            className={`${isMobile && open ? "hidden" : ""} !bg-white app_bar`}
         >
             <Toolbar className="flex justify-between items-center">
-                <IconButton
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                    edge="start"
-                    sx={{
-                        marginRight: 5,
-                        ...(open && { display: "none", color: "white" }),
-                    }}
-                >
-                    <Box component="div" className="text-white">
-                        <MenuIcon />
-                    </Box>
-                </IconButton>
+                <Box component="div" className="flex items-center">
+                    <IconButton
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        sx={{
+                            marginRight: 5,
+                            ...(open && { display: "none", color: "white" }),
+                        }}
+                    >
+                        <Box component="div" className="text-black">
+                            <MenuIcon />
+                        </Box>
+                    </IconButton>
+                    <Typography color="primary" variant="h3">بازرگانی سپهر ایرانیان</Typography>
+                    {/* <Box className="">
+                        <TextField inputProps={{
+                            style: {
+                                height: 4 
+                            }
+                        }} label="جستجو" size="small" />
+                    </Box> */}
+                </Box>
                 <Box
                     component="div"
-                    className={`flex flex-row items-center absolute ${open ? "left-[0px]" : "left-[65px]"
-                        }`}
+                    className={`flex flex-row items-center absolute ${
+                        open ? "left-[0px]" : "left-[65px]"
+                    }`}
                 >
                     <ToolbarComponent />
                 </Box>
