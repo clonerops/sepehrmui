@@ -53,8 +53,8 @@ const Customer = () => {
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
-                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                <DeleteGridButton onClick={() => handleEdit(item?.row)} />
+                <EditGridButton onClick={() => handleDelete(item?.row?.id)} />
             </Box>
         );
     };
@@ -80,14 +80,14 @@ const Customer = () => {
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
             <Card className="p-8">
-                <Typography color="primary" variant="h1" className="pb-8">
+                <Typography color="primary" variant="h1" className="pb-2">
                     مدیریت مشتری
                 </Typography>
                 <Box
                     component="div"
-                    className="flex justify-between items-center"
+                    className="md:flex md:justify-between md:items-center space-y-2"
                 >
-                    <Box component="div" className="w-80 md:w-[40%]">
+                    <Box component="div" className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
                                 "firstName",

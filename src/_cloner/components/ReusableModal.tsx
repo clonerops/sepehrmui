@@ -33,6 +33,7 @@ export default function TransitionsModal(props: Props) {
         aria-describedby="transition-modal-description"
         open={props.open}
         onClose={props.isClose}
+        className='!h-[100%]'
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
