@@ -69,8 +69,8 @@ const OrderDetail = (props: Props) => {
                 </Box>
                 <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4">
                     {FieldItems.map((item: any) => {
-                        return <Card className="px-8 py-4">
-                            <Box component="div" className="text-lg text-gray-500">{item.title}: <span className="px-4 font-yekan_bold font-bold text-sm md:text-xl text-black">{item.value}</span></Box>
+                        return <Card className="p-4">
+                            <Box component="div" className="!text-sm md:!text-lg text-gray-500">{item.title}: <span className="px-1 font-yekan_bold font-bold text-sm md:text-xl text-black">{item.value}</span></Box>
                         </Card>
 
                     })}

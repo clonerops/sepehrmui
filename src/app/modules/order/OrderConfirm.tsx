@@ -29,10 +29,10 @@ const OrderConfirm = () => {
     };
     return (
         <Card className="p-8">
-            <Typography color="primary" variant="h1" className="pb-8">
+            <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات جهت تایید
             </Typography>
-            <Box component="div" className="w-80 md:w-[40%] mb-4">
+            <Box component="div" className="w-auto md:w-[40%]">
                 <FuzzySearch
                     keys={[
                         "orderCode",

@@ -80,7 +80,7 @@ const Customer = () => {
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
             <Card className="p-8">
-                <Typography color="primary" variant="h1" className="pb-2">
+                <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                     مدیریت مشتری
                 </Typography>
                 <Box

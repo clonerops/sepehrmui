@@ -29,10 +29,10 @@ const OrderList = () => {
     };
     return (
         <Card className="p-8">
-            <Typography color="primary" variant="h1" className="pb-8">
+            <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات
             </Typography>
-            <Box component="div" className="tw-w-80 md:tw-w-[40%] tw-mb-4">
+            <Box component="div" className="w-auto md:w-[40%]">
                 <FuzzySearch
                     keys={[
                         "orderCode",

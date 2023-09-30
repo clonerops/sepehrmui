@@ -74,7 +74,7 @@ const Suppliers = () => {
                 />
             )}
             <Card className="p-8">
-                <Typography color="primary" variant="h1" className="pb-2">
+                <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                     مدیریت تامین کنندگان
                 </Typography>
                 <Box

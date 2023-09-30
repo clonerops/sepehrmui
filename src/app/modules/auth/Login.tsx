@@ -21,38 +21,50 @@ const Login = () => {
     userName: "clonerops",
     password: "aBo217767345@",
     captchaCode: ""
-};
+  };
 
 
 
-const formik = useFormik({
-  initialValues,
-  onSubmit: async (values, { setStatus, setSubmitting }) => {
+  const formik = useFormik({
+    initialValues,
+    onSubmit: async (values, { setStatus, setSubmitting }) => {
       const userData = {
-          userName: values.userName,
-          password: values.password,
-          captchaCode: values.captchaCode,
-          captchaKey: captcha?.data?.key
+        userName: values.userName,
+        password: values.password,
+        captchaCode: values.captchaCode,
+        captchaKey: captcha?.data?.key
       };
       try {
-          mutate(userData, {
-              onSuccess: (loginData) => {
-                  if (loginData.succeeded) {
-                      localStorage.setItem("auth", JSON.stringify(loginData?.data));
-                      Cookies.set("token", `${loginData?.data?.jwToken}`);
-                      window.location.reload();
-                  } else {
-                      setIsError(true)
-                  }
-              }
-          });
+        mutate(userData, {
+          onSuccess: (loginData) => {
+            if (loginData.succeeded) {
+              localStorage.setItem("auth", JSON.stringify(loginData?.data));
+              Cookies.set("token", `${loginData?.data?.jwToken}`);
+              window.location.reload();
+              setSnackeOpen(true)
+            } else {
+              refetch()
+              setSnackeOpen(true)
+            }
+          }
+        });
       } catch (error) {
-          setStatus("اطلاعات ورود نادرست می باشد");
-          setSubmitting(false);
-              }
-  },
-});  return (
+        setStatus("اطلاعات ورود نادرست می باشد");
+        setSubmitting(false);
+      }
+    },
+  }); return (
     <>
+      {snackeOpen && (
+        <PositionedSnackbar
+          open={snackeOpen}
+          setState={setSnackeOpen}
+          title={
+            data?.data?.Message ||
+            data?.message 
+          }
+        />
+      )}
       {isLoading && <Backdrop loading={isLoading} />}
       <Box component="div" className="md:grid md:grid-cols-2 h-screen">
         <Box
@@ -77,13 +89,6 @@ const formik = useFormik({
           <Typography className="font-poppins_medium text-md text-gray-500">
             {"نام کاربری و کلمه عبور خود را وارد نمایید"}
           </Typography>
-          {isError && (
-            <PositionedSnackbar
-              open={snackeOpen}
-              setState={setSnackeOpen}
-              title={data?.response?.data?.Message}
-            />
-          )}
           <Box
             component="form"
             onSubmit={formik.handleSubmit}
@@ -167,12 +172,21 @@ const formik = useFormik({
               )})`,
             }}
           >
-            <Box component="div" className="flex justify-center items-center">
+            <Box component="div" className="flex flex-col justify-center items-center">
               <img
                 src={`${toAbsoulteUrl(
-                  "/media/logos/nabshi.png"
+                  "/media/logos/folladlogo.png"
                 )}`}
-                // width={300}
+                // width= {300}
+                // height={300}
+                alt="Sepehr Logo"
+                className="mx-auto"
+              />
+              <img
+                src={`${toAbsoulteUrl(
+                  "/media/logos/nabshi.webp"
+                )}`}
+                width={300}
                 // height={300}
                 alt="Sepehr Logo"
                 className="mx-auto"
