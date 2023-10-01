@@ -68,7 +68,7 @@ const CreateProductPrice = (props: Props) => {
                             <FormikInput label="قیمت" name="price" type="text" />
                         </Box>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                            <Typography variant="h3" className="px-8 py-2">ثبت محصول</Typography>
+                            <Typography variant="h3" className="px-8 py-2">ثبت قیمت</Typography>
                         </Button>
                     </Form>
                 }}

@@ -11,7 +11,7 @@ type Props = {
 export default function MuiDataGrid(props: Props) {
     const { columns, rows, data } = props;
 
-    
+
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
         const defaultRowHeight = 52; // You can adjust this value
@@ -24,7 +24,7 @@ export default function MuiDataGrid(props: Props) {
 
 
     return (
-        <Box sx={{ height: gridHeight, maxHeight: 1280, width: '100%', marginTop: 1 }}>
+        <Box sx={{ height: gridHeight, maxHeight: 400, width: '100%', marginTop: 1 }}>
             <DataGrid
                 {...data}
                 rows={rows ? rows : []}

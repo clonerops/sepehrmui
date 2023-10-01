@@ -94,7 +94,7 @@ const EditProduct = (props: {
                                 />
                                 <FormikInput
                                     name="size"
-                                    label="اندازه ضخامت"
+                                    label="ضخامت"
                                     type="text"
                                 />
                                 <FormikInput

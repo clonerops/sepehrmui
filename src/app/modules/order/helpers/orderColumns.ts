@@ -11,7 +11,7 @@ export const columns = (renderAction: any) => {
         params.value === 1 ? "عادی" : "بعد از تسویه"
       ), headerClassName: "bg-[#2E4374] text-white", width: 120 },
       { field: 'description', headerName: 'توضیحات', headerClassName: "bg-[#2E4374] text-white", width: 360 },
-      { headerName: 'عملیات', renderCell: renderAction, headerClassName: "bg-[#2E4374] text-white", width: 160 }
+      { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "bg-[#2E4374] text-white", width: 160 }
     ]
     return col
   }

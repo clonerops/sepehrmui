@@ -95,7 +95,7 @@ const CreateProduct = (props: {
                                 />
                                 <FormikInput
                                     name="size"
-                                    label="اندازه ضخامت"
+                                    label="ضخامت"
                                     type="text"
                                 />
                                 <FormikInput

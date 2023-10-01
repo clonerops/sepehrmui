@@ -19,7 +19,7 @@ import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmo
       ), headerClassName: "bg-[#2E4374] text-white", width: 100 },
       { field: 'accountingApprovalDate', headerName: 'تاریخ تایید حسابداری', headerClassName: "bg-[#2E4374] text-white", width: 120 },
       { field: 'description', headerName: 'توضیحات', headerClassName: "bg-[#2E4374] text-white", width: 380 },
-      { headerName: 'عملیات', renderCell: renderAction, headerClassName: "bg-[#2E4374] text-white", width: 260 }
+      { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "bg-[#2E4374] text-white", width: 260 }
     ]
     return col
   }

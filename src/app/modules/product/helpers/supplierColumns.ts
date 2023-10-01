@@ -8,7 +8,7 @@
       { field: 'overPrice', headerName: 'قیمت تمام شده', headerClassName: "bg-[#2E4374] text-white", width: 120 },
       { field: 'priceDate', headerName: 'تاریخ قیمت', headerClassName: "bg-[#2E4374] text-white", width: 120 },
       { field: 'rate', headerName: 'امتیاز', headerClassName: "bg-[#2E4374] text-white", width: 80 },
-      { headerName: 'عملیات', renderCell: renderAction, headerClassName: "bg-[#2E4374] text-white", width: 240 }
+      { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "bg-[#2E4374] text-white", width: 240 }
     ]
     return col
   }
