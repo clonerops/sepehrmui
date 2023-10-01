@@ -1,5 +1,6 @@
 export interface ICustomer {
     id?: string| undefined
+    customerCode?: number | undefined
     firstName: string | undefined
     lastName: string | undefined
     fatherName?: string | undefined

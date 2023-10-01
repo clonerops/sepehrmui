@@ -41,16 +41,16 @@ const EditCustomer = (props: {
     };
     return (
         <>
-              {snackeOpen && (
+            {snackeOpen && (
                 <PositionedSnackbar
-                  open={snackeOpen}
-                  setState={setSnackeOpen}
-                  title={
-                    data?.data?.Message ||
-                    data?.message || "ویرایش با موفقیت انجام شد"
-                  }
+                    open={snackeOpen}
+                    setState={setSnackeOpen}
+                    title={
+                        data?.data?.Message ||
+                        data?.message || "ویرایش با موفقیت انجام شد"
+                    }
                 />
-              )}
+            )}
 
             <Formik initialValues={initialValues} onSubmit={
                 async (values, { setStatus, setSubmitting }) => {
@@ -70,6 +70,7 @@ const EditCustomer = (props: {
             }>
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit} className="container">
+                        <Typography variant='h3' color="primary">شماره مشتری: {props?.item?.customerCode}</Typography>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <FormikInput title="نام" name="firstName" label="نام" type="text" />
                             <FormikInput title="نام خانوادگی" name="lastName" label="نام خانوادگی" type="text" />
@@ -96,7 +97,7 @@ const EditCustomer = (props: {
                             <FormikInput title="آدرس 1" name="address1" label="آدرس 1" type="text" boxClassName="my-4" />
                             <FormikInput title="آدرس 2" name="address2" label="آدرس 2" type="text" boxClassName="my-4" />
                         </Box>
-                        <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
+                       <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                             <Typography variant="h3" className="px-8 py-2">ویرایش مشتری</Typography>
                         </Button>
                     </Form>

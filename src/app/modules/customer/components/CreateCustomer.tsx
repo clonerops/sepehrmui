@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Form, Formik } from "formik";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 import { useCreateCustomer } from "../core/_hooks";
@@ -9,6 +10,23 @@ import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { useGetCustomerValidities } from "../../generic/_hooks";
 import { Box, Button, Typography } from "@mui/material";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
+const initialValues = {
+    firstName: "",
+    lastName: "",
+    fatherName: "",
+    nationalId: "",
+    nationalId2: "",
+    mobile: "",
+    address1: "",
+    officialName: "",
+    customerType: 0,
+    customerValidityId: 1,
+    tel1: "",
+    isSupplier: false,
+    tel2: "",
+    address2: "",
+    representative: "",
+};
 
 const CreateCustomer = (props: {
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -16,23 +34,7 @@ const CreateCustomer = (props: {
 }) => {
     const { mutate } = useCreateCustomer();
     const { data: customerValidityData } = useGetCustomerValidities()
-    const initialValues = {
-        firstName: "",
-        lastName: "",
-        fatherName: "",
-        nationalId: "",
-        nationalId2: "",
-        mobile: "",
-        address1: "",
-        officialName: "",
-        customerType: 0,
-        customerValidityId: 1,
-        tel1: "",
-        isSupplier: false,
-        tel2: "",
-        address2: "",
-        representative: "",
-    };
+    // const [customerCode, setCustomerCode] = useState(0)
     return (
         <>
             <Formik initialValues={initialValues} validationSchema={createValiadtion} onSubmit={
@@ -40,6 +42,7 @@ const CreateCustomer = (props: {
                     try {
                         mutate(values, {
                             onSuccess: (message) => {
+                                // setCustomerCode(message?.data.customerCode)
                                 // ToastComponent(message?.message || message?.data?.Message || message?.data?.message)
                                 props.refetch()
                                 props.setIsCreateOpen(false)
@@ -53,6 +56,7 @@ const CreateCustomer = (props: {
             }>
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit} className="container">
+                        {/* <Typography variant='h3' color="primary">شماره مشتری: {customerCode}</Typography> */}
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <FormikInput title="نام" name="firstName" label="نام" />
                             <FormikInput title="نام خانوادگی" name="lastName" label="نام خانوادگی" />
