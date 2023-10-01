@@ -2,6 +2,8 @@ import * as Yup from "yup";
 
 const orderValidation = Yup.object().shape({
     customerId: Yup.string().required("نام مشتری الزامی است"),
+    warehouseId: Yup.string().required("انبار الزامی است"),
+    productIntegratedName: Yup.object().required("محصول الزامی است"),
     settlementDate: Yup.string().required("تاریخ تسویه الزامی است"),
     exitType: Yup.string().required("نوع خروج الزامی است"),
     orderSendTypeId: Yup.string().required("نوع ارسال الزامی است"),

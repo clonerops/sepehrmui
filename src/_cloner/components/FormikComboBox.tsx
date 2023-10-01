@@ -1,6 +1,7 @@
 import {
     Box,
     Autocomplete,
+    Typography,
 } from "@mui/material";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
@@ -19,9 +20,9 @@ type Props = {
     disabled?: boolean;
     value?: string;
     title?: string;
-    defaultValue?:{
-      label: string,
-      value: any
+    defaultValue?: {
+        label: string,
+        value: any
     }
     options: any;
     variant?: TextFieldVariants;
@@ -49,30 +50,36 @@ const FormikComboBox = (props: Props) => {
     return (
         <Box component={"div"} className={cx("w-full", boxClassName)}>
             <Autocomplete
-                {...getFormikFieldValidationProps(formikProps, name)}
                 {...field}
                 {...rest}
+                {...getFormikFieldValidationProps(formikProps, name)}
                 options={options || []}
-                value={field.value}    
+                value={field.value}
+                getOptionSelected={(option: any, value: any) => option.id === value.id}
                 onChange={(e, value) => formikProps.setFieldValue(name, value)}
                 filterOptions={(optionData, { inputValue }) => {
-                  const searchWords = inputValue.trim().toLowerCase().split(/\s+/);
-                  return optionData.filter((item: any) => {
-                    return searchWords.every((word) => {
-                      return item.label.toLowerCase().includes(word)
+                    const searchWords = inputValue.trim().toLowerCase().split(/\s+/);
+                    return optionData.filter((item: any) => {
+                        return searchWords.every((word) => {
+                            return item.label.toLowerCase().includes(word)
+                        })
                     })
-                  })
                 }}
                 renderInput={(params) => (
                     <TextField
                         label={label}
                         name={name}
+                        error={getFormikFieldValidationProps(formikProps, name).error}
                         {...params}
                         size="small"
                     />
                 )}
                 id={name}
             />
+            <Typography variant="body2" className={"text-red-600"}>
+                {getFormikFieldValidationProps(formikProps, name).helperText}
+            </Typography>
+
         </Box>
     );
 };

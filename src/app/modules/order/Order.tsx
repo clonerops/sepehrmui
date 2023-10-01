@@ -1,8 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import ProductSelectedList from "./components/ProductSelectedList";
 import ProductSelectedListInModal from "./components/ProductSelectedListInModal";
 import { useRetrieveProducts } from "../product/core/_hooks";
-import { IProducts } from "../product/core/_models";
 import { Form, Formik } from "formik";
 import { useCreateOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
@@ -37,86 +36,66 @@ import FormikInput from "../../../_cloner/components/FormikInput";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import TextValue from "./components/TextValue";
 import CustomButton from "../../../_cloner/components/CustomButton";
-import { PlusOne, } from '@mui/icons-material'
+import { AddCircle, Add, Grading } from '@mui/icons-material'
 import { ICustomer } from "../customer/core/_models";
 import { dropdownProductIntegrated } from "../generic/_functions";
-import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
+
+const initialValues = {
+    customerId: "",
+    totalAmount: 0,
+    description: "",
+    exitType: "",
+    orderSendTypeId: "",
+    paymentTypeId: "",
+    customerOfficialName: "",
+    invoiceTypeId: "",
+    freightName: "",
+    settlementDate: "",
+    dischargePlaceAddress: "",
+    freightDriverName: "",
+    carPlaque: "",
+    rowId: "",
+    productId: "",
+    warehouseId: "",
+    warehouseTypeId: "",
+    proximateAmount: "",
+    numberInPackage: "",
+    price: "",
+    cargoSendDate: "",
+    buyPrice: "",
+    purchaseInvoiceTypeId: "",
+    purchaserCustomerId: "",
+    purchaseSettlementDate: "",
+    sellerCompanyRow: "",
+    productIntegratedName: ""
+};
+
+
 
 const Order = () => {
     // Fetching Data
     const { data: customers, refetch: refetchCustomers } = useGetCustomers();
-    const {
-        data: products,
-        isLoading: productLoading,
-        isError: productError,
-    } = useRetrieveProducts();
+    const { data: products, isLoading: productLoading, isError: productError } = useRetrieveProducts();
     const { data: orderSendType } = useGetSendTypes();
     const { data: rent } = useGetPaymentTypes();
     const { data: purchaseInvoiceType } = useGetPurchaseInvoice();
     const { data: factor } = useGetInvoiceType();
     const { data: warehouse } = useGetWarehouses();
+    const { mutate } = useCreateOrder();
+
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-
-    const [selectedProductOpen, setSelectedProductOpen] =
-        useState<boolean>(false);
-    const [selectProductFromModal, setSelectProductFromModal] =useState<any>();
-    const [searchQuery, setSearchQuery] = useState<any>("");
-    const [productSelected, setProductSelected] = useState<any>("");
-    const [showProducts, setShowProducts] = useState(false);
-    const [filteredData, setFilteredData] = useState<IProducts[]>();
+    const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false);
+    const [selectProductFromModal, setSelectProductFromModal] = useState<any>();
     const [orders, setOrders] = useState<any>([]);
     const [totalAmount, setTotalAmount] = useState(0);
-    const [purchaseInvoiceTypeSelected, setPurchaseInvoiceTypeSelected] =
-        useState<{
-            value: number | null;
-            label: string | null;
-        }>();
-
-    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const newInputValue = event.target.value;
-        setSearchQuery(newInputValue);
-
-        const searchWords = newInputValue.trim().toLowerCase().split(/\s+/); // Split into words
-
-        const newProduct = products?.data.filter((item: any) => {
-            return searchWords.every((word: any) =>
-                item.productName.toLowerCase().includes(word)
-            );
-        });
-
-        setFilteredData(newProduct);
-
-        setShowProducts(true);
-    }
-
-    const handleFocuse = () => {
-        setShowProducts(true);
-    };
-    const handleBlur = () => {
-        setTimeout(() => {
-            setShowProducts(false);
-        }, 500);
-    };
-
-    const handleProductSelect = (item: IProducts) => {
-        if (item?.productIntegratedName) {
-            setSearchQuery(item?.productIntegratedName.toString());
-            setProductSelected(item?.id);
-            setShowProducts(false);
-        }
-    };
-
-    useEffect(() => {
-        if (selectProductFromModal?.id)
-        initialValues.productIntegratedName = selectProductFromModal?.id
-    }, [selectProductFromModal]);
-
-    useEffect(() => {
-        setFilteredData(products?.data);
-    }, [products?.data]);
+    const [purchaseInvoiceTypeSelected, setPurchaseInvoiceTypeSelected] = useState<{ value: number | null; label: string | null; }>();
+    const [isBuy, setIsBuy] = useState<boolean>(false);
+    const [orderCode, setOrderCode] = useState<number>(0);
+    const [warehouseNameSelect, setWarehouseSelected] = useState<string>("");
+    const [orderData, setOrderData] = useState<any>()
 
     useEffect(() => {
         const prices = orders?.map((obj: any) => Number(obj.price));
@@ -125,44 +104,9 @@ const Order = () => {
         setTotalAmount(newTotal);
     }, [orders]);
 
-    const initialValues = {
-        customerId: "",
-        totalAmount: 0,
-        description: "",
-        exitType: "",
-        orderSendTypeId: "",
-        paymentTypeId: "",
-        customerOfficialName: "",
-        invoiceTypeId: "",
-        freightName: "",
-        settlementDate: "",
-        dischargePlaceAddress: "",
-        freightDriverName: "",
-        carPlaque: "",
-        rowId: "",
-        productId: "",
-        warehouseId: "",
-        warehouseTypeId: "",
-        proximateAmount: "",
-        numberInPackage: "",
-        price: "",
-        cargoSendDate: "",
-        buyPrice: "",
-        purchaseInvoiceTypeId: "",
-        purchaserCustomerId: "",
-        purchaseSettlementDate: "",
-        sellerCompanyRow: "",
-        productIntegratedName: ""
-    };
-    const { mutate, data: createOrder } = useCreateOrder();
-
-    const [isBuy, setIsBuy] = useState<boolean>(false);
-    const [orderCode, setOrderCode] = useState<number>(0);
-    const [warehouseNameSelect, setWarehouseSelected] = useState<string>("");
-
     const handleWarehouseSelect = (values: any) => {
         const warehouseName = warehouse.find((i: any) => i.id === values);
-        if (values === 1) {
+        if (values === 2) {
             setIsBuy(true);
         } else {
             setIsBuy(false);
@@ -171,17 +115,20 @@ const Order = () => {
     };
 
     const handleOrder = (values: any) => {
+        const warehouseTypeId = warehouse.find((i: any) => i.id === values.warehouseId)
+        const purchaseInvoiceTypeName = purchaseInvoiceType.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
+        console.log("purchaseInvoiceTypeName", purchaseInvoiceTypeName)
         const productOrder = {
-            productId: searchQuery.value,
-            productName: searchQuery.label,
+            productId: values.productIntegratedName.value,
+            productName: values.productIntegratedName.label,
             warehouseId: values.warehouseId,
-            warehouseTypeId: values?.warehouseTypeId,
+            warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             warehouseName: warehouseNameSelect,
             productDesc: values?.productDesc,
-            buyPrice: values?.valuesbuyPrice,
+            buyPrice: values?.buyPrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
             purchaseInvoiceTypeId: Number(values?.purchaseInvoiceTypeId),
-            purchaseInvoiceTypeName: values?.purchaseInvoiceTypeName,
+            purchaseInvoiceTypeName: purchaseInvoiceTypeName?.desc,
             sellerCompanyRow: values.sellerCompanyRow,
             proximateAmount: values.proximateAmount,
             price: values?.price,
@@ -196,9 +143,7 @@ const Order = () => {
         const findCustomer = customers?.data.find((i: any) => i.id === value)
         setFindCustomer(findCustomer)
     }
-
-    console.log({value: selectProductFromModal?.id, label: selectProductFromModal?.row?.productIntegratedName})
-
+    console.log(orders)
     return (
         <>
             {snackeOpen && (
@@ -206,9 +151,9 @@ const Order = () => {
                     open={snackeOpen}
                     setState={setSnackeOpen}
                     title={
-                        createOrder?.data?.Message ||
-                        // data?.data?.Errors[0] ||
-                        createOrder?.message
+                        orderData?.data?.Message ||
+                        orderData?.Message ||
+                        orderData?.message
                     }
                 />
             )}
@@ -216,90 +161,99 @@ const Order = () => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={orderValidation}
-                    onSubmit={async (values) => {
-                        if (orders?.length === 0) {
-                        } else {
-                            const formData = {
-                                customerId: values.customerId,
-                                totalAmount: totalAmount,
-                                description: values.description,
-                                exitType: Number(values.exitType),
-                                orderSendTypeId: Number(values.orderSendTypeId),
-                                paymentTypeId: Number(values.paymentTypeId),
-                                customerOfficialName: "string",
-                                invoiceTypeId: Number(values.invoiceTypeId),
-                                freightName: "string",
-                                settlementDate: values.settlementDate,
-                                dischargePlaceAddress: "string",
-                                freightDriverName: "string",
-                                carPlaque: "string",
-                                details: orders?.map(
-                                    (item: ICreateOrderDetails) => {
-                                        return {
-                                            rowId: item.rowId,
-                                            productId: item.productId,
-                                            warehouseId: item.warehouseId
-                                                ? Number(item.warehouseId)
-                                                : null,
-                                            proximateAmount:
-                                                item.proximateAmount
-                                                    ? Number(
+                    onSubmit={
+                        async (values, { setStatus, setSubmitting }) => {
+                            // if (orders?.length === 0) {
+                            //     alert("لیست سفارشات خالی می باشد")
+                            // } else {
+                                try {
+                                    const formData = {
+                                        customerId: values.customerId,
+                                        totalAmount: totalAmount,
+                                        description: values.description,
+                                        exitType: Number(values.exitType),
+                                        orderSendTypeId: Number(values.orderSendTypeId),
+                                        paymentTypeId: Number(values.paymentTypeId),
+                                        customerOfficialName: "string",
+                                        invoiceTypeId: Number(values.invoiceTypeId),
+                                        freightName: "string",
+                                        settlementDate: values.settlementDate,
+                                        dischargePlaceAddress: "string",
+                                        freightDriverName: "string",
+                                        carPlaque: "string",
+                                        details: orders?.map(
+                                            (item: ICreateOrderDetails) => {
+                                                return {
+                                                    rowId: Number(item.rowId),
+                                                    productId: item.productId,
+                                                    warehouseTypeId: item.warehouseTypeId,
+                                                    warehouseId: item.warehouseId
+                                                        ? Number(item.warehouseId)
+                                                        : null,
+                                                    proximateAmount:
                                                         item.proximateAmount
-                                                    )
-                                                    : null,
-                                            numberInPackage:
-                                                item.proximateAmount
-                                                    ? Number(
+                                                            ? Number(
+                                                                item.proximateAmount
+                                                            )
+                                                            : null,
+                                                    numberInPackage:
                                                         item.proximateAmount
-                                                    )
-                                                    : null,
-                                            price: item.price
-                                                ? Number(item.price)
-                                                : null,
-                                            cargoSendDate: "1402/01/01",
-                                            buyPrice: item.buyPrice
-                                                ? Number(item.buyPrice)
-                                                : 0,
-                                            purchaseInvoiceTypeId:
-                                                item.purchaseInvoiceTypeId,
-                                            purchaserCustomerId:
-                                                item.purchaserCustomerId
-                                                    ? item.purchaserCustomerId
-                                                    : null,
-                                            purchaseSettlementDate:
-                                                "1402/01/01",
-                                            sellerCompanyRow:
-                                                item.sellerCompanyRow
-                                                    ? item.sellerCompanyRow
-                                                    : null,
-                                        };
-                                    }
-                                ),
-                            };
-                            mutate(formData, {
-                                onSuccess: (orderData) => {
-                                    console.log("orderData", orderData)
-                                    setOrderCode(orderData?.data[0].orderCode);
-                                    setSnackeOpen(true);
-                                },
-                            });
-                        }
-                    }}
+                                                            ? Number(
+                                                                item.proximateAmount
+                                                            )
+                                                            : null,
+                                                    price: item.price
+                                                        ? Number(item.price)
+                                                        : null,
+                                                    cargoSendDate: "1402/01/01",
+                                                    buyPrice: item.buyPrice
+                                                        ? Number(item.buyPrice)
+                                                        : 0,
+                                                    purchaseInvoiceTypeId:
+                                                        item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
+                                                    purchaserCustomerId:
+                                                        item.purchaserCustomerId
+                                                            ? item.purchaserCustomerId
+                                                            : null,
+                                                    purchaseSettlementDate:
+                                                        "1402/01/01",
+                                                    sellerCompanyRow:
+                                                        item.sellerCompanyRow
+                                                            ? item.sellerCompanyRow
+                                                            : null,
+                                                };
+                                            }
+                                        ),
+                                    };
+                                    mutate(formData, {
+                                        onSuccess: (orderData) => {
+                                            setOrderData(orderData)
+                                            setSnackeOpen(true);
+                                            setOrderCode(orderData?.data[0].orderCode);
+                                        },
+                                    });
+                                } catch (error) {
+                                    setStatus("اطلاعات ثبت مشتری نادرست می باشد");
+                                    setSubmitting(false);
+                                }
+                            // }
+                        }}
                 >
                     {({ handleSubmit, values, setFieldValue }) => {
-                        console.log(values.productIntegratedName)
                         return (
                             <Form onSubmit={handleSubmit}>
                                 {/* Order Code, Order Date, Order Submit */}
-                                <Box component="div" className="md:flex p-2 rounded-md gap-x-10">
-                                    <TextValue title="شماره سفارش" value={orderCode} valueClassName="px-8 text-[#405189]" />
-                                    <TextValue title="تاریخ سفارش" value={moment(new Date()).format("jYYYY/jMM/jDD")} valueClassName="text-[#405189]" />
-                                </Box>
-                                <Box component="div" className="md:flex p-2 rounded-md">
-                                    <TextValue title="قیمت کل" value={sliceNumberPrice(totalAmount)} valueClassName="!text-lg" insideValue={"ریال"} />
-                                    <TextValue title="قیمت به حروف" value={convertToPersianWord(totalAmount)} valueClassName="!text-lg" insideValue={"تومان"} />
-                                </Box>
-                                <Box component="div" className="flex justify-center items-center md:justify-end md:items-end">
+                                <Card>
+                                    <Box component="div" className="md:flex md:justify-between my-1 p-2 rounded-md gap-x-10">
+                                        <TextValue title="شماره سفارش" value={orderCode} valueClassName="px-8 text-[#405189]" titleClassName="text-[#2E4374]" />
+                                        <TextValue title="تاریخ سفارش" value={moment(new Date()).format("jYYYY/jMM/jDD")} valueClassName="text-[#405189]" titleClassName="text-[#2E4374]" />
+                                    </Box>
+                                    <Box component="div" className="md:flex my-1 p-2 rounded-md">
+                                        <TextValue title="قیمت کل" value={sliceNumberPrice(totalAmount)} valueClassName="!text-lg" insideValue={"ریال"} titleClassName="text-gray-500 !text-lg" />
+                                        <TextValue title="قیمت به حروف" value={convertToPersianWord(totalAmount)} valueClassName="!text-lg" insideValue={"تومان"} titleClassName="text-gray-500 !text-lg" />
+                                    </Box>
+                                </Card>
+                                <Box component="div" className="flex my-2 justify-center items-center md:justify-end md:items-end">
                                     <CustomButton title="ثبت سفارش" onClick={() => handleSubmit()} />
                                 </Box>
                                 {/* Customer, Settlement Date*/}
@@ -307,13 +261,13 @@ const Order = () => {
                                     <Card className="p-2">
                                         <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
                                             <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer my-1">
-                                                <PlusOne />
+                                                <AddCircle />
                                             </Box>
                                             <FormikSelect onChange={(value) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
                                             <FormikDatepicker name="settlementDate" label="تاریخ تسویه" />
                                         </Box>
                                         {findCustomer &&
-                                            <Box component="div" className="pt-2 flex flex-col gap-y-2">
+                                            <Box component="div" className="pt-2 flex flex-col">
                                                 <Typography variant="h4">شماره همراه مشتری: {findCustomer?.mobile}</Typography>
                                                 <Typography variant="h4">نوع اعتبار: {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : "سیاه"}</Typography>
                                             </Box>
@@ -321,7 +275,7 @@ const Order = () => {
                                     </Card>
                                     {/* orderSendTypeId, invoiceTypeId, paymentTypeId, exitType */}
                                     <Card className="p-2">
-                                        <Box component="div" className="md:grid md:grid-cols-2 md:gap-2" >
+                                        <Box component="div" className="grid md:grid-cols-2 !gap-2" >
                                             <FormikSelect name="orderSendTypeId" label="نوع ارسال" options={dropdownOrderSendType(orderSendType)} />
                                             <FormikSelect name="invoiceTypeId" label="نوع فاکتور" options={dropdownInvoiceType(factor)} />
                                             <FormikSelect name="paymentTypeId" label="نوع پرداخت" options={dropdownRentPaymentType(rent)} />
@@ -332,39 +286,45 @@ const Order = () => {
 
                                 <Box component="div" className="mt-2">
                                     <Card className="p-2">
-                                        <Box component="div" className="md:flex md:items-center flex-wrap md:gap-x-2">
-                                            <Box component="div" className="relative md:w-[20%]">
-                                                <FormikProductComboSelect defaultValue={{value: selectProductFromModal?.id, label: selectProductFromModal?.row?.productIntegratedName}} setSearchQuery={setSearchQuery} productIntegratedName={values.productIntegratedName} label="محصول" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
-                                            </Box>
+                                        {/* <Box component="div" className="md:flex md:items-center md:flex-warp md:justify-center gap-2"> */}
+                                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-2">
                                             <Box component="div" className="">
-                                                <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="primary" >
-                                                    <PlusOne />
-                                                </Button>
+                                                <Box component="div" className="flex mx-2">
+                                                    <FormikProductComboSelect productIntegratedName={values.productIntegratedName} label="محصول" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
+                                                    <Box component="div" className="mx-1">
+                                                        <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="primary" >
+                                                            <Grading />
+                                                        </Button>
+                                                    </Box>
+                                                </Box>
+                                                <TransitionsModal open={selectedProductOpen} isClose={() => setSelectedProductOpen(false)}>
+                                                    <ProductSelectedListInModal
+                                                        products={products?.data}
+                                                        productLoading={productLoading}
+                                                        productError={productError}
+                                                        setSelectedProductOpen={setSelectedProductOpen}
+                                                        setSelectProductFromModal={setSelectProductFromModal}
+                                                        setFieldValue={setFieldValue}
+                                                    />
+                                                </TransitionsModal>
                                             </Box>
-                                            <TransitionsModal open={selectedProductOpen} isClose={() => setSelectedProductOpen(false)}>
-                                                <ProductSelectedListInModal
-                                                    products={products?.data}
-                                                    productLoading={productLoading}
-                                                    productError={productError}
-                                                    setSelectedProductOpen={setSelectedProductOpen}
-                                                    setSelectProductFromModal={setSelectProductFromModal}
-                                                    setFieldValue={setFieldValue}
-                                                />
-                                            </TransitionsModal>
-                                                <FormikSelect name="warehouseId" label="انبار" boxClassName="md:w-[20%]" options={dropdownWarehouses( warehouse )} onChange={(values) => handleWarehouseSelect( values ) } />
-                                                <FormikInput name="proximateAmount" label="مقدار (کیلوگرم)" boxClassName="md:w-[20%]" type="text" />
-                                                <FormikInput name="price" label="قیمت" boxClassName="md:w-[20%]" type="text" />
-                                                <FormikInput name="productDesc" label="توضیحات محصول" boxClassName="md:w-[20%]" type="text" />
-                                                <FormikInput name="rowId" label="ردیف فروش" boxClassName="md:w-[20%]" type="text" />
+                                            <FormikSelect name="warehouseId" label="انبار" options={dropdownWarehouses(warehouse)} onChange={(values) => handleWarehouseSelect(values)} />
+                                            <FormikInput name="proximateAmount" label="مقدار (کیلوگرم)" type="text" />
+                                            <FormikInput name="price" label="قیمت" type="text" />
+                                            <FormikInput name="productDesc" label="توضیحات محصول" type="text" />
+                                            <FormikInput name="rowId" label="ردیف فروش" type="text" />
                                             {isBuy && (
                                                 <>
-                                                    <FormikInput name="sellerCompanyRow" label="خرید از" boxClassName="md:w-[20%]" type="text" />
-                                                    <FormikInput name="buyPrice" label="قیمت خرید" boxClassName="md:w-[20%]" type="text" />
-                                                    <FormikSelect value={ purchaseInvoiceTypeSelected } onSelect={( value: any ) => setPurchaseInvoiceTypeSelected(value ) } name="purchaseInvoiceTypeId" label="نوع فاکتور خرید" options={dropdownPurchaseInvoice( purchaseInvoiceType )}/>
-                                                    <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید"/>
+                                                    <FormikInput name="sellerCompanyRow" label="خرید از" type="text" />
+                                                    <FormikInput name="buyPrice" label="قیمت خرید" type="text" />
+                                                    <FormikSelect value={purchaseInvoiceTypeSelected} onSelect={(value: any) => setPurchaseInvoiceTypeSelected(value)} name="purchaseInvoiceTypeId" label="نوع فاکتور خرید" options={dropdownPurchaseInvoice(purchaseInvoiceType)} />
+                                                    <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید" />
                                                 </>
                                             )}
-                                            <Box component="div" onClick={() => handleOrder(values) } className="md:w-[10%] bg-green-500 text-white text-center py-2 rounded-lg cursor-pointer" > افزودن </Box>
+                                            <Box component="div" onClick={() => handleOrder(values)} className="flex bg-green-500 text-white text-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
+                                                <Add />
+                                                <Typography>افزودن به لیست سفارشات</Typography>
+                                            </Box>
                                         </Box>
                                         <ProductSelectedList orders={orders} setOrders={setOrders} />
                                     </Card>
@@ -375,7 +335,7 @@ const Order = () => {
                 </Formik>
             </Card>
             <TransitionsModal open={isOpen} isClose={() => setIsOpen(false)}>
-                <CreateCustomer refetch={refetchCustomers} setIsCreateOpen={setIsOpen}/>
+                <CreateCustomer refetch={refetchCustomers} setIsCreateOpen={setIsOpen} />
             </TransitionsModal>
         </>
     );

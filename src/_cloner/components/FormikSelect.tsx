@@ -5,6 +5,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@mui/material";
 import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
 import { useField, useFormikContext } from "formik";
@@ -47,7 +48,7 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
 
   return (
     <Box component={"div"} className={cx("w-full", boxClassName)}>
-      <FormControl fullWidth size={"small"}>
+      <FormControl fullWidth size={"small"} error={getFormikFieldValidationProps(formikProps, name).error}>
         <InputLabel id={label + "-label"}>{label}</InputLabel>
         <Select
           size={"small"}
@@ -66,9 +67,9 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
             <MenuItem value={node.value}>{node.label}</MenuItem>
           ))}
         </Select>
-        <FormHelperText className={"text-red-600"}>
+        <Typography variant="body2" className={"text-red-600"}>
           {getFormikFieldValidationProps(formikProps, name).helperText}
-        </FormHelperText>
+        </Typography>
       </FormControl>
     </Box>
   );

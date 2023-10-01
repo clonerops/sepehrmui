@@ -29,7 +29,6 @@ const FormikInput = (props: Props) => {
 
   return (
     <Box component={"div"} className={cx("w-full", boxClassName)}>
-      {/* {title && <Typography variant="h4">{title}</Typography>} */}
       <TextField
         fullWidth
         size="small"
