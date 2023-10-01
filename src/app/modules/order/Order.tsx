@@ -117,10 +117,10 @@ const Order = () => {
     const handleOrder = (values: any) => {
         const warehouseTypeId = warehouse.find((i: any) => i.id === values.warehouseId)
         const purchaseInvoiceTypeName = purchaseInvoiceType.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
-        console.log("purchaseInvoiceTypeName", purchaseInvoiceTypeName)
+        console.log("purchaseInvoiceTypeName", selectProductFromModal)
         const productOrder = {
-            productId: values.productIntegratedName.value,
-            productName: values.productIntegratedName.label,
+            productId: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
+            productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
             warehouseId: values.warehouseId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             warehouseName: warehouseNameSelect,
@@ -143,7 +143,6 @@ const Order = () => {
         const findCustomer = customers?.data.find((i: any) => i.id === value)
         setFindCustomer(findCustomer)
     }
-    console.log(orders)
     return (
         <>
             {snackeOpen && (
