@@ -42,9 +42,10 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
         <AppBar
             position="fixed"
             open={open}
-            elevation={1}
+            elevation={0.9}
             // color="secondary"
             sx={{
+                boxShadow: '3px 4px 39px -14px rgba(0,0,0,0.26)',
                 ...(!open && { left: "0px" }),
             }}
             className={`${isMobile && open ? "hidden !w-full" : ""} !bg-slate-50 app_bar`}

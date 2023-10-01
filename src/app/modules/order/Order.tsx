@@ -146,6 +146,7 @@ const Order = () => {
     const [findCustomer, setFindCustomer] = useState<ICustomer>()
 
     const handleChangeCustomer = (value: any) => {
+        console.log("value", value)
         const findCustomer = customers?.data.find((i: any) => i.id === value.value)
         setFindCustomer(findCustomer)
     }
@@ -236,10 +237,6 @@ const Order = () => {
                                             setSnackeOpen(true);
                                             setOrderCode(orderData?.data[0].orderCode);
                                             resetForm()
-                                            // setFieldValue("proximateAmount", "")
-                                            // setFieldValue("price", "")
-                                            // setFieldValue("productDesc", "")
-                                            // setFieldValue("rowId", "")
 
                                         },
                                     });
@@ -272,7 +269,7 @@ const Order = () => {
                                     <Card className="p-2">
                                         <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
                                             {/* <FormikSelect onChange={(value) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} /> */}
-                                            <FormikComboBox onChange={(value: any) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
+                                            <FormikComboBox onChange={() => handleChangeCustomer(values.customerId)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
                                             <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer my-1">
                                                 <AddCircle />
                                             </Box>
