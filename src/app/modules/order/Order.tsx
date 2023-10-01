@@ -291,7 +291,7 @@ const Order = () => {
                         return (
                             <Form onSubmit={handleSubmit}>
                                 {/* Order Code, Order Date, Order Submit */}
-                                {/* <Box component="div" className="md:flex p-2 rounded-md gap-x-10">
+                                <Box component="div" className="md:flex p-2 rounded-md gap-x-10">
                                     <TextValue title="شماره سفارش" value={orderCode} valueClassName="px-8 text-[#405189]" />
                                     <TextValue title="تاریخ سفارش" value={moment(new Date()).format("jYYYY/jMM/jDD")} valueClassName="text-[#405189]" />
                                 </Box>
@@ -301,10 +301,10 @@ const Order = () => {
                                 </Box>
                                 <Box component="div" className="flex justify-center items-center md:justify-end md:items-end">
                                     <CustomButton title="ثبت سفارش" onClick={() => handleSubmit()} />
-                                </Box> */}
+                                </Box>
                                 {/* Customer, Settlement Date*/}
                                 <Box component="div" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
-                                    {/* <Card className="p-2">
+                                    <Card className="p-2">
                                         <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
                                             <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer my-1">
                                                 <PlusOne />
@@ -318,19 +318,17 @@ const Order = () => {
                                                 <Typography variant="h4">نوع اعتبار: {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : "سیاه"}</Typography>
                                             </Box>
                                         }
-                                    </Card> */}
+                                    </Card>
                                     {/* orderSendTypeId, invoiceTypeId, paymentTypeId, exitType */}
-                                    {/* <Card className="p-2">
+                                    <Card className="p-2">
                                         <Box component="div" className="md:grid md:grid-cols-2 md:gap-2" >
                                             <FormikSelect name="orderSendTypeId" label="نوع ارسال" options={dropdownOrderSendType(orderSendType)} />
                                             <FormikSelect name="invoiceTypeId" label="نوع فاکتور" options={dropdownInvoiceType(factor)} />
                                             <FormikSelect name="paymentTypeId" label="نوع پرداخت" options={dropdownRentPaymentType(rent)} />
                                             <FormikSelect name="exitType" label="نوع خروج" options={dropdownExitType(exit)} />
                                         </Box>
-                                    </Card> */}
+                                    </Card>
                                 </Box>
-
-
 
                                 <Box component="div" className="mt-2">
                                     <Card className="p-2">
@@ -353,135 +351,22 @@ const Order = () => {
                                                     setFieldValue={setFieldValue}
                                                 />
                                             </TransitionsModal>
-
-
-
-                                            <Box
-                                                component="div"
-                                                className="md:w-[20%]"
-                                            >
-                                                <FormikSelect
-                                                    name="warehouseId"
-                                                    label="انبار"
-                                                    options={dropdownWarehouses(
-                                                        warehouse
-                                                    )}
-                                                    onChange={(values) =>
-                                                        handleWarehouseSelect(
-                                                            values
-                                                        )
-                                                    }
-                                                />
-                                            </Box>
-                                            <Box
-                                                component="div"
-                                                className="md:w-[20%]"
-                                            >
-                                                <FormikInput
-                                                    name="proximateAmount"
-                                                    label="مقدار (کیلوگرم)"
-                                                    type="text"
-                                                />
-                                            </Box>
-                                            <Box
-                                                component="div"
-                                                className="md:w-[20%]"
-                                            >
-                                                <FormikInput
-                                                    name="price"
-                                                    label="قیمت"
-                                                    type="text"
-                                                />
-                                            </Box>
-                                            <Box
-                                                component="div"
-                                                className="md:w-[20%]"
-                                            >
-                                                <FormikInput
-                                                    name="productDesc"
-                                                    label="توضیحات محصول"
-                                                    type="text"
-                                                />
-                                            </Box>
-                                            <Box
-                                                component="div"
-                                                className="md:w-[20%]"
-                                            >
-                                                <FormikInput
-                                                    name="rowId"
-                                                    label="ردیف فروش"
-                                                    type="text"
-                                                />
-                                            </Box>
+                                                <FormikSelect name="warehouseId" label="انبار" boxClassName="md:w-[20%]" options={dropdownWarehouses( warehouse )} onChange={(values) => handleWarehouseSelect( values ) } />
+                                                <FormikInput name="proximateAmount" label="مقدار (کیلوگرم)" boxClassName="md:w-[20%]" type="text" />
+                                                <FormikInput name="price" label="قیمت" boxClassName="md:w-[20%]" type="text" />
+                                                <FormikInput name="productDesc" label="توضیحات محصول" boxClassName="md:w-[20%]" type="text" />
+                                                <FormikInput name="rowId" label="ردیف فروش" boxClassName="md:w-[20%]" type="text" />
                                             {isBuy && (
                                                 <>
-                                                    <Box
-                                                        component="div"
-                                                        className="md:w-[20%]"
-                                                    >
-                                                        <FormikInput
-                                                            name="sellerCompanyRow"
-                                                            label="خرید از"
-                                                            type="text"
-                                                        />
-                                                    </Box>
-                                                    <Box
-                                                        component="div"
-                                                        className="md:w-[20%]"
-                                                    >
-                                                        <FormikInput
-                                                            name="buyPrice"
-                                                            label="قیمت خرید"
-                                                            type="text"
-                                                        />
-                                                    </Box>
-                                                    <Box
-                                                        component="div"
-                                                        className="md:w-[20%]"
-                                                    >
-                                                        <FormikSelect
-                                                            value={
-                                                                purchaseInvoiceTypeSelected
-                                                            }
-                                                            onSelect={(
-                                                                value: any
-                                                            ) =>
-                                                                setPurchaseInvoiceTypeSelected(
-                                                                    value
-                                                                )
-                                                            }
-                                                            name="purchaseInvoiceTypeId"
-                                                            label="نوع فاکتور خرید"
-                                                            options={dropdownPurchaseInvoice(
-                                                                purchaseInvoiceType
-                                                            )}
-                                                        />
-                                                    </Box>
-                                                    <Box
-                                                        component="div"
-                                                        className="md:w-[20%]"
-                                                    >
-                                                        <FormikDatepicker
-                                                            name="purchaseSettlementDate"
-                                                            label="تاریخ تسویه خرید"
-                                                        />
-                                                    </Box>
+                                                    <FormikInput name="sellerCompanyRow" label="خرید از" boxClassName="md:w-[20%]" type="text" />
+                                                    <FormikInput name="buyPrice" label="قیمت خرید" boxClassName="md:w-[20%]" type="text" />
+                                                    <FormikSelect value={ purchaseInvoiceTypeSelected } onSelect={( value: any ) => setPurchaseInvoiceTypeSelected(value ) } name="purchaseInvoiceTypeId" label="نوع فاکتور خرید" options={dropdownPurchaseInvoice( purchaseInvoiceType )}/>
+                                                    <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید"/>
                                                 </>
                                             )}
-                                            <Box
-                                                component="div"
-                                                onClick={() =>
-                                                    handleOrder(values)
-                                                }
-                                                className="md:w-[10%] bg-green-500 text-white text-center py-2 rounded-lg cursor-pointer"
-                                            >
-                                                افزودن
-                                            </Box>
+                                            <Box component="div" onClick={() => handleOrder(values) } className="md:w-[10%] bg-green-500 text-white text-center py-2 rounded-lg cursor-pointer" > افزودن </Box>
                                         </Box>
-                                        <ProductSelectedList
-                                            orders={orders}
-                                            setOrders={setOrders}
-                                        />
+                                        <ProductSelectedList orders={orders} setOrders={setOrders} />
                                     </Card>
                                 </Box>
                             </Form>
@@ -489,12 +374,8 @@ const Order = () => {
                     }}
                 </Formik>
             </Card>
-
             <TransitionsModal open={isOpen} isClose={() => setIsOpen(false)}>
-                <CreateCustomer
-                    refetch={refetchCustomers}
-                    setIsCreateOpen={setIsOpen}
-                />
+                <CreateCustomer refetch={refetchCustomers} setIsCreateOpen={setIsOpen}/>
             </TransitionsModal>
         </>
     );
