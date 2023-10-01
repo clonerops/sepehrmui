@@ -7,6 +7,6 @@ export function separateAmountWithCommas(amount: number | string): string {
         return numericAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       }
     }
-    return 'Invalid Input';
+    return '0';
   }
   

@@ -27,7 +27,7 @@ const ProductSelectedList = (props: {
         { header: 'محصول', accessor: 'productName' },
         { header: 'انبار', accessor: 'warehouseName' },
         { header: 'مقدار', accessor: 'proximateAmount' },
-        { header: 'قیمت', accessor: 'price' },
+        { header: 'قیمت', accessor: 'price', },
         { header: 'توضیحات', accessor: 'productDesc' },
         { header: 'ردیف فروش', accessor: 'rowId' },
         { header: 'قیمت خرید', accessor: 'buyPrice' },

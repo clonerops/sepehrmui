@@ -13,6 +13,7 @@ import FormikSelect from '../../../_cloner/components/FormikSelect'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import PositionedSnackbar from '../../../_cloner/components/Snackbar'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
+import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -100,6 +101,7 @@ const RecievePayment = () => {
                                     <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
                                     <Box component="div" className='flex flex-col'>
                                         <FormikInput name='Amount' label='مبلغ' type='text' />
+                                        <Typography variant='subtitle1' color="secondary">{separateAmountWithCommas(values.Amount)}</Typography>
                                         <Typography variant='subtitle1' color="primary">{convertToPersianWord(values.Amount)} تومان</Typography>
                                     </Box>
 

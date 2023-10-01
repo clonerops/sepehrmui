@@ -40,6 +40,7 @@ import { AddCircle, Add, Grading } from '@mui/icons-material'
 import { ICustomer } from "../customer/core/_models";
 import { dropdownProductIntegrated } from "../generic/_functions";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
+import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 
 const initialValues = {
     customerId: "",
@@ -139,8 +140,8 @@ const Order = () => {
 
     const [findCustomer, setFindCustomer] = useState<ICustomer>()
 
-    const handleChangeCustomer = (value: string) => {
-        const findCustomer = customers?.data.find((i: any) => i.id === value)
+    const handleChangeCustomer = (value: any) => {
+        const findCustomer = customers?.data.find((i: any) => i.id === value.value)
         setFindCustomer(findCustomer)
     }
     return (
@@ -161,13 +162,13 @@ const Order = () => {
                     initialValues={initialValues}
                     validationSchema={orderValidation}
                     onSubmit={
-                        async (values, { setStatus, setSubmitting }) => {
-                            // if (orders?.length === 0) {
-                            //     alert("لیست سفارشات خالی می باشد")
-                            // } else {
+                        async (values: any, { setStatus, setSubmitting, setFieldValue, resetForm }) => {
+                            if (orders?.length === 0) {
+                                alert("لیست سفارشات خالی می باشد")
+                            } else {
                                 try {
                                     const formData = {
-                                        customerId: values.customerId,
+                                        customerId: values.customerId.value,
                                         totalAmount: totalAmount,
                                         description: values.description,
                                         exitType: Number(values.exitType),
@@ -181,7 +182,7 @@ const Order = () => {
                                         freightDriverName: "string",
                                         carPlaque: "string",
                                         details: orders?.map(
-                                            (item: ICreateOrderDetails) => {
+                                            (item: any) => {
                                                 return {
                                                     rowId: Number(item.rowId),
                                                     productId: item.productId,
@@ -212,7 +213,7 @@ const Order = () => {
                                                         item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                                                     purchaserCustomerId:
                                                         item.purchaserCustomerId
-                                                            ? item.purchaserCustomerId
+                                                            ? item.purchaserCustomerId.value
                                                             : null,
                                                     purchaseSettlementDate:
                                                         "1402/01/01",
@@ -229,13 +230,19 @@ const Order = () => {
                                             setOrderData(orderData)
                                             setSnackeOpen(true);
                                             setOrderCode(orderData?.data[0].orderCode);
+                                            resetForm()
+                                            // setFieldValue("proximateAmount", "")
+                                            // setFieldValue("price", "")
+                                            // setFieldValue("productDesc", "")
+                                            // setFieldValue("rowId", "")
+
                                         },
                                     });
                                 } catch (error) {
                                     setStatus("اطلاعات ثبت مشتری نادرست می باشد");
                                     setSubmitting(false);
                                 }
-                            // }
+                            }
                         }}
                 >
                     {({ handleSubmit, values, setFieldValue }) => {
@@ -259,10 +266,11 @@ const Order = () => {
                                 <Box component="div" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
                                     <Card className="p-2">
                                         <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
+                                            {/* <FormikSelect onChange={(value) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} /> */}
+                                            <FormikComboBox onChange={(value: any) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
                                             <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer my-1">
                                                 <AddCircle />
                                             </Box>
-                                            <FormikSelect onChange={(value) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
                                             <FormikDatepicker name="settlementDate" label="تاریخ تسویه" />
                                         </Box>
                                         {findCustomer &&
@@ -314,7 +322,8 @@ const Order = () => {
                                             <FormikInput name="rowId" label="ردیف فروش" type="text" />
                                             {isBuy && (
                                                 <>
-                                                    <FormikInput name="sellerCompanyRow" label="خرید از" type="text" />
+                                                    <FormikComboBox  name="purchaserCustomerId" label="خرید از" options={dropdownCustomer(customers?.data)} />
+                                                    {/* <FormikInput name="sellerCompanyRow" label="خرید از" type="text" /> */}
                                                     <FormikInput name="buyPrice" label="قیمت خرید" type="text" />
                                                     <FormikSelect value={purchaseInvoiceTypeSelected} onSelect={(value: any) => setPurchaseInvoiceTypeSelected(value)} name="purchaseInvoiceTypeId" label="نوع فاکتور خرید" options={dropdownPurchaseInvoice(purchaseInvoiceType)} />
                                                     <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید" />
