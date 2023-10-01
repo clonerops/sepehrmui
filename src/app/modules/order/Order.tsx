@@ -136,17 +136,16 @@ const Order = () => {
             rowId: values?.rowId,
         };
         setOrders([...orders, productOrder]);
-        setFieldValue("proximateAmount", "")
-        setFieldValue("price", "")
-        setFieldValue("productDesc", "")
-        setFieldValue("rowId", "")
+        // setFieldValue("proximateAmount", "")
+        // setFieldValue("price", "")
+        // setFieldValue("productDesc", "")
+        // setFieldValue("rowId", "")
 
     };
 
     const [findCustomer, setFindCustomer] = useState<ICustomer>()
 
     const handleChangeCustomer = (value: any) => {
-        console.log("value", value)
         const findCustomer = customers?.data.find((i: any) => i.id === value.value)
         setFindCustomer(findCustomer)
     }
