@@ -70,7 +70,7 @@ const EditCustomer = (props: {
             }>
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit} className="container">
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-x-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <FormikInput title="نام" name="firstName" label="نام" type="text" />
                             <FormikInput title="نام خانوادگی" name="lastName" label="نام خانوادگی" type="text" />
                             <FormikInput title="نام پدر" name="fatherName" label="نام پدر" type="text" />
@@ -78,30 +78,23 @@ const EditCustomer = (props: {
                             <FormikInput title="شناسه ملی" name="nationalId2" label="شناسه ملی" type="text" />
                             <FormikInput title="کدملی" name="nationalId" label="کدملی" type="text" />
                         </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <FormikInput title="معرف" name="representative" label="معرف" type="text" />
                             <FormikInput title="موبایل" name="mobile" label="موبایل" type="text" />
                             <FormikInput title="تلفن 1" name="tel1" label="تلفن 1" type="text" />
                             <FormikInput title="تلفن 2" name="tel2" label="تلفن 2" type="text" />
                         </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-x-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <Box component="div" className="flex items-center">
                                 <FormikCheckbox defaultChecked={props.item?.isSupplier} name="isSupplier" label="" />
                                 <Typography variant="h3">آیا تامین کننده می باشد؟</Typography>
                             </Box>
-
-                            {/* <div className="w-full my-2 text-right">
-                                <label className="flex">
-                                    <FormikInput defaultChecked={props.item?.isSupplier} name="isSupplier" label="" type="checkbox" />
-                                    <span className="px-4 font-bold text-lg">آیا تامین کننده می باشد؟</span>
-                                </label>
-                            </div> */}
                             <FormikSelect defaultValue={{ value: props.item?.customerType, label: props.item?.customerType === 0 ? "حقیقی" : "حقوقی" }} options={customerType} name="customerType" label="نوع مشتری" />
                             <FormikSelect defaultValue={{ value: props.item?.customerValidityId, label: props.item?.customerValidityId === 1 ? "عادی" : props.item?.customerValidityId === 2 ? "VIP" : "سیاه" }} options={convertValueLabelCustomerValidaty(customerValidityData)} name="customerValidityId" label="نوع اعتبار" />
                         </Box>
                         <Box component="div" className="w-full my-2 md:col-span-3">
-                            <FormikInput title="آدرس 1" name="address1" label="آدرس 1" type="text" />
-                            <FormikInput title="آدرس 2" name="address2" label="آدرس 2" type="text" />
+                            <FormikInput title="آدرس 1" name="address1" label="آدرس 1" type="text" boxClassName="my-4" />
+                            <FormikInput title="آدرس 2" name="address2" label="آدرس 2" type="text" boxClassName="my-4" />
                         </Box>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                             <Typography variant="h3" className="px-8 py-2">ویرایش مشتری</Typography>

@@ -12,6 +12,7 @@ import { Box, Button, Card, Container, Typography } from '@mui/material'
 import FormikSelect from '../../../_cloner/components/FormikSelect'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import PositionedSnackbar from '../../../_cloner/components/Snackbar'
+import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -97,7 +98,11 @@ const RecievePayment = () => {
                                         <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
                                     }
                                     <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
-                                    <FormikInput name='Amount' label='مبلغ' type='text' />
+                                    <Box component="div" className='flex flex-col'>
+                                        <FormikInput name='Amount' label='مبلغ' type='text' />
+                                        <Typography variant='subtitle1' color="primary">{convertToPersianWord(values.Amount)} تومان</Typography>
+                                    </Box>
+
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
                                     <FormikInput name='CompanyName' label='نام شرکت' type='text' />
                                     <FormikInput name='ContractCode' label='کد قرارداد' type='text' />

@@ -41,6 +41,7 @@ const PaymentAccounting = () => {
         </Link>
 
     }
+    console.log(data?.data)
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
@@ -52,7 +53,7 @@ const PaymentAccounting = () => {
                                 "receivePayCode",
                                 "receivePaymentSourceFromDesc",
                                 "receivePaymentSourceToDesc",
-                                "Amount",
+                                "amount",
                                 "accountOwner",
                                 "trachingCode",
                                 "companyName",

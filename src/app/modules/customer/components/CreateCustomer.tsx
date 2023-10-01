@@ -53,7 +53,7 @@ const CreateCustomer = (props: {
             }>
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit} className="container">
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-x-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <FormikInput title="نام" name="firstName" label="نام" />
                             <FormikInput title="نام خانوادگی" name="lastName" label="نام خانوادگی" />
                             <FormikInput title="نام پدر" name="fatherName" label="نام پدر" />
@@ -61,13 +61,13 @@ const CreateCustomer = (props: {
                             <FormikInput title="شناسه ملی" name="nationalId2" label="شناسه ملی" />
                             <FormikInput title="کدملی" name="nationalId" label="کدملی" />
                         </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <FormikInput title="معرف" name="representative" label="معرف" />
                             <FormikInput title="موبایل" name="mobile" label="موبایل" />
                             <FormikInput title="تلفن 1" name="tel1" label="تلفن 1" />
                             <FormikInput title="تلفن 2" name="tel2" label="تلفن 2" />
                         </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-x-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <Box component="div" className="flex items-center">
                                 <FormikCheckbox name="isSupplier" label="" />
                                 <Typography variant="h3">آیا تامین کننده می باشد؟</Typography>
@@ -76,8 +76,8 @@ const CreateCustomer = (props: {
                             <FormikSelect options={convertValueLabelCustomerValidaty(customerValidityData)} name="customerValidityId" label="نوع اعتبار" />
                         </Box>
                         <Box component="div" className="w-full my-2 md:col-span-3">
-                            <FormikInput title="آدرس 1" name="address1" label="آدرس 1" />
-                            <FormikInput title="آدرس 2" name="address2" label="آدرس 2" />
+                            <FormikInput title="آدرس 1" name="address1" label="آدرس 1" boxClassName="my-4" />
+                            <FormikInput title="آدرس 2" name="address2" label="آدرس 2" boxClassName="my-4" />
                         </Box>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                             <Typography variant="h3" className="px-8 py-2">ثبت مشتری</Typography>
