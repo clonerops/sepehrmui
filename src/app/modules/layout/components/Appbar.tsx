@@ -64,7 +64,7 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             <MenuIcon />
                         </Box>
                     </IconButton>
-                    <Typography color="primary" variant="h3" className="">بازرگانی سپهر ایرانیان</Typography>
+                    {/* <Typography color="primary" variant="h3" className="">بازرگانی سپهر ایرانیان</Typography> */}
                     {/* <Box className="">
                         <TextField inputProps={{
                             style: {
@@ -72,9 +72,9 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             }
                         }} label="جستجو" size="small" />
                     </Box> */}
-                    <Box component="div" className="mx-8 hidden md:block">
+                    {/* <Box component="div" className="mx-8 hidden md:block">
                         <img src={toAbsoulteUrl('/media/logos/folladlogo.png')} width={30} />
-                    </Box>
+                    </Box> */}
                 </Box>
                 <Box
                     component="div"

@@ -62,8 +62,7 @@ const Order = () => {
 
     const [selectedProductOpen, setSelectedProductOpen] =
         useState<boolean>(false);
-    const [selectProductFromModal, setSelectProductFromModal] =
-        useState<IProducts>();
+    const [selectProductFromModal, setSelectProductFromModal] =useState<any>();
     const [searchQuery, setSearchQuery] = useState<any>("");
     const [productSelected, setProductSelected] = useState<any>("");
     const [showProducts, setShowProducts] = useState(false);
@@ -111,9 +110,8 @@ const Order = () => {
     };
 
     useEffect(() => {
-        if (selectProductFromModal?.productIntegratedName)
-            setSearchQuery(selectProductFromModal?.productIntegratedName);
-        setProductSelected(selectProductFromModal?.id);
+        if (selectProductFromModal?.id)
+        initialValues.productIntegratedName = selectProductFromModal?.id
     }, [selectProductFromModal]);
 
     useEffect(() => {
@@ -199,7 +197,7 @@ const Order = () => {
         setFindCustomer(findCustomer)
     }
 
-    console.log(createOrder)
+    console.log({value: selectProductFromModal?.id, label: selectProductFromModal?.row?.productIntegratedName})
 
     return (
         <>
@@ -288,11 +286,12 @@ const Order = () => {
                         }
                     }}
                 >
-                    {({ handleSubmit, values }) => {
+                    {({ handleSubmit, values, setFieldValue }) => {
+                        console.log(values.productIntegratedName)
                         return (
                             <Form onSubmit={handleSubmit}>
                                 {/* Order Code, Order Date, Order Submit */}
-                                <Box component="div" className="md:flex p-2 rounded-md gap-x-10">
+                                {/* <Box component="div" className="md:flex p-2 rounded-md gap-x-10">
                                     <TextValue title="شماره سفارش" value={orderCode} valueClassName="px-8 text-[#405189]" />
                                     <TextValue title="تاریخ سفارش" value={moment(new Date()).format("jYYYY/jMM/jDD")} valueClassName="text-[#405189]" />
                                 </Box>
@@ -302,10 +301,10 @@ const Order = () => {
                                 </Box>
                                 <Box component="div" className="flex justify-center items-center md:justify-end md:items-end">
                                     <CustomButton title="ثبت سفارش" onClick={() => handleSubmit()} />
-                                </Box>
+                                </Box> */}
                                 {/* Customer, Settlement Date*/}
                                 <Box component="div" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
-                                    <Card className="p-2">
+                                    {/* <Card className="p-2">
                                         <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
                                             <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer my-1">
                                                 <PlusOne />
@@ -319,16 +318,16 @@ const Order = () => {
                                                 <Typography variant="h4">نوع اعتبار: {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : "سیاه"}</Typography>
                                             </Box>
                                         }
-                                    </Card>
+                                    </Card> */}
                                     {/* orderSendTypeId, invoiceTypeId, paymentTypeId, exitType */}
-                                    <Card className="p-2">
+                                    {/* <Card className="p-2">
                                         <Box component="div" className="md:grid md:grid-cols-2 md:gap-2" >
                                             <FormikSelect name="orderSendTypeId" label="نوع ارسال" options={dropdownOrderSendType(orderSendType)} />
                                             <FormikSelect name="invoiceTypeId" label="نوع فاکتور" options={dropdownInvoiceType(factor)} />
                                             <FormikSelect name="paymentTypeId" label="نوع پرداخت" options={dropdownRentPaymentType(rent)} />
                                             <FormikSelect name="exitType" label="نوع خروج" options={dropdownExitType(exit)} />
                                         </Box>
-                                    </Card>
+                                    </Card> */}
                                 </Box>
 
 
@@ -337,13 +336,24 @@ const Order = () => {
                                     <Card className="p-2">
                                         <Box component="div" className="md:flex md:items-center flex-wrap md:gap-x-2">
                                             <Box component="div" className="relative md:w-[20%]">
-                                                <FormikProductComboSelect setSearchQuery={setSearchQuery} productIntegratedName={values.productIntegratedName} label="محصول" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
+                                                <FormikProductComboSelect defaultValue={{value: selectProductFromModal?.id, label: selectProductFromModal?.row?.productIntegratedName}} setSearchQuery={setSearchQuery} productIntegratedName={values.productIntegratedName} label="محصول" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
                                             </Box>
                                             <Box component="div" className="">
                                                 <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="primary" >
                                                     <PlusOne />
                                                 </Button>
                                             </Box>
+                                            <TransitionsModal open={selectedProductOpen} isClose={() => setSelectedProductOpen(false)}>
+                                                <ProductSelectedListInModal
+                                                    products={products?.data}
+                                                    productLoading={productLoading}
+                                                    productError={productError}
+                                                    setSelectedProductOpen={setSelectedProductOpen}
+                                                    setSelectProductFromModal={setSelectProductFromModal}
+                                                    setFieldValue={setFieldValue}
+                                                />
+                                            </TransitionsModal>
+
 
 
                                             <Box
@@ -484,18 +494,6 @@ const Order = () => {
                 <CreateCustomer
                     refetch={refetchCustomers}
                     setIsCreateOpen={setIsOpen}
-                />
-            </TransitionsModal>
-            <TransitionsModal
-                open={selectedProductOpen}
-                isClose={() => setSelectedProductOpen(false)}
-            >
-                <ProductSelectedListInModal
-                    products={products?.data}
-                    productLoading={productLoading}
-                    productError={productError}
-                    setSelectedProductOpen={setSelectedProductOpen}
-                    setSelectProductFromModal={setSelectProductFromModal}
                 />
             </TransitionsModal>
         </>

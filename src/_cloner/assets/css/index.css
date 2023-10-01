@@ -33,3 +33,6 @@
 .rmdp-container {
     width: 100% !important;
 }
+.MuiDataGrid-cell {
+    cursor: pointer;
+}

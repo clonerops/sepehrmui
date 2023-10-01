@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import { IProducts } from "../../product/core/_models";
 import { columns } from "../helpers/productColumns";
 import { Box, Container } from "@mui/material";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
     productLoading: boolean;
     productError: boolean;
+    setFieldValue: any;
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    setSelectProductFromModal: React.Dispatch<
-        React.SetStateAction<IProducts | undefined>
-    >;
+    setSelectProductFromModal:any
 }) => {
 
     const [results, setResults] = useState<IProducts[]>([])
+    const [selectionModel, setSelectionModel] = useState<{row: {productIntegratedName: string}}>({row: {productIntegratedName:""}})
 
     useEffect(() => {
         if(props.products)
@@ -27,11 +27,12 @@ const ProductSelectedListInModal = (props: {
         return <></>
     }
 
-    const handleRowDoubleClick = (event: any) => {
-        const clickedRowNode = event.api.getRowNode(event.rowIndex);
+    const handleSelectionChange: any = (newSelectionModel:  {row: {productIntegratedName: string}}) => {
+        setSelectionModel(newSelectionModel);
+        props.setFieldValue('productIntegratedName', newSelectionModel.row.productIntegratedName)
         props.setSelectedProductOpen(false);
-        props.setSelectProductFromModal(clickedRowNode.data);
-    };
+        props.setSelectProductFromModal(newSelectionModel);
+      };
 
 
     return (
@@ -39,7 +40,7 @@ const ProductSelectedListInModal = (props: {
             <Box component="div" className="w-80 md:w-[40%]">
                 <FuzzySearch keys={['productName', 'productIntegratedName', 'approximateWeight']} data={props.products} threshold={0.5} setResults={setResults} />
             </Box>
-            <MuiDataGrid columns={columns(renderAction)} rows={results} data={props.products} />
+            <MuiSelectionDataGrid onRowDoubleClick={handleSelectionChange} selectionModel={selectionModel} setSelectionModel={setSelectionModel} columns={columns(renderAction)} rows={results} data={props.products} />
         </Container>
     );
 };

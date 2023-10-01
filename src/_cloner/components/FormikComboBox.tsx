@@ -1,9 +1,12 @@
-import { Box, Autocomplete, Typography, SelectChangeEvent } from "@mui/material";
+import {
+    Box,
+    Autocomplete,
+} from "@mui/material";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import TextField, {
-  TextFieldProps,
-  TextFieldVariants,
+    TextFieldProps,
+    TextFieldVariants,
 } from "@mui/material/TextField/TextField";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
@@ -11,42 +14,66 @@ import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidati
 export type Label = keyof typeof translation;
 
 type Props = {
-  label: string;
-  name: string;
-  disabled?: boolean;
-  value?: string;
-  title?: string;
-  options: any;
-  variant?: TextFieldVariants;
-  onChange?: any;
-  boxClassName?: string;
+    label: string;
+    name: string;
+    disabled?: boolean;
+    value?: string;
+    title?: string;
+    defaultValue?:{
+      label: string,
+      value: any
+    }
+    options: any;
+    variant?: TextFieldVariants;
+    onChange?: any;
+    boxClassName?: string;
 } & Omit<TextFieldProps, "variant">;
 
 const FormikComboBox = (props: Props) => {
-  const { boxClassName, label, title, disabled, name, value, options, onChange, ...rest } = props;
+    const {
+        boxClassName,
+        label,
+        title,
+        defaultValue,
+        disabled,
+        name,
+        value,
+        options,
+        onChange,
+        ...rest
+    } = props;
 
+    const [field, , helpers]: any = useField({ name, value });
+    const formikProps = useFormikContext();
 
-  const [field]: any = useField({ name, value });
-  const formikProps = useFormikContext();
-
-
-  return (
-    <Box component={"div"} className={cx("w-full", boxClassName)}>
-      <Autocomplete
-        {...getFormikFieldValidationProps(formikProps, name)}
-        {...field}
-        {...rest}
-        options={options || []}
-        onChange={(e, value) => formikProps.setFieldValue(name, value)}
-        renderInput={(params) => <TextField
-          label={label}
-          name={name}
-          {...params}
-          size="small"
-        />}
-        id={name}
-      />
-    </Box>
-  );
+    return (
+        <Box component={"div"} className={cx("w-full", boxClassName)}>
+            <Autocomplete
+                {...getFormikFieldValidationProps(formikProps, name)}
+                {...field}
+                {...rest}
+                options={options || []}
+                value={field.value}    
+                onChange={(e, value) => formikProps.setFieldValue(name, value)}
+                filterOptions={(optionData, { inputValue }) => {
+                  const searchWords = inputValue.trim().toLowerCase().split(/\s+/);
+                  return optionData.filter((item: any) => {
+                    return searchWords.every((word) => {
+                      return item.label.toLowerCase().includes(word)
+                    })
+                  })
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        label={label}
+                        name={name}
+                        {...params}
+                        size="small"
+                    />
+                )}
+                id={name}
+            />
+        </Box>
+    );
 };
 export default FormikComboBox;

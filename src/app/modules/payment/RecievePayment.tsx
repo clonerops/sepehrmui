@@ -39,8 +39,6 @@ const RecievePayment = () => {
 
     const [files, setFiles] = useState<File[]>([]);
 
-    console.log(data?.data?.errors?.ReceivePaymentSourceFromId[0])
-
     return (
         <>
             {snackeOpen && (
@@ -49,9 +47,7 @@ const RecievePayment = () => {
                     setState={setSnackeOpen}
                     title={
                         data?.data?.Message ||
-                        data?.message ||
-                        data?.data?.errors?.ReceivePaymentSourceFromId[0] ||
-                        data?.data?.errors?.ReceivePaymentSourceToId[0]
+                        data?.message
                     }
                 />
             )}
@@ -65,14 +61,12 @@ const RecievePayment = () => {
                 <Box component="div" className='mt-2'>
                     <Formik initialValues={initialValues} onSubmit={
                         async (values) => {
-                            const formData = new FormData()
-                            formData.append("ReceivePaymentSourceFromId", values.ReceivePaymentSourceFromId)
+                            const formData: any = new FormData()
+                            formData.append("ReceivePaymentSourceFromId", Number(values.ReceivePaymentSourceFromId))
                             formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId)
                             formData.append("ReceivePaymentSourceToId", values.ReceivePaymentSourceToId)
-                            formData.append("Amount", values.Amount)
+                            formData.append("Amount", Number(values.Amount))
                             formData.append("PayToCustomerId", values.PayToCustomerId)
-                            formData.append("ReceivedFrom", values.ReceivePaymentSourceFromId)
-                            formData.append("PayTo", values.ReceivePaymentSourceToId)
                             formData.append("AccountOwner", values.AccountOwner)
                             formData.append("TrachingCode", values.TrachingCode)
                             formData.append("CompanyName", values.CompanyName)

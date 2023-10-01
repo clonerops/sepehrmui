@@ -7,7 +7,6 @@ import {
   Select,
 } from "@mui/material";
 import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
-import { Label } from "./FormikInput";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
 import cx from "classnames";
