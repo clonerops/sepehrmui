@@ -115,7 +115,7 @@ const Order = () => {
         setWarehouseSelected(warehouseName.name);
     };
 
-    const handleOrder = (values: any) => {
+    const handleOrder = (values: any, setFieldValue: any) => {
         const warehouseTypeId = warehouse.find((i: any) => i.id === values.warehouseId)
         const purchaseInvoiceTypeName = purchaseInvoiceType.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
         console.log("purchaseInvoiceTypeName", selectProductFromModal)
@@ -136,6 +136,11 @@ const Order = () => {
             rowId: values?.rowId,
         };
         setOrders([...orders, productOrder]);
+        setFieldValue("proximateAmount", "")
+        setFieldValue("price", "")
+        setFieldValue("productDesc", "")
+        setFieldValue("rowId", "")
+
     };
 
     const [findCustomer, setFindCustomer] = useState<ICustomer>()
@@ -322,14 +327,14 @@ const Order = () => {
                                             <FormikInput name="rowId" label="ردیف فروش" type="text" />
                                             {isBuy && (
                                                 <>
-                                                    <FormikComboBox  name="purchaserCustomerId" label="خرید از" options={dropdownCustomer(customers?.data)} />
+                                                    <FormikComboBox name="purchaserCustomerId" label="خرید از" options={dropdownCustomer(customers?.data)} />
                                                     {/* <FormikInput name="sellerCompanyRow" label="خرید از" type="text" /> */}
                                                     <FormikInput name="buyPrice" label="قیمت خرید" type="text" />
                                                     <FormikSelect value={purchaseInvoiceTypeSelected} onSelect={(value: any) => setPurchaseInvoiceTypeSelected(value)} name="purchaseInvoiceTypeId" label="نوع فاکتور خرید" options={dropdownPurchaseInvoice(purchaseInvoiceType)} />
                                                     <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید" />
                                                 </>
                                             )}
-                                            <Box component="div" onClick={() => handleOrder(values)} className="flex bg-green-500 text-white text-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
+                                            <Box component="div" onClick={() => handleOrder(values, setFieldValue)} className="flex bg-green-500 text-white text-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
                                                 <Add />
                                                 <Typography>افزودن به لیست سفارشات</Typography>
                                             </Box>
