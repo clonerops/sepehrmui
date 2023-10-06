@@ -6,7 +6,7 @@ import EditProduct from "./components/EditProduct";
 import { columns } from "./helpers/productColumns";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 // import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Box, Button, Card, Typography } from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";

@@ -24,8 +24,8 @@ const EditProduct = (props: {
     ) => Promise<QueryObserverResult<any, unknown>>;
 }) => {
     const { mutate, data: updateData } = useUpdateProduct();
-    const { mutate: disableMutate, data: disableData, isLoading: disableLoading } = useDisableProduct();
-    const { mutate: enableMutate, data: enableData, isLoading: enableLoading } = useEnableProduct();
+    const { mutate: disableMutate, data: disableData } = useDisableProduct();
+    const { mutate: enableMutate, data: enableData } = useEnableProduct();
 
     const { data: product, isLoading: getProductLoading } = useRetrieveProductById(props.item?.id ? props.item.id : "")
     const { data: productType } = useGetTypes()
@@ -59,26 +59,26 @@ const EditProduct = (props: {
 
     const handleDisableProduct = () => {
         if (props.item?.id) disableMutate(props.item?.id, {
-            onSuccess: (message) => {
+            onSuccess: () => {
                 setSnackeDisableOpen(true)
             }
         });
     };
     const handleEnableProduct = () => {
         if (props.item?.id) enableMutate(props.item?.id, {
-            onSuccess: (message) => {
+            onSuccess: () => {
                 setSnackeEnableOpen(true)
             }
         });
     };
 
     const handleActive = (checked: boolean) => {
-        handleEnableProduct()
-        // if (checked) {
-        //     handleDisableProduct()
-        // } else {
-        //     handleEnableProduct()
-        // }
+        // handleEnableProduct()
+        if (checked) {
+            handleDisableProduct()
+        } else {
+            handleEnableProduct()
+        }
     }
 
 console.log(product?.data)

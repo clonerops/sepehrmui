@@ -16,7 +16,7 @@ const CreateSupplier = (props: {
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }) => {
     // fetching Data
-    const { mutate, data, isLoading } = useCreateSupplier();
+    const { mutate, data } = useCreateSupplier();
     const { data: customers } = useGetCustomers()
     const { data: products } = useRetrieveProducts()
 

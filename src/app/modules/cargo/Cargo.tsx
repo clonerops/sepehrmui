@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRetrievesNotSendedOrder } from "./core/_hooks";
 import { columns } from "./helpers/notSendedColumn";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Box, Button, Card, Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { useEffect, useState } from "react";

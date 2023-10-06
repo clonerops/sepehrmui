@@ -10,7 +10,6 @@ import { StylesProvider, jssPreset } from "@mui/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactDOM from "react-dom/client";
-import App from "./app/App";
 import theme from "./_cloner/theme/theme";
 
 import "./_cloner/assets/css/index.css"

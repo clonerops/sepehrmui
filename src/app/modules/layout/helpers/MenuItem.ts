@@ -108,25 +108,25 @@ const menuItem = [
     submenu: [
       {
         id: 1321,
-        iconName: "SelectAll",
+        iconName: "BrandingWatermark",
         title: "مدیریت برند ها",
         to: "dashboard/brands",
       },
       {
         id: 1321,
-        iconName: "SelectAll",
+        iconName: "TypeSpecimen",
         title: "مدیریت نوع کالا ها",
         to: "dashboard/productTypes",
       },
       {
         id: 1321,
-        iconName: "SelectAll",
+        iconName: "Balcony",
         title: "مدیریت حالت ها",
         to: "dashboard/productState",
       },
       {
         id: 1321,
-        iconName: "SelectAll",
+        iconName: "SettingsInputSvideo",
         title: "مدیریت استاندارد ها",
         to: "dashboard/productStandard",
       },

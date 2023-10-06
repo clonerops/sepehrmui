@@ -46,7 +46,7 @@ const FormikComboBox = (props: Props) => {
         ...rest
     } = props;
 
-    const [field, , helpers]: any = useField({ name, value });
+    const [field]: any = useField({ name, value });
     const formikProps = useFormikContext();
 
     return (

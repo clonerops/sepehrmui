@@ -14,6 +14,9 @@ export const translationMapping: any = {
     payment: 'دریافت و پرداخت',
     accounting: 'حسابداری دریافت و پرداخت',
     brands: 'برندها',
+    productStandard: 'استانداردها',
+    productState: 'حالت ها',
+    productTypes: 'نوع کالا ها',
     // Add more translations as needed
   };
   

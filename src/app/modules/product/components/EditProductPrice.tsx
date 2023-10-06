@@ -17,7 +17,7 @@ type Props = {
 const EditProductPrice = (props: Props) => {
     const { data: products } = useRetrieveProducts();
     const { data: brands } = useRetrieveBrands();
-    const { mutate, data, isLoading } = useUpdateProductPrice()
+    const { mutate, data } = useUpdateProductPrice()
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
 

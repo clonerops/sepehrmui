@@ -16,7 +16,7 @@ const EditSupplier = (props: {
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }) => {
     // Fetching Data
-    const { mutate, data, isLoading } = useUpdateSupplier();
+    const { mutate, data } = useUpdateSupplier();
     const { data: customers } = useGetCustomers()
     const { data: products } = useRetrieveProducts()
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);

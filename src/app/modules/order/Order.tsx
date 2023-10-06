@@ -17,7 +17,6 @@ import {
     dropdownWarehouses,
 } from "./helpers/dropdowns";
 import { exit } from "./helpers/fakeData";
-import { ICreateOrderDetails } from "./core/_models";
 import { orderValidation } from "./validations/orderValidation";
 import {
     useGetInvoiceType,
