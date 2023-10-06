@@ -29,7 +29,7 @@ export default function MuiDataGrid(props: Props) {
                 {...data}
                 rows={rows ? rows : []}
                 columns={columns}
-                getRowId={(row) => row.id+row.rowId}
+                // getRowId={(row) => row.id+row.rowId}
                 pagination={false}
                 hideFooter={true}
             />

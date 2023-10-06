@@ -100,6 +100,38 @@ const menuItem = [
       },
     ],
   },
+  {
+    id: 2,
+    title: "عمومی",
+    to: "",
+    iconName: "Settings",
+    submenu: [
+      {
+        id: 1321,
+        iconName: "SelectAll",
+        title: "مدیریت برند ها",
+        to: "dashboard/brands",
+      },
+      {
+        id: 1321,
+        iconName: "SelectAll",
+        title: "مدیریت نوع کالا ها",
+        to: "dashboard/productTypes",
+      },
+      {
+        id: 1321,
+        iconName: "SelectAll",
+        title: "مدیریت حالت ها",
+        to: "dashboard/productState",
+      },
+      {
+        id: 1321,
+        iconName: "SelectAll",
+        title: "مدیریت استاندارد ها",
+        to: "dashboard/productStandard",
+      },
+    ],
+  },
 ];
 
 export { menuItem };

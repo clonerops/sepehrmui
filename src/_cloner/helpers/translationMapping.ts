@@ -13,6 +13,7 @@ export const translationMapping: any = {
     cargo: 'اعلام بار',
     payment: 'دریافت و پرداخت',
     accounting: 'حسابداری دریافت و پرداخت',
+    brands: 'برندها',
     // Add more translations as needed
   };
   

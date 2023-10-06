@@ -16,6 +16,10 @@ import OrderDetail from "../../_cloner/components/OrderDetail";
 import OrderConfirm from "../modules/order/OrderConfirm";
 import Dashboard from "../modules/Dashboard";
 import DynamicBreadcrumbs from "../../_cloner/components/Breadcumbs";
+import Brands from "../modules/generic/brands/Brands";
+import ProductTypes from "../modules/generic/productType/ProductTypes";
+import ProductState from "../modules/generic/productState/ProductState";
+import ProductStandards from "../modules/generic/productStandard/ProductStandard";
 
 const PrivateRoutes = () => {
 
@@ -42,6 +46,12 @@ const PrivateRoutes = () => {
             <Route path='dashboard/payment' element={<RecievePayment />} />
             <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
             <Route path='dashboard/payment/accounting/:id' element={<Detail />} />
+            {/* Brands */}
+            <Route path='dashboard/brands' element={<Brands />} />
+            <Route path='dashboard/productTypes' element={<ProductTypes />} />
+            <Route path='dashboard/productState' element={<ProductState />} />
+            <Route path='dashboard/productStandard' element={<ProductStandards />} />
+
 
             {/* Lazy Modules */}
             {/* Page Not Found */}
