@@ -20,6 +20,7 @@ import Brands from "../modules/generic/brands/Brands";
 import ProductTypes from "../modules/generic/productType/ProductTypes";
 import ProductState from "../modules/generic/productState/ProductState";
 import ProductStandards from "../modules/generic/productStandard/ProductStandard";
+import ProductBrands from "../modules/generic/productBrands/ProductBrands";
 
 const PrivateRoutes = () => {
 
@@ -51,6 +52,7 @@ const PrivateRoutes = () => {
             <Route path='dashboard/productTypes' element={<ProductTypes />} />
             <Route path='dashboard/productState' element={<ProductState />} />
             <Route path='dashboard/productStandard' element={<ProductStandards />} />
+            <Route path='dashboard/productBrand' element={<ProductBrands />} />
 
 
             {/* Lazy Modules */}

@@ -130,6 +130,12 @@ const menuItem = [
         title: "مدیریت استاندارد ها",
         to: "dashboard/productStandard",
       },
+      {
+        id: 1321,
+        iconName: "SettingsInputSvideo",
+        title: "مدیریت برند کالا",
+        to: "dashboard/productBrand",
+      },
     ],
   },
 ];
