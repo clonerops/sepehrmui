@@ -29,7 +29,7 @@ const createProducts = async (formData: IProducts) => {
     }
 };
 
-const retrieveProductById = async (id: number) => {
+const retrieveProductById = async (id: string) => {
     try {
         const { data } = await http.get(`/v${1}/Product/${id}`);
         return data;
@@ -50,9 +50,17 @@ const updateProduct = async (formData: IProducts) => {
     }
 };
 
-const deleteProduct = async (id: string) => {
+const disableProduct = async (id: string) => {
     try {
         const { data } = await http.delete(`/v${1}/Product/${id}`);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+const enableProduct = async (id: string) => {
+    try {
+        const { data } = await http.put(`/v${1}/Product/EnableProduct/${id}`, JSON.stringify({id: id}));
         return data;
     } catch (error: any) {
         return error.response;
@@ -189,7 +197,8 @@ export {
     createProducts,
     retrieveProductById,
     updateProduct,
-    deleteProduct,
+    disableProduct,
+    enableProduct,
     retrieveBrands,
     // Suppliers
     retrieveSuppliers,

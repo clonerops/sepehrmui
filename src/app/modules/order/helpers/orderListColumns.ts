@@ -17,7 +17,7 @@
 // export const columns = (renderAction: any) => {
 //     const col = [
 //       { field: 'rowId', headerName: 'شماره ردیف', headerClassName: "bg-[#2E4374] text-white", width: 80 },
-//       { field: 'productName', headerName: 'نام محصول', headerClassName: "bg-[#2E4374] text-white", width: 120, flex:1 },
+//       { field: 'productName', headerName: 'نام کالا', headerClassName: "bg-[#2E4374] text-white", width: 120, flex:1 },
 //       { field: 'warehouseName', headerName: 'انبار', headerClassName: "bg-[#2E4374] text-white", width: 100 },
 //       { field: 'price', headerName: 'قیمت', headerClassName: "bg-[#2E4374] text-white", width: 160 },
 //       { field: 'cargoSendDate', headerName: 'تاریخ ارسال بار', headerClassName: "bg-[#2E4374] text-white", width: 100 },
@@ -30,7 +30,7 @@
 
 export const columns = [
   { header: 'شماره ردیف', accessor: 'rowId' },
-  { header: 'نام محصول', accessor: 'productName' },
+  { header: 'نام کالا', accessor: 'productName' },
   { header: 'انبار', accessor: 'warehouseName' },
   { header: 'قیمت', accessor: 'price' },
   { header: 'تاریخ ارسال بار', accessor: 'cargoSendDate' },

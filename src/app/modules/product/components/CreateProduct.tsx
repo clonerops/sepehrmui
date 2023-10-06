@@ -11,6 +11,11 @@ import FormikTextArea from "../../../../_cloner/components/FormikTextArea";
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
+import FormikComboBox from "../../../../_cloner/components/FormikComboBox";
+import { useGetTypes } from "../../generic/productType/_hooks";
+import { dropdownStandard, dropdownState, dropdownTypes } from "../helpers/convertDropdowns";
+import { useGetStandards } from "../../generic/productStandard/_hooks";
+import { useGetStates } from "../../generic/productState/_hooks";
 
 const CreateProduct = (props: {
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,19 +24,22 @@ const CreateProduct = (props: {
     ) => Promise<QueryObserverResult<any, unknown>>;
 }) => {
     // Fetchig
-    const { mutate, data, isLoading } = useCreateProduct();
+    const { mutate, data } = useCreateProduct();
+    const { data: productType } = useGetTypes()
+    const { data: productStandard } = useGetStandards()
+    const { data: productState } = useGetStates()
     // States
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
     const initialValues = {
         productName: "",
-        warehouseId: 1,
+        productTypeId: "",
         productSize: "",
         approximateWeight: "",
         numberInPackage: "",
-        size: "",
-        standard: "",
-        productState: "",
+        productThickness: "",
+        productStandardId: "",
+        productStateId: "",
         description: "",
     };
 
@@ -50,17 +58,25 @@ const CreateProduct = (props: {
             <Formik
                 initialValues={initialValues}
                 validationSchema={createProductValidations}
-                onSubmit={async (values, { setStatus, setSubmitting }) => {
+                onSubmit={async (values: any, { setStatus, setSubmitting }) => {
                     try {
-                        mutate(values, {
-                            onSuccess: (message) => {
+                        const formData = {
+                            ...values,
+                            productTypeId: Number(values.productTypeId.value),
+                            approximateWeight: Number(values.approximateWeight),
+                            numberInPackage: values.numberInPackage ? Number(values.numberInPackage) : 0,
+                            productStandardId: values.productStandardId.value ? Number(values.productStandardId.value) : null,
+                            productStateId: values.productStateId.value ? Number(values.productStateId.value) : null,
+                        }
+                        mutate(formData, {
+                            onSuccess: () => {
                                 setSnackeOpen(true)
                                 props.refetch();
                                 props.setIsCreateOpen(false);
                             },
                         });
                     } catch (error) {
-                        setStatus("اطلاعات ثبت محصول نادرست می باشد");
+                        setStatus("اطلاعات ثبت کالا نادرست می باشد");
                         setSubmitting(false);
                         setSnackeOpen(true)
                     }
@@ -69,23 +85,36 @@ const CreateProduct = (props: {
                 {({ handleSubmit }) => {
                     return (
                         <Form onSubmit={handleSubmit} className="container">
-                            <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <Box component="div" className="grid grid-cols-1 md:grid-cols-8 gap-8">
                                 <FormikInput
                                     name="productName"
-                                    label="نام محصول"
+                                    label="نام کالا"
                                     type="text"
                                     autoFocus={true}
+                                    boxClassName="col-span-4"
+                                />
+                                <FormikComboBox
+                                    name="productTypeId"
+                                    label="نوع کالا"
+                                    options={dropdownTypes(productType?.data)}
+                                    boxClassName="col-span-2"
                                 />
                                 <FormikInput
                                     name="productSize"
                                     label="سایز"
                                     type="text"
                                 />
+                                <FormikInput
+                                    name="productThickness"
+                                    label="ضخامت"
+                                    type="text"
+                                />
+
                             </Box>
-                            <Box component="div" className="grid grid-cols-1 md:grid-cols-5 gap-8 my-4">
+                            <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-8 my-4">
                                 <FormikInput
                                     name="approximateWeight"
-                                    label="وزن تقریبی"
+                                    label="وزن"
                                     type="text"
                                 />
                                 <FormikInput
@@ -93,20 +122,15 @@ const CreateProduct = (props: {
                                     label="تعداد در بسته"
                                     type="text"
                                 />
-                                <FormikInput
-                                    name="size"
-                                    label="ضخامت"
-                                    type="text"
-                                />
-                                <FormikInput
-                                    name="standard"
+                                <FormikComboBox
+                                    name="productStandardId"
                                     label="استاندارد"
-                                    type="text"
+                                    options={dropdownStandard(productStandard?.data)}
                                 />
-                                <FormikInput
-                                    name="productState"
+                                <FormikComboBox
+                                    name="productStateId"
                                     label="حالت"
-                                    type="text"
+                                    options={dropdownState(productState?.data)}
                                 />
                             </Box>
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-1 gap-8 my-4">
@@ -116,7 +140,7 @@ const CreateProduct = (props: {
                                 />
                             </Box>
                             <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                <Typography variant="h3" className="px-8 py-2">ثبت محصول</Typography>
+                                <Typography variant="h3" className="px-8 py-2">ثبت کالا</Typography>
                             </Button>
                         </Form>
                     );

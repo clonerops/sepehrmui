@@ -24,7 +24,7 @@ const ProductSelectedList = (props: {
     }
 
     const columns = [
-        { header: 'محصول', accessor: 'productName' },
+        { header: 'کالا', accessor: 'productName' },
         { header: 'انبار', accessor: 'warehouseName' },
         { header: 'مقدار', accessor: 'proximateAmount' },
         { header: 'قیمت', accessor: 'price', },

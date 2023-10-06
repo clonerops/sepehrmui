@@ -63,7 +63,7 @@ const CreateProductPrice = (props: Props) => {
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit}>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <FormikSelect label="محصول" name="productId" options={dropdownProduct(products?.data)} />
+                            <FormikSelect label="کالا" name="productId" options={dropdownProduct(products?.data)} />
                             <FormikSelect label="برند" name="productBrandId" options={dropdownBrand(brands)} />
                             <FormikInput label="قیمت" name="price" type="text" />
                         </Box>

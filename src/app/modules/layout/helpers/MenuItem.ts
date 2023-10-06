@@ -42,14 +42,14 @@ const menuItem = [
   },
   {
     id: 2,
-    title: "محصولات",
+    title: "کالا",
     to: "",
     iconName: "RunCircle",
     submenu: [
       {
         id: 1321,
         iconName: "Satellite",
-        title: "مدیریت محصولات",
+        title: "مدیریت کالا",
         to: "dashboard/products",
       },
       {
@@ -61,7 +61,7 @@ const menuItem = [
       {
         id: 1321,
         iconName: "ScheduleSendSharp",
-        title: "مدیریت قیمت محصولات",
+        title: "مدیریت قیمت کالا",
         to: "dashboard/productPrices",
       },
     ],

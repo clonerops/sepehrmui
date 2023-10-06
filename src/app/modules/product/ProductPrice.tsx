@@ -76,7 +76,7 @@ const ProductPrice = () => {
             )}
             <Card className="p-8">
                 <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
-                    مدیریت قیمت محصولات
+                    مدیریت قیمت کالا
                 </Typography>
                 <Box
                     component="div"
@@ -95,7 +95,7 @@ const ProductPrice = () => {
                         variant="contained"
                         color="secondary"
                     >
-                        <Typography>ایجاد قیمت محصول</Typography>
+                        <Typography>ایجاد قیمت کالا</Typography>
                     </Button>
                 </Box>
                 <MuiDataGrid

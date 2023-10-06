@@ -60,15 +60,15 @@ const CreateUser = () => {
                     }}>
                         {({ handleSubmit }) => {
                             return <Form onSubmit={handleSubmit}>
-                                <Box component="div" className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <FormikInput name="firstName" label="نام" />
-                                    <FormikInput name="lastName" label="نام خانوادگی" />
+                                <Box component="div" className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
+                                    <FormikInput boxClassName="m-2" name="firstName" label="نام" />
+                                    <FormikInput boxClassName="m-2" name="lastName" label="نام خانوادگی" />
                                 </Box>
-                                <FormikInput name="email" label="ایمیل" />
-                                <FormikInput name="userName" label="نام کاربری" />
+                                <FormikInput boxClassName="m-2" name="email" label="ایمیل" />
+                                <FormikInput boxClassName="m-2" name="userName" label="نام کاربری" />
                                 <Box component="div" className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                                    <FormikInput name="password" label="کلمه عبور" type="password" />
-                                    <FormikInput name="confirmPassword" label="تکرار کلمه عبور" type="password" />
+                                    <FormikInput boxClassName="m-2" name="password" label="کلمه عبور" type="password" />
+                                    <FormikInput boxClassName="m-2" name="confirmPassword" label="تکرار کلمه عبور" type="password" />
                                 </Box>
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                                     <Typography variant="h3" className="px-8 py-2">ثبت کاربر</Typography>

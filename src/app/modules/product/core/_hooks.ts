@@ -12,10 +12,11 @@ const useCreateProduct = () => {
     });
 };
 
-const useRetrieveProductById = () => {
-    return useMutation((id: number) => {
-        return api.retrieveProductById(id);
-    });
+const useRetrieveProductById = (id: string) => {
+    return useQuery(['products', id], () => api.retrieveProductById(id))
+    // return useMutation((id: number) => {
+    //     return api.retrieveProductById(id);
+    // });
 };
 
 const useUpdateProduct = () => {
@@ -24,9 +25,14 @@ const useUpdateProduct = () => {
     });
 };
 
-const useDeleteProduct = () => {
+const useDisableProduct = () => {
     return useMutation((id: string) => {
-        return api.deleteProduct(id);
+        return api.disableProduct(id);
+    });
+};
+const useEnableProduct = () => {
+    return useMutation((id: string) => {
+        return api.enableProduct(id);
     });
 };
 
@@ -98,7 +104,8 @@ export {
     useCreateProduct,
     useRetrieveProductById,
     useUpdateProduct,
-    useDeleteProduct,
+    useDisableProduct,
+    useEnableProduct,
     useRetrieveBrands,
     useRetrieveSuppliers,
     useCreateSupplier,

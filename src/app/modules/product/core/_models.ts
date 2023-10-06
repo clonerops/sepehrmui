@@ -1,7 +1,7 @@
 export interface IProducts {
     id?: string | undefined
     productName: string | undefined
-    // productBrandId: number | undefined
+    productTypeId: number | undefined
     productCode?: number | undefined
     warehouseId?: number | undefined
     productSize: string | undefined
@@ -11,9 +11,9 @@ export interface IProducts {
     description: string | undefined
     brandName?: string | undefined
     productIntegratedName?: string | undefined
-    size?: number | string | undefined
-    standard?: number | string | undefined
-    productState?: number | string | undefined
+    productThickness?: number | string | undefined
+    productStandardId?: number | string | undefined
+    productStateId?: number | string | undefined
     productInventories?: IProductInventories[]
 
 }

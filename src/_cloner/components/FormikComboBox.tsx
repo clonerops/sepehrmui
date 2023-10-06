@@ -25,6 +25,8 @@ type Props = {
         value: any
     }
     options: any;
+    getOptionLabel?: any;
+    getOptionValue?: any;
     variant?: TextFieldVariants;
     onChange?: any;
     boxClassName?: string;
@@ -55,6 +57,8 @@ const FormikComboBox = (props: Props) => {
                 {...getFormikFieldValidationProps(formikProps, name)}
                 options={options || []}
                 value={field.value}
+                disabled={disabled}
+                defaultValue={defaultValue}
                 getOptionSelected={(option: any, value: any) => option.id === value.id}
                 onChange={(e, value) => formikProps.setFieldValue(name, value)}
                 filterOptions={(optionData, { inputValue }) => {

@@ -54,7 +54,7 @@ const EditSupplier = (props: {
                             }
                         });
                     } catch (error) {
-                        setStatus("اطلاعات ویرایش محصول نادرست می باشد");
+                        setStatus("اطلاعات ویرایش کالا نادرست می باشد");
                         setSubmitting(false);
                     }
                 }
@@ -63,7 +63,7 @@ const EditSupplier = (props: {
                     return <Form onSubmit={handleSubmit} className="container">
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
                             <FormikSelect label="مشتری" defaultValue={{ value: props.item?.customerId, label: `${props.item?.customerFirstName + " " + props.item?.customerLastName}` }} name={"customerId"}  options={dropdownCustomer(customers?.data)} />
-                            <FormikSelect label="محصول" defaultValue={{value: props.item?.productId, label: props.item?.productName}} name={"productId"}  options={dropdownProduct(products?.data)} />
+                            <FormikSelect label="کالا" defaultValue={{value: props.item?.productId, label: props.item?.productName}} name={"productId"}  options={dropdownProduct(products?.data)} />
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-8 my-4">
                             <FormikInput label="قیمت" name="price"  type="text" />

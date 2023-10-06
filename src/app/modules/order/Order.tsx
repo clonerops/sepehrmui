@@ -298,7 +298,7 @@ const Order = () => {
                                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-2">
                                             <Box component="div" className="">
                                                 <Box component="div" className="flex mx-2">
-                                                    <FormikProductComboSelect productIntegratedName={values.productIntegratedName} label="محصول" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
+                                                    <FormikProductComboSelect productIntegratedName={values.productIntegratedName} label="کالا" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
                                                     <Box component="div" className="mx-1">
                                                         <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="primary" >
                                                             <Grading />
@@ -319,7 +319,7 @@ const Order = () => {
                                             <FormikSelect name="warehouseId" label="انبار" options={dropdownWarehouses(warehouse)} onChange={(values) => handleWarehouseSelect(values)} />
                                             <FormikInput name="proximateAmount" label="مقدار (کیلوگرم)" type="text" />
                                             <FormikInput name="price" label="قیمت" type="text" />
-                                            <FormikInput name="productDesc" label="توضیحات محصول" type="text" />
+                                            <FormikInput name="productDesc" label="توضیحات کالا" type="text" />
                                             <FormikInput name="rowId" label="ردیف فروش" type="text" />
                                             {isBuy && (
                                                 <>
