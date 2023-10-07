@@ -103,9 +103,10 @@ const ProductBrands = () => {
         }>
           {({ handleSubmit }) => {
             return <Form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
-              <Box component="div" className="md:flex md:justify-center md:items-center gap-x-4 md:w-[50%]">
-                <FormikComboBox name="productId" label="کالا" options={dropdownProduct(products?.data)} boxClassName="md:w-[50%] mt-2 md:mt-0" />
-                <CheckboxGroup boxClassName='grid grid-cols-3' name='productBrands' label='برند ها' options={dropdownBrand(brands?.data)} />
+              {/* <Box component="div" className="md:flex md:justify-center md:items-center gap-x-4 md:w-[50%]"> */}
+              <Box component="div" className="md:grid md:grid-cols-2">
+                <FormikComboBox name="productId" label="کالا" options={dropdownProduct(products?.data)} boxClassName="mt-2 md:mt-0" />
+                <CheckboxGroup boxClassName='grid grid-cols-4 border border-gray-300 px-8' name='productBrands' label='برند ها' options={dropdownBrand(brands?.data)} />
               </Box>
               <Box component="div" className="flex justify-end md:w-[50%] mt-4">
                 <Button onClick={() => handleSubmit()} variant="contained" color="primary" >
