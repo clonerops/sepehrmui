@@ -58,9 +58,9 @@ const disableProduct = async (id: string) => {
         return error.response;
     }
 };
-const enableProduct = async (id: string) => {
+const enableProduct = async (formDate: {id: string, active: boolean}) => {
     try {
-        const { data } = await http.put(`/v${1}/Product/EnableProduct/${id}`, JSON.stringify({id: id}));
+        const { data } = await http.put(`/v${1}/Product/EnableProduct/${formDate.id}`, JSON.stringify(formDate));
         return data;
     } catch (error: any) {
         return error.response;

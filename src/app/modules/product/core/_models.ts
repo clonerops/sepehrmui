@@ -15,6 +15,7 @@ export interface IProducts {
     productStandardId?: number | string | undefined
     productStateId?: number | string | undefined
     productInventories?: IProductInventories[]
+    isActive?: boolean | undefined
 
 }
 

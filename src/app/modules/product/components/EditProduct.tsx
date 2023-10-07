@@ -27,7 +27,7 @@ const EditProduct = (props: {
     const { mutate: disableMutate, data: disableData } = useDisableProduct();
     const { mutate: enableMutate, data: enableData } = useEnableProduct();
 
-    const { data: product, isLoading: getProductLoading } = useRetrieveProductById(props.item?.id ? props.item.id : "")
+    const { data: product, isLoading: getProductLoading, refetch } = useRetrieveProductById(props.item?.id ? props.item.id : "")
     const { data: productType } = useGetTypes()
     const { data: productStandard } = useGetStandards()
     const { data: productState } = useGetStates()
@@ -35,8 +35,7 @@ const EditProduct = (props: {
     const [snackeUpdateOpen, setSnackeUpdateOpen] = useState<boolean>(false);
     const [snackeDisableOpen, setSnackeDisableOpen] = useState<boolean>(false);
     const [snackeEnableOpen, setSnackeEnableOpen] = useState<boolean>(false);
-
-
+    const [isActive, setIsActive] = useState<boolean>(product?.data.isActive);
 
     const initialValues = {
         id: props.item?.id,
@@ -52,40 +51,30 @@ const EditProduct = (props: {
         description: product?.data?.description,
     };
 
+
+    const handleActive = (checked: boolean) => {
+        const formData: any = {
+            id: props.item?.id,
+            active: checked,
+        };
+
+        enableMutate(formData, {
+            onSuccess: (message: any) => {
+                setSnackeEnableOpen(true);
+                setIsActive(checked)
+                refetch();
+                props.refetch()
+            },
+        });
+    };
+
     if (getProductLoading) {
         return <Typography variant="h2">در حال بارگزاری ...</Typography>
     }
 
-
-    const handleDisableProduct = () => {
-        if (props.item?.id) disableMutate(props.item?.id, {
-            onSuccess: () => {
-                setSnackeDisableOpen(true)
-            }
-        });
-    };
-    const handleEnableProduct = () => {
-        if (props.item?.id) enableMutate(props.item?.id, {
-            onSuccess: () => {
-                setSnackeEnableOpen(true)
-            }
-        });
-    };
-
-    const handleActive = (checked: boolean) => {
-        // handleEnableProduct()
-        if (checked) {
-            handleDisableProduct()
-        } else {
-            handleEnableProduct()
-        }
-    }
-
-console.log(product?.data)
-
     return (
         <>
-            {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
+            {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message || "ویرایش با موفقیت انجام شد"} />)}
             {snackeEnableOpen && (<PositionedSnackbar open={snackeEnableOpen} setState={setSnackeEnableOpen} title={enableData?.data?.Message || enableData?.message} />)}
             {snackeDisableOpen && (<PositionedSnackbar open={snackeDisableOpen} setState={setSnackeDisableOpen} title={disableData?.data?.Message || disableData?.message} />)}
 
@@ -97,13 +86,14 @@ console.log(product?.data)
                             ...values,
                             approximateWeight: Number(values.approximateWeight),
                             numberInPackage: values.numberInPackage ? Number(values.numberInPackage) : 0,
-                            productStandardId: values.productStandardId.value ? Number(values.productStandardId.value) : product?.data?.productStandardId,
-                            productStateId: values.productStateId.value ? Number(values.productStateId.value) : product?.data?.productStateId,
+                            productStandardId: values.productStandardId ? Number(values.productStandardId) : product?.data?.productStandardId,
+                            productStateId: values.productStateId ? Number(values.productStateId) : product?.data?.productStateId,
                         }
                         mutate(formData, {
                             onSuccess: (message) => {
                                 setSnackeUpdateOpen(true)
-                                props.refetch();
+                                refetch();
+                                props.refetch()
                             },
                         });
                     } catch (error) {
@@ -165,9 +155,9 @@ console.log(product?.data)
                                 />
                                 <Box component="div" className="flex justify-center items-center gap-x-4">
                                     <Typography variant="body1">
-                                        {product?.data.isActive ? "فعال" : "غیر فعال"}
+                                        {isActive ? "فعال" : "غیر فعال"}
                                     </Typography>
-                                    <Switch checked={product?.data.isActive} onChange={(_, checked) => handleActive(checked)} />
+                                    <Switch checked={isActive} onChange={(_, checked) => handleActive(checked)} />
                                 </Box>
                             </Box>
                             <Box component="div" className="grid grid-cols-1 md:grid-cols- gap-8 my-4">

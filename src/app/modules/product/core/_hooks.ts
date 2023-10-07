@@ -31,8 +31,8 @@ const useDisableProduct = () => {
     });
 };
 const useEnableProduct = () => {
-    return useMutation((id: string) => {
-        return api.enableProduct(id);
+    return useMutation((formData: {id: string, active: boolean}) => {
+        return api.enableProduct(formData);
     });
 };
 

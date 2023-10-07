@@ -77,7 +77,7 @@ const ProductTypes = () => {
       {snackeUpdateOpen && ( <PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={ updateData?.data?.Message || updateData?.message } /> )}
       {snackeDeleteOpen && ( <PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={ deleteData?.data?.Message || deleteData?.message } /> )}
       <Card className="p-4">
-        <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">مدیریت نوع کالا ها</Typography>
+        <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">نوع کالا ها</Typography>
         <Formik initialValues={initialValues} onSubmit={
           async (values, { setStatus, setSubmitting, setFieldValue }) => {
             try {

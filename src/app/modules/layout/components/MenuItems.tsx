@@ -8,7 +8,6 @@ import {
   Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { IMenuItem } from "../core/_models";
 import { IconComponent } from "../../../../_cloner/components/DynamicIcon";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
