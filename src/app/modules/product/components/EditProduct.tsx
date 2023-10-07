@@ -24,7 +24,6 @@ const EditProduct = (props: {
     ) => Promise<QueryObserverResult<any, unknown>>;
 }) => {
     const { mutate, data: updateData } = useUpdateProduct();
-    const { mutate: disableMutate, data: disableData } = useDisableProduct();
     const { mutate: enableMutate, data: enableData } = useEnableProduct();
 
     const { data: product, isLoading: getProductLoading, refetch } = useRetrieveProductById(props.item?.id ? props.item.id : "")
@@ -76,7 +75,6 @@ const EditProduct = (props: {
         <>
             {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message || "ویرایش با موفقیت انجام شد"} />)}
             {snackeEnableOpen && (<PositionedSnackbar open={snackeEnableOpen} setState={setSnackeEnableOpen} title={enableData?.data?.Message || enableData?.message} />)}
-            {snackeDisableOpen && (<PositionedSnackbar open={snackeDisableOpen} setState={setSnackeDisableOpen} title={disableData?.data?.Message || disableData?.message} />)}
 
             <Formik
                 initialValues={initialValues}
