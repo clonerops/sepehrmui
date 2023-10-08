@@ -42,6 +42,20 @@ const menuItem = [
   },
   {
     id: 2,
+    title: "کاربران",
+    to: "",
+    iconName: "PriceChange",
+    submenu: [
+      {
+        id: 1321,
+        iconName: "SelectAll",
+        title: "کاربران و دسترسی ها",
+        to: "dashboard/users",
+      },
+    ],
+  },
+  {
+    id: 2,
     title: "کالا",
     to: "",
     iconName: "RunCircle",
@@ -100,6 +114,7 @@ const menuItem = [
       },
     ],
   },
+  
   {
     id: 2,
     title: "عمومی",

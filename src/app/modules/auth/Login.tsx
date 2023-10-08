@@ -165,15 +165,15 @@ const Login = () => {
         </Box>
         <Box component="div" className="hidden md:block">
           <Box component="div"
-            className="h-full w-full flex flex-col"
+            className="h-full w-full flex flex-col bg-cover"
             style={{
               backgroundImage: `url(${toAbsoulteUrl(
-                "/media/logos/auth-bg.png"
+                "/media/logos/bg.png"
               )})`,
             }}
           >
             <Box component="div" className="flex flex-col justify-center items-center">
-              <img
+              {/* <img
                 src={`${toAbsoulteUrl(
                   "/media/logos/folladlogo.png"
                 )}`}
@@ -181,8 +181,8 @@ const Login = () => {
                 // height={300}
                 alt="Sepehr Logo"
                 className="mx-auto"
-              />
-              <img
+              /> */}
+              {/* <img
                 src={`${toAbsoulteUrl(
                   "/media/logos/nabshi.webp"
                 )}`}
@@ -190,7 +190,7 @@ const Login = () => {
                 // height={300}
                 alt="Sepehr Logo"
                 className="mx-auto"
-              />
+              /> */}
             </Box>
             <div className="mt-auto" />
           </Box>

@@ -80,7 +80,7 @@ const Users = () => {
             setResults={setResults}
             threshold={0.3}
           />
-          <Link to={"/dashboard/customer/profile"}>
+          <Link to={"/dashboard/user/create"}>
             <Button
               variant="contained"
               className="w-[240px] bg-primary text-white px-8 py-2"
