@@ -6,7 +6,6 @@ import Suppliers from "../modules/product/Suppliers";
 import ProductPrice from "../modules/product/ProductPrice";
 import Cargo from "../modules/cargo/Cargo";
 import Confirm from "../modules/cargo/components/Confirm";
-import CreateUser from "../modules/user/CreateUser";
 import RecievePayment from "../modules/payment/RecievePayment";
 import PaymentAccounting from "../modules/payment/PaymentAccounting";
 import Detail from "../modules/payment/components/Detail";
@@ -21,6 +20,8 @@ import ProductTypes from "../modules/generic/productType/ProductTypes";
 import ProductState from "../modules/generic/productState/ProductState";
 import ProductStandards from "../modules/generic/productStandard/ProductStandard";
 import ProductBrands from "../modules/generic/productBrands/ProductBrands";
+import Users from "../modules/user/Users";
+import CreateUser from "../modules/user/components/CreateUser";
 
 const PrivateRoutes = () => {
 
@@ -53,6 +54,8 @@ const PrivateRoutes = () => {
             <Route path='dashboard/productState' element={<ProductState />} />
             <Route path='dashboard/productStandard' element={<ProductStandards />} />
             <Route path='dashboard/productBrand' element={<ProductBrands />} />
+
+            <Route path='dashboard/users' element={<Users />} />
 
 
             {/* Lazy Modules */}

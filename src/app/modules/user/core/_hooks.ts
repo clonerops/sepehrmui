@@ -1,11 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
-import { IRegisterUser } from "./_models";
+import { IUser } from "./_models";
 
 const useRegisterUser = () => {
-    return useMutation((formData: IRegisterUser) => {
+    return useMutation((formData: IUser) => {
         return api.registerUser(formData);
     });
 };
 
-export { useRegisterUser };
+const useUsers = () => useQuery(["users"], () => api.fetchUsers());
+
+export { useRegisterUser, useUsers };

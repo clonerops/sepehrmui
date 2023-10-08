@@ -1,7 +1,7 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
-import { IRegisterUser } from "./_models";
+import { IUser } from "./_models";
 
-const registerUser = async (formData: IRegisterUser) => {
+const registerUser = async (formData: IUser) => {
     try {
         const { data } = await http.post("/Account/register",JSON.stringify(formData));
         return data
@@ -10,4 +10,10 @@ const registerUser = async (formData: IRegisterUser) => {
     }
 };
 
-export { registerUser }
+
+const fetchUsers = async () => {
+  return await http.get("/Account").then((res) => res?.data);
+};
+
+
+export { registerUser, fetchUsers }
