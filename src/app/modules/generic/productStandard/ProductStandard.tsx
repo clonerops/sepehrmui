@@ -45,11 +45,13 @@ const ProductStandards = () => {
     try {
       const formData = {
         id: rowData.row.id,
-        desc: rowData.row.desc
+        desc: rowData.row.desc,
+        isActive: !rowData.row.isActive
       }
       updateStandard(formData, {
         onSuccess: () => {
           setSnackeUpdateOpen(true)
+          refetch()
         }
       })
     } catch (e) {

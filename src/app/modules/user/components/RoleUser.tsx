@@ -23,56 +23,61 @@ import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
+import { useQueryClient } from "@tanstack/react-query";
 
 const RoleUser = () => {
+  const queryClient = useQueryClient();
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const { data } = useGetUserRole();
   const rolesListTools = useGetRoles();
   const {
-    mutate: postMutate,
+    mutateAsync: postMutate,
     data: postResponse,
     isLoading: postLoading,
   } = usePostUserRole();
   const {
-    mutate: deleteMutate,
+    mutateAsync: deleteMutate,
     data: deleteResponse,
     isLoading: deleteLoading,
   } = useDeleteUserRole();
-  const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+
+  const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
+  const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
+
   const onUpdateStatus = (rowData: IRole, checked: boolean) => {
     const query: IUpdateRole = {
       userId: id || "",
       roleId: rowData.id,
     };
     try {
-      (checked ? postMutate : deleteMutate)(query, {
-        onSuccess: () => {
-          setSnackeOpen(true);
-          window.location.reload();
-        },
-      });
+      if (checked) {
+        postMutate(query, {
+          onSuccess: () => {
+            setSnackePostOpen(true)
+            rolesListTools.refetch()
+            window.location.reload()
+          }
+        })
+      } else {
+        deleteMutate(query, {
+          onSuccess: () => {
+            rolesListTools.refetch()
+            setSnackeDeleteOpen(true)
+            window.location.reload()
+          }
+        })
+      }
+      queryClient.invalidateQueries(['roles']);
     } catch (e) {
-      setSnackeOpen(true);
       return e;
     }
   };
 
   return (
     <>
-      {postLoading ||
-        (deleteLoading && <Backdrop loading={postLoading || deleteLoading} />)}
-
-      <PositionedSnackbar
-        open={snackeOpen}
-        setState={setSnackeOpen}
-        title={
-          deleteResponse?.response?.data?.Message ||
-          postResponse?.response?.data?.Message ||
-          postResponse?.message
-        }
-      />
-
+      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postResponse?.data?.Message || postResponse?.message} />)}
+      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteResponse?.data?.Message || deleteResponse?.data?.message || deleteResponse?.message} />)}
       <Container>
         <Card className="glassmorphism-card p-8">
           <Typography variant="h2" color="primary">
@@ -103,9 +108,7 @@ const RoleUser = () => {
                             onChange={(_, checked) =>
                               onUpdateStatus(item, checked)
                             }
-                            checked={data?.data?.find(
-                              (node: IUserRole) => node.roleId === item?.id,
-                            )}
+                            checked={data?.data?.find((node: IUserRole) => (node.roleId === item?.id) && (node.userId === id))}
                           />
                         </TableCell>
                         <TableCell>{item.name}</TableCell>
