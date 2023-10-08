@@ -106,12 +106,14 @@ const ProductPrice = () => {
                 <TransitionsModal
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}
-                >
+                    title="ایجاد قیمت محصول"
+                    >
                     <CreateProductPrice refetch={refetch} />
                 </TransitionsModal>
                 <TransitionsModal
                     open={isOpen}
                     isClose={() => setIsOpen(false)}
+                    title="ویرایش قیمت محصول"
                 >
                     <EditProductPrice refetch={refetch} item={itemForEdit} />
                 </TransitionsModal>

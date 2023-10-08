@@ -125,15 +125,17 @@ const Customer = () => {
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
-            >
+                title="ایجاد مشتری جدید"
+                >
                 <CreateCustomer
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
-                />
+                    />
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
+                title="ویرایش"
             >
                 <EditCustomer refetch={refetch} item={itemForEdit} />
             </TransitionsModal>
