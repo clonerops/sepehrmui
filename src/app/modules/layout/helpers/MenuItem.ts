@@ -145,12 +145,12 @@ const menuItem = [
         title: "استاندارد ها",
         to: "dashboard/productStandard",
       },
-      {
-        id: 1321,
-        iconName: "SettingsInputSvideo",
-        title: "برند کالا",
-        to: "dashboard/productBrand",
-      },
+      // {
+      //   id: 1321,
+      //   iconName: "SettingsInputSvideo",
+      //   title: "برند کالا",
+      //   to: "dashboard/productBrand",
+      // },
     ],
   },
 ];

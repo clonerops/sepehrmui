@@ -53,7 +53,7 @@ const PrivateRoutes = () => {
             <Route path='dashboard/productTypes' element={<ProductTypes />} />
             <Route path='dashboard/productState' element={<ProductState />} />
             <Route path='dashboard/productStandard' element={<ProductStandards />} />
-            <Route path='dashboard/productBrand' element={<ProductBrands />} />
+            {/* <Route path='dashboard/productBrand' element={<ProductBrands />} /> */}
 
             <Route path='dashboard/users' element={<Users />} />
             <Route path="dashboard/user/create" element={<CreateUser />} />
