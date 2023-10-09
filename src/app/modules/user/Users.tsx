@@ -17,6 +17,8 @@ import { IUser } from "./core/_models";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import ReusableTable from "../../../_cloner/components/Tables";
 import CreateUser from "./components/CreateUser";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import { columns } from "./helpers/userColumns";
 
 const Users = () => {
   const usersTools = useUsers();
@@ -28,16 +30,8 @@ const Users = () => {
     setResults(usersTools?.data);
   }, [usersTools?.data]);
 
-  // Columns
-  const columns = [
-    { key: "firstName", title: "نام" },
-    { key: "lastName", title: "نام خانوادگی" },
-    { key: "userName", title: "نام کاربری" },
-    { key: "phoneNumber", title: "موبایل" },
-    { key: "email", title: "ایمیل" },
-  ];
-
-  const renderActions = (item: IUser) => {
+  const renderActions = (item: any) => {
+    console.log(item)
     return (
       <Box component="div">
         <Button>
@@ -45,7 +39,7 @@ const Users = () => {
         </Button>
         <Link
           to={`/dashboard/user/role/${item.id}?name=${
-            item?.firstName + "  " + item?.lastName
+            item?.row.firstName + "  " + item?.row.lastName
           }`}
         >
           <Button>
@@ -80,7 +74,7 @@ const Users = () => {
             setResults={setResults}
             threshold={0.3}
           />
-          <Link to={"/dashboard/customer/profile"}>
+          <Link to={"/dashboard/user/create"}>
             <Button
               variant="contained"
               className="w-[240px] bg-primary text-white px-8 py-2"
@@ -90,12 +84,10 @@ const Users = () => {
           </Link>
         </Box>
         <Box component="div">
-          <ReusableTable
-            columns={columns}
-            data={results}
-            isLoading={false}
-            isError={false}
-            renderActions={renderActions}
+          <MuiDataGrid
+            columns={columns(renderActions)}
+            rows={results}
+            data={usersTools?.data}
           />
         </Box>
       </Container>

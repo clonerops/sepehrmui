@@ -22,6 +22,7 @@ import ProductStandards from "../modules/generic/productStandard/ProductStandard
 import ProductBrands from "../modules/generic/productBrands/ProductBrands";
 import Users from "../modules/user/Users";
 import CreateUser from "../modules/user/components/CreateUser";
+import RoleUser from "../modules/user/components/RoleUser";
 
 const PrivateRoutes = () => {
 
@@ -30,7 +31,6 @@ const PrivateRoutes = () => {
       <Route element={<MasterLayout />}>
         <Route>
           <Route element={<DynamicBreadcrumbs />}>
-            <Route path="dashboard/user/create" element={<CreateUser />} />
             {/* Redirect to Dashboard after success login/registartion */}
             <Route path="auth/*" element={<Navigate to="/dashboard" />} />
             <Route path='dashboard' element={<Dashboard />} />
@@ -56,6 +56,8 @@ const PrivateRoutes = () => {
             <Route path='dashboard/productBrand' element={<ProductBrands />} />
 
             <Route path='dashboard/users' element={<Users />} />
+            <Route path="dashboard/user/create" element={<CreateUser />} />
+            <Route path="dashboard/user/role/:id" element={<RoleUser />} />
 
 
             {/* Lazy Modules */}

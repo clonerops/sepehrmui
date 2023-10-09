@@ -27,7 +27,7 @@ import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 const RoleUser = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-  const { data } = useGetUserRole();
+  const { data, refetch } = useGetUserRole();
   const rolesListTools = useGetRoles();
   const {
     mutate: postMutate,
@@ -49,7 +49,8 @@ const RoleUser = () => {
       (checked ? postMutate : deleteMutate)(query, {
         onSuccess: () => {
           setSnackeOpen(true);
-          window.location.reload();
+          refetch()
+          rolesListTools.refetch()
         },
       });
     } catch (e) {
@@ -57,7 +58,7 @@ const RoleUser = () => {
       return e;
     }
   };
-
+  
   return (
     <>
       {postLoading ||
@@ -67,11 +68,13 @@ const RoleUser = () => {
         open={snackeOpen}
         setState={setSnackeOpen}
         title={
-          deleteResponse?.response?.data?.Message ||
-          postResponse?.response?.data?.Message ||
+          deleteResponse?.data?.Message ||
+          deleteResponse?.message ||
+          postResponse?.data?.Message ||
           postResponse?.message
         }
       />
+
 
       <Container>
         <Card className="glassmorphism-card p-8">
