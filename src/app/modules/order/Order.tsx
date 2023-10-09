@@ -304,7 +304,7 @@ const Order = () => {
                                                         </Button>
                                                     </Box>
                                                 </Box>
-                                                <TransitionsModal open={selectedProductOpen} isClose={() => setSelectedProductOpen(false)}>
+                                                <TransitionsModal title="انتخاب محصول" open={selectedProductOpen} isClose={() => setSelectedProductOpen(false)}>
                                                     <ProductSelectedListInModal
                                                         products={products?.data}
                                                         productLoading={productLoading}
@@ -342,7 +342,7 @@ const Order = () => {
                     }}
                 </Formik>
             </Card>
-            <TransitionsModal open={isOpen} isClose={() => setIsOpen(false)}>
+            <TransitionsModal title="ایجاد مشتری جدید" open={isOpen} isClose={() => setIsOpen(false)}>
                 <CreateCustomer refetch={refetchCustomers} setIsCreateOpen={setIsOpen} />
             </TransitionsModal>
         </>

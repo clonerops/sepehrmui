@@ -45,11 +45,13 @@ const ProductTypes = () => {
     try {
       const formData = {
         id: rowData.row.id,
-        desc: rowData.row.desc
+        desc: rowData.row.desc,
+        isActive: !rowData.row.isActive
       }
       updateType(formData, {
         onSuccess: () => {
           setSnackeUpdateOpen(true)
+          refetch()
         }
       })
     } catch (e) {

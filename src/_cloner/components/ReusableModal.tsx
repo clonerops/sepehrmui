@@ -3,8 +3,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { Typography } from '@mui/material';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -21,6 +20,7 @@ const style = {
 type Props = {
     children: React.ReactNode
     open: boolean;
+    title: string
     isClose: any
 }
 
@@ -44,6 +44,7 @@ export default function TransitionsModal(props: Props) {
       >
         <Fade in={props.open}>
           <Box sx={style}>
+            <Typography variant='h2' color="secondary" className='pb-8'>{props.title}</Typography>
                 {props.children}
           </Box>
         </Fade>

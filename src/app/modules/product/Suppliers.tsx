@@ -115,6 +115,7 @@ const Suppliers = () => {
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
+                title="ایجاد تامین کننده جدید"
             >
                 <CreateSupplier
                     refetch={refetch}
@@ -124,6 +125,7 @@ const Suppliers = () => {
             <TransitionsModal
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
+                title="ویرایش تامین کننده جدید"
             >
                 <EditSupplier refetch={refetch} item={itemForEdit} />
             </TransitionsModal>

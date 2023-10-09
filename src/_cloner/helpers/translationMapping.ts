@@ -17,6 +17,8 @@ export const translationMapping: any = {
     productStandard: 'استانداردها',
     productState: 'حالت ها',
     productTypes: 'نوع کالا ها',
+    user: 'کاربران',
+    role: 'نقش',
     // Add more translations as needed
   };
   

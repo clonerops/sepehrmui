@@ -45,11 +45,13 @@ const Brands = () => {
     try {
       const formData = {
         id: rowData.row.id,
-        name: rowData.row.name
+        name: rowData.row.name,
+        isActive: !rowData.row.isActive
       }
       updateBrand(formData, {
         onSuccess: () => {
           setSnackeUpdateOpen(true)
+          refetch()
         }
       })
     } catch (e) {

@@ -45,11 +45,13 @@ const ProductState = () => {
     try {
       const formData = {
         id: rowData.row.id,
-        desc: rowData.row.desc
+        name: rowData.row.desc,
+        isActive: !rowData.row.isActive
       }
       updateState(formData, {
         onSuccess: () => {
           setSnackeUpdateOpen(true)
+          refetch()
         }
       })
     } catch (e) {
