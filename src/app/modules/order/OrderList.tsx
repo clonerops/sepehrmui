@@ -6,6 +6,7 @@ import { IOrder } from "./core/_models";
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import React from "react";
 
 const OrderList = () => {
     const { data: orders } = useRetrieveOrders();
@@ -21,7 +22,7 @@ const OrderList = () => {
                 to={`/dashboard/order/detail/${item?.row?.id}`}
                 state={{ isConfirmed: false }}
             >
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="secondary">
                     <Typography>جزئیات</Typography>
                 </Button>
             </Link>
@@ -29,7 +30,7 @@ const OrderList = () => {
     };
     return (
         <Card className="p-8">
-            <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
+            <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات
             </Typography>
             <Box component="div" className="w-auto md:w-[40%]">

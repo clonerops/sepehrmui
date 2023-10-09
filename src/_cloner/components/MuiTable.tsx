@@ -18,10 +18,10 @@ const MuiTable: React.FC<TableProps> = ({ data, columns }) => {
     return (
       <TableContainer component={Paper}>
         <Table>
-          <TableHead className='bg-[#2E4374]'>
+          <TableHead className='bg-[#E2E8F0]'>
             <TableRow>
               {columns?.map((column) => (
-                <TableCell className='!text-white' key={column.accessor}>{column.header}</TableCell>
+                <TableCell className='!text-black font-bold' key={column.accessor}>{column.header}</TableCell>
               ))}
             </TableRow>
           </TableHead>

@@ -6,6 +6,7 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import ToolbarComponent from "../../../../_cloner/components/Toolbar";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import React from "react";
 
 interface IProps {
     open?: boolean;
@@ -61,11 +62,11 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             ...(open && { display: "none", color: "white" }),
                         }}
                     >
-                        <Box component="div" className="text-black">
+                        <Box component="div" className="text-black font-bold">
                             <MenuIcon />
                         </Box>
                     </IconButton>
-                    <Typography color="primary" variant="h3" className="">بازرگانی سپهر ایرانیان</Typography>
+                    <Typography color="secondary" variant="h3" className="">بازرگانی سپهر ایرانیان</Typography>
                     {/* <Box className="">
                         <TextField inputProps={{
                             style: {

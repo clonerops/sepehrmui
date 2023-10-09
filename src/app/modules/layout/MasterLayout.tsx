@@ -65,7 +65,7 @@ const Drawer = styled(MuiDrawer, {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": {
       ...openedMixin(theme),
-      backgroundColor: "#405189",
+      backgroundColor: theme.palette.primary.main,
     } 
   }),
   ...(!open && {
@@ -73,7 +73,7 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": 
     {
       ...closedMixin(theme),
-      backgroundColor: "#405189",
+      backgroundColor: theme.palette.primary.main,
     }
   }),
 }));

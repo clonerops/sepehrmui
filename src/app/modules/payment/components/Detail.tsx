@@ -5,6 +5,7 @@ import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import { Box, Button, Card, Container, Typography } from "@mui/material"
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
+import React from 'react'
 
 const Detail = () => {
     const { id }: any = useParams()
@@ -91,12 +92,12 @@ const Detail = () => {
             {fetchingLaoding && <Backdrop loading={fetchingLaoding} />}
             <Container>
                 <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-8">جزئیات حسابداری دریافت و پرداخت</Typography>
+                    <Typography color="secondary" variant="h1" className="pb-8">جزئیات حسابداری دریافت و پرداخت</Typography>
                     <Box component="div" className="md:flex md:justify-end md:items-end gap-x-8 pb-2">
-                        <Button variant="outlined" onClick={hadelDownload} className='mb-2'>
+                        <Button variant="outlined" onClick={hadelDownload} className='mb-2' color="secondary">
                             <Typography>{"دانلود ضمیمه ها"}</Typography>
                         </Button>
-                        <Button variant="contained" onClick={handleConfirm} className='mb-2'>
+                        <Button variant="contained" onClick={handleConfirm} className='mb-2' color="secondary">
                             <Typography>{isLoading ? "در حال پردازش..." : "ثبت تایید حسابداری"}</Typography>
                         </Button>
                     </Box>
@@ -104,7 +105,7 @@ const Detail = () => {
                     <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4">
                         {fieldsValue.map((item: any) =>
                             <Card className="px-8 py-4">
-                                <Box component="div" className=" text-lg text-gray-500">{item.title}<span className="px-4 font-yekan_bold font-bold text-sm md:text-xl text-black">{item.value}</span></Box>
+                                <Box component="div" className=" text-lg text-gray-500">{item.title}<span className="px-4 font-yekan_bold font-bold text-sm md:text-xl text-black font-bold">{item.value}</span></Box>
                             </Card>
                         )}
                     </Box>

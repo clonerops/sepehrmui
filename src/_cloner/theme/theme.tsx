@@ -5,14 +5,15 @@ const theme = createTheme({
     direction: 'rtl',
     palette: {
         primary: {
-            main: "#2E4374",
+            // main: "#2E4374",
+            main: "#071952",
         },
         secondary: {
             // main: "#071952",
-            main: "#405189",
+            // main: "#405189",
+            main: "#088395",
         },
     },
-
     typography: {
         h1: {
             fontFamily: "Yekan_bold",

@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Card, Typography } from "@mui/material";
 import { useRetrieveProducts } from "./product/core/_hooks";
 import { VerticalCharts } from "../../_cloner/components/VerticalCharts";

@@ -8,6 +8,7 @@ import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
 import { createProductPriceValidations } from "../validations/createProductPrice"
+import React from "react"
 
 const initialValues = {
     price: "",

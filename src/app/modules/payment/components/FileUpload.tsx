@@ -44,7 +44,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                     {files.map((file, index) => (
                         <Box component="li" className='text-xl' key={index}>
                             {file.name}
-                            <Button className=' pr-16' onClick={() => removeFile(file)}>
+                            <Button className=' pr-16' onClick={() => removeFile(file)} color="secondary">
                                 <Typography className='text-red-500'>حذف</Typography>
                             </Button>
                         </Box>

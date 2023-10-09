@@ -1,3 +1,4 @@
+import React from "react";
 import { useDeleteProductPrice, useRetrieveProductPrice } from "./core/_hooks";
 import { columns } from "./helpers/productPriceColumns";
 import { IProductPrice } from "./core/_models";
@@ -75,7 +76,7 @@ const ProductPrice = () => {
                 />
             )}
             <Card className="p-8">
-                <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
+                <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                     مدیریت قیمت کالا
                 </Typography>
                 <Box

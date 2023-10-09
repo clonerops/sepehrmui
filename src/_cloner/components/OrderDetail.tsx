@@ -70,7 +70,7 @@ const OrderDetail = (props: Props) => {
                 <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4">
                     {FieldItems.map((item: any) => {
                         return <Card className="p-4">
-                            <Box component="div" className="!text-sm md:!text-lg text-gray-500">{item.title}: <span className="px-1 font-yekan_bold font-bold text-sm md:text-xl text-black">{item.value}</span></Box>
+                            <Box component="div" className="!text-sm md:!text-lg text-gray-500">{item.title}: <span className="px-1 font-yekan_bold font-bold text-sm md:text-xl text-black font-bold">{item.value}</span></Box>
                         </Card>
 
                     })}

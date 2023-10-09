@@ -40,6 +40,7 @@ import { ICustomer } from "../customer/core/_models";
 import { dropdownProductIntegrated } from "../generic/_functions";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
+import React from "react";
 
 const initialValues = {
     customerId: "",
@@ -268,7 +269,7 @@ const Order = () => {
                                         <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
                                             {/* <FormikSelect onChange={(value) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} /> */}
                                             <FormikComboBox onChange={() => handleChangeCustomer(values.customerId)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
-                                            <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-white cursor-pointer my-1">
+                                            <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-black font-bold font-boldcursor-pointer my-1">
                                                 <AddCircle />
                                             </Box>
                                             <FormikDatepicker name="settlementDate" label="تاریخ تسویه" />
@@ -299,7 +300,7 @@ const Order = () => {
                                                 <Box component="div" className="flex mx-2">
                                                     <FormikProductComboSelect productIntegratedName={values.productIntegratedName} label="کالا" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
                                                     <Box component="div" className="mx-1">
-                                                        <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="primary" >
+                                                        <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="secondary" >
                                                             <Grading />
                                                         </Button>
                                                     </Box>
@@ -329,7 +330,7 @@ const Order = () => {
                                                     <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید" />
                                                 </>
                                             )}
-                                            <Box component="div" onClick={() => handleOrder(values, setFieldValue)} className="flex bg-green-500 text-white text-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
+                                            <Box component="div" onClick={() => handleOrder(values, setFieldValue)} className="flex bg-green-500 text-black font-bold font-boldtext-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
                                                 <Add />
                                                 <Typography>افزودن به لیست سفارشات</Typography>
                                             </Box>

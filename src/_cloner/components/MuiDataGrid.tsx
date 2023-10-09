@@ -22,16 +22,26 @@ export default function MuiDataGrid(props: Props) {
         return numRows * defaultRowHeight + headerHeight + scrollbarHeight;
       }, [data]);
 
+    //   const getRowClassName = (params: any) => {
+    //     return params.rowIndex % 2 === 0 ? 'bg-slat-100' : 'bg-red-500';
+    //   };
 
     return (
-        <Box sx={{ height: gridHeight, maxHeight: 400, width: '100%', marginTop: 1 }}>
+        <Box sx={{ height: gridHeight, maxHeight: 400, width: '100%'}}>
             <DataGrid
                 {...data}
+                sx={{
+                    '.MuiDataGrid-columnHeaderTitle': { 
+                       fontWeight: 'bold !important',
+                       overflow: 'visible !important'
+                    }
+                  }}                
                 rows={rows ? rows : []}
                 columns={columns}
                 // getRowId={(row) => row.id+row.rowId}
                 pagination={false}
                 hideFooter={true}
+                // getRowClassName={getRowClassName} // Add this prop
             />
         </Box>
     );

@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { ISuppliers } from "./core/_models";
 import { useDeleteSupplier, useRetrieveSuppliers } from "./core/_hooks";
@@ -74,7 +75,7 @@ const Suppliers = () => {
                 />
             )}
             <Card className="p-8">
-                <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
+                <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                     مدیریت تامین کنندگان
                 </Typography>
                 <Box

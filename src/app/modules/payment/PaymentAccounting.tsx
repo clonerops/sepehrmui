@@ -7,6 +7,7 @@ import { Box, Button, Card, Container, Typography } from "@mui/material"
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../_cloner/helpers/Fuse"
 import { IPayment } from "./core/_models"
+import React from "react"
 
 // const approvied = [
 //     { value: "0", label: "تایید نشده" },
@@ -46,7 +47,7 @@ const PaymentAccounting = () => {
         <>
             {isLoading && <Backdrop loading={isLoading} />}
                 <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">ثبت حسابداری دریافت و پرداخت</Typography>
+                    <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">ثبت حسابداری دریافت و پرداخت</Typography>
                     <Box component="div" className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[

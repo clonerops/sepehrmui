@@ -14,6 +14,7 @@ import FormikInput from '../../../_cloner/components/FormikInput'
 import PositionedSnackbar from '../../../_cloner/components/Snackbar'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
+import React from 'react'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -55,10 +56,10 @@ const RecievePayment = () => {
             )}
             {isLoading && <Backdrop loading={isLoading} />}
             <Card className='p-8'>
-                <Typography color="primary" variant="h1" className="pb-2">ثبت دریافت و پرداخت</Typography>
+                <Typography color="secondary" variant="h1" className="pb-2">ثبت دریافت و پرداخت</Typography>
                 <Box component="div" className='md:flex md:justify-between md:first-letter:items-center'>
-                    <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-slate-200 py-4 px-16 text-black rounded-lg'>شماره: <Typography variant='h3' className='px-4'>{trachingCode}</Typography></Box>
-                    <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-gray-200 text-black py-4 px-16 rounded-lg'>تاریخ ثبت: <Typography variant='h3' className='pr-4'>{moment(Date.now()).format('jYYYY/jMM/jDD').toString()}</Typography></Box>
+                    <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-slate-200 py-4 px-16 text-black font-bold font-boldrounded-lg'>شماره: <Typography variant='h3' className='px-4'>{trachingCode}</Typography></Box>
+                    <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-gray-200 text-black font-bold font-boldpy-4 px-16 rounded-lg'>تاریخ ثبت: <Typography variant='h3' className='pr-4'>{moment(Date.now()).format('jYYYY/jMM/jDD').toString()}</Typography></Box>
                 </Box>
                 <Box component="div" className='mt-2'>
                     <Formik initialValues={initialValues} onSubmit={

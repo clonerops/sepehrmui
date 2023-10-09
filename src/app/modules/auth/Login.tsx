@@ -7,6 +7,7 @@ import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import Captcha from "./components/Captcha";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
+import React from "react";
 
 const Login = () => {
   // Api
@@ -152,6 +153,7 @@ const Login = () => {
                 fullWidth
                 variant="contained"
                 type="submit"
+                color="secondary"
               >
                 <Typography variant="h4" className="py-2">
                   {isLoading ? "درحال پردارش ..." : "ورود به حساب کاربری"}

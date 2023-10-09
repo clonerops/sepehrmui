@@ -15,6 +15,7 @@ import {
 } from "@mui/icons-material";
 
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const ToolbarComponent = () => {
     const navigate = useNavigate();
@@ -58,7 +59,7 @@ const ToolbarComponent = () => {
                     <Button
                         onClick={handleClick}
                         aria-describedby={id}
-                        className="text-white"
+                        color="secondary"
                     >
                         <Avatar
                             alt="avatar"

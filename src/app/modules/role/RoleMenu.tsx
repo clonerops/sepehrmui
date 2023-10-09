@@ -1,6 +1,7 @@
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
+import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   useDeleteRoleMenu,
@@ -45,7 +46,7 @@ const RoleMenu = () => {
 
   const columns = [
     { key: "roleId", title: "نقش" },
-    { key: "applicationMenuId", title:"منو" },
+    { key: "applicationMenuId", title: "منو" },
   ];
 
   const onSubmit = (values: IRoleMenu) => {
@@ -83,7 +84,7 @@ const RoleMenu = () => {
         >
           <Box
             component="div"
-            className="flex items-center gap-x-3  tw-text-white"
+            className="flex items-center gap-x-3  tw-text-black font-bold"
           >
             {/* <EditIcon
                             className={"cursor-pointer text-primary"}
@@ -138,7 +139,7 @@ const RoleMenu = () => {
                     <Button
                       type={"submit"}
                       variant="contained"
-                      className="w-[250px] h-10 bg-primary text-white "
+                      color="secondary"
                     >
                       ایجاد نقش - منو جدید
                     </Button>

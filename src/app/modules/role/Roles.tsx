@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
@@ -35,7 +36,7 @@ const Roles = () => {
         >
           <Box
             component="div"
-            className="flex items-center gap-x-3  tw-text-white"
+            className="flex items-center gap-x-3  tw-text-black font-bold"
           >
             {/* <EditIcon
                             className={"cursor-pointer text-primary"}
@@ -71,7 +72,8 @@ const Roles = () => {
                   </Box>
                   <Button
                     variant="contained"
-                    className="w-[240px] bg-primary text-white px-8 py-2"
+                    color="secondary"
+                    className="w-[240px] text-black font-bold font-boldpx-8 py-2"
                   >
                     ایجاد نقش جدید
                   </Button>

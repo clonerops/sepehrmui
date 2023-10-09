@@ -1,4 +1,5 @@
 import { Container, Typography, Button, TextField, Box } from "@mui/material";
+import React from "react";
 
 const ChangePassword = () => {
     return (
@@ -32,7 +33,7 @@ const ChangePassword = () => {
                             variant="outlined"
                         />
                     </Box>
-                    <Button className="bg-primary mt-4 text-black px-8 py-2">
+                    <Button color="secondary" className="mt-4 text-black font-bold font-boldpx-8 py-2">
                         {"تغییر کلمه عبور"}
                     </Button>
                 </Container>

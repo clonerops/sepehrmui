@@ -1,4 +1,5 @@
 import React from "react";
+import theme from './_cloner/theme/theme'
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
@@ -10,7 +11,6 @@ import { StylesProvider, jssPreset } from "@mui/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactDOM from "react-dom/client";
-import theme from "./_cloner/theme/theme";
 
 import "./_cloner/assets/css/index.css"
 import { AppRoutes } from "./app/routing/AppRoutes";

@@ -5,6 +5,7 @@ import { useRegisterUser } from "../core/_hooks";
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
+import React from "react";
 
 const CreateUser = () => {
     const loginSchema = Yup.object().shape({
@@ -45,7 +46,7 @@ const CreateUser = () => {
             )}
             <Container>
                 <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-8">ایجاد کاربر جدید</Typography>
+                    <Typography color="secondary" variant="h1" className="pb-8">ایجاد کاربر جدید</Typography>
                     <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={async (values, { setStatus, setSubmitting }) => {
                         try {
                             mutate(values, {

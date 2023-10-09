@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { IProducts } from "./core/_models";
 import { useDisableProduct, useRetrieveProducts } from "./core/_hooks";
@@ -64,7 +65,7 @@ const Products = () => {
                 />
               )}
                 <Card className="p-8">
-                    <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">مدیریت کالا</Typography>
+                    <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">مدیریت کالا</Typography>
                     <Box component="div" className="md:flex md:justify-between md:items-center space-y-2">
                         <Box component="div" className="w-auto md:w-[40%]">
                             <FuzzySearch keys={['productCode','productName', 'productDetail.size', 'productDetail.productIntegratedName', 'approximateWeight', 'numberInPackage', 'productDetail.standard', 'productDetail.productState', 'description']} data={products?.data} threshold={0.5} setResults={setResults} />

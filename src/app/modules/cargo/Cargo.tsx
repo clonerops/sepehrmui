@@ -6,6 +6,7 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { useEffect, useState } from "react";
 import { ICargo } from "./core/_models";
+import React from "react";
 
 const Cargo = () => {
     const { data: cargoNotSended } = useRetrievesNotSendedOrder();
@@ -31,7 +32,7 @@ const Cargo = () => {
 
     return (
         <Card className="p-8">
-            <Typography color="primary" variant="h1" className="pb-2">
+            <Typography color="secondary" variant="h1" className="pb-2">
                 کالا اعلام بار نشده
             </Typography>
             <Box component="div" className="w-auto md:w-[40%]">

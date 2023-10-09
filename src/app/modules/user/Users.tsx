@@ -19,6 +19,7 @@ import ReusableTable from "../../../_cloner/components/Tables";
 import CreateUser from "./components/CreateUser";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { columns } from "./helpers/userColumns";
+import React from "react";
 
 const Users = () => {
   const usersTools = useUsers();
@@ -77,7 +78,7 @@ const Users = () => {
           <Link to={"/dashboard/user/create"}>
             <Button
               variant="contained"
-              className="w-[240px] bg-primary text-white px-8 py-2"
+              className="w-[240px] bg-primary text-black font-bold font-boldpx-8 py-2"
             >
               <Typography variant="body1">ایجاد کاربر جدید</Typography>
             </Button>

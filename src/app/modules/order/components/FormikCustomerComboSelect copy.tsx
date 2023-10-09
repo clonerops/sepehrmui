@@ -1,3 +1,4 @@
+import React from "react";
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox";
 import { dropdownProductIntegrated } from "../../generic/_functions";
 import { useRetrieveProducts } from "../../product/core/_hooks";

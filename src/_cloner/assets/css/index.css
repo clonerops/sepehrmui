@@ -15,14 +15,20 @@
 }
 *::-webkit-scrollbar {
     width: 10px !important;
+    display: hidden !important;
+    visibility: hidden;
 }
 *::-webkit-scrollbar-track {
     background: rgb(255, 255, 255);
+    display: hidden !important;
+    visibility: hidden;
 }
 *::-webkit-scrollbar-thumb {
     background-color: #2E4374;
     border-radius: 20px;
     border: 3px solid rgb(255, 255, 255);
+    display: hidden !important;
+    visibility: hidden;
 }
 
 @font-face {

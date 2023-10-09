@@ -16,6 +16,7 @@ import { useGetTypes } from "../../generic/productType/_hooks";
 import { dropdownStandard, dropdownState, dropdownTypes } from "../helpers/convertDropdowns";
 import { useGetStandards } from "../../generic/productStandard/_hooks";
 import { useGetStates } from "../../generic/productState/_hooks";
+import React from "react";
 
 const CreateProduct = (props: {
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;

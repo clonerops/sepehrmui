@@ -6,6 +6,7 @@ import { IOrder } from "./core/_models";
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import React from "react";
 
 const OrderConfirm = () => {
     const { data: orders } = useRetrieveOrders();
@@ -29,7 +30,7 @@ const OrderConfirm = () => {
     };
     return (
         <Card className="p-8">
-            <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
+            <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات جهت تایید
             </Typography>
             <Box component="div" className="w-auto md:w-[40%]">

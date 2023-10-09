@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { IconComponent } from "../../../../_cloner/components/DynamicIcon";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import React from "react";
 
 const MenuItems = (props: { menuItems: any }) => {
   const [openSubMenu, setOpenSubMenu] = useState(
@@ -32,8 +33,8 @@ const MenuItems = (props: { menuItems: any }) => {
           className="cursor-pointer"
         >
           <ListItem onClick={() => toggleSubMenu(index)}>
-            <ListItemIcon className="text-white">
-              <Box component="div" className="text-white">
+            <ListItemIcon className="text-white font-bold">
+              <Box component="div" className="text-white font-bold">
                 <IconComponent iconName={menuItem.iconName} />
               </Box>
             </ListItemIcon>
@@ -66,8 +67,8 @@ const MenuItems = (props: { menuItems: any }) => {
       return (
         <Link id="RouterLink" key={menuItem.id} to={`${menuItem.to}`}>
           <ListItem key={menuItem.id}>
-            <ListItemIcon className="text-white">
-              <Box component="div" className="text-white">
+            <ListItemIcon className="text-white font-bold">
+              <Box component="div" className="text-white font-bold">
                 <IconComponent iconName={menuItem.iconName} />
               </Box>
             </ListItemIcon>
@@ -92,7 +93,7 @@ export default MenuItems;
 //         //   return (
 //         //     <Box component="div" key={menuItem.id} className="cursor-pointer">
 //         //       <ListItem onClick={() => toggleSubMenu(index)}>
-//         //         <ListItemIcon className="text-white">
+//         //         <ListItemIcon className="text-white font-bold">
 //         //           {/* <DynamicIcon iconName={menuItem.iconName} /> */}
 //         //         </ListItemIcon>
 //         //         <ListItemText primary={menuItem.title} />
@@ -120,8 +121,8 @@ export default MenuItems;
 //         return (
 //           <Link id="RouterLink" key={menuItem.id} to={`${menuItem.to}`}>
 //             <ListItem key={menuItem.id}>
-//               <ListItemIcon className="text-white">
-//                 <Box component="div" className="text-white">
+//               <ListItemIcon className="text-white font-bold">
+//                 <Box component="div" className="text-white font-bold">
 //                   <IconComponent iconName={"Home"} />
 //                 </Box>
 //               </ListItemIcon>

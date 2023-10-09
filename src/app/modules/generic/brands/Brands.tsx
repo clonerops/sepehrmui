@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useEffect } from 'react'
 import { Box, Button, Card, Switch, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
@@ -9,11 +10,18 @@ import { useDeleteBrands, useGetBrands, usePostBrands, useUpdateBrands } from '.
 import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
 import { columns } from './_columns'
 import PositionedSnackbar from '../../../../_cloner/components/Snackbar'
+import { AddCircleOutline } from '@mui/icons-material'
+import * as Yup from 'yup'
 
 const initialValues = {
   id: 0,
   name: ""
 }
+
+const validation = Yup.object({
+  name: Yup.string().required("فیلد الزامی می باشد")
+})
+
 
 const Brands = () => {
   const { data: brands, refetch, isLoading: brandLoading } = useGetBrands()
@@ -75,12 +83,12 @@ const Brands = () => {
 
   return (
     <>
-      {snackePostOpen && ( <PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postData?.data?.Message ||postData?.message } /> )}
-      {snackeUpdateOpen && ( <PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={ updateData?.data?.Message || updateData?.message } /> )}
-      {snackeDeleteOpen && ( <PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={ deleteData?.data?.Message || deleteData?.message } /> )}
+      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postData?.data?.Message || postData?.message} />)}
+      {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
+      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteData?.data?.Message || deleteData?.message} />)}
       <Card className="p-4">
-        <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">برندها</Typography>
-        <Formik initialValues={initialValues} onSubmit={
+        <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">برندها</Typography>
+        <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
           async (values, { setStatus, setSubmitting, setFieldValue }) => {
             try {
               const formData = {
@@ -100,16 +108,21 @@ const Brands = () => {
           }
         }>
           {({ handleSubmit }) => {
-            return <Form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
-              <Box component="div" className="md:flex md:justify-center md:items-center gap-x-4 md:w-[50%]">
+            return <Form onSubmit={handleSubmit} className="flex flex-col justify-start items-start mb-8">
+              <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 md:w-[50%]">
                 <FormikInput name="id" label="کد برند" disabled={true} boxClassName="md:w-[50%] mt-2 md:mt-0" />
                 <FormikInput name="name" label="نام برند" boxClassName="md:w-[50%] mt-2 md:mt-0" />
-              </Box>
-              <Box component="div" className="flex justify-end md:w-[50%] mt-4">
-                <Button onClick={() => handleSubmit()} variant="contained" color="primary" >
-                  <Typography className="px-8 py-2">ثبت</Typography>
+                <Button onClick={() => handleSubmit()} variant="contained" color="secondary" >
+                  <Typography className="px-2">
+                    <AddCircleOutline />
+                  </Typography>
                 </Button>
               </Box>
+              {/* <Box component="div" className="flex justify-end md:w-[50%] mt-4">
+              <Button onClick={() => handleSubmit()} variant="contained" color="primary" >
+                <Typography className="px-8 py-2">ثبت</Typography>
+              </Button>
+              </Box> */}
             </Form>
           }}
         </Formik>

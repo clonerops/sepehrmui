@@ -23,6 +23,7 @@ import ProductBrands from "../modules/generic/productBrands/ProductBrands";
 import Users from "../modules/user/Users";
 import CreateUser from "../modules/user/components/CreateUser";
 import RoleUser from "../modules/user/components/RoleUser";
+import React from "react";
 
 const PrivateRoutes = () => {
 
