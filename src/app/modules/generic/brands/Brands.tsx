@@ -87,7 +87,7 @@ const Brands = () => {
       {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
       {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteData?.data?.Message || deleteData?.message} />)}
       <Card className="p-4">
-        <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">برندها</Typography>
+        {/* <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">برندها</Typography> */}
         <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
           async (values, { setStatus, setSubmitting, setFieldValue }) => {
             try {
@@ -112,17 +112,12 @@ const Brands = () => {
               <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 md:w-[50%]">
                 <FormikInput name="id" label="کد برند" disabled={true} boxClassName="md:w-[50%] mt-2 md:mt-0" />
                 <FormikInput name="name" label="نام برند" boxClassName="md:w-[50%] mt-2 md:mt-0" />
-                <Button onClick={() => handleSubmit()} variant="contained" color="secondary" >
+                <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className='mt-2 md:mt-0"' >
                   <Typography className="px-2">
                     <AddCircleOutline />
                   </Typography>
                 </Button>
               </Box>
-              {/* <Box component="div" className="flex justify-end md:w-[50%] mt-4">
-              <Button onClick={() => handleSubmit()} variant="contained" color="primary" >
-                <Typography className="px-8 py-2">ثبت</Typography>
-              </Button>
-              </Box> */}
             </Form>
           }}
         </Formik>

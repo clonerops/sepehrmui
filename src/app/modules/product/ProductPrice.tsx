@@ -76,12 +76,12 @@ const ProductPrice = () => {
                 />
             )}
             <Card className="p-8">
-                <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
+                {/* <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                     مدیریت قیمت کالا
-                </Typography>
+                </Typography> */}
                 <Box
                     component="div"
-                    className="md:flex md:justify-between md:items-center space-y-2"
+                    className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
                     <Box component="div" className="w-auto md:w-[40%]">
                         <FuzzySearch
@@ -91,13 +91,22 @@ const ProductPrice = () => {
                             setResults={setResults}
                         />
                     </Box>
-                    <Button
-                        onClick={() => setIsCreateOpen(true)}
-                        variant="contained"
-                        color="secondary"
-                    >
-                        <Typography>ایجاد قیمت کالا</Typography>
-                    </Button>
+                    <Box component="div" className="flex flex-wrap gap-x-4">
+                        <Button 
+                            onClick={() => setIsCreateOpen(true)}
+                            variant="contained"
+                            color="secondary"
+                        >
+                            <Typography>آپلود فایل</Typography>
+                        </Button>
+                        <Button
+                            onClick={() => setIsCreateOpen(true) }
+                            variant="contained"
+                            color="secondary"
+                        >
+                            <Typography>ایجاد قیمت کالا</Typography>
+                        </Button>
+                    </Box>
                 </Box>
                 <MuiDataGrid
                     columns={columns(renderAction)}
@@ -107,13 +116,15 @@ const ProductPrice = () => {
                 <TransitionsModal
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}
+                    width="50%"
                     title="ایجاد قیمت محصول"
-                    >
+                >
                     <CreateProductPrice refetch={refetch} />
                 </TransitionsModal>
                 <TransitionsModal
                     open={isOpen}
                     isClose={() => setIsOpen(false)}
+                    width="50%"
                     title="ویرایش قیمت محصول"
                 >
                     <EditProductPrice refetch={refetch} item={itemForEdit} />

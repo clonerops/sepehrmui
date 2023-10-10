@@ -9,6 +9,8 @@ import { useState } from "react"
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
 import { createProductPriceValidations } from "../validations/createProductPrice"
 import React from "react"
+import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
+import FormikPrice from "./FormikPrice"
 
 const initialValues = {
     price: "",
@@ -42,15 +44,16 @@ const CreateProductPrice = (props: Props) => {
             )}
 
             <Formik initialValues={initialValues} validationSchema={createProductPriceValidations} onSubmit={
-                async (values, { setStatus, setSubmitting }) => {
+                async (values: any, { setStatus, setSubmitting }) => {
+                    console.log(values)
                     try {
                         const formData = {
-                            price: Number(values.price),
-                            productId: values.productId,
+                            price: Number(values.price.replace(/,/g, "")),
+                            productId: values.productId.value,
                             productBrandId: Number(values.productBrandId)
                         }
                         mutate(formData, {
-                            onSuccess: (message) => {
+                            onSuccess: () => {
                                 setSnackeOpen(true)
                                 props.refetch()
                             }
@@ -63,12 +66,12 @@ const CreateProductPrice = (props: Props) => {
             }>
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit}>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <FormikSelect label="کالا" name="productId" options={dropdownProduct(products?.data)} />
+                        <Box component="div" className="flex flex-col gap-4">
+                            <FormikComboBox label="کالا" name="productId" options={dropdownProduct(products?.data)} />
                             <FormikSelect label="برند" name="productBrandId" options={dropdownBrand(brands)} />
-                            <FormikInput label="قیمت" name="price" type="text" />
+                            <FormikPrice  label="قیمت" name="price" />
                         </Box>
-                        <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
+                        <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">
                             <Typography variant="h3" className="px-8 py-2">ثبت قیمت</Typography>
                         </Button>
                     </Form>

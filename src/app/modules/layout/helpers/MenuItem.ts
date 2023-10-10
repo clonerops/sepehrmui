@@ -38,6 +38,12 @@ const menuItem = [
         title: "مدیریت مشتری",
         to: "dashboard/customers",
       },
+      {
+        id: 1321,
+        iconName: "SavingsRounded",
+        title: "مدیریت تامین کنندگان",
+        to: "dashboard/suppliers",
+      },
     ],
   },
   {
@@ -68,16 +74,35 @@ const menuItem = [
       },
       {
         id: 1321,
-        iconName: "SavingsRounded",
-        title: "مدیریت تامین کنندگان",
-        to: "dashboard/suppliers",
-      },
-      {
-        id: 1321,
         iconName: "ScheduleSendSharp",
         title: "مدیریت قیمت کالا",
         to: "dashboard/productPrices",
       },
+      {
+        id: 1321,
+        iconName: "BrandingWatermark",
+        title: "برند ها",
+        to: "dashboard/brands",
+      },
+      {
+        id: 1321,
+        iconName: "TypeSpecimen",
+        title: "نوع کالا ها",
+        to: "dashboard/productTypes",
+      },
+      {
+        id: 1321,
+        iconName: "Balcony",
+        title: "حالت ها",
+        to: "dashboard/productState",
+      },
+      {
+        id: 1321,
+        iconName: "SettingsInputSvideo",
+        title: "استاندارد ها",
+        to: "dashboard/productStandard",
+      },
+
     ],
   },
   {
@@ -115,44 +140,44 @@ const menuItem = [
     ],
   },
   
-  {
-    id: 2,
-    title: "عمومی",
-    to: "",
-    iconName: "Settings",
-    submenu: [
-      {
-        id: 1321,
-        iconName: "BrandingWatermark",
-        title: "برند ها",
-        to: "dashboard/brands",
-      },
-      {
-        id: 1321,
-        iconName: "TypeSpecimen",
-        title: "نوع کالا ها",
-        to: "dashboard/productTypes",
-      },
-      {
-        id: 1321,
-        iconName: "Balcony",
-        title: "حالت ها",
-        to: "dashboard/productState",
-      },
-      {
-        id: 1321,
-        iconName: "SettingsInputSvideo",
-        title: "استاندارد ها",
-        to: "dashboard/productStandard",
-      },
-      // {
-      //   id: 1321,
-      //   iconName: "SettingsInputSvideo",
-      //   title: "برند کالا",
-      //   to: "dashboard/productBrand",
-      // },
-    ],
-  },
+  // {
+  //   id: 2,
+  //   title: "عمومی",
+  //   to: "",
+  //   iconName: "Settings",
+  //   submenu: [
+  //     {
+  //       id: 1321,
+  //       iconName: "BrandingWatermark",
+  //       title: "برند ها",
+  //       to: "dashboard/brands",
+  //     },
+  //     {
+  //       id: 1321,
+  //       iconName: "TypeSpecimen",
+  //       title: "نوع کالا ها",
+  //       to: "dashboard/productTypes",
+  //     },
+  //     {
+  //       id: 1321,
+  //       iconName: "Balcony",
+  //       title: "حالت ها",
+  //       to: "dashboard/productState",
+  //     },
+  //     {
+  //       id: 1321,
+  //       iconName: "SettingsInputSvideo",
+  //       title: "استاندارد ها",
+  //       to: "dashboard/productStandard",
+  //     },
+  //     // {
+  //     //   id: 1321,
+  //     //   iconName: "SettingsInputSvideo",
+  //     //   title: "برند کالا",
+  //     //   to: "dashboard/productBrand",
+  //     // },
+  //   ],
+  // },
 ];
 
 export { menuItem };

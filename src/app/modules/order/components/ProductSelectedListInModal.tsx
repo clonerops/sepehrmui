@@ -87,73 +87,70 @@ const ProductSelectedListInModal = (props: {
 
         const updatedOrders = [...props.orders, ...selectedProductWithAmounts];
         props.setOrders(updatedOrders);
-    
+
         props.setSelectedProductOpen(false);
-        // props.setOrders(selectedProductWithAmounts);
     };
 
 
     return (
-        <Container>
-            <Box component="div" className="grid grid-cols-2 gap-x-8">
-                <Box component="div">
-                    <Box component="div" className="w-80 md:w-[40%]">
-                        <FuzzySearch
-                            keys={[
-                                "productName",
-                                "productIntegratedName",
-                                "approximateWeight",
-                            ]}
-                            data={props.products}
-                            threshold={0.5}
-                            setResults={setResults}
-                        />
-                    </Box>
-                    <MuiSelectionDataGrid
-                        onRowDoubleClick={handleSelectionChange}
-                        selectionModel={selectionModel}
-                        setSelectionModel={setSelectionModel}
-                        columns={columns(renderAction)}
-                        rows={results}
+        <Box component="div" className="grid grid-cols-2 gap-x-8">
+            <Box component="div">
+                <Box component="div" className="w-80 md:w-[40%]">
+                    <FuzzySearch
+                        keys={[
+                            "productName",
+                            "productIntegratedName",
+                            "approximateWeight",
+                        ]}
                         data={props.products}
-                        pagination={false}
-                        hideFooter={true}
-                        columnHeaderHeight={40}
+                        threshold={0.5}
+                        setResults={setResults}
                     />
                 </Box>
-                <Box component="div" className="mt-4">
-                    <Typography variant="h2" color="secondary">
-                        کالاهای انتخاب شده
-                    </Typography>
-                    <MuiSelectionDataGrid
-                        selectionModel={selectionModel}
-                        setSelectionModel={setSelectionModel}
-                        columns={columnsSelectProduct(
-                            renderAction,
-                            renderInput
-                        )}
-                        rows={selectedProduct}
-                        data={selectedProduct}
-                        pagination={false}
-                        hideFooter={true}
-                        columnHeaderHeight={40}
-                    />
-                    <Box
-                        component="div"
-                        className="flex justify-end items-end mt-4"
+                <MuiSelectionDataGrid
+                    onRowDoubleClick={handleSelectionChange}
+                    selectionModel={selectionModel}
+                    setSelectionModel={setSelectionModel}
+                    columns={columns(renderAction)}
+                    rows={results}
+                    data={props.products}
+                    pagination={false}
+                    hideFooter={true}
+                    columnHeaderHeight={40}
+                />
+            </Box>
+            <Box component="div" className="mt-4">
+                <Typography variant="h2" color="secondary">
+                    کالاهای انتخاب شده
+                </Typography>
+                <MuiSelectionDataGrid
+                    selectionModel={selectionModel}
+                    setSelectionModel={setSelectionModel}
+                    columns={columnsSelectProduct(
+                        renderAction,
+                        renderInput
+                    )}
+                    rows={selectedProduct}
+                    data={selectedProduct}
+                    pagination={false}
+                    hideFooter={true}
+                    columnHeaderHeight={40}
+                />
+                <Box
+                    component="div"
+                    className="flex justify-end items-end mt-4"
+                >
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        className=""
+                        onClick={handleSubmitSelectedProduct}
                     >
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className=""
-                            onClick={handleSubmitSelectedProduct}
-                        >
-                            <Typography>تایید</Typography>
-                        </Button>
-                    </Box>
+                        <Typography>تایید</Typography>
+                    </Button>
                 </Box>
             </Box>
-        </Container>
+        </Box>
     );
 };
 

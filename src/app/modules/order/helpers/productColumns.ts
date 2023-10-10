@@ -1,3 +1,5 @@
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+
 export const columns = (renderAction: any) => {
     const col = [
         // { field: 'productIntegratedName',  headerName: 'شرح کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold" },
@@ -32,6 +34,9 @@ export const columns = (renderAction: any) => {
             valueGetter: (params: any) => params.row.productPrices[0]?.price,
             width: 80,
             headerName: "قیمت",
+            renderCell: (value: any) => (
+                separateAmountWithCommas(value.row.productPrices[0]?.price)
+            ),
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
     ];

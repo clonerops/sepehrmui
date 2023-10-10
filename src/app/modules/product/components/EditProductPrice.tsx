@@ -8,7 +8,7 @@ import { dropdownBrand, dropdownProduct } from "../../generic/_functions"
 import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
-import React from "react"
+import FormikPrice from "./FormikPrice"
 
 type Props = {
     refetch: (options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined) => Promise<QueryObserverResult<any, unknown>>
@@ -20,7 +20,6 @@ const EditProductPrice = (props: Props) => {
     const { data: brands } = useRetrieveBrands();
     const { mutate, data } = useUpdateProductPrice()
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-
 
     const initialValues = {
         price: props.item?.price,
@@ -43,11 +42,12 @@ const EditProductPrice = (props: Props) => {
 
 
             <Formik initialValues={initialValues} onSubmit={
-                async (values, { setStatus, setSubmitting }) => {
+                async (values: any, { setStatus, setSubmitting }) => {
                     try {
                         const formData = {
                             id: props.item?.id,
-                            price: Number(values.price),
+                            // price: Number(values.price),
+                            price: Number(values.price.replace(/,/g, "")),
                             productId: values.productId,
                             productBrandId: values.productBrandId
                         }
@@ -68,7 +68,8 @@ const EditProductPrice = (props: Props) => {
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <FormikSelect defaultValue={{ value: props.item?.product?.id, label: props.item?.product?.productName }} name="productId" options={dropdownProduct(products?.data)} label="کالا" />
                             <FormikSelect defaultValue={{ value: props.item?.productBrandId, label: props.item?.brandName }} name="productBrandId" options={dropdownBrand(brands)} label="برند" />
-                            <FormikInput name="price" type="text" label="قیمت" />
+                            {/* <FormikInput name="price" type="text" label="قیمت" /> */}
+                            <FormikPrice  label="قیمت" name="price" />
                         </Box>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                             <Typography variant="h3" className="px-8 py-2">ویرایش قیمت کالا</Typography>
