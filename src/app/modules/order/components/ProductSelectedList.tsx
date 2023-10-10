@@ -1,17 +1,18 @@
 import { IProducts } from "../../product/core/_models";
 import { Button, Typography } from "@mui/material";
 import MuiTable from "../../../../_cloner/components/MuiTable";
-import React from "react";
 
 const ProductSelectedList = (props: {
     orders: IProducts[]
     setOrders: any
 }) => {
-    const handleDeleteFromList = (index: number) => {
+    const handleDeleteFromList = (indexToDelete: any) => {
+        console.log('Orders before deletion:', props.orders);
+        console.log('Item to delete:', indexToDelete);
         if (props.orders) {
-            const cloneItems = [...props.orders]
-            cloneItems?.splice(index, 1)
-            props.setOrders(cloneItems)
+            const updatedOrders = props.orders.filter((order) => order.id !== indexToDelete.id);
+            console.log('Updated orders:', updatedOrders);
+            props.setOrders(updatedOrders);
         }
     }
     
@@ -28,7 +29,8 @@ const ProductSelectedList = (props: {
         { header: 'کالا', accessor: 'productName' },
         { header: 'انبار', accessor: 'warehouseName' },
         { header: 'مقدار', accessor: 'proximateAmount' },
-        { header: 'قیمت', accessor: 'price', },
+        // { header: 'قیمت', accessor: 'price', },
+        { header: 'قیمت', accessor: 'productPrice', },
         { header: 'توضیحات', accessor: 'productDesc' },
         { header: 'ردیف فروش', accessor: 'rowId' },
         { header: 'قیمت خرید', accessor: 'buyPrice' },

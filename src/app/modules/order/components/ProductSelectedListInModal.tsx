@@ -5,9 +5,6 @@ import {
     Box,
     Button,
     Container,
-    FormControl,
-    FormHelperText,
-    InputAdornment,
     OutlinedInput,
     Typography,
 } from "@mui/material";
@@ -21,6 +18,7 @@ const ProductSelectedListInModal = (props: {
     productError: boolean;
     setFieldValue: any;
     setOrders?: any;
+    orders?: any;
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectProductFromModal: any;
 }) => {
@@ -72,7 +70,6 @@ const ProductSelectedListInModal = (props: {
         });
     };
 
-
     const handleSelectionChange: any = (newSelectionModel: any) => {
         setSelectionModel(newSelectionModel);
         setSelectedProduct([...selectedProduct, newSelectionModel.row]);
@@ -81,11 +78,6 @@ const ProductSelectedListInModal = (props: {
         // props.setSelectProductFromModal(newSelectionModel);
     };
 
-    // const handleSubmitSelectedProduct = () => {
-    //     props.setSelectedProductOpen(false);
-    //     props.setOrders(selectedProduct);
-    // };
-
     const handleSubmitSelectedProduct = () => {
         // Combine product data with input values
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
@@ -93,9 +85,13 @@ const ProductSelectedListInModal = (props: {
             proximateAmount: proximateAmounts[product.id] || "", // Use the input value
         }));
 
+        const updatedOrders = [...props.orders, ...selectedProductWithAmounts];
+        props.setOrders(updatedOrders);
+    
         props.setSelectedProductOpen(false);
-        props.setOrders(selectedProductWithAmounts);
+        // props.setOrders(selectedProductWithAmounts);
     };
+
 
     return (
         <Container>

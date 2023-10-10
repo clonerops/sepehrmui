@@ -1,4 +1,5 @@
 export interface IProducts {
+    productId: number
     id?: string | undefined
     productName: string | undefined
     productTypeId: number | undefined

@@ -119,7 +119,8 @@ const Order = () => {
         const warehouseTypeId = warehouse.find((i: any) => i.id === values.warehouseId)
         const purchaseInvoiceTypeName = purchaseInvoiceType.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
         const productOrder = {
-            productId: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
+            id: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
+            // productId: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
             productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
             warehouseId: values.warehouseId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
@@ -131,7 +132,7 @@ const Order = () => {
             purchaseInvoiceTypeName: purchaseInvoiceTypeName?.desc,
             sellerCompanyRow: values.sellerCompanyRow,
             proximateAmount: values.proximateAmount,
-            price: values?.price,
+            productPrice: values?.price,
             rowId: values?.rowId,
         };
         setOrders([...orders, productOrder]);
@@ -189,7 +190,7 @@ const Order = () => {
                                             (item: any) => {
                                                 return {
                                                     rowId: Number(item.rowId),
-                                                    productId: item.productId,
+                                                    productId: item.id,
                                                     warehouseTypeId: item.warehouseTypeId,
                                                     warehouseId: item.warehouseId
                                                         ? Number(item.warehouseId)
@@ -312,6 +313,7 @@ const Order = () => {
                                                         setSelectedProductOpen={setSelectedProductOpen}
                                                         setSelectProductFromModal={setSelectProductFromModal}
                                                         setFieldValue={setFieldValue}
+                                                        orders={orders}
                                                         setOrders={setOrders}
                                                     />
                                                 </TransitionsModal>
