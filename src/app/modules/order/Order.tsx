@@ -118,7 +118,6 @@ const Order = () => {
     const handleOrder = (values: any, setFieldValue: any) => {
         const warehouseTypeId = warehouse.find((i: any) => i.id === values.warehouseId)
         const purchaseInvoiceTypeName = purchaseInvoiceType.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
-        console.log("purchaseInvoiceTypeName", selectProductFromModal)
         const productOrder = {
             productId: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
             productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
@@ -313,6 +312,7 @@ const Order = () => {
                                                         setSelectedProductOpen={setSelectedProductOpen}
                                                         setSelectProductFromModal={setSelectProductFromModal}
                                                         setFieldValue={setFieldValue}
+                                                        setOrders={setOrders}
                                                     />
                                                 </TransitionsModal>
                                             </Box>
