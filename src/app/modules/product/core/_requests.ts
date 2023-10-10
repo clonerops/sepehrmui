@@ -1,4 +1,4 @@
-import { http } from "../../../../_cloner/helpers/axiosConfig";
+import { http, httpFormData } from "../../../../_cloner/helpers/axiosConfig";
 import { IProductPrice, IProducts, ISuppliers } from "./_models";
 
 const retrieveProducts = async (
@@ -190,6 +190,15 @@ const deleteProductPrice = async (id: string) => {
     }
 };
 
+const uploadProductPrice = async (formData: any) => {
+    try {
+        const { data } = await httpFormData.post(`/v${1}/ProductPrice/UploadFilePost`,formData);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
 
 
 export {
@@ -211,5 +220,6 @@ export {
     createProductPrice,
     retrieveProductPriceById,
     updateProductPrice,
-    deleteProductPrice
+    deleteProductPrice,
+    uploadProductPrice
 };

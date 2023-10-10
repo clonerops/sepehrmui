@@ -98,6 +98,12 @@ const useDeleteProductPrice = () => {
     });
 };
 
+const useUploadFileProductPrice = () => {
+    return useMutation((formData: any) => {
+        return api.uploadProductPrice(formData);
+    });
+};
+
 
 export {
     useRetrieveProducts,
@@ -116,5 +122,6 @@ export {
     useCreateProductPrice,
     useRetrieveProductPriceById,
     useUpdateProductPrice,
-    useDeleteProductPrice
+    useDeleteProductPrice,
+    useUploadFileProductPrice
 };

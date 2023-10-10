@@ -93,7 +93,7 @@ const ProductPrice = () => {
                     </Box>
                     <Box component="div" className="flex flex-wrap gap-x-4">
                         <Button 
-                            onClick={() => setIsCreateOpen(true)}
+                            onClick={() => {}}
                             variant="contained"
                             color="secondary"
                         >
