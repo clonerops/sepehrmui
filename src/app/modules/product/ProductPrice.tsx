@@ -13,6 +13,7 @@ import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
+import FileUploadButton from "../../../_cloner/components/UploadFileButton";
 
 const ProductPrice = () => {
     const {
@@ -60,6 +61,8 @@ const ProductPrice = () => {
         );
     };
 
+    const [files, setFiles] = useState<any>()
+
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
@@ -92,13 +95,14 @@ const ProductPrice = () => {
                         />
                     </Box>
                     <Box component="div" className="flex flex-wrap gap-x-4">
-                        <Button 
+                        <FileUploadButton files={files} setFiles={setFiles} />
+                        {/* <Button 
                             onClick={() => {}}
                             variant="contained"
                             color="secondary"
                         >
                             <Typography>آپلود فایل</Typography>
-                        </Button>
+                        </Button> */}
                         <Button
                             onClick={() => setIsCreateOpen(true) }
                             variant="contained"

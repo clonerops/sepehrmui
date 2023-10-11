@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { MutationFunction, useMutation, useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
 import { IProductPrice, IProducts, ISuppliers } from "./_models";
 
@@ -31,7 +31,7 @@ const useDisableProduct = () => {
     });
 };
 const useEnableProduct = () => {
-    return useMutation((formData: {id: string, active: boolean}) => {
+    return useMutation((formData: { id: string, active: boolean }) => {
         return api.enableProduct(formData);
     });
 };
@@ -98,10 +98,11 @@ const useDeleteProductPrice = () => {
     });
 };
 
+const uploadProductPrice: any = (formData: any, onUploadProgress: any) => {
+    return api.uploadProductPrice(formData, onUploadProgress);
+};
 const useUploadFileProductPrice = () => {
-    return useMutation((formData: any) => {
-        return api.uploadProductPrice(formData);
-    });
+    return useMutation(uploadProductPrice);
 };
 
 

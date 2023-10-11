@@ -190,9 +190,11 @@ const deleteProductPrice = async (id: string) => {
     }
 };
 
-const uploadProductPrice = async (formData: any) => {
+const uploadProductPrice = async (formData: any, onUploadProgress: any) => {
     try {
-        const { data } = await httpFormData.post(`/v${1}/ProductPrice/UploadFilePost`,formData);
+        const { data } = await httpFormData.post(`/v${1}/ProductPrice/UploadFilePost`,formData, {
+            onUploadProgress: onUploadProgress
+        });
         return data;
     } catch (error: any) {
         return error.response;
