@@ -12,9 +12,10 @@ interface TableColumn {
 interface TableProps {
   data: any[]; // Your data array
   columns: TableColumn[];
+  onDoubleClick?: any
 }
 
-const MuiTable: React.FC<TableProps> = ({ data, columns }) => {
+const MuiTable: React.FC<TableProps> = ({ data, columns, onDoubleClick }) => {
     return (
       <TableContainer component={Paper}>
         <Table>
@@ -27,7 +28,7 @@ const MuiTable: React.FC<TableProps> = ({ data, columns }) => {
           </TableHead>
           <TableBody>
             {data?.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
+              <TableRow key={rowIndex} onDoubleClick={() => onDoubleClick(row, rowIndex)} className='cursor-pointer'>
                 {columns.map((column) => (
                   <TableCell key={column.accessor}>
                     {column.render ? column.render(row) : row[column.accessor]}

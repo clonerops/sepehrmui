@@ -35,3 +35,12 @@ export const dropdownProductIntegrated = (data: any) => {
         })
     );
 };
+export const dropdownProductName = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: any; productName: any }): any => {
+            const { id, productName } = obj;
+            return { value: id, label: productName };
+        })
+    );
+};

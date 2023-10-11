@@ -37,10 +37,9 @@ import TextValue from "./components/TextValue";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import { AddCircle, Add, Grading } from '@mui/icons-material'
 import { ICustomer } from "../customer/core/_models";
-import { dropdownProductIntegrated } from "../generic/_functions";
+import { dropdownProductIntegrated, dropdownProductName } from "../generic/_functions";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
-import React from "react";
 
 const initialValues = {
     customerId: "",
@@ -69,7 +68,8 @@ const initialValues = {
     purchaserCustomerId: "",
     purchaseSettlementDate: "",
     sellerCompanyRow: "",
-    productIntegratedName: ""
+    productIntegratedName: "",
+    productName: ""
 };
 
 
@@ -87,6 +87,8 @@ const Order = () => {
 
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
+    const [selectedOrderIndex, setSelectedOrderIndex] = useState<any>(null);
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
     const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false);
     const [selectProductFromModal, setSelectProductFromModal] = useState<any>();
@@ -116,12 +118,14 @@ const Order = () => {
     };
 
     const handleOrder = (values: any, setFieldValue: any) => {
-        const warehouseTypeId = warehouse.find((i: any) => i.id === values.warehouseId)
-        const purchaseInvoiceTypeName = purchaseInvoiceType.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
+        const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId)
+        const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
         const productOrder = {
             id: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
             // productId: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
-            productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
+            // productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
+            // productName: values.productName.label ? values.productName.label : selectProductFromModal?.row.productName,
+            productName: values.productName.label ? values.productName.label : values.productName,
             warehouseId: values.warehouseId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             warehouseName: warehouseNameSelect,
@@ -135,13 +139,32 @@ const Order = () => {
             productPrice: values?.price,
             rowId: values?.rowId,
         };
-        setOrders([...orders, productOrder]);
-        // setFieldValue("proximateAmount", "")
-        // setFieldValue("price", "")
-        // setFieldValue("productDesc", "")
-        // setFieldValue("rowId", "")
+        if (!isUpdate) {
+            if(values.productName === "" || values.productName.label === "" ) {
+                alert("کالا الزامی می باشد")
+            } else if (values?.price === "") {
+                alert("قیمت الزامی می باشد")
+            }
+            else {
+                setOrders([...orders, productOrder]);
+            }
 
-    };
+        } else {
+            const updatedOrder = {
+                ...productOrder
+            };
+
+            const updatedOrders = [...orders];
+            updatedOrders[selectedOrderIndex] = updatedOrder;
+
+            setOrders(updatedOrders);
+            setSelectedOrderIndex(null);
+            setFieldValue("productName", "")
+            setFieldValue("proximateAmount", "")
+            setFieldValue("price", "")
+            setIsUpdate(false);
+        };
+    }
 
     const [findCustomer, setFindCustomer] = useState<ICustomer>()
 
@@ -298,7 +321,8 @@ const Order = () => {
                                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-2">
                                             <Box component="div" className="">
                                                 <Box component="div" className="flex mx-2">
-                                                    <FormikProductComboSelect productIntegratedName={values.productIntegratedName} label="کالا" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} />
+                                                    {/* <FormikProductComboSelect productIntegratedName={values.productIntegratedName} label="کالا" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} /> */}
+                                                    <FormikProductComboSelect productName={values.productName} label="کالا" name="productName" options={dropdownProductName(products?.data)} />
                                                     <Box component="div" className="mx-1">
                                                         <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="secondary" >
                                                             <Grading />
@@ -332,12 +356,19 @@ const Order = () => {
                                                     <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید" />
                                                 </>
                                             )}
-                                            <Box component="div" onClick={() => handleOrder(values, setFieldValue)} className="flex bg-green-500 text-black font-bold font-boldtext-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
-                                                <Add />
-                                                <Typography>افزودن به لیست سفارشات</Typography>
-                                            </Box>
+                                            {isUpdate ? (
+                                                <Box component="div" onClick={() => handleOrder(values, setFieldValue)} className="flex bg-yellow-500 text-black font-bold font-boldtext-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
+                                                    <Add />
+                                                    <Typography>ویرایش</Typography>
+                                                </Box>
+                                            ) : (
+                                                <Box component="div" onClick={() => handleOrder(values, setFieldValue)} className="flex bg-green-500 text-black font-bold font-boldtext-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
+                                                    <Add />
+                                                    <Typography>افزودن به لیست سفارشات</Typography>
+                                                </Box>
+                                            )}
                                         </Box>
-                                        <ProductSelectedList orders={orders} setOrders={setOrders} />
+                                        <ProductSelectedList setSelectedOrderIndex={setSelectedOrderIndex} selectedOrderIndex={selectedOrderIndex} setIsUpdate={setIsUpdate} setFieldValue={setFieldValue} orders={orders} setOrders={setOrders} />
                                     </Card>
                                 </Box>
                             </Form>

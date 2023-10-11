@@ -62,7 +62,7 @@ const Login = () => {
           setState={setSnackeOpen}
           title={
             data?.data?.Message ||
-            data?.message 
+            data?.message
           }
         />
       )}
@@ -167,33 +167,13 @@ const Login = () => {
         </Box>
         <Box component="div" className="hidden md:block">
           <Box component="div"
-            className="h-full w-full flex flex-col bg-cover"
-            style={{
-              backgroundImage: `url(${toAbsoulteUrl(
-                "/media/logos/bg.png"
-              )})`,
-            }}
+            className="h-screen w-full flex flex-col bg-cover"
+          style={{
+            backgroundImage: `url(${toAbsoulteUrl(
+              "/media/logos/bg.png"
+            )})`,
+          }}
           >
-            <Box component="div" className="flex flex-col justify-center items-center">
-              {/* <img
-                src={`${toAbsoulteUrl(
-                  "/media/logos/folladlogo.png"
-                )}`}
-                // width= {300}
-                // height={300}
-                alt="Sepehr Logo"
-                className="mx-auto"
-              /> */}
-              {/* <img
-                src={`${toAbsoulteUrl(
-                  "/media/logos/nabshi.webp"
-                )}`}
-                width={300}
-                // height={300}
-                alt="Sepehr Logo"
-                className="mx-auto"
-              /> */}
-            </Box>
             <div className="mt-auto" />
           </Box>
         </Box>
