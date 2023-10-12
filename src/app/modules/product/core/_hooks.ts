@@ -104,6 +104,11 @@ const uploadProductPrice: any = (formData: any, onUploadProgress: any) => {
 const useUploadFileProductPrice = () => {
     return useMutation(uploadProductPrice);
 };
+const useExportProductPrice = () => {
+    return useMutation(() => {
+        return api.exportProductPrices()
+    })
+}
 
 
 export {
@@ -124,5 +129,6 @@ export {
     useRetrieveProductPriceById,
     useUpdateProductPrice,
     useDeleteProductPrice,
-    useUploadFileProductPrice
+    useUploadFileProductPrice,
+    useExportProductPrice
 };

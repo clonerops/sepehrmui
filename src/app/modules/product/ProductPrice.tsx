@@ -1,5 +1,5 @@
 import React from "react";
-import { useDeleteProductPrice, useRetrieveProductPrice } from "./core/_hooks";
+import { useDeleteProductPrice, useExportProductPrice, useRetrieveProductPrice } from "./core/_hooks";
 import { columns } from "./helpers/productPriceColumns";
 import { IProductPrice } from "./core/_models";
 import { useState, useEffect } from "react";
@@ -14,6 +14,8 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import FileUploadButton from "../../../_cloner/components/UploadFileButton";
+import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
+import { exportProductPrices } from "./core/_requests";
 
 const ProductPrice = () => {
     const {
@@ -26,12 +28,14 @@ const ProductPrice = () => {
         data: deleteData,
         isLoading: deleteLoading,
     } = useDeleteProductPrice();
+    const { mutate } = useExportProductPrice()
     // State
     const [itemForEdit, setItemForEdit] = useState<IProductPrice | undefined>();
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [results, setResults] = useState<IProductPrice[]>([]);
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+    const [excelLoading, setExcelLoading] = useState<boolean>(false);
 
     useEffect(() => {
         setResults(productPrice?.data);
@@ -61,7 +65,18 @@ const ProductPrice = () => {
         );
     };
 
-    const [files, setFiles] = useState<any>()
+    const handleDownloadExcel = async () => {
+        setExcelLoading(true);
+        try {
+            const response: any = await exportProductPrices();
+            const outputFilename = `ProductPrices${Date.now()}.csv`;
+            DownloadExcelBase64File(response?.data, outputFilename);
+            setExcelLoading(false);
+        } catch (error) {
+            console.log(error);
+            setExcelLoading(false);
+        }
+    };
 
     return (
         <>
@@ -95,14 +110,14 @@ const ProductPrice = () => {
                         />
                     </Box>
                     <Box component="div" className="flex flex-wrap gap-x-4">
-                        <FileUploadButton files={files} setFiles={setFiles} />
-                        {/* <Button 
-                            onClick={() => {}}
-                            variant="contained"
-                            color="secondary"
+                        <FileUploadButton />
+                        <Button
+                            onClick={handleDownloadExcel}
+                            variant="outlined"
+                            color="primary"
                         >
-                            <Typography>آپلود فایل</Typography>
-                        </Button> */}
+                            <Typography>خروجی اکسل</Typography>
+                        </Button>
                         <Button
                             onClick={() => setIsCreateOpen(true) }
                             variant="contained"

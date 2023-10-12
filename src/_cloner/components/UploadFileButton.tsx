@@ -4,31 +4,27 @@ import { useDropzone } from 'react-dropzone';
 import { useUploadFileProductPrice } from '../../app/modules/product/core/_hooks';
 
 interface FileUploadProps {
-    acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')
-    files: File[],
-    setFiles: React.Dispatch<React.SetStateAction<File[]>>
+    acceptedFileTypes?: string;
 }
 
-const FileUploadButton: React.FC<FileUploadProps> = ({
-    files, setFiles
-    //   acceptedFileTypes = 'image/*',
-}) => {
+const FileUploadButton: React.FC<FileUploadProps> = ({}) => {
     const acceptedFileTypes: any = '.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [files, setFiles] = useState<File[]>([])
 
     const uploadFile: any = useUploadFileProductPrice()
 
     const onDrop = (acceptedFiles: File[]) => {
         setFiles([...files, ...acceptedFiles]);
-
-        const file = acceptedFiles[0];
         
         const formData = new FormData();
-        formData.append('PriceFile', file);
-        console.log('formData', formData);
+        files.forEach((file) => {
+            formData.append('PriceFile', file);
+        })
+
+        console.log("formData", formData)
         
         const onUploadProgresssBar = (progressEvent: any) => {
-            // Calculate and update the upload progress
             const progress = (progressEvent.loaded / progressEvent.total) * 100;
             uploadFile.setUploadProgress(progress);
         }

@@ -8,7 +8,6 @@ export const DownloadExeclFile = (response: any, outputFilename: string) => {
 
   link.parentNode?.removeChild(link);
 }
-
 export const DownloadFilePNG = (base64Data: string, outputFilename: string) => {
   try {
     // Convert base64 data to a Blob
@@ -90,7 +89,6 @@ export const DownloadFileJPEG = (base64Data: string, outputFilename: string) => 
     console.error('Error while downloading file:', error);
   }
 };
-
 export const DownloadFilePDF = (base64Data: string, outputFilename: string) => {
   try {
     // Convert base64 data to a Blob
@@ -118,3 +116,21 @@ export const DownloadFilePDF = (base64Data: string, outputFilename: string) => {
     console.error('Error while downloading PDF:', error);
   }
 };
+export const DownloadExcelBase64File = (base64Data: string, outputFilename: string) => {
+  const binaryData = atob(base64Data);
+  const arrayBuffer = new ArrayBuffer(binaryData.length);
+  const uintArray = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < binaryData.length; i++) {
+    uintArray[i] = binaryData.charCodeAt(i);
+  }
+  const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+  a.download = outputFilename;
+  document.body.appendChild(a);
+  a.click();
+  URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}

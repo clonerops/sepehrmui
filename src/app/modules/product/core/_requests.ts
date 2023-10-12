@@ -201,6 +201,15 @@ const uploadProductPrice = async (formData: any, onUploadProgress: any) => {
     }
 };
 
+export const exportProductPrices = async () => {
+    try {
+        const { data } = await http.get('/v1/ProductPrice/ExportProductPrices')
+        return data
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
 
 
 export {
