@@ -101,9 +101,10 @@ const Order = () => {
     const [orderData, setOrderData] = useState<any>()
 
     useEffect(() => {
-        const prices = orders?.map((obj: any) => Number(obj.price));
+        const prices = orders?.map((obj: any) => Number(obj.productPrice));
         const newPrices = [...prices];
         const newTotal = newPrices.reduce((acc: any, item) => acc + item, 0);
+        console.log("orders", orders)
         setTotalAmount(newTotal);
     }, [orders]);
 
