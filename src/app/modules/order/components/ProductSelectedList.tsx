@@ -12,7 +12,7 @@ const ProductSelectedList = (props: {
     selectedOrderIndex?: any
     setSelectedOrderIndex?: any
 }) => {
-    const formikValue = useFormikContext()
+
     const handleDeleteFromList = (indexToDelete: any) => {
         if (props.orders) {
             const updatedOrders = props.orders.filter((order) => order.id !== indexToDelete.id);

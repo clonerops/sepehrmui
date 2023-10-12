@@ -104,7 +104,6 @@ const Order = () => {
         const prices = orders?.map((obj: any) => Number(obj.productPrice));
         const newPrices = [...prices];
         const newTotal = newPrices.reduce((acc: any, item) => acc + item, 0);
-        console.log("orders", orders)
         setTotalAmount(newTotal);
     }, [orders]);
 
@@ -122,7 +121,7 @@ const Order = () => {
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId)
         const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
         const productOrder = {
-            id: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
+            id: values.productName.value ? values.productName.value : selectProductFromModal?.row.id,
             // productId: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
             // productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
             // productName: values.productName.label ? values.productName.label : selectProductFromModal?.row.productName,
