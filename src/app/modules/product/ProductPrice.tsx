@@ -1,4 +1,3 @@
-import React from "react";
 import { useDeleteProductPrice, useExportProductPrice, useRetrieveProductPrice } from "./core/_hooks";
 import { columns } from "./helpers/productPriceColumns";
 import { IProductPrice } from "./core/_models";
@@ -28,14 +27,15 @@ const ProductPrice = () => {
         data: deleteData,
         isLoading: deleteLoading,
     } = useDeleteProductPrice();
-    const { mutate } = useExportProductPrice()
     // State
     const [itemForEdit, setItemForEdit] = useState<IProductPrice | undefined>();
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [results, setResults] = useState<IProductPrice[]>([]);
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+    const [snackeUploadOpen, setSnackeUploadOpen] = useState<boolean>(false);
     const [excelLoading, setExcelLoading] = useState<boolean>(false);
+    const [requestMessage, setRequestMessage] = useState<string>("");
 
     useEffect(() => {
         setResults(productPrice?.data);
@@ -82,21 +82,15 @@ const ProductPrice = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        deleteData?.data?.Message ||
-                        deleteData?.message ||
-                        "حذف با موفقیت انجام شد"
-                    }
-                />
-            )}
+            {snackeOpen && (<PositionedSnackbar open={snackeOpen} setState={setSnackeOpen} title={deleteData?.data?.Message || deleteData?.message || "حذف با موفقیت انجام شد"} />)}
+            {snackeUploadOpen && (<PositionedSnackbar open={snackeUploadOpen} setState={setSnackeUploadOpen} title={requestMessage} />)}
             <Card className="p-8">
-                {/* <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
-                    مدیریت قیمت کالا
-                </Typography> */}
+                <Box component="div" className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4">
+                    <Typography className="text-red-500" variant="h3">نکته: </Typography>
+                    <Typography className="text-red-500" variant="h3">برای بارگزاری فایل قیمت ها بایستی این موارد رعایت گردد:</Typography>
+                    <Typography variant="h2">1) فایل بایستی بصورت اکسل باشد</Typography>
+                    <Typography variant="h2">2) ستون های فایل بایستی شامل : کد کالا، کد برند، قیمت باشد</Typography>
+                </Box>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
@@ -110,7 +104,7 @@ const ProductPrice = () => {
                         />
                     </Box>
                     <Box component="div" className="flex flex-wrap gap-x-4">
-                        <FileUploadButton />
+                        <FileUploadButton refetch={refetch} setSnackeOpen={setSnackeUploadOpen} requestMessage={setRequestMessage} />
                         <Button
                             onClick={handleDownloadExcel}
                             variant="outlined"
@@ -119,7 +113,7 @@ const ProductPrice = () => {
                             <Typography>خروجی اکسل</Typography>
                         </Button>
                         <Button
-                            onClick={() => setIsCreateOpen(true) }
+                            onClick={() => setIsCreateOpen(true)}
                             variant="contained"
                             color="secondary"
                         >

@@ -48,7 +48,7 @@ const CreateProductPrice = (props: Props) => {
                     console.log(values)
                     try {
                         const formData = {
-                            price: Number(values.price.replace(/,/g, "")),
+                            price: Number(values.price?.replace(/,/g, "")),
                             productId: values.productId.value,
                             productBrandId: Number(values.productBrandId)
                         }
@@ -66,7 +66,7 @@ const CreateProductPrice = (props: Props) => {
             }>
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit}>
-                        <Box component="div" className="flex flex-col gap-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <FormikComboBox label="کالا" name="productId" options={dropdownProduct(products?.data)} />
                             <FormikSelect label="برند" name="productBrandId" options={dropdownBrand(brands)} />
                             <FormikPrice  label="قیمت" name="price" />

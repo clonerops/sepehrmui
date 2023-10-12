@@ -15,7 +15,7 @@ import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidati
 export type Label = keyof typeof translation;
 
 type Props = {
-    label: string;
+    label: string | undefined;
     name: string;
     disabled?: boolean;
     value?: string;
