@@ -15,13 +15,25 @@ import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import FileUploadButton from "../../../_cloner/components/UploadFileButton";
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
 import { exportProductPrices } from "./core/_requests";
+import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
+import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
+
+const radioOption: {
+    label: string;
+    value: any;
+
+}[] = [
+        { label: "همه", value: "" },
+        { label: "فعال", value: true },
+        { label: "غیر فعال", value: false },
+    ]
 
 const ProductPrice = () => {
-    const {
-        refetch,
-        data: productPrice,
-        isLoading: productPriceLoading,
-    } = useRetrieveProductPrice();
+    // const {
+    //     mutate,
+    //     data: productPrice,
+    //     isLoading: productPriceLoading,
+    // } = useRetrieveProductPrice();
     const {
         mutate: deleteMutate,
         data: deleteData,
@@ -36,6 +48,12 @@ const ProductPrice = () => {
     const [snackeUploadOpen, setSnackeUploadOpen] = useState<boolean>(false);
     const [excelLoading, setExcelLoading] = useState<boolean>(false);
     const [requestMessage, setRequestMessage] = useState<string>("");
+    const [isActiveValue, setIsActiveValue] = useState<boolean | number | null | string>("");
+    const {
+        refetch,
+        data: productPrice,
+        isLoading: productPriceLoading,
+    } = useRetrieveProductPrice(isActiveValue);
 
     useEffect(() => {
         setResults(productPrice?.data);
@@ -51,7 +69,7 @@ const ProductPrice = () => {
             deleteMutate(id, {
                 onSuccess: (message) => {
                     setSnackeOpen(true);
-                    refetch();
+                    // refetch();
                 },
             });
     };
@@ -77,6 +95,10 @@ const ProductPrice = () => {
             setExcelLoading(false);
         }
     };
+
+    const handleChangeRadio = (value: any) => {
+        setIsActiveValue(value)
+    }
 
     return (
         <>
@@ -120,6 +142,9 @@ const ProductPrice = () => {
                             <Typography>ایجاد قیمت کالا</Typography>
                         </Button>
                     </Box>
+                </Box>
+                <Box>
+                    <ReusableRadioGroup label="" options={radioOption} value={isActiveValue} onChange={handleChangeRadio} />
                 </Box>
                 <MuiDataGrid
                     columns={columns(renderAction)}

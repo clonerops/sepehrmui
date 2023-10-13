@@ -135,11 +135,11 @@ const deleteSupplier = async (id: string) => {
 };
 
 // Product Price
-const retrieveProductPrice = async (PageNumber: number | null | string = "", PageSize: number | null | string = "") => {
+const retrieveProductPrice = async (isActive: boolean | number | null | string, PageNumber: number | null | string = "", PageSize: number | null | string = "") => {
     let url: string = ``;
 
     if (PageNumber || PageSize === "") {
-        url = `/v${1}/ProductPrice`;
+        url = `/v${1}/ProductPrice?isActive=${isActive}`;
     } else {
         url = `/v${1}/ProductPrice?PageNumber=${PageNumber}&PageSize=${PageSize}`;
     }

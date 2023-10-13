@@ -23,7 +23,7 @@ const ProductInventories = () => {
         refetch,
         data: productPrice,
         isLoading: productPriceLoading,
-    } = useRetrieveProductPrice();
+    } = useRetrieveProductPrice(null);
     const {
         mutate: deleteMutate,
         data: deleteData,

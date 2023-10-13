@@ -70,9 +70,17 @@ const useDeleteSupplier = () => {
     });
 };
 // Product Price
-const useRetrieveProductPrice = () => {
-    return useQuery(["productPrice"], () => api.retrieveProductPrice());
+const useRetrieveProductPrice = (isActive: boolean | number | null | string) => {
+    return useQuery(["productPrice", isActive], () => api.retrieveProductPrice(isActive));
 };
+// const useRetrieveProductPrice = () => {
+//     return useQuery(["productPrice"], () => api.retrieveProductPrice());
+// };
+// const useRetrieveProductPrice = () => {
+//     return useMutation((isActive: boolean | number) => {
+//         return api.retrieveProductPrice(isActive)
+//     });
+// };
 
 const useCreateProductPrice = () => {
     return useMutation((formData: IProductPrice) => {
