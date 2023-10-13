@@ -191,6 +191,7 @@ const Order = () => {
                     validationSchema={orderValidation}
                     onSubmit={
                         async (values: any, { setStatus, setSubmitting, setFieldValue, resetForm }) => {
+                            console.log("orders", orders)
                             if (orders?.length === 0) {
                                 alert("لیست سفارشات خالی می باشد")
                             } else {
@@ -230,8 +231,8 @@ const Order = () => {
                                                                 item.proximateAmount
                                                             )
                                                             : null,
-                                                    price: item.price
-                                                        ? Number(item.price)
+                                                    price: item.productPrice
+                                                        ? Number(item.productPrice)
                                                         : null,
                                                     cargoSendDate: "1402/01/01",
                                                     buyPrice: item.buyPrice

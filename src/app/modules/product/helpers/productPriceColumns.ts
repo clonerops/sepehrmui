@@ -13,7 +13,7 @@ export const columns = (renderAction: any) => {
     {
       field: 'isActive', headerName: 'وضعیت', renderCell: (params: any) => (
         params.value === true ? "فعال" : "غیرفعال"
-      ), flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+      ), headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
     },
     { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 340, }
   ]
