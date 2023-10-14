@@ -61,7 +61,7 @@ const ProductPrice = () => {
         );
     };
 
-    const [files, setFiles] = useState<any>()
+
 
     return (
         <>
@@ -95,14 +95,7 @@ const ProductPrice = () => {
                         />
                     </Box>
                     <Box component="div" className="flex flex-wrap gap-x-4">
-                        <FileUploadButton files={files} setFiles={setFiles} />
-                        {/* <Button 
-                            onClick={() => {}}
-                            variant="contained"
-                            color="secondary"
-                        >
-                            <Typography>آپلود فایل</Typography>
-                        </Button> */}
+                        <FileUploadButton />
                         <Button
                             onClick={() => setIsCreateOpen(true) }
                             variant="contained"
