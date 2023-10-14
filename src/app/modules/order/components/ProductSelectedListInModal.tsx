@@ -26,6 +26,7 @@ const ProductSelectedListInModal = (props: {
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
     const [proximateAmounts, setProximateAmounts] = useState<{ [key: string]: string }>({});
+    const [warehouseName, setWarehouseName] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (props.products) setResults(props.products);
@@ -82,15 +83,14 @@ const ProductSelectedListInModal = (props: {
         // Combine product data with input values
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             ...product,
-            proximateAmount: proximateAmounts[product.id] || "", // Use the input value
+            proximateAmount: proximateAmounts[product.id] || "",
+            warehouseName: product.productInventories[product.productInventories.length - 1].warehouseName || "",
+            warehouseId: product.productInventories[product.productInventories.length - 1].warehouseId || "",
         }));
-
         const updatedOrders = [...props.orders, ...selectedProductWithAmounts];
         props.setOrders(updatedOrders);
-
         props.setSelectedProductOpen(false);
     };
-
 
     return (
         <Box component="div" className="grid grid-cols-2 gap-x-8">

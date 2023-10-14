@@ -69,7 +69,8 @@ const initialValues = {
     purchaseSettlementDate: "",
     sellerCompanyRow: "",
     productIntegratedName: "",
-    productName: ""
+    productName: "",
+    warehouseName: "",
 };
 
 
@@ -121,14 +122,15 @@ const Order = () => {
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId)
         const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
         const productOrder = {
-            id: values.productName.value ? values.productName.value : selectProductFromModal?.row.id,
+            id: values.productName.value ? values.productName.value : selectProductFromModal?.row?.id,
             // productId: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
             // productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
             // productName: values.productName.label ? values.productName.label : selectProductFromModal?.row.productName,
             productName: values.productName.label ? values.productName.label : values.productName,
-            warehouseId: values.warehouseId,
-            warehouseTypeId: warehouseTypeId?.warehouseTypeId,
-            warehouseName: warehouseNameSelect,
+            warehouseId: values.warehouseId ? values.warehouseId : selectProductFromModal?.row.productInventories[selectProductFromModal.row.productInventories.length - 1].warehouseId,
+            warehouseTypeId: warehouseTypeId?.warehouseTypeId ,
+            // warehouseName: warehouseNameSelect ? warehouseNameSelect : selectProductFromModal?.row.productInventories[selectProductFromModal.row.productInventories.length - 1].warehouseName,
+            warehouseName: warehouseNameSelect ? warehouseNameSelect : values.warehouseName,
             productDesc: values?.productDesc,
             buyPrice: values?.buyPrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
@@ -139,6 +141,7 @@ const Order = () => {
             productPrice: values?.price,
             rowId: values?.rowId,
         };
+
         if (!isUpdate) {
             if(values.productName === "" || values.productName.label === "" ) {
                 alert("کالا الزامی می باشد")
@@ -153,6 +156,8 @@ const Order = () => {
             const updatedOrder = {
                 ...productOrder
             };
+
+            console.log("productOrder", productOrder)
 
             const updatedOrders = [...orders];
             updatedOrders[selectedOrderIndex] = updatedOrder;
@@ -172,6 +177,7 @@ const Order = () => {
         const findCustomer = customers?.data.find((i: any) => i.id === value.value)
         setFindCustomer(findCustomer)
     }
+    console.log('orders', orders)
     return (
         <>
             {snackeOpen && (

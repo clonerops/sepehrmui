@@ -11,19 +11,21 @@ export const columns = (renderAction: any) => {
         },
         {
             field: "brandName",
-            valueGetter: (params: any) => params.row.productPrices[0]?.brandName,
+            valueGetter: (params: any) => params.row.productPrices[params.row.productPrices.length - 1]?.brandName,
             width: 80,
             headerName: "برند",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "warehouseName",
+            valueGetter: (params: any) => params.row.productInventories[params.row.productInventories.length - 1]?.warehouseName,
             width: 80,
             headerName: "انبار",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "approximateInventory",
+            valueGetter: (params: any) => params.row.productInventories[params.row.productInventories.length - 1]?.approximateInventory,
             width: 80,
             headerName: "موجودی",
             flex: 1,
@@ -31,11 +33,11 @@ export const columns = (renderAction: any) => {
         },
         {
             field: "price",
-            valueGetter: (params: any) => params.row.productPrices[0]?.price,
+            valueGetter: (params: any) => params.row.productPrices[params.row.productPrices.length - 1]?.price,
             width: 80,
             headerName: "قیمت",
             renderCell: (value: any) => (
-                separateAmountWithCommas(value.row.productPrices[0]?.price)
+                separateAmountWithCommas(value.row.productPrices[value.row.productPrices.length - 1]?.price)
             ),
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
@@ -55,12 +57,13 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
         {
             field: "brand",
             width: 80,
-            valueGetter: (params: any) => params.row.productPrices[0]?.brandName,
+            valueGetter: (params: any) => params.row.productPrices[params.row.productPrices.length - 1]?.brandName,
             headerName: "برند",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "warehouseName",
+            valueGetter: (params: any) => params.row.productInventories[params.row.productInventories.length - 1]?.warehouseName,
             width: 80,
             headerName: "انبار",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",

@@ -53,10 +53,13 @@ const ProductSelectedList = (props: {
             props.setFieldValue("productName", rowData.productName)
             props.setFieldValue("price", rowData.productPrice)
             props.setFieldValue("proximateAmount", rowData.proximateAmount)
+            props.setFieldValue("warehouseId", rowData.warehouseId)
         }
         props.setIsUpdate(true)
 
     }
+
+    console.log("orders", props.orders)
 
     return (
         <>

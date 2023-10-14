@@ -5,7 +5,6 @@ import { useRegisterUser } from "../core/_hooks";
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
-import React from "react";
 
 const CreateUser = () => {
     const loginSchema = Yup.object().shape({
