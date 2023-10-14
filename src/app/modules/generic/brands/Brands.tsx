@@ -70,7 +70,7 @@ const Brands = () => {
         }
     };
 
-    const columns = (renderAction: any) => {
+    const columns = (renderAction: any, renderSwitch: any) => {
         const col = [
             {
                 field: "id",
@@ -91,41 +91,52 @@ const Brands = () => {
                 headerClassName: "bg-[#E2E8F0] text-black !font-bold",
                 minWidth: 180,
             },
+            // {
+            //     field: "isActive",
+            //     renderCell: (params: any) => {
+            //         return params.value === true ? (
+            //             <Box component="div" className="bg-green-500 rounded-md">
+            //                 <Typography className="px-4 py-1">فعال</Typography>
+            //             </Box>
+            //         ) : (
+            //             <Box component="div" className="bg-red-500 rounded-md">
+            //                 <Typography className="px-4 py-1">غیرفعال</Typography>
+            //             </Box>
+            //         );
+            //     },
+            //     headerName: "وضعیت",
+            //     headerClassName: "bg-[#E2E8F0] text-black !font-bold",
+            //     maxWidth: 120,
+            // },
             {
                 field: "isActive",
-                renderCell: (params: any) => {
-                    return params.value === true ? (
-                        <Box component="div" className="bg-green-500 rounded-md">
-                            <Typography className="px-4 py-1">فعال</Typography>
-                        </Box>
-                    ) : (
-                        <Box component="div" className="bg-red-500 rounded-md">
-                            <Typography className="px-4 py-1">غیرفعال</Typography>
-                        </Box>
-                    );
-                },
                 headerName: "وضعیت",
+                renderCell: renderSwitch,
                 headerClassName: "bg-[#E2E8F0] text-black !font-bold",
-                maxWidth: 120,
+                minWidth: 160,
             },
             {
                 headerName: "عملیات",
                 flex: 1,
                 renderCell: renderAction,
                 headerClassName: "bg-[#E2E8F0] text-black !font-bold",
-                minWidth: 260,
+                minWidth: 160,
             },
         ];
         return col;
     };
 
+    const renderSwitch = (item: any) => {
+        return (
+            <Switch
+                checked={item?.row.isActive}
+                onChange={(_) => onUpdateStatus(item)}
+            />
+        );
+    };
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
-                <Switch
-                    checked={item?.row.isActive}
-                    onChange={(_) => onUpdateStatus(item)}
-                />
                 <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
             </Box>
         );
@@ -234,10 +245,9 @@ const Brands = () => {
                 >
                     <Box>
                         <MuiDataGrid
-                            columns={columns(renderAction)}
+                            columns={columns(renderAction, renderSwitch)}
                             rows={results}
                             data={brands?.data}
-                            // width={520}
                         />
                     </Box>
                     <Box
