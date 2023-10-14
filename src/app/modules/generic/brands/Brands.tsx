@@ -154,7 +154,6 @@ const Brands = () => {
                 />
             )}
             <Card className="p-4">
-                {/* <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">برندها</Typography> */}
                 <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
                     <Box component="div">
                         <Formik
@@ -238,12 +237,11 @@ const Brands = () => {
                             component="div"
                             className="hidden md:flex md:justify-center md:items-center"
                         >
-                            <img
+                            <Box component="img"
                                 src={toAbsoulteUrl("/media/logos/3959.jpg")}
                                 width={400}
                             />
                         </Box>
-
                     </Box>
                 </Box>
             </Card>
