@@ -12,6 +12,7 @@ import PositionedSnackbar from '../../../../_cloner/components/Snackbar'
 import React from 'react'
 import { AddCircleOutline } from '@mui/icons-material'
 import * as Yup from 'yup'
+import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 
 const initialValues = {
   id: 0,
@@ -67,10 +68,46 @@ const ProductStandards = () => {
     }
   };
 
+  const columns = (renderAction: any, renderSwitch: any) => {
+    const col = [
+      {
+        field: 'id', renderCell: (params: any) => {
+          return <Typography>{params.value}</Typography>;
+        },
+        headerName: 'کد استاندارد', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+      },
+      {
+        field: 'desc', renderCell: (params: any) => {
+          return <Typography>{params.value}</Typography>;
+        },
+        headerName: 'استاندارد', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+      },
+      {
+        field: "isActive",
+        headerName: "وضعیت",
+        renderCell: renderSwitch,
+        headerClassName: "bg-[#E2E8F0] text-black !font-bold",
+        minWidth: 160,
+      },
+      { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160 }
+    ]
+    return col
+  }
+
+
+  const renderSwitch = (item: any) => {
+    return (
+      <Switch
+        checked={item?.row.isActive}
+        onChange={(_) => onUpdateStatus(item)}
+        color="secondary"
+      />
+    );
+  };
+
   const renderAction = (item: any) => {
     return (
       <Box component="div" className="flex gap-4">
-        <Switch checked={item?.row.isActive} onChange={(_) => onUpdateStatus(item)} />
         <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
       </Box>
     );
@@ -86,56 +123,70 @@ const ProductStandards = () => {
       {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
       {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteData?.data?.Message || deleteData?.message} />)}
       <Card className="p-4">
-        {/* <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">استاندارد ها</Typography> */}
-        <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
-          async (values, { setStatus, setSubmitting, setFieldValue }) => {
-            try {
-              const formData = {
-                desc: values.desc
-              }
-              postStandard(formData, {
-                onSuccess: (message: any) => {
-                  setFieldValue('id', message.data.id)
-                  refetch();
-                  setSnackePostOpen(true)
+        <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
+          <Box component="div">
+            <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
+              async (values, { setStatus, setSubmitting, setFieldValue }) => {
+                try {
+                  const formData = {
+                    desc: values.desc
+                  }
+                  postStandard(formData, {
+                    onSuccess: (message: any) => {
+                      setFieldValue('id', message.data.id)
+                      refetch();
+                      setSnackePostOpen(true)
+                    }
+                  })
+                } catch (error) {
+                  setStatus("اطلاعات ثبت استاندارد نادرست می باشد");
+                  setSubmitting(false);
                 }
-              })
-            } catch (error) {
-              setStatus("اطلاعات ثبت استاندارد نادرست می باشد");
-              setSubmitting(false);
-            }
-          }
-        }>
-          {({ handleSubmit }) => {
-            return <Form onSubmit={handleSubmit} className="flex flex-col justify-start items-start mb-8">
-              <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 md:w-[50%]">
-                <FormikInput name="id" label="کد استاندارد " disabled={true} boxClassName="md:w-[50%] mt-2 md:mt-0" />
-                <FormikInput name="desc" label="استاندارد " boxClassName="md:w-[50%] mt-2 md:mt-0" />
-                <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className='mt-2 md:mt-0'>
-                  <Typography className="px-2">
-                    <AddCircleOutline />
-                  </Typography>
-                </Button>
-              </Box>
-            </Form>
-          }}
-        </Formik>
-        <Box component="div" className="w-auto md:w-[40%]">
-          <FuzzySearch
-            keys={[
-              "id",
-              "desc",
-            ]}
-            data={standards?.data}
-            threshold={0.5}
-            setResults={setResults}
-          />
+              }
+            }>
+              {({ handleSubmit }) => {
+                return <Form onSubmit={handleSubmit} className="mb-4">
+                  <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
+                    <FormikInput name="id" label="کد استاندارد " disabled={true} boxClassName=" mt-2 md:mt-0" />
+                    <FormikInput name="desc" label="استاندارد " boxClassName=" mt-2 md:mt-0" />
+                    <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className='mt-2 md:mt-0'>
+                      <Typography className="px-2">
+                        <AddCircleOutline />
+                      </Typography>
+                    </Button>
+                  </Box>
+                </Form>
+              }}
+            </Formik>
+            <Box component="div" className="mb-4">
+              <FuzzySearch
+                keys={[
+                  "id",
+                  "desc",
+                ]}
+                data={standards?.data}
+                threshold={0.5}
+                setResults={setResults}
+              />
+            </Box>
+            <MuiDataGrid
+              columns={columns(renderAction, renderSwitch)}
+              rows={results}
+              data={standards?.data}
+            />
+          </Box>
+          <Box component="div">
+            <Box
+              component="div"
+              className="hidden md:flex md:justify-center md:items-center"
+            >
+              <Box component="img"
+                src={toAbsoulteUrl("/media/logos/2150531047.jpg")}
+              />
+            </Box>
+
+          </Box>
         </Box>
-        <MuiDataGrid
-          columns={columns(renderAction)}
-          rows={results}
-          data={standards?.data}
-        />
       </Card>
     </>
   )

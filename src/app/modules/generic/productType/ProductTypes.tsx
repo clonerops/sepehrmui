@@ -90,7 +90,7 @@ const ProductTypes = () => {
         headerClassName: "bg-[#E2E8F0] text-black !font-bold",
         minWidth: 160,
       },
-      { headerName: 'حذف', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160 }
+      { headerName: 'حذف', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160 }
     ]
     return col
   }
