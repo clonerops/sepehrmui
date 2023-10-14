@@ -1,62 +1,55 @@
-import { Box, Button, LinearProgress, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useUploadFileProductPrice } from '../../app/modules/product/core/_hooks';
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query';
 
 interface FileUploadProps {
-    acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')
+    acceptedFileTypes?: string;
+    setSnackeOpen: any;
+    requestMessage: any;
+    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }
 
-const FileUploadButton: React.FC<FileUploadProps> = ({
-    //   acceptedFileTypes = 'image/*',
-}) => {
-    const acceptedFileTypes: any = '.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const [uploadProgress, setUploadProgress] = useState(0);
+const FileUploadButton: React.FC<FileUploadProps> = ({ setSnackeOpen, requestMessage, refetch }) => {
+    const acceptedFileTypes: any =
+        '.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     const [files, setFiles] = useState<File[]>([]);
 
-    const uploadFile: any = useUploadFileProductPrice()
+    const uploadFile: any = useUploadFileProductPrice();
 
     const onDrop = (acceptedFiles: File[]) => {
-        setFiles([...files, ...acceptedFiles]);
-        
         const formData = new FormData();
-        files.forEach((file) => {
-            formData.append("PriceFile", file);
+        acceptedFiles.forEach((file) => {
+            formData.append('PriceFile', file);
         });
 
-        console.log('formData', formData);
-        
-        const onUploadProgresssBar = (progressEvent: any) => {
-            // Calculate and update the upload progress
-            const progress = (progressEvent.loaded / progressEvent.total) * 100;
-            uploadFile.setUploadProgress(progress);
-        }
-        uploadFile.mutate(formData,  onUploadProgresssBar, {
-          onSuccess: (data: any) => {
-          }
-        })
-        
-    };
+        uploadFile.mutate(formData, {
+            onSuccess: (data: any) => {
+                requestMessage(data?.data?.Message || data?.message)
+                setSnackeOpen(true)
+                refetch()
+            },
+        });
 
-    const removeFile =   (file: File) => {
-        const updatedFiles = files.filter((f) => f !== file);
-        setFiles(updatedFiles);
+        setFiles([...files, ...acceptedFiles]);
     };
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: acceptedFileTypes,
-        maxSize: 5242880
+        maxSize: 5242880,
     });
 
     return (
-        <Box component="div">
-            <Button {...getRootProps()} variant='outlined' color='secondary'>
-                <input {...getInputProps()} />
-                <Typography>آپلود فایل</Typography>
-            </Button>
-            {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress} />}
-        </Box>
+        <>
+            <Box component="div">
+                <Button {...getRootProps()} variant="outlined" color="secondary">
+                    <input {...getInputProps()} />
+                    <Typography>آپلود فایل</Typography>
+                </Button>
+            </Box>
+        </>
     );
 };
 

@@ -24,6 +24,7 @@ import Users from "../modules/user/Users";
 import CreateUser from "../modules/user/components/CreateUser";
 import RoleUser from "../modules/user/components/RoleUser";
 import React from "react";
+import ProductInventories from "../modules/product/ProductInventories";
 
 const PrivateRoutes = () => {
 
@@ -54,6 +55,7 @@ const PrivateRoutes = () => {
             <Route path='dashboard/productTypes' element={<ProductTypes />} />
             <Route path='dashboard/productState' element={<ProductState />} />
             <Route path='dashboard/productStandard' element={<ProductStandards />} />
+            <Route path='dashboard/productInventories' element={<ProductInventories />} />
             {/* <Route path='dashboard/productBrand' element={<ProductBrands />} /> */}
 
             <Route path='dashboard/users' element={<Users />} />

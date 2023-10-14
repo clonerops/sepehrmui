@@ -15,25 +15,15 @@ import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import FileUploadButton from "../../../_cloner/components/UploadFileButton";
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
 import { exportProductPrices } from "./core/_requests";
-import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
-import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
+import CreateProductInventories from "./components/CreateProductInventories";
+import EditProductInventories from "./components/EditProductInventories";
 
-const radioOption: {
-    label: string;
-    value: any;
-
-}[] = [
-        { label: "همه", value: "" },
-        { label: "فعال", value: true },
-        { label: "غیر فعال", value: false },
-    ]
-
-const ProductPrice = () => {
-    // const {
-    //     mutate,
-    //     data: productPrice,
-    //     isLoading: productPriceLoading,
-    // } = useRetrieveProductPrice();
+const ProductInventories = () => {
+    const {
+        refetch,
+        data: productPrice,
+        isLoading: productPriceLoading,
+    } = useRetrieveProductPrice(null);
     const {
         mutate: deleteMutate,
         data: deleteData,
@@ -48,12 +38,6 @@ const ProductPrice = () => {
     const [snackeUploadOpen, setSnackeUploadOpen] = useState<boolean>(false);
     const [excelLoading, setExcelLoading] = useState<boolean>(false);
     const [requestMessage, setRequestMessage] = useState<string>("");
-    const [isActiveValue, setIsActiveValue] = useState<boolean | number | null | string>("");
-    const {
-        refetch,
-        data: productPrice,
-        isLoading: productPriceLoading,
-    } = useRetrieveProductPrice(isActiveValue);
 
     useEffect(() => {
         setResults(productPrice?.data);
@@ -69,7 +53,7 @@ const ProductPrice = () => {
             deleteMutate(id, {
                 onSuccess: (message) => {
                     setSnackeOpen(true);
-                    // refetch();
+                    refetch();
                 },
             });
     };
@@ -96,10 +80,6 @@ const ProductPrice = () => {
         }
     };
 
-    const handleChangeRadio = (value: any) => {
-        setIsActiveValue(value)
-    }
-
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
@@ -107,13 +87,7 @@ const ProductPrice = () => {
             {snackeOpen && (<PositionedSnackbar open={snackeOpen} setState={setSnackeOpen} title={deleteData?.data?.Message || deleteData?.message || "حذف با موفقیت انجام شد"} />)}
             {snackeUploadOpen && (<PositionedSnackbar open={snackeUploadOpen} setState={setSnackeUploadOpen} title={requestMessage} />)}
             <Card className="p-8">
-                <Box component="div" className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4">
-                    <Typography className="text-red-500" variant="h3">نکته: </Typography>
-                    <Typography className="text-red-500" variant="h3">برای بارگزاری فایل قیمت ها بایستی این موارد رعایت گردد:</Typography>
-                    <Typography variant="h3">1) فایل بایستی بصورت اکسل باشد</Typography>
-                    <Typography variant="h3">2) ستون های فایل بایستی شامل : کد کالا، کد برند، قیمت باشد</Typography>
-                </Box>
-                <Box
+                    <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
@@ -139,12 +113,9 @@ const ProductPrice = () => {
                             variant="contained"
                             color="secondary"
                         >
-                            <Typography>ایجاد قیمت کالا</Typography>
+                            <Typography>موجودی قابل فروش</Typography>
                         </Button>
                     </Box>
-                </Box>
-                <Box>
-                    <ReusableRadioGroup label="" options={radioOption} value={isActiveValue} onChange={handleChangeRadio} />
                 </Box>
                 <MuiDataGrid
                     columns={columns(renderAction)}
@@ -155,21 +126,21 @@ const ProductPrice = () => {
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}
                     width="50%"
-                    title="ایجاد قیمت محصول"
+                    title="ایجاد موجودی قابل فروش"
                 >
-                    <CreateProductPrice refetch={refetch} />
+                    <CreateProductInventories refetch={refetch} />
                 </TransitionsModal>
                 <TransitionsModal
                     open={isOpen}
                     isClose={() => setIsOpen(false)}
                     width="50%"
-                    title="ویرایش قیمت محصول"
+                    title="ویرایش موجودی قابل فروش"
                 >
-                    <EditProductPrice refetch={refetch} item={itemForEdit} />
+                    <EditProductInventories refetch={refetch} item={itemForEdit} />
                 </TransitionsModal>
             </Card>
         </>
     );
 };
 
-export default ProductPrice;
+export default ProductInventories;

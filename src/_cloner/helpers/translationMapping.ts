@@ -19,6 +19,7 @@ export const translationMapping: any = {
     productTypes: 'نوع کالا ها',
     user: 'کاربران',
     role: 'نقش',
+    productInventories: 'موجودی قابل فروش',
     // Add more translations as needed
   };
   

@@ -11,10 +11,16 @@ const CreateUser = () => {
     const loginSchema = Yup.object().shape({
         firstName: Yup.string().required("نام الزامی است"),
         lastName: Yup.string().required("نام خانوادگی الزامی است"),
-        email: Yup.string().required("ایمیل الزامی است"),
-        userName: Yup.string().required("نام کاربری الزامی است"),
-        password: Yup.string().required("کلمه عبور الزامی است"),
-        confirmPassword: Yup.string().required("تکرار کلمه عبور الزامی است"),
+        email: Yup.string().email("فرمت ایمیل نمی باشد").required("ایمیل الزامی است"),
+        userName: Yup.string().min(6).required("نام کاربری الزامی است"),
+        password: Yup.string().matches(
+            /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+            'کلمه عبور با شامل عدد، حروف و کاراکتر های خاص باشد '
+          ).required("کلمه عبور الزامی است"),
+        confirmPassword: Yup.string().matches(
+            /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+            'کلمه عبور با شامل عدد، حروف و کاراکتر های خاص باشد '
+          ).required("تکرار کلمه عبور الزامی است").oneOf([Yup.ref('password')], 'تکرار کلمه عبور صحیح نمی باشد'),
     });
 
     const initialValues = {
