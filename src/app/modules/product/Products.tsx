@@ -147,14 +147,16 @@ const Products = () => {
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
                 title="ایجاد محصول جدید"
-            >
+                width="80%"
+                >
                 <CreateProduct refetch={refetch} setIsCreateOpen={setIsCreateOpen} />
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
                 title="ویرایش محصول جدید"
-
+                width="80%"
+                
             >
                 <EditProduct refetch={refetch} item={itemForEdit} />
             </TransitionsModal>

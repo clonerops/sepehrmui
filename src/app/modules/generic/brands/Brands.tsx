@@ -200,6 +200,7 @@ const Brands = () => {
                                                 name="name"
                                                 label="نام برند"
                                                 boxClassName="mt-2 md:mt-0"
+                                                autoFocus={true}
                                             />
                                             <Box component="div" className="mt-2 md:mt-0">
                                                 <Button

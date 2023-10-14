@@ -149,7 +149,7 @@ const ProductTypes = () => {
                 return <Form onSubmit={handleSubmit} className='mb-4'>
                   <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد نوع کالا " disabled={true} boxClassName=" mt-2 md:mt-0" />
-                    <FormikInput name="desc" label="نوع کالا " boxClassName=" mt-2 md:mt-0" />
+                    <FormikInput name="desc" label="نوع کالا " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <Box component="div" className="mt-2 md:mt-0">
                       <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className='mt-2 md:mt-0'>
                         <Typography className="px-2">

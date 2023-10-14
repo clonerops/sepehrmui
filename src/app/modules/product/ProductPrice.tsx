@@ -17,6 +17,7 @@ import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles"
 import { exportProductPrices } from "./core/_requests";
 import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
 import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 
 const radioOption: {
     label: string;
@@ -58,6 +59,38 @@ const ProductPrice = () => {
     useEffect(() => {
         setResults(productPrice?.data);
     }, [productPrice]);
+
+    const columns = (renderAction: any) => {
+        const col = [
+            {
+                field: 'productName', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'نام کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 360
+            },
+            {
+                field: 'brandName', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'نام برند', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+            },
+            {
+                field: 'price', headerName: 'قیمت', renderCell: (value: any) => (
+                    separateAmountWithCommas(value.row.price)
+                ), headerClassName: "bg-[#E2E8F0] text-black font-bold", cellClassName: "font-bold text-[14px]", width: 160
+            },
+            {
+                field: 'registerDate', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'تاریخ قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold font-bold", width: 160
+            },
+            {
+                field: 'isActive', headerName: 'وضعیت', renderCell: (params: any) => (
+                    params.value === true ? <Typography className="text-green-500">فعال</Typography> : <Typography className="text-red-500">غیرفعال</Typography>
+                ), headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 340, }
+        ]
+        return col
+    }
 
     const handleEdit = (item: IProductPrice | undefined) => {
         setIsOpen(true);
