@@ -9,9 +9,9 @@ export const columns = (renderAction: any) => {
     { field: 'approximateWeight', headerName: 'وزن', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80 },
     { field: 'numberInPackage', headerName: 'تعداد در بسته', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 100 },
     { field: 'productStandardDesc', headerName: 'استاندارد', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80 },
-    { field: 'productStateDesc', headerName: 'حالت', flex: 1, headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80 },
+    { field: 'productStateDesc', headerName: 'حالت', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80 },
     // { field: 'description', headerName: 'توضیحات', flex: 1, headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 240 },
-    { headerName: 'عملیات',  renderCell: renderAction,  headerClassName: "!bg-[#E2E8F0] text-black font-bold !w-full", minWidth: "100%" }
+    { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "!bg-[#E2E8F0] text-black font-bold !w-full", minWidth: "100%" }
   ]
   return col
 }

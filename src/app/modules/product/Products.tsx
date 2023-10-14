@@ -13,6 +13,7 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 
 const Products = () => {
     const { data: products, isLoading: productsLoading, refetch } = useRetrieveProducts();
@@ -29,6 +30,58 @@ const Products = () => {
     const [itemForEdit, setItemForEdit] = useState<IProducts>();
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
+    const columns = (renderAction: any) => {
+        const col = [
+            {
+                field: 'productCode', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'کد کالا', cellClassName: "font-bold", headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            {
+                field: 'productName', renderCell: (params: any) => {
+                    return <Typography variant='h4'>{params.value}</Typography>;
+                }, headerName: 'نام کالا', cellClassName: "!bg-green-100 font-bold", headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 160
+            },
+            {
+                field: 'productTypeDesc', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'نوع کالا', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            {
+                field: 'productSize', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'سایز', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            {
+                field: 'productThickness', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'ضخامت', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            {
+                field: 'approximateWeight', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'وزن', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            {
+                field: 'numberInPackage', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'تعداد در بسته', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 100
+            },
+            {
+                field: 'productStandardDesc', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'استاندارد', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            {
+                field: 'productStateDesc', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'حالت', headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            // { field: 'description', headerName: 'توضیحات', flex: 1, headerClassName: "!bg-[#E2E8F0] text-black font-bold", width: 240 },
+            { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "!bg-[#E2E8F0] text-black font-bold !w-full", minWidth: 160 }
+        ]
+        return col
+    }
 
     const handleEdit = (item: IProducts) => {
         setIsEditOpen(true);
@@ -56,41 +109,55 @@ const Products = () => {
             {productsLoading && <Backdrop loading={productsLoading} />}
             {snackeOpen && (
                 <PositionedSnackbar
-                  open={snackeOpen}
-                  setState={setSnackeOpen}
-                  title={
-                    deleteData?.data?.Message ||
-                    deleteData?.message || "حذف با موفقیت انجام شد"
-                  }
+                    open={snackeOpen}
+                    setState={setSnackeOpen}
+                    title={
+                        deleteData?.data?.Message ||
+                        deleteData?.message || "حذف با موفقیت انجام شد"
+                    }
                 />
-              )}
-                <Card className="p-8">
-                    <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">مدیریت کالا</Typography>
-                    <Box component="div" className="md:flex md:justify-between md:items-center space-y-2">
-                        <Box component="div" className="w-auto md:w-[40%]">
-                            <FuzzySearch keys={['productCode','productName', 'productDetail.size', 'productDetail.productIntegratedName', 'approximateWeight', 'numberInPackage', 'productDetail.standard', 'productDetail.productState', 'description']} data={products?.data} threshold={0.5} setResults={setResults} />
+            )}
+            <Card className="p-8">
+                <Box component="div" className="md:grid md:grid-cols-4 md:gap-x-4">
+                    <Box component="div" className="col-span-3">
+                        <Box component="div" className="md:flex md:justify-between md:items-center space-y-2">
+                            <Box component="div" className="w-auto md:w-[40%]">
+                                <FuzzySearch keys={['productCode', 'productName', 'productDetail.size', 'productDetail.productIntegratedName', 'approximateWeight', 'numberInPackage', 'productDetail.standard', 'productDetail.productState', 'description']} data={products?.data} threshold={0.5} setResults={setResults} />
+                            </Box>
+                            <Button onClick={() => setIsCreateOpen(true)} variant="contained" color="secondary">
+                                <Typography>ایجاد کالا</Typography>
+                            </Button>
                         </Box>
-                        <Button onClick={() => setIsCreateOpen(true)} variant="contained" color="secondary">
-                            <Typography>ایجاد کالا</Typography>
-                        </Button>
+                        <MuiDataGrid columns={columns(renderAction)} rows={results} data={products?.data} />
                     </Box>
-                    <MuiDataGrid columns={columns(renderAction)} rows={results} data={products?.data} />
-                </Card>
-                <TransitionsModal
-                    open={isCreateOpen}
-                    isClose={() => setIsCreateOpen(false)}
-                    title="ایجاد محصول جدید"
-                    >
-                    <CreateProduct refetch={refetch} setIsCreateOpen={setIsCreateOpen} />
-                </TransitionsModal>
-                <TransitionsModal
-                    open={isEditOpen}
-                    isClose={() => setIsEditOpen(false)}
-                    title="ویرایش محصول جدید"
+                    <Box component="div">
+                        <Box
+                            component="div"
+                            className="hidden md:flex md:justify-center md:items-center"
+                        >
+                            <Box component="img"
+                                src={toAbsoulteUrl("/media/logos/176.jpg")}
+                            />
+                        </Box>
 
-                >
-                    <EditProduct refetch={refetch} item={itemForEdit} />
-                </TransitionsModal>
+                    </Box>
+                </Box>
+            </Card>
+            <TransitionsModal
+                open={isCreateOpen}
+                isClose={() => setIsCreateOpen(false)}
+                title="ایجاد محصول جدید"
+            >
+                <CreateProduct refetch={refetch} setIsCreateOpen={setIsCreateOpen} />
+            </TransitionsModal>
+            <TransitionsModal
+                open={isEditOpen}
+                isClose={() => setIsEditOpen(false)}
+                title="ویرایش محصول جدید"
+
+            >
+                <EditProduct refetch={refetch} item={itemForEdit} />
+            </TransitionsModal>
         </>
     );
 };
