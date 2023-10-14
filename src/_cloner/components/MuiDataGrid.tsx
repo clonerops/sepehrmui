@@ -5,12 +5,12 @@ import { DataGrid } from '@mui/x-data-grid';
 type Props = {
     columns: any
     rows: any
-    data: any
+    data: any,
+    width?: number
 }
 
 export default function MuiDataGrid(props: Props) {
-    const { columns, rows, data } = props;
-
+    const { columns, rows, data, width } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
@@ -20,14 +20,10 @@ export default function MuiDataGrid(props: Props) {
     
         // Calculate the height based on the number of rows and other elements
         return numRows * defaultRowHeight + headerHeight + scrollbarHeight;
-      }, [data]);
-
-    //   const getRowClassName = (params: any) => {
-    //     return params.rowIndex % 2 === 0 ? 'bg-slat-100' : 'bg-red-500';
-    //   };
+    }, [data]);
 
     return (
-        <Box sx={{ height: gridHeight, maxHeight: 400, width: '100%'}}>
+        <Box sx={{ height: gridHeight, maxHeight: 400, width: width }}>
             <DataGrid
                 {...data}
                 sx={{
@@ -38,10 +34,9 @@ export default function MuiDataGrid(props: Props) {
                   }}                
                 rows={rows ? rows : []}
                 columns={columns}
-                // getRowId={(row) => row.id+row.rowId}
                 pagination={false}
+                autoPageSize={true}
                 hideFooter={true}
-                // getRowClassName={getRowClassName} // Add this prop
             />
         </Box>
     );
