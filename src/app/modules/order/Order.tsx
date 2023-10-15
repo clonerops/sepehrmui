@@ -121,11 +121,10 @@ const Order = () => {
     const handleOrder = (values: any, setFieldValue: any) => {
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId)
         const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId)
-        console.log("warehouseName", warehouseName)
         const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
         const productOrder = {
             id: values.productName.value ? values.productName.value : selectProductFromModal?.row?.id,
-            // productId: values.productIntegratedName.value ? values.productIntegratedName.value : selectProductFromModal?.row.id,
+            productId: values.productId ? values.productId : selectProductFromModal?.row.id,
             // productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
             // productName: values.productName.label ? values.productName.label : selectProductFromModal?.row.productName,
             productName: values.productName.label ? values.productName.label : values.productName,
@@ -219,7 +218,7 @@ const Order = () => {
                                         details: orders?.map(
                                             (item: any) => {
                                                 return {
-                                                    rowId: Number(item.rowId),
+                                                    rowId: item.rowId ? Number(item.rowId) : 0,
                                                     productId: item.id,
                                                     warehouseTypeId: item.warehouseTypeId,
                                                     warehouseId: item.warehouseId
