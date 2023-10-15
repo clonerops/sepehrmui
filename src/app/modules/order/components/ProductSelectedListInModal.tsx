@@ -93,7 +93,7 @@ const ProductSelectedListInModal = (props: {
     };
 
     return (
-        <Box component="div" className="grid grid-cols-2 gap-x-8">
+        <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
             <Box component="div">
                 <Box component="div" className="w-80 md:w-[40%]">
                     <FuzzySearch

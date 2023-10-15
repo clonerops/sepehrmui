@@ -120,6 +120,8 @@ const Order = () => {
 
     const handleOrder = (values: any, setFieldValue: any) => {
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId)
+        const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId)
+        console.log("warehouseName", warehouseName)
         const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
         const productOrder = {
             id: values.productName.value ? values.productName.value : selectProductFromModal?.row?.id,
@@ -128,9 +130,9 @@ const Order = () => {
             // productName: values.productName.label ? values.productName.label : selectProductFromModal?.row.productName,
             productName: values.productName.label ? values.productName.label : values.productName,
             warehouseId: values.warehouseId ? values.warehouseId : selectProductFromModal?.row.productInventories[selectProductFromModal.row.productInventories.length - 1].warehouseId,
-            warehouseTypeId: warehouseTypeId?.warehouseTypeId ,
+            warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             // warehouseName: warehouseNameSelect ? warehouseNameSelect : selectProductFromModal?.row.productInventories[selectProductFromModal.row.productInventories.length - 1].warehouseName,
-            warehouseName: warehouseNameSelect ? warehouseNameSelect : values.warehouseName,
+            warehouseName: values.warehouseName ? values.warehouseName : warehouseName?.name,
             productDesc: values?.productDesc,
             buyPrice: values?.buyPrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
@@ -143,7 +145,7 @@ const Order = () => {
         };
 
         if (!isUpdate) {
-            if(values.productName === "" || values.productName.label === "" ) {
+            if (values.productName === "" || values.productName.label === "") {
                 alert("کالا الزامی می باشد")
             } else if (values?.price === "") {
                 alert("قیمت الزامی می باشد")
@@ -156,9 +158,6 @@ const Order = () => {
             const updatedOrder = {
                 ...productOrder
             };
-
-            console.log("productOrder", productOrder)
-
             const updatedOrders = [...orders];
             updatedOrders[selectedOrderIndex] = updatedOrder;
 
@@ -167,6 +166,7 @@ const Order = () => {
             setFieldValue("productName", "")
             setFieldValue("proximateAmount", "")
             setFieldValue("price", "")
+            setFieldValue("warehouseId", "")
             setIsUpdate(false);
         };
     }
@@ -177,7 +177,6 @@ const Order = () => {
         const findCustomer = customers?.data.find((i: any) => i.id === value.value)
         setFindCustomer(findCustomer)
     }
-    console.log('orders', orders)
     return (
         <>
             {snackeOpen && (
@@ -193,6 +192,7 @@ const Order = () => {
             )}
             <Card className="px-8 py-4">
                 <Formik
+                    enableReinitialize
                     initialValues={initialValues}
                     validationSchema={orderValidation}
                     onSubmit={
@@ -279,25 +279,23 @@ const Order = () => {
                     {({ handleSubmit, values, setFieldValue }) => {
                         return (
                             <Form onSubmit={handleSubmit}>
-                                {/* Order Code, Order Date, Order Submit */}
-                                <Card>
+                                <Box component="div" className="flex mb-4 justify-center items-center md:justify-end md:items-end">
+                                    <CustomButton title="ثبت سفارش" onClick={() => handleSubmit()} />
+                                </Box>
+                                <Card className="mb-4">
                                     <Box component="div" className="md:flex md:justify-between my-1 p-2 rounded-md gap-x-10">
                                         <TextValue title="شماره سفارش" value={orderCode} valueClassName="px-8 text-[#405189]" titleClassName="text-[#2E4374]" />
                                         <TextValue title="تاریخ سفارش" value={moment(new Date()).format("jYYYY/jMM/jDD")} valueClassName="text-[#405189]" titleClassName="text-[#2E4374]" />
                                     </Box>
                                     <Box component="div" className="md:flex my-1 p-2 rounded-md">
-                                        <TextValue title="قیمت کل" value={sliceNumberPrice(totalAmount)} valueClassName="!text-lg" insideValue={"ریال"} titleClassName="text-gray-500 !text-lg" />
-                                        <TextValue title="قیمت به حروف" value={convertToPersianWord(totalAmount)} valueClassName="!text-lg" insideValue={"تومان"} titleClassName="text-gray-500 !text-lg" />
+                                        <TextValue title="قیمت کل" value={sliceNumberPrice(totalAmount)} valueClassName="!text-md" insideValue={"ریال"} titleClassName="text-gray-500 !text-md" />
+                                        <TextValue title="قیمت به حروف" value={convertToPersianWord(totalAmount)} valueClassName="!text-md" insideValue={"تومان"} titleClassName="text-gray-500 !text-md" />
                                     </Box>
                                 </Card>
-                                <Box component="div" className="flex my-2 justify-center items-center md:justify-end md:items-end">
-                                    <CustomButton title="ثبت سفارش" onClick={() => handleSubmit()} />
-                                </Box>
-                                {/* Customer, Settlement Date*/}
-                                <Box component="div" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+
+                                <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                     <Card className="p-2">
                                         <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
-                                            {/* <FormikSelect onChange={(value) => handleChangeCustomer(value)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} /> */}
                                             <FormikComboBox onChange={() => handleChangeCustomer(values.customerId)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
                                             <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-black font-bold font-boldcursor-pointer my-1">
                                                 <AddCircle />
@@ -311,7 +309,6 @@ const Order = () => {
                                             </Box>
                                         }
                                     </Card>
-                                    {/* orderSendTypeId, invoiceTypeId, paymentTypeId, exitType */}
                                     <Card className="p-2">
                                         <Box component="div" className="grid md:grid-cols-2 !gap-2" >
                                             <FormikSelect name="orderSendTypeId" label="نوع ارسال" options={dropdownOrderSendType(orderSendType)} />
@@ -322,13 +319,11 @@ const Order = () => {
                                     </Card>
                                 </Box>
 
-                                <Box component="div" className="mt-2">
+                                <Box component="div" className="mt-4">
                                     <Card className="p-2">
-                                        {/* <Box component="div" className="md:flex md:items-center md:flex-warp md:justify-center gap-2"> */}
                                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-2">
                                             <Box component="div" className="">
                                                 <Box component="div" className="flex mx-2">
-                                                    {/* <FormikProductComboSelect productIntegratedName={values.productIntegratedName} label="کالا" name="productIntegratedName" options={dropdownProductIntegrated(products?.data)} /> */}
                                                     <FormikProductComboSelect productName={values.productName} label="کالا" name="productName" options={dropdownProductName(products?.data)} />
                                                     <Box component="div" className="mx-1">
                                                         <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="secondary" >
@@ -357,7 +352,6 @@ const Order = () => {
                                             {isBuy && (
                                                 <>
                                                     <FormikComboBox name="purchaserCustomerId" label="خرید از" options={dropdownCustomer(customers?.data)} />
-                                                    {/* <FormikInput name="sellerCompanyRow" label="خرید از" type="text" /> */}
                                                     <FormikInput name="buyPrice" label="قیمت خرید" type="text" />
                                                     <FormikSelect value={purchaseInvoiceTypeSelected} onSelect={(value: any) => setPurchaseInvoiceTypeSelected(value)} name="purchaseInvoiceTypeId" label="نوع فاکتور خرید" options={dropdownPurchaseInvoice(purchaseInvoiceType)} />
                                                     <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید" />

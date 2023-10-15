@@ -7,11 +7,11 @@ import { Typography } from '@mui/material';
 
 
 type Props = {
-    children: React.ReactNode
-    open: boolean;
-    title: string
-    width?: string;
-    isClose: any
+  children: React.ReactNode
+  open: boolean;
+  title: string
+  width?: string;
+  isClose: any
 }
 
 export default function TransitionsModal(props: Props) {
@@ -25,8 +25,14 @@ export default function TransitionsModal(props: Props) {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    height: "80%",
+    overflow: "auto"
   };
-  
+
+  const mobileStyle = {
+    height: "100%",
+  };
+
   return (
     <div>
       <Modal
@@ -34,7 +40,6 @@ export default function TransitionsModal(props: Props) {
         aria-describedby="transition-modal-description"
         open={props.open}
         onClose={props.isClose}
-        className='!h-[100%]'
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -44,9 +49,8 @@ export default function TransitionsModal(props: Props) {
         }}
       >
         <Fade in={props.open}>
-          <Box sx={style}>
-            <Typography variant='h2' color="secondary" className='pb-8'>{props.title}</Typography>
-                {props.children}
+          <Box sx={{ ...style, ...(window.innerWidth < 600 ? mobileStyle : {}) }}>            <Typography variant='h2' color="secondary" className='pb-8'>{props.title}</Typography>
+            {props.children}
           </Box>
         </Fade>
       </Modal>
