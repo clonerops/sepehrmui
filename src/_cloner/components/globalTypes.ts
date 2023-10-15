@@ -1,7 +1,6 @@
-import { Label } from "./FormikInput";
 
 export type FieldType = {
-  label: Label;
+  label: string;
   name: string;
   type?: string;
   [key: string]: any;

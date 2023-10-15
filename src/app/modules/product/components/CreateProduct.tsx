@@ -13,10 +13,27 @@ import { useState } from "react";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox";
 import { useGetTypes } from "../../generic/productType/_hooks";
-import { dropdownStandard, dropdownState, dropdownTypes } from "../helpers/convertDropdowns";
+import {
+    dropdownStandard,
+    dropdownState,
+    dropdownTypes,
+} from "../helpers/convertDropdowns";
 import { useGetStandards } from "../../generic/productStandard/_hooks";
 import { useGetStates } from "../../generic/productState/_hooks";
 import React from "react";
+import { FieldType } from "../../../../_cloner/components/globalTypes";
+
+const initialValues = {
+    productName: "",
+    productTypeId: "",
+    productSize: "",
+    approximateWeight: "",
+    numberInPackage: "",
+    productThickness: "",
+    productStandardId: "",
+    productStateId: "",
+    description: "",
+};
 
 const CreateProduct = (props: {
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,22 +43,72 @@ const CreateProduct = (props: {
 }) => {
     // Fetchig
     const { mutate, data } = useCreateProduct();
-    const { data: productType } = useGetTypes()
-    const { data: productStandard } = useGetStandards()
-    const { data: productState } = useGetStates()
+    const { data: productType } = useGetTypes();
+    const { data: productStandard } = useGetStandards();
+    const { data: productState } = useGetStates();
     // States
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
-    const initialValues = {
-        productName: "",
-        productTypeId: "",
-        productSize: "",
-        approximateWeight: "",
-        numberInPackage: "",
-        productThickness: "",
-        productStandardId: "",
-        productStateId: "",
-        description: "",
+    const fields: FieldType[][] = [
+        [
+            { label: "نام کالا", name: "productName", type: "input" },
+            { label: "نوع کالا", name: "productTypeId", type: "productType" },
+            { label: "سایز", name: "productSize", type: "input" },
+            { label: "ضخامت", name: "productThickness", type: "input" },
+        ],
+        [
+            { label: "وزن", name: "approximateWeight", type: "input" },
+            {
+                label: "تعداد در بسته",
+                name: "numberInPackage",
+                type: "input",
+            },
+            {
+                label: "استاندارد",
+                name: "productStandardId",
+                type: "productStandard",
+            },
+            { label: "حالت", name: "productStateId", type: "productState" },
+        ],
+        [{ label: "توضیحات", name: "description", type: "description" }],
+    ];
+
+    const parseFields = (fields: FieldType) => {
+        const { type, ...rest } = fields;
+        switch (type) {
+            case "productType":
+                return (
+                    <FormikComboBox
+                        options={dropdownTypes(productType?.data)}
+                        {...rest}
+                    />
+                );
+            case "productStandard":
+                return (
+                    <FormikComboBox
+                        options={dropdownStandard(productStandard?.data)}
+                        {...rest}
+                    />
+                );
+            case "productState":
+                return (
+                    <FormikComboBox
+                        options={dropdownState(productState?.data)}
+                        {...rest}
+                    />
+                );
+            case "description":
+                return (
+                    <FormikInput
+                        {...rest}
+                        multiline
+                        rows={3}
+                    />
+                );
+
+            default:
+                return <FormikInput {...rest} />;
+        }
     };
 
     return (
@@ -52,7 +119,8 @@ const CreateProduct = (props: {
                     setState={setSnackeOpen}
                     title={
                         data?.data?.Message ||
-                        data?.message || "ایجاد با موفقیت انجام شد"
+                        data?.message ||
+                        "ایجاد با موفقیت انجام شد"
                     }
                 />
             )}
@@ -65,13 +133,19 @@ const CreateProduct = (props: {
                             ...values,
                             productTypeId: Number(values.productTypeId.value),
                             approximateWeight: Number(values.approximateWeight),
-                            numberInPackage: values.numberInPackage ? Number(values.numberInPackage) : 0,
-                            productStandardId: values.productStandardId.value ? Number(values.productStandardId.value) : null,
-                            productStateId: values.productStateId.value ? Number(values.productStateId.value) : null,
-                        }
+                            numberInPackage: values.numberInPackage
+                                ? Number(values.numberInPackage)
+                                : 0,
+                            productStandardId: values.productStandardId.value
+                                ? Number(values.productStandardId.value)
+                                : null,
+                            productStateId: values.productStateId.value
+                                ? Number(values.productStateId.value)
+                                : null,
+                        };
                         mutate(formData, {
                             onSuccess: () => {
-                                setSnackeOpen(true)
+                                setSnackeOpen(true);
                                 props.refetch();
                                 props.setIsCreateOpen(false);
                             },
@@ -79,14 +153,22 @@ const CreateProduct = (props: {
                     } catch (error) {
                         setStatus("اطلاعات ثبت کالا نادرست می باشد");
                         setSubmitting(false);
-                        setSnackeOpen(true)
+                        setSnackeOpen(true);
                     }
                 }}
             >
                 {({ handleSubmit }) => {
                     return (
                         <Form onSubmit={handleSubmit} className="container">
-                            <Box component="div" className="grid grid-cols-1 md:grid-cols-8 gap-8">
+                            {fields.map((rowFields) => (
+                                <Box component="div" className="md:flex md:justify-between md:gap-4 space-y-4 md:space-y-0 my-4">
+                                    {rowFields.map((field) => (
+                                        parseFields(field)
+                                    ))}
+                                </Box>
+                            ))}
+
+                            {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-8 gap-8">
                                 <FormikInput
                                     name="productName"
                                     label="نام کالا"
@@ -139,9 +221,15 @@ const CreateProduct = (props: {
                                     name="description"
                                     label="توضیحات"
                                 />
-                            </Box>
-                            <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                <Typography variant="h3" className="px-8 py-2">ثبت کالا</Typography>
+                            </Box> */}
+                            <Button
+                                onClick={() => handleSubmit()}
+                                variant="contained"
+                                color="secondary"
+                            >
+                                <Typography variant="h3" className="px-8 py-2">
+                                    ثبت کالا
+                                </Typography>
                             </Button>
                         </Form>
                     );

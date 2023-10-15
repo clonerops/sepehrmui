@@ -36,6 +36,132 @@ const Customer = () => {
     const [itemForEdit, setItemForEdit] = useState<ICustomer>();
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
+    const columns = (renderAction: any) => {
+        const col = [
+            {
+                field: "customerCode",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: "کد مشتری",
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                width: 80,
+            },
+            {
+                field: "firstName",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: "نام",
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            },
+            {
+                field: "lastName",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: "نام خانوادگی",
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                width: 150,
+            },
+            {
+                field: "mobile",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: "موبایل",
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            },
+            {
+                field: "representative",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: "معرف",
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            },
+            {
+                field: "customerValidityId",
+                headerName: "نوع اعتبار",
+                width: 80,
+                renderCell: (params: any) =>
+                    params.value === 1
+                        ? "عادی"
+                        : params.value === 2
+                        ? "VIP"
+                        : "سیاه",
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            },
+            {
+                field: "tel1",
+                headerName: "تلفن یک",
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            },
+            {
+                field: "isSupplier",
+                headerName: "تامین کننده؟",
+                renderCell: (params: any) =>
+                    params.value === true ? (
+                        <Typography className="text-green-500">بله</Typography>
+                    ) : (
+                        <Typography className="text-red-500">خیر</Typography>
+                    ),
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                cellClassName: "text-center",
+                width: 80,
+            },
+            {
+                field: "fatherName",
+                headerName: "نام پدر",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            },
+            {
+                field: "nationalId",
+                headerName: "کدملی",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            },
+            {
+                field: "address1",
+                headerName: "آدرس یک",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                width: 280,
+            },
+            {
+                field: "customerType",
+                headerName: "نوع مشتری",
+                width: 80,
+                renderCell: (params: any) =>
+                    params.value === 0 ? <Typography>حقیقی</Typography> : <Typography>حقوقی</Typography>,
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            },
+            {
+                field: "address2",
+                headerName: "آدرس دو",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                width: 280,
+            },
+            {
+                headerName: "عملیات",
+                renderCell: renderAction,
+                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                width: 160,
+            },
+        ];
+        return col;
+    };
+
     const handleEdit = (item: ICustomer) => {
         setItemForEdit(item);
         setIsEditOpen(true);
@@ -81,7 +207,11 @@ const Customer = () => {
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
             <Card className="p-8">
-                <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
+                <Typography
+                    color="secondary"
+                    variant="h1"
+                    className="pb-2 !text-sm md:!text-2xl"
+                >
                     مدیریت مشتری
                 </Typography>
                 <Box
@@ -127,11 +257,11 @@ const Customer = () => {
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
                 title="ایجاد مشتری جدید"
-                >
+            >
                 <CreateCustomer
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
-                    />
+                />
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}
