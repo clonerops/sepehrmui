@@ -26,7 +26,6 @@ const ProductSelectedListInModal = (props: {
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
     const [proximateAmounts, setProximateAmounts] = useState<{ [key: string]: string }>({});
-    const [warehouseName, setWarehouseName] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (props.products) setResults(props.products);
