@@ -13,6 +13,7 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 
 const Suppliers = () => {
     const {
@@ -50,6 +51,53 @@ const Suppliers = () => {
             });
     };
 
+    const columns = (renderAction: any) => {
+        const col = [
+            {
+                field: 'customerFirstName', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'نام', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 130
+            },
+            {
+                field: 'customerLastName', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'نام خانوادگی', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+            },
+            {
+                field: 'productName', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+            },
+            {
+                field: 'price', renderCell: (params: any) => {
+                    return <Typography>{separateAmountWithCommas(params.value)}</Typography>;
+                }, headerName: 'قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            {
+                field: 'rentAmount', renderCell: (params: any) => {
+                    return <Typography>{separateAmountWithCommas(params.value)}</Typography>;
+                }, headerName: 'کرایه', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            {
+                field: 'overPrice', renderCell: (params: any) => {
+                    return <Typography>{separateAmountWithCommas(params.value)}</Typography>;
+                }, headerName: 'قیمت تمام شده', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            {
+                field: 'priceDate', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'تاریخ قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            {
+                field: 'rate', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                }, headerName: 'امتیاز', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 80
+            },
+            { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 240 }
+        ]
+        return col
+    }
+
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
@@ -75,14 +123,11 @@ const Suppliers = () => {
                 />
             )}
             <Card className="p-8">
-                <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
-                    مدیریت تامین کنندگان
-                </Typography>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
+                    <Box component="div" className="w-auto md:w-[40%] mb-4">
                         <FuzzySearch
                             keys={[
                                 "customerFirstName",

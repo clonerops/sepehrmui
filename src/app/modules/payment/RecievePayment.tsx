@@ -15,6 +15,7 @@ import PositionedSnackbar from '../../../_cloner/components/Snackbar'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 import React from 'react'
+import FormikPrice from '../product/components/FormikPrice'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -56,7 +57,6 @@ const RecievePayment = () => {
             )}
             {isLoading && <Backdrop loading={isLoading} />}
             <Card className='p-8'>
-                <Typography color="secondary" variant="h1" className="pb-2">ثبت دریافت و پرداخت</Typography>
                 <Box component="div" className='md:flex md:justify-between md:first-letter:items-center'>
                     <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-slate-200 py-4 px-16 text-black font-bold font-boldrounded-lg'>شماره: <Typography variant='h3' className='px-4'>{trachingCode}</Typography></Box>
                     <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-gray-200 text-black font-bold font-boldpy-4 px-16 rounded-lg'>تاریخ ثبت: <Typography variant='h3' className='pr-4'>{moment(Date.now()).format('jYYYY/jMM/jDD').toString()}</Typography></Box>
@@ -68,7 +68,7 @@ const RecievePayment = () => {
                             formData.append("ReceivePaymentSourceFromId", Number(values.ReceivePaymentSourceFromId))
                             formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId)
                             formData.append("ReceivePaymentSourceToId", values.ReceivePaymentSourceToId)
-                            formData.append("Amount", Number(values.Amount))
+                            formData.append("Amount", Number(values.Amount?.replace(/,/g, "")))
                             formData.append("PayToCustomerId", values.PayToCustomerId)
                             formData.append("AccountOwner", values.AccountOwner)
                             formData.append("TrachingCode", values.TrachingCode)
@@ -101,14 +101,14 @@ const RecievePayment = () => {
                                     }
                                     <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
                                     <Box component="div" className='flex flex-col'>
-                                        <FormikInput name='Amount' label='مبلغ' type='text' />
-                                        <Typography variant='subtitle1' color="secondary">{separateAmountWithCommas(values.Amount)}</Typography>
-                                        <Typography variant='subtitle1' color="primary">{convertToPersianWord(values.Amount)} تومان</Typography>
+                                        <FormikPrice name='Amount' label='مبلغ' type='text' />
+                                        {/* <Typography variant='subtitle1' color="secondary">{separateAmountWithCommas(values.Amount)}</Typography> */}
+                                        <Typography variant='subtitle1' color="primary">{convertToPersianWord(Number(values.Amount?.replace(/,/g, "")))} تومان</Typography>
                                     </Box>
 
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
                                     <FormikInput name='CompanyName' label='نام شرکت' type='text' />
-                                    <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
+                                    {/* <FormikInput name='ContractCode' label='کد قرارداد' type='text' /> */}
                                 </Box>
                                 <Box component="div" className='grid grid-cols-1 py-4'>
                                     <FormikInput name='Description' label='توضیحات' type='text' />
