@@ -207,18 +207,11 @@ const Customer = () => {
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
             <Card className="p-8">
-                <Typography
-                    color="secondary"
-                    variant="h1"
-                    className="pb-2 !text-sm md:!text-2xl"
-                >
-                    مدیریت مشتری
-                </Typography>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
+                    <Box component="div" className="w-auto md:w-[40%] mb-4">
                         <FuzzySearch
                             keys={[
                                 "firstName",
