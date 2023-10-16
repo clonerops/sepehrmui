@@ -184,7 +184,7 @@ const ProductTypes = () => {
               className="hidden md:flex md:justify-center md:items-center"
             >
               <Box component="img"
-                src={toAbsoulteUrl("/media/logos/20123109.jpg")}
+                src={toAbsoulteUrl("/media/logos/6075528.jpg")}
               />
             </Box>
           </Box>

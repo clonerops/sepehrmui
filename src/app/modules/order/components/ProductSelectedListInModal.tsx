@@ -4,7 +4,6 @@ import { columns, columnsSelectProduct } from "../helpers/productColumns";
 import {
     Box,
     Button,
-    Container,
     OutlinedInput,
     Typography,
 } from "@mui/material";
@@ -25,22 +24,26 @@ const ProductSelectedListInModal = (props: {
     const [results, setResults] = useState<IProducts[]>([]);
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
-    const [proximateAmounts, setProximateAmounts] = useState<{ [key: string]: string }>({});
+    const [proximateAmounts, setProximateAmounts] = useState<{
+        [key: string]: string;
+    }>({});
 
     useEffect(() => {
         if (props.products) setResults(props.products);
     }, [props.products]);
 
-    const renderAction = () => {
+    const renderAction = (indexToDelete: any) => {
         return (
             <>
                 <DeleteGridButton
-                    onClick={(index: number) => {
-                        const cloneItems = [...selectedProduct];
-                        cloneItems?.splice(index, 1);
-                        setSelectedProduct(cloneItems);
+                    onClick={() => {
+                        if (selectedProduct) {
+                            const updatedOrders = selectedProduct.filter(
+                                (item: any) => item.id !== indexToDelete.id
+                            );
+                            setSelectedProduct(updatedOrders);
+                        }
                     }}
-                    key="selectedProduct"
                 />
             </>
         );
@@ -54,7 +57,9 @@ const ProductSelectedListInModal = (props: {
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     value={proximateAmounts[productId] || ""}
-                    onChange={(e: any) => handleInputValueChange(productId, e.target.value)}
+                    onChange={(e: any) =>
+                        handleInputValueChange(productId, e.target.value)
+                    }
                     inputProps={{
                         "aria-label": "weight",
                     }}
@@ -83,8 +88,14 @@ const ProductSelectedListInModal = (props: {
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             ...product,
             proximateAmount: proximateAmounts[product.id] || "",
-            warehouseName: product.productInventories[product.productInventories.length - 1].warehouseName || "",
-            warehouseId: product.productInventories[product.productInventories.length - 1].warehouseId || "",
+            warehouseName:
+                product.productInventories[
+                    product.productInventories.length - 1
+                ]?.warehouseName || "",
+            warehouseId:
+                product.productInventories[
+                    product.productInventories.length - 1
+                ]?.warehouseId || "",
         }));
         const updatedOrders = [...props.orders, ...selectedProductWithAmounts];
         props.setOrders(updatedOrders);
@@ -125,10 +136,7 @@ const ProductSelectedListInModal = (props: {
                 <MuiSelectionDataGrid
                     selectionModel={selectionModel}
                     setSelectionModel={setSelectionModel}
-                    columns={columnsSelectProduct(
-                        renderAction,
-                        renderInput
-                    )}
+                    columns={columnsSelectProduct(renderAction, renderInput)}
                     rows={selectedProduct}
                     data={selectedProduct}
                     pagination={false}

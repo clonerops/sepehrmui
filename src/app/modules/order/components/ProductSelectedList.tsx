@@ -1,7 +1,6 @@
 import { IProducts } from "../../product/core/_models";
 import { Button, Typography } from "@mui/material";
 import MuiTable from "../../../../_cloner/components/MuiTable";
-import { FormikErrors, useFormikContext } from "formik";
 
 const ProductSelectedList = (props: {
     orders: IProducts[]
@@ -58,8 +57,6 @@ const ProductSelectedList = (props: {
         props.setIsUpdate(true)
 
     }
-
-    console.log("orders", props.orders)
 
     return (
         <>

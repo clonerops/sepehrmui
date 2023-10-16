@@ -7,38 +7,62 @@ export const columns = (renderAction: any) => {
             field: "productName",
             headerName: "کالا",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
-            width: 180,
+            width: 140,
         },
         {
             field: "brandName",
-            valueGetter: (params: any) => params.row.productPrices[params.row.productPrices.length - 1]?.brandName,
+            valueGetter: (params: any) =>
+                params.row.productPrices[params.row.productPrices.length - 1]
+                    ?.brandName,
             width: 80,
             headerName: "برند",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "warehouseName",
-            valueGetter: (params: any) => params.row.productInventories[params.row.productInventories.length - 1]?.warehouseName,
+            valueGetter: (params: any) =>
+                params.row.productInventories[
+                    params.row.productInventories.length - 1
+                ]?.warehouseName,
             width: 80,
             headerName: "انبار",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "approximateInventory",
-            valueGetter: (params: any) => params.row.productInventories[params.row.productInventories.length - 1]?.approximateInventory,
-            width: 80,
+            valueGetter: (params: any) =>
+                params.row.productInventories[
+                    params.row.productInventories.length - 1
+                ]?.approximateInventory,
+            width: 60,
             headerName: "موجودی",
-            flex: 1,
+            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+        },
+        {
+            field: "productMainUnitDesc",
+            width: 80,
+            headerName: "واحد اصلی",
+            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+        },
+        {
+            field: "productSubUnitDesc",
+            width: 80,
+            headerName: "واحد فرعی",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "price",
-            valueGetter: (params: any) => params.row.productPrices[params.row.productPrices.length - 1]?.price,
-            width: 80,
+            valueGetter: (params: any) =>
+                params.row.productPrices[params.row.productPrices.length - 1]
+                    ?.price,
+            minWidth: 60,
             headerName: "قیمت",
-            renderCell: (value: any) => (
-                separateAmountWithCommas(value.row.productPrices[value.row.productPrices.length - 1]?.price)
-            ),
+            flex: 1,
+            renderCell: (value: any) =>
+                separateAmountWithCommas(
+                    value.row.productPrices[value.row.productPrices.length - 1]
+                        ?.price
+                ),
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
     ];
@@ -52,36 +76,53 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
             field: "productName",
             headerName: "کالا",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
-            width: 180,
+            width: 100,
         },
         {
             field: "brand",
             width: 80,
-            valueGetter: (params: any) => params.row.productPrices[params.row.productPrices.length - 1]?.brandName,
+            valueGetter: (params: any) =>
+                params.row.productPrices[params.row.productPrices.length - 1]
+                    ?.brandName,
             headerName: "برند",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "warehouseName",
-            valueGetter: (params: any) => params.row.productInventories[params.row.productInventories.length - 1]?.warehouseName,
+            valueGetter: (params: any) =>
+                params.row.productInventories[
+                    params.row.productInventories.length - 1
+                ]?.warehouseName,
             width: 80,
             headerName: "انبار",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "thickness",
-            minWidth: 180,
-            flex: 1,
+            minWidth: 100,
             headerName: "مقدار",
             renderCell: renderInput,
-            headerAlign: 'center',
+            headerAlign: "center",
+            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+        },
+        {
+            field: "productMainUnitDesc",
+            width: 80,
+            headerName: "واحد اصلی",
+            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+        },
+        {
+            field: "productSubUnitDesc",
+            width: 80,
+            headerName: "واحد فرعی",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "Action",
-            width: 80,
+            minWidth: 60,
             renderCell: renderAction,
             headerName: "حذف",
+            flex: 1,
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
     ];

@@ -239,7 +239,7 @@ const Brands = () => {
                             className="hidden md:flex md:justify-center md:items-center"
                         >
                             <Box component="img"
-                                src={toAbsoulteUrl("/media/logos/3959.jpg")}
+                                src={toAbsoulteUrl("/media/logos/8595513.jpg")}
                                 width={400}
                             />
                         </Box>

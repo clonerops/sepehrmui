@@ -162,10 +162,22 @@ const Order = () => {
 
             setOrders(updatedOrders);
             setSelectedOrderIndex(null);
+            setFieldValue("id", "")
+            setFieldValue("productId", "")
             setFieldValue("productName", "")
-            setFieldValue("proximateAmount", "")
-            setFieldValue("price", "")
             setFieldValue("warehouseId", "")
+            setFieldValue("warehouseTypeId", "")
+            setFieldValue("warehouseName", "")
+            setFieldValue("productDesc", "")
+            setFieldValue("buyPrice", "")
+            setFieldValue("purchaseSettlementDate", "")
+            setFieldValue("purchaseInvoiceTypeId", "")
+            setFieldValue("purchaseInvoiceTypeName", "")
+            setFieldValue("sellerCompanyRow", "")
+            setFieldValue("proximateAmount", "")
+            setFieldValue("productPrice", "")
+            setFieldValue("rowId", "")
+            setIsBuy(false)
             setIsUpdate(false);
         };
     }

@@ -181,7 +181,7 @@ const ProductStandards = () => {
               className="hidden md:flex md:justify-center md:items-center"
             >
               <Box component="img"
-                src={toAbsoulteUrl("/media/logos/2150531047.jpg")}
+                src={toAbsoulteUrl("/media/logos/11089.jpg")}
               />
             </Box>
 
