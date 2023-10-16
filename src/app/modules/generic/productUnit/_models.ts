@@ -1,4 +1,4 @@
 export interface IUnit {
     id?: number | null | undefined
-    desc: string | null | undefined
+    unitName: string | null | undefined
 }

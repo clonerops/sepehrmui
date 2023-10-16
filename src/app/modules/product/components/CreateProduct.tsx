@@ -17,11 +17,14 @@ import {
     dropdownStandard,
     dropdownState,
     dropdownTypes,
+    dropdownUnit,
 } from "../helpers/convertDropdowns";
 import { useGetStandards } from "../../generic/productStandard/_hooks";
 import { useGetStates } from "../../generic/productState/_hooks";
 import React from "react";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
+import { useGetUnits } from "../../generic/productUnit/_hooks";
+import FormikSelect from "../../../../_cloner/components/FormikSelect";
 
 const initialValues = {
     productName: "",
@@ -33,6 +36,12 @@ const initialValues = {
     productStandardId: "",
     productStateId: "",
     description: "",
+    productMainUnitId: "",
+    productSubUnitId: "",
+    exchangeRate: "",
+    maxInventory: "",
+    minInventory: "",
+    inventotyCriticalPoint: "",
 };
 
 const CreateProduct = (props: {
@@ -46,6 +55,7 @@ const CreateProduct = (props: {
     const { data: productType } = useGetTypes();
     const { data: productStandard } = useGetStandards();
     const { data: productState } = useGetStates();
+    const { data: productUnit } = useGetUnits();
     // States
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
@@ -69,6 +79,30 @@ const CreateProduct = (props: {
                 type: "productStandard",
             },
             { label: "حالت", name: "productStateId", type: "productState" },
+        ],
+        [
+            {
+                label: "واحد اصلی",
+                name: "productMainUnitId",
+                type: "productMainUnit",
+            },
+            {
+                label: "واحد فرعی",
+                name: "productSubUnitId",
+                type: "productSubUnit",
+            },
+            {
+                label: "نرخ تبدیل",
+                name: "exchangeRate",
+                type: "input",
+            },
+            { label: "حداکثر موجودی", name: "maxInventory", type: "input" },
+            { label: "حداقل موجودی", name: "minInventory", type: "input" },
+            {
+                label: "نقطه بحرانی",
+                name: "inventotyCriticalPoint",
+                type: "input",
+            },
         ],
         [{ label: "توضیحات", name: "description", type: "description" }],
     ];
@@ -97,14 +131,22 @@ const CreateProduct = (props: {
                         {...rest}
                     />
                 );
-            case "description":
+            case "productMainUnit":
                 return (
-                    <FormikInput
+                    <FormikSelect
+                        options={dropdownUnit(productUnit)}
                         {...rest}
-                        multiline
-                        rows={3}
                     />
                 );
+            case "productSubUnit":
+                return (
+                    <FormikSelect
+                        options={dropdownUnit(productUnit)}
+                        {...rest}
+                    />
+                );
+            case "description":
+                return <FormikInput {...rest} multiline rows={3} />;
 
             default:
                 return <FormikInput {...rest} />;
@@ -142,6 +184,25 @@ const CreateProduct = (props: {
                             productStateId: values.productStateId.value
                                 ? Number(values.productStateId.value)
                                 : null,
+                            productMainUnitId: values.productMainUnitId
+                                ? Number(values.productMainUnitId)
+                                : null,
+                            productSubUnitId: values.productSubUnitId
+                                ? Number(values.productSubUnitId)
+                                : null,
+                            exchangeRate: values.exchangeRate
+                                ? Number(values.exchangeRate)
+                                : 0,
+                            maxInventory: values.maxInventory
+                                ? Number(values.maxInventory)
+                                : 0,
+                            minInventory: values.minInventory
+                                ? Number(values.minInventory)
+                                : 0,
+                            inventotyCriticalPoint:
+                                values.inventotyCriticalPoint
+                                    ? Number(values.inventotyCriticalPoint)
+                                    : 0,
                         };
                         mutate(formData, {
                             onSuccess: () => {
@@ -161,67 +222,15 @@ const CreateProduct = (props: {
                     return (
                         <Form onSubmit={handleSubmit} className="container">
                             {fields.map((rowFields) => (
-                                <Box component="div" className="md:flex md:justify-between md:gap-4 space-y-4 md:space-y-0 my-4">
-                                    {rowFields.map((field) => (
+                                <Box
+                                    component="div"
+                                    className="md:flex md:justify-between md:gap-4 space-y-4 md:space-y-0 my-4"
+                                >
+                                    {rowFields.map((field) =>
                                         parseFields(field)
-                                    ))}
+                                    )}
                                 </Box>
                             ))}
-
-                            {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-8 gap-8">
-                                <FormikInput
-                                    name="productName"
-                                    label="نام کالا"
-                                    type="text"
-                                    autoFocus={true}
-                                    boxClassName="col-span-4"
-                                />
-                                <FormikComboBox
-                                    name="productTypeId"
-                                    label="نوع کالا"
-                                    options={dropdownTypes(productType?.data)}
-                                    boxClassName="col-span-2"
-                                />
-                                <FormikInput
-                                    name="productSize"
-                                    label="سایز"
-                                    type="text"
-                                />
-                                <FormikInput
-                                    name="productThickness"
-                                    label="ضخامت"
-                                    type="text"
-                                />
-
-                            </Box>
-                            <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-8 my-4">
-                                <FormikInput
-                                    name="approximateWeight"
-                                    label="وزن"
-                                    type="text"
-                                />
-                                <FormikInput
-                                    name="numberInPackage"
-                                    label="تعداد در بسته"
-                                    type="text"
-                                />
-                                <FormikComboBox
-                                    name="productStandardId"
-                                    label="استاندارد"
-                                    options={dropdownStandard(productStandard?.data)}
-                                />
-                                <FormikComboBox
-                                    name="productStateId"
-                                    label="حالت"
-                                    options={dropdownState(productState?.data)}
-                                />
-                            </Box>
-                            <Box component="div" className="grid grid-cols-1 md:grid-cols-1 gap-8 my-4">
-                                <FormikTextArea
-                                    name="description"
-                                    label="توضیحات"
-                                />
-                            </Box> */}
                             <Button
                                 onClick={() => handleSubmit()}
                                 variant="contained"
