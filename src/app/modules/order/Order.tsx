@@ -108,17 +108,19 @@ const Order = () => {
         setTotalAmount(newTotal);
     }, [orders]);
 
-    const handleWarehouseSelect = (values: any) => {
-        const warehouseName = warehouse.find((i: any) => i.id === values);
-        if (values === 2) {
-            setIsBuy(true);
-        } else {
-            setIsBuy(false);
-        }
-        setWarehouseSelected(warehouseName.name);
-    };
+    // const handleWarehouseSelect = (values: any) => {
+    //     const warehouseName = warehouse.find((i: any) => i.id === values);
+    //     if (values === 2) {
+    //         setIsBuy(true);
+    //     } else {
+    //         setIsBuy(false);
+    //     }
+    //     setWarehouseSelected(warehouseName.name);
+    // };
 
     const handleOrder = (values: any, setFieldValue: any) => {
+        const fields = ["id", "productId","productName","warehouseId","price", "warehouseTypeId","warehouseName", "productDesc","buyPrice","purchaseSettlementDate","purchaseInvoiceTypeId","purchaseInvoiceTypeName","sellerCompanyRow","proximateAmount","productPrice","rowId"]
+
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId)
         const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId)
         const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId))
@@ -152,6 +154,9 @@ const Order = () => {
             else {
                 setOrders([...orders, productOrder]);
             }
+            fields.forEach(element => {
+                setFieldValue(element, "")
+            });
 
         } else {
             const updatedOrder = {
@@ -162,21 +167,9 @@ const Order = () => {
 
             setOrders(updatedOrders);
             setSelectedOrderIndex(null);
-            setFieldValue("id", "")
-            setFieldValue("productId", "")
-            setFieldValue("productName", "")
-            setFieldValue("warehouseId", "")
-            setFieldValue("warehouseTypeId", "")
-            setFieldValue("warehouseName", "")
-            setFieldValue("productDesc", "")
-            setFieldValue("buyPrice", "")
-            setFieldValue("purchaseSettlementDate", "")
-            setFieldValue("purchaseInvoiceTypeId", "")
-            setFieldValue("purchaseInvoiceTypeName", "")
-            setFieldValue("sellerCompanyRow", "")
-            setFieldValue("proximateAmount", "")
-            setFieldValue("productPrice", "")
-            setFieldValue("rowId", "")
+            fields.forEach(element => {
+                setFieldValue(element, "")
+            });
             setIsBuy(false)
             setIsUpdate(false);
         };
@@ -355,7 +348,7 @@ const Order = () => {
                                                     />
                                                 </TransitionsModal>
                                             </Box>
-                                            <FormikSelect name="warehouseId" label="انبار" options={dropdownWarehouses(warehouse)} onChange={(values) => handleWarehouseSelect(values)} />
+                                            <FormikSelect name="warehouseId" label="انبار" options={dropdownWarehouses(warehouse)} />
                                             <FormikInput name="proximateAmount" label="مقدار (کیلوگرم)" type="text" />
                                             <FormikInput name="price" label="قیمت" type="text" />
                                             <FormikInput name="productDesc" label="توضیحات کالا" type="text" />
