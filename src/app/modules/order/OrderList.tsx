@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useRetrieveOrders } from "./core/_hooks";
 import { Link } from "react-router-dom";
-import { columns } from "./helpers/orderColumns";
+// import { columns } from "./helpers/orderColumns";
 import { IOrder } from "./core/_models";
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import React from "react";
-
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { Visibility } from '@mui/icons-material'
 const OrderList = () => {
     const { data: orders } = useRetrieveOrders();
     const [results, setResults] = useState<IOrder[]>([]);
@@ -16,6 +17,60 @@ const OrderList = () => {
         setResults(orders?.data);
     }, [orders?.data]);
 
+    const columns = (renderAction: any) => {
+        const col = [
+            {
+                field: 'orderCode', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: 'شماره سفارش', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 100
+            },
+            {
+                field: 'registerDate', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: 'تاریخ ثبت سفارش', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            {
+                field: 'customerName', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: 'سفارش دهنده', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+            },
+            {
+                field: 'orderSendTypeDesc', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: 'نحوه ارسال', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            {
+                field: 'paymentTypeDesc', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: 'نحوه پرداخت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            {
+                field: 'invoiceTypeDesc', renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+                headerName: 'نوع فاکتور', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            {
+                field: 'totalAmount', renderCell: (params: any) => {
+                    return <Typography>{separateAmountWithCommas(params.value)}</Typography>;
+                },
+                headerName: 'مبلغ کل', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            {
+                field: 'exitType', headerName: 'نوع خروج', renderCell: (params: any) => (
+                    params.value === 1 ? <Typography className="text-green-500">عادی</Typography>: <Typography className="text-blue-500">بعد از تسویه</Typography>
+                ), headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+            },
+            { headerName: 'جزئیات', flex:1, renderCell: renderAction, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160 }
+        ]
+        return col
+    }
+
     const renderAction = (item: any) => {
         return (
             <Link
@@ -23,7 +78,7 @@ const OrderList = () => {
                 state={{ isConfirmed: false }}
             >
                 <Button variant="contained" color="secondary">
-                    <Typography>جزئیات</Typography>
+                    <Visibility />
                 </Button>
             </Link>
         );
@@ -33,7 +88,7 @@ const OrderList = () => {
             <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات
             </Typography>
-            <Box component="div" className="w-auto md:w-[40%]">
+            <Box component="div" className="w-auto md:w-[40%] mb-4">
                 <FuzzySearch
                     keys={[
                         "orderCode",
@@ -45,7 +100,6 @@ const OrderList = () => {
                         "invoiceTypeDesc",
                         "totalAmount",
                         "exitType",
-                        "description",
                     ]}
                     data={orders?.data}
                     threshold={0.5}

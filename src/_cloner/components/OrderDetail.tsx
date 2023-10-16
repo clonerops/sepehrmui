@@ -6,6 +6,7 @@ import { columns } from '../../app/modules/order/helpers/orderListColumns'
 import PositionedSnackbar from "./Snackbar";
 import { useState } from "react";
 import MuiTable from "./MuiTable";
+import { separateAmountWithCommas } from "../helpers/SeprateAmount";
 
 type Props = {
     data: any | undefined;
@@ -41,9 +42,45 @@ const OrderDetail = (props: Props) => {
         { title: "نوع ارسال", value: data?.data?.orderSendTypeDesc },
         { title: "پرداخت کرایه", value: data?.data?.paymentTypeDesc },
         { title: "تاریخ تسویه", value: data?.data?.settlementDate },
-
     ]
 
+    const columns = [
+        {
+            headerName: 'شماره ردیف', field: 'rowId', renderCell: (params: any) => {
+                return <Typography>{params.value}</Typography>
+            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+        },
+        {
+            headerName: 'نام کالا', field: 'productName', renderCell: (params: any) => {
+                return <Typography>{params.value}</Typography>
+            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+        },
+        {
+            headerName: 'انبار', field: 'warehouseName', renderCell: (params: any) => {
+                return <Typography>{params.value}</Typography>
+            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+        },
+        {
+            headerName: 'قیمت', field: 'price', renderCell: (params: any) => {
+                return <Typography>{separateAmountWithCommas(params.value)}</Typography>
+            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+        },
+        {
+            headerName: 'تاریخ ارسال بار', field: 'cargoSendDate', renderCell: (params: any) => {
+                return <Typography>{params.value}</Typography>
+            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+        },
+        {
+            headerName: 'مقدار تقریبی', field: 'proximateAmount', renderCell: (params: any) => {
+                return <Typography>{params.value}</Typography>
+            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+        },
+        {
+            headerName: 'تعداد در بسته', field: 'numberInPackage', renderCell: (params: any) => {
+                return <Typography>{params.value}</Typography>
+            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+        },
+    ];
     return (
         <>
             {snackeOpen && (
@@ -67,7 +104,7 @@ const OrderDetail = (props: Props) => {
                         </Button>
                     }
                 </Box>
-                <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4">
+                <Box component="div" className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
                     {FieldItems.map((item: any) => {
                         return <Card className="p-4">
                             <Box component="div" className="!text-sm md:!text-lg text-gray-500">{item.title}: <span className="px-1 font-yekan_bold font-bold text-sm md:text-xl text-black font-bold">{item.value}</span></Box>
@@ -76,7 +113,8 @@ const OrderDetail = (props: Props) => {
                     })}
                 </Box>
                 <Box component="div" className="mt-4">
-                    <MuiTable columns={columns} data={data?.data?.details} />
+                    <MuiDataGrid columns={columns} data={data?.data?.details} rows={data?.data?.details} />
+                    {/* <MuiTable columns={columns} data={data?.data?.details} /> */}
                 </Box>
             </Card>
         </>

@@ -216,8 +216,6 @@ const Products = () => {
                 />
             )}
             <Card className="p-8">
-                {/* <Box component="div" className="md:grid md:grid-cols-4 md:gap-x-4">
-                    <Box component="div" className="col-span-3"> */}
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2"
@@ -253,19 +251,6 @@ const Products = () => {
                     rows={results}
                     data={products?.data}
                 />
-                {/* </Box> */}
-                {/* <Box component="div">
-                        <Box
-                            component="div"
-                            className="hidden md:flex md:justify-center md:items-center"
-                        >
-                            <Box component="img"
-                                src={toAbsoulteUrl("/media/logos/176.jpg")}
-                            />
-                        </Box>
-
-                    </Box> */}
-                {/* </Box> */}
             </Card>
             <TransitionsModal
                 open={isCreateOpen}

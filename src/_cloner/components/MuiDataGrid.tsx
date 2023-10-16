@@ -7,36 +7,41 @@ type Props = {
     rows: any
     data: any,
     width?: number
+    maxVisibleRows?: number // Add a new prop to control the maximum visible rows
 }
 
 export default function MuiDataGrid(props: Props) {
-    const { columns, rows, data, width } = props;
+    const { columns, rows, data, width, maxVisibleRows = 12 } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
-        const defaultRowHeight = 52; // You can adjust this value
-        const headerHeight = 56; // Header height
-        const scrollbarHeight = 15; // Scrollbar height (adjust this value)
-    
-        // Calculate the height based on the number of rows and other elements
-        return numRows * defaultRowHeight + headerHeight + scrollbarHeight;
-    }, [data]);
+        const defaultRowHeight = 52;
+        const headerHeight = 56;
+        const scrollbarHeight = 15;
+
+        const calculatedHeight = numRows * defaultRowHeight + headerHeight + scrollbarHeight;
+        return calculatedHeight <= maxVisibleRows * defaultRowHeight ? calculatedHeight : maxVisibleRows * defaultRowHeight;
+    }, [data, maxVisibleRows]);
 
     return (
-        <Box sx={{ height: gridHeight, maxHeight: 400, width: width }}>
+        <Box sx={{ width: width }}>
             <DataGrid
                 {...data}
                 sx={{
                     '.MuiDataGrid-columnHeaderTitle': { 
                        fontWeight: 'bold !important',
                        overflow: 'visible !important'
-                    }
+                    },
+                    overflowX: 'scroll'
                   }}                
                 rows={rows ? rows : []}
                 columns={columns}
                 pagination={false}
-                autoPageSize={true}
+                getRowId={(row) => row.id+Date.now()}
+                autoPageSize={false}
+                // autoHeight={true}
                 hideFooter={true}
+                style={{ height: gridHeight, maxHeight: 400, overflow: 'auto' }} // Set a max height and allow scrolling
             />
         </Box>
     );
