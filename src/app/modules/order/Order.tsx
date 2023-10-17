@@ -558,7 +558,7 @@ const Order = () => {
                                     {mainFields.map((rowFields) => (
                                         <Box
                                             component="div"
-                                            className="md:flex md:justify-between md:items-center gap-4 my-4"
+                                            className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                                         >
                                             {rowFields.map((field) =>
                                                 mainParseFields(field, values)
@@ -659,7 +659,7 @@ const Order = () => {
                                     {fieldsToMap.map((rowFields) => (
                                         <Box
                                             component="div"
-                                            className="md:flex md:justify-between flex-warp md:items-center gap-4 my-4"
+                                            className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                                         >
                                             {rowFields.map((field) =>
                                                 orderParseFields(
@@ -672,9 +672,9 @@ const Order = () => {
                                     ))}
                                     <Box
                                         component="div"
-                                        className="flex flex-col md:flex-row items-start justify-between"
+                                        className="flex flex-col md:flex-row items-start justify-between "
                                     >
-                                        <Box>
+                                        <Box component="div" className="order-1 md:order-0">
                                             <Typography
                                                 variant="h2"
                                                 color="secondary"
@@ -684,7 +684,7 @@ const Order = () => {
                                         </Box>
                                         <Box
                                             component="div"
-                                            className="md:w-1/4 w-full "
+                                            className="md:w-1/4 w-full order-0 md:order-1"
                                         >
                                             {isUpdate ? (
                                                 <Box
