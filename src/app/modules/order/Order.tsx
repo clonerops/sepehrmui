@@ -25,7 +25,14 @@ import {
     useGetSendTypes,
     useGetWarehouses,
 } from "../generic/_hooks";
-import { Box, Button, Card, Typography, IconButton } from "@mui/material";
+import {
+    Box,
+    Button,
+    Card,
+    Typography,
+    IconButton,
+    InputAdornment,
+} from "@mui/material";
 import { sliceNumberPrice } from "../../../_cloner/helpers/sliceNumberPrice";
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
@@ -94,7 +101,7 @@ const orderInitialValues = {
     sellerCompanyRow: "",
     // not Main
     productName: "",
-    warehouseName: ""
+    warehouseName: "",
 };
 
 const Order = () => {
@@ -259,6 +266,20 @@ const Order = () => {
                 );
             case "date":
                 return <FormikDatepicker {...rest} />;
+            case "proximateAmount":
+                return (
+                    <FormikInput
+                        // type="number"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    بسته
+                                </InputAdornment>
+                            ),
+                        }}
+                        {...rest}
+                    />
+                );
             case "input":
                 return <FormikInput {...rest} />;
             default:
@@ -674,7 +695,10 @@ const Order = () => {
                                         component="div"
                                         className="flex flex-col md:flex-row items-start justify-between "
                                     >
-                                        <Box component="div" className="order-1 md:order-0">
+                                        <Box
+                                            component="div"
+                                            className="order-1 md:order-0"
+                                        >
                                             <Typography
                                                 variant="h2"
                                                 color="secondary"

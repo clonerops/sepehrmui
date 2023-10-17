@@ -73,7 +73,7 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
         },
         {
             field: "thickness",
-            minWidth: 100,
+            minWidth: 160,
             headerName: "مقدار",
             renderCell: renderInput,
             headerAlign: "center",

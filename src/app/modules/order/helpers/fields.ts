@@ -39,7 +39,7 @@ export const orderFields: FieldType[][] = [
         {
             label: "مقدار",
             name: "proximateAmount",
-            type: "input",
+            type: "proximateAmount",
         },
     ],
     [
@@ -71,7 +71,7 @@ export const orderFieldsIsBuy: FieldType[][] = [
         {
             label: "مقدار",
             name: "proximateAmount",
-            type: "input",
+            type: "proximateAmount",
         },
     ],
     [
