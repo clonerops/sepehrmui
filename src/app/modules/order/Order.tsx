@@ -330,10 +330,10 @@ const Order = () => {
         const purchaseInvoiceTypeName = purchaseInvoiceType?.find(
             (i: any) => i.id === Number(values?.purchaseInvoiceTypeId)
         );
-        
+
         const productOrder = {
             id: values.productName.value
-                ? values.productName.value  
+                ? values.productName.value
                 : values.id,
             productName: values.productName.label
                 ? values.productName.label
@@ -397,6 +397,8 @@ const Order = () => {
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
+    console.log("orders", orders)
+
     return (
         <>
             {snackeOpen && (
@@ -452,9 +454,7 @@ const Order = () => {
                                                 : null,
                                             proximateAmount:
                                                 item.proximateAmount
-                                                    ? Number(
-                                                        item.proximateAmount
-                                                    )
+                                                    ? Number(item.proximateAmount?.replace(/,/g, ""))
                                                     : null,
                                             numberInPackage:
                                                 item.proximateAmount
@@ -463,7 +463,7 @@ const Order = () => {
                                                     )
                                                     : null,
                                             price: item.productPrice
-                                                ? Number(item.productPrice)
+                                                ? Number(item.productPrice?.replace(/,/g, ""))
                                                 : null,
                                             cargoSendDate: "1402/01/01",
                                             buyPrice: item.buyPrice
