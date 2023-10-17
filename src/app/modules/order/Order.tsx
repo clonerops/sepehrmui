@@ -91,7 +91,7 @@ const initialValues = {
 
 const orderInitialValues = {
     rowId: "",
-    productId: "",
+    id: "",
     warehouseId: "",
     warehouseTypeId: "",
     proximateAmount: "",
@@ -137,7 +137,6 @@ const Order = () => {
         useState<{ value: number | null; label: string | null }>();
     const [isBuy, setIsBuy] = useState<boolean>(false);
     const [orderCode, setOrderCode] = useState<number>(0);
-    const [warehouseNameSelect, setWarehouseSelected] = useState<string>("");
     const [orderData, setOrderData] = useState<any>();
 
     useEffect(() => {
@@ -275,8 +274,8 @@ const Order = () => {
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
-                                    {values.productId ?
-                                        products?.data?.find((i: IProducts) => i.id === values?.productId)?.productMainUnitDesc :
+                                    {values.id ?
+                                        products?.data?.find((i: IProducts) => i.id === values?.id)?.productMainUnitDesc :
                                         products?.data?.find((i: IProducts) => i.id === values?.productName?.value)?.productMainUnitDesc
                                     }
                                 </InputAdornment>
@@ -306,9 +305,8 @@ const Order = () => {
 
     const handleOrder = (values: any, setFieldValue: any) => {
         const fields = [
-            "id",
-            "productId",
             "productName",
+            "id",
             "warehouseId",
             "warehouseTypeId",
             "warehouseName",
@@ -333,16 +331,10 @@ const Order = () => {
             (i: any) => i.id === Number(values?.purchaseInvoiceTypeId)
         );
         
-        console.log("values.productName", values?.productName)
-
         const productOrder = {
             id: values.productName.value
-                ? values.productName.value
-                : selectProductFromModal?.row?.id,
-            // productId: values.productId
-            //     ? values.productId
-            //     : selectProductFromModal?.row.id,
-            productId: values.productName.value,
+                ? values.productName.value  
+                : values.id,
             productName: values.productName.label
                 ? values.productName.label
                 : values.productName,
@@ -352,7 +344,6 @@ const Order = () => {
                     selectProductFromModal.row.productInventories.length - 1
                 ].warehouseId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
-            // warehouseName: warehouseNameSelect ? warehouseNameSelect : selectProductFromModal?.row.productInventories[selectProductFromModal.row.productInventories.length - 1].warehouseName,
             warehouseName: values.warehouseName
                 ? values.warehouseName
                 : warehouseName?.name,
