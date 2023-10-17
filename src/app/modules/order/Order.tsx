@@ -265,22 +265,13 @@ const Order = () => {
     };
 
     const onWarehouseChange = (value: number) => {
-        if (value === 1) {
-            setIsBuy(false);
-        } else {
+        const warehousTypeId = warehouse.find((i: any) => i.id === value);
+        if (warehousTypeId.warehouseTypeId === 1) {
             setIsBuy(true);
+        } else {
+            setIsBuy(false);
         }
     };
-
-    // const handleWarehouseSelect = (values: any) => {
-    //     const warehouseName = warehouse.find((i: any) => i.id === values);
-    //     if (values === 2) {
-    //         setIsBuy(true);
-    //     } else {
-    //         setIsBuy(false);
-    //     }
-    //     setWarehouseSelected(warehouseName.name);
-    // };
 
     const handleOrder = (values: any, setFieldValue: any) => {
         const fields = [
@@ -681,51 +672,63 @@ const Order = () => {
                                         className="flex flex-col md:flex-row items-start justify-between"
                                     >
                                         <Box>
-                                        <Typography
-                                            variant="h2"
-                                            color="secondary"
+                                            <Typography
+                                                variant="h2"
+                                                color="secondary"
+                                            >
+                                                لیست سفارشات
+                                            </Typography>
+                                        </Box>
+                                        <Box
+                                            component="div"
+                                            className="md:w-1/4 w-full "
                                         >
-                                            لیست سفارشات
-                                        </Typography>
-
+                                            {isUpdate ? (
+                                                <Box
+                                                    component="div"
+                                                    onClick={() =>
+                                                        handleOrder(
+                                                            values,
+                                                            setFieldValue
+                                                        )
+                                                    }
+                                                    className="w-full flex p-2 rounded-md bg-yellow-500 cursor-pointer"
+                                                >
+                                                    <Add />
+                                                    <Typography>
+                                                        ویرایش
+                                                    </Typography>
+                                                </Box>
+                                            ) : (
+                                                <Box
+                                                    component="div"
+                                                    onClick={() =>
+                                                        handleOrder(
+                                                            values,
+                                                            setFieldValue
+                                                        )
+                                                    }
+                                                    className="w-full flex p-2 rounded-md bg-green-500 cursor-pointer"
+                                                >
+                                                    <Add />
+                                                    <Typography>
+                                                        افزودن به لیست سفارشات
+                                                    </Typography>
+                                                </Box>
+                                            )}
                                         </Box>
-                                        <Box component="div" className="md:w-1/4 w-full ">
-                                        {isUpdate ? (
-                                            <Box
-                                                component="div"
-                                                onClick={() =>
-                                                    handleOrder(
-                                                        values,
-                                                        setFieldValue
-                                                    )
-                                                }
-                                                className="w-full flex p-2 rounded-md bg-yellow-500 cursor-pointer"
-                                            >
-                                                <Add />
-                                                <Typography>ویرایش</Typography>
-                                            </Box>
-                                        ) : (
-                                            <Box
-                                                component="div"
-                                                onClick={() =>
-                                                    handleOrder(
-                                                        values,
-                                                        setFieldValue
-                                                    )
-                                                }
-                                                className="w-full flex p-2 rounded-md bg-green-500 cursor-pointer"
-                                            >
-                                                <Add />
-                                                <Typography>
-                                                    افزودن به لیست سفارشات
-                                                </Typography>
-                                            </Box>
-                                        )}
-                                        </Box>
-
                                     </Box>
                                 </Box>
-                                <ProductSelectedList setSelectedOrderIndex={setSelectedOrderIndex} selectedOrderIndex={selectedOrderIndex} setIsUpdate={setIsUpdate} setFieldValue={setFieldValue} orders={orders} setOrders={setOrders} />
+                                <ProductSelectedList
+                                    setSelectedOrderIndex={
+                                        setSelectedOrderIndex
+                                    }
+                                    selectedOrderIndex={selectedOrderIndex}
+                                    setIsUpdate={setIsUpdate}
+                                    setFieldValue={setFieldValue}
+                                    orders={orders}
+                                    setOrders={setOrders}
+                                />
                             </Form>
                         );
                     }}
