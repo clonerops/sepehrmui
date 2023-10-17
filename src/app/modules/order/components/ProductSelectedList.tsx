@@ -1,6 +1,7 @@
 import { IProducts } from "../../product/core/_models";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import MuiTable from "../../../../_cloner/components/MuiTable";
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const ProductSelectedList = (props: {
     orders: IProducts[]
@@ -22,9 +23,9 @@ const ProductSelectedList = (props: {
     const renderActions = (index: any) => {
         return <>
 
-            <Button onClick={() => handleDeleteFromList(index)} variant="outlined" color="secondary">
-                <Typography className="text-red-500">حذف</Typography>
-            </Button>
+            <Box component="div" onClick={() => handleDeleteFromList(index)} className="cursor-pointer">
+                <DeleteIcon className="text-red-500" />
+            </Box>
         </>
     }
 

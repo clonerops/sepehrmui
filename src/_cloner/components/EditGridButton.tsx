@@ -3,12 +3,12 @@ import EditIcon from '@mui/icons-material/Edit'
 
 const EditGridButton = (props: { onClick: any }) => {
     return (
-        <Box component="div" onClick={props.onClick} className="bg-yellow-500 px-4 py-2 cursor-pointer rounded-md">
-            <Box component="div"
+        <Box component="div" onClick={props.onClick} className="cursor-pointer">
+            {/* <Box component="div"
                 className="cursor-pointer text-black font-bold"
-            >
-                <EditIcon />
-            </Box>
+            > */}
+                <EditIcon className="text-yellow-500" />
+            {/* </Box> */}
         </Box>
 
     )

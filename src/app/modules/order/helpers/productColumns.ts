@@ -45,12 +45,6 @@ export const columns = (renderAction: any) => {
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
-            field: "productSubUnitDesc",
-            width: 80,
-            headerName: "واحد فرعی",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
-        },
-        {
             field: "price",
             valueGetter: (params: any) =>
                 params.row.productPrices[params.row.productPrices.length - 1]
@@ -71,12 +65,19 @@ export const columns = (renderAction: any) => {
 
 export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
     const col = [
-        // { field: 'productIntegratedName',  headerName: 'شرح کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold" },
         {
             field: "productName",
             headerName: "کالا",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
             width: 100,
+        },
+        {
+            field: "thickness",
+            minWidth: 100,
+            headerName: "مقدار",
+            renderCell: renderInput,
+            headerAlign: "center",
+            headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
             field: "brand",
@@ -98,23 +99,9 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
-            field: "thickness",
-            minWidth: 100,
-            headerName: "مقدار",
-            renderCell: renderInput,
-            headerAlign: "center",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
-        },
-        {
             field: "productMainUnitDesc",
             width: 80,
             headerName: "واحد اصلی",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
-        },
-        {
-            field: "productSubUnitDesc",
-            width: 80,
-            headerName: "واحد فرعی",
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
         {
