@@ -92,6 +92,9 @@ const orderInitialValues = {
     purchaserCustomerId: "",
     purchaseSettlementDate: "",
     sellerCompanyRow: "",
+    // not Main
+    productName: "",
+    warehouseName: ""
 };
 
 const Order = () => {
