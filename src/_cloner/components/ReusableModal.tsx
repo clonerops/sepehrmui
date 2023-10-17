@@ -25,7 +25,7 @@ export default function TransitionsModal(props: Props) {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    height: "80%",
+    height: "90%",
     overflow: "auto"
   };
 
