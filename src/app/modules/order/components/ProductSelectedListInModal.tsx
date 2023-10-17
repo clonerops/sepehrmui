@@ -10,6 +10,7 @@ import {
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -88,6 +89,7 @@ const ProductSelectedListInModal = (props: {
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             ...product,
             proximateAmount: proximateAmounts[product.id] || "",
+            productPrice: separateAmountWithCommas(product.productPrice),
             warehouseName:
                 product.productInventories[
                     product.productInventories.length - 1

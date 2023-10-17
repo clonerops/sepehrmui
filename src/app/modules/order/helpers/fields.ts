@@ -30,6 +30,7 @@ export const mainFields: FieldType[][] = [
 ];
 export const orderFields: FieldType[][] = [
     [
+        // { label: "کالا", name: "productName", type: "product" },
         { label: "کالا", name: "productName", type: "product" },
         {
             label: "انبار",
@@ -45,8 +46,9 @@ export const orderFields: FieldType[][] = [
     [
         {
             label: "قیمت",
-            name: "price",
-            type: "input",
+            // name: "price",
+            name: "productPrice",
+            type: "price",
         },
         {
             label: "توضیحات کالا",
@@ -77,8 +79,9 @@ export const orderFieldsIsBuy: FieldType[][] = [
     [
         {
             label: "قیمت",
-            name: "price",
-            type: "input",
+            // name: "price",
+            name: "productPrice",
+            type: "price",
         },
         {
             label: "توضیحات کالا",

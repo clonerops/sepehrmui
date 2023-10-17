@@ -30,6 +30,7 @@ const ProductSelectedList = (props: {
     }
 
     const columns = [
+        { header: 'id', accessor: 'id' },
         { header: 'کالا', accessor: 'productName' },
         { header: 'انبار', accessor: 'warehouseName' },
         { header: 'مقدار', accessor: 'proximateAmount' },
@@ -49,15 +50,21 @@ const ProductSelectedList = (props: {
 
     const onDoubleClick = (rowData: any, index: number) => {
         props.setSelectedOrderIndex(index);
+
+        console.log("rowData", rowData)
+
         if (props.setFieldValue) {
             props.setFieldValue("productName", rowData.productName)
-            props.setFieldValue("price", rowData.productPrice)
+            props.setFieldValue("productId", rowData.id)
+            props.setFieldValue("productPrice", rowData.productPrice)
             props.setFieldValue("proximateAmount", rowData.proximateAmount)
             props.setFieldValue("warehouseId", rowData.warehouseId)
         }
         props.setIsUpdate(true)
 
     }
+
+    console.log("orders", props.orders)
 
     return (
         <>

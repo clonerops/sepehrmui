@@ -6,7 +6,9 @@ import { useRetrieveProducts } from "../../product/core/_hooks";
 
 const FormikProductComboSelect = (props: any) => {
     const { data } = useRetrieveProducts()
-    return <FormikComboBox options={dropdownProductIntegrated(data?.data)} {...props} />;
+    return <FormikComboBox
+        options={dropdownProductIntegrated(data?.data)}
+        {...props} />;
 };
 
 export default FormikProductComboSelect;

@@ -13,7 +13,7 @@ const FormikPrice = (props: any) => {
         formikProps.setFieldValue(props.name, inputValue);
     };
 
-    return <FormikInput onInput={onInput} {...props} />;
+    return <FormikInput InputProps={props.InputProps} onInput={onInput} {...props} />;
 };
 
 export default FormikPrice;

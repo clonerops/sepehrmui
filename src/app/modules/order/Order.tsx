@@ -52,6 +52,10 @@ import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { mainFields, orderFields, orderFieldsIsBuy } from "./helpers/fields";
+import { IProduct } from "./core/_models";
+import { IProducts } from "../product/core/_models";
+import FormikPrice from "../product/components/FormikPrice";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 
 const initialValues = {
     customerId: "",
@@ -92,7 +96,7 @@ const orderInitialValues = {
     warehouseTypeId: "",
     proximateAmount: "",
     numberInPackage: "",
-    price: "",
+    productPrice: "",
     cargoSendDate: "",
     buyPrice: "",
     purchaseInvoiceTypeId: "",
@@ -207,7 +211,6 @@ const Order = () => {
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
                         <FormikProductComboSelect
-                            productName={values.productName}
                             options={dropdownProductName(products?.data)}
                             {...rest}
                         />
@@ -268,18 +271,22 @@ const Order = () => {
                 return <FormikDatepicker {...rest} />;
             case "proximateAmount":
                 return (
-                    <FormikInput
-                        // type="number"
+                    <FormikPrice
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
-                                    بسته
+                                    {values.productId ?
+                                        products?.data?.find((i: IProducts) => i.id === values?.productId)?.productMainUnitDesc :
+                                        products?.data?.find((i: IProducts) => i.id === values?.productName?.value)?.productMainUnitDesc
+                                    }
                                 </InputAdornment>
                             ),
                         }}
                         {...rest}
                     />
                 );
+            case "price":
+                return <FormikPrice {...rest} />;
             case "input":
                 return <FormikInput {...rest} />;
             default:
@@ -303,7 +310,6 @@ const Order = () => {
             "productId",
             "productName",
             "warehouseId",
-            "price",
             "warehouseTypeId",
             "warehouseName",
             "productDesc",
@@ -326,23 +332,25 @@ const Order = () => {
         const purchaseInvoiceTypeName = purchaseInvoiceType?.find(
             (i: any) => i.id === Number(values?.purchaseInvoiceTypeId)
         );
+        
+        console.log("values.productName", values?.productName)
+
         const productOrder = {
             id: values.productName.value
                 ? values.productName.value
                 : selectProductFromModal?.row?.id,
-            productId: values.productId
-                ? values.productId
-                : selectProductFromModal?.row.id,
-            // productName: values.productIntegratedName.label ? values.productIntegratedName.label : selectProductFromModal?.row.productIntegratedName,
-            // productName: values.productName.label ? values.productName.label : selectProductFromModal?.row.productName,
+            // productId: values.productId
+            //     ? values.productId
+            //     : selectProductFromModal?.row.id,
+            productId: values.productName.value,
             productName: values.productName.label
                 ? values.productName.label
                 : values.productName,
             warehouseId: values.warehouseId
                 ? values.warehouseId
                 : selectProductFromModal?.row.productInventories[
-                      selectProductFromModal.row.productInventories.length - 1
-                  ].warehouseId,
+                    selectProductFromModal.row.productInventories.length - 1
+                ].warehouseId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             // warehouseName: warehouseNameSelect ? warehouseNameSelect : selectProductFromModal?.row.productInventories[selectProductFromModal.row.productInventories.length - 1].warehouseName,
             warehouseName: values.warehouseName
@@ -355,14 +363,14 @@ const Order = () => {
             purchaseInvoiceTypeName: purchaseInvoiceTypeName?.desc,
             sellerCompanyRow: values.sellerCompanyRow,
             proximateAmount: values.proximateAmount,
-            productPrice: values?.price,
+            productPrice: values?.productPrice,
             rowId: values?.rowId,
         };
 
         if (!isUpdate) {
             if (values.productName === "" || values.productName.label === "") {
                 alert("کالا الزامی می باشد");
-            } else if (values?.price === "") {
+            } else if (values?.productPrice === "") {
                 alert("قیمت الزامی می باشد");
             } else {
                 setOrders([...orders, productOrder]);
@@ -397,8 +405,6 @@ const Order = () => {
     };
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
-
-    console.log("isBuy", isBuy);
 
     return (
         <>
@@ -456,14 +462,14 @@ const Order = () => {
                                             proximateAmount:
                                                 item.proximateAmount
                                                     ? Number(
-                                                          item.proximateAmount
-                                                      )
+                                                        item.proximateAmount
+                                                    )
                                                     : null,
                                             numberInPackage:
                                                 item.proximateAmount
                                                     ? Number(
-                                                          item.proximateAmount
-                                                      )
+                                                        item.proximateAmount
+                                                    )
                                                     : null,
                                             price: item.productPrice
                                                 ? Number(item.productPrice)
@@ -479,7 +485,7 @@ const Order = () => {
                                             purchaserCustomerId:
                                                 item.purchaserCustomerId
                                                     ? item.purchaserCustomerId
-                                                          .value
+                                                        .value
                                                     : null,
                                             purchaseSettlementDate:
                                                 "1402/01/01",
@@ -672,7 +678,7 @@ const Order = () => {
                 <Typography variant="h2" color="secondary">
                     کالا و خصوصیات سفارش
                 </Typography>
-                <Formik initialValues={orderInitialValues} onSubmit={() => {}}>
+                <Formik initialValues={orderInitialValues} onSubmit={() => { }}>
                     {({ handleSubmit, values, setFieldValue }) => {
                         return (
                             <Form onSubmit={handleSubmit}>
