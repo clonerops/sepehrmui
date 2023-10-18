@@ -73,13 +73,13 @@ const ProductState = () => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
-          return <Typography>{params.value}</Typography>;
+          return <Typography variant="h3">{params.value}</Typography>;
         },
         headerName: 'کد حالت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
       },
       {
         field: 'desc', renderCell: (params: any) => {
-          return <Typography>{params.value}</Typography>;
+          return <Typography variant="h3">{params.value}</Typography>;
         },
         headerName: 'حالت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
       },
@@ -185,6 +185,7 @@ const ProductState = () => {
             >
               <Box component="img"
                 src={toAbsoulteUrl("/media/logos/6137729.jpg")}
+                width={400}
               />
             </Box>
 

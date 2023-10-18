@@ -76,7 +76,7 @@ const Brands = () => {
                 field: "id",
                 headerName: "کد برند",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h3">{params.value}</Typography>;
                 },
                 headerClassName:
                     "bg-[#E2E8F0] Yekan_bold text-black !font-bold",
@@ -86,7 +86,7 @@ const Brands = () => {
                 field: "name",
                 headerName: "نام برند",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h3">{params.value}</Typography>;
                 },
                 headerClassName: "bg-[#E2E8F0] text-black !font-bold",
                 minWidth: 180,

@@ -72,13 +72,13 @@ const ProductStandards = () => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
-          return <Typography>{params.value}</Typography>;
+          return <Typography variant="h3">{params.value}</Typography>;
         },
         headerName: 'کد استاندارد', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
       },
       {
         field: 'desc', renderCell: (params: any) => {
-          return <Typography>{params.value}</Typography>;
+          return <Typography variant="h3">{params.value}</Typography>;
         },
         headerName: 'استاندارد', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
       },
@@ -182,6 +182,7 @@ const ProductStandards = () => {
             >
               <Box component="img"
                 src={toAbsoulteUrl("/media/logos/11089.jpg")}
+                width={400}
               />
             </Box>
 

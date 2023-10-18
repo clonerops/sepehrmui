@@ -72,25 +72,25 @@ const ProductTypes = () => {
       {
         field: 'id',
         renderCell: (params: any) => {
-          return <Typography>{params.value}</Typography>;
+          return <Typography variant="h3">{params.value}</Typography>;
         },
-        headerName: 'کد نوع کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+        headerName: 'کد نوع کالا', flex:1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 120
       },
       {
         field: 'desc',
         renderCell: (params: any) => {
-          return <Typography>{params.value}</Typography>;
+          return <Typography variant="h3">{params.value}</Typography>;
         },
-        headerName: 'نوع کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160
+        headerName: 'نوع کالا', flex:1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160
       },
       {
         field: "isActive",
-        headerName: "وضعیت",
+        headerName: "وضعیت", flex:1,
         renderCell: renderSwitch,
         headerClassName: "bg-[#E2E8F0] text-black !font-bold",
         minWidth: 160,
       },
-      { headerName: 'حذف', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160 }
+      { headerName: 'حذف', flex:1, renderCell: renderAction, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160 }
     ]
     return col
   }
@@ -185,6 +185,7 @@ const ProductTypes = () => {
             >
               <Box component="img"
                 src={toAbsoulteUrl("/media/logos/6075528.jpg")}
+                width={400}
               />
             </Box>
           </Box>
