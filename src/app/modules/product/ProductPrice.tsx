@@ -18,6 +18,7 @@ import { exportProductPrices } from "./core/_requests";
 import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
 import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import ActiveText from "../../../_cloner/components/ActiveText";
 
 const radioOption: {
     label: string;
@@ -64,28 +65,28 @@ const ProductPrice = () => {
         const col = [
             {
                 field: 'productName', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h3">{params.value}</Typography>;
                 }, headerName: 'نام کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 360
             },
             {
                 field: 'brandName', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h3">{params.value}</Typography>;
                 }, headerName: 'نام برند', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
             },
             {
                 field: 'price', headerName: 'قیمت', renderCell: (value: any) => (
-                    separateAmountWithCommas(value.row.price)
+                    separateAmountWithCommas(value.row.price)+ " " + "تومان"
                 ), headerClassName: "bg-[#E2E8F0] text-black font-bold", cellClassName: "font-bold text-[14px]", width: 160
             },
             {
                 field: 'registerDate', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h3">{params.value}</Typography>;
                 }, headerName: 'تاریخ قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold font-bold", width: 160
             },
             {
-                field: 'isActive', headerName: 'وضعیت', renderCell: (params: any) => (
-                    params.value === true ? <Typography className="text-green-500">فعال</Typography> : <Typography className="text-red-500">غیرفعال</Typography>
-                ), headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                field: 'isActive', headerName: 'وضعیت', renderCell: (params: any) => {
+                    return <ActiveText params={params} />
+                }, headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
             },
             { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 340, }
         ]
@@ -141,8 +142,8 @@ const ProductPrice = () => {
             {snackeUploadOpen && (<PositionedSnackbar open={snackeUploadOpen} setState={setSnackeUploadOpen} title={requestMessage} />)}
             <Card className="p-8">
                 <Box component="div" className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4">
-                    <Typography className="text-red-500" variant="h3">نکته: </Typography>
-                    <Typography className="text-red-500" variant="h3">برای بارگزاری فایل قیمت ها بایستی این موارد رعایت گردد:</Typography>
+                    <Typography variant="h3" className="text-red-500">نکته: </Typography>
+                    <Typography variant="h3" className="text-red-500">برای بارگزاری فایل قیمت ها بایستی این موارد رعایت گردد:</Typography>
                     <Typography variant="h3">1) فایل بایستی بصورت اکسل باشد</Typography>
                     <Typography variant="h3">2) ستون های فایل بایستی شامل : کد کالا، کد برند، قیمت باشد</Typography>
                 </Box>
@@ -165,14 +166,14 @@ const ProductPrice = () => {
                             variant="outlined"
                             color="primary"
                         >
-                            <Typography>خروجی اکسل</Typography>
+                            <Typography variant="h3">خروجی اکسل</Typography>
                         </Button>
                         <Button
                             onClick={() => setIsCreateOpen(true)}
                             variant="contained"
                             color="secondary"
                         >
-                            <Typography>ایجاد قیمت کالا</Typography>
+                            <Typography variant="h3">ایجاد قیمت کالا</Typography>
                         </Button>
                     </Box>
                 </Box>

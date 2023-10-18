@@ -14,6 +14,7 @@ import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import ActiveText from "../../../_cloner/components/ActiveText";
 
 const Products = () => {
     const {
@@ -47,7 +48,7 @@ const Products = () => {
                 headerName: "کد کالا",
                 cellClassName: "font-bold",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "productName",
@@ -57,7 +58,7 @@ const Products = () => {
                 headerName: "نام کالا",
                 cellClassName: "!bg-green-100 font-bold",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 160,
+                minWidth: 160,
             },
             {
                 field: "productTypeDesc",
@@ -66,30 +67,16 @@ const Products = () => {
                 },
                 headerName: "نوع کالا",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 120,
+                minWidth: 120,
             },
             {
                 field: "isActive",
                 renderCell: (params: any) => {
-                    return params.value === true ? (
-                        <Typography
-                            className="border border-green-600 text-green-600 px-4 py-1 rounded-md"
-                            variant="h4"
-                        >
-                            فعال
-                        </Typography>
-                    ) : (
-                        <Typography
-                            className="border border-red-600 text-red-600 px-4 py-1 rounded-md"
-                            variant="h4"
-                        >
-                            غیرفعال
-                        </Typography>
-                    );
+                    return <ActiveText params={params} />
                 },
                 headerName: "وضعیت",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "productSize",
@@ -98,7 +85,7 @@ const Products = () => {
                 },
                 headerName: "سایز",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "productThickness",
@@ -107,7 +94,7 @@ const Products = () => {
                 },
                 headerName: "ضخامت",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "approximateWeight",
@@ -116,7 +103,7 @@ const Products = () => {
                 },
                 headerName: "وزن",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "numberInPackage",
@@ -125,7 +112,7 @@ const Products = () => {
                 },
                 headerName: "تعداد در بسته",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 100,
+                minWidth: 100,
             },
             {
                 field: "productStandardDesc",
@@ -134,7 +121,7 @@ const Products = () => {
                 },
                 headerName: "استاندارد",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "productStateDesc",
@@ -143,7 +130,7 @@ const Products = () => {
                 },
                 headerName: "حالت",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "productMainUnitDesc",
@@ -152,7 +139,7 @@ const Products = () => {
                 },
                 headerName: "واحد اصلی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "productSubUnitDesc",
@@ -161,7 +148,7 @@ const Products = () => {
                 },
                 headerName: "واحد فرعی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 80,
+                minWidth: 80,
             },
             {
                 field: "maxInventory",
@@ -170,7 +157,7 @@ const Products = () => {
                 },
                 headerName: "حداکثر موجودی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 90,
+                minWidth: 90,
             },
             {
                 field: "minInventory",
@@ -179,7 +166,7 @@ const Products = () => {
                 },
                 headerName: "حداقل موجودی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 90,
+                minWidth: 90,
             },
             {
                 field: "inventotyCriticalPoint",
@@ -188,7 +175,7 @@ const Products = () => {
                 },
                 headerName: "نقطه بحرانی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
-                width: 90,
+                minWidth: 90,
             },
             {
                 headerName: "عملیات",

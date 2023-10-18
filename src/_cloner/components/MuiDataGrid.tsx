@@ -30,7 +30,9 @@ export default function MuiDataGrid(props: Props) {
                 sx={{
                     '.MuiDataGrid-columnHeaderTitle': { 
                        fontWeight: 'bold !important',
-                       overflow: 'visible !important'
+                       overflow: 'visible !important',
+                       color: "#464646",
+                       fontSize: 14
                     },
                     overflowX: 'scroll'
                   }}                
