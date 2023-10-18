@@ -72,7 +72,7 @@ const Products = () => {
             {
                 field: "isActive",
                 renderCell: (params: any) => {
-                    return <ActiveText params={params} />
+                    return <ActiveText params={params} successTitle="فعال" dangerTitle="غیرفعال" />
                 },
                 headerName: "وضعیت",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",

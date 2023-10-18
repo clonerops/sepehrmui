@@ -9,6 +9,7 @@ import { IPayment } from "./core/_models"
 import React from "react"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
 import { Visibility } from "@mui/icons-material"
+import ActiveText from "../../../_cloner/components/ActiveText"
 
 
 const PaymentAccounting = () => {
@@ -27,71 +28,71 @@ const PaymentAccounting = () => {
 
     const columns = (renderAction: any) => {
         const col = [
-            { field: 'receivePayCode', renderCell: (params: any) => {
-                return <Typography>{params.value}</Typography>;
-            }, headerName: 'شماره ثبت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 80 },
+            {
+                field: 'receivePayCode', renderCell: (params: any) => {
+                    return <Typography variant="h3">{params.value}</Typography >;
+                }, headerName: 'شماره ثبت', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 80
+            },
             {
                 field: 'receivePaymentSourceFromDesc', headerName: 'دریافت از',
                 renderCell: (value: any) => (
-                    <Typography>{value.row.receivePaymentSourceFromDesc + " " + (value.row?.receiveFromCustomerName === null ? "" : value.row?.receiveFromCustomerName)}</Typography>
+                    <Typography variant="h3">{value.row.receivePaymentSourceFromDesc + " " + (value.row?.receiveFromCustomerName === null ? "" : value.row?.receiveFromCustomerName)}</Typography >
                 ),
-                headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 240
+                headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 240
             },
             {
                 field: 'receivePaymentSourceToDesc',
                 renderCell: (value: any) => (
-                    <Typography>{value.row.receivePaymentSourceToDesc + " " + (value.row?.payToCustomerName === null ? "" : value.row?.payToCustomerName)}</Typography>
-                ), headerName: 'پرداخت به', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 240
+                    <Typography variant="h3">{value.row.receivePaymentSourceToDesc + " " + (value.row?.payToCustomerName === null ? "" : value.row?.payToCustomerName)}</Typography >
+                ), headerName: 'پرداخت به', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 240
             },
             {
                 field: 'amount', headerName: 'مبلغ',
                 renderCell: (value: any) => (
-                    <Typography>{separateAmountWithCommas(value.row.amount)}</Typography>
+                    <Typography variant="h3">{separateAmountWithCommas(value.row.amount)}</Typography >
                 ),
-                headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 100
+                headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160
             },
             {
                 field: 'accountOwner', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'صاحب حساب', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 180
+                    return <Typography variant="h3">{params.value}</Typography >;
+                }, headerName: 'صاحب حساب', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 180
             },
             {
                 field: 'trachingCode', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'کد پیگیری', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 180
+                    return <Typography variant="h3">{params.value}</Typography >;
+                }, headerName: 'کد پیگیری', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 180
             },
             {
                 field: 'companyName', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'صاحب شرکت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 100
+                    return <Typography variant="h3">{params.value}</Typography >;
+                }, headerName: 'صاحب شرکت', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 100
             },
             {
                 field: 'contractCode', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'شماره قرارداد', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 100
+                    return <Typography variant="h3">{params.value}</Typography >;
+                }, headerName: 'شماره قرارداد', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 100
             },
             {
-                field: 'isAccountingApproval', headerName: 'تایید حسابداری؟', renderCell: (params: any) => (
-                    params.value === true ? <Typography className="text-green-500">بله</Typography> : <Typography className="text-red-500">خیر</Typography>
-                ), headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 100
+                field: 'isAccountingApproval', headerName: 'تایید حسابداری؟', renderCell: (params: any) => {
+                    return <ActiveText params={params} successTitle="بله" dangerTitle="خیر" />
+                }, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 100
             },
             {
                 field: 'accountingApprovalDate', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'تاریخ تایید حسابداری', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+                    return <Typography variant="h3">{params.value}</Typography >;
+                }, headerName: 'تاریخ تایید حسابداری', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160
             },
-            { headerName: 'جزئیات و تایید حسابداری', renderCell: renderAction, headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 260 }
+            { headerName: 'جزئیات و تایید حسابداری', renderCell: renderAction, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 260 }
         ]
         return col
     }
 
     const renderActions = (item: any) => {
         return <Link to={`/dashboard/payment/accounting/${item?.row?.id}`}>
-            <Button variant="contained" color="secondary">
-                <Typography>
-                    <Visibility />
-                </Typography>
-            </Button>
+            <Typography variant="h3">
+                <Visibility color="secondary" />
+            </Typography >
         </Link>
 
     }

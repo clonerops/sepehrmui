@@ -6,7 +6,7 @@ import CreateSupplier from "./components/CreateSupplier";
 import EditSupplier from "./components/EditSupplier";
 import { columns } from "./helpers/supplierColumns";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Box, Button, Card, Container, Typography} from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
@@ -55,43 +55,43 @@ const Suppliers = () => {
         const col = [
             {
                 field: 'customerFirstName', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'نام', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 130
+                    return <Typography variant="h3">{params.value}</Typography>;
+                }, headerName: 'نام', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 130
             },
             {
                 field: 'customerLastName', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'نام خانوادگی', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+                    return <Typography variant="h3">{params.value}</Typography>;
+                }, headerName: 'نام خانوادگی', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160
             },
             {
                 field: 'productName', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+                    return <Typography variant="h3">{params.value}</Typography>;
+                }, headerName: 'کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160
             },
             {
                 field: 'price', renderCell: (params: any) => {
-                    return <Typography>{separateAmountWithCommas(params.value)}</Typography>;
-                }, headerName: 'قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 80
+                    return <Typography variant="h3">{separateAmountWithCommas(params.value) + "تومان"}</Typography>;
+                }, headerName: 'قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 120
             },
             {
                 field: 'rentAmount', renderCell: (params: any) => {
-                    return <Typography>{separateAmountWithCommas(params.value)}</Typography>;
-                }, headerName: 'کرایه', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 80
+                    return <Typography variant="h3">{separateAmountWithCommas(params.value) + "تومان"}</Typography>;
+                }, headerName: 'کرایه', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 120
             },
             {
                 field: 'overPrice', renderCell: (params: any) => {
-                    return <Typography>{separateAmountWithCommas(params.value)}</Typography>;
-                }, headerName: 'قیمت تمام شده', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                    return <Typography variant="h3">{separateAmountWithCommas(params.value) + "تومان"}</Typography>;
+                }, headerName: 'قیمت تمام شده', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 120
             },
             {
                 field: 'priceDate', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'تاریخ قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                    return <Typography variant="h3">{params.value}</Typography>;
+                }, headerName: 'تاریخ قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 120
             },
             {
                 field: 'rate', renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
-                }, headerName: 'امتیاز', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 80
+                    return <Typography variant="h3">{params.value}</Typography>;
+                }, headerName: 'امتیاز', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 80
             },
             { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 240 }
         ]
@@ -149,7 +149,7 @@ const Suppliers = () => {
                         variant="contained"
                         color="secondary"
                     >
-                        <Typography>ایجاد تامین کننده</Typography>
+                        <Typography variant="h3">ایجاد تامین کننده</Typography>
                     </Button>
                 </Box>
                 <MuiDataGrid

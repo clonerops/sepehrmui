@@ -85,7 +85,7 @@ const ProductPrice = () => {
             },
             {
                 field: 'isActive', headerName: 'وضعیت', renderCell: (params: any) => {
-                    return <ActiveText params={params} />
+                    return <ActiveText params={params} successTitle="فعال" dangerTitle="غیرفعال" />
                 }, headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
             },
             { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 340, }
