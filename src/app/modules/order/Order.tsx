@@ -359,11 +359,19 @@ const Order = () => {
         };
 
         if (!isUpdate) {
+            const isDuplicate = orders.some((order: any) =>
+            order.id === productOrder.id &&
+            order.warehouseId === productOrder.warehouseId &&
+            order.productName === productOrder.productName
+        );
+
             if (values.productName === "" || values.productName.label === "") {
                 alert("کالا الزامی می باشد");
             } else if (values?.productPrice === "") {
                 alert("قیمت الزامی می باشد");
-            } else {
+            } else if(isDuplicate){
+                alert("کالا در لیست سفارشات موجود می باشد");
+            } else  {
                 setOrders([...orders, productOrder]);
             }
             fields.forEach((element) => {
@@ -397,7 +405,6 @@ const Order = () => {
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
-    console.log("orders", orders)
 
     return (
         <>

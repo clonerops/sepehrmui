@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IProducts } from "../../product/core/_models";
 import { columns, columnsSelectProduct } from "../helpers/productColumns";
-import {
-    Box,
-    Button,
-    OutlinedInput,
-    Typography,
-} from "@mui/material";
+import { Box, Button, OutlinedInput, Typography } from "@mui/material";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
@@ -77,15 +72,19 @@ const ProductSelectedListInModal = (props: {
     };
 
     const handleSelectionChange: any = (newSelectionModel: any) => {
-        setSelectionModel(newSelectionModel);
-        setSelectedProduct([...selectedProduct, newSelectionModel.row]);
-        // props.setFieldValue('productIntegratedName', newSelectionModel.row.productIntegratedName)
-        // props.setSelectedProductOpen(false);
-        // props.setSelectProductFromModal(newSelectionModel);
+        const selectedRow = newSelectionModel.row;
+        const isDuplicate = selectedProduct.some((item) => {
+            return item.id === selectedRow.id;
+        });
+        if (!isDuplicate) {
+            setSelectionModel(newSelectionModel);
+            setSelectedProduct([...selectedProduct, newSelectionModel.row]);
+        } else {
+            alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
+        }
     };
 
     const handleSubmitSelectedProduct = () => {
-        // Combine product data with input values
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             ...product,
             proximateAmount: proximateAmounts[product.id] || "",
@@ -99,9 +98,25 @@ const ProductSelectedListInModal = (props: {
                     product.productInventories.length - 1
                 ]?.warehouseId || "",
         }));
-        const updatedOrders = [...props.orders, ...selectedProductWithAmounts];
-        props.setOrders(updatedOrders);
-        props.setSelectedProductOpen(false);
+
+        const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
+            props.orders.some(
+                (existingProduct: any) =>
+                    existingProduct.id === newProduct.id &&
+                    existingProduct.warehouseId === newProduct.warehouseId &&
+                    existingProduct.productBrandId === newProduct.productBrandId
+            )
+        );
+        if (!duplicatesExist) {
+            const updatedOrders = [
+                ...props.orders,
+                ...selectedProductWithAmounts,
+            ];
+            props.setOrders(updatedOrders);
+            props.setSelectedProductOpen(false);
+        } else {
+            alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
+        }
     };
 
     return (
