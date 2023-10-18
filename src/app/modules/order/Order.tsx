@@ -96,6 +96,7 @@ const orderInitialValues = {
     warehouseTypeId: "",
     proximateAmount: "",
     numberInPackage: "",
+    productDesc: "",
     productPrice: "",
     cargoSendDate: "",
     buyPrice: "",
@@ -140,7 +141,7 @@ const Order = () => {
     const [orderData, setOrderData] = useState<any>();
 
     useEffect(() => {
-        const prices = orders?.map((obj: any) => Number(obj.productPrice));
+        const prices = orders?.map((obj: any) => Number(obj.productPrice?.replace(/,/g, "")));
         const newPrices = [...prices];
         const newTotal = newPrices.reduce((acc: any, item) => acc + item, 0);
         setTotalAmount(newTotal);
@@ -462,13 +463,13 @@ const Order = () => {
                                             proximateAmount:
                                                 item.proximateAmount
                                                     ? Number(item.proximateAmount?.replace(/,/g, ""))
-                                                    : null,
+                                                    : 0,
                                             numberInPackage:
-                                                item.proximateAmount
+                                                item.numberInPackage
                                                     ? Number(
-                                                        item.proximateAmount
+                                                        item.numberInPackage
                                                     )
-                                                    : null,
+                                                    : 0,
                                             price: item.productPrice
                                                 ? Number(item.productPrice?.replace(/,/g, ""))
                                                 : null,
@@ -514,7 +515,7 @@ const Order = () => {
                     {({ handleSubmit, values, setFieldValue }) => {
                         return (
                             <Form onSubmit={handleSubmit}>
-                                {/* <Box
+                                <Box
                                     component="div"
                                     className="flex mb-4 justify-center items-center md:justify-end md:items-end"
                                 >
@@ -523,7 +524,7 @@ const Order = () => {
                                         onClick={() => handleSubmit()}
                                     />
                                 </Box>
-                                <Card className="mb-4">
+                                <Box component="div" className="mb-4">
                                     <Box
                                         component="div"
                                         className="md:flex md:justify-between my-1 p-2 rounded-md gap-x-10"
@@ -566,18 +567,6 @@ const Order = () => {
                                             titleClassName="text-gray-500 !text-md"
                                         />
                                     </Box>
-                                </Card> */}
-                                <Box
-                                    component="div"
-                                    className="flex justify-center items-center md:justify-end md:items-end"
-                                >
-                                    <Button
-                                        onClick={() => handleSubmit()}
-                                        variant="contained"
-                                        color="primary"
-                                    >
-                                        <Typography>ثبت سفارش</Typography>
-                                    </Button>
                                 </Box>
                                 <Box component="div" className="">
                                     {mainFields.map((rowFields) => (

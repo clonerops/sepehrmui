@@ -47,7 +47,6 @@ const ProductSelectedList = (props: {
         { header: "قیمت خرید", accessor: "buyPrice" },
         { header: "تاریخ تسویه خرید", accessor: "purchaseSettlementDate" },
         { header: "نوع فاکتور خرید", accessor: "purchaseInvoiceTypeName" },
-        // { header: 'ردیف بنگاه فروشگاه', accessor: 'sellerCompanyRow' },
         {
             header: "حذف",
             accessor: "Action",
