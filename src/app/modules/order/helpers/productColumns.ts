@@ -54,8 +54,7 @@ export const columns = (renderAction: any) => {
             flex: 1,
             renderCell: (value: any) =>
                 separateAmountWithCommas(
-                    value.row.productPrices[value.row.productPrices.length - 1]
-                        ?.price
+                    value.row.productPrice
                 ),
             headerClassName: "bg-[#E2E8F0] text-black font-bold",
         },
@@ -92,7 +91,7 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
             field: "warehouseName",
             valueGetter: (params: any) =>
                 params.row.productInventories[
-                    params.row.productInventories.length - 1
+                    params.row.productInventories[0]
                 ]?.warehouseName,
             width: 80,
             headerName: "انبار",

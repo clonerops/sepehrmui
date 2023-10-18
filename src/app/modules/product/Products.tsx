@@ -42,7 +42,7 @@ const Products = () => {
             {
                 field: "productCode",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "کد کالا",
                 cellClassName: "font-bold",
@@ -62,16 +62,39 @@ const Products = () => {
             {
                 field: "productTypeDesc",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "نوع کالا",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
                 width: 120,
             },
             {
+                field: "isActive",
+                renderCell: (params: any) => {
+                    return params.value === true ? (
+                        <Typography
+                            className="border border-green-600 text-green-600 px-4 py-1 rounded-md"
+                            variant="h4"
+                        >
+                            فعال
+                        </Typography>
+                    ) : (
+                        <Typography
+                            className="border border-red-600 text-red-600 px-4 py-1 rounded-md"
+                            variant="h4"
+                        >
+                            غیرفعال
+                        </Typography>
+                    );
+                },
+                headerName: "وضعیت",
+                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                width: 80,
+            },
+            {
                 field: "productSize",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "سایز",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -80,7 +103,7 @@ const Products = () => {
             {
                 field: "productThickness",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "ضخامت",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -89,7 +112,7 @@ const Products = () => {
             {
                 field: "approximateWeight",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "وزن",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -98,7 +121,7 @@ const Products = () => {
             {
                 field: "numberInPackage",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "تعداد در بسته",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -107,7 +130,7 @@ const Products = () => {
             {
                 field: "productStandardDesc",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "استاندارد",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -116,7 +139,7 @@ const Products = () => {
             {
                 field: "productStateDesc",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "حالت",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -125,7 +148,7 @@ const Products = () => {
             {
                 field: "productMainUnitDesc",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "واحد اصلی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -134,7 +157,7 @@ const Products = () => {
             {
                 field: "productSubUnitDesc",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "واحد فرعی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -143,7 +166,7 @@ const Products = () => {
             {
                 field: "maxInventory",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "حداکثر موجودی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -152,7 +175,7 @@ const Products = () => {
             {
                 field: "minInventory",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "حداقل موجودی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -161,7 +184,7 @@ const Products = () => {
             {
                 field: "inventotyCriticalPoint",
                 renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "نقطه بحرانی",
                 headerClassName: "!bg-[#E2E8F0] text-black font-bold",
@@ -243,7 +266,7 @@ const Products = () => {
                         variant="contained"
                         color="secondary"
                     >
-                        <Typography>ایجاد کالا</Typography>
+                        <Typography variant="h4">ایجاد کالا</Typography>
                     </Button>
                 </Box>
                 <MuiDataGrid
