@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { Typography } from '@mui/material';
+import { Close } from '@mui/icons-material';
 
 
 type Props = {
@@ -22,11 +23,12 @@ export default function TransitionsModal(props: Props) {
     transform: 'translate(-50%, -50%)',
     width: props.width ? props.width : "96%",
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
+    borderRadius: 4,
     p: 4,
     height: "90%",
-    overflow: "auto"
+    overflow: "hidden"
+    
   };
 
   const mobileStyle = {
@@ -49,7 +51,15 @@ export default function TransitionsModal(props: Props) {
         }}
       >
         <Fade in={props.open}>
-          <Box sx={{ ...style, ...(window.innerWidth < 600 ? mobileStyle : {}) }}>            <Typography variant='h2' color="secondary" className='pb-8'>{props.title}</Typography>
+          <Box sx={{ ...style, ...(window.innerWidth < 600 ? mobileStyle : {}) }}>            
+          <Box component="div" className='flex justify-between items-center' >
+          <Box component="div">
+          <Typography variant='h2' color="secondary" className='pb-8'>{props.title}</Typography>
+          </Box>
+          <Box component="div" onClick={props.isClose}>
+            <Close className='text-red-500' />
+          </Box>
+          </Box>
             {props.children}
           </Box>
         </Fade>

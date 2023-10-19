@@ -2,10 +2,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { StringDecoder } from "string_decoder";
 
 type Props = {
-    columns: {
-        field: string;
-        headerName: string;
-    }[];
+    columns: any;
     rows: any;
     data: any;
     selectionModel: any;
@@ -24,6 +21,23 @@ export default function MuiSelectionDataGrid(props: Props) {
         <div style={{ height: 400, width: "100%" }}>
             <DataGrid
                 rows={rows || []}
+                sx={{
+                    ".MuiDataGrid-columnHeaderTitle": {
+                        overflow: "visible !important",
+                        fontFamily: "Yekan_medium",
+                        color: "#464646",
+                        fontSize: 13,
+                    },
+                    ".MuiDataGrid-row:hover": {
+                        backgroundColor: "#B5F3FF",
+                    },
+                    overflowX: "scroll",
+                }}
+                getRowClassName={(params) =>
+                    params.indexRelativeToCurrentPage % 2 === 0
+                        ? "bg-[#ECF5FF]"
+                        : "bg-white"
+                }
                 className={className}
                 columnHeaderHeight={columnHeaderHeight}
                 columns={columns}

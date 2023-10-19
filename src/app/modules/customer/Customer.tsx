@@ -228,7 +228,7 @@ const Customer = () => {
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2"
                 >
-                    <Box component="div" className="w-auto md:w-[40%] mb-4">
+                    <Box component="div" className="w-auto md:w-[40%] mb-2">
                         <FuzzySearch
                             keys={[
                                 "firstName",

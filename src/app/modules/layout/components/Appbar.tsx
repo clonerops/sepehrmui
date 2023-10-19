@@ -46,10 +46,12 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
             elevation={0.9}
             // color="secondary"
             sx={{
-                boxShadow: '3px 4px 39px -14px rgba(0,0,0,0.26)',
+                boxShadow: "3px 4px 39px -14px rgba(0,0,0,0.26)",
                 ...(!open && { left: "0px" }),
             }}
-            className={`${isMobile && open ? "hidden !w-full" : ""} !bg-slate-50 app_bar`}
+            className={`${
+                isMobile && open ? "hidden !w-full" : ""
+            } !bg-slate-50 app_bar`}
         >
             <Toolbar className="flex justify-between items-center">
                 <Box component="div" className="flex items-center">
@@ -63,25 +65,24 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                         }}
                     >
                         <Box component="div" className="text-black font-bold">
-                            <MenuIcon />
+                           <Box component="img" color="primary" src={toAbsoulteUrl('/media/icons/duotune/general/gen063.svg')} />
                         </Box>
                     </IconButton>
-                    <Typography color="secondary" variant="h3" className="">بازرگانی سپهر ایرانیان</Typography>
-                    {/* <Box className="">
-                        <TextField inputProps={{
-                            style: {
-                                height: 4 
-                            }
-                        }} label="جستجو" size="small" />
-                    </Box> */}
-                    <Box component="div" className="mx-8 hidden md:block">
-                        <img src={toAbsoulteUrl('/media/logos/folladlogo.png')} width={30} />
+                    <Box component="div" className="mx-4 hidden md:block">
+                        <img
+                            src={toAbsoulteUrl("/media/logos/folladlogo.png")}
+                            width={30}
+                        />
                     </Box>
+                    <Typography color="primary" variant="h3" className="">
+                        بازرگانی سپهر ایرانیان
+                    </Typography>
                 </Box>
                 <Box
                     component="div"
-                    className={`flex flex-row items-center absolute ${open ? "left-[0px]" : "left-[0px]"
-                        }`}
+                    className={`flex flex-row items-center absolute ${
+                        open ? "left-[0px]" : "left-[0px]"
+                    }`}
                 >
                     <ToolbarComponent />
                 </Box>

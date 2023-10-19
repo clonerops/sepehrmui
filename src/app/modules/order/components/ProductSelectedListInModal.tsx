@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IProducts } from "../../product/core/_models";
-import { columns, columnsSelectProduct } from "../helpers/productColumns";
+import { columnsSelectProduct } from "../helpers/productColumns";
 import { Box, Button, OutlinedInput, Typography } from "@mui/material";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
@@ -117,6 +117,156 @@ const ProductSelectedListInModal = (props: {
         } else {
             alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
         }
+    };
+    const columns = (renderAction: any) => {
+        const col = [
+            // { field: 'productIntegratedName',  headerName: 'شرح کالا', headerClassName: "headerClassName" },
+            {
+                field: "productName",
+                headerName: "کالا",
+                headerClassName: "headerClassName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+
+                width: 140,
+            },
+            {
+                field: "brandName",
+                valueGetter: (params: any) =>
+                    params.row.productPrices[
+                        params.row.productPrices.length - 1
+                    ]?.brandName,
+                width: 80,
+                headerName: "برند",
+                headerClassName: "headerClassName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+            },
+            {
+                field: "warehouseName",
+                valueGetter: (params: any) =>
+                    params.row.productInventories[
+                        params.row.productInventories.length - 1
+                    ]?.warehouseName,
+                width: 80,
+                headerName: "انبار",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+
+                headerClassName: "headerClassName",
+            },
+            {
+                field: "approximateInventory",
+                valueGetter: (params: any) =>
+                    params.row.productInventories[
+                        params.row.productInventories.length - 1
+                    ]?.approximateInventory,
+                width: 60,
+                headerName: "موجودی",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+
+                headerClassName: "headerClassName",
+            },
+            {
+                field: "productMainUnitDesc",
+                width: 80,
+                headerName: "واحد اصلی",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+
+                headerClassName: "headerClassName",
+            },
+            {
+                field: "price",
+                valueGetter: (params: any) =>
+                    params.row.productPrices[
+                        params.row.productPrices.length - 1
+                    ]?.price,
+                minWidth: 60,
+                headerName: "قیمت",
+                flex: 1,
+                renderCell: (value: any) =>
+                    separateAmountWithCommas(value.row.productPrice),
+                headerClassName: "headerClassName",
+            },
+        ];
+        return col;
+    };
+
+    const columnsSelectProduct = (renderAction: any, renderInput: any) => {
+        const col = [
+            {
+                field: "productName",
+                headerName: "کالا",
+                headerClassName: "headerClassName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+
+                width: 100,
+            },
+            {
+                field: "thickness",
+                minWidth: 160,
+                headerName: "مقدار",
+                renderCell: renderInput,
+                headerAlign: "center",
+                headerClassName: "headerClassName",
+            },
+            {
+                field: "brand",
+                width: 80,
+                valueGetter: (params: any) =>
+                    params.row.productPrices[
+                        params.row.productPrices.length - 1
+                    ]?.brandName,
+                headerName: "برند",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+
+                headerClassName: "headerClassName",
+            },
+            {
+                field: "warehouseName",
+                valueGetter: (params: any) =>
+                    params.row.productInventories[
+                        params.row.productInventories[0]
+                    ]?.warehouseName,
+                width: 80,
+                headerName: "انبار",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+
+                headerClassName: "headerClassName",
+            },
+            {
+                field: "productMainUnitDesc",
+                width: 80,
+                headerName: "واحد اصلی",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+
+                headerClassName: "headerClassName",
+            },
+            {
+                field: "Action",
+                minWidth: 60,
+                renderCell: renderAction,
+                headerName: "حذف",
+                flex: 1,
+                headerClassName: "headerClassName",
+            },
+        ];
+        return col;
     };
 
     return (
