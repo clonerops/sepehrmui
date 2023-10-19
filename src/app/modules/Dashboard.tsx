@@ -5,20 +5,29 @@ import { VerticalCharts } from "../../_cloner/components/VerticalCharts";
 import BreadcrumbsComponent from "../../_cloner/components/Breadcumbs";
 import { VariableRadiusPieChart } from "../../_cloner/components/VariableRadiusPieChart";
 import { BubbleChart } from "../../_cloner/components/BubbleChart ";
+import { ColumnChart } from "../../_cloner/components/ColumnChart";
 
 const Dashboard = () => {
-    const { data: products, isError, isLoading } = useRetrieveProducts()
+    const { data: products, isError, isLoading } = useRetrieveProducts();
     const data = [
-        { name: 'Category 1', y: 10, z: 10 },
-        { name: 'Category 2', y: 20, z: 20 },
-      ];
+        { name: "نبشی 8", y: 10, z: 10 },
+        { name: "میلگرد 10", y: 20, z: 20 },
+    ];
     return (
         <>
-            <Card>
-                <Box component="div" className="flex flex-row flex-wrap justify-start items-start">
+            <Box
+                component="div"
+                className="flex flex-row justify-center items-center gap-8"
+            >
+                <Card elevation={1}>
                     <VariableRadiusPieChart data={data} />
-                    {/* <BubbleChart data={bubbleData} /> */}
-                    <Box component="div" className="w-full">
+                </Card>
+                <Card elevation={1}>
+                    <ColumnChart data={data} />
+                </Card>
+
+                {/* <BubbleChart data={bubbleData} /> */}
+                {/* <Box component="div" className="w-full">
                         <VerticalCharts
                             data={products?.data?.map((item: any) => item.productInventories.map((i: any) => i.approximateInventory))}
                             categories={products?.data?.map(
@@ -28,9 +37,8 @@ const Dashboard = () => {
                             isError={isError}
                             text=""
                         />
-                    </Box>
-                </Box>
-            </Card>
+                    </Box> */}
+            </Box>
         </>
     );
 };

@@ -65,7 +65,7 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                         }}
                     >
                         <Box component="div" className="text-black font-bold">
-                           <Box component="img" color="primary" src={toAbsoulteUrl('/media/icons/duotune/general/gen063.svg')} />
+                           <Box component="img" className="text-primary" src={toAbsoulteUrl('/media/icons/duotune/general/gen063.svg')} width={24} />
                         </Box>
                     </IconButton>
                     <Box component="div" className="mx-4 hidden md:block">

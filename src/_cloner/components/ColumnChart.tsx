@@ -12,7 +12,7 @@ interface IProps {
     isError?: boolean;
 }
 
-const VariableRadiusPieChart: FC<IProps> = ({ data, isLoading, isError }) => {
+const ColumnChart: FC<IProps> = ({ data, isLoading, isError }) => {
     if (isLoading) {
         return <div>درحال بارگزاری...</div>;
     }
@@ -23,10 +23,10 @@ const VariableRadiusPieChart: FC<IProps> = ({ data, isLoading, isError }) => {
 
     const options = {
         chart: {
-            type: "pie", // Specify the chart type as 'variablepie'
+            type: "column", // Specify the chart type as 'variablepie'
         },
         title: {
-            text: "موجودی کالا",
+            text: "قیمت کالا",
             style: {
                 fontFamily: "Yekan_reqular",
             },
@@ -50,4 +50,4 @@ const VariableRadiusPieChart: FC<IProps> = ({ data, isLoading, isError }) => {
     );
 };
 
-export { VariableRadiusPieChart };
+export { ColumnChart };
