@@ -48,37 +48,37 @@ const OrderDetail = (props: Props) => {
         {
             headerName: 'شماره ردیف', field: 'rowId', renderCell: (params: any) => {
                 return <Typography>{params.value}</Typography>
-            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+            }, headerClassName: "headerClassName", flex: 1
         },
         {
             headerName: 'نام کالا', field: 'productName', renderCell: (params: any) => {
                 return <Typography>{params.value}</Typography>
-            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+            }, headerClassName: "headerClassName", flex: 1
         },
         {
             headerName: 'انبار', field: 'warehouseName', renderCell: (params: any) => {
                 return <Typography>{params.value}</Typography>
-            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+            }, headerClassName: "headerClassName", flex: 1
         },
         {
             headerName: 'قیمت', field: 'price', renderCell: (params: any) => {
                 return <Typography>{separateAmountWithCommas(params.value)}</Typography>
-            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+            }, headerClassName: "headerClassName", flex: 1
         },
         {
             headerName: 'تاریخ ارسال بار', field: 'cargoSendDate', renderCell: (params: any) => {
                 return <Typography>{params.value}</Typography>
-            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+            }, headerClassName: "headerClassName", flex: 1
         },
         {
             headerName: 'مقدار تقریبی', field: 'proximateAmount', renderCell: (params: any) => {
                 return <Typography>{params.value}</Typography>
-            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+            }, headerClassName: "headerClassName", flex: 1
         },
         {
             headerName: 'تعداد در بسته', field: 'numberInPackage', renderCell: (params: any) => {
                 return <Typography>{params.value}</Typography>
-            }, headerClassName: "bg-[#E2E8F0] text-black font-bold", flex: 1
+            }, headerClassName: "headerClassName", flex: 1
         },
     ];
     return (

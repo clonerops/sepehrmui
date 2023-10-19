@@ -31,59 +31,59 @@ const PaymentAccounting = () => {
             {
                 field: 'receivePayCode', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography >;
-                }, headerName: 'شماره ثبت', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 80
+                }, headerName: 'شماره ثبت', headerClassName: "headerClassName", minWidth: 80
             },
             {
                 field: 'receivePaymentSourceFromDesc', headerName: 'دریافت از',
                 renderCell: (value: any) => (
                     <Typography variant="h3">{value.row.receivePaymentSourceFromDesc + " " + (value.row?.receiveFromCustomerName === null ? "" : value.row?.receiveFromCustomerName)}</Typography >
                 ),
-                headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 240
+                headerClassName: "headerClassName", minWidth: 240
             },
             {
                 field: 'receivePaymentSourceToDesc',
                 renderCell: (value: any) => (
                     <Typography variant="h3">{value.row.receivePaymentSourceToDesc + " " + (value.row?.payToCustomerName === null ? "" : value.row?.payToCustomerName)}</Typography >
-                ), headerName: 'پرداخت به', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 240
+                ), headerName: 'پرداخت به', headerClassName: "headerClassName", minWidth: 240
             },
             {
                 field: 'amount', headerName: 'مبلغ',
                 renderCell: (value: any) => (
                     <Typography variant="h3">{separateAmountWithCommas(value.row.amount)}</Typography >
                 ),
-                headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160
+                headerClassName: "headerClassName", minWidth: 160
             },
             {
                 field: 'accountOwner', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography >;
-                }, headerName: 'صاحب حساب', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 180
+                }, headerName: 'صاحب حساب', headerClassName: "headerClassName", minWidth: 180
             },
             {
                 field: 'trachingCode', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography >;
-                }, headerName: 'کد پیگیری', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 180
+                }, headerName: 'کد پیگیری', headerClassName: "headerClassName", minWidth: 180
             },
             {
                 field: 'companyName', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography >;
-                }, headerName: 'صاحب شرکت', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 100
+                }, headerName: 'صاحب شرکت', headerClassName: "headerClassName", minWidth: 100
             },
             {
                 field: 'contractCode', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography >;
-                }, headerName: 'شماره قرارداد', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 100
+                }, headerName: 'شماره قرارداد', headerClassName: "headerClassName", minWidth: 100
             },
             {
                 field: 'isAccountingApproval', headerName: 'تایید حسابداری؟', renderCell: (params: any) => {
                     return <ActiveText params={params} successTitle="بله" dangerTitle="خیر" />
-                }, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 100
+                }, headerClassName: "headerClassName", minWidth: 100
             },
             {
                 field: 'accountingApprovalDate', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography >;
-                }, headerName: 'تاریخ تایید حسابداری', headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160
+                }, headerName: 'تاریخ تایید حسابداری', headerClassName: "headerClassName", minWidth: 160
             },
-            { headerName: 'جزئیات و تایید حسابداری', renderCell: renderAction, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 260 }
+            { headerName: 'جزئیات و تایید حسابداری', renderCell: renderAction, headerClassName: "headerClassName", minWidth: 260 }
         ]
         return col
     }

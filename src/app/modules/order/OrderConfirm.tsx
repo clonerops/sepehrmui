@@ -23,50 +23,50 @@ const OrderConfirm = () => {
                 field: 'orderCode', renderCell: (params: any) => {
                     return <Typography>{params.value}</Typography>;
                 },
-                headerName: 'شماره سفارش', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 100
+                headerName: 'شماره سفارش', headerClassName: "headerClassName", width: 100
             },
             {
                 field: 'registerDate', renderCell: (params: any) => {
                     return <Typography>{params.value}</Typography>;
                 },
-                headerName: 'تاریخ ثبت سفارش', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", width: 120
             },
             {
                 field: 'customerName', renderCell: (params: any) => {
                     return <Typography>{params.value}</Typography>;
                 },
-                headerName: 'سفارش دهنده', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+                headerName: 'سفارش دهنده', headerClassName: "headerClassName", width: 160
             },
             {
                 field: 'orderSendTypeDesc', renderCell: (params: any) => {
                     return <Typography>{params.value}</Typography>;
                 },
-                headerName: 'نحوه ارسال', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                headerName: 'نحوه ارسال', headerClassName: "headerClassName", width: 120
             },
             {
                 field: 'paymentTypeDesc', renderCell: (params: any) => {
                     return <Typography>{params.value}</Typography>;
                 },
-                headerName: 'نحوه پرداخت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                headerName: 'نحوه پرداخت', headerClassName: "headerClassName", width: 120
             },
             {
                 field: 'invoiceTypeDesc', renderCell: (params: any) => {
                     return <Typography>{params.value}</Typography>;
                 },
-                headerName: 'نوع فاکتور', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                headerName: 'نوع فاکتور', headerClassName: "headerClassName", width: 120
             },
             {
                 field: 'totalAmount', renderCell: (params: any) => {
                     return <Typography>{separateAmountWithCommas(params.value)}</Typography>;
                 },
-                headerName: 'مبلغ کل', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                headerName: 'مبلغ کل', headerClassName: "headerClassName", width: 120
             },
             {
                 field: 'exitType', headerName: 'نوع خروج', renderCell: (params: any) => (
                     params.value === 1 ? <Typography className="text-green-500">عادی</Typography>: <Typography className="text-blue-500">بعد از تسویه</Typography>
-                ), headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                ), headerClassName: "headerClassName", width: 120
             },
-            { headerName: 'جزئیات', flex:1, renderCell: renderAction, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160 }
+            { headerName: 'جزئیات', flex:1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
         ]
         return col
     }

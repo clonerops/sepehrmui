@@ -12,14 +12,14 @@ const ActiveText = (props: Props) => {
         return (
             params?.value === true ? (
                 <Typography
-                    className="border border-green-600 text-green-600 px-4 py-1 rounded-md"
+                    className=" text-green-600 px-4 py-1 rounded-md"
                     variant="h4"
                 >
                     {successTitle}
                 </Typography>
             ) : (
                 <Typography
-                    className="border border-red-600 text-red-600 px-4 py-1 rounded-md"
+                    className=" text-red-600 px-4 py-1 rounded-md"
                     variant="h4"
                 >
                     {dangerTitle}

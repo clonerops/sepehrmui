@@ -47,7 +47,7 @@ const Products = () => {
                 },
                 headerName: "کد کالا",
                 cellClassName: "font-bold",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -57,7 +57,7 @@ const Products = () => {
                 },
                 headerName: "نام کالا",
                 cellClassName: "!bg-green-100 font-bold",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 160,
             },
             {
@@ -66,7 +66,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "نوع کالا",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 120,
             },
             {
@@ -75,7 +75,7 @@ const Products = () => {
                     return <ActiveText params={params} successTitle="فعال" dangerTitle="غیرفعال" />
                 },
                 headerName: "وضعیت",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -84,7 +84,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "سایز",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -93,7 +93,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "ضخامت",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -102,7 +102,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "وزن",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -111,7 +111,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "تعداد در بسته",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 100,
             },
             {
@@ -120,7 +120,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "استاندارد",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -129,7 +129,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "حالت",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -138,7 +138,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "واحد اصلی",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -147,7 +147,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "واحد فرعی",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 80,
             },
             {
@@ -156,7 +156,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "حداکثر موجودی",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 90,
             },
             {
@@ -165,7 +165,7 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "حداقل موجودی",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 90,
             },
             {
@@ -174,14 +174,14 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "نقطه بحرانی",
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "!headerClassName",
                 minWidth: 90,
             },
             {
                 headerName: "عملیات",
                 flex: 1,
                 renderCell: renderAction,
-                headerClassName: "!bg-[#E2E8F0] text-black font-bold !w-full",
+                headerClassName: "!headerClassName !w-full",
                 minWidth: 160,
             },
         ];

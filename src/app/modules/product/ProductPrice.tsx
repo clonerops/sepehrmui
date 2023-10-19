@@ -66,29 +66,29 @@ const ProductPrice = () => {
             {
                 field: 'productName', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography>;
-                }, headerName: 'نام کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 360
+                }, headerName: 'نام کالا', headerClassName: "headerClassName", width: 360
             },
             {
                 field: 'brandName', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography>;
-                }, headerName: 'نام برند', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+                }, headerName: 'نام برند', headerClassName: "headerClassName", width: 160
             },
             {
                 field: 'price', headerName: 'قیمت', renderCell: (value: any) => (
                     separateAmountWithCommas(value.row.price)+ " " + "تومان"
-                ), headerClassName: "bg-[#E2E8F0] text-black font-bold", cellClassName: "font-bold text-[14px]", width: 160
+                ), headerClassName: "headerClassName", cellClassName: "font-bold text-[14px]", width: 160
             },
             {
                 field: 'registerDate', renderCell: (params: any) => {
                     return <Typography variant="h3">{params.value}</Typography>;
-                }, headerName: 'تاریخ قیمت', headerClassName: "bg-[#E2E8F0] text-black font-bold font-bold", width: 160
+                }, headerName: 'تاریخ قیمت', headerClassName: "headerClassName font-bold", width: 160
             },
             {
                 field: 'isActive', headerName: 'وضعیت', renderCell: (params: any) => {
                     return <ActiveText params={params} successTitle="فعال" dangerTitle="غیرفعال" />
-                }, headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+                }, headerClassName: "headerClassName", width: 120
             },
-            { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 340, }
+            { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "headerClassName", minWidth: 340, }
         ]
         return col
     }

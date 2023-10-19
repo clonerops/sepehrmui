@@ -42,66 +42,74 @@ const Customer = () => {
             {
                 field: "customerCode",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
+                    return <Typography variant="h4">{params.value}</Typography >;
                 },
                 headerName: "کد مشتری",
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
-                minWidth: 80,
+                align: "center",
+                headerClassName: "headerClassName",
+                maxWidth: 80,
+                flex: 1
             },
             {
                 field: "firstName",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
+                    return <Typography variant="h4">{params.value}</Typography >;
                 },
                 headerName: "نام",
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "headerClassName",
+                flex: 1
             },
             {
                 field: "lastName",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
+                    return <Typography variant="h4">{params.value}</Typography >;
                 },
                 headerName: "نام خانوادگی",
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
-                minWidth: 150,
+                headerClassName: "headerClassName",
+                minWidth: 160,
+                flex: 1
             },
             {
                 field: "mobile",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
+                    return <Typography variant="h5">{params.value}</Typography >;
                 },
                 headerName: "موبایل",
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
-                minWidth: 150,
+                headerClassName: "headerClassName",
+                minWidth: 80,
+                flex: 1
             },
             {
                 field: "representative",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
+                    return <Typography variant="h4">{params.value}</Typography >;
                 },
                 headerName: "معرف",
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "headerClassName",
+                flex: 1
             },
             {
                 field: "customerValidityId",
-                headerName: "نوع اعتبار",
-                minWidth: 80,
+                headerName: "اعتبار",
+                minWidth: 60,
                 renderCell: (params: any) =>
                 params.value === 1
-                ? <Typography className="border border-indigo-600 text-indigo-600 px-4 py-1 rounded-md">عادی</Typography>
+                ? <Typography variant="h4" className="text-indigo-600 px-4 py-1 rounded-md">عادی</Typography>
                 : params.value === 2
-                ? <Typography className="border border-yellow-600 text-yellow-600 px-4 py-1 rounded-md">VIP</Typography>
-                : <Typography className="border border-black text-black px-4 py-1 rounded-md">سیاه</Typography>,
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                ? <Typography variant="h4" className="text-yellow-600 px-4 py-1 rounded-md">VIP</Typography>
+                : <Typography variant="h4" className="text-black px-4 py-1 rounded-md">سیاه</Typography>,
+                headerClassName: "headerClassName",
+                flex: 1
             },
             {
                 field: "tel1",
-                headerName: "تلفن یک",
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                headerName: "تلفن",
+                headerClassName: "headerClassName",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
+                    return <Typography variant="h5">{params.value}</Typography >;
                 },
-                minWidth: 150,
+                minWidth: 120,
+                flex: 1
             },
             {
                 field: "isSupplier",
@@ -110,58 +118,62 @@ const Customer = () => {
                     return <ActiveText params={params} successTitle="بله" dangerTitle="خیر" />
                     
                 },
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "headerClassName",
                 cellClassName: "text-center",
                 minWidth: 80,
+                flex: 1
             },
             {
                 field: "fatherName",
                 headerName: "نام پدر",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
+                    return <Typography variant="h5">{params.value}</Typography >;
                 },
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
+                headerClassName: "headerClassName",
+                flex: 1
             },
             {
                 field: "nationalId",
                 headerName: "کدملی",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
+                    return <Typography variant="h5">{params.value}</Typography >;
                 },
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
-                minWidth: 150,
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1
             },
-            {
-                field: "address1",
-                headerName: "آدرس یک",
-                renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
-                },
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
-                minWidth: 280,
-            },
-            {
-                field: "customerType",
-                headerName: "نوع مشتری",
-                minWidth: 80,
-                renderCell: (params: any) =>
-                    params.value === 0 ? <Typography variant="h3" className="text-purple-700">حقیقی</Typography > : <Typography variant="h3" className="text-yellow-700">حقوقی</Typography >,
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
-            },
-            {
-                field: "address2",
-                headerName: "آدرس دو",
-                renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography >;
-                },
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
-                minWidth: 280,
-            },
+            // {
+            //     field: "address1",
+            //     headerName: "آدرس یک",
+            //     renderCell: (params: any) => {
+            //         return <Typography variant="h4">{params.value}</Typography >;
+            //     },
+            //     headerClassName: "headerClassName",
+            //     minWidth: 280,
+            // },
+            // {
+            //     field: "customerType",
+            //     headerName: "نوع مشتری",
+            //     minWidth: 80,
+            //     renderCell: (params: any) =>
+            //         params.value === 0 ? <Typography variant="h4" className="text-purple-700">حقیقی</Typography > : <Typography variant="h4" className="text-yellow-700">حقوقی</Typography >,
+            //     headerClassName: "headerClassName",
+            // },
+            // {
+            //     field: "address2",
+            //     headerName: "آدرس دو",
+            //     renderCell: (params: any) => {
+            //         return <Typography variant="h4">{params.value}</Typography >;
+            //     },
+            //     headerClassName: "headerClassName",
+            //     minWidth: 280,
+            // },
             {
                 headerName: "عملیات",
                 renderCell: renderAction,
-                headerClassName: "bg-[#E2E8F0] text-black font-bold",
-                minWidth: 160,
+                headerClassName: "headerClassName",
+                minWidth: 100,
+                flex: 1
             },
         ];
         return col;
@@ -242,7 +254,7 @@ const Customer = () => {
                         variant="contained"
                         color="secondary"
                     >
-                        <Typography variant="h3">ایجاد مشتری</Typography >
+                        <Typography variant="h4">ایجاد مشتری</Typography >
                     </Button>
                 </Box>
                 <MuiDataGrid

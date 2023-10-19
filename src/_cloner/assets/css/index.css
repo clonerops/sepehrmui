@@ -8,13 +8,16 @@
     .glassmorphism-card {
         @apply w-full rounded-3xl p-4 backdrop-blur-3xl bg-white/90 
     }
+    .headerClassName {
+        @apply bg-[#AFD2FA] text-black font-bold
+    }
 }
 * {
-    scrollbar-width: 20px !important;
+    scrollbar-width: 28px !important;
     scrollbar-color: #2E4374 rgb(255, 255, 255);
 }
 *::-webkit-scrollbar {
-    width: 10px !important;
+    width: 18px !important;
     /* display: hidden !important;
     visibility: hidden; */
 }

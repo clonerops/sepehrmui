@@ -29,10 +29,10 @@ export default function MuiDataGrid(props: Props) {
                 {...data}
                 sx={{
                     '.MuiDataGrid-columnHeaderTitle': { 
-                       fontWeight: 'bold !important',
                        overflow: 'visible !important',
+                       fontFamily: "Yekan_medium",
                        color: "#464646",
-                       fontSize: 14
+                       fontSize: 13
                     },
                     overflowX: 'scroll'
                   }}                
@@ -40,9 +40,11 @@ export default function MuiDataGrid(props: Props) {
                 columns={columns}
                 pagination={false}
                 getRowId={(row) => row.id+Date.now()}
+                rowHeight={42}
                 autoPageSize={false}
                 // autoHeight={true}
                 hideFooter={true}
+                columnHeaderHeight={32}
                 style={{ height: gridHeight, maxHeight: 400, overflow: 'auto' }} // Set a max height and allow scrolling
             />
         </Box>

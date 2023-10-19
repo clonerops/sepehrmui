@@ -2,11 +2,11 @@ import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmo
 
 export const columns = (renderAction: any) => {
     const col = [
-        // { field: 'productIntegratedName',  headerName: 'شرح کالا', headerClassName: "bg-[#E2E8F0] text-black font-bold" },
+        // { field: 'productIntegratedName',  headerName: 'شرح کالا', headerClassName: "headerClassName" },
         {
             field: "productName",
             headerName: "کالا",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
             width: 140,
         },
         {
@@ -16,7 +16,7 @@ export const columns = (renderAction: any) => {
                     ?.brandName,
             width: 80,
             headerName: "برند",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
         {
             field: "warehouseName",
@@ -26,7 +26,7 @@ export const columns = (renderAction: any) => {
                 ]?.warehouseName,
             width: 80,
             headerName: "انبار",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
         {
             field: "approximateInventory",
@@ -36,13 +36,13 @@ export const columns = (renderAction: any) => {
                 ]?.approximateInventory,
             width: 60,
             headerName: "موجودی",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
         {
             field: "productMainUnitDesc",
             width: 80,
             headerName: "واحد اصلی",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
         {
             field: "price",
@@ -56,7 +56,7 @@ export const columns = (renderAction: any) => {
                 separateAmountWithCommas(
                     value.row.productPrice
                 ),
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
     ];
     return col;
@@ -67,7 +67,7 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
         {
             field: "productName",
             headerName: "کالا",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
             width: 100,
         },
         {
@@ -76,7 +76,7 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
             headerName: "مقدار",
             renderCell: renderInput,
             headerAlign: "center",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
         {
             field: "brand",
@@ -85,7 +85,7 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
                 params.row.productPrices[params.row.productPrices.length - 1]
                     ?.brandName,
             headerName: "برند",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
         {
             field: "warehouseName",
@@ -95,13 +95,13 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
                 ]?.warehouseName,
             width: 80,
             headerName: "انبار",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
         {
             field: "productMainUnitDesc",
             width: 80,
             headerName: "واحد اصلی",
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
         {
             field: "Action",
@@ -109,7 +109,7 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
             renderCell: renderAction,
             headerName: "حذف",
             flex: 1,
-            headerClassName: "bg-[#E2E8F0] text-black font-bold",
+            headerClassName: "headerClassName",
         },
     ];
     return col;

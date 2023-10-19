@@ -75,13 +75,13 @@ const ProductState = () => {
         field: 'id', renderCell: (params: any) => {
           return <Typography variant="h3">{params.value}</Typography>;
         },
-        headerName: 'کد حالت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 120
+        headerName: 'کد حالت', headerClassName: "headerClassName", width: 120
       },
       {
         field: 'desc', renderCell: (params: any) => {
           return <Typography variant="h3">{params.value}</Typography>;
         },
-        headerName: 'حالت', headerClassName: "bg-[#E2E8F0] text-black font-bold", width: 160
+        headerName: 'حالت', headerClassName: "headerClassName", width: 160
       },
       {
         field: "isActive",
@@ -90,7 +90,7 @@ const ProductState = () => {
         headerClassName: "bg-[#E2E8F0] text-black !font-bold",
         minWidth: 160,
       },
-      { headerName: 'حذف', flex: 1, renderCell: renderAction, headerClassName: "bg-[#E2E8F0] text-black font-bold", minWidth: 160 }
+      { headerName: 'حذف', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
   }
