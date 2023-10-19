@@ -72,14 +72,14 @@ const ProductTypes = () => {
       {
         field: 'id',
         renderCell: (params: any) => {
-          return <Typography variant="h3">{params.value}</Typography>;
+          return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'کد نوع کالا', flex:1, headerClassName: "headerClassName", minWidth: 120
       },
       {
         field: 'desc',
         renderCell: (params: any) => {
-          return <Typography variant="h3">{params.value}</Typography>;
+          return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'نوع کالا', flex:1, headerClassName: "headerClassName", minWidth: 160
       },
@@ -87,7 +87,7 @@ const ProductTypes = () => {
         field: "isActive",
         headerName: "وضعیت", flex:1,
         renderCell: renderSwitch,
-        headerClassName: "bg-[#E2E8F0] text-black !font-bold",
+        headerClassName: "headerClassName",
         minWidth: 160,
       },
       { headerName: 'حذف', flex:1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }

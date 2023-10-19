@@ -73,13 +73,13 @@ const ProductState = () => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h3">{params.value}</Typography>;
+          return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'کد حالت', headerClassName: "headerClassName", width: 120
       },
       {
         field: 'desc', renderCell: (params: any) => {
-          return <Typography variant="h3">{params.value}</Typography>;
+          return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'حالت', headerClassName: "headerClassName", width: 160
       },
@@ -87,7 +87,7 @@ const ProductState = () => {
         field: "isActive",
         headerName: "وضعیت",
         renderCell: renderSwitch,
-        headerClassName: "bg-[#E2E8F0] text-black !font-bold",
+        headerClassName: "headerClassName",
         minWidth: 160,
       },
       { headerName: 'حذف', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }

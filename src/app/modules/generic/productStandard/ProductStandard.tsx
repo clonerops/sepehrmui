@@ -72,13 +72,13 @@ const ProductStandards = () => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h3">{params.value}</Typography>;
+          return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'کد استاندارد', headerClassName: "headerClassName", width: 120
       },
       {
         field: 'desc', renderCell: (params: any) => {
-          return <Typography variant="h3">{params.value}</Typography>;
+          return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'استاندارد', headerClassName: "headerClassName", width: 160
       },
@@ -86,7 +86,7 @@ const ProductStandards = () => {
         field: "isActive",
         headerName: "وضعیت",
         renderCell: renderSwitch,
-        headerClassName: "bg-[#E2E8F0] text-black !font-bold",
+        headerClassName: "headerClassName",
         minWidth: 160,
       },
       { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }

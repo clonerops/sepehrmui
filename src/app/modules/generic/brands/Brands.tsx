@@ -76,33 +76,36 @@ const Brands = () => {
                 field: "id",
                 headerName: "کد برند",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerClassName:
-                    "bg-[#E2E8F0] Yekan_bold text-black !font-bold",
+                    "headerClassName",
                 minWidth: 120,
+                flex: 1,
             },
             {
                 field: "name",
                 headerName: "نام برند",
                 renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
-                headerClassName: "bg-[#E2E8F0] text-black !font-bold",
-                minWidth: 180,
+                headerClassName: "headerClassName",
+                flex: 1,
+                minWidth: 120,
             },
             {
                 field: "isActive",
                 headerName: "وضعیت",
                 renderCell: renderSwitch,
-                headerClassName: "bg-[#E2E8F0] text-black !font-bold",
+                headerClassName: "headerClassName",
+                flex: 1,
                 minWidth: 160,
             },
             {
                 headerName: "حذف",
                 flex: 1,
                 renderCell: renderAction,
-                headerClassName: "bg-[#E2E8F0] text-black !font-bold",
+                headerClassName: "headerClassName",
                 minWidth: 120,
             },
         ];
