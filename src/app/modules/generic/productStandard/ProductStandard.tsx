@@ -78,7 +78,7 @@ const ProductStandards = () => {
       },
       {
         field: 'desc', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
+          return <Typography color="secondary" variant="h4">{params.value}</Typography>;
         },
         headerName: 'استاندارد', headerClassName: "headerClassName", width: 160
       },

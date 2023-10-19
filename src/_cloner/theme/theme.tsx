@@ -11,7 +11,8 @@ const theme = createTheme({
         secondary: {
             // main: "#071952",
             // main: "#405189",
-            main: "#088395",
+            // main: "#088395",
+            main: "#ff006e",
         },
     },
     typography: {

@@ -79,7 +79,7 @@ const ProductTypes = () => {
       {
         field: 'desc',
         renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
+          return <Typography color="secondary" variant="h4">{params.value}</Typography>;
         },
         headerName: 'نوع کالا', flex:1, headerClassName: "headerClassName", minWidth: 160
       },

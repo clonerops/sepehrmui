@@ -79,7 +79,7 @@ const ProductState = () => {
       },
       {
         field: 'desc', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
+          return <Typography color="secondary" variant="h4">{params.value}</Typography>;
         },
         headerName: 'حالت', headerClassName: "headerClassName", width: 160
       },
