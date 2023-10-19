@@ -47,8 +47,9 @@ const Products = () => {
                 },
                 headerName: "کد کالا",
                 cellClassName: "font-bold",
-                headerClassName: "!headerClassName",
+                headerClassName: "headerClassName",
                 minWidth: 80,
+                flex: 1,
             },
             {
                 field: "productName",
@@ -56,132 +57,167 @@ const Products = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "نام کالا",
-                cellClassName: "!bg-green-100 font-bold",
-                headerClassName: "!headerClassName",
+                cellClassName: "bg-green-100 font-bold",
+                headerClassName: "headerClassName",
                 minWidth: 160,
+                flex: 1,
             },
             {
                 field: "productTypeDesc",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "نوع کالا",
-                headerClassName: "!headerClassName",
-                minWidth: 120,
+                headerClassName: "headerClassName",
+                maxWidth: 60,
+                minWidth: 60,
+                flex: 1,
             },
             {
                 field: "isActive",
                 renderCell: (params: any) => {
-                    return <ActiveText params={params} successTitle="فعال" dangerTitle="غیرفعال" />
+                    return (
+                        <ActiveText
+                            params={params}
+                            successTitle="فعال"
+                            dangerTitle="غیرفعال"
+                        />
+                    );
                 },
                 headerName: "وضعیت",
-                headerClassName: "!headerClassName",
-                minWidth: 80,
+                headerClassName: "headerClassName",
+                maxWidth: 60,
+                minWidth: 60,
+                flex: 1,
             },
             {
                 field: "productSize",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "سایز",
-                headerClassName: "!headerClassName",
-                minWidth: 80,
+                headerClassName: "headerClassName",
+                maxWidth: 60,
+                minWidth: 60,
+                flex: 1,
             },
             {
                 field: "productThickness",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "ضخامت",
-                headerClassName: "!headerClassName",
-                minWidth: 80,
+                headerClassName: "headerClassName",
+                maxWidth: 60,
+                minWidth: 60,
+                flex: 1,
             },
             {
                 field: "approximateWeight",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "وزن",
-                headerClassName: "!headerClassName",
-                minWidth: 80,
+                headerClassName: "headerClassName",
+                maxWidth: 60,
+                minWidth: 60,
+                flex: 1,
             },
             {
                 field: "numberInPackage",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "تعداد در بسته",
-                headerClassName: "!headerClassName",
+                headerClassName: "headerClassName",
                 minWidth: 100,
+                flex: 1,
             },
             {
                 field: "productStandardDesc",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "استاندارد",
-                headerClassName: "!headerClassName",
-                minWidth: 80,
+                headerClassName: "headerClassName",
+                maxWidth: 70,
+                minWidth: 70,
+                flex: 1,
             },
             {
                 field: "productStateDesc",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "حالت",
-                headerClassName: "!headerClassName",
-                minWidth: 80,
+                headerClassName: "headerClassName",
+                maxWidth: 70,
+                minWidth: 70,
+                flex: 1,
             },
             {
                 field: "productMainUnitDesc",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "واحد اصلی",
-                headerClassName: "!headerClassName",
-                minWidth: 80,
+                headerClassName: "headerClassName",
+                maxWidth: 70,
+                minWidth: 70,
+                flex: 1,
             },
             {
                 field: "productSubUnitDesc",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "واحد فرعی",
-                headerClassName: "!headerClassName",
-                minWidth: 80,
+                headerClassName: "headerClassName",
+                maxWidth: 70,
+                minWidth: 70,
+                flex: 1,
             },
             {
                 field: "maxInventory",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "حداکثر موجودی",
-                headerClassName: "!headerClassName",
-                minWidth: 90,
+                headerClassName: "headerClassName",
+                maxWidth: 100,
+                minWidth: 100,
+
+                flex: 1,
             },
             {
                 field: "minInventory",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "حداقل موجودی",
-                headerClassName: "!headerClassName",
-                minWidth: 90,
+                headerClassName: "headerClassName",
+                maxWidth: 100,
+                minWidth: 100,
+
+                flex: 1,
             },
             {
                 field: "inventotyCriticalPoint",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h5">{params.value}</Typography>;
                 },
                 headerName: "نقطه بحرانی",
-                headerClassName: "!headerClassName",
-                minWidth: 90,
+                headerClassName: "headerClassName",
+                maxWidth: 100,
+                minWidth: 100,
+
+                flex: 1,
             },
             {
                 headerName: "عملیات",
                 flex: 1,
                 renderCell: renderAction,
-                headerClassName: "!headerClassName !w-full",
+                headerClassName: "headerClassName w-full",
                 minWidth: 160,
             },
         ];
@@ -253,7 +289,7 @@ const Products = () => {
                         variant="contained"
                         color="secondary"
                     >
-                        <Typography variant="h4">ایجاد کالا</Typography>
+                        <Typography variant="h5">ایجاد کالا</Typography>
                     </Button>
                 </Box>
                 <MuiDataGrid

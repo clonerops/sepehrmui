@@ -1,4 +1,8 @@
-import { useDeleteProductPrice, useExportProductPrice, useRetrieveProductPrice } from "./core/_hooks";
+import {
+    useDeleteProductPrice,
+    useExportProductPrice,
+    useRetrieveProductPrice,
+} from "./core/_hooks";
 import { columns } from "./helpers/productPriceColumns";
 import { IProductPrice } from "./core/_models";
 import { useState, useEffect } from "react";
@@ -23,12 +27,11 @@ import ActiveText from "../../../_cloner/components/ActiveText";
 const radioOption: {
     label: string;
     value: any;
-
 }[] = [
-        { label: "همه", value: "" },
-        { label: "فعال", value: true },
-        { label: "غیر فعال", value: false },
-    ]
+    { label: "همه", value: "" },
+    { label: "فعال", value: true },
+    { label: "غیر فعال", value: false },
+];
 
 const ProductPrice = () => {
     // const {
@@ -50,7 +53,9 @@ const ProductPrice = () => {
     const [snackeUploadOpen, setSnackeUploadOpen] = useState<boolean>(false);
     const [excelLoading, setExcelLoading] = useState<boolean>(false);
     const [requestMessage, setRequestMessage] = useState<string>("");
-    const [isActiveValue, setIsActiveValue] = useState<boolean | number | null | string>("");
+    const [isActiveValue, setIsActiveValue] = useState<
+        boolean | number | null | string
+    >("");
     const {
         refetch,
         data: productPrice,
@@ -64,34 +69,71 @@ const ProductPrice = () => {
     const columns = (renderAction: any) => {
         const col = [
             {
-                field: 'productName', renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography>;
-                }, headerName: 'نام کالا', headerClassName: "headerClassName", width: 360
+                field: "productName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "نام کالا",
+                headerClassName: "headerClassName",
+                minWidth: 160,
+                flex: 1,
             },
             {
-                field: 'brandName', renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography>;
-                }, headerName: 'نام برند', headerClassName: "headerClassName", width: 160
+                field: "brandName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+                headerName: "نام برند",
+                headerClassName: "headerClassName",
+                minWidth: 160,
+                flex: 1,
             },
             {
-                field: 'price', headerName: 'قیمت', renderCell: (value: any) => (
-                    separateAmountWithCommas(value.row.price)+ " " + "تومان"
-                ), headerClassName: "headerClassName", cellClassName: "font-bold text-[14px]", width: 160
+                field: "price",
+                headerName: "قیمت",
+                renderCell: (value: any) =>
+                    separateAmountWithCommas(value.row.price) + " " + "تومان",
+                headerClassName: "headerClassName",
+                cellClassName: "font-bold text-[14px]",
+                minWidth: 160,
+                flex: 1,
             },
             {
-                field: 'registerDate', renderCell: (params: any) => {
-                    return <Typography variant="h3">{params.value}</Typography>;
-                }, headerName: 'تاریخ قیمت', headerClassName: "headerClassName font-bold", width: 160
+                field: "registerDate",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+                headerName: "تاریخ قیمت",
+                headerClassName: "headerClassName font-bold",
+                minWidth: 160,
+                flex: 1,
             },
             {
-                field: 'isActive', headerName: 'وضعیت', renderCell: (params: any) => {
-                    return <ActiveText params={params} successTitle="فعال" dangerTitle="غیرفعال" />
-                }, headerClassName: "headerClassName", width: 120
+                field: "isActive",
+                headerName: "وضعیت",
+                renderCell: (params: any) => {
+                    return (
+                        <ActiveText
+                            params={params}
+                            successTitle="فعال"
+                            dangerTitle="غیرفعال"
+                        />
+                    );
+                },
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1,
             },
-            { headerName: 'عملیات', renderCell: renderAction, flex: 1, headerClassName: "headerClassName", minWidth: 340, }
-        ]
-        return col
-    }
+            {
+                headerName: "عملیات",
+                renderCell: renderAction,
+                headerClassName: "headerClassName",
+                minWidth: 160,
+                flex: 1,
+            },
+        ];
+        return col;
+    };
 
     const handleEdit = (item: IProductPrice | undefined) => {
         setIsOpen(true);
@@ -131,21 +173,49 @@ const ProductPrice = () => {
     };
 
     const handleChangeRadio = (value: any) => {
-        setIsActiveValue(value)
-    }
+        setIsActiveValue(value);
+    };
 
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
-            {snackeOpen && (<PositionedSnackbar open={snackeOpen} setState={setSnackeOpen} title={deleteData?.data?.Message || deleteData?.message || "حذف با موفقیت انجام شد"} />)}
-            {snackeUploadOpen && (<PositionedSnackbar open={snackeUploadOpen} setState={setSnackeUploadOpen} title={requestMessage} />)}
+            {snackeOpen && (
+                <PositionedSnackbar
+                    open={snackeOpen}
+                    setState={setSnackeOpen}
+                    title={
+                        deleteData?.data?.Message ||
+                        deleteData?.message ||
+                        "حذف با موفقیت انجام شد"
+                    }
+                />
+            )}
+            {snackeUploadOpen && (
+                <PositionedSnackbar
+                    open={snackeUploadOpen}
+                    setState={setSnackeUploadOpen}
+                    title={requestMessage}
+                />
+            )}
             <Card className="p-8">
-                <Box component="div" className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4">
-                    <Typography variant="h3" className="text-red-500">نکته: </Typography>
-                    <Typography variant="h3" className="text-red-500">برای بارگزاری فایل قیمت ها بایستی این موارد رعایت گردد:</Typography>
-                    <Typography variant="h3">1) فایل بایستی بصورت اکسل باشد</Typography>
-                    <Typography variant="h3">2) ستون های فایل بایستی شامل : کد کالا، کد برند، قیمت باشد</Typography>
+                <Box
+                    component="div"
+                    className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4"
+                >
+                    <Typography variant="h4" className="text-red-500">
+                        نکته:{" "}
+                    </Typography>
+                    <Typography variant="h4" className="text-red-500">
+                        برای بارگزاری فایل قیمت ها بایستی این موارد رعایت گردد:
+                    </Typography>
+                    <Typography variant="h4">
+                        1) فایل بایستی بصورت اکسل باشد
+                    </Typography>
+                    <Typography variant="h4">
+                        2) ستون های فایل بایستی شامل : کد کالا، کد برند، قیمت
+                        باشد
+                    </Typography>
                 </Box>
                 <Box
                     component="div"
@@ -160,25 +230,36 @@ const ProductPrice = () => {
                         />
                     </Box>
                     <Box component="div" className="flex flex-wrap gap-x-4">
-                        <FileUploadButton refetch={refetch} setSnackeOpen={setSnackeUploadOpen} requestMessage={setRequestMessage} />
+                        <FileUploadButton
+                            refetch={refetch}
+                            setSnackeOpen={setSnackeUploadOpen}
+                            requestMessage={setRequestMessage}
+                        />
                         <Button
                             onClick={handleDownloadExcel}
                             variant="outlined"
                             color="primary"
                         >
-                            <Typography variant="h3">خروجی اکسل</Typography>
+                            <Typography variant="h4">خروجی اکسل</Typography>
                         </Button>
                         <Button
                             onClick={() => setIsCreateOpen(true)}
                             variant="contained"
                             color="secondary"
                         >
-                            <Typography variant="h3">ایجاد قیمت کالا</Typography>
+                            <Typography variant="h4">
+                                ایجاد قیمت کالا
+                            </Typography>
                         </Button>
                     </Box>
                 </Box>
                 <Box>
-                    <ReusableRadioGroup label="" options={radioOption} value={isActiveValue} onChange={handleChangeRadio} />
+                    <ReusableRadioGroup
+                        label=""
+                        options={radioOption}
+                        value={isActiveValue}
+                        onChange={handleChangeRadio}
+                    />
                 </Box>
                 <MuiDataGrid
                     columns={columns(renderAction)}
