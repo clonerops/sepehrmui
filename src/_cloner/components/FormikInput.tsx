@@ -34,6 +34,7 @@ const FormikInput = (props: Props) => {
         size="small"
         label={label}
         disabled={disabled}
+        color="secondary"
         variant={"outlined"}
         id={name}
         {...getFormikFieldValidationProps(formikProps, name)}
