@@ -40,6 +40,7 @@ const FuzzySearch = <T extends {}>({
       <TextField
         value={query}
         onChange={handleInputChange}
+        color="secondary"
         fullWidth
         size="small"
         label={"جستجو پیشرفته"}

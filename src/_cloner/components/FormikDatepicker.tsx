@@ -53,6 +53,7 @@ const FormikDatepicker = forwardRef((props: Props) => {
                             size="small"
                             fullWidth
                             variant="outlined"
+                            color="secondary"
                             label={label}
                             id={name}
                             error={validationProps.error}
