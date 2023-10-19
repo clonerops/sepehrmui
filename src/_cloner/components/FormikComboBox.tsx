@@ -73,7 +73,7 @@ const FormikComboBox = (props: Props) => {
                     <TextField
                         label={label}
                         name={name}
-                        color="secondary"
+                        color="primary"
                         error={getFormikFieldValidationProps(formikProps, name).error}
                         {...params}
                         size="small"

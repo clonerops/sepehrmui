@@ -14,7 +14,7 @@
 }
 * {
     scrollbar-width: 28px !important;
-    scrollbar-color: #2E4374 rgb(255, 255, 255);
+    scrollbar-color: #ffb703 rgb(255, 255, 255);
 }
 *::-webkit-scrollbar {
     width: 18px !important;
@@ -27,7 +27,7 @@
     visibility: hidden; */
 }
 *::-webkit-scrollbar-thumb {
-    background-color: #2E4374;
+    background-color: #ffb703;
     border-radius: 20px;
     border: 3px solid rgb(255, 255, 255);
     /* display: hidden !important;

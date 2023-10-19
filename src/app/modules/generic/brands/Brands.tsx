@@ -87,7 +87,7 @@ const Brands = () => {
                 field: "name",
                 headerName: "نام برند",
                 renderCell: (params: any) => {
-                    return <Typography color="secondary" variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerClassName: "headerClassName",
                 flex: 1,

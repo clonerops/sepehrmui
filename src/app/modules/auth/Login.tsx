@@ -99,7 +99,7 @@ const Login = () => {
               <TextField
                 fullWidth
                 label={"نام کاربری"}
-                color="secondary"
+                color="primary"
                 id="userName"
                 error={
                   formik.touched.userName && Boolean(formik.errors.userName)
@@ -115,7 +115,7 @@ const Login = () => {
               <TextField
                 fullWidth
                 label={"کلمه عبور"}
-                color="secondary"
+                color="primary"
                 type="password"
                 id="password"
                 error={
@@ -133,7 +133,7 @@ const Login = () => {
               <TextField
                 fullWidth
                 label={"کد امنیتی"}
-                color="secondary"
+                color="primary"
                 type="captchaCode"
                 id="captchaCode"
                 error={
