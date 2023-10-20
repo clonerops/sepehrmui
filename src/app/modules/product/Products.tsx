@@ -15,6 +15,7 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import ActiveText from "../../../_cloner/components/ActiveText";
+import ProductForm from "./components/ProductForm";
 
 const Products = () => {
     const {
@@ -305,7 +306,11 @@ const Products = () => {
                 width="80%"
                 description="لطفاً مشخصات محصول را با دقت وارد کنید تا مشتریان به آسانی اطلاعات مورد نیاز را بیابند اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
-                <CreateProduct
+                {/* <CreateProduct
+                    refetch={refetch}
+                    setIsCreateOpen={setIsCreateOpen}
+                /> */}
+                <ProductForm
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
@@ -317,7 +322,13 @@ const Products = () => {
                 width="80%"
                 description=" درصورتی که محصولی نیاز به ویرایش داشته باشد می توانید از طریق فرم زیر اقدام به ویرایش محصول نمایید"
             >
-                <EditProduct refetch={refetch} item={itemForEdit} />
+                <ProductForm
+                    id={itemForEdit?.id}
+                    refetch={refetch}
+                    setIsCreateOpen={setIsCreateOpen}
+                />
+
+                {/* <EditProduct refetch={refetch} item={itemForEdit} /> */}
             </TransitionsModal>
         </>
     );

@@ -21,6 +21,11 @@ const useRetrieveProductById = (id: string) => {
     //     return api.retrieveProductById(id);
     // });
 };
+const useRetrieveProduct = () => {
+    return useMutation((id: string) => {
+        return api.retrieveProductById(id);
+    });
+};
 
 const useUpdateProduct = () => {
     return useMutation((formdata: IProducts) => {
@@ -127,6 +132,7 @@ export {
     useRetrieveProductsByBrand,
     useCreateProduct,
     useRetrieveProductById,
+    useRetrieveProduct,
     useUpdateProduct,
     useDisableProduct,
     useEnableProduct,
