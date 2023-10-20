@@ -6,6 +6,8 @@ import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -17,7 +19,12 @@ const ProductSelectedListInModal = (props: {
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectProductFromModal: any;
 }) => {
-    console.log("productsByBrand", props.products)
+    const {
+        data: productsByBrand,
+        isLoading: productByBrandLoading,
+        isError: productByBrandError,
+    } = useRetrieveProductsByBrand();
+
     const [results, setResults] = useState<IProducts[]>([]);
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
@@ -26,8 +33,8 @@ const ProductSelectedListInModal = (props: {
     }>({});
 
     useEffect(() => {
-        if (props.products) setResults(props.products);
-    }, [props.products]);
+        if (productsByBrand?.data) setResults(productsByBrand?.data);
+    }, [productsByBrand?.data]);
 
     const renderAction = (indexToDelete: any) => {
         return (
@@ -90,14 +97,14 @@ const ProductSelectedListInModal = (props: {
             ...product,
             proximateAmount: proximateAmounts[product.id] || "",
             productPrice: separateAmountWithCommas(product.productPrice),
-            warehouseName:
-                product.productInventories[
-                    product.productInventories.length - 1
-                ]?.warehouseName || "",
-            warehouseId:
-                product.productInventories[
-                    product.productInventories.length - 1
-                ]?.warehouseId || "",
+            // warehouseName:
+            //     product.productInventories[
+            //         product.productInventories.length - 1
+            //     ]?.warehouseName || "",
+            // warehouseId:
+            //     product.productInventories[
+            //         product.productInventories.length - 1
+            //     ]?.warehouseId || "",
         }));
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
@@ -121,7 +128,6 @@ const ProductSelectedListInModal = (props: {
     };
     const columns = (renderAction: any) => {
         const col = [
-            // { field: 'productIntegratedName',  headerName: 'شرح کالا', headerClassName: "headerClassName" },
             {
                 field: "productName",
                 headerName: "کالا",
@@ -133,11 +139,7 @@ const ProductSelectedListInModal = (props: {
                 width: 140,
             },
             {
-                field: "brandName",
-                valueGetter: (params: any) =>
-                    params.row.productPrices[
-                        params.row.productPrices.length - 1
-                    ]?.brandName,
+                field: "productBrandName",
                 width: 80,
                 headerName: "برند",
                 headerClassName: "headerClassName",
@@ -147,10 +149,7 @@ const ProductSelectedListInModal = (props: {
             },
             {
                 field: "warehouseName",
-                valueGetter: (params: any) =>
-                    params.row.productInventories[
-                        params.row.productInventories.length - 1
-                    ]?.warehouseName,
+
                 width: 80,
                 headerName: "انبار",
                 renderCell: (params: any) => {
@@ -160,11 +159,7 @@ const ProductSelectedListInModal = (props: {
                 headerClassName: "headerClassName",
             },
             {
-                field: "approximateInventory",
-                valueGetter: (params: any) =>
-                    params.row.productInventories[
-                        params.row.productInventories.length - 1
-                    ]?.approximateInventory,
+                field: "inventory",
                 width: 60,
                 headerName: "موجودی",
                 renderCell: (params: any) => {
@@ -184,11 +179,7 @@ const ProductSelectedListInModal = (props: {
                 headerClassName: "headerClassName",
             },
             {
-                field: "price",
-                valueGetter: (params: any) =>
-                    params.row.productPrices[
-                        params.row.productPrices.length - 1
-                    ]?.price,
+                field: "productPrice",
                 minWidth: 60,
                 headerName: "قیمت",
                 flex: 1,
@@ -221,12 +212,8 @@ const ProductSelectedListInModal = (props: {
                 headerClassName: "headerClassName",
             },
             {
-                field: "brand",
+                field: "productBrandName",
                 width: 80,
-                valueGetter: (params: any) =>
-                    params.row.productPrices[
-                        params.row.productPrices.length - 1
-                    ]?.brandName,
                 headerName: "برند",
                 renderCell: (params: any) => {
                     return <Typography variant="h5">{params.value}</Typography>;
@@ -236,10 +223,6 @@ const ProductSelectedListInModal = (props: {
             },
             {
                 field: "warehouseName",
-                valueGetter: (params: any) =>
-                    params.row.productInventories[
-                        params.row.productInventories[0]
-                    ]?.warehouseName,
                 width: 80,
                 headerName: "انبار",
                 renderCell: (params: any) => {
@@ -270,6 +253,11 @@ const ProductSelectedListInModal = (props: {
         return col;
     };
 
+
+    if(props.productLoading) {
+        return <Typography>Loading ...</Typography>
+    }
+
     return (
         <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
             <Box component="div">
@@ -280,21 +268,21 @@ const ProductSelectedListInModal = (props: {
                             "productIntegratedName",
                             "approximateWeight",
                         ]}
-                        data={props.products}
+                        data={productsByBrand?.data}
                         threshold={0.5}
                         setResults={setResults}
                     />
                 </Box>
-                <MuiSelectionDataGrid
-                    onRowDoubleClick={handleSelectionChange}
-                    selectionModel={selectionModel}
-                    setSelectionModel={setSelectionModel}
+                <MuiDataGrid
+                    onDoubleClick={handleSelectionChange}
+                    // selectionModel={selectionModel}
+                    // setSelectionModel={setSelectionModel}
                     columns={columns(renderAction)}
                     rows={results}
-                    data={props.products}
-                    pagination={false}
-                    hideFooter={true}
-                    columnHeaderHeight={40}
+                    data={productsByBrand?.data}
+                    // pagination={false}
+                    // hideFooter={true}
+                    // columnHeaderHeight={40}
                 />
             </Box>
             <Box component="div" className="mt-4">

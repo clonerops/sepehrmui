@@ -30,8 +30,6 @@ const CreateProductPrice = (props: Props) => {
 
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
-    console.log("brands", brands)
-
     return (
         <>
             {snackeOpen && (

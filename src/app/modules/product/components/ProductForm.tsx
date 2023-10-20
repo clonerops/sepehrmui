@@ -193,6 +193,7 @@ const ProductForm = (props: {
                 onSuccess: (response) => {
                     setSnackeEditOpen(true);
                     props.refetch()
+                    props.setIsCreateOpen(false)
                 },
             });
         } catch (error: any) {
@@ -207,6 +208,7 @@ const ProductForm = (props: {
                 onSuccess: (response) => {
                     setSnackeOpen(true)
                     props.refetch()
+                    props.setIsCreateOpen(false)
                 },
             });
         } catch (error: any) {
@@ -216,7 +218,11 @@ const ProductForm = (props: {
     };
 
     const handleSubmit = (values: IProducts) => {
-        if (props.id) onUpdate(values);
+        const formData = {
+            ...values,
+            numberInPackage: values.numberInPackage ? values.numberInPackage : 0
+        }
+        if (props.id) onUpdate(formData);
         else onAdd(values);
         props.refetch()
     };

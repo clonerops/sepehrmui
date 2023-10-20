@@ -151,7 +151,7 @@ const deleteSupplier = async (id: string) => {
 
 // Product Price
 const retrieveProductPrice = async (isActive: boolean | number | null | string, PageNumber: number | null | string = "", PageSize: number | null | string = "") => {
-    let url: string = ``;
+    let url: string = `/v${1}/ProductPrice`;
 
     if (PageNumber || PageSize === "") {
         url = `/v${1}/ProductPrice?isActive=${isActive}`;

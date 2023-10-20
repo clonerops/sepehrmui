@@ -2,6 +2,7 @@ import { IProducts } from "../../product/core/_models";
 import { Button, Typography, Box } from "@mui/material";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import DeleteIcon from "@mui/icons-material/Delete";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 
 const ProductSelectedList = (props: {
     orders: IProducts[];
@@ -16,8 +17,8 @@ const ProductSelectedList = (props: {
         if (props.orders) {
             const updatedOrders = props.orders.filter(
                 (order) =>
-                    order.id !== indexToDelete.id ||
-                    order.warehouseId !== indexToDelete.warehouseId
+                    order.id !== indexToDelete.row.id ||
+                    order.warehouseId !== indexToDelete.row.warehouseId
             );
             props.setOrders(updatedOrders);
         }
@@ -36,23 +37,73 @@ const ProductSelectedList = (props: {
             </>
         );
     };
-
-    const columns = [
-        { header: "کالا", accessor: "productName" },
-        { header: "انبار", accessor: "warehouseName" },
-        { header: "مقدار", accessor: "proximateAmount" },
-        { header: "قیمت", accessor: "productPrice" },
-        { header: "توضیحات", accessor: "productDesc" },
-        { header: "ردیف فروش", accessor: "rowId" },
-        { header: "قیمت خرید", accessor: "buyPrice" },
-        { header: "تاریخ تسویه خرید", accessor: "purchaseSettlementDate" },
-        { header: "نوع فاکتور خرید", accessor: "purchaseInvoiceTypeName" },
-        {
-            header: "حذف",
-            accessor: "Action",
-            render: renderActions,
-        },
-    ];
+    const columns = (renderActions: any) => {
+        const col = [
+            {
+                headerName: "کالا", field: "productName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 180
+            },
+            {
+                headerName: "انبار", field: "warehouseName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 100
+            },
+            {
+                headerName: "مقدار", field: "proximateAmount",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+            },
+            {
+                headerName: "قیمت", field: "productPrice",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+            },
+            {
+                headerName: "توضیحات", field: "productDesc",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+            },
+            {
+                headerName: "ردیف فروش", field: "rowId",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+            },
+            {
+                headerName: "قیمت خرید", field: "buyPrice",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+            },
+            {
+                headerName: "تاریخ تسویه خرید", field: "purchaseSettlementDate",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+            },
+            {
+                headerName: "نوع فاکتور خرید", field: "purchaseInvoiceTypeName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+            },
+            {
+                headerName: "حذف",
+                field: "Action",
+                renderCell: renderActions,
+                headerClassName: "headerClassName",
+                minWidth: 80,
+                flex: 1
+            },
+        ];
+        return col;
+    }
 
     const onDoubleClick = (rowData: any, index: number) => {
         props.setSelectedOrderIndex(index);
@@ -69,8 +120,10 @@ const ProductSelectedList = (props: {
 
     return (
         <>
-            <MuiTable
-                columns={columns}
+            {/* <MuiTable */}
+            <MuiDataGrid
+                columns={columns(renderActions)}
+                rows={props.orders}
                 data={props.orders}
                 onDoubleClick={onDoubleClick}
             />
