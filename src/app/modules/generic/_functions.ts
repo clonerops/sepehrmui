@@ -17,6 +17,14 @@ export const dropdownBrand = (data: any) => {
         })
     );
 };
+export const dropdownBrandName = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: any): any => {
+            return { value: obj.id, label: obj.brand.name };
+        })
+    );
+};
 export const dropdownProduct = (data: any) => {
     return (
         data &&
@@ -41,6 +49,16 @@ export const dropdownProductName = (data: any) => {
         data?.map((obj: { id: any; productName: any }): any => {
             const { id, productName } = obj;
             return { value: id, label: productName };
+        })
+    );
+};
+
+export const dropdownProductBrandName = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { productId: any; productName: any }): any => {
+            const { productId, productName } = obj;
+            return { value: productId, label: productName };
         })
     );
 };

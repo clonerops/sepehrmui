@@ -11,6 +11,12 @@ const usePostProductBrands = () => {
         return api.postProductBrands(formData)
     })
 }
+const useGetProductBrandsByProductId = (productId: string) => {
+    return useQuery(['productBrand', productId], () => api.getProductBrandsByProductId(productId))
+    // return useMutation((productId: string) => {
+    //     return api.getProductBrandsByProductId(productId)
+    // })
+}
 
 
 const useGetProductBrand = (id: string) => {
@@ -31,6 +37,7 @@ const useDeleteProductBrands = () => {
 
 export {
     useGetProductBrands,
+    useGetProductBrandsByProductId,
     usePostProductBrands,
     useGetProductBrand,
     useUpdateProductBrands,

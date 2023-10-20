@@ -12,6 +12,18 @@ const getProductBrands = async () => {
     }
 }
 
+const getProductBrandsByProductId = async (productId: string) => {
+    try {
+
+        const { data } = await http.get(`/v1/ProductBrand?ProductId=${productId}`)
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 const postProductBrands = async (formData: IProductBrand) => {
     try {
 
@@ -58,6 +70,7 @@ const deleteProductBrand = async (id: number) => {
 
 export {
     getProductBrands,
+    getProductBrandsByProductId,
     postProductBrands,
     getProductBrand,
     updateProductBrands,
