@@ -152,8 +152,6 @@ const Order = () => {
         setTotalAmount(newTotal);
     }, [orders]);
 
-    console.log("productsByBrand", productsByBrand)
-
     const mainParseFields = (fields: FieldType, values: any) => {
         const { type, ...rest } = fields;
         switch (type) {
@@ -224,7 +222,7 @@ const Order = () => {
                         <Button
                             onClick={() => setSelectedProductOpen(true)}
                             variant="contained"
-                            color="secondary"
+                            color="primary"
                         >
                             <Grading />
                         </Button>
@@ -371,18 +369,18 @@ const Order = () => {
 
         if (!isUpdate) {
             const isDuplicate = orders.some((order: any) =>
-            order.id === productOrder.id &&
-            order.warehouseId === productOrder.warehouseId &&
-            order.productName === productOrder.productName
-        );
+                order.id === productOrder.id &&
+                order.warehouseId === productOrder.warehouseId &&
+                order.productName === productOrder.productName
+            );
 
             if (values.productName === "" || values.productName.label === "") {
                 alert("کالا الزامی می باشد");
             } else if (values?.productPrice === "") {
                 alert("قیمت الزامی می باشد");
-            } else if(isDuplicate){
+            } else if (isDuplicate) {
                 alert("کالا در لیست سفارشات موجود می باشد");
-            } else  {
+            } else {
                 setOrders([...orders, productOrder]);
             }
             fields.forEach((element) => {
@@ -430,249 +428,152 @@ const Order = () => {
                     }
                 />
             )}
-            <Card className="px-8 py-4">
-                <Formik
-                    enableReinitialize
-                    initialValues={initialValues}
-                    validationSchema={orderValidation}
-                    onSubmit={async (
-                        values: any,
-                        { setStatus, setSubmitting, setFieldValue, resetForm }
-                    ) => {
-                        if (orders?.length === 0) {
-                            alert("لیست سفارشات خالی می باشد");
-                        } else {
-                            try {
-                                const formData = {
-                                    customerId: values.customerId.value,
-                                    totalAmount: totalAmount,
-                                    description: values.description,
-                                    exitType: Number(values.exitType),
-                                    orderSendTypeId: Number(
-                                        values.orderSendTypeId
-                                    ),
-                                    paymentTypeId: Number(values.paymentTypeId),
-                                    customerOfficialName: "string",
-                                    invoiceTypeId: Number(values.invoiceTypeId),
-                                    freightName: "string",
-                                    settlementDate: values.settlementDate,
-                                    dischargePlaceAddress: "string",
-                                    freightDriverName: "string",
-                                    carPlaque: "string",
-                                    details: orders?.map((item: any) => {
-                                        return {
-                                            rowId: item.rowId
-                                                ? Number(item.rowId)
-                                                : 0,
-                                            productId: item.id,
-                                            warehouseTypeId:
-                                                item.warehouseTypeId,
-                                            warehouseId: item.warehouseId
-                                                ? Number(item.warehouseId)
-                                                : null,
-                                            proximateAmount:
-                                                item.proximateAmount
-                                                    ? Number(item.proximateAmount?.replace(/,/g, ""))
+            <Box component="div" className="md:grid md:grid-cols-3 gap-x-4 space-y-4 md:space-y-0">
+                <Card className="px-8 py-4" elevation={4}>
+                    <Box component="div" className="flex flex-col space-y-8">
+                        <Box component="div" className="flex justify-between">
+                            <Typography variant="h4" className="text-gray-500">شماره سفارش:</Typography>
+                            <Typography variant="h3" className="text-green-600">{orderCode}</Typography>
+                        </Box>
+                        <Box component="div" className="flex justify-between">
+                            <Typography variant="h4" className="text-gray-500">تاریخ سفارش:</Typography>
+                            <Typography variant="h3">{moment(new Date()).format("jYYYY/jMM/jDD")}</Typography>
+                        </Box>
+                        <Box component="div" className="flex justify-between">
+                            <Typography variant="h4" className="text-gray-500">قیمت کل:</Typography>
+                            <Typography variant="h3">{sliceNumberPrice(totalAmount)} ریال</Typography>
+                        </Box>
+                        <Box component="div" className="flex justify-between flex-wrap">
+                            <Typography variant="h4" className="text-gray-500">قیمت کل به حروف:</Typography>
+                            <Typography variant="h3">{convertToPersianWord(totalAmount)} هزار تومان</Typography>
+                        </Box>
+                    </Box>
+                </Card>
+                <Card className="px-8 py-4 md:col-span-2" elevation={4}>
+                    <Formik
+                        enableReinitialize
+                        initialValues={initialValues}
+                        validationSchema={orderValidation}
+                        onSubmit={async (
+                            values: any,
+                            { setStatus, setSubmitting, setFieldValue, resetForm }
+                        ) => {
+                            if (orders?.length === 0) {
+                                alert("لیست سفارشات خالی می باشد");
+                            } else {
+                                try {
+                                    const formData = {
+                                        customerId: values.customerId.value,
+                                        totalAmount: totalAmount,
+                                        description: values.description,
+                                        exitType: Number(values.exitType),
+                                        orderSendTypeId: Number(
+                                            values.orderSendTypeId
+                                        ),
+                                        paymentTypeId: Number(values.paymentTypeId),
+                                        customerOfficialName: "string",
+                                        invoiceTypeId: Number(values.invoiceTypeId),
+                                        freightName: "string",
+                                        settlementDate: values.settlementDate,
+                                        dischargePlaceAddress: "string",
+                                        freightDriverName: "string",
+                                        carPlaque: "string",
+                                        details: orders?.map((item: any) => {
+                                            return {
+                                                rowId: item.rowId
+                                                    ? Number(item.rowId)
                                                     : 0,
-                                            numberInPackage:
-                                                item.numberInPackage
-                                                    ? Number(
-                                                        item.numberInPackage
-                                                    )
+                                                productId: item.id,
+                                                warehouseTypeId:
+                                                    item.warehouseTypeId,
+                                                warehouseId: item.warehouseId
+                                                    ? Number(item.warehouseId)
+                                                    : null,
+                                                proximateAmount:
+                                                    item.proximateAmount
+                                                        ? Number(item.proximateAmount?.replace(/,/g, ""))
+                                                        : 0,
+                                                numberInPackage:
+                                                    item.numberInPackage
+                                                        ? Number(
+                                                            item.numberInPackage
+                                                        )
+                                                        : 0,
+                                                price: item.productPrice
+                                                    ? Number(item.productPrice?.replace(/,/g, ""))
+                                                    : null,
+                                                cargoSendDate: "1402/01/01",
+                                                buyPrice: item.buyPrice
+                                                    ? Number(item.buyPrice)
                                                     : 0,
-                                            price: item.productPrice
-                                                ? Number(item.productPrice?.replace(/,/g, ""))
-                                                : null,
-                                            cargoSendDate: "1402/01/01",
-                                            buyPrice: item.buyPrice
-                                                ? Number(item.buyPrice)
-                                                : 0,
-                                            purchaseInvoiceTypeId:
-                                                item.purchaseInvoiceTypeId
-                                                    ? item.purchaseInvoiceTypeId
-                                                    : null,
-                                            purchaserCustomerId:
-                                                item.purchaserCustomerId
-                                                    ? item.purchaserCustomerId
-                                                        .value
-                                                    : null,
-                                            purchaseSettlementDate:
-                                                "1402/01/01",
-                                            sellerCompanyRow:
-                                                item.sellerCompanyRow
-                                                    ? item.sellerCompanyRow
-                                                    : null,
-                                        };
-                                    }),
-                                };
-                                mutate(formData, {
-                                    onSuccess: (orderData) => {
-                                        setOrderData(orderData);
-                                        setSnackeOpen(true);
-                                        setOrderCode(
-                                            orderData?.data[0].orderCode
-                                        );
-                                        resetForm();
-                                    },
-                                });
-                            } catch (error) {
-                                setStatus("اطلاعات ثبت مشتری نادرست می باشد");
-                                setSubmitting(false);
+                                                purchaseInvoiceTypeId:
+                                                    item.purchaseInvoiceTypeId
+                                                        ? item.purchaseInvoiceTypeId
+                                                        : null,
+                                                purchaserCustomerId:
+                                                    item.purchaserCustomerId
+                                                        ? item.purchaserCustomerId
+                                                            .value
+                                                        : null,
+                                                purchaseSettlementDate:
+                                                    "1402/01/01",
+                                                sellerCompanyRow:
+                                                    item.sellerCompanyRow
+                                                        ? item.sellerCompanyRow
+                                                        : null,
+                                            };
+                                        }),
+                                    };
+                                    mutate(formData, {
+                                        onSuccess: (orderData) => {
+                                            setOrderData(orderData);
+                                            setSnackeOpen(true);
+                                            setOrderCode(
+                                                orderData?.data[0].orderCode
+                                            );
+                                            resetForm();
+                                        },
+                                    });
+                                } catch (error) {
+                                    setStatus("اطلاعات ثبت مشتری نادرست می باشد");
+                                    setSubmitting(false);
+                                }
                             }
-                        }
-                    }}
-                >
-                    {({ handleSubmit, values, setFieldValue }) => {
-                        return (
-                            <Form onSubmit={handleSubmit}>
-                                <Box
-                                    component="div"
-                                    className="flex mb-4 justify-center items-center md:justify-end md:items-end"
-                                >
-                                    <CustomButton
-                                        title="ثبت سفارش"
-                                        onClick={() => handleSubmit()}
-                                    />
-                                </Box>
-                                <Box component="div" className="mb-4">
+                        }}
+                    >
+                        {({ handleSubmit, values, setFieldValue }) => {
+                            return (
+                                <Form onSubmit={handleSubmit}>
                                     <Box
                                         component="div"
-                                        className="md:flex md:justify-between my-1 p-2 rounded-md gap-x-10"
+                                        className="flex mb-4 justify-center items-center md:justify-end md:items-end"
                                     >
-                                        <TextValue
-                                            title="شماره سفارش"
-                                            value={orderCode}
-                                            valueClassName="px-8 text-[#405189]"
-                                            titleClassName="text-[#2E4374]"
-                                        />
-                                        <TextValue
-                                            title="تاریخ سفارش"
-                                            value={moment(new Date()).format(
-                                                "jYYYY/jMM/jDD"
-                                            )}
-                                            valueClassName="text-[#405189]"
-                                            titleClassName="text-[#2E4374]"
+                                        <CustomButton
+                                            title="ثبت سفارش"
+                                            onClick={() => handleSubmit()}
                                         />
                                     </Box>
-                                    <Box
-                                        component="div"
-                                        className="md:flex my-1 p-2 rounded-md"
-                                    >
-                                        <TextValue
-                                            title="قیمت کل"
-                                            value={sliceNumberPrice(
-                                                totalAmount
-                                            )}
-                                            valueClassName="!text-md"
-                                            insideValue={"ریال"}
-                                            titleClassName="text-gray-500 !text-md"
-                                        />
-                                        <TextValue
-                                            title="قیمت به حروف"
-                                            value={convertToPersianWord(
-                                                totalAmount
-                                            )}
-                                            valueClassName="!text-md"
-                                            insideValue={"تومان"}
-                                            titleClassName="text-gray-500 !text-md"
-                                        />
+                                    <Box component="div" className="">
+                                        {mainFields.map((rowFields) => (
+                                            <Box
+                                                component="div"
+                                                className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                            >
+                                                {rowFields.map((field) =>
+                                                    mainParseFields(field, values)
+                                                )}
+                                            </Box>
+                                        ))}
                                     </Box>
-                                </Box>
-                                <Box component="div" className="">
-                                    {mainFields.map((rowFields) => (
-                                        <Box
-                                            component="div"
-                                            className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-                                        >
-                                            {rowFields.map((field) =>
-                                                mainParseFields(field, values)
-                                            )}
-                                        </Box>
-                                    ))}
-                                </Box>
-                                {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                    <Card className="p-2">
-                                        <Box component="div" className="md:flex md:flex-row md:items-center gap-4">
-                                            <FormikComboBox onChange={() => handleChangeCustomer(values.customerId)} name="customerId" label="مشتری" options={dropdownCustomer(customers?.data)} />
-                                            <Box component="span" onClick={() => setIsOpen(true)} className="flex w-full md:w-10 md:my-0 bg-green-600 p-2 rounded-md text-black font-bold font-boldcursor-pointer my-1">
-                                                <AddCircle />
-                                            </Box>
-                                            <FormikDatepicker name="settlementDate" label="تاریخ تسویه" />
-                                        </Box>
-                                        {findCustomer &&
-                                            <Box component="div" className="pt-2 flex flex-col">
-                                                <Typography variant="h4">شماره همراه مشتری: {findCustomer?.mobile}</Typography>
-                                                <Typography variant="h4">نوع اعتبار: {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : "سیاه"}</Typography>
-                                            </Box>
-                                        }
-                                    </Card>
-                                    <Card className="p-2">
-                                        <Box component="div" className="grid md:grid-cols-2 !gap-2" >
-                                            <FormikSelect name="orderSendTypeId" label="نوع ارسال" options={dropdownOrderSendType(orderSendType)} />
-                                            <FormikSelect name="invoiceTypeId" label="نوع فاکتور" options={dropdownInvoiceType(factor)} />
-                                            <FormikSelect name="paymentTypeId" label="نوع پرداخت" options={dropdownRentPaymentType(rent)} />
-                                            <FormikSelect name="exitType" label="نوع خروج" options={dropdownExitType(exit)} />
-                                        </Box>
-                                    </Card>
-                                </Box> */}
-                                {/* <Box component="div" className="mt-4">
-                                    <Card className="p-2">
-                                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-2">
-                                            <Box component="div" className="">
-                                                <Box component="div" className="flex mx-2">
-                                                    <FormikProductComboSelect productName={values.productName} label="کالا" name="productName" options={dropdownProductName(products?.data)} />
-                                                    <Box component="div" className="mx-1">
-                                                        <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="secondary" >
-                                                            <Grading />
-                                                        </Button>
-                                                    </Box>
-                                                </Box>
-                                                <TransitionsModal title="انتخاب محصول" open={selectedProductOpen} isClose={() => setSelectedProductOpen(false)}>
-                                                    <ProductSelectedListInModal
-                                                        products={products?.data}
-                                                        productLoading={productLoading}
-                                                        productError={productError}
-                                                        setSelectedProductOpen={setSelectedProductOpen}
-                                                        setSelectProductFromModal={setSelectProductFromModal}
-                                                        setFieldValue={setFieldValue}
-                                                        orders={orders}
-                                                        setOrders={setOrders}
-                                                    />
-                                                </TransitionsModal>
-                                            </Box>
-                                            <FormikSelect name="warehouseId" label="انبار" options={dropdownWarehouses(warehouse)} />
-                                            <FormikInput name="proximateAmount" label="مقدار (کیلوگرم)" type="text" />
-                                            <FormikInput name="price" label="قیمت" type="text" />
-                                            <FormikInput name="productDesc" label="توضیحات کالا" type="text" />
-                                            <FormikInput name="rowId" label="ردیف فروش" type="text" />
-                                            {isBuy && (
-                                                <>
-                                                    <FormikComboBox name="purchaserCustomerId" label="خرید از" options={dropdownCustomer(customers?.data)} />
-                                                    <FormikInput name="buyPrice" label="قیمت خرید" type="text" />
-                                                    <FormikSelect value={purchaseInvoiceTypeSelected} onSelect={(value: any) => setPurchaseInvoiceTypeSelected(value)} name="purchaseInvoiceTypeId" label="نوع فاکتور خرید" options={dropdownPurchaseInvoice(purchaseInvoiceType)} />
-                                                    <FormikDatepicker name="purchaseSettlementDate" label="تاریخ تسویه خرید" />
-                                                </>
-                                            )}
-                                            {isUpdate ? (
-                                                <Box component="div" onClick={() => handleOrder(values, setFieldValue)} className="flex bg-yellow-500 text-black font-bold font-boldtext-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
-                                                    <Add />
-                                                    <Typography>ویرایش</Typography>
-                                                </Box>
-                                            ) : (
-                                                <Box component="div" onClick={() => handleOrder(values, setFieldValue)} className="flex bg-green-500 text-black font-bold font-boldtext-center py-2 rounded-md cursor-pointer mb-2 md:mt-0" >
-                                                    <Add />
-                                                    <Typography>افزودن به لیست سفارشات</Typography>
-                                                </Box>
-                                            )}
-                                        </Box>
-                                        <ProductSelectedList setSelectedOrderIndex={setSelectedOrderIndex} selectedOrderIndex={selectedOrderIndex} setIsUpdate={setIsUpdate} setFieldValue={setFieldValue} orders={orders} setOrders={setOrders} />
-                                    </Card>
-                                </Box> */}
-                            </Form>
-                        );
-                    }}
-                </Formik>
-                <Typography variant="h2" color="secondary">
+                                </Form>
+                            );
+                        }}
+                    </Formik>
+
+                </Card>
+            </Box>
+            <Card className="px-8 py-4 my-4" elevation={4}>
+                <Typography variant="h2" color="primary">
                     کالا و خصوصیات سفارش
                 </Typography>
                 <Formik initialValues={orderInitialValues} onSubmit={() => { }}>
@@ -704,14 +605,14 @@ const Order = () => {
                                         >
                                             <Typography
                                                 variant="h2"
-                                                color="secondary"
+                                                color="primary"
                                             >
                                                 لیست سفارشات
                                             </Typography>
                                         </Box>
                                         <Box
                                             component="div"
-                                            className="md:w-1/4 w-full order-0 md:order-1"
+                                            className="md:w-1/4 w-full order-0 md:order-1 mb-2"
                                         >
                                             {isUpdate ? (
                                                 <Box

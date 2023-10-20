@@ -9,7 +9,7 @@ type Props = {
 const CustomButton = (props: Props) => {
     const { title, onClick } = props
     return (
-        <Button onClick={onClick} variant="contained" color="secondary">
+        <Button onClick={onClick} variant="contained" color="primary">
             <Typography variant="h3" className="px-8 py-1">
                 {title}
             </Typography>
