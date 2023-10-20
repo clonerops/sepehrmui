@@ -84,7 +84,7 @@ const OrderConfirm = () => {
         );
     };
     return (
-        <Card className="p-8">
+        <Card className="p-8" elevation={8}>
             <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات جهت تایید
             </Typography>

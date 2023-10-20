@@ -156,7 +156,7 @@ const Brands = () => {
                     title={deleteData?.data?.Message || deleteData?.message}
                 />
             )}
-            <Card className="p-4">
+            <Card className="p-4" elevation={8}>
                 <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
                     <Box component="div">
                         <Formik

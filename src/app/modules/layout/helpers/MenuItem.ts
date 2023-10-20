@@ -1,5 +1,5 @@
 const menuItem = [
-  { id: 1, title: "صفحه نخست", to: "/dashboard", iconName: "Home" },
+  // { id: 1, title: "صفحه نخست", to: "/dashboard", iconName: "Home" },
   {
     id: 2,
     title: "سفارشات",
@@ -101,6 +101,12 @@ const menuItem = [
         iconName: "SettingsInputSvideo",
         title: "استاندارد ها",
         to: "dashboard/productStandard",
+      },
+      {
+        id: 1321,
+        iconName: "SettingsInputSvideo",
+        title: "کالا برند",
+        to: "dashboard/productBrand",
       },
 
     ],

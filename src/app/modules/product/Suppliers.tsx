@@ -180,7 +180,7 @@ const Suppliers = () => {
                     }
                 />
             )}
-            <Card className="p-8">
+            <Card className="p-8" elevation={8}>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2"

@@ -17,6 +17,7 @@ const ProductSelectedListInModal = (props: {
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectProductFromModal: any;
 }) => {
+    console.log("productsByBrand", props.products)
     const [results, setResults] = useState<IProducts[]>([]);
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);

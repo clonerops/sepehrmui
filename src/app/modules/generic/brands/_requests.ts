@@ -4,7 +4,7 @@ import { IBrand } from "./_models";
 const getBrands = async () => {
     try {
 
-        const { data } = await http.get('/v1/ProductBrand')
+        const { data } = await http.get('/v1/Brand')
         return data;
 
     } catch (error: any) {
@@ -15,7 +15,7 @@ const getBrands = async () => {
 const postBrands = async (formData: IBrand) => {
     try {
 
-        const { data } = await http.post('/v1/ProductBrand', JSON.stringify(formData))
+        const { data } = await http.post('/v1/Brand', JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -26,7 +26,7 @@ const postBrands = async (formData: IBrand) => {
 const getBrand = async (id: string) => {
     try {
 
-        const { data } = await http.get(`/v1/ProductBrand/${id}`)
+        const { data } = await http.get(`/v1/Brand/${id}`)
         return data;
 
     } catch (error: any) {
@@ -37,7 +37,7 @@ const getBrand = async (id: string) => {
 const updateBrands = async (formData: IBrand) => {
     try {
 
-        const { data } = await http.put(`/v1/ProductBrand/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/Brand/${formData.id}`, JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -48,7 +48,7 @@ const updateBrands = async (formData: IBrand) => {
 const deleteBrand = async (id: number) => {
     try {
 
-        const { data } = await http.delete(`/v1/ProductBrand/${id}`)
+        const { data } = await http.delete(`/v1/Brand/${id}`)
         return data;
 
     } catch (error: any) {

@@ -30,7 +30,7 @@ function DynamicBreadcrumbs(props: any) {
                     );
                 })}
             </Breadcrumbs>
-            <Box>
+            <Box component="div" className='my-4'>
                 <Outlet />
             </Box>
         </>

@@ -1,38 +1,38 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { IType } from "./_models"
+import { IProductBrand } from "./_models"
 
-const useGetTypes = () => {
-    return useQuery(['types'], () => api.getTypes())
+const useGetProductBrands = () => {
+    return useQuery(['productBrand'], () => api.getProductBrands())
 }
 
-const usePostTypes = () => {
-    return useMutation((formData: IType) => {
-        return api.postTypes(formData)
+const usePostProductBrands = () => {
+    return useMutation((formData: IProductBrand) => {
+        return api.postProductBrands(formData)
     })
 }
 
 
-const useGetType = (id: string) => {
-    return useQuery(['types', id], () => api.getType(id))
+const useGetProductBrand = (id: string) => {
+    return useQuery(['ProductBrands', id], () => api.getProductBrand(id))
 }
 
-const useUpdateTypes = () => {
-    return useMutation((formData: IType) => {
-        return api.updateTypes(formData)
+const useUpdateProductBrands = () => {
+    return useMutation((formData: IProductBrand) => {
+        return api.updateProductBrands(formData)
     })
 }
 
-const useDeleteTypes = () => {
+const useDeleteProductBrands = () => {
     return useMutation((id: number) => {
-        return api.deleteType(id)
+        return api.deleteProductBrand(id)
     })
 }
 
 export {
-    useGetTypes,
-    usePostTypes,
-    useGetType,
-    useUpdateTypes,
-    useDeleteTypes
+    useGetProductBrands,
+    usePostProductBrands,
+    useGetProductBrand,
+    useUpdateProductBrands,
+    useDeleteProductBrands
 }

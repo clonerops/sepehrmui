@@ -151,12 +151,13 @@ const MasterLayout = () => {
         sx={{
           flexGrow: 1,
           p: 3,
+          backgroundColor: "#EDEDED",
           // backgroundImage: `url(${toAbsoulteUrl(
           //   "/media/logos/blob-scene-haikei.svg",
           // )})`,
           // backgroundRepeat: "no-repeat",
           // backgroundSize: "cover",
-          // minHeight: "100vh",
+          minHeight: "100vh",
           overflow: "hidden",
         }}
       >

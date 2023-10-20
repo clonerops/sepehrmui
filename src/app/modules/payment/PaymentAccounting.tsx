@@ -170,7 +170,7 @@ const PaymentAccounting = () => {
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
-            <Card className="p-8">
+            <Card className="p-8" elevation={8}>
                 <Box component="div" className="w-auto md:w-[40%] mb-4">
                     <FuzzySearch
                         keys={[

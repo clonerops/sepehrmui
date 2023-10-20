@@ -198,7 +198,7 @@ const ProductPrice = () => {
                     title={requestMessage}
                 />
             )}
-            <Card className="p-8">
+            <Card className="p-8" elevation={8}>
                 <Box
                     component="div"
                     className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4"
@@ -269,7 +269,7 @@ const ProductPrice = () => {
                 <TransitionsModal
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}
-                    width="50%"
+                    width="30%"
                     title="ایجاد قیمت محصول"
                 >
                     <CreateProductPrice refetch={refetch} />
@@ -277,7 +277,7 @@ const ProductPrice = () => {
                 <TransitionsModal
                     open={isOpen}
                     isClose={() => setIsOpen(false)}
-                    width="50%"
+                    width="30%"
                     title="ویرایش قیمت محصول"
                 >
                     <EditProductPrice refetch={refetch} item={itemForEdit} />

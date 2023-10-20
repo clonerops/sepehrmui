@@ -4,8 +4,8 @@ import { Formik, Form } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
-import { IType } from "./_models"
-import { useDeleteTypes, useGetTypes, usePostTypes, useUpdateTypes } from './_hooks'
+import { IProductBrand } from "./_models"
+import { useDeleteProductBrands, useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
 import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
 import { columns } from './_columns'
 import PositionedSnackbar from '../../../../_cloner/components/Snackbar'
@@ -15,35 +15,40 @@ import { dropdownBrand, dropdownProduct } from '../_functions'
 import CheckboxGroup from '../../../../_cloner/components/CheckboxGroup'
 import { useGetBrands } from '../brands/_hooks'
 import React from 'react'
+import FormikSelect from '../../../../_cloner/components/FormikSelect'
+import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import { AddCircleOutline } from '@mui/icons-material'
 
-const initialValues = {
+const initialValues: any = {
   id: 0,
-  desc: "",
-  productBrands: []
+  productId: "",
+  brandId: ""
 }
 
 const ProductBrands = () => {
   const { data: products } = useRetrieveProducts()
   const { data: brands } = useGetBrands()
-  const { mutate: postType, data: postData } = usePostTypes()
-  const { mutate: updateType, data: updateData } = useUpdateTypes()
-  const { mutate: deleteType, data: deleteData } = useDeleteTypes()
+  const { data: productBrands, refetch, isLoading: productBrandLoading } = useGetProductBrands();
+  const { mutate: postProductBrand, data: postProductBrandData } = usePostProductBrands();
+  const { mutate: updateProductBrand, data: updateProductBrandData } = useUpdateProductBrands();
+  const { mutate: deleteProductBrand, data: deleteProductBrandData } = useDeleteProductBrands();
 
-  const [results, setResults] = useState<IType[]>([]);
+  const [results, setResults] = useState<IProductBrand[]>([]);
   const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
   const [snackeUpdateOpen, setSnackeUpdateOpen] = useState<boolean>(false);
   const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   setResults(types?.data);
-  // }, [types?.data]);
+  useEffect(() => {
+    setResults(productBrands?.data);
+  }, [productBrands?.data]);
 
 
   const handleDelete = (id: number) => {
     if (id)
-      deleteType(id, {
+      deleteProductBrand(id, {
         onSuccess: (message) => {
           setSnackeDeleteOpen(true);
+          refetch()
         },
       });
   }
@@ -52,11 +57,13 @@ const ProductBrands = () => {
     try {
       const formData = {
         id: rowData.row.id,
-        desc: rowData.row.desc
+        productId: rowData.row.productId,
+        brandId: Number(rowData.row.brandId)
       }
-      updateType(formData, {
+      updateProductBrand(formData, {
         onSuccess: () => {
           setSnackeUpdateOpen(true)
+          refetch()
         }
       })
     } catch (e) {
@@ -65,75 +72,148 @@ const ProductBrands = () => {
     }
   };
 
+  const renderSwitch = (item: any) => {
+    return (
+      <Switch
+        checked={item?.row.isActive}
+        onChange={(_) => onUpdateStatus(item)}
+        color="secondary"
+      />
+    );
+  };
   const renderAction = (item: any) => {
     return (
       <Box component="div" className="flex gap-4">
-        <Switch checked={item?.row.isActive} onChange={(_) => onUpdateStatus(item)} />
         <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
       </Box>
     );
   };
 
-  // if (TypeLoading) {
-  //   return <p>Loading...</p>;
-  // }
+  const columns = (renderAction: any, renderSwitch: any) => {
+    const col = [
+      {
+        field: "productName",
+        headerName: "کالا",
+        renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerClassName:
+          "headerClassName",
+        minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: "brandName",
+        headerName: "برند",
+        renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerClassName: "headerClassName",
+        flex: 1,
+        minWidth: 120,
+      },
+      {
+        field: "isActive",
+        headerName: "وضعیت",
+        renderCell: renderSwitch,
+        headerClassName: "headerClassName",
+        flex: 1,
+        minWidth: 160,
+      },
+      {
+        headerName: "حذف",
+        flex: 1,
+        renderCell: renderAction,
+        headerClassName: "headerClassName",
+        minWidth: 120,
+      },
+    ];
+    return col;
+  };
+
+  if (productBrandLoading) {
+    return <Typography>Loading...</Typography>;
+  }
 
   return (
     <>
-      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postData?.data?.Message || postData?.message} />)}
-      {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
-      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteData?.data?.Message || deleteData?.message} />)}
-      <Card className="p-4">
-        <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">نوع کالا ها</Typography>
-        <Formik initialValues={initialValues} onSubmit={
-          async (values, { setStatus, setSubmitting, setFieldValue }) => {
-            console.log(values.productBrands)
-            try {
-              const formData = {
-                desc: values.desc
-              }
-              postType(formData, {
-                onSuccess: (message: any) => {
-                  setFieldValue('id', message.data.id)
-                  setSnackePostOpen(true)
+      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postProductBrandData?.data?.Message || postProductBrandData?.message} />)}
+      {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateProductBrandData?.data?.Message || updateProductBrandData?.message} />)}
+      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteProductBrandData?.data?.Message || deleteProductBrandData?.message} />)}
+      <Card className="p-4" elevation={8}>
+        <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
+          <Box component="div">
+            <Formik initialValues={initialValues} onSubmit={
+              async (values, { setStatus, setSubmitting, setFieldValue, resetForm }) => {
+                try {
+                  const formData = {
+                    productId: values.productId?.value,
+                    brandId: Number(values.brandId)
+                  }
+                  postProductBrand(formData, {
+                    onSuccess: (message: any) => {
+                      setFieldValue('id', message.data.id)
+                      setSnackePostOpen(true)
+                      refetch()
+                      resetForm()
+                    }
+                  })
+                } catch (error) {
+                  setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
+                  setSubmitting(false);
                 }
-              })
-            } catch (error) {
-              setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
-              setSubmitting(false);
-            }
-          }
-        }>
-          {({ handleSubmit }) => {
-            return <Form onSubmit={handleSubmit} className="flex flex-col justify-center w-[50%] mx-auto">
-              <Box component="div" className="md:flex md:justify-center md:items-center gap-x-4">
-                <FormikComboBox name="productId" label="کالا" options={dropdownProduct(products?.data)} boxClassName="mt-2 md:mt-0" />
-                <CheckboxGroup boxClassName='flex justify-between flex-wrap border border-gray-300 px-10 mt-4 md:mt-0' name='productBrands' label='برند ها' options={dropdownBrand(brands?.data)} />
-              </Box>
-              <Box component="div" className="flex justify-end items-end mt-4">
-                <Button onClick={() => handleSubmit()} variant="contained" color="secondary" >
-                  <Typography className="px-8 py-2">ثبت</Typography>
-                </Button>
-              </Box>
-            </Form>
-          }}
-        </Formik>
-        {/* <Box component="div" className="w-auto md:w-[40%]">
-          <FuzzySearch
-            keys={[
-              "id",
-              "desc",
-            ]}
-            data={types?.data}
-            threshold={0.5}
-            setResults={setResults}
-          />
-        </Box> */}
-        {/* <MuiDataGrid
-          columns={columns(renderAction)}
-          rows={results}
-          data={types?.data}
-        /> */}
+              }
+            }>
+              {({ handleSubmit }) => {
+                return <Form onSubmit={handleSubmit} className="mb-4">
+                  <Box
+                    component="div"
+                    className="md:flex md:justify-start md:items-start gap-x-4"
+                  >
+                    <FormikComboBox name="productId" label="کالا" options={dropdownProduct(products?.data)} boxClassName="mt-2 md:mt-0" />
+                    <FormikSelect name='brandId' label="برند" options={dropdownBrand(brands?.data)} />
+                    <Box component="div" className="mt-2 md:mt-0">
+                      <Button onClick={() => handleSubmit()} variant="contained" color="secondary" >
+                        <Typography className="px-2">
+                          <AddCircleOutline />
+                        </Typography>
+                      </Button>
+                    </Box>
+                  </Box>
+                </Form>
+              }}
+            </Formik>
+            <Box component="div" className="mb-4">
+              <FuzzySearch
+                keys={[
+                  "id",
+                  "productName",
+                  "brandName",
+                ]}
+                data={productBrands?.data}
+                threshold={0.5}
+                setResults={setResults}
+              />
+            </Box>
+            <MuiDataGrid
+              columns={columns(renderAction, renderSwitch)}
+              rows={results}
+              data={productBrands?.data}
+            />
+          </Box>
+          <Box component="div">
+            <Box
+              component="div"
+              className="hidden md:flex md:justify-center md:items-center"
+            >
+              <Box component="img"
+                src={toAbsoulteUrl("/media/logos/8595513.jpg")}
+                width={400}
+              />
+            </Box>
+          </Box>
+
+        </Box>
       </Card>
     </>
   )

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Fuse from "fuse.js";
-import { TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
+import { SearchRounded } from "@mui/icons-material";
 
 interface FuzzySearchProps<T> {
   data: T[];
@@ -41,6 +42,11 @@ const FuzzySearch = <T extends {}>({
         value={query}
         onChange={handleInputChange}
         color="primary"
+        InputProps={{
+          endAdornment: <InputAdornment position="end">
+            <SearchRounded />
+          </InputAdornment>,
+        }}
         fullWidth
         size="small"
         label={"جستجو پیشرفته"}

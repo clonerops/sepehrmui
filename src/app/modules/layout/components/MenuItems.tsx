@@ -69,10 +69,10 @@ const MenuItems = (props: { menuItems: any }) => {
           <ListItem key={menuItem.id}>
             <ListItemIcon className="text-white font-bold">
               <Box component="div" className="text-white font-bold">
-                <IconComponent iconName={menuItem.iconName} />
+                {/* <IconComponent iconName={menuItem.iconName} /> */}
               </Box>
             </ListItemIcon>
-            <ListItemText primary={menuItem.title} />
+            <ListItemText primary={" - " + menuItem.title} primaryTypographyProps={{fontSize: '13px'}}  />
           </ListItem>
         </Link>
       );

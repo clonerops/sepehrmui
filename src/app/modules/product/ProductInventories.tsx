@@ -86,7 +86,7 @@ const ProductInventories = () => {
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
             {snackeOpen && (<PositionedSnackbar open={snackeOpen} setState={setSnackeOpen} title={deleteData?.data?.Message || deleteData?.message || "حذف با موفقیت انجام شد"} />)}
             {snackeUploadOpen && (<PositionedSnackbar open={snackeUploadOpen} setState={setSnackeUploadOpen} title={requestMessage} />)}
-            <Card className="p-8">
+            <Card className="p-8" elevation={8}>
                     <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"

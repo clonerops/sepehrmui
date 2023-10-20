@@ -16,6 +16,21 @@ const retrieveProducts = async (
     const { data } = await http.get(url);
     return data;
 };
+const retrieveProductsByBrand = async (
+    PageNumber: number | null | string = "",
+    PageSize: number | null | string = ""
+) => {
+    let url: string = ``;
+
+    if (PageNumber || PageSize === "") {
+        url = `/v${1}/Product?ByBrand=true`;
+    } else {
+        url = `/v${1}/Product?PageNumber=${PageNumber}&PageSize=${PageSize}`;
+    }
+
+    const { data } = await http.get(url);
+    return data;
+};
 
 const createProducts = async (formData: IProducts) => {
     try {
@@ -214,6 +229,7 @@ export const exportProductPrices = async () => {
 
 export {
     retrieveProducts,
+    retrieveProductsByBrand,
     createProducts,
     retrieveProductById,
     updateProduct,

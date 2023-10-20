@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductSelectedList from "./components/ProductSelectedList";
 import ProductSelectedListInModal from "./components/ProductSelectedListInModal";
-import { useRetrieveProducts } from "../product/core/_hooks";
+import { useRetrieveProducts, useRetrieveProductsByBrand } from "../product/core/_hooks";
 import { Form, Formik } from "formik";
 import { useCreateOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
@@ -117,6 +117,11 @@ const Order = () => {
         isLoading: productLoading,
         isError: productError,
     } = useRetrieveProducts();
+    const {
+        data: productsByBrand,
+        isLoading: productByBrandLoading,
+        isError: productByBrandError,
+    } = useRetrieveProductsByBrand();
     const { data: orderSendType } = useGetSendTypes();
     const { data: rent } = useGetPaymentTypes();
     const { data: purchaseInvoiceType } = useGetPurchaseInvoice();
@@ -146,6 +151,8 @@ const Order = () => {
         const newTotal = newPrices.reduce((acc: any, item) => acc + item, 0);
         setTotalAmount(newTotal);
     }, [orders]);
+
+    console.log("productsByBrand", productsByBrand)
 
     const mainParseFields = (fields: FieldType, values: any) => {
         const { type, ...rest } = fields;
@@ -225,11 +232,14 @@ const Order = () => {
                             title="انتخاب محصول"
                             open={selectedProductOpen}
                             isClose={() => setSelectedProductOpen(false)}
+                            // width="max-w-6xl"
+                            description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
+
                         >
                             <ProductSelectedListInModal
-                                products={products?.data}
-                                productLoading={productLoading}
-                                productError={productError}
+                                products={productsByBrand?.data}
+                                productLoading={productByBrandLoading}
+                                productError={productByBrandError}
                                 setSelectedProductOpen={setSelectedProductOpen}
                                 setSelectProductFromModal={
                                     setSelectProductFromModal
@@ -759,6 +769,8 @@ const Order = () => {
                 title="ایجاد مشتری جدید"
                 open={isOpen}
                 isClose={() => setIsOpen(false)}
+                width="max-w-6xl"
+                description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
                 <CreateCustomer
                     refetch={refetchCustomers}

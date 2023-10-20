@@ -261,10 +261,10 @@ const Products = () => {
                     }
                 />
             )}
-            <Card className="p-8">
+            <Card className="p-8" elevation={8}>
                 <Box
                     component="div"
-                    className="md:flex md:justify-between md:items-center space-y-2"
+                    className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
                     <Box component="div" className="w-auto md:w-[40%]">
                         <FuzzySearch
@@ -289,7 +289,7 @@ const Products = () => {
                         variant="contained"
                         color="secondary"
                     >
-                        <Typography variant="h5">ایجاد کالا</Typography>
+                        <Typography variant="h4" className="px-4 py-1">ایجاد کالا</Typography>
                     </Button>
                 </Box>
                 <MuiDataGrid
@@ -303,6 +303,7 @@ const Products = () => {
                 isClose={() => setIsCreateOpen(false)}
                 title="ایجاد محصول جدید"
                 width="80%"
+                description="لطفاً مشخصات محصول را با دقت وارد کنید تا مشتریان به آسانی اطلاعات مورد نیاز را بیابند اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
                 <CreateProduct
                     refetch={refetch}
@@ -314,6 +315,7 @@ const Products = () => {
                 isClose={() => setIsEditOpen(false)}
                 title="ویرایش محصول جدید"
                 width="80%"
+                description=" درصورتی که محصولی نیاز به ویرایش داشته باشد می توانید از طریق فرم زیر اقدام به ویرایش محصول نمایید"
             >
                 <EditProduct refetch={refetch} item={itemForEdit} />
             </TransitionsModal>

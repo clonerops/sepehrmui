@@ -11,6 +11,7 @@ import { useGetCustomerValidities } from "../../generic/_hooks";
 import { Box, Button, Typography } from "@mui/material";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import React from 'react';
+import PositionedSnackbar from '../../../../_cloner/components/Snackbar';
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -33,11 +34,23 @@ const CreateCustomer = (props: {
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>,
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }) => {
-    const { mutate } = useCreateCustomer();
+    const { mutate, data } = useCreateCustomer();
     const { data: customerValidityData } = useGetCustomerValidities()
+    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+
     // const [customerCode, setCustomerCode] = useState(0)
     return (
         <>
+         {snackeOpen && (
+                <PositionedSnackbar
+                    open={snackeOpen}
+                    setState={setSnackeOpen}
+                    title={
+                        data?.data?.Message ||
+                        data?.message || "ایجاد با موفقیت انجام شد"
+                    }
+                />
+            )}
             <Formik initialValues={initialValues} validationSchema={createValiadtion} onSubmit={
                 async (values, { setStatus, setSubmitting }) => {
                     try {
@@ -45,8 +58,9 @@ const CreateCustomer = (props: {
                             onSuccess: (message) => {
                                 // setCustomerCode(message?.data.customerCode)
                                 // ToastComponent(message?.message || message?.data?.Message || message?.data?.message)
+                                setSnackeOpen(true)
                                 props.refetch()
-                                props.setIsCreateOpen(false)
+                                // props.setIsCreateOpen(false)
                             }
                         });
                     } catch (error) {

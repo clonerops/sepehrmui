@@ -14,6 +14,7 @@ import EditGridButton from "../../../_cloner/components/DeleteGridButton";
 import DeleteGridButton from "../../../_cloner/components/EditGridButton";
 import React from "react";
 import ActiveText from "../../../_cloner/components/ActiveText";
+import CustomerForm from "./components/CustomerForm";
 
 const Customer = () => {
     const {
@@ -93,11 +94,11 @@ const Customer = () => {
                 headerName: "اعتبار",
                 minWidth: 60,
                 renderCell: (params: any) =>
-                params.value === 1
-                ? <Typography variant="h4" className="text-indigo-600 px-4 py-1 rounded-md">عادی</Typography>
-                : params.value === 2
-                ? <Typography variant="h4" className="text-yellow-600 px-4 py-1 rounded-md">VIP</Typography>
-                : <Typography variant="h4" className="text-black px-4 py-1 rounded-md">سیاه</Typography>,
+                    params.value === 1
+                        ? <Typography variant="h4" className="text-indigo-600 px-4 py-1 rounded-md">عادی</Typography>
+                        : params.value === 2
+                            ? <Typography variant="h4" className="text-yellow-600 px-4 py-1 rounded-md">VIP</Typography>
+                            : <Typography variant="h4" className="text-black px-4 py-1 rounded-md">سیاه</Typography>,
                 headerClassName: "headerClassName",
                 flex: 1
             },
@@ -116,7 +117,7 @@ const Customer = () => {
                 headerName: "تامین کننده؟",
                 renderCell: (params: any) => {
                     return <ActiveText params={params} successTitle="بله" dangerTitle="خیر" />
-                    
+
                 },
                 headerClassName: "headerClassName",
                 cellClassName: "text-center",
@@ -223,7 +224,7 @@ const Customer = () => {
 
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
-            <Card className="p-8">
+            <Card className="p-8" elevation={8}>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2"
@@ -267,8 +268,10 @@ const Customer = () => {
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
                 title="ایجاد مشتری جدید"
+                width="80%"
+                description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <CreateCustomer
+                <CustomerForm
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
@@ -277,8 +280,15 @@ const Customer = () => {
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
                 title="ویرایش"
+                description="درصورتی که مغایرتی در اطلاعات مشتری ثبت شده وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <EditCustomer refetch={refetch} item={itemForEdit} />
+                <CustomerForm
+                    id={itemForEdit?.id}
+                    refetch={refetch}
+                    setIsCreateOpen={setIsCreateOpen}
+                />
+
+                {/* <EditCustomer refetch={refetch} item={itemForEdit} /> */}
             </TransitionsModal>
         </>
     );

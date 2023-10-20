@@ -6,26 +6,31 @@
 
 @layer components {
     .glassmorphism-card {
-        @apply w-full rounded-3xl p-4 backdrop-blur-3xl bg-white/90 
+        @apply w-full rounded-3xl p-4 backdrop-blur-3xl bg-white/90
     }
+
     .headerClassName {
         @apply bg-[#AFD2FA] text-black font-bold
     }
 }
+
 * {
     scrollbar-width: 28px !important;
     scrollbar-color: #071952 rgb(255, 255, 255);
 }
+
 *::-webkit-scrollbar {
     width: 18px !important;
     /* display: hidden !important;
     visibility: hidden; */
 }
+
 *::-webkit-scrollbar-track {
     background: rgb(255, 255, 255);
     /* display: hidden !important;
     visibility: hidden; */
 }
+
 *::-webkit-scrollbar-thumb {
     background-color: #071952;
     border-radius: 20px;
@@ -59,21 +64,25 @@
     src: url("../fonts/Vazir-FD-WOL.ttf");
     font-style: normal;
 }
+
 @font-face {
     font-family: Yekan_medium;
     src: url("../fonts/Vazir-Medium-FD-WOL.ttf");
     font-style: normal;
 }
+
 @font-face {
     font-family: Yekan_light;
     src: url("../fonts/Vazir-Light-FD-WOL.ttf");
     font-style: normal;
 }
+
 @font-face {
     font-family: Yekan_bold;
     src: url("../fonts/Vazir-Bold-FD-WOL.ttf");
     font-style: normal;
 }
+
 /* @font-face {
     font-family: Yekan_reqular;
     src: url("../fonts/YekanBakhFaNum-Regular.ttf");
@@ -97,6 +106,18 @@
 .rmdp-container {
     width: 100% !important;
 }
+
 .MuiDataGrid-cell {
     cursor: pointer;
 }
+
+.MuiSelect-root {
+    z-index: 9999 !important;
+}
+.MuiPopover-root {
+    z-index: 9999 !important;
+}
+.custom-dialog-content {
+    width: 80%; /* Adjust the width as per your requirement */
+    max-width: none; /* To override the max-width constraint */
+  }

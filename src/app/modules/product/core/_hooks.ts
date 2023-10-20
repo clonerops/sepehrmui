@@ -5,6 +5,9 @@ import { IProductPrice, IProducts, ISuppliers } from "./_models";
 const useRetrieveProducts = () => {
     return useQuery(["products"], () => api.retrieveProducts());
 };
+const useRetrieveProductsByBrand = () => {
+    return useQuery(["productsByBrand"], () => api.retrieveProductsByBrand());
+};
 
 const useCreateProduct = () => {
     return useMutation((formData: IProducts) => {
@@ -121,6 +124,7 @@ const useExportProductPrice = () => {
 
 export {
     useRetrieveProducts,
+    useRetrieveProductsByBrand,
     useCreateProduct,
     useRetrieveProductById,
     useUpdateProduct,

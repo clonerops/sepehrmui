@@ -11,6 +11,7 @@ import { createProductPriceValidations } from "../validations/createProductPrice
 import React from "react"
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
 import FormikPrice from "./FormikPrice"
+import { useGetBrands } from "../../generic/brands/_hooks"
 
 const initialValues = {
     price: "",
@@ -24,11 +25,12 @@ type Props = {
 
 const CreateProductPrice = (props: Props) => {
     const { data: products } = useRetrieveProducts();
-    const { data: brands } = useRetrieveBrands();
+    const { data: brands } = useGetBrands();
     const { mutate, data } = useCreateProductPrice()
 
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
+    console.log("brands", brands)
 
     return (
         <>
@@ -66,9 +68,9 @@ const CreateProductPrice = (props: Props) => {
             }>
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit}>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <Box component="div" className="flex flex-col gap-y-4 mb-4">
                             <FormikComboBox label="کالا" name="productId" options={dropdownProduct(products?.data)} />
-                            <FormikSelect label="برند" name="productBrandId" options={dropdownBrand(brands)} />
+                            <FormikSelect label="برند" name="productBrandId" options={dropdownBrand(brands?.data)} />
                             <FormikPrice  label="قیمت" name="price" />
                         </Box>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">

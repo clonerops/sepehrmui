@@ -91,7 +91,7 @@ const Detail = () => {
             )}
             {fetchingLaoding && <Backdrop loading={fetchingLaoding} />}
             <Container>
-                <Card className="p-8">
+                <Card className="p-8" elevation={8}>
                     <Typography color="secondary" variant="h1" className="pb-8">جزئیات حسابداری دریافت و پرداخت</Typography>
                     <Box component="div" className="md:flex md:justify-end md:items-end gap-x-8 pb-2">
                         <Button variant="outlined" onClick={hadelDownload} className='mb-2' color="secondary">

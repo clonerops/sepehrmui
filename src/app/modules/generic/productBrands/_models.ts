@@ -1,5 +1,6 @@
-export interface IType {
+export interface IProductBrand {
     id?: number | null | undefined
-    desc: string | null | undefined
+    productId: string | null | undefined
+    brandId: number | null | undefined
     isActive?: boolean | null | undefined
 }

@@ -1,10 +1,10 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig"
-import { IType } from "./_models";
+import { IProductBrand } from "./_models";
 
-const getTypes = async () => {
+const getProductBrands = async () => {
     try {
 
-        const { data } = await http.get('/v1/ProductType')
+        const { data } = await http.get('/v1/ProductBrand')
         return data;
 
     } catch (error: any) {
@@ -12,10 +12,10 @@ const getTypes = async () => {
     }
 }
 
-const postTypes = async (formData: IType) => {
+const postProductBrands = async (formData: IProductBrand) => {
     try {
 
-        const { data } = await http.post('/v1/ProductType', JSON.stringify(formData))
+        const { data } = await http.post('/v1/ProductBrand', JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -23,10 +23,10 @@ const postTypes = async (formData: IType) => {
     }
 }
 
-const getType = async (id: string) => {
+const getProductBrand = async (id: string) => {
     try {
 
-        const { data } = await http.get(`/v1/ProductType/${id}`)
+        const { data } = await http.get(`/v1/ProductBrand/${id}`)
         return data;
 
     } catch (error: any) {
@@ -34,10 +34,10 @@ const getType = async (id: string) => {
     }
 }
 
-const updateTypes = async (formData: IType) => {
+const updateProductBrands = async (formData: IProductBrand) => {
     try {
 
-        const { data } = await http.put(`/v1/ProductType/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/ProductBrand/${formData.id}`, JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -45,10 +45,10 @@ const updateTypes = async (formData: IType) => {
     }
 }
 
-const deleteType = async (id: number) => {
+const deleteProductBrand = async (id: number) => {
     try {
 
-        const { data } = await http.delete(`/v1/ProductType/${id}`)
+        const { data } = await http.delete(`/v1/ProductBrand/${id}`)
         return data;
 
     } catch (error: any) {
@@ -57,9 +57,9 @@ const deleteType = async (id: number) => {
 }
 
 export {
-    getTypes,
-    postTypes,
-    getType,
-    updateTypes,
-    deleteType
+    getProductBrands,
+    postProductBrands,
+    getProductBrand,
+    updateProductBrands,
+    deleteProductBrand
 }

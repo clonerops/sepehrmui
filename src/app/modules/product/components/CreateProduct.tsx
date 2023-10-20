@@ -64,23 +64,23 @@ const CreateProduct = (props: {
             { label: "نام کالا", name: "productName", type: "input" },
             { label: "نوع کالا", name: "productTypeId", type: "productType" },
             { label: "سایز", name: "productSize", type: "input" },
-            { label: "ضخامت", name: "productThickness", type: "input" },
         ],
         [
+            { label: "ضخامت", name: "productThickness", type: "input" },
             { label: "وزن", name: "approximateWeight", type: "input" },
             {
                 label: "تعداد در بسته",
                 name: "numberInPackage",
                 type: "input",
             },
+        ],
+        [
             {
                 label: "استاندارد",
                 name: "productStandardId",
                 type: "productStandard",
             },
             { label: "حالت", name: "productStateId", type: "productState" },
-        ],
-        [
             {
                 label: "واحد اصلی",
                 name: "productMainUnitId",
@@ -91,6 +91,9 @@ const CreateProduct = (props: {
                 name: "productSubUnitId",
                 type: "productSubUnit",
             },
+
+        ],
+        [
             {
                 label: "نرخ تبدیل",
                 name: "exchangeRate",
@@ -102,9 +105,11 @@ const CreateProduct = (props: {
                 label: "نقطه بحرانی",
                 name: "inventotyCriticalPoint",
                 type: "input",
-            },
+            }
         ],
-        [{ label: "توضیحات", name: "description", type: "description" }],
+        [
+            { label: "توضیحات", name: "description", type: "input" }
+        ],
     ];
 
     const parseFields = (fields: FieldType) => {

@@ -20,6 +20,7 @@ export const translationMapping: any = {
     user: 'کاربران',
     role: 'نقش',
     productInventories: 'موجودی قابل فروش',
+    productBrand: 'کالا برند',
     // Add more translations as needed
   };
   
