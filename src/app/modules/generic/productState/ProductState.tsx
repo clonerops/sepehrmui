@@ -75,13 +75,15 @@ const ProductState = () => {
         field: 'id', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'کد حالت', headerClassName: "headerClassName", width: 120
+        headerName: 'کد حالت', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
       },
       {
         field: 'desc', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'حالت', headerClassName: "headerClassName", width: 160
+        headerName: 'حالت', headerClassName: "headerClassName", minWidth: 160,
+        flex: 1,
       },
       {
         field: "isActive",
@@ -89,8 +91,9 @@ const ProductState = () => {
         renderCell: renderSwitch,
         headerClassName: "headerClassName",
         minWidth: 160,
+        flex: 1,
       },
-      { headerName: 'حذف', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+      // { headerName: 'حذف', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
   }
@@ -148,12 +151,12 @@ const ProductState = () => {
               {({ handleSubmit }) => {
                 return <Form onSubmit={handleSubmit} className='mb-4'>
                   <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
-                    <FormikInput name="id" label="کد حالت " disabled={true}  boxClassName=" mt-2 md:mt-0" />
+                    <FormikInput name="id" label="کد حالت " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="حالت " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <Box component="div" className="mt-2 md:mt-0">
                       <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className='mt-2 md:mt-0'>
                         <Typography className="px-2">
-                          <AddCircleOutline />  
+                          <AddCircleOutline />
                         </Typography>
                       </Button>
                     </Box>

@@ -91,7 +91,7 @@ const Brands = () => {
                 },
                 headerClassName: "headerClassName",
                 flex: 1,
-                minWidth: 120,
+                minWidth: 160,
             },
             {
                 field: "isActive",
@@ -101,13 +101,13 @@ const Brands = () => {
                 flex: 1,
                 minWidth: 160,
             },
-            {
-                headerName: "حذف",
-                flex: 1,
-                renderCell: renderAction,
-                headerClassName: "headerClassName",
-                minWidth: 120,
-            },
+            // {
+            //     headerName: "حذف",
+            //     flex: 1,
+            //     renderCell: renderAction,
+            //     headerClassName: "headerClassName",
+            //     minWidth: 120,
+            // },
         ];
         return col;
     };
