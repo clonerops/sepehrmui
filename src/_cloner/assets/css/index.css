@@ -15,12 +15,12 @@
 }
 
 * {
-    scrollbar-width: 28px !important;
+    scrollbar-width: 18px !important;
     scrollbar-color: #071952 rgb(255, 255, 255);
 }
 
 *::-webkit-scrollbar {
-    width: 18px !important;
+    width: 12px !important;
     /* display: hidden !important;
     visibility: hidden; */
 }

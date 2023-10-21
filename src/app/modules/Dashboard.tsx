@@ -17,7 +17,7 @@ const Dashboard = () => {
         <>
             <Box
                 component="div"
-                className="flex flex-row justify-center items-center gap-8"
+                className="flex flex-col md:flex-row justify-center items-center gap-8 my-8 md:my-0"
             >
                 <Card elevation={1}>
                     <VariableRadiusPieChart data={data} />
