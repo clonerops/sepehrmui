@@ -1,58 +1,39 @@
 import React, { useState } from 'react';
-import {
-    Radio,
-    RadioGroup,
-    FormControlLabel,
-    Card,
-    CardContent,
-    Typography,
-    Box,
-} from '@mui/material';
+import { Card, CardContent, Typography, TextField, Radio, RadioGroup, FormControlLabel, Box } from '@mui/material';
 
-interface Option {
-    value: string;
-    label: string;
-    content: string;
+interface RadioCardProps {
+    title: string;
+    options: string[];
 }
 
-interface RadioCardGroupProps {
-    options: Option[];
-}
-
-const RadioCardGroup: React.FC<RadioCardGroupProps> = ({ options }) => {
-    const [selectedValue, setSelectedValue] = useState<string>(options[0].value);
+const RadioCard: React.FC<RadioCardProps> = ({ title, options }) => {
+    const [selectedOption, setSelectedOption] = useState('');
 
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedValue(event.target.value);
+        setSelectedOption(event.target.value);
     };
 
     return (
-        <div>
-            <RadioGroup
-                aria-label="radio-options"
-                name="radio-options"
-                value={selectedValue}
-                onChange={handleRadioChange}
-            >
-                <Box component="div" className='md:flex w-full'>
-                    {options.map((option) => (
-                        <Card key={option.value} className='w-full'>
-                            <FormControlLabel
-                                value={option.value}
-                                control={<Radio />}
-                                label={option.label}
-                            />
-                        </Card>
-                    ))}
-                </Box>
-            </RadioGroup>
-            {/* <CardContent>
-        <Typography variant="body1">
-          {options.find((option) => option.value === selectedValue)?.content}
-        </Typography>
-      </CardContent> */}
-        </div>
+        <Card variant="outlined" className='w-full'>
+            <CardContent>
+                <TextField
+                    label="تسویه حساب"
+                    variant="outlined"
+                    fullWidth
+                    size='small'
+                    value={selectedOption}
+                    onChange={(e) => setSelectedOption(e.target.value)}
+                />
+                <RadioGroup aria-label="options" name="options" value={selectedOption} onChange={handleRadioChange}>
+                    <Box component="div" className='flex'>
+                        {options.map((option) => (
+                            <FormControlLabel key={option} value={option} control={<Radio />} label={option} />
+                        ))}
+                    </Box>
+                </RadioGroup>
+            </CardContent>
+        </Card>
     );
 };
 
-export default RadioCardGroup;
+export default RadioCard;

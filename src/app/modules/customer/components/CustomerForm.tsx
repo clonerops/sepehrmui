@@ -16,6 +16,7 @@ import { FieldType } from '../../../../_cloner/components/globalTypes';
 import { ICustomer } from '../core/_models';
 import Backdrop from '../../../../_cloner/components/Backdrop';
 import RadioCardGroup from '../../../../_cloner/components/RadioCardGroup';
+import RadioCard from '../../../../_cloner/components/RadioCardGroup';
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -48,11 +49,7 @@ const CustomerForm = (props: {
 
     const isNew = !props.id;
 
-    const options = [
-        { value: 'option1', label: 'Option 1', content: 'Content for Option 1' },
-        { value: 'option2', label: 'Option 2', content: 'Content for Option 2' },
-    ];
-
+    const radioOptions = ['تاریخ روز', '3 روز بعد از ثبت سفارش', '5 روز بعد از وزن'];
     const fields: FieldType[][] = [
         [
             { label: "نام", name: "firstName", type: "input" },
@@ -80,7 +77,7 @@ const CustomerForm = (props: {
         ],
         [
             { label: "", name: "settlementDaysAfterExit", type: "settlementDaysAfterExit" },
-            { label: "تعداد روز", name: "settlementDaysBeforeExit", type: "settlementDaysBeforeExit" }
+            // { label: "", name: "settlementDaysBeforeExit", type: "settlementDaysBeforeExit" },
         ],
         [
             { label: "آدرس یک", name: "address1", type: "description" }
@@ -103,9 +100,9 @@ const CustomerForm = (props: {
             case "customerValidityId":
                 return <FormikSelect options={convertValueLabelCustomerValidaty(customerValidityData)} {...rest} />;
             case "settlementDaysAfterExit":
-                return <FormikInput className='' {...rest} />
+                return <RadioCard options={radioOptions} title="تسویه حساب" />
             case "settlementDaysBeforeExit":
-                return <FormikInput className='!' {...rest} />
+                return <RadioCard options={radioOptions} title="تسویه حساب" />
             case "description":
                 return <FormikInput multiline rows={3} {...rest} />;
 
