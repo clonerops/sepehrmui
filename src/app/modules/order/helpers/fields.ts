@@ -21,7 +21,7 @@ export const mainFields: FieldType[][] = [
             type: "invoiceTypeId",
         },
         {
-            label: "نوع پرداخت",
+            label: "نوع کرایه",
             name: "paymentTypeId",
             type: "paymentTypeId",
         },
@@ -74,6 +74,11 @@ export const orderFieldsIsBuy: FieldType[][] = [
             label: "مقدار",
             name: "proximateAmount",
             type: "proximateAmount",
+        },
+        {
+            label: "تعداد (واحدفرعی)",
+            name: "",
+            type: "proximateSubAmount",
         },
     ],
     [

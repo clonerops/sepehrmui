@@ -293,6 +293,22 @@ const Order = () => {
                         {...rest}
                     />
                 );
+            case "proximateSubAmount":
+                return (
+                    <FormikPrice
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {values.id ?
+                                        products?.data?.find((i: IProducts) => i.id === values?.id)?.productSubUnitDesc :
+                                        products?.data?.find((i: IProducts) => i.id === values?.productName?.value)?.productSubUnitDesc
+                                    }
+                                </InputAdornment>
+                            ),
+                        }}
+                        {...rest}
+                    />
+                );
             case "price":
                 return <FormikPrice {...rest} />;
             case "input":
