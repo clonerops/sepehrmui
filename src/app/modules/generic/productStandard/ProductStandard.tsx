@@ -13,6 +13,8 @@ import React from 'react'
 import { AddCircleOutline } from '@mui/icons-material'
 import * as Yup from 'yup'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import SwitchComponent from '../../../../_cloner/components/Switch'
+import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 
 const initialValues = {
   id: 0,
@@ -100,10 +102,9 @@ const ProductStandards = () => {
 
   const renderSwitch = (item: any) => {
     return (
-      <Switch
+      <SwitchComponent
         checked={item?.row.isActive}
         onChange={(_) => onUpdateStatus(item)}
-        color="secondary"
       />
     );
   };
@@ -152,11 +153,11 @@ const ProductStandards = () => {
                   <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد استاندارد " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="استاندارد " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
-                    <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className='mt-2 md:mt-0'>
+                    <ButtonComponent onClick={() => handleSubmit()}>
                       <Typography className="px-2">
                         <AddCircleOutline />
                       </Typography>
-                    </Button>
+                    </ButtonComponent>
                   </Box>
                 </Form>
               }}

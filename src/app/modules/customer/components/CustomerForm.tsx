@@ -8,13 +8,14 @@ import { createValiadtion } from "../validation/createValidation";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { useGetCustomerValidities } from "../../generic/_hooks";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Card, Typography } from "@mui/material";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import React from 'react';
 import PositionedSnackbar from '../../../../_cloner/components/Snackbar';
 import { FieldType } from '../../../../_cloner/components/globalTypes';
 import { ICustomer } from '../core/_models';
 import Backdrop from '../../../../_cloner/components/Backdrop';
+import RadioCardGroup from '../../../../_cloner/components/RadioCardGroup';
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -47,7 +48,10 @@ const CustomerForm = (props: {
 
     const isNew = !props.id;
 
-
+    const options = [
+        { value: 'option1', label: 'Option 1', content: 'Content for Option 1' },
+        { value: 'option2', label: 'Option 2', content: 'Content for Option 2' },
+    ];
 
     const fields: FieldType[][] = [
         [
@@ -75,6 +79,8 @@ const CustomerForm = (props: {
 
         ],
         [
+            { label: "", name: "settlementDaysAfterExit", type: "settlementDaysAfterExit" },
+            { label: "تعداد روز", name: "settlementDaysBeforeExit", type: "settlementDaysBeforeExit" }
         ],
         [
             { label: "آدرس یک", name: "address1", type: "description" }
@@ -96,6 +102,10 @@ const CustomerForm = (props: {
                 return <FormikSelect options={customerType} {...rest} />;
             case "customerValidityId":
                 return <FormikSelect options={convertValueLabelCustomerValidaty(customerValidityData)} {...rest} />;
+            case "settlementDaysAfterExit":
+                return <FormikInput className='' {...rest} />
+            case "settlementDaysBeforeExit":
+                return <FormikInput className='!' {...rest} />
             case "description":
                 return <FormikInput multiline rows={3} {...rest} />;
 
@@ -163,7 +173,7 @@ const CustomerForm = (props: {
         return <Typography>Loading ...</Typography>
     }
 
-console.log("detailTools?.data?.data", detailTools?.data?.data)
+    console.log("detailTools?.data?.data", detailTools?.data?.data)
     return (
         <>
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}

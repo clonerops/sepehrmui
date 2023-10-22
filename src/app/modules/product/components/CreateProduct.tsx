@@ -25,6 +25,9 @@ import React from "react";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
+import FormikStandard from "../../../../_cloner/components/FormikStandard";
+import FormikState from "../../../../_cloner/components/FormikState";
+import FormikType from "../../../../_cloner/components/FormikType";
 
 const initialValues = {
     productName: "",
@@ -117,24 +120,27 @@ const CreateProduct = (props: {
         switch (type) {
             case "productType":
                 return (
-                    <FormikComboBox
-                        options={dropdownTypes(productType?.data)}
-                        {...rest}
-                    />
+                    <FormikType {...rest} />
+                    // <FormikComboBox
+                    //     options={dropdownTypes(productType?.data)}
+                    //     {...rest}
+                    // />
                 );
             case "productStandard":
                 return (
-                    <FormikComboBox
-                        options={dropdownStandard(productStandard?.data)}
-                        {...rest}
-                    />
+                    <FormikStandard {...rest} />
+                    // <FormikComboBox
+                    //     options={dropdownStandard(productStandard?.data)}
+                    //     {...rest}
+                    // />
                 );
             case "productState":
                 return (
-                    <FormikComboBox
-                        options={dropdownState(productState?.data)}
-                        {...rest}
-                    />
+                    <FormikState {...rest} />
+                    // <FormikComboBox
+                    //     options={dropdownState(productState?.data)}
+                    //     {...rest}
+                    // />
                 );
             case "productMainUnit":
                 return (

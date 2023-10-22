@@ -23,6 +23,7 @@ import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
 import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import ActiveText from "../../../_cloner/components/ActiveText";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 
 const radioOption: {
     label: string;
@@ -242,15 +243,13 @@ const ProductPrice = () => {
                         >
                             <Typography variant="h4">خروجی اکسل</Typography>
                         </Button>
-                        <Button
+                        <ButtonComponent
                             onClick={() => setIsCreateOpen(true)}
-                            variant="contained"
-                            color="secondary"
                         >
                             <Typography variant="h4">
                                 ایجاد قیمت کالا
                             </Typography>
-                        </Button>
+                        </ButtonComponent>
                     </Box>
                 </Box>
                 <Box>

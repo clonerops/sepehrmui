@@ -14,6 +14,7 @@ import EditGridButton from "../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 
 const Suppliers = () => {
     const {
@@ -202,13 +203,11 @@ const Suppliers = () => {
                             setResults={setResults}
                         />
                     </Box>
-                    <Button
+                    <ButtonComponent
                         onClick={() => setIsCreateOpen(true)}
-                        variant="contained"
-                        color="secondary"
                     >
                         <Typography variant="h4">ایجاد تامین کننده</Typography>
-                    </Button>
+                    </ButtonComponent>
                 </Box>
                 <MuiDataGrid
                     columns={columns(renderAction)}

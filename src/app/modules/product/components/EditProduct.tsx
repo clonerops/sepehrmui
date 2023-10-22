@@ -30,6 +30,9 @@ import React from "react";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
+import FormikStandard from "../../../../_cloner/components/FormikStandard";
+import FormikState from "../../../../_cloner/components/FormikState";
+import FormikType from "../../../../_cloner/components/FormikType";
 
 const initialValues = {
     productName: "",
@@ -141,24 +144,27 @@ const EditProduct = (props: {
         switch (type) {
             case "productType":
                 return (
-                    <FormikComboBox
-                        options={dropdownTypes(productType?.data)}
-                        {...rest}
-                    />
+                    <FormikType {...rest} />
+                    // <FormikComboBox
+                    //     options={dropdownTypes(productType?.data)}
+                    //     {...rest}
+                    // />
                 );
             case "productStandard":
                 return (
-                    <FormikComboBox
-                        options={dropdownStandard(productStandard?.data)}
-                        {...rest}
-                    />
+                    <FormikStandard {...rest} />
+                    // <FormikComboBox
+                    //     options={dropdownStandard(productStandard?.data)}
+                    //     {...rest}
+                    // />
                 );
             case "productState":
                 return (
-                    <FormikComboBox
-                        options={dropdownState(productState?.data)}
-                        {...rest}
-                    />
+                    <FormikState />
+                    // <FormikComboBox
+                    //     options={dropdownState(productState?.data)}
+                    //     {...rest}
+                    // />
                 );
             case "productMainUnit":
                 return (

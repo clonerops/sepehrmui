@@ -25,6 +25,10 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { IProducts } from "../core/_models";
+import { IType } from "../../generic/productType/_models";
+import FormikType from "../../../../_cloner/components/FormikType";
+import FormikStandard from "../../../../_cloner/components/FormikStandard";
+import FormikState from "../../../../_cloner/components/FormikState";
 
 const initialValues = {
     productName: "",
@@ -124,24 +128,19 @@ const ProductForm = (props: {
         switch (type) {
             case "productType":
                 return (
-                    <FormikSelect
-                        options={dropdownTypes(productType?.data)}
-                        {...rest}
-                    />
+                    <FormikType {...rest} />
                 );
             case "productStandard":
                 return (
-                    <FormikSelect
-                        options={dropdownStandard(productStandard?.data)}
-                        {...rest}
-                    />
+                    <FormikStandard {...rest} />
                 );
             case "productState":
                 return (
-                    <FormikSelect
-                        options={dropdownState(productState?.data)}
-                        {...rest}
-                    />
+                    <FormikState {...rest} />
+                    // <FormikSelect
+                    //     options={dropdownState(productState?.data)}
+                    //     {...rest}
+                    // />
                 );
             case "productMainUnit":
                 return (

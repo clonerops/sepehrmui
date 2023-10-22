@@ -8,6 +8,7 @@ import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
 import FormikPrice from "./FormikPrice"
+import FormikBrand from "../../../../_cloner/components/FormikBrand"
 
 type Props = {
     refetch: (options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined) => Promise<QueryObserverResult<any, unknown>>
@@ -66,7 +67,7 @@ const EditProductPrice = (props: Props) => {
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {/* <FormikComboBox  label="کالا" name="productId" options={dropdownProduct(products?.data)} /> */}
                             <FormikSelect defaultValue={{ value: props.item?.product?.id, label: props.item?.product?.productName }} name="productId" options={dropdownProduct(products?.data)} label="کالا" />
-                            <FormikSelect defaultValue={{ value: props.item?.productBrandId, label: props.item?.brandName }} name="productBrandId" options={dropdownBrand(brands)} label="برند" />
+                            <FormikBrand defaultValue={{ value: props.item?.productBrandId, label: props.item?.brandName }} name="productBrandId" options={dropdownBrand(brands)} label="برند" />
                             {/* <FormikInput name="price" type="text" label="قیمت" /> */}
                             <FormikPrice label="قیمت" name="price" />
                         </Box>

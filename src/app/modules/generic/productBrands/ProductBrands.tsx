@@ -18,6 +18,9 @@ import React from 'react'
 import FormikSelect from '../../../../_cloner/components/FormikSelect'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { AddCircleOutline } from '@mui/icons-material'
+import FormikBrand from '../../../../_cloner/components/FormikBrand'
+import SwitchComponent from '../../../../_cloner/components/Switch'
+import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 
 const initialValues: any = {
   id: 0,
@@ -75,10 +78,9 @@ const ProductBrands = () => {
 
   const renderSwitch = (item: any) => {
     return (
-      <Switch
+      <SwitchComponent
         checked={item?.row.isActive}
         onChange={(_) => onUpdateStatus(item)}
-        color="secondary"
       />
     );
   };
@@ -172,13 +174,13 @@ const ProductBrands = () => {
                     className="md:flex md:justify-start md:items-start gap-x-4"
                   >
                     <FormikComboBox name="productId" label="کالا" options={dropdownProduct(products?.data)} boxClassName="mt-2 md:mt-0" />
-                    <FormikSelect name='brandId' label="برند" options={dropdownBrand(brands?.data)} />
+                    <FormikBrand name='brandId' label="برند" options={dropdownBrand(brands?.data)} />
                     <Box component="div" className="mt-2 md:mt-0">
-                      <Button onClick={() => handleSubmit()} variant="contained" color="secondary" >
+                      <ButtonComponent onClick={() => handleSubmit()}>
                         <Typography className="px-2">
                           <AddCircleOutline />
                         </Typography>
-                      </Button>
+                      </ButtonComponent>
                     </Box>
                   </Box>
                 </Form>

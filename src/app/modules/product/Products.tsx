@@ -16,6 +16,7 @@ import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import ActiveText from "../../../_cloner/components/ActiveText";
 import ProductForm from "./components/ProductForm";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 
 const Products = () => {
     const {
@@ -285,13 +286,11 @@ const Products = () => {
                             setResults={setResults}
                         />
                     </Box>
-                    <Button
+                    <ButtonComponent
                         onClick={() => setIsCreateOpen(true)}
-                        variant="contained"
-                        color="secondary"
                     >
                         <Typography variant="h4" className="px-4 py-1">ایجاد کالا</Typography>
-                    </Button>
+                    </ButtonComponent>
                 </Box>
                 <MuiDataGrid
                     columns={columns(renderAction)}

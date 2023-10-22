@@ -5,16 +5,11 @@ const theme = createTheme({
     direction: 'rtl',
     palette: {
         primary: {
-            // main: "#2E4374",
-            // main: "#071952",
-            main: "#071952",
-            light: "#071952"
+            main: "#272862",
+            light: "#2a9d8f"
         },
         secondary: {
-            // main: "#071952",
-            // main: "#405189",
-            // main: "#088395",
-            main: "#ffb703",
+            main: "#fcc615",
         },
     },
     typography: {

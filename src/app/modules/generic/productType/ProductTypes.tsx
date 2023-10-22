@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Button, Card, Switch, Typography } from "@mui/material"
+import { Box, Card, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
@@ -7,11 +7,13 @@ import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 import { IType } from "./_models"
 import { useDeleteTypes, useGetTypes, usePostTypes, useUpdateTypes } from './_hooks'
 import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
-import { columns } from './_columns'
 import PositionedSnackbar from '../../../../_cloner/components/Snackbar'
 import * as Yup from 'yup'
 import { AddCircleOutline } from '@mui/icons-material'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import SwitchComponent from '../../../../_cloner/components/Switch'
+import CustomButton from '../../../../_cloner/components/CustomButton'
+import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 
 const initialValues = {
   id: 0,
@@ -97,10 +99,9 @@ const ProductTypes = () => {
 
   const renderSwitch = (item: any) => {
     return (
-      <Switch
+      <SwitchComponent
         checked={item?.row.isActive}
         onChange={(_) => onUpdateStatus(item)}
-        color="secondary"
       />
     );
   };
@@ -151,11 +152,11 @@ const ProductTypes = () => {
                     <FormikInput name="id" label="کد نوع کالا " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="نوع کالا " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <Box component="div" className="mt-2 md:mt-0">
-                      <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className='mt-2 md:mt-0'>
+                      <ButtonComponent onClick={() => handleSubmit()}>
                         <Typography className="px-2">
                           <AddCircleOutline />
                         </Typography>
-                      </Button>
+                      </ButtonComponent>
                     </Box>
                   </Box>
                 </Form>
