@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { CSSObject, styled, Theme, useTheme } from "@mui/material/styles";
+import { CSSObject, makeStyles, styled, Theme, useTheme } from "@mui/material/styles";
 import {
   Box,
   CssBaseline,
@@ -66,11 +66,11 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": {
       ...openedMixin(theme),
       backgroundColor: theme.palette.primary.light,
-    } 
+    }
   }),
   ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": 
+    "& .MuiDrawer-paper":
     {
       ...closedMixin(theme),
       backgroundColor: theme.palette.primary.light,
@@ -97,7 +97,6 @@ const MasterLayout = () => {
     setOpen(false);
   };
 
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -107,16 +106,19 @@ const MasterLayout = () => {
         isMobile={isMobile}
       />
       {isMobile ? (
-        <SwipeableDrawer
-          onOpen={handleDrawerOpen}
-          anchor="left"
-          open={open}
-          onClose={handleDrawerClose}
-        >
-          <List>
-            <MenuItems menuItems={menuItem} />
-          </List>
-        </SwipeableDrawer>
+          <SwipeableDrawer
+            onOpen={handleDrawerOpen}
+            anchor="left"
+            open={open}
+            onClose={handleDrawerClose}
+            sx={{
+              '&.MuiDrawer-root .MuiDrawer-paper': { marginTop: '56px' },
+            }}
+          >
+            <List>
+              <MenuItems menuItems={menuItem} />
+            </List>
+          </SwipeableDrawer>
       ) : (
         <Drawer
           disableScrollLock={true}

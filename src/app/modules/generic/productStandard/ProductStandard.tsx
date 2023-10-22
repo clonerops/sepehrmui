@@ -74,13 +74,15 @@ const ProductStandards = () => {
         field: 'id', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'کد استاندارد', headerClassName: "headerClassName", width: 120
+        headerName: 'کد استاندارد', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
       },
       {
         field: 'desc', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'استاندارد', headerClassName: "headerClassName", width: 160
+        headerName: 'استاندارد', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
       },
       {
         field: "isActive",
@@ -88,8 +90,9 @@ const ProductStandards = () => {
         renderCell: renderSwitch,
         headerClassName: "headerClassName",
         minWidth: 160,
+        flex: 1,
       },
-      { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+      // { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
   }

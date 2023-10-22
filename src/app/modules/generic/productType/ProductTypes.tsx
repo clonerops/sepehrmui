@@ -90,7 +90,7 @@ const ProductTypes = () => {
         headerClassName: "headerClassName",
         minWidth: 160,
       },
-      { headerName: 'حذف', flex:1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+      // { headerName: 'حذف', flex:1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
   }
