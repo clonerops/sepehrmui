@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import ProductSelectedList from "./components/ProductSelectedList";
 import ProductSelectedListInModal from "./components/ProductSelectedListInModal";
-import { useRetrieveProducts, useRetrieveProductsByBrand } from "../product/core/_hooks";
+import {
+    useRetrieveProducts,
+    useRetrieveProductsByBrand,
+} from "../product/core/_hooks";
 import { Form, Formik } from "formik";
 import { useCreateOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
@@ -56,6 +59,7 @@ import { IProduct } from "./core/_models";
 import { IProducts } from "../product/core/_models";
 import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import FormikProximateAmount from "../product/components/FormikProximateAmount";
 
 const initialValues = {
     customerId: "",
@@ -107,6 +111,7 @@ const orderInitialValues = {
     // not Main
     productName: "",
     warehouseName: "",
+    proximateSubUnit: "",
 };
 
 const Order = () => {
@@ -146,7 +151,9 @@ const Order = () => {
     const [orderData, setOrderData] = useState<any>();
 
     useEffect(() => {
-        const prices = orders?.map((obj: any) => Number(obj.productPrice?.replace(/,/g, "")));
+        const prices = orders?.map((obj: any) =>
+            Number(obj.productPrice?.replace(/,/g, ""))
+        );
         const newPrices = [...prices];
         const newTotal = newPrices.reduce((acc: any, item) => acc + item, 0);
         setTotalAmount(newTotal);
@@ -232,7 +239,6 @@ const Order = () => {
                             isClose={() => setSelectedProductOpen(false)}
                             // width="max-w-6xl"
                             description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
-
                         >
                             <ProductSelectedListInModal
                                 products={productsByBrand?.data}
@@ -279,30 +285,52 @@ const Order = () => {
                 return <FormikDatepicker {...rest} />;
             case "proximateAmount":
                 return (
-                    <FormikPrice
+                    <FormikProximateAmount
+                        exchangeRate={
+                            values.id
+                                ? products?.data?.find(
+                                      (i: IProducts) => i.id === values?.id
+                                  )?.exchangeRate
+                                : products?.data?.find(
+                                      (i: IProducts) =>
+                                          i.id === values?.productName?.value
+                                  )?.exchangeRate
+                        }
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
-                                    {values.id ?
-                                        products?.data?.find((i: IProducts) => i.id === values?.id)?.productMainUnitDesc :
-                                        products?.data?.find((i: IProducts) => i.id === values?.productName?.value)?.productMainUnitDesc
-                                    }
+                                    {values.id
+                                        ? products?.data?.find(
+                                              (i: IProducts) =>
+                                                  i.id === values?.id
+                                          )?.productMainUnitDesc
+                                        : products?.data?.find(
+                                              (i: IProducts) =>
+                                                  i.id ===
+                                                  values?.productName?.value
+                                          )?.productMainUnitDesc}
                                 </InputAdornment>
                             ),
                         }}
                         {...rest}
                     />
                 );
-            case "proximateSubAmount":
+            case "proximateSubUnit":
                 return (
                     <FormikPrice
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
-                                    {values.id ?
-                                        products?.data?.find((i: IProducts) => i.id === values?.id)?.productSubUnitDesc :
-                                        products?.data?.find((i: IProducts) => i.id === values?.productName?.value)?.productSubUnitDesc
-                                    }
+                                    {values.id
+                                        ? products?.data?.find(
+                                              (i: IProducts) =>
+                                                  i.id === values?.id
+                                          )?.productSubUnitDesc
+                                        : products?.data?.find(
+                                              (i: IProducts) =>
+                                                  i.id ===
+                                                  values?.productName?.value
+                                          )?.productSubUnitDesc}
                                 </InputAdornment>
                             ),
                         }}
@@ -357,17 +385,15 @@ const Order = () => {
         );
 
         const productOrder = {
-            id: values.productName.value
-                ? values.productName.value
-                : values.id,
+            id: values.productName.value ? values.productName.value : values.id,
             productName: values.productName.label
                 ? values.productName.label
                 : values.productName,
             warehouseId: values.warehouseId
                 ? values.warehouseId
                 : selectProductFromModal?.row.productInventories[
-                    selectProductFromModal.row.productInventories.length - 1
-                ].warehouseId,
+                      selectProductFromModal.row.productInventories.length - 1
+                  ].warehouseId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             warehouseName: values.warehouseName
                 ? values.warehouseName
@@ -384,10 +410,11 @@ const Order = () => {
         };
 
         if (!isUpdate) {
-            const isDuplicate = orders.some((order: any) =>
-                order.id === productOrder.id &&
-                order.warehouseId === productOrder.warehouseId &&
-                order.productName === productOrder.productName
+            const isDuplicate = orders.some(
+                (order: any) =>
+                    order.id === productOrder.id &&
+                    order.warehouseId === productOrder.warehouseId &&
+                    order.productName === productOrder.productName
             );
 
             if (values.productName === "" || values.productName.label === "") {
@@ -430,7 +457,6 @@ const Order = () => {
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
-
     return (
         <>
             {snackeOpen && (
@@ -444,24 +470,46 @@ const Order = () => {
                     }
                 />
             )}
-            <Box component="div" className="md:grid md:grid-cols-3 gap-x-4 space-y-4 md:space-y-0">
+            <Box
+                component="div"
+                className="md:grid md:grid-cols-3 gap-x-4 space-y-4 md:space-y-0"
+            >
                 <Card className="px-8 py-4" elevation={4}>
                     <Box component="div" className="flex flex-col space-y-8">
                         <Box component="div" className="flex justify-between">
-                            <Typography variant="h4" className="text-gray-500">شماره سفارش:</Typography>
-                            <Typography variant="h3" className="text-green-600">{orderCode}</Typography>
+                            <Typography variant="h4" className="text-gray-500">
+                                شماره سفارش:
+                            </Typography>
+                            <Typography variant="h3" className="text-green-600">
+                                {orderCode}
+                            </Typography>
                         </Box>
                         <Box component="div" className="flex justify-between">
-                            <Typography variant="h4" className="text-gray-500">تاریخ سفارش:</Typography>
-                            <Typography variant="h3">{moment(new Date()).format("jYYYY/jMM/jDD")}</Typography>
+                            <Typography variant="h4" className="text-gray-500">
+                                تاریخ سفارش:
+                            </Typography>
+                            <Typography variant="h3">
+                                {moment(new Date()).format("jYYYY/jMM/jDD")}
+                            </Typography>
                         </Box>
                         <Box component="div" className="flex justify-between">
-                            <Typography variant="h4" className="text-gray-500">قیمت کل:</Typography>
-                            <Typography variant="h3">{sliceNumberPrice(totalAmount)} ریال</Typography>
+                            <Typography variant="h4" className="text-gray-500">
+                                قیمت کل:
+                            </Typography>
+                            <Typography variant="h3">
+                                {sliceNumberPrice(totalAmount)} ریال
+                            </Typography>
                         </Box>
-                        <Box component="div" className="flex justify-between flex-wrap">
-                            <Typography variant="h4" className="text-gray-500">قیمت کل به حروف:</Typography>
-                            <Typography variant="h3">{convertToPersianWord(totalAmount)} هزار تومان</Typography>
+                        <Box
+                            component="div"
+                            className="flex justify-between flex-wrap"
+                        >
+                            <Typography variant="h4" className="text-gray-500">
+                                قیمت کل به حروف:
+                            </Typography>
+                            <Typography variant="h3">
+                                {convertToPersianWord(totalAmount)} هزار تومان
+                            </Typography>
                         </Box>
                     </Box>
                 </Card>
@@ -472,7 +520,12 @@ const Order = () => {
                         validationSchema={orderValidation}
                         onSubmit={async (
                             values: any,
-                            { setStatus, setSubmitting, setFieldValue, resetForm }
+                            {
+                                setStatus,
+                                setSubmitting,
+                                setFieldValue,
+                                resetForm,
+                            }
                         ) => {
                             if (orders?.length === 0) {
                                 alert("لیست سفارشات خالی می باشد");
@@ -486,9 +539,13 @@ const Order = () => {
                                         orderSendTypeId: Number(
                                             values.orderSendTypeId
                                         ),
-                                        paymentTypeId: Number(values.paymentTypeId),
+                                        paymentTypeId: Number(
+                                            values.paymentTypeId
+                                        ),
                                         customerOfficialName: "string",
-                                        invoiceTypeId: Number(values.invoiceTypeId),
+                                        invoiceTypeId: Number(
+                                            values.invoiceTypeId
+                                        ),
                                         freightName: "string",
                                         settlementDate: values.settlementDate,
                                         dischargePlaceAddress: "string",
@@ -507,16 +564,26 @@ const Order = () => {
                                                     : null,
                                                 proximateAmount:
                                                     item.proximateAmount
-                                                        ? Number(item.proximateAmount?.replace(/,/g, ""))
+                                                        ? Number(
+                                                              item.proximateAmount?.replace(
+                                                                  /,/g,
+                                                                  ""
+                                                              )
+                                                          )
                                                         : 0,
                                                 numberInPackage:
                                                     item.numberInPackage
                                                         ? Number(
-                                                            item.numberInPackage
-                                                        )
+                                                              item.numberInPackage
+                                                          )
                                                         : 0,
                                                 price: item.productPrice
-                                                    ? Number(item.productPrice?.replace(/,/g, ""))
+                                                    ? Number(
+                                                          item.productPrice?.replace(
+                                                              /,/g,
+                                                              ""
+                                                          )
+                                                      )
                                                     : null,
                                                 cargoSendDate: "1402/01/01",
                                                 buyPrice: item.buyPrice
@@ -528,8 +595,9 @@ const Order = () => {
                                                         : null,
                                                 purchaserCustomerId:
                                                     item.purchaserCustomerId
-                                                        ? item.purchaserCustomerId
-                                                            .value
+                                                        ? item
+                                                              .purchaserCustomerId
+                                                              .value
                                                         : null,
                                                 purchaseSettlementDate:
                                                     "1402/01/01",
@@ -551,7 +619,9 @@ const Order = () => {
                                         },
                                     });
                                 } catch (error) {
-                                    setStatus("اطلاعات ثبت مشتری نادرست می باشد");
+                                    setStatus(
+                                        "اطلاعات ثبت مشتری نادرست می باشد"
+                                    );
                                     setSubmitting(false);
                                 }
                             }
@@ -576,7 +646,10 @@ const Order = () => {
                                                 className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                                             >
                                                 {rowFields.map((field) =>
-                                                    mainParseFields(field, values)
+                                                    mainParseFields(
+                                                        field,
+                                                        values
+                                                    )
                                                 )}
                                             </Box>
                                         ))}
@@ -585,14 +658,13 @@ const Order = () => {
                             );
                         }}
                     </Formik>
-
                 </Card>
             </Box>
             <Card className="px-8 py-4 my-4" elevation={4}>
                 <Typography variant="h2" color="primary">
                     کالا و خصوصیات سفارش
                 </Typography>
-                <Formik initialValues={orderInitialValues} onSubmit={() => { }}>
+                <Formik initialValues={orderInitialValues} onSubmit={() => {}}>
                     {({ handleSubmit, values, setFieldValue }) => {
                         return (
                             <Form onSubmit={handleSubmit}>

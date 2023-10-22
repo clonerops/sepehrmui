@@ -42,6 +42,11 @@ export const orderFields: FieldType[][] = [
             name: "proximateAmount",
             type: "proximateAmount",
         },
+        {
+            label: "تعداد (واحدفرعی)",
+            name: "proximateSubUnit",
+            type: "proximateSubUnit",
+        },
     ],
     [
         {
@@ -77,8 +82,8 @@ export const orderFieldsIsBuy: FieldType[][] = [
         },
         {
             label: "تعداد (واحدفرعی)",
-            name: "",
-            type: "proximateSubAmount",
+            name: "proximateSubUnit",
+            type: "proximateSubUnit",
         },
     ],
     [
