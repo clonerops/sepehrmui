@@ -372,6 +372,7 @@ const Order = () => {
             "proximateAmount",
             "productPrice",
             "rowId",
+            "proximateSubUnit"
         ];
 
         const warehouseTypeId = warehouse?.find(
@@ -405,9 +406,13 @@ const Order = () => {
             purchaseInvoiceTypeName: purchaseInvoiceTypeName?.desc,
             sellerCompanyRow: values.sellerCompanyRow,
             proximateAmount: values.proximateAmount,
+            proximateSubUnit: values.proximateSubUnit,
+            mainUnit: products?.data?.find((i: IProducts) =>i.id === values.productName.value ? values.productName.value : values.id)?.productMainUnitDesc,
+            subUnit:  products?.data?.find((i: IProducts) =>i.id === values.productName.value ? values.productName.value : values.id)?.productSubUnitDesc,
             productPrice: values?.productPrice,
             rowId: values?.rowId,
         };
+
 
         if (!isUpdate) {
             const isDuplicate = orders.some(

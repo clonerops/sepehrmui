@@ -43,19 +43,27 @@ const ProductSelectedList = (props: {
                 headerName: "کالا", field: "productName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>
-                }, headerClassName: "headerClassName", flex: 1, minWidth: 180
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 120
             },
             {
                 headerName: "انبار", field: "warehouseName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>
-                }, headerClassName: "headerClassName", flex: 1, minWidth: 100
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
             },
             {
-                headerName: "مقدار", field: "proximateAmount",
+                headerName: "مقدار(واحداصلی)", field: "proximateAmount",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>
-                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+                    const combinedValue = `${params.row.proximateAmount} ${params.row.mainUnit} `;
+                    return <Typography variant="h4">{combinedValue}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 110
+            },
+            {
+                headerName: "مقدار(واحدفرعی)", field: "proximateSubUnit",
+                renderCell: (params: any) => {
+                    const combinedValue = `${params.row.proximateSubUnit} ${params.row.subUnit}`;
+                    return <Typography variant="h4">{combinedValue}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 110
             },
             {
                 headerName: "قیمت", field: "productPrice",
@@ -63,12 +71,12 @@ const ProductSelectedList = (props: {
                     return <Typography variant="h4">{params.value}</Typography>
                 }, headerClassName: "headerClassName", flex: 1, minWidth: 80
             },
-            {
-                headerName: "توضیحات", field: "productDesc",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>
-                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
-            },
+            // {
+            //     headerName: "توضیحات", field: "productDesc",
+            //     renderCell: (params: any) => {
+            //         return <Typography variant="h4">{params.value}</Typography>
+            //     }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+            // },
             {
                 headerName: "ردیف فروش", field: "rowId",
                 renderCell: (params: any) => {
@@ -85,13 +93,13 @@ const ProductSelectedList = (props: {
                 headerName: "تاریخ تسویه خرید", field: "purchaseSettlementDate",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>
-                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 120
             },
             {
                 headerName: "نوع فاکتور خرید", field: "purchaseInvoiceTypeName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>
-                }, headerClassName: "headerClassName", flex: 1, minWidth: 80
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 120
             },
             {
                 headerName: "حذف",
