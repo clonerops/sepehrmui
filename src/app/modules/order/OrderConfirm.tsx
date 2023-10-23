@@ -77,7 +77,7 @@ const OrderConfirm = () => {
                 to={`/dashboard/order/detail/${item?.row?.id}`}
                 state={{ isConfirmed: true }}
             >
-                <Button variant="contained" color="secondary">
+                <Button variant="contained" color="primary">
                     <Typography>اقدام به ثبت تایید</Typography>
                 </Button>
             </Link>
@@ -85,7 +85,7 @@ const OrderConfirm = () => {
     };
     return (
         <Card className="p-8" elevation={8}>
-            <Typography color="secondary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
+            <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات جهت تایید
             </Typography>
             <Box component="div" className="w-auto md:w-[40%]">

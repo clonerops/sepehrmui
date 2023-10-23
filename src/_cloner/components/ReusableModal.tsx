@@ -35,6 +35,12 @@ export default function TransitionsModal(props: Props) {
     height: "100%",
   };
 
+  const isSmallHeightMonitor = window.innerHeight < 600; // Adjust the height threshold as needed
+
+  const dynamicStyle = {
+    overflow: isSmallHeightMonitor ? "auto" : "hidden",
+  };
+
   return (
     <>
       <Modal
@@ -51,7 +57,7 @@ export default function TransitionsModal(props: Props) {
         }}
       >
         <Fade in={props.open}>
-          <Box sx={{ ...style, ...(window.innerWidth < 600 ? mobileStyle : {}) }}>
+          <Box  sx={{ ...style, ...dynamicStyle, ...(isSmallHeightMonitor ? mobileStyle : {}) }}>
             <Box component="div" className='flex justify-between items-center' >
               <Box component="div" className='flex gap-x-2'>
                 <Box component="img" src={toAbsoulteUrl('/media/mainlogo/rebar.png')} width={24} />
