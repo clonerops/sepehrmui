@@ -41,6 +41,8 @@ const initialValues = {
     tel2: "",
     address2: "",
     representative: "",
+    settlementDaysAfterExit: "",
+    settlementDaysBeforeExit: "",
 };
 
 const CustomerForm = (props: {
