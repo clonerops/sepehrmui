@@ -827,7 +827,7 @@ const Order = () => {
                                                 },
                                             },
                                         }} />
-                                        <FormikInput name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
+                                        <FormikInput disabled={values.settlement !== ""} name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
                                             inputProps: {
                                                 style: {
                                                     textAlign: "center",
@@ -836,7 +836,7 @@ const Order = () => {
                                             },
                                         }} />
                                         <Box component="div" className="flex w-full">
-                                            <FormikDatepicker name="settlement" label="تاریخ" />
+                                            <FormikDatepicker disabled={values.number} name="settlement" label="تاریخ" />
                                         </Box>
                                         <Box component="div" className="" onClick={() => {
                                             const orderPaymentCP = [...orderPayment]
@@ -847,8 +847,6 @@ const Order = () => {
                                                 paymentDate: values.settlement,
                                                 paymentType: 0
                                             }
-                                            console.log(sliceNumberPrice(totalAmount))
-                                            console.log(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount, 10), 0))
                                             if (Number(values.amount?.replace(/,/g, "")) > sliceNumberPrice(totalAmount)) {
                                                 addMessage("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد")
                                                 setTimeout(() => {
@@ -865,7 +863,6 @@ const Order = () => {
                                                     setErrorMessages([])
                                                 }, 3000)
                                             }
-                                            
                                             else {
                                                 setOrderPayment([...orderPaymentCP, orderPaymentData])
                                             }

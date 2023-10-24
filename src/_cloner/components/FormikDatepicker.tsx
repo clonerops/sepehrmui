@@ -16,6 +16,7 @@ type Props = {
     name: string;
     label: string;
     value?: string;
+    disabled?: boolean;
     setFieldValue?: (
         field: string,
         value: any,
@@ -24,15 +25,21 @@ type Props = {
 };
 
 const FormikDatepicker = forwardRef((props: Props) => {
-    const { boxClassName, name, label, value, ...rest } = props;
+    const { boxClassName, name, label, value, disabled, ...rest } = props;
 
     const [field, , helpers] = useField({ name, value });
     const formikProps = useFormikContext();
     const validationProps = getFormikFieldValidationProps(formikProps, name);
 
     const handleChange = (date: any) => {
-        const formattedDate = moment(new Date(date)).format("jYYYY/jMM/jDD");
-        helpers.setValue(formattedDate);
+        console.log(date)
+        if (date !== null) {
+            // If no date is selected, set the date as usual
+            const formattedDate = moment(new Date(date)).format("jYYYY/jMM/jDD");
+            helpers.setValue(formattedDate);
+        } else {
+            helpers.setValue("");
+        }
     };
 
     return (
@@ -45,6 +52,7 @@ const FormikDatepicker = forwardRef((props: Props) => {
                     value={field.value}
                     onChange={handleChange}
                     locale={persian_fa}
+                    disabled={disabled}
                     calendar={persian}
                     className={cx("w-full")}
                     id={name}                       
@@ -54,6 +62,7 @@ const FormikDatepicker = forwardRef((props: Props) => {
                             fullWidth
                             variant="outlined"
                             color="primary"
+                            disabled={disabled}
                             label={label}
                             id={name}
                             error={validationProps.error}
