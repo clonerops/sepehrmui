@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import ProductSelectedList from "./components/ProductSelectedList";
 import ProductSelectedListInModal from "./components/ProductSelectedListInModal";
 import {
@@ -56,7 +57,7 @@ import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { mainFields, orderFields, orderFieldsIsBuy, settlementFields } from "./helpers/fields";
-import { IProduct } from "./core/_models";
+import { IOrderPayment, IProduct } from "./core/_models";
 import { IProducts } from "../product/core/_models";
 import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
@@ -94,6 +95,7 @@ const orderInitialValues = {
 };
 
 const Order = () => {
+    let gernratedId = useId();
     // Fetching Data
     const { data: customers, refetch: refetchCustomers } = useGetCustomers();
     const {
@@ -128,6 +130,7 @@ const Order = () => {
     const [isBuy, setIsBuy] = useState<boolean>(false);
     const [orderCode, setOrderCode] = useState<number>(0);
     const [orderData, setOrderData] = useState<any>();
+    const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
 
     useEffect(() => {
         const prices = orders?.map((obj: any) =>
@@ -440,6 +443,8 @@ const Order = () => {
     };
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
+
+    console.log("orderPayment", orderPayment)
 
     return (
         <>
@@ -769,32 +774,50 @@ const Order = () => {
                                         </Box>
                                         <Box component="div" className="flex w-full">
                                             <FormikDatepicker name="settlement" label="تاریخ" />
-                                            <Box component="div" className="">
+                                            <Box component="div" className="" onClick={() => {
+                                                const orderPaymentCP = [...orderPayment]
+                                                const orderPaymentData: IOrderPayment = {
+                                                    id: uuidv4(),
+                                                    amount: values.amount,
+                                                    daysAfterExit: values.number,
+                                                    paymentDate: values.settlement,
+                                                    paymentType: 0
+                                                }
+                                                
+                                                setOrderPayment([...orderPaymentCP, orderPaymentData])
+                                            }}>
                                                 <Button>
                                                     <AddCircle />
                                                 </Button>
                                             </Box>
                                         </Box>
                                     </Box>
-                                    <Card className="flex justify-around items-center my-4 py-4">
-                                        <Box>
-                                            <Typography variant="h3" color="primary"> 52,600 </Typography>
-                                        </Box> 
-                                        <Box>
-                                            <Badge badgeContent="0"   sx={{
-                                                "& .MuiBadge-badge": {
-                                                color: "white",
-                                                backgroundColor: "#B931FC"
-                                                }
-                                            }} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h3" color="primary"> 1402/05/05 </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Delete className="text-red-500" />
-                                        </Box>
-                                    </Card>
+                                    {orderPayment.map((i: IOrderPayment) => 
+                                        <Card className="flex justify-around items-center my-4 py-4">
+                                            <Box>
+                                                <Typography variant="h4" color="primary"> مبلغ: {i.amount} </Typography>
+                                            </Box> 
+                                            <Box>
+                                                <Typography variant="h4" color="primary"> 
+                                                     <Badge badgeContent={i.daysAfterExit}   sx={{
+                                                        "& .MuiBadge-badge": {
+                                                        color: "white",
+                                                        backgroundColor: "#B931FC"
+                                                        }
+                                                    }} /> روز بعد از وزن
+                                                 </Typography>
+                                            </Box>
+                                            <Box>
+                                                <Typography variant="h4" color="primary"> تسویه: {i.paymentDate} </Typography>
+                                            </Box>
+                                            <Box>
+                                                <Delete className="text-red-500 cursor-pointer" onClick={() => {
+                                                    const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== i.id)
+                                                    setOrderPayment(orderPaymentFilter)
+                                                }} />
+                                            </Box>
+                                        </Card>
+                                    )}
                                 </Form>
                             );
                         }}

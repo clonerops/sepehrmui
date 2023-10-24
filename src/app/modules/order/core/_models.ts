@@ -66,3 +66,10 @@ export interface IOrderDetail extends IOrder {
     
 }
 
+export interface IOrderPayment {
+    id?: any,
+    amount: number | null | undefined,
+    paymentDate: string | null | undefined,
+    daysAfterExit: number | null | undefined,
+    paymentType: number | null | undefined
+}
