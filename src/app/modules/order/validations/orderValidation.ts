@@ -5,7 +5,7 @@ const orderValidation = Yup.object().shape({
     // warehouseId: Yup.string().required("انبار الزامی است"),
     // productIntegratedName: Yup.mixed().required("کالا الزامی است"),
     // productName: Yup.mixed().required("کالا الزامی است"),
-    settlementDate: Yup.string().required("تاریخ تسویه الزامی است"),
+    // settlementDate: Yup.string().required("تاریخ تسویه الزامی است"),
     exitType: Yup.string().required("نوع خروج الزامی است"),
     orderSendTypeId: Yup.string().required("نوع ارسال الزامی است"),
     paymentTypeId: Yup.string().required("نوع پرداخت الزامی است"),

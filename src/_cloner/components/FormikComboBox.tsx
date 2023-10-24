@@ -48,7 +48,7 @@ const FormikComboBox = (props: Props) => {
 
     const [field]: any = useField({ name, value });
     const formikProps = useFormikContext();
-
+    
     return (
         <Box component={"div"} className={cx("w-full", boxClassName)}>
             <Autocomplete
