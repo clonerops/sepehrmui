@@ -39,9 +39,8 @@ const initialValues = {
     tel2: "",
     address2: "",
     representative: "",
-    settlementDaysAfterExit: "",
-    settlementDaysBeforeExit: "",
-    settlementDaysExit: 0
+    settlementDay: "",
+    settlementType: 0,
 };
 
 const CustomerForm = (props: {
@@ -57,8 +56,8 @@ const CustomerForm = (props: {
     const { data: customerValidityData } = useGetCustomerValidities();
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
     const [snackeEditOpen, setSnackeEditOpen] = useState<boolean>(false);
-    const [isChecked, setIsChecked] = useState<boolean>(false)
-    console.log("first", detailTools?.data?.data.settlementDaysAfterExit)
+    const [isChecked, setIsChecked] = useState<boolean>(false);
+
     const isNew = !props.id;
 
     const fields: FieldType[][] = [
@@ -92,8 +91,8 @@ const CustomerForm = (props: {
             { label: "آدرس دو", name: "address2", type: "description" },
             {
                 label: "",
-                name: "settlementDaysExit",
-                type: "settlementDaysExit",
+                name: "settlementDay",
+                type: "settlementDay",
             },
         ],
     ];
@@ -125,16 +124,37 @@ const CustomerForm = (props: {
                         {...rest}
                     />
                 );
-            case "settlementDaysExit":
+            case "settlementDay":
                 return (
                     <Card className="w-full">
                         <Box component={"div"} className="grid grid-cols-3">
-                            <Typography variant="h3" className="px-4 py-1 ">تسویه حساب</Typography>
-                            <FormikInput {...rest} boxClassName="" InputProps={{ inputProps: { style: { textAlign: "center", fontWeight: "bold" }, } }} />{" "}
-                            <Typography variant="h3" className="px-4 py-1 ">روز</Typography>
+                            <Typography variant="h3" className="px-4 py-1 ">
+                                تسویه حساب
+                            </Typography>
+                            <FormikInput
+                                {...rest}
+                                boxClassName=""
+                                InputProps={{
+                                    inputProps: {
+                                        style: {
+                                            textAlign: "center",
+                                            fontWeight: "bold",
+                                        },
+                                    },
+                                }}
+                            />{" "}
+                            <Typography variant="h3" className="px-4 py-1 ">
+                                روز
+                            </Typography>
                         </Box>
                         <Box component={"div"} className="flex items-center">
-                            <Checkbox checked={isChecked} onChange={(e: any) => setIsChecked(e.target.checked)} /> <Typography variant="h3">بعد از وزن</Typography>
+                            <Checkbox
+                                checked={isChecked}
+                                onChange={(e: any) =>
+                                    setIsChecked(e.target.checked)
+                                }
+                            />{" "}
+                            <Typography variant="h3">بعد از وزن</Typography>
                         </Box>
                     </Card>
                 );
@@ -154,7 +174,9 @@ const CustomerForm = (props: {
             try {
                 detailTools.mutate(props.id, {
                     onSuccess: (response) => {
-                        setIsChecked(response.data.settlementDaysAfterExit !== 0)
+                        setIsChecked(
+                            response.data.settlementType !== 0
+                        );
                         if (!response.succeeded) {
                             setSnackeOpen(true);
                         }
@@ -172,9 +194,8 @@ const CustomerForm = (props: {
     const onUpdate = (values: ICustomer) => {
         const formData = {
             ...values,
-            settlementDaysAfterExit: isChecked ? Number(values.settlementDaysExit) : 0,
-            settlementDaysBeforeExit: isChecked ? 0 : Number(values.settlementDaysExit)
-        }
+            settlementType: isChecked ? 1 : 0,
+        };
         try {
             return updateTools.mutate(formData, {
                 onSuccess: (response) => {
@@ -191,9 +212,8 @@ const CustomerForm = (props: {
     const onAdd = (values: ICustomer) => {
         const formData = {
             ...values,
-            settlementDaysAfterExit: isChecked ? Number(values.settlementDaysExit) : 0,
-            settlementDaysBeforeExit: isChecked ? 0 : Number(values.settlementDaysExit)
-        }
+            settlementType: isChecked ? 1 : 0,
+        };
         try {
             return mutate(formData, {
                 onSuccess: (response) => {
@@ -245,10 +265,9 @@ const CustomerForm = (props: {
                     isNew
                         ? initialValues
                         : {
-                            ...initialValues,
-                            ...detailTools?.data?.data,
-                            settlementDaysExit: detailTools?.data?.data.settlementDaysAfterExit === 0 ? detailTools?.data?.data.settlementDaysBeforeExit : detailTools?.data?.data.settlementDaysAfterExit
-                        }
+                              ...initialValues,
+                              ...detailTools?.data?.data,
+                          }
                 }
                 validationSchema={createValiadtion}
                 onSubmit={handleSubmit}

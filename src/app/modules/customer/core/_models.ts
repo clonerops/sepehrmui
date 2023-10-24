@@ -17,8 +17,6 @@ export interface ICustomer {
     address2: string | undefined
     representative?: string | undefined
     isSupplier?: boolean | undefined
-    settlementDaysAfterExit?: number | undefined | null
-    settlementDaysBeforeExit?: number | undefined | null
-    settlementDaysExit?: string | undefined | null
+    settlementDay?: string | undefined | null
     
 }
