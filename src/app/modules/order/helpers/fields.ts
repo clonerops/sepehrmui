@@ -1,14 +1,35 @@
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 
+// export const mainFields: FieldType[][] = [
+//     [
+//         { label: "مشتری", name: "customerId", type: "customer" },
+//         {
+//             label: "تاریخ تسویه",
+//             name: "settlementDate",
+//             type: "settlementDate",
+//         },
+//     ],
+//     [
+//         {
+//             label: "نوع ارسال",
+//             name: "orderSendTypeId",
+//             type: "orderSendTypeId",
+//         },
+//         {
+//             label: "نوع فاکتور",
+//             name: "invoiceTypeId",
+//             type: "invoiceTypeId",
+//         },
+//         {
+//             label: "نوع کرایه",
+//             name: "paymentTypeId",
+//             type: "paymentTypeId",
+//         },
+//         { label: "نوع خروج", name: "exitType", type: "exitType" },
+//     ],
+// ];
 export const mainFields: FieldType[][] = [
-    [
-        { label: "مشتری", name: "customerId", type: "customer" },
-        {
-            label: "تاریخ تسویه",
-            name: "settlementDate",
-            type: "settlementDate",
-        },
-    ],
+    [{ label: "مشتری", name: "customerId", type: "customer" }],
     [
         {
             label: "نوع ارسال",
@@ -20,12 +41,23 @@ export const mainFields: FieldType[][] = [
             name: "invoiceTypeId",
             type: "invoiceTypeId",
         },
+    ],
+    [
         {
             label: "نوع کرایه",
             name: "paymentTypeId",
             type: "paymentTypeId",
         },
         { label: "نوع خروج", name: "exitType", type: "exitType" },
+    ],
+];
+export const settlementFields: FieldType[][] = [
+    [
+        {
+            label: "تاریخ تسویه",
+            name: "settlementDate",
+            type: "settlementDate",
+        },
     ],
 ];
 export const orderFields: FieldType[][] = [
@@ -125,5 +157,5 @@ export const orderFieldsIsBuy: FieldType[][] = [
             name: "purchaseSettlementDate",
             type: "date",
         },
-    ]
+    ],
 ];

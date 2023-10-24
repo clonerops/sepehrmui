@@ -35,6 +35,7 @@ import {
     Typography,
     IconButton,
     InputAdornment,
+    Badge,
 } from "@mui/material";
 import { sliceNumberPrice } from "../../../_cloner/helpers/sliceNumberPrice";
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian";
@@ -45,7 +46,7 @@ import FormikInput from "../../../_cloner/components/FormikInput";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import TextValue from "./components/TextValue";
 import CustomButton from "../../../_cloner/components/CustomButton";
-import { AddCircle, Add, Grading } from "@mui/icons-material";
+import { AddCircle, Add, Grading, Delete } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
 import {
     dropdownProductIntegrated,
@@ -54,7 +55,7 @@ import {
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import { FieldType } from "../../../_cloner/components/globalTypes";
-import { mainFields, orderFields, orderFieldsIsBuy } from "./helpers/fields";
+import { mainFields, orderFields, orderFieldsIsBuy, settlementFields } from "./helpers/fields";
 import { IProduct } from "./core/_models";
 import { IProducts } from "../product/core/_models";
 import FormikPrice from "../product/components/FormikPrice";
@@ -69,28 +70,6 @@ const initialValues = {
     paymentTypeId: "",
     invoiceTypeId: "",
     customerOfficialName: "",
-    // totalAmount: 0,
-    // description: "",
-    // freightName: "",
-    // dischargePlaceAddress: "",
-    // freightDriverName: "",
-    // carPlaque: "",
-    // rowId: "",
-    // productId: "",
-    // warehouseId: "",
-    // warehouseTypeId: "",
-    // proximateAmount: "",
-    // numberInPackage: "",
-    // price: "",
-    // cargoSendDate: "",
-    // buyPrice: "",
-    // purchaseInvoiceTypeId: "",
-    // purchaserCustomerId: "",
-    // purchaseSettlementDate: "",
-    // sellerCompanyRow: "",
-    // productIntegratedName: "",
-    // productName: "",
-    // warehouseName: "",
 };
 
 const orderInitialValues = {
@@ -518,7 +497,144 @@ const Order = () => {
                         </Box>
                     </Box>
                 </Card>
-                <Card className="px-8 py-4 md:col-span-2" elevation={4}>
+                <Card className="px-8 py-4" elevation={4}>
+                    <Formik
+                        enableReinitialize
+                        initialValues={initialValues}
+                        validationSchema={orderValidation}
+                        onSubmit={async (
+                            values: any,
+                            {
+                                setStatus,
+                                setSubmitting,
+                                setFieldValue,
+                                resetForm,
+                            }
+                        ) => {
+                            if (orders?.length === 0) {
+                                alert("لیست سفارشات خالی می باشد");
+                            } else {
+                                try {
+                                    const formData = {
+                                        customerId: values.customerId.value,
+                                        totalAmount: totalAmount,
+                                        description: values.description,
+                                        exitType: Number(values.exitType),
+                                        orderSendTypeId: Number(
+                                            values.orderSendTypeId
+                                        ),
+                                        paymentTypeId: Number(
+                                            values.paymentTypeId
+                                        ),
+                                        customerOfficialName: "string",
+                                        invoiceTypeId: Number(
+                                            values.invoiceTypeId
+                                        ),
+                                        freightName: "string",
+                                        settlementDate: values.settlementDate,
+                                        dischargePlaceAddress: "string",
+                                        freightDriverName: "string",
+                                        carPlaque: "string",
+                                        details: orders?.map((item: any) => {
+                                            return {
+                                                rowId: item.rowId
+                                                    ? Number(item.rowId)
+                                                    : 0,
+                                                productId: item.id,
+                                                warehouseTypeId:
+                                                    item.warehouseTypeId,
+                                                warehouseId: item.warehouseId
+                                                    ? Number(item.warehouseId)
+                                                    : null,
+                                                proximateAmount:
+                                                    item.proximateAmount
+                                                        ? Number(
+                                                              item.proximateAmount?.replace(
+                                                                  /,/g,
+                                                                  ""
+                                                              )
+                                                          )
+                                                        : 0,
+                                                numberInPackage:
+                                                    item.numberInPackage
+                                                        ? Number(
+                                                              item.numberInPackage
+                                                          )
+                                                        : 0,
+                                                price: item.productPrice
+                                                    ? Number(
+                                                          item.productPrice?.replace(
+                                                              /,/g,
+                                                              ""
+                                                          )
+                                                      )
+                                                    : null,
+                                                cargoSendDate: "1402/01/01",
+                                                buyPrice: item.buyPrice
+                                                    ? Number(item.buyPrice)
+                                                    : 0,
+                                                purchaseInvoiceTypeId:
+                                                    item.purchaseInvoiceTypeId
+                                                        ? item.purchaseInvoiceTypeId
+                                                        : null,
+                                                purchaserCustomerId:
+                                                    item.purchaserCustomerId
+                                                        ? item
+                                                              .purchaserCustomerId
+                                                              .value
+                                                        : null,
+                                                purchaseSettlementDate:
+                                                    "1402/01/01",
+                                                sellerCompanyRow:
+                                                    item.sellerCompanyRow
+                                                        ? item.sellerCompanyRow
+                                                        : null,
+                                            };
+                                        }),
+                                    };
+                                    mutate(formData, {
+                                        onSuccess: (orderData) => {
+                                            setOrderData(orderData);
+                                            setSnackeOpen(true);
+                                            setOrderCode(
+                                                orderData?.data[0].orderCode
+                                            );
+                                            resetForm();
+                                        },
+                                    });
+                                } catch (error) {
+                                    setStatus(
+                                        "اطلاعات ثبت مشتری نادرست می باشد"
+                                    );
+                                    setSubmitting(false);
+                                }
+                            }
+                        }}
+                    >
+                        {({ handleSubmit, values }) => {
+                            return (
+                                <Form onSubmit={handleSubmit}>
+                                    <Box component="div" className="">
+                                        {mainFields.map((rowFields) => (
+                                            <Box
+                                                component="div"
+                                                className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                            >
+                                                {rowFields.map((field) =>
+                                                    mainParseFields(
+                                                        field,
+                                                        values
+                                                    )
+                                                )}
+                                            </Box>
+                                        ))}
+                                    </Box>
+                                </Form>
+                            );
+                        }}
+                    </Formik>
+                </Card>
+                <Card className="px-8 py-4" elevation={4}>
                     <Formik
                         enableReinitialize
                         initialValues={initialValues}
@@ -635,7 +751,7 @@ const Order = () => {
                         {({ handleSubmit, values, setFieldValue }) => {
                             return (
                                 <Form onSubmit={handleSubmit}>
-                                    <Box
+                                    {/* <Box
                                         component="div"
                                         className="flex mb-4 justify-center items-center md:justify-end md:items-end"
                                     >
@@ -643,22 +759,42 @@ const Order = () => {
                                             title="ثبت سفارش"
                                             onClick={() => handleSubmit()}
                                         />
-                                    </Box>
-                                    <Box component="div" className="">
-                                        {mainFields.map((rowFields) => (
-                                            <Box
-                                                component="div"
-                                                className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-                                            >
-                                                {rowFields.map((field) =>
-                                                    mainParseFields(
-                                                        field,
-                                                        values
-                                                    )
-                                                )}
+                                    </Box> */}
+                                    <Box component="div" className="flex gap-x-8">
+                                        <Box component="div" className="">
+                                            <FormikInput name="amount" label="مبلغ" />
+                                        </Box>
+                                        <Box component="div" className="">
+                                            <FormikInput name="number" label="روز" />
+                                        </Box>
+                                        <Box component="div" className="flex w-full">
+                                            <FormikDatepicker name="settlement" label="تاریخ" />
+                                            <Box component="div" className="">
+                                                <Button>
+                                                    <AddCircle />
+                                                </Button>
                                             </Box>
-                                        ))}
+                                        </Box>
                                     </Box>
+                                    <Card className="flex justify-around items-center my-4 py-4">
+                                        <Box>
+                                            <Typography variant="h3" color="primary"> 52,600 </Typography>
+                                        </Box> 
+                                        <Box>
+                                            <Badge badgeContent="0"   sx={{
+                                                "& .MuiBadge-badge": {
+                                                color: "white",
+                                                backgroundColor: "#B931FC"
+                                                }
+                                            }} />
+                                        </Box>
+                                        <Box>
+                                            <Typography variant="h3" color="primary"> 1402/05/05 </Typography>
+                                        </Box>
+                                        <Box>
+                                            <Delete className="text-red-500" />
+                                        </Box>
+                                    </Card>
                                 </Form>
                             );
                         }}
