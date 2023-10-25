@@ -28,28 +28,28 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 //         { label: "نوع خروج", name: "exitType", type: "exitType" },
 //     ],
 // ];
-export const mainFields: FieldType[][] = [
+export const customerFields: FieldType[][] = [
     [{ label: "مشتری", name: "customerId", type: "customer" }],
-    [
-        {
-            label: "نوع ارسال",
-            name: "orderSendTypeId",
-            type: "orderSendTypeId",
-        },
-        {
-            label: "نوع فاکتور",
-            name: "invoiceTypeId",
-            type: "invoiceTypeId",
-        },
-    ],
-    [
-        {
-            label: "نوع کرایه",
-            name: "paymentTypeId",
-            type: "paymentTypeId",
-        },
-        { label: "نوع خروج", name: "exitType", type: "exitType" },
-    ],
+    // [
+    //     {
+    //         label: "نوع ارسال",
+    //         name: "orderSendTypeId",
+    //         type: "orderSendTypeId",
+    //     },
+    //     {
+    //         label: "نوع فاکتور",
+    //         name: "invoiceTypeId",
+    //         type: "invoiceTypeId",
+    //     },
+    // ],
+    // [
+    //     {
+    //         label: "نوع کرایه",
+    //         name: "paymentTypeId",
+    //         type: "paymentTypeId",
+    //     },
+    //     { label: "نوع خروج", name: "exitType", type: "exitType" },
+    // ],
 ];
 export const settlementFields: FieldType[][] = [
     [
@@ -159,3 +159,26 @@ export const orderFieldsIsBuy: FieldType[][] = [
         },
     ],
 ];
+export const orderTypesFields: FieldType[][] = [
+    [
+        {
+            label: "نوع ارسال",
+            name: "orderSendTypeId",
+            type: "orderSendTypeId",
+        },
+        {
+            label: "نوع فاکتور",
+            name: "invoiceTypeId",
+            type: "invoiceTypeId",
+        },
+    ],
+    [
+        {
+            label: "نوع کرایه",
+            name: "paymentTypeId",
+            type: "paymentTypeId",
+        },
+        { label: "نوع خروج", name: "exitType", type: "exitType" },
+    ],
+];
+

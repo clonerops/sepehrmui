@@ -40,7 +40,7 @@ import {
     Snackbar,
     Alert,
 } from "@mui/material";
-import { sliceNumberPrice } from "../../../_cloner/helpers/sliceNumberPrice";
+import { sliceNumberPrice, sliceNumberPriceRial } from "../../../_cloner/helpers/sliceNumberPrice";
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
@@ -58,12 +58,13 @@ import {
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import { FieldType } from "../../../_cloner/components/globalTypes";
-import { mainFields, orderFields, orderFieldsIsBuy, settlementFields } from "./helpers/fields";
+import { customerFields, orderFields, orderFieldsIsBuy, orderTypesFields, settlementFields } from "./helpers/fields";
 import { IOrderPayment, IProduct } from "./core/_models";
 import { IProducts } from "../product/core/_models";
 import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import FormikProximateAmount from "../product/components/FormikProximateAmount";
+
 
 const initialValues = {
     customerId: "",
@@ -73,10 +74,6 @@ const initialValues = {
     paymentTypeId: "",
     invoiceTypeId: "",
     customerOfficialName: "",
-    // Not Main
-    amount: "",
-    number: "",
-    settlement: ""
 };
 
 const orderInitialValues = {
@@ -138,6 +135,13 @@ const Order = () => {
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
     const [errorMessages, setErrorMessages] = useState<any>([]);
 
+    const orderPaymentValues = {
+        amount: orders.length > 0 ? orders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0) : "",
+        number: "",
+        settlement: ""
+    }
+    
+
     useEffect(() => {
         const prices = orders?.map((obj: any) =>
             Number(obj.productPrice?.replace(/,/g, ""))
@@ -147,13 +151,14 @@ const Order = () => {
         setTotalAmount(newTotal);
     }, [orders]);
 
-    const mainParseFields = (fields: FieldType, values: any) => {
+    const mainParseFields = (fields: FieldType, setFieldValue: any) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "customer":
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
                         <FormikComboBox
+                            onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
                             options={dropdownCustomer(customers?.data)}
                             {...rest}
                         />
@@ -416,6 +421,7 @@ const Order = () => {
             } else {
                 setOrders([...orders, productOrder]);
             }
+            setFieldValue("amount", [...orders, productOrder].reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0))
             fields.forEach((element) => {
                 setFieldValue(element, "");
             });
@@ -425,8 +431,9 @@ const Order = () => {
             };
             const updatedOrders = [...orders];
             updatedOrders[selectedOrderIndex] = updatedOrder;
-
+            
             setOrders(updatedOrders);
+            setFieldValue("amount", updatedOrders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0))
             setSelectedOrderIndex(null);
             fields.forEach((element) => {
                 setFieldValue(element, "");
@@ -438,12 +445,21 @@ const Order = () => {
 
     const [findCustomer, setFindCustomer] = useState<ICustomer>();
 
-    const handleChangeCustomer = (value: any) => {
-        console.log("value", value)
-        // const findCustomer = customers?.data.find(
-        //     (i: any) => i.id === value?.value
-        // );
-        // setFindCustomer(findCustomer);
+    const handleChangeCustomer = (value: any, setFieldValue: any) => {
+        const findCustomer = customers?.data.find(
+            (i: any) => i.id === value?.value
+        );
+        setFindCustomer(findCustomer);
+        setFieldValue("number", findCustomer?.settlementDay)
+        if(findCustomer?.settlementType !== 1) {
+            setFieldValue("settlement", moment(new Date()).format("jYYYY/jMM/jDD"));
+        } else {
+            setFieldValue("settlement", "");
+        }
+        if(findCustomer === undefined || findCustomer === null) {
+            setFieldValue("number", "")
+            setFieldValue("settlement", "");
+        }
     };
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
@@ -467,7 +483,7 @@ const Order = () => {
             )}
             <Formik
                 enableReinitialize
-                initialValues={initialValues}
+                initialValues={{...initialValues, ...orderPaymentValues}}
                 validationSchema={orderValidation}
                 onSubmit={async (
                     values: any,
@@ -585,7 +601,7 @@ const Order = () => {
                     }
                 }}
             >
-                {({ handleSubmit, values }) => {
+                {({ handleSubmit, values, setFieldValue }) => {
                     return <Form>
                         <Box
                             component="div"
@@ -594,46 +610,38 @@ const Order = () => {
                             <Card className="px-8 py-4" elevation={4}>
                                 <Box component="div" className="flex flex-col space-y-8">
                                     <Box component="div" className="flex justify-between">
-                                        <Typography variant="h4" className="text-gray-500">
-                                            شماره سفارش:
-                                        </Typography>
-                                        <Typography variant="h3" className="text-green-600">
-                                            {orderCode}
-                                        </Typography>
+                                        <Box component="div" className="flex">
+                                            <Typography variant="h4" className="text-gray-500">
+                                                شماره سفارش:
+                                            </Typography>
+                                            <Typography variant="h3" className="text-green-600 px-8">
+                                                {orderCode}
+                                            </Typography>
+                                        </Box>
+                                        <Box component="div" className="flex">
+                                            <Typography variant="h4" className="text-gray-500">
+                                                تاریخ سفارش:
+                                            </Typography>
+                                            <Typography variant="h3" className="px-8">
+                                                {moment(new Date()).format("jYYYY/jMM/jDD")}
+                                            </Typography>
+                                        </Box>
                                     </Box>
-                                    <Box component="div" className="flex justify-between">
-                                        <Typography variant="h4" className="text-gray-500">
-                                            تاریخ سفارش:
-                                        </Typography>
-                                        <Typography variant="h3">
-                                            {moment(new Date()).format("jYYYY/jMM/jDD")}
-                                        </Typography>
-                                    </Box>
-                                    <Box component="div" className="flex justify-between">
+                                    <Box component="div" className="flex">
                                         <Typography variant="h4" className="text-gray-500">
                                             قیمت کل:
                                         </Typography>
-                                        <Typography variant="h3">
-                                            {sliceNumberPrice(totalAmount)} تومان
+                                        <Typography variant="h3" className="px-8">
+                                            {sliceNumberPriceRial(totalAmount)} ریال 
                                         </Typography>
-                                    </Box>
-                                    <Box
-                                        component="div"
-                                        className="flex justify-between flex-wrap"
-                                    >
-                                        <Typography variant="h4" className="text-gray-500">
-                                            قیمت کل به حروف:
-                                        </Typography>
-                                        <Typography variant="h5">
-                                            {convertToPersianWord(totalAmount)} هزار تومان
-                                        </Typography>
+                                        <Typography className="px-2"> ({convertToPersianWord(totalAmount)} تومان)</Typography>
                                     </Box>
                                 </Box>
                             </Card>
                             <Card className="px-8 py-4" elevation={4}>
                                 <Form>
                                     <Box component="div" className="">
-                                        {mainFields.map((rowFields) => (
+                                        {customerFields.map((rowFields) => (
                                             <Box
                                                 component="div"
                                                 className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
@@ -641,7 +649,7 @@ const Order = () => {
                                                 {rowFields.map((field) =>
                                                     mainParseFields(
                                                         field,
-                                                        values
+                                                        setFieldValue
                                                     )
                                                 )}
                                             </Box>
@@ -724,8 +732,9 @@ const Order = () => {
                             <Typography variant="h2" color="primary">
                                 کالا و خصوصیات سفارش
                             </Typography>
-                            <Formik initialValues={orderInitialValues} onSubmit={() => { }}>
+                            <Formik initialValues={{...orderInitialValues, ...orderPaymentValues}} onSubmit={() => { }}>
                                 {({ handleSubmit, values, setFieldValue }) => {
+                                    console.log("values", values)
                                     return (
                                         <Form onSubmit={handleSubmit}>
                                             <Box component="div" className="">
@@ -813,7 +822,26 @@ const Order = () => {
                                 }}
                             </Formik>
                         </Card>
-                        <Box component="div" className="md:grid md:grid-cols-2">
+                        <Box component="div" className="md:grid md:grid-cols-2 gap-x-4">
+                            <Card className="px-8 py-4" elevation={4}>
+                                    <Form>
+                                            <Box component="div" className="">
+                                                {orderTypesFields.map((rowFields) => (
+                                                    <Box
+                                                        component="div"
+                                                        className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                                    >
+                                                        {rowFields.map((field) =>
+                                                            mainParseFields(
+                                                                field,
+                                                                setFieldValue
+                                                            )
+                                                        )}
+                                                    </Box>
+                                                ))}
+                                            </Box>
+                                        </Form>
+                            </Card>
                             <Card className="px-8 py-4" elevation={4}>
                                 <Typography variant="h3" className="pb-2">تسویه حساب</Typography>
                                 <Form>
@@ -907,7 +935,7 @@ const Order = () => {
                         </Box>
                         <Box
                             component="div"
-                            className="flex mb-4 justify-center items-center md:justify-end md:items-end"
+                            className="flex my-4 justify-center items-center md:justify-end md:items-end"
                         >
                             <CustomButton
                                 title="ثبت سفارش"
