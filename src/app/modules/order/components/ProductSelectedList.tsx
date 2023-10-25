@@ -114,15 +114,21 @@ const ProductSelectedList = (props: {
         return col;
     }
 
-    const onDoubleClick = (rowData: any, index: number) => {
-        props.setSelectedOrderIndex(index);
+    const onDoubleClick = (params: any) => {
+            // Find the index of the double-clicked row based on the row's ID
+    const selectedRow: any = props.orders.find(order => order.id === params.row.id);
+    const rowIndex = props.orders.indexOf(selectedRow);
+
+
+        props.setSelectedOrderIndex(rowIndex);
 
         if (props.setFieldValue) {
-            props.setFieldValue("productName", rowData.productName);
-            props.setFieldValue("id", rowData.id);
-            props.setFieldValue("productPrice", rowData.productPrice);
-            props.setFieldValue("proximateAmount", rowData.proximateAmount);
-            props.setFieldValue("warehouseId", rowData.warehouseId);
+            props.setFieldValue("productName", params.row.productName);
+            props.setFieldValue("id", params.row.id);
+            props.setFieldValue("productPrice", params.row.productPrice);
+            props.setFieldValue("proximateAmount", params.row.proximateAmount);
+            props.setFieldValue("warehouseId", params.row.warehouseId);
+            props.setFieldValue("proximateSubUnit", params.row.proximateSubUnit);
         }
         props.setIsUpdate(true);
     };
@@ -134,7 +140,10 @@ const ProductSelectedList = (props: {
                 columns={columns(renderActions)}
                 rows={props.orders}
                 data={props.orders}
-                onDoubleClick={onDoubleClick}
+                onDoubleClick={(params: any) => {
+                    onDoubleClick(params); // Pass the entire params object
+                }}
+                
             />
         </>
     );

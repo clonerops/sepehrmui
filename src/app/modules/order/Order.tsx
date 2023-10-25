@@ -65,6 +65,8 @@ import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import FormikProximateAmount from "../product/components/FormikProximateAmount";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import SnackeBar from "../../../_cloner/components/SnackeBar";
+import CustomSnackbar from "../../../_cloner/components/SnackeBar";
 
 const orderPaymentValues = {
     // amount: orders.length > 0 ? orders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0) : "",
@@ -142,7 +144,12 @@ const Order = () => {
     const [orderCode, setOrderCode] = useState<number>(0);
     const [orderData, setOrderData] = useState<any>();
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
-    const [errorMessages, setErrorMessages] = useState<any>([]);    
+    const [errorMessages, setErrorMessages] = useState<any>([]);
+    
+    // Snackebar
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('success');
 
     useEffect(() => {
         const prices = orders?.map((obj: any) =>
@@ -427,11 +434,18 @@ const Order = () => {
             );
 
             if (values.productName === "" || values.productName.label === "") {
-                alert("کالا الزامی می باشد");
+                setOpen(true)
+                setMessage("کالا الزامی می باشد")
+                setSeverity("error")
             } else if (values?.productPrice === "") {
-                alert("قیمت الزامی می باشد");
+                setOpen(true)
+                setMessage("قیمت الزامی می باشد")
+                setSeverity("error")
             } else if (isDuplicate) {
-                alert("کالا در لیست سفارشات موجود می باشد");
+                setOpen(true)
+                setMessage("کالا در لیست سفارشات موجود می باشد")
+                setSeverity("error")
+
             } else {
                 setOrders([...orders, productOrder]);
                 setFieldValue("amount", sliceNumberPriceRial([...orders, productOrder].reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0)))
@@ -833,26 +847,22 @@ const Order = () => {
                                             const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount.replace(/,/g, ""), 10), 0);
                                             
                                             if (Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
-                                                addMessage("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد")
-                                                setTimeout(() => {
-                                                    setErrorMessages([])
-                                                }, 3000)
+                                                setOpen(true)
+                                                setMessage("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد")
+                                                setSeverity("error")
                                             } else if(new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(values.settlement)) {
-                                                addMessage("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد")
-                                                setTimeout(() => {
-                                                    setErrorMessages([])
-                                                }, 3000)
+                                                setOpen(true)
+                                                setMessage("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد")
+                                                setSeverity("error")
                                             } else if(currentTotalPayment + Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
-                                                addMessage("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد")
-                                                setTimeout(() => {
-                                                    setErrorMessages([])
-                                                }, 3000)
+                                                setOpen(true)
+                                                setMessage("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد")
+                                                setSeverity("error")
+
                                             } else if(values.amount === "0" || values.amount === "") {
-                                                addMessage("مبلغ نمیتولند صفر یا خالی باشد")
-                                                setTimeout(() => {
-                                                    setErrorMessages([])
-                                                }, 3000)
-                                                
+                                                setOpen(true)
+                                                setMessage("مبلغ نمیتولند صفر یا خالی باشد")
+                                                setSeverity("error")
                                             }
                                             else {
                                                 setOrderPayment([...orderPaymentCP, orderPaymentData])
@@ -920,17 +930,6 @@ const Order = () => {
                 }}
 
             </Formik>
-            {errorMessages.length > 0 && (
-                <Snackbar
-                    open={true}
-                    autoHideDuration={3000}
-                >
-                    <Alert severity="error" sx={{ width: '100%' }}>
-                         
-                        {errorMessages.join(' ')}     
-                    </Alert>
-                </Snackbar>
-            )}
             {/* Ok */}
             <TransitionsModal
                 title="ایجاد مشتری جدید"
@@ -944,6 +943,12 @@ const Order = () => {
                     setIsCreateOpen={setIsOpen}
                 />
             </TransitionsModal>
+            <CustomSnackbar 
+                        open={open}
+                        message={message}
+                        severity={severity}
+                        handleClose={() => setOpen(false)}
+            />
         </>
     );
 };
