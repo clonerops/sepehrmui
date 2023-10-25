@@ -24,6 +24,7 @@ import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import ActiveText from "../../../_cloner/components/ActiveText";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const radioOption: {
     label: string;
@@ -199,7 +200,7 @@ const ProductPrice = () => {
                     title={requestMessage}
                 />
             )}
-            <Card className="p-8" elevation={8}>
+            <ReusableCard>
                 <Box
                     component="div"
                     className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4"
@@ -281,7 +282,7 @@ const ProductPrice = () => {
                 >
                     <EditProductPrice refetch={refetch} item={itemForEdit} />
                 </TransitionsModal>
-            </Card>
+            </ReusableCard>
         </>
     );
 };

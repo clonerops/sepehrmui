@@ -6,6 +6,7 @@ import BreadcrumbsComponent from "../../_cloner/components/Breadcumbs";
 import { VariableRadiusPieChart } from "../../_cloner/components/VariableRadiusPieChart";
 import { BubbleChart } from "../../_cloner/components/BubbleChart ";
 import { ColumnChart } from "../../_cloner/components/ColumnChart";
+import ReusableCard from "../../_cloner/components/ReusableCard";
 
 const Dashboard = () => {
     const { data: products, isError, isLoading } = useRetrieveProducts();
@@ -19,12 +20,12 @@ const Dashboard = () => {
                 component="div"
                 className="flex flex-col md:flex-row justify-center items-center gap-8 my-8 md:my-0"
             >
-                <Card elevation={1}>
+                <ReusableCard>
                     <VariableRadiusPieChart data={data} />
-                </Card>
-                <Card elevation={1}>
+                </ReusableCard>
+                <ReusableCard>
                     <ColumnChart data={data} />
-                </Card>
+                </ReusableCard>
 
                 {/* <BubbleChart data={bubbleData} /> */}
                 {/* <Box component="div" className="w-full">

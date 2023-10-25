@@ -10,6 +10,7 @@ import React from "react";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import { Visibility } from "@mui/icons-material";
 import ActiveText from "../../../_cloner/components/ActiveText";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const PaymentAccounting = () => {
     // Fetching
@@ -170,7 +171,7 @@ const PaymentAccounting = () => {
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
-            <Card className="p-8" elevation={8}>
+            <ReusableCard>
                 <Box component="div" className="w-auto md:w-[40%] mb-4">
                     <FuzzySearch
                         keys={[
@@ -196,7 +197,7 @@ const PaymentAccounting = () => {
                     rows={results}
                     data={data?.data}
                 />
-            </Card>
+            </ReusableCard>
         </>
     );
 };

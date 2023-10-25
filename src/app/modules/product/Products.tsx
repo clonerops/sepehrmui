@@ -17,6 +17,7 @@ import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import ActiveText from "../../../_cloner/components/ActiveText";
 import ProductForm from "./components/ProductForm";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const Products = () => {
     const {
@@ -263,7 +264,7 @@ const Products = () => {
                     }
                 />
             )}
-            <Card className="p-8" elevation={8}>
+            <ReusableCard>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
@@ -297,7 +298,7 @@ const Products = () => {
                     rows={results}
                     data={products?.data}
                 />
-            </Card>
+            </ReusableCard>
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}

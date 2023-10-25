@@ -1,5 +1,6 @@
 import { Card, Typography } from "@mui/material";
 import React from "react";
+import ReusableCard from "./ReusableCard";
 
 type Props = {
     title: string
@@ -9,12 +10,12 @@ type Props = {
 const TextwithValue = (props: Props) => {
     const { title, value } = props;
     return (
-        <Card component="div" className="p-4 flex gap-x-8">
+        <ReusableCard>
             <Typography variant="h3" color="secondary">
                 {title}
             </Typography>
             <Typography variant="h3">{value}</Typography>
-        </Card>
+        </ReusableCard>
     );
 };
 

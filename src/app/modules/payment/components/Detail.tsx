@@ -6,6 +6,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop"
 import { Box, Button, Card, Container, Typography } from "@mui/material"
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
 import React from 'react'
+import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
 const Detail = () => {
     const { id }: any = useParams()
@@ -91,7 +92,7 @@ const Detail = () => {
             )}
             {fetchingLaoding && <Backdrop loading={fetchingLaoding} />}
             <Container>
-                <Card className="p-8" elevation={8}>
+                <ReusableCard>
                     <Typography color="secondary" variant="h1" className="pb-8">جزئیات حسابداری دریافت و پرداخت</Typography>
                     <Box component="div" className="md:flex md:justify-end md:items-end gap-x-8 pb-2">
                         <Button variant="outlined" onClick={hadelDownload} className='mb-2' color="secondary">
@@ -104,13 +105,13 @@ const Detail = () => {
 
                     <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4">
                         {fieldsValue.map((item: any) =>
-                            <Card className="px-8 py-4">
+                            <ReusableCard>
                                 <Box component="div" className=" text-lg text-gray-500">{item.title}<span className="px-4 font-yekan_bold font-bold text-sm md:text-xl text-black font-bold">{item.value}</span></Box>
-                            </Card>
+                            </ReusableCard>
                         )}
                     </Box>
 
-                </Card>
+                </ReusableCard>
             </Container>
         </>
     )

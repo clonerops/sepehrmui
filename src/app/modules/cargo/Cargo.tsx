@@ -7,6 +7,7 @@ import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { useEffect, useState } from "react";
 import { ICargo } from "./core/_models";
 import React from "react";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const Cargo = () => {
     const { data: cargoNotSended } = useRetrievesNotSendedOrder();
@@ -31,7 +32,7 @@ const Cargo = () => {
     };
 
     return (
-        <Card className="p-8" elevation={8}>
+        <ReusableCard>
             <Typography color="secondary" variant="h1" className="pb-2">
                 کالا اعلام بار نشده
             </Typography>
@@ -55,7 +56,7 @@ const Cargo = () => {
                 rows={results}
                 data={cargoNotSended}
             />
-        </Card>
+        </ReusableCard>
     );
 };
 

@@ -5,6 +5,7 @@ import { useRegisterUser } from "../core/_hooks";
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
 
 const CreateUser = () => {
     const loginSchema = Yup.object().shape({
@@ -50,7 +51,7 @@ const CreateUser = () => {
                 />
             )}
             <Container>
-                <Card className="p-8" elevation={8}>
+                <ReusableCard>
                     <Typography color="secondary" variant="h1" className="pb-8">ایجاد کاربر جدید</Typography>
                     <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={async (values, { setStatus, setSubmitting }) => {
                         try {
@@ -82,7 +83,7 @@ const CreateUser = () => {
                             </Form>
                         }}
                     </Formik>
-                </Card>
+                </ReusableCard>
             </Container>
         </>
     );

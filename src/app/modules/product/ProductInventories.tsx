@@ -17,6 +17,7 @@ import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles"
 import { exportProductPrices } from "./core/_requests";
 import CreateProductInventories from "./components/CreateProductInventories";
 import EditProductInventories from "./components/EditProductInventories";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const ProductInventories = () => {
     const {
@@ -86,7 +87,7 @@ const ProductInventories = () => {
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
             {snackeOpen && (<PositionedSnackbar open={snackeOpen} setState={setSnackeOpen} title={deleteData?.data?.Message || deleteData?.message || "حذف با موفقیت انجام شد"} />)}
             {snackeUploadOpen && (<PositionedSnackbar open={snackeUploadOpen} setState={setSnackeUploadOpen} title={requestMessage} />)}
-            <Card className="p-8" elevation={8}>
+            <ReusableCard>
                     <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
@@ -138,7 +139,7 @@ const ProductInventories = () => {
                 >
                     <EditProductInventories refetch={refetch} item={itemForEdit} />
                 </TransitionsModal>
-            </Card>
+            </ReusableCard>
         </>
     );
 };

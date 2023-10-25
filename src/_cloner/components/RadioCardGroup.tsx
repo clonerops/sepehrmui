@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import cx from "classnames";
 import FormikInput from "./FormikInput";
+import ReusableCard from "./ReusableCard";
 
 interface RadioCardProps {
     title: string;
@@ -27,7 +28,7 @@ const RadioCard: React.FC<RadioCardProps> = ({ title, options, boxClassName }) =
 
     return (
         <Box component={"div"} className={cx("w-full", boxClassName)}>
-            <Card variant="outlined">
+            <ReusableCard>
                 <Typography variant="h4" className="px-4 py-1">تسویه حساب</Typography>
                 <CardContent>
                     {/* <TextField
@@ -57,7 +58,7 @@ const RadioCard: React.FC<RadioCardProps> = ({ title, options, boxClassName }) =
                         </Box>
                     </RadioGroup>
                 </CardContent>
-            </Card>
+            </ReusableCard>
         </Box>
     );
 };

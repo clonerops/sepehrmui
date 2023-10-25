@@ -153,7 +153,7 @@ const MasterLayout = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          backgroundColor: "#EDEDED",
+          backgroundColor: "#eceff3",
           // backgroundImage: `url(${toAbsoulteUrl(
           //   "/media/logos/blob-scene-haikei.svg",
           // )})`,

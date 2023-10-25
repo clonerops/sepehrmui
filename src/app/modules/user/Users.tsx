@@ -20,6 +20,7 @@ import CreateUser from "./components/CreateUser";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { columns } from "./helpers/userColumns";
 import React from "react";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const Users = () => {
   const usersTools = useUsers();
@@ -53,7 +54,7 @@ const Users = () => {
   };
 
   return (
-    <Card className="glassmorphism-card p-8">
+    <ReusableCard>
       <Container>
         <Typography variant="h2" color="primary">
           کاربران
@@ -104,7 +105,7 @@ const Users = () => {
       >
         <CreateUser />
       </Modal>
-    </Card>
+    </ReusableCard>
   );
 };
 

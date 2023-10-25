@@ -64,6 +64,14 @@ import { IProducts } from "../product/core/_models";
 import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import FormikProximateAmount from "../product/components/FormikProximateAmount";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+
+const orderPaymentValues = {
+    // amount: orders.length > 0 ? orders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0) : "",
+    amount: "",
+    number: "",
+    settlement: ""
+}
 
 
 const initialValues = {
@@ -74,28 +82,29 @@ const initialValues = {
     paymentTypeId: "",
     invoiceTypeId: "",
     customerOfficialName: "",
+    // Order
+        rowId: "",
+        id: "",
+        warehouseId: "",
+        warehouseTypeId: "",
+        proximateAmount: "",
+        numberInPackage: "",
+        productDesc: "",
+        productPrice: "",
+        cargoSendDate: "",
+        buyPrice: "",
+        purchaseInvoiceTypeId: "",
+        purchaserCustomerId: "",
+        purchaseSettlementDate: "",
+        sellerCompanyRow: "",
+        // not Main
+        productName: "",
+        warehouseName: "",
+        proximateSubUnit: "",
 };
 
-const orderInitialValues = {
-    rowId: "",
-    id: "",
-    warehouseId: "",
-    warehouseTypeId: "",
-    proximateAmount: "",
-    numberInPackage: "",
-    productDesc: "",
-    productPrice: "",
-    cargoSendDate: "",
-    buyPrice: "",
-    purchaseInvoiceTypeId: "",
-    purchaserCustomerId: "",
-    purchaseSettlementDate: "",
-    sellerCompanyRow: "",
-    // not Main
-    productName: "",
-    warehouseName: "",
-    proximateSubUnit: "",
-};
+// const orderInitialValues = {
+// };
 
 const Order = () => {
     // Fetching Data
@@ -133,14 +142,7 @@ const Order = () => {
     const [orderCode, setOrderCode] = useState<number>(0);
     const [orderData, setOrderData] = useState<any>();
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
-    const [errorMessages, setErrorMessages] = useState<any>([]);
-
-    const orderPaymentValues = {
-        amount: orders.length > 0 ? orders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0) : "",
-        number: "",
-        settlement: ""
-    }
-    
+    const [errorMessages, setErrorMessages] = useState<any>([]);    
 
     useEffect(() => {
         const prices = orders?.map((obj: any) =>
@@ -156,18 +158,30 @@ const Order = () => {
         switch (type) {
             case "customer":
                 return (
-                    <Box component="div" className="flex gap-x-2 w-full">
-                        <FormikComboBox
-                            onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
-                            options={dropdownCustomer(customers?.data)}
-                            {...rest}
-                        />
-                        <IconButton
-                            onClick={() => setIsOpen(true)}
-                            className="flex justify-center items-center cursor-pointer text-xl"
-                        >
-                            <AddCircle color="secondary" />
-                        </IconButton>
+                    <Box component="div" className="flex flex-col w-full">
+                        <Box component="div" className="flex gap-x-2 w-full">
+                            <FormikComboBox
+                                onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
+                                options={dropdownCustomer(customers?.data)}
+                                {...rest}
+                            />
+                            <IconButton
+                                onClick={() => setIsOpen(true)}
+                                className="flex justify-center items-center cursor-pointer text-xl"
+                            >
+                                <AddCircle color="secondary" />
+                            </IconButton>
+                        </Box>
+                        <Box component="div" className="flex justify-between mt-4">
+                            <Box component="div" className="flex flex-row">
+                                <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
+                                <Typography variant="h3" className="px-4">0 ریال</Typography>
+                            </Box>
+                            <Box component="div" className="flex flex-row">
+                                <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
+                                <Typography variant="h3" className="px-4">0 ریال</Typography>
+                            </Box>
+                        </Box>
                     </Box>
                 );
             case "settlementDate":
@@ -420,8 +434,8 @@ const Order = () => {
                 alert("کالا در لیست سفارشات موجود می باشد");
             } else {
                 setOrders([...orders, productOrder]);
+                setFieldValue("amount", [...orders, productOrder].reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0))
             }
-            setFieldValue("amount", [...orders, productOrder].reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0))
             fields.forEach((element) => {
                 setFieldValue(element, "");
             });
@@ -483,7 +497,10 @@ const Order = () => {
             )}
             <Formik
                 enableReinitialize
-                initialValues={{...initialValues, ...orderPaymentValues}}
+                initialValues={{
+                    ...initialValues, 
+                    ...orderPaymentValues, 
+                }}
                 validationSchema={orderValidation}
                 onSubmit={async (
                     values: any,
@@ -605,41 +622,40 @@ const Order = () => {
                     return <Form>
                         <Box
                             component="div"
-                            className="md:grid md:grid-cols-2 gap-x-4 space-y-4 md:space-y-0"
+                            className="md:grid md:grid-cols-2 gap-x-4 space-y-4 md:space-y-0 my-4"
                         >
-                            <Card className="px-8 py-4" elevation={4}>
-                                <Box component="div" className="flex flex-col space-y-8">
-                                    <Box component="div" className="flex justify-between">
-                                        <Box component="div" className="flex">
-                                            <Typography variant="h4" className="text-gray-500">
-                                                شماره سفارش:
-                                            </Typography>
-                                            <Typography variant="h3" className="text-green-600 px-8">
-                                                {orderCode}
-                                            </Typography>
+                            <ReusableCard>
+                                    <Box component="div" className="space-y-8">
+                                        <Box component="div" className="flex justify-between">
+                                            <Box component="div" className="flex">
+                                                <Typography variant="h4" className="text-gray-500">
+                                                    شماره سفارش:
+                                                </Typography>
+                                                <Typography variant="h3" className="text-green-600 px-4">
+                                                    {orderCode}
+                                                </Typography>
+                                            </Box>
+                                            <Box component="div" className="flex">
+                                                <Typography variant="h4" className="text-gray-500">
+                                                    تاریخ سفارش:
+                                                </Typography>
+                                                <Typography variant="h3" className="px-4">
+                                                    {moment(new Date()).format("jYYYY/jMM/jDD")}
+                                                </Typography>
+                                            </Box>
                                         </Box>
                                         <Box component="div" className="flex">
                                             <Typography variant="h4" className="text-gray-500">
-                                                تاریخ سفارش:
+                                                قیمت کل:
                                             </Typography>
-                                            <Typography variant="h3" className="px-8">
-                                                {moment(new Date()).format("jYYYY/jMM/jDD")}
+                                            <Typography variant="h3" className="px-4">
+                                                {sliceNumberPriceRial(totalAmount)} ریال 
                                             </Typography>
+                                            <Typography className="px-2"> ({convertToPersianWord(totalAmount)} تومان)</Typography>
                                         </Box>
                                     </Box>
-                                    <Box component="div" className="flex">
-                                        <Typography variant="h4" className="text-gray-500">
-                                            قیمت کل:
-                                        </Typography>
-                                        <Typography variant="h3" className="px-8">
-                                            {sliceNumberPriceRial(totalAmount)} ریال 
-                                        </Typography>
-                                        <Typography className="px-2"> ({convertToPersianWord(totalAmount)} تومان)</Typography>
-                                    </Box>
-                                </Box>
-                            </Card>
-                            <Card className="px-8 py-4" elevation={4}>
-                                <Form>
+                            </ReusableCard>
+                            <ReusableCard>
                                     <Box component="div" className="">
                                         {customerFields.map((rowFields) => (
                                             <Box
@@ -655,88 +671,25 @@ const Order = () => {
                                             </Box>
                                         ))}
                                     </Box>
-                                </Form>
-                            </Card>
+                            </ReusableCard>
 
-                            {/* <Card className="px-8 py-4" elevation={4}>
-                                <Typography variant="h3" className="pb-2">تسویه حساب</Typography>
-                                <Form>
-
-                                    <Box component="div" className="md:flex gap-x-2">
-                                        <FormikPrice name="amount" label="مبلغ" InputProps={{
-                                            inputProps: {
-                                                style: {
-                                                    textAlign: "center",
-                                                    fontWeight: "bold",
-                                                },
-                                            },
-                                        }} />
-                                        <FormikInput name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
-                                            inputProps: {
-                                                style: {
-                                                    textAlign: "center",
-                                                    fontWeight: "bold",
-                                                },
-                                            },
-                                        }} />
-                                        <Box component="div" className="flex w-full">
-                                            <FormikDatepicker name="settlement" label="تاریخ" />
-                                        </Box>
-                                        <Box component="div" className="" onClick={() => {
-                                            const orderPaymentCP = [...orderPayment]
-                                            const orderPaymentData: IOrderPayment = {
-                                                id: uuidv4(),
-                                                // amount:  Number(values.amount?.replace(/,/g, "")) ,
-                                                amount: values.amount,
-                                                daysAfterExit: values.number,
-                                                paymentDate: values.settlement,
-                                                paymentType: 0
-                                            }
-
-                                            setOrderPayment([...orderPaymentCP, orderPaymentData])
-                                        }}>
-                                            <Button>
-                                                <AddCircle />
-                                            </Button>
-                                        </Box>
-                                    </Box>
-                                    {orderPayment.map((i: IOrderPayment) =>
-                                        <Card className="flex justify-between items-center my-4 py-4 px-4">
-                                            <Box>
-                                                <Typography variant="h4" color="primary"> مبلغ: {i.amount} </Typography>
-                                            </Box>
-                                            <Box component="div" className="flex justify-center items-center px-2">
-                                                <Box component="div" className="flex justify-center items-center rounded-full bg-indigo-600 text-white w-[20px]">
-                                                    {i.daysAfterExit}
-                                                </Box>
-                                                <Typography variant="h4" className="px-2">روز بعداز وزن</Typography>
-                                            </Box>
-                                            <Box>
-                                                <Typography variant="h4" color="primary"> تسویه: {i.paymentDate} </Typography>
-                                            </Box>
-                                            <Box>
-                                                <Delete className="text-red-500 cursor-pointer" onClick={() => {
-                                                    const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== i.id)
-                                                    setOrderPayment(orderPaymentFilter)
-                                                }} />
-                                            </Box>
-                                        </Card>
-                                    )}
-                                </Form>
-                            </Card> */}
                         </Box>
-                        {/* </Form>
-                }}
-            </Formik> */}
-                        <Card className="px-8 py-4 my-4" elevation={4}>
+                        <ReusableCard cardClassName="my-4">
                             <Typography variant="h2" color="primary">
-                                کالا و خصوصیات سفارش
+                                کالا
                             </Typography>
-                            <Formik initialValues={{...orderInitialValues, ...orderPaymentValues}} onSubmit={() => { }}>
+                            {/* <Formik 
+                            enableReinitialize
+                            initialValues={{
+                                ...orderInitialValues, 
+                                ...orderPaymentValues, 
+                                amount:orders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0)
+                            
+                            }} 
+                                onSubmit={() => { }}>
                                 {({ handleSubmit, values, setFieldValue }) => {
-                                    console.log("values", values)
-                                    return (
-                                        <Form onSubmit={handleSubmit}>
+                                    return ( */}
+                                        <Form>
                                             <Box component="div" className="">
                                                 {fieldsToMap.map((rowFields) => (
                                                     <Box
@@ -818,14 +771,14 @@ const Order = () => {
                                                 setOrders={setOrders}
                                             />
                                         </Form>
-                                    );
-                                }}
-                            </Formik>
-                        </Card>
+                            {/* //         );
+                            //     }}
+                            // </Formik> */}
+                        </ReusableCard>
                         <Box component="div" className="md:grid md:grid-cols-2 gap-x-4">
-                            <Card className="px-8 py-4" elevation={4}>
-                                    <Form>
+                            <ReusableCard>
                                             <Box component="div" className="">
+                                                <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
                                                 {orderTypesFields.map((rowFields) => (
                                                     <Box
                                                         component="div"
@@ -840,12 +793,12 @@ const Order = () => {
                                                     </Box>
                                                 ))}
                                             </Box>
-                                        </Form>
-                            </Card>
-                            <Card className="px-8 py-4" elevation={4}>
-                                <Typography variant="h3" className="pb-2">تسویه حساب</Typography>
-                                <Form>
-
+                            </ReusableCard>
+                            <ReusableCard>
+                                <Typography variant="h2" color="primary">
+                                    تسویه حساب
+                                </Typography>
+                                <Form className="mt-4">
                                     <Box component="div" className="md:flex gap-x-2">
                                         <FormikPrice name="amount" label="مبلغ" InputProps={{
                                             inputProps: {
@@ -864,7 +817,7 @@ const Order = () => {
                                             },
                                         }} />
                                         <Box component="div" className="flex w-full">
-                                            <FormikDatepicker disabled={values.number} name="settlement" label="تاریخ" />
+                                            <FormikDatepicker disabled={values.number && values.number != 0} name="settlement" label="تاریخ" />
                                         </Box>
                                         <Box component="div" className="" onClick={() => {
                                             const orderPaymentCP = [...orderPayment]
@@ -875,7 +828,8 @@ const Order = () => {
                                                 paymentDate: values.settlement,
                                                 paymentType: 0
                                             }
-                                            if (Number(values.amount?.replace(/,/g, "")) > sliceNumberPrice(totalAmount)) {
+                                            console.log("values.amount", values.amount)
+                                            if (values.amount > sliceNumberPrice(totalAmount)) {
                                                 addMessage("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد")
                                                 setTimeout(() => {
                                                     setErrorMessages([])
@@ -901,9 +855,9 @@ const Order = () => {
                                         </Box>
                                     </Box>
                                     {orderPayment.map((i: IOrderPayment) =>
-                                        <Card className="flex justify-between items-center my-4 py-4 px-4">
+                                        <ReusableCard cardClassName="flex justify-between items-center my-4">
                                             <Box>
-                                                <Typography variant="h4" color="primary"> مبلغ: {i.amount} تومان</Typography>
+                                                <Typography variant="h4" color="primary"> مبلغ: {i.amount} ریال</Typography>
                                             </Box>
                                             <Box component="div" className="flex justify-center items-center px-2">
                                                 <Box component="div" className="flex justify-center items-center rounded-full bg-indigo-600 text-white w-[20px]">
@@ -912,7 +866,7 @@ const Order = () => {
                                                 <Typography variant="h4" className="px-2">روز بعداز وزن</Typography>
                                             </Box>
                                             <Box>
-                                                <Typography variant="h4" color="primary"> تسویه: {i.paymentDate} </Typography>
+                                                <Typography variant="h4" color="primary"> تاریخ تسویه: {i.paymentDate ? i.paymentDate : "ندارد"} </Typography>
                                             </Box>
                                             <Box>
                                                 <Delete className="text-red-500 cursor-pointer" onClick={() => {
@@ -920,18 +874,28 @@ const Order = () => {
                                                     setOrderPayment(orderPaymentFilter)
                                                 }} />
                                             </Box>
-                                        </Card>
+                                        </ReusableCard>
                                     )}
                                     <Box component="div" className="flex justify-between mt-8">
-                                        <Typography variant="h4" className="flex items-center">
-                                            جمع کل مبالغ تسویه: {<Typography variant="h2" className="px-4 text-indigo-700">{orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount, 10), 0)}</Typography>} هزار تومان  
-                                        </Typography>
-                                        <Typography variant="h4" className="flex items-center">
-                                            مبلغ کل: {<Typography variant="h2" className="px-4 text-amber-700">{sliceNumberPrice(totalAmount)}</Typography>} هزار تومان  
-                                        </Typography>
+                                        <Box component="div" className="flex mt-8">
+                                            <Typography variant="h4" className="flex items-center text-gray-500">
+                                                جمع کل مبالغ تسویه:  
+                                            </Typography>
+                                            <Typography variant="h4" className="flex items-center px-4">
+                                                {sliceNumberPriceRial(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(values.amount.replace(/,/g, ""), 10), 0))} ریال 
+                                            </Typography>
+                                        </Box>
+                                        <Box component="div" className="flex mt-8">
+                                            <Typography variant="h4" className="flex items-center text-gray-500">
+                                                قیمت کل:  
+                                            </Typography>
+                                            <Typography variant="h4" className="flex items-center px-4">
+                                                {sliceNumberPriceRial(totalAmount)} ریال 
+                                            </Typography>
+                                        </Box>
                                     </Box>
                                 </Form>
-                            </Card>
+                            </ReusableCard>
                         </Box>
                         <Box
                             component="div"

@@ -21,6 +21,7 @@ const ProductSelectedList = (props: {
                     order.warehouseId !== indexToDelete.row.warehouseId
             );
             props.setOrders(updatedOrders);
+            props.setFieldValue("amount", updatedOrders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0))
         }
     };
 

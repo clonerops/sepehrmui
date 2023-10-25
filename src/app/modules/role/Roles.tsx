@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import ReusableTable from "../../../_cloner/components/Tables";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 interface Item {
   uniqueRole: string;
@@ -54,7 +55,7 @@ const Roles = () => {
 
   return (
     <Container>
-      <Card className="glassmorphism-card p-8">
+      <ReusableCard>
         <Typography variant="h2" color="primary">
           نقش ها
         </Typography>
@@ -97,7 +98,7 @@ const Roles = () => {
             renderActions={renderActions}
           />
         </Box>
-      </Card>
+      </ReusableCard>
     </Container>
   );
 };

@@ -7,6 +7,7 @@ import PositionedSnackbar from "./Snackbar";
 import { useState } from "react";
 import MuiTable from "./MuiTable";
 import { separateAmountWithCommas } from "../helpers/SeprateAmount";
+import ReusableCard from "./ReusableCard";
 
 type Props = {
     data: any | undefined;
@@ -93,7 +94,7 @@ const OrderDetail = (props: Props) => {
                     }
                 />
             )}
-            <Card className="p-8" elevation={8}>
+            <ReusableCard>
                 <Box component="div" className="flex justify-between">
                     <Typography variant="h3" color="primary" className="pb-4">
                         <Typography variant="h1">جزئیات سفارش {data?.data?.orderCode}</Typography>
@@ -106,9 +107,9 @@ const OrderDetail = (props: Props) => {
                 </Box>
                 <Box component="div" className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
                     {FieldItems.map((item: any) => {
-                        return <Card className="p-4" elevation={8}>
+                        return <ReusableCard>
                             <Box component="div" className="!text-sm md:!text-lg text-gray-500">{item.title}: <span className="px-1 font-yekan_bold font-bold text-sm md:text-xl text-black font-bold">{item.value}</span></Box>
-                        </Card>
+                        </ReusableCard>
 
                     })}
                 </Box>
@@ -116,7 +117,7 @@ const OrderDetail = (props: Props) => {
                     <MuiDataGrid columns={columns} data={data?.data?.details} rows={data?.data?.details} />
                     {/* <MuiTable columns={columns} data={data?.data?.details} /> */}
                 </Box>
-            </Card>
+            </ReusableCard>
         </>
     )
 }

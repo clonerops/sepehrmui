@@ -18,6 +18,7 @@ import { postRoleMenusValidation } from "./validation/validation";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import ReusableTable from "../../../_cloner/components/Tables";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 interface Item {
   uniqueRole: string;
@@ -110,7 +111,7 @@ const RoleMenu = () => {
           title={postResponse?.data?.Message || delereResponse?.data?.Message}
         />
       )}
-      <Card className="glassmorphism-card p-8">
+      <ReusableCard>
         <Typography variant="h2" color="primary">
           مدیریت نقش - منو
         </Typography>
@@ -164,7 +165,7 @@ const RoleMenu = () => {
             renderActions={renderActions}
           />
         </Box>
-      </Card>
+      </ReusableCard>
     </Container>
   );
 };

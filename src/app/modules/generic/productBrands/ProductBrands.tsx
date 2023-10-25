@@ -21,6 +21,7 @@ import { AddCircleOutline } from '@mui/icons-material'
 import FormikBrand from '../../../../_cloner/components/FormikBrand'
 import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
+import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
 const initialValues: any = {
   id: 0,
@@ -143,7 +144,7 @@ const ProductBrands = () => {
       {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postProductBrandData?.data?.Message || postProductBrandData?.message} />)}
       {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateProductBrandData?.data?.Message || updateProductBrandData?.message} />)}
       {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteProductBrandData?.data?.Message || deleteProductBrandData?.message} />)}
-      <Card className="p-4" elevation={8}>
+      <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
           <Box component="div">
             <Formik initialValues={initialValues} onSubmit={
@@ -217,7 +218,7 @@ const ProductBrands = () => {
           </Box>
 
         </Box>
-      </Card>
+      </ReusableCard>
     </>
   )
 }

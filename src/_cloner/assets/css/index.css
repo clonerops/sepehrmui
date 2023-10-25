@@ -8,7 +8,6 @@
     .glassmorphism-card {
         @apply w-full rounded-3xl p-4 backdrop-blur-3xl bg-white/90
     }
-
     .headerClassName {
         @apply bg-[#AFD2FA] text-black font-bold
     }

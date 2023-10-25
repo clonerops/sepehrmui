@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import SwitchComponent from "../../../../_cloner/components/Switch";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
 
 const initialValues = {
     id: 0,
@@ -157,7 +158,7 @@ const Brands = () => {
                     title={deleteData?.data?.Message || deleteData?.message}
                 />
             )}
-            <Card className="p-4" elevation={8}>
+            <ReusableCard>
                 <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
                     <Box component="div">
                         <Formik
@@ -247,7 +248,7 @@ const Brands = () => {
                         </Box>
                     </Box>
                 </Box>
-            </Card>
+            </ReusableCard>
         </>
     );
 };

@@ -8,6 +8,7 @@ import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import { Visibility } from '@mui/icons-material'
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 const OrderList = () => {
     const { data: orders } = useRetrieveOrders();
     const [results, setResults] = useState<IOrder[]>([]);
@@ -83,7 +84,7 @@ const OrderList = () => {
         );
     };
     return (
-        <Card className="p-8" elevation={8}>
+        <ReusableCard>
             <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات
             </Typography>
@@ -110,7 +111,7 @@ const OrderList = () => {
                 rows={results}
                 data={orders?.data}
             />
-        </Card>
+        </ReusableCard>
     );
 };
 

@@ -25,6 +25,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
 
 const RoleUser = () => {
   const queryClient = useQueryClient();
@@ -80,7 +81,7 @@ const RoleUser = () => {
       {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postResponse?.data?.Message || postResponse?.message} />)}
       {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteResponse?.data?.Message || deleteResponse?.data?.message || deleteResponse?.message} />)}
       <Container>
-        <Card className="glassmorphism-card p-8">
+        <ReusableCard>
           <Typography variant="h2" color="primary">
             {"نقش"}: {new URLSearchParams(searchParams).get("name")}
           </Typography>
@@ -127,7 +128,7 @@ const RoleUser = () => {
               </Table>
             </TableContainer>
           </Box>
-        </Card>
+        </ReusableCard>
       </Container>
     </>
   );

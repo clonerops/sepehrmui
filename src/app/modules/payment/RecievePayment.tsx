@@ -14,6 +14,7 @@ import FormikInput from '../../../_cloner/components/FormikInput'
 import PositionedSnackbar from '../../../_cloner/components/Snackbar'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 import FormikPrice from '../product/components/FormikPrice'
+import ReusableCard from '../../../_cloner/components/ReusableCard'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -54,7 +55,7 @@ const RecievePayment = () => {
                 />
             )}
             {isLoading && <Backdrop loading={isLoading} />}
-            <Card className='p-8'>
+            <ReusableCard>
                 <Box component="div" className='md:flex md:justify-between md:first-letter:items-center'>
                     <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-slate-200 py-4 px-16 text-black font-bold font-boldrounded-lg'>شماره: <Typography variant='h3' className='px-4'>{trachingCode}</Typography></Box>
                     <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-gray-200 text-black font-bold font-boldpy-4 px-16 rounded-lg'>تاریخ ثبت: <Typography variant='h3' className='pr-4'>{moment(Date.now()).format('jYYYY/jMM/jDD').toString()}</Typography></Box>
@@ -122,7 +123,7 @@ const RecievePayment = () => {
                     </Formik>
                 </Box>
 
-            </Card>
+            </ReusableCard>
         </>
     )
 }

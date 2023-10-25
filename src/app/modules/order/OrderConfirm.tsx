@@ -8,6 +8,7 @@ import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import React from "react";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const OrderConfirm = () => {
     const { data: orders } = useRetrieveOrders();
@@ -84,7 +85,7 @@ const OrderConfirm = () => {
         );
     };
     return (
-        <Card className="p-8" elevation={8}>
+        <ReusableCard>
             <Typography color="primary" variant="h1" className="pb-2 !text-sm md:!text-2xl">
                 لیست سفارشات جهت تایید
             </Typography>
@@ -111,7 +112,7 @@ const OrderConfirm = () => {
                 rows={results}
                 data={orders?.data}
             />
-        </Card>
+        </ReusableCard>
     );
 };
 

@@ -15,6 +15,7 @@ import * as Yup from 'yup'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
+import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
 const initialValues = {
   id: 0,
@@ -127,7 +128,7 @@ const ProductState = () => {
       {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postData?.data?.Message || postData?.message} />)}
       {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
       {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteData?.data?.Message || deleteData?.message} />)}
-      <Card className="p-4" elevation={8}>
+      <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
           <Box component="div">
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
@@ -195,7 +196,7 @@ const ProductState = () => {
 
           </Box>
         </Box>
-      </Card>
+      </ReusableCard>
     </>
   )
 }

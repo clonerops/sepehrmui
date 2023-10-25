@@ -15,6 +15,7 @@ import DeleteGridButton from "../../../_cloner/components/EditGridButton";
 import React from "react";
 import ActiveText from "../../../_cloner/components/ActiveText";
 import CustomerForm from "./components/CustomerForm";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const Customer = () => {
     const {
@@ -224,7 +225,7 @@ const Customer = () => {
 
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
-            <Card className="p-8" elevation={8}>
+            <ReusableCard>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2"
@@ -263,7 +264,7 @@ const Customer = () => {
                     rows={results}
                     data={customers?.data}
                 />
-            </Card>
+            </ReusableCard>
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}

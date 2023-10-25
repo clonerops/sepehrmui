@@ -15,6 +15,7 @@ import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 const Suppliers = () => {
     const {
@@ -181,7 +182,7 @@ const Suppliers = () => {
                     }
                 />
             )}
-            <Card className="p-8" elevation={8}>
+            <ReusableCard>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2"
@@ -214,7 +215,7 @@ const Suppliers = () => {
                     rows={results}
                     data={suppliers?.data}
                 />
-            </Card>
+            </ReusableCard>
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}

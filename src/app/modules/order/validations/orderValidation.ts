@@ -15,7 +15,7 @@ const orderValidation = Yup.object().shape({
     // price: Yup.number().typeError("مقدار باید عددی باشد").required("قیمت الزامی است"),
     price: Yup.number().typeError("مقدار باید عددی باشد"),
     // proximateAmount: Yup.number().typeError("مقدار باید عددی باشد").required("مقدار الزامی است"),
-    proximateAmount: Yup.number().typeError("مقدار باید عددی باشد"),
+    proximateAmount: Yup.mixed(),
 
 });
 

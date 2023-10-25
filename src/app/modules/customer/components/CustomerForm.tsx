@@ -23,6 +23,7 @@ import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { ICustomer } from "../core/_models";
 import Backdrop from "../../../../_cloner/components/Backdrop";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -126,7 +127,7 @@ const CustomerForm = (props: {
                 );
             case "settlementDay":
                 return (
-                    <Card className="w-full">
+                    <ReusableCard cardClassName="w-full">
                         <Box component={"div"} className="grid grid-cols-3">
                             <Typography variant="h3" className="px-4 py-1 ">
                                 تسویه حساب
@@ -156,7 +157,7 @@ const CustomerForm = (props: {
                             />{" "}
                             <Typography variant="h3">بعد از وزن</Typography>
                         </Box>
-                    </Card>
+                    </ReusableCard>
                 );
             case "description":
                 return <FormikInput multiline rows={3} {...rest} />;
