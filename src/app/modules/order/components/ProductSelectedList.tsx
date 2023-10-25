@@ -12,6 +12,7 @@ const ProductSelectedList = (props: {
     setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
     selectedOrderIndex?: any;
     setSelectedOrderIndex?: any;
+    products?: IProducts[]
 }) => {
     const handleDeleteFromList = (indexToDelete: any) => {
         if (props.orders) {
@@ -20,8 +21,8 @@ const ProductSelectedList = (props: {
                     order.id !== indexToDelete.row.id ||
                     order.warehouseId !== indexToDelete.row.warehouseId
             );
+            console.log("updatedOrders", updatedOrders)
             props.setOrders(updatedOrders);
-            props.setFieldValue("amount", updatedOrders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0))
         }
     };
 
@@ -115,10 +116,9 @@ const ProductSelectedList = (props: {
     }
 
     const onDoubleClick = (params: any) => {
-            // Find the index of the double-clicked row based on the row's ID
-    const selectedRow: any = props.orders.find(order => order.id === params.row.id);
-    const rowIndex = props.orders.indexOf(selectedRow);
 
+        const selectedRow: any = props.orders.find(order => order.id === params.row.id);
+    const rowIndex = props.orders.indexOf(selectedRow);
 
         props.setSelectedOrderIndex(rowIndex);
 
@@ -129,6 +129,8 @@ const ProductSelectedList = (props: {
             props.setFieldValue("proximateAmount", params.row.proximateAmount);
             props.setFieldValue("warehouseId", params.row.warehouseId);
             props.setFieldValue("proximateSubUnit", params.row.proximateSubUnit);
+            props.setFieldValue("mainUnit", props.products?.find((i: IProducts) => i.id === params.row.id)?.productMainUnitDesc);
+            props.setFieldValue("subUnit", props.products?.find((i: IProducts) => i.id === params.row.id)?.productSubUnitDesc);
         }
         props.setIsUpdate(true);
     };

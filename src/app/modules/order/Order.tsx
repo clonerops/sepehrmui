@@ -85,24 +85,26 @@ const initialValues = {
     invoiceTypeId: "",
     customerOfficialName: "",
     // Order
-        rowId: "",
-        id: "",
-        warehouseId: "",
-        warehouseTypeId: "",
-        proximateAmount: "",
-        numberInPackage: "",
-        productDesc: "",
-        productPrice: "",
-        cargoSendDate: "",
-        buyPrice: "",
-        purchaseInvoiceTypeId: "",
-        purchaserCustomerId: "",
-        purchaseSettlementDate: "",
-        sellerCompanyRow: "",
-        // not Main
-        productName: "",
-        warehouseName: "",
-        proximateSubUnit: "",
+    rowId: "",
+    id: "",
+    warehouseId: "",
+    warehouseTypeId: "",
+    proximateAmount: "",
+    numberInPackage: "",
+    productDesc: "",
+    productPrice: "",
+    cargoSendDate: "",
+    buyPrice: "",
+    purchaseInvoiceTypeId: "",
+    purchaserCustomerId: "",
+    purchaseSettlementDate: "",
+    sellerCompanyRow: "",
+    // not Main
+    productName: "",
+    warehouseName: "",
+    proximateSubUnit: "",
+    mainUnit: "",
+    subUnit: ""
 };
 
 // const orderInitialValues = {
@@ -145,7 +147,7 @@ const Order = () => {
     const [orderData, setOrderData] = useState<any>();
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
     const [errorMessages, setErrorMessages] = useState<any>([]);
-    
+
     // Snackebar
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
@@ -234,6 +236,7 @@ const Order = () => {
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
                         <FormikProductComboSelect
+                            onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
                             options={dropdownProductName(products?.data)}
                             {...rest}
                         />
@@ -252,7 +255,8 @@ const Order = () => {
                             description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
                         >
                             <ProductSelectedListInModal
-                                products={productsByBrand?.data}
+                                // productsByBrand={productsByBrand?.data}
+                                products={products?.data}
                                 productLoading={productByBrandLoading}
                                 productError={productByBrandError}
                                 setSelectedProductOpen={setSelectedProductOpen}
@@ -310,7 +314,13 @@ const Order = () => {
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
-                                    {values.id
+                                    {values.mainUnit}
+                                    {/* {products?.data?.find(
+                                            (i: IProducts) =>
+                                                i.id ===
+                                                values?.productName?.value
+                                        )?.productMainUnitDesc} */}
+                                    {/* {values.id
                                         ? products?.data?.find(
                                             (i: IProducts) =>
                                                 i.id === values?.id
@@ -319,7 +329,7 @@ const Order = () => {
                                             (i: IProducts) =>
                                                 i.id ===
                                                 values?.productName?.value
-                                        )?.productMainUnitDesc}
+                                        )?.productMainUnitDesc} */}
                                 </InputAdornment>
                             ),
                         }}
@@ -332,7 +342,13 @@ const Order = () => {
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
-                                    {values.id
+                                    {values.subUnit}
+                                    {/* {products?.data?.find(
+                                            (i: IProducts) =>
+                                                i.id ===
+                                                values?.productName?.value
+                                        )?.productSubUnitDesc} */}
+                                    {/* {values.id
                                         ? products?.data?.find(
                                             (i: IProducts) =>
                                                 i.id === values?.id
@@ -341,7 +357,7 @@ const Order = () => {
                                             (i: IProducts) =>
                                                 i.id ===
                                                 values?.productName?.value
-                                        )?.productSubUnitDesc}
+                                        )?.productSubUnitDesc} */}
                                 </InputAdornment>
                             ),
                         }}
@@ -357,6 +373,12 @@ const Order = () => {
                 break;
         }
     };
+
+    const handleChangeProduct = (value: any, setFieldValue: any) => {
+        setFieldValue("mainUnit", products?.data?.find((i: IProducts) =>i.id ===value?.value)?.productMainUnitDesc)
+        setFieldValue("subUnit", products?.data?.find((i: IProducts) =>i.id ===value?.value)?.productSubUnitDesc)
+
+    }
 
     const onWarehouseChange = (value: number) => {
         const warehousTypeId = warehouse.find((i: any) => i.id === value);
@@ -383,7 +405,9 @@ const Order = () => {
             "proximateAmount",
             "productPrice",
             "rowId",
-            "proximateSubUnit"
+            "proximateSubUnit",
+            "mainUnit",
+            "subUnit"
         ];
 
         const warehouseTypeId = warehouse?.find(
@@ -418,8 +442,10 @@ const Order = () => {
             sellerCompanyRow: values.sellerCompanyRow,
             proximateAmount: values.proximateAmount,
             proximateSubUnit: values.proximateSubUnit,
-            mainUnit: products?.data?.find((i: IProducts) => i.id === values.productName.value ? values.productName.value : values.id)?.productMainUnitDesc,
-            subUnit: products?.data?.find((i: IProducts) => i.id === values.productName.value ? values.productName.value : values.id)?.productSubUnitDesc,
+            // mainUnit: products?.data?.find((i: IProducts) => i.id === values.productName.value ? values.productName.value : values.id)?.productMainUnitDesc,
+            // subUnit: products?.data?.find((i: IProducts) => i.id === values.productName.value ? values.productName.value : values.id)?.productSubUnitDesc,
+            mainUnit: values.mainUnit,
+            subUnit: values.subUnit,
             productPrice: values?.productPrice,
             rowId: values?.rowId,
         };
@@ -459,7 +485,7 @@ const Order = () => {
             };
             const updatedOrders = [...orders];
             updatedOrders[selectedOrderIndex] = updatedOrder;
-            
+
             setOrders(updatedOrders);
             setFieldValue("amount", sliceNumberPriceRial(updatedOrders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0)))
             setSelectedOrderIndex(null);
@@ -479,12 +505,12 @@ const Order = () => {
         );
         setFindCustomer(findCustomer);
         setFieldValue("number", findCustomer?.settlementDay)
-        if(findCustomer?.settlementType !== 1) {
+        if (findCustomer?.settlementType !== 1) {
             setFieldValue("settlement", moment(new Date()).format("jYYYY/jMM/jDD"));
         } else {
             setFieldValue("settlement", "");
         }
-        if(findCustomer === undefined || findCustomer === null) {
+        if (findCustomer === undefined || findCustomer === null) {
             setFieldValue("number", "")
             setFieldValue("settlement", "");
         }
@@ -494,7 +520,7 @@ const Order = () => {
 
     const addMessage = (message: any) => {
         setErrorMessages([...errorMessages, message]);
-      };
+    };
 
     return (
         <>
@@ -512,8 +538,8 @@ const Order = () => {
             <Formik
                 enableReinitialize
                 initialValues={{
-                    ...initialValues, 
-                    ...orderPaymentValues, 
+                    ...initialValues,
+                    ...orderPaymentValues,
                 }}
                 validationSchema={orderValidation}
                 onSubmit={async (
@@ -640,52 +666,52 @@ const Order = () => {
                             className="md:grid md:grid-cols-2 gap-x-4 space-y-4 md:space-y-0 my-4"
                         >
                             <ReusableCard>
-                                    <Box component="div" className="space-y-8">
-                                        <Box component="div" className="flex justify-between">
-                                            <Box component="div" className="flex">
-                                                <Typography variant="h4" className="text-gray-500">
-                                                    شماره سفارش:
-                                                </Typography>
-                                                <Typography variant="h3" className="text-green-600 px-4">
-                                                    {orderCode}
-                                                </Typography>
-                                            </Box>
-                                            <Box component="div" className="flex">
-                                                <Typography variant="h4" className="text-gray-500">
-                                                    تاریخ سفارش:
-                                                </Typography>
-                                                <Typography variant="h3" className="px-4">
-                                                    {moment(new Date()).format("jYYYY/jMM/jDD")}
-                                                </Typography>
-                                            </Box>
+                                <Box component="div" className="space-y-8">
+                                    <Box component="div" className="flex justify-between">
+                                        <Box component="div" className="flex">
+                                            <Typography variant="h4" className="text-gray-500">
+                                                شماره سفارش:
+                                            </Typography>
+                                            <Typography variant="h3" className="text-green-600 px-4">
+                                                {orderCode}
+                                            </Typography>
                                         </Box>
                                         <Box component="div" className="flex">
                                             <Typography variant="h4" className="text-gray-500">
-                                                قیمت کل:
+                                                تاریخ سفارش:
                                             </Typography>
                                             <Typography variant="h3" className="px-4">
-                                                {sliceNumberPriceRial(totalAmount)} ریال 
+                                                {moment(new Date()).format("jYYYY/jMM/jDD")}
                                             </Typography>
-                                            <Typography className="px-2"> ({convertToPersianWord(totalAmount)} تومان)</Typography>
                                         </Box>
                                     </Box>
+                                    <Box component="div" className="flex">
+                                        <Typography variant="h4" className="text-gray-500">
+                                            قیمت کل:
+                                        </Typography>
+                                        <Typography variant="h3" className="px-4">
+                                            {sliceNumberPriceRial(totalAmount)} ریال
+                                        </Typography>
+                                        <Typography className="px-2"> ({convertToPersianWord(totalAmount)} تومان)</Typography>
+                                    </Box>
+                                </Box>
                             </ReusableCard>
                             <ReusableCard>
-                                    <Box component="div" className="">
-                                        {customerFields.map((rowFields) => (
-                                            <Box
-                                                component="div"
-                                                className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-                                            >
-                                                {rowFields.map((field) =>
-                                                    mainParseFields(
-                                                        field,
-                                                        setFieldValue
-                                                    )
-                                                )}
-                                            </Box>
-                                        ))}
-                                    </Box>
+                                <Box component="div" className="">
+                                    {customerFields.map((rowFields) => (
+                                        <Box
+                                            component="div"
+                                            className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                        >
+                                            {rowFields.map((field) =>
+                                                mainParseFields(
+                                                    field,
+                                                    setFieldValue
+                                                )
+                                            )}
+                                        </Box>
+                                    ))}
+                                </Box>
                             </ReusableCard>
 
                         </Box>
@@ -704,110 +730,111 @@ const Order = () => {
                                 onSubmit={() => { }}>
                                 {({ handleSubmit, values, setFieldValue }) => {
                                     return ( */}
-                                        <Form>
-                                            <Box component="div" className="">
-                                                {fieldsToMap.map((rowFields) => (
-                                                    <Box
-                                                        component="div"
-                                                        className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-                                                    >
-                                                        {rowFields.map((field) =>
-                                                            orderParseFields(
-                                                                field,
-                                                                values,
-                                                                setFieldValue
-                                                            )
-                                                        )}
-                                                    </Box>
-                                                ))}
+                            <Form>
+                                <Box component="div" className="">
+                                    {fieldsToMap.map((rowFields) => (
+                                        <Box
+                                            component="div"
+                                            className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                        >
+                                            {rowFields.map((field) =>
+                                                orderParseFields(
+                                                    field,
+                                                    values,
+                                                    setFieldValue
+                                                )
+                                            )}
+                                        </Box>
+                                    ))}
+                                    <Box
+                                        component="div"
+                                        className="flex flex-col md:flex-row items-start justify-between "
+                                    >
+                                        <Box
+                                            component="div"
+                                            className="order-1 md:order-0"
+                                        >
+                                            <Typography
+                                                variant="h2"
+                                                color="primary"
+                                            >
+                                                لیست سفارشات
+                                            </Typography>
+                                        </Box>
+                                        <Box
+                                            component="div"
+                                            className="md:w-1/4 w-full order-0 md:order-1 mb-2"
+                                        >
+                                            {isUpdate ? (
                                                 <Box
                                                     component="div"
-                                                    className="flex flex-col md:flex-row items-start justify-between "
+                                                    onClick={() =>
+                                                        handleOrder(
+                                                            values,
+                                                            setFieldValue
+                                                        )
+                                                    }
+                                                    className="w-full flex p-2 rounded-md bg-yellow-500 cursor-pointer"
                                                 >
-                                                    <Box
-                                                        component="div"
-                                                        className="order-1 md:order-0"
-                                                    >
-                                                        <Typography
-                                                            variant="h2"
-                                                            color="primary"
-                                                        >
-                                                            لیست سفارشات
-                                                        </Typography>
-                                                    </Box>
-                                                    <Box
-                                                        component="div"
-                                                        className="md:w-1/4 w-full order-0 md:order-1 mb-2"
-                                                    >
-                                                        {isUpdate ? (
-                                                            <Box
-                                                                component="div"
-                                                                onClick={() =>
-                                                                    handleOrder(
-                                                                        values,
-                                                                        setFieldValue
-                                                                    )
-                                                                }
-                                                                className="w-full flex p-2 rounded-md bg-yellow-500 cursor-pointer"
-                                                            >
-                                                                <Add />
-                                                                <Typography>
-                                                                    ویرایش
-                                                                </Typography>
-                                                            </Box>
-                                                        ) : (
-                                                            <Box
-                                                                component="div"
-                                                                onClick={() =>
-                                                                    handleOrder(
-                                                                        values,
-                                                                        setFieldValue
-                                                                    )
-                                                                }
-                                                                className="w-full flex p-2 rounded-md bg-green-500 cursor-pointer"
-                                                            >
-                                                                <Add />
-                                                                <Typography>
-                                                                    افزودن به لیست سفارشات
-                                                                </Typography>
-                                                            </Box>
-                                                        )}
-                                                    </Box>
+                                                    <Add />
+                                                    <Typography>
+                                                        ویرایش
+                                                    </Typography>
                                                 </Box>
-                                            </Box>
-                                            <ProductSelectedList
-                                                setSelectedOrderIndex={
-                                                    setSelectedOrderIndex
-                                                }
-                                                selectedOrderIndex={selectedOrderIndex}
-                                                setIsUpdate={setIsUpdate}
-                                                setFieldValue={setFieldValue}
-                                                orders={orders}
-                                                setOrders={setOrders}
-                                            />
-                                        </Form>
+                                            ) : (
+                                                <Box
+                                                    component="div"
+                                                    onClick={() =>
+                                                        handleOrder(
+                                                            values,
+                                                            setFieldValue
+                                                        )
+                                                    }
+                                                    className="w-full flex p-2 rounded-md bg-green-500 cursor-pointer"
+                                                >
+                                                    <Add />
+                                                    <Typography>
+                                                        افزودن به لیست سفارشات
+                                                    </Typography>
+                                                </Box>
+                                            )}
+                                        </Box>
+                                    </Box>
+                                </Box>
+                                <ProductSelectedList
+                                    setSelectedOrderIndex={
+                                        setSelectedOrderIndex
+                                    }
+                                    selectedOrderIndex={selectedOrderIndex}
+                                    setIsUpdate={setIsUpdate}
+                                    setFieldValue={setFieldValue}
+                                    orders={orders}
+                                    setOrders={setOrders}
+                                    products={products?.data}
+                                />
+                            </Form>
                             {/* //         );
                             //     }}
                             // </Formik> */}
                         </ReusableCard>
                         <Box component="div" className="md:grid md:grid-cols-2 gap-x-4">
                             <ReusableCard>
-                                            <Box component="div" className="">
-                                                <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
-                                                {orderTypesFields.map((rowFields) => (
-                                                    <Box
-                                                        component="div"
-                                                        className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-                                                    >
-                                                        {rowFields.map((field) =>
-                                                            mainParseFields(
-                                                                field,
-                                                                setFieldValue
-                                                            )
-                                                        )}
-                                                    </Box>
-                                                ))}
-                                            </Box>
+                                <Box component="div" className="">
+                                    <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
+                                    {orderTypesFields.map((rowFields) => (
+                                        <Box
+                                            component="div"
+                                            className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                        >
+                                            {rowFields.map((field) =>
+                                                mainParseFields(
+                                                    field,
+                                                    setFieldValue
+                                                )
+                                            )}
+                                        </Box>
+                                    ))}
+                                </Box>
                             </ReusableCard>
                             <ReusableCard>
                                 <Typography variant="h2" color="primary">
@@ -845,21 +872,21 @@ const Order = () => {
                                             }
 
                                             const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount.replace(/,/g, ""), 10), 0);
-                                            
+
                                             if (Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
                                                 setOpen(true)
                                                 setMessage("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد")
                                                 setSeverity("error")
-                                            } else if(new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(values.settlement)) {
+                                            } else if (new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(values.settlement)) {
                                                 setOpen(true)
                                                 setMessage("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد")
                                                 setSeverity("error")
-                                            } else if(currentTotalPayment + Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
+                                            } else if (currentTotalPayment + Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
                                                 setOpen(true)
                                                 setMessage("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد")
                                                 setSeverity("error")
 
-                                            } else if(values.amount === "0" || values.amount === "") {
+                                            } else if (values.amount === "0" || values.amount === "") {
                                                 setOpen(true)
                                                 setMessage("مبلغ نمیتولند صفر یا خالی باشد")
                                                 setSeverity("error")
@@ -899,18 +926,18 @@ const Order = () => {
                                     <Box component="div" className="flex justify-between mt-8">
                                         <Box component="div" className="flex mt-8">
                                             <Typography variant="h4" className="flex items-center text-gray-500">
-                                                جمع کل مبالغ تسویه:  
+                                                جمع کل مبالغ تسویه:
                                             </Typography>
                                             <Typography variant="h4" className="flex items-center px-4">
-                                                {sliceNumberPriceRial(Number(values.amount.replace(/,/g, "")) + Number(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + Number(currentValue.amount.replace(/,/g, "")), 0)))} ریال 
+                                                {sliceNumberPriceRial(Number(values.amount.replace(/,/g, "")) + Number(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + Number(currentValue.amount.replace(/,/g, "")), 0)))} ریال
                                             </Typography>
                                         </Box>
                                         <Box component="div" className="flex mt-8">
                                             <Typography variant="h4" className="flex items-center text-gray-500">
-                                                قیمت کل:  
+                                                قیمت کل:
                                             </Typography>
                                             <Typography variant="h4" className="flex items-center px-4">
-                                                {sliceNumberPriceRial(totalAmount)} ریال 
+                                                {sliceNumberPriceRial(totalAmount)} ریال
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -943,11 +970,11 @@ const Order = () => {
                     setIsCreateOpen={setIsOpen}
                 />
             </TransitionsModal>
-            <CustomSnackbar 
-                        open={open}
-                        message={message}
-                        severity={severity}
-                        handleClose={() => setOpen(false)}
+            <CustomSnackbar
+                open={open}
+                message={message}
+                severity={severity}
+                handleClose={() => setOpen(false)}
             />
         </>
     );

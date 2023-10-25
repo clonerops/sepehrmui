@@ -81,22 +81,31 @@ const ProductSelectedListInModal = (props: {
 
     const handleSelectionChange: any = (newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
+        const selectedRowData = {
+            ...newSelectionModel.row,
+            mainUnit: props.products?.find((i: IProducts) =>i.id === selectedRow.id)?.productMainUnitDesc,
+            subUnit: props.products?.find((i: IProducts) =>i.id === selectedRow.id)?.productSubUnitDesc
+        }
         const isDuplicate = selectedProduct.some((item) => {
             return item.id === selectedRow.id;
         });
         if (!isDuplicate) {
             setSelectionModel(newSelectionModel);
-            setSelectedProduct([...selectedProduct, newSelectionModel.row]);
+            setSelectedProduct([...selectedProduct, selectedRowData]);
         } else {
             alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
         }
     };
 
     const handleSubmitSelectedProduct = () => {
+        console.log("selectedProduct", selectedProduct)
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             ...product,
             proximateAmount: proximateAmounts[product.id] || "",
             productPrice: separateAmountWithCommas(product.productPrice),
+            mainUnit: product.mainUnit,
+            subUnit: product.subUnit,
+            proximateSubUnit: product.productPrice / product.exchangeRate
             // warehouseName:
             //     product.productInventories[
             //         product.productInventories.length - 1
@@ -120,6 +129,8 @@ const ProductSelectedListInModal = (props: {
                 ...props.orders,
                 ...selectedProductWithAmounts,
             ];
+
+            console.log("updatedOrders", updatedOrders)
             props.setOrders(updatedOrders);
             props.setSelectedProductOpen(false);
         } else {
