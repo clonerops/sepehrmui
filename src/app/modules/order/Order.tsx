@@ -434,7 +434,7 @@ const Order = () => {
                 alert("کالا در لیست سفارشات موجود می باشد");
             } else {
                 setOrders([...orders, productOrder]);
-                setFieldValue("amount", [...orders, productOrder].reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0))
+                setFieldValue("amount", sliceNumberPriceRial([...orders, productOrder].reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0)))
             }
             fields.forEach((element) => {
                 setFieldValue(element, "");
@@ -447,7 +447,7 @@ const Order = () => {
             updatedOrders[selectedOrderIndex] = updatedOrder;
             
             setOrders(updatedOrders);
-            setFieldValue("amount", updatedOrders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0))
+            setFieldValue("amount", sliceNumberPriceRial(updatedOrders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0)))
             setSelectedOrderIndex(null);
             fields.forEach((element) => {
                 setFieldValue(element, "");
@@ -518,6 +518,7 @@ const Order = () => {
                                 customerId: values.customerId.value,
                                 totalAmount: totalAmount,
                                 description: values.description,
+                                productBrandId: 5,
                                 exitType: Number(values.exitType),
                                 orderSendTypeId: Number(
                                     values.orderSendTypeId
@@ -594,7 +595,7 @@ const Order = () => {
                                     return {
                                         amount: Number(values.amount?.replace(/,/g, "")),
                                         paymentDate: item.paymentDate,
-                                        daysAfterExit: item.daysAfterExit,
+                                        daysAfterExit: Number(item.daysAfterExit),
                                         paymentType: item.paymentType
                                     }
                                 })
@@ -828,8 +829,10 @@ const Order = () => {
                                                 paymentDate: values.settlement,
                                                 paymentType: 0
                                             }
-                                            console.log("values.amount", values.amount)
-                                            if (values.amount > sliceNumberPrice(totalAmount)) {
+
+                                            const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount.replace(/,/g, ""), 10), 0);
+                                            
+                                            if (Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
                                                 addMessage("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد")
                                                 setTimeout(() => {
                                                     setErrorMessages([])
@@ -839,14 +842,21 @@ const Order = () => {
                                                 setTimeout(() => {
                                                     setErrorMessages([])
                                                 }, 3000)
-                                            } else if(sliceNumberPrice(totalAmount) <= orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount, 10), 0)) {
+                                            } else if(currentTotalPayment + Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
                                                 addMessage("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد")
                                                 setTimeout(() => {
                                                     setErrorMessages([])
                                                 }, 3000)
+                                            } else if(values.amount === "0" || values.amount === "") {
+                                                addMessage("مبلغ نمیتولند صفر یا خالی باشد")
+                                                setTimeout(() => {
+                                                    setErrorMessages([])
+                                                }, 3000)
+                                                
                                             }
                                             else {
                                                 setOrderPayment([...orderPaymentCP, orderPaymentData])
+                                                setFieldValue("amount", "")
                                             }
                                         }}>
                                             <Button>
@@ -882,7 +892,7 @@ const Order = () => {
                                                 جمع کل مبالغ تسویه:  
                                             </Typography>
                                             <Typography variant="h4" className="flex items-center px-4">
-                                                {sliceNumberPriceRial(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(values.amount.replace(/,/g, ""), 10), 0))} ریال 
+                                                {sliceNumberPriceRial(Number(values.amount.replace(/,/g, "")) + Number(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + Number(currentValue.amount.replace(/,/g, "")), 0)))} ریال 
                                             </Typography>
                                         </Box>
                                         <Box component="div" className="flex mt-8">
