@@ -130,7 +130,6 @@ const ProductSelectedListInModal = (props: {
                 ...selectedProductWithAmounts,
             ];
 
-            console.log("updatedOrders", updatedOrders)
             props.setOrders(updatedOrders);
             props.setSelectedProductOpen(false);
         } else {

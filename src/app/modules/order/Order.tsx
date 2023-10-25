@@ -518,9 +518,9 @@ const Order = () => {
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
-    const addMessage = (message: any) => {
-        setErrorMessages([...errorMessages, message]);
-    };
+    const handleReset = () => {
+        window.location.reload()
+    }
 
     return (
         <>
@@ -586,6 +586,9 @@ const Order = () => {
                                         warehouseId: item.warehouseId
                                             ? Number(item.warehouseId)
                                             : null,
+                                        productBrandId: item.productBrandId
+                                            ? Number(item.productBrandId)
+                                            : 25,
                                         proximateAmount:
                                             item.proximateAmount
                                                 ? Number(
@@ -631,7 +634,7 @@ const Order = () => {
                                                 : null,
                                     };
                                 }),
-                                orderPayment: orderPayment?.map((item: IOrderPayment) => {
+                                orderPayments: orderPayment?.map((item: IOrderPayment) => {
                                     return {
                                         amount: Number(values.amount?.replace(/,/g, "")),
                                         paymentDate: item.paymentDate,
@@ -946,11 +949,19 @@ const Order = () => {
                         </Box>
                         <Box
                             component="div"
-                            className="flex my-4 justify-center items-center md:justify-end md:items-end"
-                        >
+                            className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
+                        >   
                             <CustomButton
                                 title="ثبت سفارش"
                                 onClick={() => handleSubmit()}
+                                disabled={orderPayment.length <= 0}
+                                color="primary"
+                            />
+                            <CustomButton
+                                title="پاک کردن فرم"
+                                onClick={() => handleReset()}
+                                disabled={orderCode === 0}
+                                color="secondary"
                             />
                         </Box>
                     </Form>

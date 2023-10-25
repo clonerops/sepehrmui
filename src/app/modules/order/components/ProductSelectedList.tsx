@@ -118,9 +118,11 @@ const ProductSelectedList = (props: {
     const onDoubleClick = (params: any) => {
 
         const selectedRow: any = props.orders.find(order => order.id === params.row.id);
-    const rowIndex = props.orders.indexOf(selectedRow);
+        const rowIndex = props.orders.indexOf(selectedRow);
 
         props.setSelectedOrderIndex(rowIndex);
+
+        console.log(params.row)
 
         if (props.setFieldValue) {
             props.setFieldValue("productName", params.row.productName);
@@ -128,6 +130,7 @@ const ProductSelectedList = (props: {
             props.setFieldValue("productPrice", params.row.productPrice);
             props.setFieldValue("proximateAmount", params.row.proximateAmount);
             props.setFieldValue("warehouseId", params.row.warehouseId);
+            props.setFieldValue("warehouseName", params.row.warehouseName);
             props.setFieldValue("proximateSubUnit", params.row.proximateSubUnit);
             props.setFieldValue("mainUnit", props.products?.find((i: IProducts) => i.id === params.row.id)?.productMainUnitDesc);
             props.setFieldValue("subUnit", props.products?.find((i: IProducts) => i.id === params.row.id)?.productSubUnitDesc);
