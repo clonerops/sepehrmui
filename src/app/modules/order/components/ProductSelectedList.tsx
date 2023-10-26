@@ -104,6 +104,12 @@ const ProductSelectedList = (props: {
                 }, headerClassName: "headerClassName", flex: 1, minWidth: 120
             },
             {
+                headerName: "ردیف قیمت", field: "sumRowPrice",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>
+                }, headerClassName: "headerClassName", flex: 1, minWidth: 120
+            },
+            {
                 headerName: "حذف",
                 field: "Action",
                 renderCell: renderActions,

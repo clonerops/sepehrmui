@@ -120,3 +120,7 @@
     width: 80%; /* Adjust the width as per your requirement */
     max-width: none; /* To override the max-width constraint */
   }
+.submenu-item:hover,
+.submenu-item.selected {
+  background-color: white !important;
+}
