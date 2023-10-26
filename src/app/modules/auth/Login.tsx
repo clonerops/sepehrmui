@@ -80,8 +80,8 @@ const Login = () => {
           <Box component="div" className="relative flex flex-row">
             <Box
               component="img"
-              src={toAbsoulteUrl("/media/logos/folladlogo.png")}
-              width={100}
+              src={toAbsoulteUrl("/media/mainlogo/2.png")}
+              width={60}
             />
           </Box>
           <Typography variant="h2" className="font-poppins_bold text-center text-2xl text-thirty pt-8 pb-4">

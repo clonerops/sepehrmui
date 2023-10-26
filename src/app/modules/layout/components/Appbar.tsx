@@ -70,7 +70,7 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                     </IconButton>
                     <Box component="div" className="mx-4 hidden md:block">
                         <img
-                            src={toAbsoulteUrl("/media/logos/folladlogo.png")}
+                            src={toAbsoulteUrl("/media/mainlogo/2.png")}
                             width={30}
                         />
                     </Box>

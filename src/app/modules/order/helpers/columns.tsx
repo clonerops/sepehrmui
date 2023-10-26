@@ -186,7 +186,7 @@ export const columnsOrderDetail = [
     {
         headerName: 'شماره ردیف', field: 'rowId', renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        }, headerClassName: "headerClassName", flex: 1
+        }, headerClassName: "headerClassName", flex: 1, maxWidth: 100, minWidth: 100
     },
     {
         headerName: 'نام کالا', field: 'productName', renderCell: (params: any) => {
@@ -210,7 +210,7 @@ export const columnsOrderDetail = [
     },
     {
         headerName: 'مقدار تقریبی', field: 'proximateAmount', renderCell: (params: any) => {
-            return <Typography variant="h4">{params.value}</Typography>
+            return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
         }, headerClassName: "headerClassName", flex: 1
     },
     {
