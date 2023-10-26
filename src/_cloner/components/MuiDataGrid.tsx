@@ -46,7 +46,8 @@ export default function MuiDataGrid(props: Props) {
                 rows={rows ? rows : []}
                 columns={columns}
                 pagination={false}
-                getRowId={(row) => row.id}
+                // getRowId={(row) => row.id}
+                getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}
                 rowHeight={42}
                 autoPageSize={false}
                 onRowDoubleClick={props.onDoubleClick}

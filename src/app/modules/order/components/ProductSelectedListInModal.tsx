@@ -98,7 +98,6 @@ const ProductSelectedListInModal = (props: {
     };
 
     const handleSubmitSelectedProduct = () => {
-        console.log("selectedProduct", selectedProduct)
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             ...product,
             proximateAmount: proximateAmounts[product.id] || "",
@@ -285,8 +284,6 @@ const ProductSelectedListInModal = (props: {
                 </Box>
                 <MuiDataGrid
                     onDoubleClick={handleSelectionChange}
-                    // selectionModel={selectionModel}
-                    // setSelectionModel={setSelectionModel}
                     columns={columns(renderAction)}
                     rows={results}
                     data={productsByBrand?.data}
