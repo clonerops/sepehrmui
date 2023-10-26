@@ -47,7 +47,6 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
-import TextValue from "./components/TextValue";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import { AddCircle, Add, Grading, Delete } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
@@ -529,9 +528,9 @@ const Order = () => {
                     open={snackeOpen}
                     setState={setSnackeOpen}
                     title={
-                        orderData?.data?.Message ||
+                        orderData?.message || (orderData?.data?.Errors.length > 0 && orderData?.data?.Errors[0]) ||
                         orderData?.Message ||
-                        orderData?.message
+                        orderData?.data?.Message
                     }
                 />
             )}
@@ -636,7 +635,7 @@ const Order = () => {
                                 }),
                                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
                                     return {
-                                        amount: Number(values.amount?.replace(/,/g, "")),
+                                        amount: Number(item.amount?.replace(/,/g, "")),
                                         paymentDate: item.paymentDate,
                                         daysAfterExit: Number(item.daysAfterExit),
                                         paymentType: item.paymentType
@@ -650,7 +649,6 @@ const Order = () => {
                                     setOrderCode(
                                         orderData?.data[0].orderCode
                                     );
-                                    resetForm();
                                 },
                             });
                         } catch (error) {

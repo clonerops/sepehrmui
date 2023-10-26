@@ -19,8 +19,7 @@ const MenuItems = (props: { menuItems: any }) => {
   );
 
   const toggleSubMenu = (index: number) => {
-    const updatedOpenSubMenu = [...openSubMenu];
-    updatedOpenSubMenu[index] = !updatedOpenSubMenu[index];
+    const updatedOpenSubMenu = openSubMenu.map((item, i) => i === index ? !item : false);
     setOpenSubMenu(updatedOpenSubMenu);
   };
 
@@ -35,7 +34,7 @@ const MenuItems = (props: { menuItems: any }) => {
           <ListItem className={`hover:bg-white hover:rounded-tr-full hover:rounded-br-full hover:text-[#272862] ${openSubMenu[index] && "text-[#272862] font-bold " } ${openSubMenu[index] && "bg-white rounded-tr-3xl rounded-br-3xl " }`} onClick={() => toggleSubMenu(index)}>
             <ListItemIcon className="text-white hover:!text-[#272862] font-bold">
               <Box component="div" className="text-white hover:!text-[#272862] font-bold">
-                <IconComponent iconName={menuItem.iconName} />
+                <IconComponent className={`hover:!text-[#272862] font-bold`} iconName={menuItem.iconName} />
               </Box>
             </ListItemIcon>
             <ListItemText className={``} primary={menuItem.title} />

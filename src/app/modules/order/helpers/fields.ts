@@ -1,55 +1,7 @@
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 
-// export const mainFields: FieldType[][] = [
-//     [
-//         { label: "مشتری", name: "customerId", type: "customer" },
-//         {
-//             label: "تاریخ تسویه",
-//             name: "settlementDate",
-//             type: "settlementDate",
-//         },
-//     ],
-//     [
-//         {
-//             label: "نوع ارسال",
-//             name: "orderSendTypeId",
-//             type: "orderSendTypeId",
-//         },
-//         {
-//             label: "نوع فاکتور",
-//             name: "invoiceTypeId",
-//             type: "invoiceTypeId",
-//         },
-//         {
-//             label: "نوع کرایه",
-//             name: "paymentTypeId",
-//             type: "paymentTypeId",
-//         },
-//         { label: "نوع خروج", name: "exitType", type: "exitType" },
-//     ],
-// ];
 export const customerFields: FieldType[][] = [
     [{ label: "مشتری", name: "customerId", type: "customer" }],
-    // [
-    //     {
-    //         label: "نوع ارسال",
-    //         name: "orderSendTypeId",
-    //         type: "orderSendTypeId",
-    //     },
-    //     {
-    //         label: "نوع فاکتور",
-    //         name: "invoiceTypeId",
-    //         type: "invoiceTypeId",
-    //     },
-    // ],
-    // [
-    //     {
-    //         label: "نوع کرایه",
-    //         name: "paymentTypeId",
-    //         type: "paymentTypeId",
-    //     },
-    //     { label: "نوع خروج", name: "exitType", type: "exitType" },
-    // ],
 ];
 export const settlementFields: FieldType[][] = [
     [
@@ -62,7 +14,6 @@ export const settlementFields: FieldType[][] = [
 ];
 export const orderFields: FieldType[][] = [
     [
-        // { label: "کالا", name: "productName", type: "product" },
         { label: "کالا", name: "productName", type: "product" },
         {
             label: "انبار",

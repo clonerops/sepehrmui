@@ -11,7 +11,6 @@ import PaymentAccounting from "../modules/payment/PaymentAccounting";
 import Detail from "../modules/payment/components/Detail";
 import Order from "../modules/order/Order";
 import OrderList from "../modules/order/OrderList";
-import OrderDetail from "../../_cloner/components/OrderDetail";
 import OrderConfirm from "../modules/order/OrderConfirm";
 import Dashboard from "../modules/Dashboard";
 import DynamicBreadcrumbs from "../../_cloner/components/Breadcumbs";
@@ -25,6 +24,7 @@ import CreateUser from "../modules/user/components/CreateUser";
 import RoleUser from "../modules/user/components/RoleUser";
 import React from "react";
 import ProductInventories from "../modules/product/ProductInventories";
+import OrderDetail from "../modules/order/OrderDetail";
 
 const PrivateRoutes = () => {
 

@@ -10,9 +10,9 @@ import FormikSelect from "../../../../_cloner/components/FormikSelect"
 import { confirmValidation } from "../validations/confirm"
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
 import { useState } from "react"
-import OrderDetail from "../../../../_cloner/components/OrderDetail"
 import { useRetrieveOrder } from "../../order/core/_hooks"
 import React from "react"
+import OrderDetail from "../../order/OrderDetail"
 
 const initialValues = {
     driverName: "",

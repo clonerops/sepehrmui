@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { IProducts } from "../../product/core/_models";
-import { columnsSelectProduct } from "../helpers/productColumns";
 import { Box, Button, OutlinedInput, Typography } from "@mui/material";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
@@ -8,6 +7,7 @@ import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
+import { columnsModalProduct, columnsSelectProduct } from "../helpers/columns";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -21,8 +21,6 @@ const ProductSelectedListInModal = (props: {
 }) => {
     const {
         data: productsByBrand,
-        isLoading: productByBrandLoading,
-        isError: productByBrandError,
     } = useRetrieveProductsByBrand();
 
     const [results, setResults] = useState<IProducts[]>([]);
@@ -105,14 +103,6 @@ const ProductSelectedListInModal = (props: {
             mainUnit: product.mainUnit,
             subUnit: product.subUnit,
             proximateSubUnit: product.productPrice / product.exchangeRate
-            // warehouseName:
-            //     product.productInventories[
-            //         product.productInventories.length - 1
-            //     ]?.warehouseName || "",
-            // warehouseId:
-            //     product.productInventories[
-            //         product.productInventories.length - 1
-            //     ]?.warehouseId || "",
         }));
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
@@ -135,133 +125,6 @@ const ProductSelectedListInModal = (props: {
             alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
         }
     };
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                field: "productName",
-                headerName: "کالا",
-                headerClassName: "headerClassName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-
-                width: 140,
-            },
-            {
-                field: "productBrandName",
-                width: 80,
-                headerName: "برند",
-                headerClassName: "headerClassName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-            },
-            {
-                field: "warehouseName",
-
-                width: 80,
-                headerName: "انبار",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-
-                headerClassName: "headerClassName",
-            },
-            {
-                field: "inventory",
-                width: 60,
-                headerName: "موجودی",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-
-                headerClassName: "headerClassName",
-            },
-            {
-                field: "productMainUnitDesc",
-                width: 80,
-                headerName: "واحد اصلی",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-
-                headerClassName: "headerClassName",
-            },
-            {
-                field: "productPrice",
-                minWidth: 60,
-                headerName: "قیمت",
-                flex: 1,
-                renderCell: (value: any) =>
-                    separateAmountWithCommas(value.row.productPrice),
-                headerClassName: "headerClassName",
-            },
-        ];
-        return col;
-    };
-
-    const columnsSelectProduct = (renderAction: any, renderInput: any) => {
-        const col = [
-            {
-                field: "productName",
-                headerName: "کالا",
-                headerClassName: "headerClassName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-
-                width: 100,
-            },
-            {
-                field: "thickness",
-                minWidth: 160,
-                headerName: "مقدار",
-                renderCell: renderInput,
-                headerAlign: "center",
-                headerClassName: "headerClassName",
-            },
-            {
-                field: "productBrandName",
-                width: 80,
-                headerName: "برند",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-
-                headerClassName: "headerClassName",
-            },
-            {
-                field: "warehouseName",
-                width: 80,
-                headerName: "انبار",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-
-                headerClassName: "headerClassName",
-            },
-            {
-                field: "productMainUnitDesc",
-                width: 80,
-                headerName: "واحد اصلی",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-
-                headerClassName: "headerClassName",
-            },
-            {
-                field: "Action",
-                minWidth: 60,
-                renderCell: renderAction,
-                headerName: "حذف",
-                flex: 1,
-                headerClassName: "headerClassName",
-            },
-        ];
-        return col;
-    };
-
 
     if(props.productLoading) {
         return <Typography>Loading ...</Typography>
@@ -284,12 +147,9 @@ const ProductSelectedListInModal = (props: {
                 </Box>
                 <MuiDataGrid
                     onDoubleClick={handleSelectionChange}
-                    columns={columns(renderAction)}
+                    columns={columnsModalProduct(renderAction)}
                     rows={results}
                     data={productsByBrand?.data}
-                    // pagination={false}
-                    // hideFooter={true}
-                    // columnHeaderHeight={40}
                 />
             </Box>
             <Box component="div" className="mt-4">

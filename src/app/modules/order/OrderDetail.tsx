@@ -1,13 +1,11 @@
 import { useLocation, useParams } from "react-router-dom";
-import { useConfirmOrder, useRetrieveOrder } from "../../app/modules/order/core/_hooks";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
-import MuiDataGrid from "./MuiDataGrid";
-import { columns } from '../../app/modules/order/helpers/orderListColumns'
-import PositionedSnackbar from "./Snackbar";
+import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
-import MuiTable from "./MuiTable";
-import { separateAmountWithCommas } from "../helpers/SeprateAmount";
-import ReusableCard from "./ReusableCard";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import PositionedSnackbar from "../../../_cloner/components/Snackbar";
+import { useConfirmOrder, useRetrieveOrder } from "./core/_hooks";
+import { columnsOrderDetail } from "./helpers/columns";
 
 type Props = {
     data: any | undefined;
@@ -34,8 +32,6 @@ const OrderDetail = (props: Props) => {
             })
     }
 
-    const renderAction = () => { return <></> }
-
     const FieldItems = [
         { title: "مشتری", value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { title: "نوع فاکتور", value: data?.data?.invoiceTypeDesc },
@@ -45,43 +41,6 @@ const OrderDetail = (props: Props) => {
         { title: "تاریخ تسویه", value: data?.data?.settlementDate },
     ]
 
-    const columns = [
-        {
-            headerName: 'شماره ردیف', field: 'rowId', renderCell: (params: any) => {
-                return <Typography>{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1
-        },
-        {
-            headerName: 'نام کالا', field: 'productName', renderCell: (params: any) => {
-                return <Typography>{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1
-        },
-        {
-            headerName: 'انبار', field: 'warehouseName', renderCell: (params: any) => {
-                return <Typography>{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1
-        },
-        {
-            headerName: 'قیمت', field: 'price', renderCell: (params: any) => {
-                return <Typography>{separateAmountWithCommas(params.value)}</Typography>
-            }, headerClassName: "headerClassName", flex: 1
-        },
-        {
-            headerName: 'تاریخ ارسال بار', field: 'cargoSendDate', renderCell: (params: any) => {
-                return <Typography>{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1
-        },
-        {
-            headerName: 'مقدار تقریبی', field: 'proximateAmount', renderCell: (params: any) => {
-                return <Typography>{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1
-        },
-        {
-            headerName: 'تعداد در بسته', field: 'numberInPackage', renderCell: (params: any) => {
-                return <Typography>{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1
-        },
-    ];
     return (
         <>
             {snackeOpen && (
@@ -114,8 +73,7 @@ const OrderDetail = (props: Props) => {
                     })}
                 </Box>
                 <Box component="div" className="mt-4">
-                    <MuiDataGrid columns={columns} data={data?.data?.details} rows={data?.data?.details} />
-                    {/* <MuiTable columns={columns} data={data?.data?.details} /> */}
+                    <MuiDataGrid columns={columnsOrderDetail} data={data?.data?.details} rows={data?.data?.details} />
                 </Box>
             </ReusableCard>
         </>
