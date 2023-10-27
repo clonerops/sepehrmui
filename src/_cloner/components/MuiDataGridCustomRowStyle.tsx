@@ -9,11 +9,12 @@ type Props = {
     data: any;
     width?: number;
     maxVisibleRows?: number;
-    customRowStyle?: boolean;
+    getRowClassName?: any;
+    columnTypes?: any;
 };
 
-export default function MuiDataGrid(props: Props) {
-    const { columns, rows, data, width, maxVisibleRows = 12, customRowStyle  } = props;
+export default function MuiDataGridCustomRowStyle(props: Props) {
+    const { columns, rows, data, width, maxVisibleRows = 12, getRowClassName, columnTypes  } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
@@ -28,15 +29,6 @@ export default function MuiDataGrid(props: Props) {
             : maxVisibleRows * defaultRowHeight;
     }, [data, maxVisibleRows]);
 
-    const getRowClassName = (params: any) => {
-        let className = params.indexRelativeToCurrentPage % 2 === 0 ? "bg-[#ECF5FF]" : "bg-white";
-
-        if (customRowStyle) {
-            className = "custom-row-style";
-        }
-
-        return className;
-    };
 
     return (
         <Box sx={{ width: width }}>
@@ -57,6 +49,7 @@ export default function MuiDataGrid(props: Props) {
                 rows={rows ? rows : []}
                 columns={columns}
                 pagination={false}
+                columnTypes={columnTypes}
                 // getRowId={(row) => row.id}
                 getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}
                 rowHeight={42}

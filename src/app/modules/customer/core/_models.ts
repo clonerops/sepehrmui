@@ -18,5 +18,6 @@ export interface ICustomer {
     representative?: string | undefined
     isSupplier?: boolean | undefined
     settlementDay?: string | undefined | null
+    customerDept?: string | undefined | null
     
 }

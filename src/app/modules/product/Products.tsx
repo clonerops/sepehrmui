@@ -62,7 +62,7 @@ const Products = () => {
                 headerName: "نام کالا",
                 cellClassName: "bg-green-100 font-bold",
                 headerClassName: "headerClassName",
-                minWidth: 160,
+                minWidth: 240,
                 flex: 1,
             },
             {
@@ -303,14 +303,10 @@ const Products = () => {
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
                 title="ایجاد محصول جدید"
-                width="80%"
+                width="60%"
                 description="لطفاً مشخصات محصول را با دقت وارد کنید تا مشتریان به آسانی اطلاعات مورد نیاز را بیابند اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
-                {/* <CreateProduct
-                    refetch={refetch}
-                    setIsCreateOpen={setIsCreateOpen}
-                /> */}
-                <ProductForm
+                <CreateProduct
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
@@ -319,7 +315,7 @@ const Products = () => {
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
                 title="ویرایش محصول جدید"
-                width="80%"
+                width="60%"
                 description=" درصورتی که محصولی نیاز به ویرایش داشته باشد می توانید از طریق فرم زیر اقدام به ویرایش محصول نمایید"
             >
                 <ProductForm

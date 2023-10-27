@@ -51,6 +51,8 @@ export interface IProducts {
     productInventories?: any,
     inventory?: number | undefined
 
+    purchaseInvoiceTypeId?: number | undefined
+
 }
 
 export interface IProductInventories {

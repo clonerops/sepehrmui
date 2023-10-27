@@ -90,9 +90,14 @@ export const orderFieldsIsBuy: FieldType[][] = [
     [
         {
             label: "خرید از",
-            name: "purchaserCustomerId",
+            name: "purchaserCustomerName",
             type: "purchaserCustomer",
         },
+        // {
+        //     label: "خرید از",
+        //     name: "purchaserCustomerId",
+        //     type: "purchaserCustomer",
+        // },
         {
             label: "قیمت خرید",
             name: "buyPrice",

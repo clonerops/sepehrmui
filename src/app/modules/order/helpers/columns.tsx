@@ -65,47 +65,55 @@ export const columnsModalProduct = (renderAction: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
 
-            width: 140,
+            minWidth: 180,
+            flex: 1,
         },
         {
             field: "productBrandName",
-            width: 80,
+            minWidth: 80,
+            maxWidth: 80,
             headerName: "برند",
             headerClassName: "headerClassName",
             renderCell: (params: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
+            flex: 1,
         },
         {
             field: "warehouseName",
 
-            width: 80,
+            minWidth: 80,
+            maxWidth: 80,
             headerName: "انبار",
             renderCell: (params: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
 
             headerClassName: "headerClassName",
+            flex: 1,
         },
         {
             field: "inventory",
-            width: 60,
+            minWidth: 90,
+            maxWidth: 90,
             headerName: "موجودی",
             renderCell: (params: any) => {
-                return <Typography variant="h5">{params.value}</Typography>;
+                return <Typography variant="h5">{separateAmountWithCommas(params.value)}</Typography>;
             },
 
             headerClassName: "headerClassName",
+            flex: 1,
         },
         {
             field: "productMainUnitDesc",
             width: 80,
-            headerName: "واحد اصلی",
+            headerName: "واحد",
             renderCell: (params: any) => {
-                return <Typography variant="h5">{params.value}</Typography>;
+             return <Typography variant="h5">{params.value}</Typography>;
             },
 
             headerClassName: "headerClassName",
+            flex: 1,
         },
         {
             field: "productPrice",
@@ -113,7 +121,7 @@ export const columnsModalProduct = (renderAction: any) => {
             headerName: "قیمت",
             flex: 1,
             renderCell: (value: any) =>
-                separateAmountWithCommas(value.row.productPrice),
+                <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.productPrice)}</Typography>,
             headerClassName: "headerClassName",
         },
     ];
@@ -130,7 +138,8 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
 
-            width: 100,
+            minWidth: 180,
+            flex: 1,
         },
         {
             field: "thickness",
@@ -142,33 +151,38 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
         },
         {
             field: "productBrandName",
-            width: 80,
+            minWidth: 80,
+            maxWidth: 80,
             headerName: "برند",
+            headerClassName: "headerClassName",
             renderCell: (params: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
-
-            headerClassName: "headerClassName",
+            flex: 1,
         },
         {
             field: "warehouseName",
-            width: 80,
+
+            minWidth: 80,
+            maxWidth: 80,
             headerName: "انبار",
             renderCell: (params: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
 
             headerClassName: "headerClassName",
+            flex: 1,
         },
         {
             field: "productMainUnitDesc",
             width: 80,
-            headerName: "واحد اصلی",
+            headerName: "واحد",
             renderCell: (params: any) => {
-                return <Typography variant="h5">{params.value}</Typography>;
+             return <Typography variant="h5">{params.value}</Typography>;
             },
 
             headerClassName: "headerClassName",
+            flex: 1,
         },
         {
             field: "Action",

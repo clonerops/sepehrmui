@@ -51,6 +51,7 @@ import CustomButton from "../../../_cloner/components/CustomButton";
 import { AddCircle, Add, Grading, Delete } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
 import {
+    dropdownProductByBrandName,
     dropdownProductIntegrated,
     dropdownProductName,
 } from "../generic/_functions";
@@ -66,6 +67,7 @@ import FormikProximateAmount from "../product/components/FormikProximateAmount";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import SnackeBar from "../../../_cloner/components/SnackeBar";
 import CustomSnackbar from "../../../_cloner/components/SnackeBar";
+import { calculateTotalAmount } from "./helpers/functions";
 
 const orderPaymentValues = {
     // amount: orders.length > 0 ? orders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0) : "",
@@ -103,7 +105,10 @@ const initialValues = {
     warehouseName: "",
     proximateSubUnit: "",
     mainUnit: "",
-    subUnit: ""
+    subUnit: "",
+    productBrandId: "",
+    productBrandName: "",
+    purchaserCustomerName: ""
 };
 
 // const orderInitialValues = {
@@ -145,20 +150,24 @@ const Order = () => {
     const [orderCode, setOrderCode] = useState<number>(0);
     const [orderData, setOrderData] = useState<any>();
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
-    const [errorMessages, setErrorMessages] = useState<any>([]);
 
     // Snackebar
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('success');
 
+    // const calculateTotalAmount = (data: any) => {
+    //     const prices = data?.map((obj: any) =>
+    //         Number(obj.productPrice?.replace(/,/g, "")) * Number(obj.proximateAmount?.replace(/,/g, ""))
+    //     );
+    //     const newPrices = [...prices];
+    //     const newTotal = newPrices.reduce((acc: any, item) => acc + item, 0);
+    //     setTotalAmount(newTotal);
+    //     return newTotal
+    // }
+
     useEffect(() => {
-        const prices = orders?.map((obj: any) =>
-            Number(obj.productPrice?.replace(/,/g, ""))
-        );
-        const newPrices = [...prices];
-        const newTotal = newPrices.reduce((acc: any, item) => acc + item, 0);
-        setTotalAmount(newTotal);
+        calculateTotalAmount(orders)
     }, [orders]);
 
     const mainParseFields = (fields: FieldType, setFieldValue: any) => {
@@ -187,7 +196,7 @@ const Order = () => {
                             </Box>
                             <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
-                                <Typography variant="h3" className="px-4">0 ریال</Typography>
+                                <Typography variant="h3" className="px-4">{ findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) :0} ریال</Typography>
                             </Box>
                         </Box>
                     </Box>
@@ -235,8 +244,9 @@ const Order = () => {
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
                         <FormikProductComboSelect
+                            disabled={isUpdate}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
-                            options={dropdownProductName(products?.data)}
+                            options={dropdownProductByBrandName(productsByBrand?.data)}
                             {...rest}
                         />
                         <Button
@@ -255,7 +265,7 @@ const Order = () => {
                         >
                             <ProductSelectedListInModal
                                 // productsByBrand={productsByBrand?.data}
-                                products={products?.data}
+                                products={productsByBrand?.data}
                                 productLoading={productByBrandLoading}
                                 productError={productByBrandError}
                                 setSelectedProductOpen={setSelectedProductOpen}
@@ -268,14 +278,6 @@ const Order = () => {
                             />
                         </TransitionsModal>
                     </Box>
-                );
-            case "warehouses":
-                return (
-                    <FormikSelect
-                        onChange={(value) => onWarehouseChange(value)}
-                        options={dropdownWarehouses(warehouse)}
-                        {...rest}
-                    />
                 );
             case "purchaserCustomer":
                 return (
@@ -314,21 +316,6 @@ const Order = () => {
                             endAdornment: (
                                 <InputAdornment position="start">
                                     {values.mainUnit}
-                                    {/* {products?.data?.find(
-                                            (i: IProducts) =>
-                                                i.id ===
-                                                values?.productName?.value
-                                        )?.productMainUnitDesc} */}
-                                    {/* {values.id
-                                        ? products?.data?.find(
-                                            (i: IProducts) =>
-                                                i.id === values?.id
-                                        )?.productMainUnitDesc
-                                        : products?.data?.find(
-                                            (i: IProducts) =>
-                                                i.id ===
-                                                values?.productName?.value
-                                        )?.productMainUnitDesc} */}
                                 </InputAdornment>
                             ),
                         }}
@@ -342,21 +329,6 @@ const Order = () => {
                             endAdornment: (
                                 <InputAdornment position="start">
                                     {values.subUnit}
-                                    {/* {products?.data?.find(
-                                            (i: IProducts) =>
-                                                i.id ===
-                                                values?.productName?.value
-                                        )?.productSubUnitDesc} */}
-                                    {/* {values.id
-                                        ? products?.data?.find(
-                                            (i: IProducts) =>
-                                                i.id === values?.id
-                                        )?.productSubUnitDesc
-                                        : products?.data?.find(
-                                            (i: IProducts) =>
-                                                i.id ===
-                                                values?.productName?.value
-                                        )?.productSubUnitDesc} */}
                                 </InputAdornment>
                             ),
                         }}
@@ -374,19 +346,19 @@ const Order = () => {
     };
 
     const handleChangeProduct = (value: any, setFieldValue: any) => {
-        setFieldValue("mainUnit", products?.data?.find((i: IProducts) =>i.id ===value?.value)?.productMainUnitDesc)
-        setFieldValue("subUnit", products?.data?.find((i: IProducts) =>i.id ===value?.value)?.productSubUnitDesc)
+
+        setFieldValue("productBrandName", value?.productBrandName)
+        setFieldValue("warehouseName", value?.warehouseName)
+        setFieldValue("mainUnit", productsByBrand?.data?.find((i: IProducts) => i.id === value?.value)?.productMainUnitDesc)
+        setFieldValue("subUnit", productsByBrand?.data?.find((i: IProducts) => i.id === value?.value)?.productSubUnitDesc)
+
+        if (value?.warehouseId === 1) {
+            setIsBuy(true)
+        } else {
+            setIsBuy(false)
+        }
 
     }
-
-    const onWarehouseChange = (value: number) => {
-        const warehousTypeId = warehouse.find((i: any) => i.id === value);
-        if (warehousTypeId.warehouseTypeId === 1) {
-            setIsBuy(true);
-        } else {
-            setIsBuy(false);
-        }
-    };
 
     const handleOrder = (values: any, setFieldValue: any) => {
         const fields = [
@@ -396,6 +368,7 @@ const Order = () => {
             "warehouseTypeId",
             "warehouseName",
             "productDesc",
+            "productBrandDesc",
             "buyPrice",
             "purchaseSettlementDate",
             "purchaseInvoiceTypeId",
@@ -405,6 +378,8 @@ const Order = () => {
             "productPrice",
             "rowId",
             "proximateSubUnit",
+            "purchaserCustomerId",
+            "purchaserCustomerName",
             "mainUnit",
             "subUnit"
         ];
@@ -420,15 +395,13 @@ const Order = () => {
         );
 
         const productOrder = {
-            id: values.productName.value ? values.productName.value : values.id,
-            productName: values.productName.label
-                ? values.productName.label
-                : values.productName,
-            warehouseId: values.warehouseId
-                ? values.warehouseId
-                : selectProductFromModal?.row.productInventories[
-                    selectProductFromModal.row.productInventories.length - 1
-                ].warehouseId,
+            id: values?.productName?.value ? values?.productName?.value : values.id,
+            productName: values?.productName?.productName
+                ? values?.productName?.productName
+                : values?.productName,
+            warehouseId: values?.productName?.warehouseId ? values?.productName?.warehouseId : values.warehouseId,
+            productBrandName: values?.productName?.productBrandName ? values?.productName?.productBrandName : values.productBrandName,
+            productBrandId: values.productName.productBrandId ? values.productName.productBrandId : values.productBrandId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             warehouseName: values.warehouseName
                 ? values.warehouseName
@@ -441,6 +414,8 @@ const Order = () => {
             sellerCompanyRow: values.sellerCompanyRow,
             proximateAmount: values.proximateAmount,
             proximateSubUnit: values.proximateSubUnit,
+            purchaserCustomerId: values.purchaserCustomerId?.value ? values.purchaserCustomerId?.value : values.purchaserCustomerId,
+            purchaserCustomerName: values.purchaserCustomerId?.label ? values.purchaserCustomerId?.label : values.purchaserCustomerName,
             // mainUnit: products?.data?.find((i: IProducts) => i.id === values.productName.value ? values.productName.value : values.id)?.productMainUnitDesc,
             // subUnit: products?.data?.find((i: IProducts) => i.id === values.productName.value ? values.productName.value : values.id)?.productSubUnitDesc,
             mainUnit: values.mainUnit,
@@ -449,13 +424,13 @@ const Order = () => {
             rowId: values?.rowId,
         };
 
-
         if (!isUpdate) {
             const isDuplicate = orders.some(
                 (order: any) =>
                     order.id === productOrder.id &&
                     order.warehouseId === productOrder.warehouseId &&
-                    order.productName === productOrder.productName
+                    order.productName === productOrder.productName &&
+                    order.productBrandId === productOrder.productBrandId
             );
 
             if (values.productName === "" || values.productName.label === "") {
@@ -466,27 +441,48 @@ const Order = () => {
                 setOpen(true)
                 setMessage("قیمت الزامی می باشد")
                 setSeverity("error")
-            } else if (isDuplicate) {
+            }else if (values?.proximateAmount === "") {
+                setOpen(true)
+                setMessage("مقدار الزامی می باشد")
+                setSeverity("error")
+            } 
+            else if (isDuplicate) {
                 setOpen(true)
                 setMessage("کالا در لیست سفارشات موجود می باشد")
                 setSeverity("error")
 
             } else {
                 setOrders([...orders, productOrder]);
-                setFieldValue("amount", sliceNumberPriceRial([...orders, productOrder].reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0)))
+                setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder])))
             }
             fields.forEach((element) => {
                 setFieldValue(element, "");
             });
+            setIsBuy(false);
         } else {
             const updatedOrder = {
                 ...productOrder,
             };
             const updatedOrders = [...orders];
             updatedOrders[selectedOrderIndex] = updatedOrder;
-
-            setOrders(updatedOrders);
-            setFieldValue("amount", sliceNumberPriceRial(updatedOrders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0)))
+            if (values.productName === "" || values.productName.label === "") {
+                setOpen(true)
+                setMessage("کالا الزامی می باشد")
+                setSeverity("error")
+            } else if (values?.productPrice === "") {
+                setOpen(true)
+                setMessage("قیمت الزامی می باشد")
+                setSeverity("error")
+            }else if (values?.proximateAmount === "") {
+                setOpen(true)
+                setMessage("مقدار الزامی می باشد")
+                setSeverity("error")
+            } else {
+                // setOrders([...orders, productOrder]);
+                // setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder])))
+                setOrders(updatedOrders);
+                setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders)))
+            }
             setSelectedOrderIndex(null);
             fields.forEach((element) => {
                 setFieldValue(element, "");
@@ -495,6 +491,8 @@ const Order = () => {
             setIsUpdate(false);
         }
     };
+
+    console.log("totalAmount", totalAmount)
 
     const [findCustomer, setFindCustomer] = useState<ICustomer>();
 
@@ -528,7 +526,7 @@ const Order = () => {
                     open={snackeOpen}
                     setState={setSnackeOpen}
                     title={
-                        orderData?.message || (orderData?.data?.Errors.length > 0 && orderData?.data?.Errors[0]) ||
+                        orderData?.message || (orderData?.data?.Errors?.length > 0 && orderData?.data?.Errors[0]) ||
                         orderData?.Message ||
                         orderData?.data?.Message
                     }
@@ -546,17 +544,17 @@ const Order = () => {
                     {
                         setStatus,
                         setSubmitting,
-                        resetForm,
                     }
                 ) => {
+                    console.log("orders", orders)
                     if (orders?.length === 0) {
                         alert("لیست سفارشات خالی می باشد");
                     } else {
                         try {
                             const formData = {
                                 customerId: values.customerId.value,
-                                totalAmount: totalAmount,
-                                description: values.description,
+                                totalAmount: calculateTotalAmount(orders),
+                                description: "string",
                                 productBrandId: 5,
                                 exitType: Number(values.exitType),
                                 orderSendTypeId: Number(
@@ -570,67 +568,26 @@ const Order = () => {
                                     values.invoiceTypeId
                                 ),
                                 freightName: "string",
-                                settlementDate: values.settlementDate,
+                                // settlementDate: values.settlementDate,
+                                settlementDate: "1402/02/02",
                                 dischargePlaceAddress: "string",
                                 freightDriverName: "string",
                                 carPlaque: "string",
                                 details: orders?.map((item: any) => {
                                     return {
-                                        rowId: item.rowId
-                                            ? Number(item.rowId)
-                                            : 0,
+                                        rowId: item.rowId ? Number(item.rowId) : 0,
                                         productId: item.id,
-                                        warehouseTypeId:
-                                            item.warehouseTypeId,
-                                        warehouseId: item.warehouseId
-                                            ? Number(item.warehouseId)
-                                            : null,
-                                        productBrandId: item.productBrandId
-                                            ? Number(item.productBrandId)
-                                            : 25,
-                                        proximateAmount:
-                                            item.proximateAmount
-                                                ? Number(
-                                                    item.proximateAmount?.replace(
-                                                        /,/g,
-                                                        ""
-                                                    )
-                                                )
-                                                : 0,
-                                        numberInPackage:
-                                            item.numberInPackage
-                                                ? Number(
-                                                    item.numberInPackage
-                                                )
-                                                : 0,
-                                        price: item.productPrice
-                                            ? Number(
-                                                item.productPrice?.replace(
-                                                    /,/g,
-                                                    ""
-                                                )
-                                            )
-                                            : null,
+                                        warehouseId: item.warehouseId ? Number(item.warehouseId) : null,
+                                        productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
+                                        proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0,
+                                        numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
+                                        price: item.productPrice ? Number(item.productPrice?.replace(/,/g, "")) : null,
                                         cargoSendDate: "1402/01/01",
-                                        buyPrice: item.buyPrice
-                                            ? Number(item.buyPrice)
-                                            : 0,
-                                        purchaseInvoiceTypeId:
-                                            item.purchaseInvoiceTypeId
-                                                ? item.purchaseInvoiceTypeId
-                                                : null,
-                                        purchaserCustomerId:
-                                            item.purchaserCustomerId
-                                                ? item
-                                                    .purchaserCustomerId
-                                                    .value
-                                                : null,
-                                        purchaseSettlementDate:
-                                            "1402/01/01",
-                                        sellerCompanyRow:
-                                            item.sellerCompanyRow
-                                                ? item.sellerCompanyRow
-                                                : null,
+                                        buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,
+                                        purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
+                                        purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
+                                        purchaseSettlementDate: item.purchaseSettlementDate,
+                                        sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                                     };
                                 }),
                                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
@@ -642,6 +599,7 @@ const Order = () => {
                                     }
                                 })
                             };
+                            console.log(JSON.stringify(formData))
                             mutate(formData, {
                                 onSuccess: (orderData) => {
                                     setOrderData(orderData);
@@ -673,7 +631,7 @@ const Order = () => {
                                             <Typography variant="h4" className="text-gray-500">
                                                 شماره سفارش:
                                             </Typography>
-                                            <Typography variant="h3" className="text-green-600 px-4">
+                                            <Typography variant="h2" className="text-green-600 px-4">
                                                 {orderCode}
                                             </Typography>
                                         </Box>
@@ -690,8 +648,8 @@ const Order = () => {
                                         <Typography variant="h4" className="text-gray-500">
                                             قیمت کل:
                                         </Typography>
-                                        <Typography variant="h3" className="px-4">
-                                            {sliceNumberPriceRial(totalAmount)} ریال
+                                        <Typography variant="h2" className="px-4">
+                                            {sliceNumberPriceRial(calculateTotalAmount(orders))} ریال
                                         </Typography>
                                         <Typography className="px-2"> ({convertToPersianWord(totalAmount)} تومان)</Typography>
                                     </Box>
@@ -717,20 +675,6 @@ const Order = () => {
 
                         </Box>
                         <ReusableCard cardClassName="my-4">
-                            <Typography variant="h2" color="primary">
-                                کالا
-                            </Typography>
-                            {/* <Formik 
-                            enableReinitialize
-                            initialValues={{
-                                ...orderInitialValues, 
-                                ...orderPaymentValues, 
-                                amount:orders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0)
-                            
-                            }} 
-                                onSubmit={() => { }}>
-                                {({ handleSubmit, values, setFieldValue }) => {
-                                    return ( */}
                             <Form>
                                 <Box component="div" className="">
                                     {fieldsToMap.map((rowFields) => (
@@ -810,8 +754,9 @@ const Order = () => {
                                     setIsUpdate={setIsUpdate}
                                     setFieldValue={setFieldValue}
                                     orders={orders}
+                                    setIsBuy={setIsBuy}
                                     setOrders={setOrders}
-                                    products={products?.data}
+                                    products={productsByBrand?.data}
                                 />
                             </Form>
                             {/* //         );
@@ -874,7 +819,7 @@ const Order = () => {
 
                                             const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount.replace(/,/g, ""), 10), 0);
 
-                                            if (Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
+                                            if (Number(values.amount.replace(/,/g, "")) > calculateTotalAmount(orders)) {
                                                 setOpen(true)
                                                 setMessage("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد")
                                                 setSeverity("error")
@@ -882,7 +827,7 @@ const Order = () => {
                                                 setOpen(true)
                                                 setMessage("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد")
                                                 setSeverity("error")
-                                            } else if (currentTotalPayment + Number(values.amount.replace(/,/g, "")) > Number(sliceNumberPriceRial(totalAmount).replace(/,/g, ""))) {
+                                            } else if (currentTotalPayment + Number(values.amount.replace(/,/g, "")) > calculateTotalAmount(orders)) {
                                                 setOpen(true)
                                                 setMessage("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد")
                                                 setSeverity("error")
@@ -930,7 +875,9 @@ const Order = () => {
                                                 جمع کل مبالغ تسویه:
                                             </Typography>
                                             <Typography variant="h4" className="flex items-center px-4">
-                                                {sliceNumberPriceRial(Number(values.amount.replace(/,/g, "")) + Number(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + Number(currentValue.amount.replace(/,/g, "")), 0)))} ریال
+                                                {sliceNumberPriceRial(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount.replace(/,/g, ""), 10), 0))} ریال
+                                                {/* {sliceNumberPriceRial(calculateTotalAmount(orders))} ریال */}
+                                                {/* {sliceNumberPriceRial(Number(values.amount.replace(/,/g, "")) + Number(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + Number(currentValue.amount.replace(/,/g, "")), 0)))} ریال */}
                                             </Typography>
                                         </Box>
                                         <Box component="div" className="flex mt-8">
@@ -938,7 +885,7 @@ const Order = () => {
                                                 قیمت کل:
                                             </Typography>
                                             <Typography variant="h4" className="flex items-center px-4">
-                                                {sliceNumberPriceRial(totalAmount)} ریال
+                                                {sliceNumberPriceRial(calculateTotalAmount(orders))} ریال
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -948,11 +895,11 @@ const Order = () => {
                         <Box
                             component="div"
                             className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
-                        >   
+                        >
                             <CustomButton
                                 title="ثبت سفارش"
                                 onClick={() => handleSubmit()}
-                                disabled={orderPayment.length <= 0}
+                                disabled={orderPayment?.length <= 0 || isUpdate}
                                 color="primary"
                             />
                             <CustomButton

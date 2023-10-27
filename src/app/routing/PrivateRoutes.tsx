@@ -25,6 +25,7 @@ import RoleUser from "../modules/user/components/RoleUser";
 import React from "react";
 import ProductInventories from "../modules/product/ProductInventories";
 import OrderDetail from "../modules/order/OrderDetail";
+import ProductForm from "../modules/product/components/ProductForm";
 
 const PrivateRoutes = () => {
 

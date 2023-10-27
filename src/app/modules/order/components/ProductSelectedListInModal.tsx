@@ -8,6 +8,8 @@ import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmo
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../helpers/columns";
+import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
+import { calculateTotalAmount } from "../helpers/functions";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -81,8 +83,8 @@ const ProductSelectedListInModal = (props: {
         const selectedRow = newSelectionModel.row;
         const selectedRowData = {
             ...newSelectionModel.row,
-            mainUnit: props.products?.find((i: IProducts) =>i.id === selectedRow.id)?.productMainUnitDesc,
-            subUnit: props.products?.find((i: IProducts) =>i.id === selectedRow.id)?.productSubUnitDesc
+            mainUnit: props.products?.find((i: IProducts) => i.id === selectedRow.id)?.productMainUnitDesc,
+            subUnit: props.products?.find((i: IProducts) => i.id === selectedRow.id)?.productSubUnitDesc
         }
         const isDuplicate = selectedProduct.some((item) => {
             return item.id === selectedRow.id;
@@ -97,12 +99,27 @@ const ProductSelectedListInModal = (props: {
 
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
-            ...product,
-            proximateAmount: proximateAmounts[product.id] || "",
-            productPrice: separateAmountWithCommas(product.productPrice),
+            id: product.id,
+            warehouseId: product.warehouseId,
+            productBrandId: product.productBrandId,
+            productName: product.productName,
+            productBrandName: product.productBrandName,
+            warehouseName: product.warehouseName,
+            productDesc: product?.productDesc ? product?.productDesc : "",
+            buyPrice: product?.buyPrice ? product?.buyPrice : "",
+            purchaseSettlementDate: product.purchaseSettlementDate ? product.purchaseSettlementDate : "",
+            purchaseInvoiceTypeId: product?.purchaseInvoiceTypeId ? Number(product?.purchaseInvoiceTypeId) : 0,
+            purchaseInvoiceTypeName: "",
+            sellerCompanyRow: product.sellerCompanyRow ? product.sellerCompanyRow : "string",
+            purchaserCustomerId: "",
+            purchaserCustomerName: "",
             mainUnit: product.mainUnit,
             subUnit: product.subUnit,
-            proximateSubUnit: product.productPrice / product.exchangeRate
+            rowId: product?.rowId ? product?.rowId : 0,
+            proximateAmount: proximateAmounts[product.id] || "",
+            warehouseTypeId: 0,
+            productPrice: separateAmountWithCommas(product.productPrice),
+            proximateSubUnit: Math.ceil(Number(proximateAmounts[product.id]) / Number(product.exchangeRate))
         }));
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
@@ -120,13 +137,14 @@ const ProductSelectedListInModal = (props: {
             ];
 
             props.setOrders(updatedOrders);
+            props.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders)))
             props.setSelectedProductOpen(false);
         } else {
             alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
         }
     };
 
-    if(props.productLoading) {
+    if (props.productLoading) {
         return <Typography>Loading ...</Typography>
     }
 

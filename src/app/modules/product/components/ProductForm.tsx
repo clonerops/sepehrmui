@@ -72,11 +72,11 @@ const ProductForm = (props: {
 
     const fields: FieldType[][] = [
         [
-            { label: "نام کالا", name: "productName", type: "input" },
+            { label: "نام کالا", name: "productName", type: "productName" },
             { label: "نوع کالا", name: "productTypeId", type: "productType" },
-            { label: "سایز", name: "productSize", type: "input" },
         ],
         [
+            { label: "سایز", name: "productSize", type: "input" },
             { label: "ضخامت", name: "productThickness", type: "input" },
             { label: "وزن", name: "approximateWeight", type: "input" },
             {
@@ -102,9 +102,9 @@ const ProductForm = (props: {
                 name: "productSubUnitId",
                 type: "productSubUnit",
             },
-
         ],
         [
+           
             {
                 label: "نرخ تبدیل",
                 name: "exchangeRate",
@@ -117,6 +117,8 @@ const ProductForm = (props: {
                 name: "inventotyCriticalPoint",
                 type: "input",
             }
+
+
         ],
         [
             { label: "توضیحات", name: "description", type: "input" }
@@ -137,10 +139,6 @@ const ProductForm = (props: {
             case "productState":
                 return (
                     <FormikState {...rest} />
-                    // <FormikSelect
-                    //     options={dropdownState(productState?.data)}
-                    //     {...rest}
-                    // />
                 );
             case "productMainUnit":
                 return (
@@ -158,6 +156,8 @@ const ProductForm = (props: {
                 );
             case "description":
                 return <FormikInput {...rest} multiline rows={3} />;
+            case "productName":
+                return <FormikInput {...rest} />;
 
             default:
                 return <FormikInput {...rest} />;
@@ -265,11 +265,11 @@ const ProductForm = (props: {
             >
                 {({ handleSubmit }) => {
                     return (
-                        <Form onSubmit={handleSubmit} className="container">
+                        <Form>
                             {fields.map((rowFields) => (
                                 <Box
                                     component="div"
-                                    className="md:flex md:justify-between md:gap-4 space-y-4 md:space-y-0 my-4"
+                                    className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 my-4"
                                 >
                                     {rowFields.map((field) =>
                                         parseFields(field)

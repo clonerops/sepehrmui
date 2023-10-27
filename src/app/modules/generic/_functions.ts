@@ -52,6 +52,15 @@ export const dropdownProductName = (data: any) => {
         })
     );
 };
+export const dropdownProductByBrandName = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: any; productName: any, productBrandName: any, warehouseName: any, warehouseId: any, productBrandId: any }): any => {
+            const { id, productName, productBrandName, warehouseName, warehouseId, productBrandId } = obj;
+            return { value: id, label: `${productName} (${productBrandName}) -------- ${warehouseName}`, productBrandName: productBrandName, warehouseName: warehouseName, productName: productName, warehouseId: warehouseId, productBrandId: productBrandId };
+        })
+    );
+};
 
 export const dropdownProductBrandName = (data: any) => {
     return (

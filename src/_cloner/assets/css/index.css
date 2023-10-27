@@ -124,3 +124,9 @@
 .submenu-item.selected {
   background-color: white !important;
 }
+
+.custom-row-style {
+    /* Add your custom styles here */
+    background-color: pink !important; /* Example custom background color */
+    font-weight: bold; /* Example custom font weight */
+}
