@@ -50,16 +50,11 @@ export default function MuiDataGridCustomRowStyle(props: Props) {
                 columns={columns}
                 pagination={false}
                 columnTypes={columnTypes}
-                // getRowId={(row) => row.id}
+                localeText={{ noRowsLabel: "داده ای برای نمایش وجود ندارد" }}
                 getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}
                 rowHeight={42}
                 autoPageSize={false}
                 onRowDoubleClick={props.onDoubleClick}
-                // getRowClassName={(params) =>
-                //     params.indexRelativeToCurrentPage % 2 === 0
-                //         ? "bg-[#ECF5FF]"
-                //         : "bg-white"
-                // }
                 getRowClassName={getRowClassName}
                 hideFooter={true}
                 columnHeaderHeight={32}
