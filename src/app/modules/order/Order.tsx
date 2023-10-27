@@ -478,8 +478,6 @@ const Order = () => {
                 setMessage("مقدار الزامی می باشد")
                 setSeverity("error")
             } else {
-                // setOrders([...orders, productOrder]);
-                // setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder])))
                 setOrders(updatedOrders);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders)))
             }
@@ -492,17 +490,16 @@ const Order = () => {
         }
     };
 
-    console.log("totalAmount", totalAmount)
-
+    
     const [findCustomer, setFindCustomer] = useState<ICustomer>();
-
+    
     const handleChangeCustomer = (value: any, setFieldValue: any) => {
         const findCustomer = customers?.data.find(
             (i: any) => i.id === value?.value
-        );
-        setFindCustomer(findCustomer);
-        setFieldValue("number", findCustomer?.settlementDay)
-        if (findCustomer?.settlementType !== 1) {
+            );
+            setFindCustomer(findCustomer);
+            setFieldValue("number", findCustomer?.settlementDay)
+            if (findCustomer?.settlementType !== 1) {
             setFieldValue("settlement", moment(new Date()).format("jYYYY/jMM/jDD"));
         } else {
             setFieldValue("settlement", "");
@@ -512,21 +509,22 @@ const Order = () => {
             setFieldValue("settlement", "");
         }
     };
-
+    
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
-
+    
     const handleReset = () => {
         window.location.reload()
     }
-
+    
+    console.log("orders", orders)
     return (
         <>
             {snackeOpen && (
                 <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        orderData?.message || (orderData?.data?.Errors?.length > 0 && orderData?.data?.Errors[0]) ||
+                open={snackeOpen}
+                setState={setSnackeOpen}
+                title={
+                    orderData?.message || (orderData?.data?.Errors?.length > 0 && orderData?.data?.Errors[0]) ||
                         orderData?.Message ||
                         orderData?.data?.Message
                     }
@@ -546,7 +544,6 @@ const Order = () => {
                         setSubmitting,
                     }
                 ) => {
-                    console.log("orders", orders)
                     if (orders?.length === 0) {
                         alert("لیست سفارشات خالی می باشد");
                     } else {
@@ -599,7 +596,7 @@ const Order = () => {
                                     }
                                 })
                             };
-                            console.log(JSON.stringify(formData))
+
                             mutate(formData, {
                                 onSuccess: (orderData) => {
                                     setOrderData(orderData);

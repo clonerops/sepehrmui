@@ -82,7 +82,7 @@ const ProductSelectedList = (props: {
                 headerName: "تعداد/مقدار(فرعی)", field: "proximateSubUnit",
                 renderCell: (params: any) => {
                     const combinedValue = `${params.row.proximateSubUnit} ${params.row.subUnit}`;
-                    return <Typography variant="h4">{separateAmountWithCommas(combinedValue)}</Typography>
+                    return <Typography variant="h4">{combinedValue}</Typography>
                 }, headerClassName: "headerClassName", flex: 1, minWidth: 110
             },
             {
@@ -140,8 +140,6 @@ const ProductSelectedList = (props: {
 
         props.setSelectedOrderIndex(rowIndex);
 
-        console.log("params.row", params.row)
-
         if (props.setFieldValue) {
 
             props.setFieldValue("productName", params.row.productName);
@@ -164,8 +162,8 @@ const ProductSelectedList = (props: {
 
 
 
-            props.setFieldValue("mainUnit", props.products?.find((i: IProducts) => i.id === params.row.id)?.productMainUnitDesc);
-            props.setFieldValue("subUnit", props.products?.find((i: IProducts) => i.id === params.row.id)?.productSubUnitDesc);
+            props.setFieldValue("mainUnit", params.row.mainUnit);
+            props.setFieldValue("subUnit", params.row.subUnit);
         }
 
         if (params.row.warehouseId === 1) {
@@ -186,7 +184,8 @@ const ProductSelectedList = (props: {
         column.field !== "purchaseInvoiceTypeId" &&
         column.field !== "rowId" &&
         column.field !== "productDesc" );
-    return (
+
+        return (
         <>
             {/* <MuiTable */}
             <MuiDataGridCustomRowStyle

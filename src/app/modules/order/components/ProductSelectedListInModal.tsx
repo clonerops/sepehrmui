@@ -171,7 +171,7 @@ const ProductSelectedListInModal = (props: {
                 />
             </Box>
             <Box component="div" className="mt-4">
-                <Typography variant="h2" color="secondary">
+                <Typography variant="h2" color="primary">
                     کالاهای انتخاب شده
                 </Typography>
                 <MuiSelectionDataGrid
