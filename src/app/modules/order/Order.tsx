@@ -178,19 +178,25 @@ const Order = () => {
             case "customer":
                 return (
                     <Box component="div" className="flex flex-col w-full">
-                        <Box component="div" className="flex gap-x-2 w-full">
-                            <FormikComboBox
-                                disabled={data?.succeeded}
-                                onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
-                                options={dropdownCustomer(customers?.data)}
-                                {...rest}
-                            />
-                            <IconButton
-                                onClick={() => setIsOpen(true)}
-                                className="flex justify-center items-center cursor-pointer text-xl"
-                            >
-                                <AddCircle color="secondary" />
-                            </IconButton>
+                        <Box component="div" className="grid grid-col-1 md:grid-cols-2 gap-x-8">
+                            <Box component="div" className="flex gap-x-2 w-full">
+                                <FormikComboBox
+                                    disabled={data?.succeeded}
+                                    onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
+                                    options={dropdownCustomer(customers?.data)}
+                                    {...rest}
+                                />
+                                <IconButton
+                                    onClick={() => setIsOpen(true)}
+                                    className="flex justify-center items-center cursor-pointer text-xl"
+                                >
+                                    <AddCircle color="secondary" />
+                                </IconButton>
+                            </Box>
+                            <Box component="div" className="flex flex-row pt-4">
+                                <Typography variant="h4" className="text-gray-500">معرف: </Typography>
+                                <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
+                            </Box>
                         </Box>
                         <Box component="div" className="flex justify-between mt-4">
                             <Box component="div" className="flex flex-row">
@@ -199,19 +205,19 @@ const Order = () => {
                             </Box>
                             <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
-                                <Typography variant="h3" className="px-4">{ findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) :0} ریال</Typography>
+                                <Typography variant="h3" className="px-4">{findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) : 0} ریال</Typography>
                             </Box>
                             <Box component="div" className="flex flex-row">
-                                <Typography variant="h4" className="text-gray-500">نوع اعتبار: </Typography>
+                                {/* <Typography variant="h4" className="text-gray-500">نوع اعتبار: </Typography> */}
                                 <Typography variant="h3" className={`px-4 
-                                    font-bold rounded-md ${findCustomer?.customerValidityId === 1 ? "text-black" : findCustomer?.customerValidityId ===  2 ? "text-green-500" : findCustomer?.customerValidityId === 3 ? "text-red-500" : ""}`}>
+                                    font-bold rounded-md ${findCustomer?.customerValidityId === 1 ? "text-black" : findCustomer?.customerValidityId === 2 ? "text-green-500" : findCustomer?.customerValidityId === 3 ? "text-red-500" : ""}`}>
                                     {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : findCustomer?.customerValidityId === 3 ? "سیاه" : ""}
                                 </Typography>
                             </Box>
-                            <Box component="div" className="flex flex-row">
+                            {/* <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">معرف: </Typography>
                                 <Typography variant="h3" className="px-4">{ findCustomer?.representative } </Typography>
-                            </Box>
+                            </Box> */}
                         </Box>
                     </Box>
                 );
@@ -306,7 +312,7 @@ const Order = () => {
             case "purchaserCustomer":
                 return (
                     <FormikComboBox
-                    disabled={data?.succeeded}
+                        disabled={data?.succeeded}
                         options={dropdownCustomer(customers?.data)}
                         {...rest}
                     />
@@ -314,7 +320,7 @@ const Order = () => {
             case "purchaseInvoiceType":
                 return (
                     <FormikSelect
-                    disabled={data?.succeeded}
+                        disabled={data?.succeeded}
                         value={purchaseInvoiceTypeSelected}
                         onSelect={(value: any) =>
                             setPurchaseInvoiceTypeSelected(value)
@@ -328,7 +334,7 @@ const Order = () => {
             case "proximateAmount":
                 return (
                     <FormikProximateAmount
-                    disabled={data?.succeeded}
+                        disabled={data?.succeeded}
                         exchangeRate={
                             values.id
                                 ? products?.data?.find(
@@ -352,7 +358,7 @@ const Order = () => {
             case "proximateSubUnit":
                 return (
                     <FormikPrice
-                    disabled={data?.succeeded}
+                        disabled={data?.succeeded}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
@@ -469,11 +475,11 @@ const Order = () => {
                 setOpen(true)
                 setMessage("قیمت الزامی می باشد")
                 setSeverity("error")
-            }else if (values?.proximateAmount === "") {
+            } else if (values?.proximateAmount === "") {
                 setOpen(true)
                 setMessage("مقدار الزامی می باشد")
                 setSeverity("error")
-            } 
+            }
             else if (isDuplicate) {
                 setOpen(true)
                 setMessage("کالا در لیست سفارشات موجود می باشد")
@@ -501,7 +507,7 @@ const Order = () => {
                 setOpen(true)
                 setMessage("قیمت الزامی می باشد")
                 setSeverity("error")
-            }else if (values?.proximateAmount === "") {
+            } else if (values?.proximateAmount === "") {
                 setOpen(true)
                 setMessage("مقدار الزامی می باشد")
                 setSeverity("error")
@@ -518,15 +524,15 @@ const Order = () => {
         }
     };
 
-    
-    
+
+
     const handleChangeCustomer = (value: any, setFieldValue: any) => {
         const findCustomer = customers?.data.find(
             (i: any) => i.id === value?.value
-            );
-            setFindCustomer(findCustomer);
-            setFieldValue("number", findCustomer?.settlementDay)
-            if (findCustomer?.settlementType !== 1) {
+        );
+        setFindCustomer(findCustomer);
+        setFieldValue("number", findCustomer?.settlementDay)
+        if (findCustomer?.settlementType !== 1) {
             setFieldValue("settlement", moment(new Date()).format("jYYYY/jMM/jDD"));
         } else {
             setFieldValue("settlement", "");
@@ -536,23 +542,21 @@ const Order = () => {
             setFieldValue("settlement", "");
         }
     };
-    
+
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
-    
+
     const handleReset = () => {
         window.location.reload()
     }
-    
-    console.log("findCustomer", findCustomer)
 
     return (
         <>
             {snackeOpen && (
                 <PositionedSnackbar
-                open={snackeOpen}
-                setState={setSnackeOpen}
-                title={
-                    orderData?.message || (orderData?.data?.Errors?.length > 0 && orderData?.data?.Errors[0]) ||
+                    open={snackeOpen}
+                    setState={setSnackeOpen}
+                    title={
+                        orderData?.message || (orderData?.data?.Errors?.length > 0 && orderData?.data?.Errors[0]) ||
                         orderData?.Message ||
                         orderData?.data?.Message
                     }
@@ -878,14 +882,8 @@ const Order = () => {
                                             <Box>
                                                 <Typography variant="h4" color="primary"> مبلغ: {i.amount} ریال</Typography>
                                             </Box>
-                                            <Box component="div" className="flex justify-center items-center px-2">
-                                                <Box component="div" className="flex justify-center items-center rounded-full bg-indigo-600 text-white w-[20px]">
-                                                    {i.daysAfterExit}
-                                                </Box>
-                                                <Typography variant="h4" className="px-2">روز بعداز وزن</Typography>
-                                            </Box>
                                             <Box>
-                                                <Typography variant="h4" color="primary"> تاریخ تسویه: {i.paymentDate ? i.paymentDate : i.daysAfterExit+" "+ "روز بعد از وزن"} </Typography>
+                                                <Typography variant="h4" color="primary"> تاریخ تسویه: {i.paymentDate ? i.paymentDate : i.daysAfterExit + " " + "روز بعد از وزن"} </Typography>
                                             </Box>
                                             {!data?.succeeded &&
                                                 <Box>

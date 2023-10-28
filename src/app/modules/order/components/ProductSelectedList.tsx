@@ -200,14 +200,18 @@ const ProductSelectedList = (props: {
                     if (params.row.warehouseId === 1 && (
                         params.row.purchaseSettlementDate === "" ||
                         params.row.buyPrice === "" ||
+                        params.row.proximateAmount === "" ||
                         params.row.purchaseInvoiceTypeId === 0 ||
                         !params.row.purchaserCustomerName
                     )) {
                         return 'custom-row-style'
+                    } else if(params.row.warehouseId === 2 && (
+                        params.row.proximateAmount === ""
+                        ))  {
+                        return 'custom-row-style'
                     } else {
                         return ""
                     }
-
                 }}
                 onDoubleClick={(params: any) => {
                     onDoubleClick(params); // Pass the entire params object
