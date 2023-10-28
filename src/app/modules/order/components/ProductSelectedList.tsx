@@ -17,6 +17,7 @@ const ProductSelectedList = (props: {
     selectedOrderIndex?: any;
     setSelectedOrderIndex?: any;
     products?: IProducts[]
+    disabled?: boolean
 }) => {
     const handleDeleteFromList = (indexToDelete: any) => {
         if (props.orders) {
@@ -34,6 +35,7 @@ const ProductSelectedList = (props: {
     const renderActions = (index: any) => {
         return (
             <>
+            {!props.disabled && 
                 <Box
                     component="div"
                     onClick={() => handleDeleteFromList(index)}
@@ -41,6 +43,7 @@ const ProductSelectedList = (props: {
                 >
                     <DeleteIcon className="text-red-500" />
                 </Box>
+            }
             </>
         );
     };

@@ -132,7 +132,7 @@ const Order = () => {
     const { data: purchaseInvoiceType } = useGetPurchaseInvoice();
     const { data: factor } = useGetInvoiceType();
     const { data: warehouse } = useGetWarehouses();
-    const { mutate } = useCreateOrder();
+    const { mutate, data } = useCreateOrder();
 
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -150,6 +150,7 @@ const Order = () => {
     const [orderCode, setOrderCode] = useState<number>(0);
     const [orderData, setOrderData] = useState<any>();
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
+    const [findCustomer, setFindCustomer] = useState<ICustomer>();
 
     // Snackebar
     const [open, setOpen] = useState(false);
@@ -170,6 +171,7 @@ const Order = () => {
         calculateTotalAmount(orders)
     }, [orders]);
 
+
     const mainParseFields = (fields: FieldType, setFieldValue: any) => {
         const { type, ...rest } = fields;
         switch (type) {
@@ -178,6 +180,7 @@ const Order = () => {
                     <Box component="div" className="flex flex-col w-full">
                         <Box component="div" className="flex gap-x-2 w-full">
                             <FormikComboBox
+                                disabled={data?.succeeded}
                                 onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
                                 options={dropdownCustomer(customers?.data)}
                                 {...rest}
@@ -198,6 +201,17 @@ const Order = () => {
                                 <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
                                 <Typography variant="h3" className="px-4">{ findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) :0} ریال</Typography>
                             </Box>
+                            <Box component="div" className="flex flex-row">
+                                <Typography variant="h4" className="text-gray-500">نوع اعتبار: </Typography>
+                                <Typography variant="h3" className={`px-4 
+                                    font-bold rounded-md ${findCustomer?.customerValidityId === 1 ? "text-black" : findCustomer?.customerValidityId ===  2 ? "text-green-500" : findCustomer?.customerValidityId === 3 ? "text-red-500" : ""}`}>
+                                    {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : findCustomer?.customerValidityId === 3 ? "سیاه" : ""}
+                                </Typography>
+                            </Box>
+                            <Box component="div" className="flex flex-row">
+                                <Typography variant="h4" className="text-gray-500">معرف: </Typography>
+                                <Typography variant="h3" className="px-4">{ findCustomer?.representative } </Typography>
+                            </Box>
                         </Box>
                     </Box>
                 );
@@ -206,6 +220,7 @@ const Order = () => {
             case "orderSendTypeId":
                 return (
                     <FormikSelect
+                        disabled={data?.succeeded}
                         options={dropdownOrderSendType(orderSendType)}
                         {...rest}
                     />
@@ -213,6 +228,7 @@ const Order = () => {
             case "invoiceTypeId":
                 return (
                     <FormikSelect
+                        disabled={data?.succeeded}
                         options={dropdownInvoiceType(factor)}
                         {...rest}
                     />
@@ -220,13 +236,20 @@ const Order = () => {
             case "paymentTypeId":
                 return (
                     <FormikSelect
+                        disabled={data?.succeeded}
                         options={dropdownRentPaymentType(rent)}
                         {...rest}
                     />
                 );
             case "exitType":
                 return (
-                    <FormikSelect options={dropdownExitType(exit)} {...rest} />
+                    <FormikSelect
+                        disabled={data?.succeeded} options={dropdownExitType(exit)} {...rest} />
+                );
+            case "description":
+                return (
+                    <FormikInput
+                        disabled={data?.succeeded} multiline rows={3} {...rest} />
                 );
             default:
                 <FormikInput {...rest} />;
@@ -244,7 +267,7 @@ const Order = () => {
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
                         <FormikProductComboSelect
-                            disabled={isUpdate}
+                            disabled={isUpdate || data?.succeeded}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
                             options={dropdownProductByBrandName(productsByBrand?.data)}
                             {...rest}
@@ -253,6 +276,7 @@ const Order = () => {
                             onClick={() => setSelectedProductOpen(true)}
                             variant="contained"
                             color="primary"
+                            disabled={data?.succeeded}
                         >
                             <Grading />
                         </Button>
@@ -282,6 +306,7 @@ const Order = () => {
             case "purchaserCustomer":
                 return (
                     <FormikComboBox
+                    disabled={data?.succeeded}
                         options={dropdownCustomer(customers?.data)}
                         {...rest}
                     />
@@ -289,6 +314,7 @@ const Order = () => {
             case "purchaseInvoiceType":
                 return (
                     <FormikSelect
+                    disabled={data?.succeeded}
                         value={purchaseInvoiceTypeSelected}
                         onSelect={(value: any) =>
                             setPurchaseInvoiceTypeSelected(value)
@@ -298,10 +324,11 @@ const Order = () => {
                     />
                 );
             case "date":
-                return <FormikDatepicker {...rest} />;
+                return <FormikDatepicker disabled={data?.succeeded} {...rest} />;
             case "proximateAmount":
                 return (
                     <FormikProximateAmount
+                    disabled={data?.succeeded}
                         exchangeRate={
                             values.id
                                 ? products?.data?.find(
@@ -325,6 +352,7 @@ const Order = () => {
             case "proximateSubUnit":
                 return (
                     <FormikPrice
+                    disabled={data?.succeeded}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
@@ -336,11 +364,11 @@ const Order = () => {
                     />
                 );
             case "price":
-                return <FormikPrice {...rest} />;
+                return <FormikPrice disabled={data?.succeeded}  {...rest} />;
             case "input":
-                return <FormikInput {...rest} />;
+                return <FormikInput disabled={data?.succeeded}  {...rest} />;
             default:
-                <FormikInput {...rest} />;
+                <FormikInput disabled={data?.succeeded} {...rest} />;
                 break;
         }
     };
@@ -491,7 +519,6 @@ const Order = () => {
     };
 
     
-    const [findCustomer, setFindCustomer] = useState<ICustomer>();
     
     const handleChangeCustomer = (value: any, setFieldValue: any) => {
         const findCustomer = customers?.data.find(
@@ -516,7 +543,8 @@ const Order = () => {
         window.location.reload()
     }
     
-    console.log("orders", orders)
+    console.log("findCustomer", findCustomer)
+
     return (
         <>
             {snackeOpen && (
@@ -551,7 +579,7 @@ const Order = () => {
                             const formData = {
                                 customerId: values.customerId.value,
                                 totalAmount: calculateTotalAmount(orders),
-                                description: "string",
+                                description: values.description,
                                 productBrandId: 5,
                                 exitType: Number(values.exitType),
                                 orderSendTypeId: Number(
@@ -648,7 +676,7 @@ const Order = () => {
                                         <Typography variant="h2" className="px-4">
                                             {sliceNumberPriceRial(calculateTotalAmount(orders))} ریال
                                         </Typography>
-                                        <Typography className="px-2"> ({convertToPersianWord(totalAmount)} تومان)</Typography>
+                                        <Typography className="px-2"> ({convertToPersianWord(calculateTotalAmount(orders))} تومان)</Typography>
                                     </Box>
                                 </Box>
                             </ReusableCard>
@@ -753,6 +781,7 @@ const Order = () => {
                                     orders={orders}
                                     setIsBuy={setIsBuy}
                                     setOrders={setOrders}
+                                    disabled={data?.succeeded}
                                     products={productsByBrand?.data}
                                 />
                             </Form>
@@ -785,7 +814,7 @@ const Order = () => {
                                 </Typography>
                                 <Form className="mt-4">
                                     <Box component="div" className="md:flex gap-x-2">
-                                        <FormikPrice name="amount" label="مبلغ" InputProps={{
+                                        <FormikPrice disabled={data?.succeeded} name="amount" label="مبلغ" InputProps={{
                                             inputProps: {
                                                 style: {
                                                     textAlign: "center",
@@ -793,7 +822,7 @@ const Order = () => {
                                                 },
                                             },
                                         }} />
-                                        <FormikInput disabled={values.settlement !== ""} name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
+                                        <FormikInput disabled={values.settlement !== "" || data?.succeeded} name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
                                             inputProps: {
                                                 style: {
                                                     textAlign: "center",
@@ -802,7 +831,7 @@ const Order = () => {
                                             },
                                         }} />
                                         <Box component="div" className="flex w-full">
-                                            <FormikDatepicker disabled={values.number && values.number != 0} name="settlement" label="تاریخ" />
+                                            <FormikDatepicker disabled={values.number && values.number != 0 || data?.succeeded} name="settlement" label="تاریخ" />
                                         </Box>
                                         <Box component="div" className="" onClick={() => {
                                             const orderPaymentCP = [...orderPayment]
@@ -856,14 +885,16 @@ const Order = () => {
                                                 <Typography variant="h4" className="px-2">روز بعداز وزن</Typography>
                                             </Box>
                                             <Box>
-                                                <Typography variant="h4" color="primary"> تاریخ تسویه: {i.paymentDate ? i.paymentDate : "ندارد"} </Typography>
+                                                <Typography variant="h4" color="primary"> تاریخ تسویه: {i.paymentDate ? i.paymentDate : i.daysAfterExit+" "+ "روز بعد از وزن"} </Typography>
                                             </Box>
-                                            <Box>
-                                                <Delete className="text-red-500 cursor-pointer" onClick={() => {
-                                                    const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== i.id)
-                                                    setOrderPayment(orderPaymentFilter)
-                                                }} />
-                                            </Box>
+                                            {!data?.succeeded &&
+                                                <Box>
+                                                    <Delete className="text-red-500 cursor-pointer" onClick={() => {
+                                                        const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== i.id)
+                                                        setOrderPayment(orderPaymentFilter)
+                                                    }} />
+                                                </Box>
+                                            }
                                         </ReusableCard>
                                     )}
                                     <Box component="div" className="flex justify-between mt-8">
