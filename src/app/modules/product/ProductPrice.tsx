@@ -25,6 +25,7 @@ import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount
 import ActiveText from "../../../_cloner/components/ActiveText";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import { columnsProductPrice } from "./helpers/columns";
 
 const radioOption: {
     label: string;
@@ -68,74 +69,6 @@ const ProductPrice = () => {
         setResults(productPrice?.data);
     }, [productPrice]);
 
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                field: "productName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام کالا",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "brandName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "نام برند",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "price",
-                headerName: "قیمت",
-                renderCell: (value: any) =>
-                    separateAmountWithCommas(value.row.price) + " " + "تومان",
-                headerClassName: "headerClassName",
-                cellClassName: "font-bold text-[14px]",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "registerDate",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "تاریخ قیمت",
-                headerClassName: "headerClassName font-bold",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "isActive",
-                headerName: "وضعیت",
-                renderCell: (params: any) => {
-                    return (
-                        <ActiveText
-                            params={params}
-                            successTitle="فعال"
-                            dangerTitle="غیرفعال"
-                        />
-                    );
-                },
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                headerName: "عملیات",
-                renderCell: renderAction,
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-        ];
-        return col;
-    };
 
     const handleEdit = (item: IProductPrice | undefined) => {
         setIsOpen(true);
@@ -262,7 +195,7 @@ const ProductPrice = () => {
                     />
                 </Box>
                 <MuiDataGrid
-                    columns={columns(renderAction)}
+                    columns={columnsProductPrice(renderAction)}
                     rows={results}
                     data={productPrice?.data}
                 />

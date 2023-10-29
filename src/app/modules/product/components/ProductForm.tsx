@@ -164,10 +164,6 @@ const ProductForm = (props: {
         }
     };
 
-
-    useEffect(() => {
-        if (isNew) delete fields[0][0];
-    }, []);
     const getDetail = () => {
         if (props.id)
             try {

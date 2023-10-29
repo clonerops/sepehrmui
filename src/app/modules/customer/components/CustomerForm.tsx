@@ -63,7 +63,7 @@ const CustomerForm = (props: {
 
     const fields: FieldType[][] = [
         [
-            { label: "نام", name: "firstName", type: "input" },
+            { label: "نام", name: "firstName", type: "firstName" },
             { label: "نام خانوادگی", name: "lastName", type: "productType" },
             { label: "نام پدر", name: "fatherName", type: "input" },
         ],
@@ -161,15 +161,14 @@ const CustomerForm = (props: {
                 );
             case "description":
                 return <FormikInput multiline rows={3} {...rest} />;
-
+            case "firstName":
+                return <FormikInput  {...rest} />;
+            
             default:
                 return <FormikInput {...rest} />;
         }
     };
 
-    useEffect(() => {
-        if (isNew) delete fields[0][0];
-    }, []);
     const getDetail = () => {
         if (props.id)
             try {

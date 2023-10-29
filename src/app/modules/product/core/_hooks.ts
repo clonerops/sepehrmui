@@ -5,6 +5,9 @@ import { IProductPrice, IProducts, ISuppliers } from "./_models";
 const useRetrieveProducts = () => {
     return useQuery(["products"], () => api.retrieveProducts());
 };
+const useRetrieveProductsByType = () => {
+    return useQuery(["productsByType"], () => api.retrieveProductsByType());
+};
 const useRetrieveProductsByBrand = () => {
     return useQuery(["productsByBrand"], () => api.retrieveProductsByBrand());
 };
@@ -129,6 +132,7 @@ const useExportProductPrice = () => {
 
 export {
     useRetrieveProducts,
+    useRetrieveProductsByType,
     useRetrieveProductsByBrand,
     useCreateProduct,
     useRetrieveProductById,

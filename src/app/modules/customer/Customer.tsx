@@ -12,7 +12,6 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import EditGridButton from "../../../_cloner/components/DeleteGridButton";
 import DeleteGridButton from "../../../_cloner/components/EditGridButton";
-import React from "react";
 import ActiveText from "../../../_cloner/components/ActiveText";
 import CustomerForm from "./components/CustomerForm";
 import ReusableCard from "../../../_cloner/components/ReusableCard";

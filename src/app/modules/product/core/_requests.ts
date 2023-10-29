@@ -31,6 +31,10 @@ const retrieveProductsByBrand = async (
     const { data } = await http.get(url);
     return data;
 };
+const retrieveProductsByType = async () => {
+    const { data } = await http.get("/v1/Product/GetAllProductsByType");
+    return data;
+};
 
 const createProducts = async (formData: IProducts) => {
     try {
@@ -230,6 +234,7 @@ export const exportProductPrices = async () => {
 export {
     retrieveProducts,
     retrieveProductsByBrand,
+    retrieveProductsByType,
     createProducts,
     retrieveProductById,
     updateProduct,

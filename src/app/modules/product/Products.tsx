@@ -306,7 +306,7 @@ const Products = () => {
                 width="60%"
                 description="لطفاً مشخصات محصول را با دقت وارد کنید تا مشتریان به آسانی اطلاعات مورد نیاز را بیابند اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
-                <CreateProduct
+                <ProductForm
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
