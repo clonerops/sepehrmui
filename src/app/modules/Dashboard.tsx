@@ -17,11 +17,6 @@ const Dashboard = () => {
     ];
     return (
         <>
-        <Box component="div" className="pb-8 flex gap-8">
-            <ReusableCard>
-                <ProductPriceLanding />
-            </ReusableCard>
-        </Box>
             <Box
                 component="div"
                 className="flex flex-col md:flex-row justify-center items-center gap-8 my-8 md:my-0"

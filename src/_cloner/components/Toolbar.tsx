@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Avatar, Box, Button, Popover, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Popover, TextField, Typography, Modal } from "@mui/material";
 import { toAbsoulteUrl } from "../helpers/AssetsHelper";
 import Cookies from "js-cookie";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -16,10 +16,13 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import ProductPriceLanding from "../../app/modules/landing/ProductPriceLanding";
+import TransitionsModal from "./ReusableModal";
 
 const ToolbarComponent = () => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
+    const [isPriceOpen, setIsPriceOpen] = useState<boolean>(false)
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
@@ -53,11 +56,20 @@ const ToolbarComponent = () => {
         <>
             <Box component="div" className="flex justify-between items-center">
                 <Box component="div" className="flex items-center">
-                    {toolbarIcons.map((item) =>
+                    {/* {toolbarIcons.map((item) =>
                         <Box component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
                             {item.component}
                         </Box>
-                    )}
+                    )} */}
+                    <Box onClick={() => setIsPriceOpen(true)} component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
+                        <Assessment />
+                    </Box>
+                    <Box component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
+                        <Announcement />
+                    </Box>
+                    <Box component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
+                        <Notifications />
+                    </Box>
                     <Button
                         onClick={handleClick}
                         aria-describedby={id}
@@ -118,6 +130,10 @@ const ToolbarComponent = () => {
                     </Popover>{" "}
                 </Box>
             </Box>
+
+            <TransitionsModal width="60%" title="قیمت محصولات" open={isPriceOpen} isClose={() => setIsPriceOpen(false)}>
+                <ProductPriceLanding />
+            </TransitionsModal>
         </>
     );
 };

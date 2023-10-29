@@ -51,7 +51,7 @@ export default function TransitionsModal(props: Props) {
           >
             <Box component="div" className='flex justify-between items-center' >
               <Box component="div" className='flex gap-x-2'>
-                <Box component="img" src={toAbsoulteUrl('/media/mainlogo/rebar.png')} width={24} />
+                <Box component="img" src={toAbsoulteUrl('/media/product/credit-card.png')} width={24} />
                 <Typography variant='h2'>{props.title}</Typography>
               </Box>
               <Box component="div" onClick={props.isClose} className='cursor-pointer'>
