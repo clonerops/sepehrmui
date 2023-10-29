@@ -1,9 +1,9 @@
 export const dropdownCustomer = (data: any) => {
     return (
         data &&
-        data?.map((obj: { firstName: string; lastName: string, mobile: string, id: string }): any => {
-            const { firstName, lastName, mobile, id } = obj;
-            return { value: id, label: firstName + " " + lastName + " " + mobile };
+        data?.map((obj: { firstName: string; customerValidityColorCode: string, lastName: string, mobile: string, id: string }): any => {
+            const { firstName, lastName, mobile, id, customerValidityColorCode } = obj;
+            return { value: id, label: firstName + " " + lastName + " " + mobile, customerValidityColorCode: customerValidityColorCode };
         })
     );
 };

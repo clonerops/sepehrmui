@@ -148,11 +148,15 @@ const Order = () => {
                                     disabled={data?.succeeded}
                                     onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
                                     options={dropdownCustomer(customers?.data)}
-                                    renderOption={(props: any, option: any) => (
-                                        <li {...props}>
-                                            <Typography>{option.label}</Typography>
+                                    renderOption={(props: any, option: any) => {
+                                      return  <li {...props}>
+                                            <Typography style={{
+                                                color:`#${option.customerValidityColorCode}`
+                                            }}>{option.label}</Typography>
                                         </li>
-                                    )}
+
+                                    }
+                                    }
                                     {...rest}
                                 />
                                 <IconButton
@@ -170,18 +174,21 @@ const Order = () => {
                         <Box component="div" className="flex justify-between mt-4">
                             <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
-                                <Typography variant="h3" className="px-4">0 ریال</Typography>
+                                <Typography variant="h3" className="px-4">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
                             </Box>
                             <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
                                 <Typography variant="h3" className="px-4">{findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) : 0} ریال</Typography>
                             </Box>
                             <Box component="div" className="flex flex-row">
+                                <Typography style={{
+                                    backgroundColor: `#${findCustomer?.customerValidityColorCode}`
+                                }} variant="h3" className="px-4 rounded-md py-1">{findCustomer?.customerValidityDesc}</Typography>
                                 {/* <Typography variant="h4" className="text-gray-500">نوع اعتبار: </Typography> */}
-                                <Typography variant="h3" className={`px-6 
+                                {/* <Typography variant="h3" className={`px-6 
                                     font-bold rounded-md ${findCustomer?.customerValidityId === 1 ? "text-black py-1 bg-yellow-600" : findCustomer?.customerValidityId === 2 ? "text-green-500" : findCustomer?.customerValidityId === 3 ? "text-red-500" : ""}`}>
                                     {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : findCustomer?.customerValidityId === 3 ? "سیاه" : ""}
-                                </Typography>
+                                </Typography> */}
                             </Box>
                             {/* <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">معرف: </Typography>

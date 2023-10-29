@@ -90,15 +90,21 @@ const Customer = () => {
                 flex: 1
             },
             {
-                field: "customerValidityId",
+                field: "customerValidityDesc",
                 headerName: "اعتبار",
                 minWidth: 60,
-                renderCell: (params: any) =>
-                    params.value === 1
-                        ? <Typography variant="h4" className="text-indigo-600 px-4 py-1 rounded-md bg-yellow-500">عادی</Typography>
-                        : params.value === 2
-                            ? <Typography variant="h4" className="text-yellow-600 px-4 py-1 rounded-md">VIP</Typography>
-                            : <Typography variant="h4" className="text-black px-4 py-1 rounded-md">سیاه</Typography>,
+                renderCell: (params: any) => {
+                    const backgroundColor = params.row.customerValidityColorCode; // Assuming this code exists in your data
+                    return <Typography style={{
+                        backgroundColor: `#${backgroundColor}`
+                    }} className={`rounded-md px-4 py-1`}>{params.value}</Typography>
+                },
+                // renderCell: (params: any) =>
+                //     params.value === 1
+                //         ? <Typography variant="h4" className="text-indigo-600 px-4 py-1 rounded-md bg-yellow-500">عادی</Typography>
+                //         : params.value === 2
+                //             ? <Typography variant="h4" className="text-yellow-600 px-4 py-1 rounded-md">VIP</Typography>
+                //             : <Typography variant="h4" className="text-black px-4 py-1 rounded-md">سیاه</Typography>,
                 headerClassName: "headerClassName",
                 flex: 1
             },

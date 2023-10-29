@@ -19,5 +19,8 @@ export interface ICustomer {
     isSupplier?: boolean | undefined
     settlementDay?: string | undefined | null
     customerDept?: string | undefined | null
+    customerCurrentDept?: string | undefined | null
+    customerValidityDesc?: string | undefined | null
+    customerValidityColorCode?: string | undefined | null
     
 }
