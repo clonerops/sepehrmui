@@ -114,6 +114,7 @@ type Props = {
     variant?: TextFieldVariants;
     setState?: any;
     onChange?: any;
+    renderOption?: any;
     boxClassName?: string;
 } & Omit<TextFieldProps, "variant">;
 
@@ -130,6 +131,7 @@ const FormikComboBox = (props: Props) => {
         inputProps,
         options,
         onChange,
+        renderOption,
         ...rest
     } = props;
 
@@ -153,6 +155,7 @@ const FormikComboBox = (props: Props) => {
                 options={options || []}
                 value={field?.value}
                 disabled={disabled}
+                renderOption={renderOption}
                 isOptionEqualToValue={(option: any, value) =>
                     option.id === value.id
                 }
@@ -160,7 +163,6 @@ const FormikComboBox = (props: Props) => {
                 getOptionSelected={(option: any, value: any) =>
                     option.id === value.id
                 }
-                // onChange={(e, value) => formikProps.setFieldValue(name, value)}
                 onChange={handleSelectChange}
                 filterOptions={(optionData, { inputValue }) => {
                     const searchWords = inputValue
@@ -177,7 +179,6 @@ const FormikComboBox = (props: Props) => {
                     <TextField
                         label={label}
                         name={name}
-                        // inputProps={{ ...props.inputProps }}
                         error={
                             getFormikFieldValidationProps(formikProps, name)
                                 .error

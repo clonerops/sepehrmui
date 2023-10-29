@@ -19,7 +19,6 @@ const ProductSelectedListInModal = (props: {
     setOrders?: any;
     orders?: any;
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    setSelectProductFromModal: any;
 }) => {
     const {
         data: productsByBrand,

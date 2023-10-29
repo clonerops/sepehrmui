@@ -80,7 +80,8 @@ export const columnsProductPriceDashboard = (renderAction: any) => {
             },
             headerName: "نام کالا",
             headerClassName: "headerClassName",
-            minWidth: 260,
+            minWidth: 220,
+            maxWidth: 220,
             flex: 1,
         },
         {
@@ -90,8 +91,8 @@ export const columnsProductPriceDashboard = (renderAction: any) => {
             },
             headerName: "نام برند",
             headerClassName: "headerClassName",
-            minWidth: 120,
-            maxWidth: 120,
+            minWidth: 100,
+            maxWidth: 100,
             flex: 1,
         },
         {

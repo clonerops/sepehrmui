@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import ProductSelectedList from "./components/ProductSelectedList";
 import ProductSelectedListInModal from "./components/ProductSelectedListInModal";
@@ -18,7 +18,6 @@ import {
     dropdownOrderSendType,
     dropdownPurchaseInvoice,
     dropdownRentPaymentType,
-    dropdownWarehouses,
 } from "./helpers/dropdowns";
 import { exit } from "./helpers/fakeData";
 import { orderValidation } from "./validations/orderValidation";
@@ -32,15 +31,11 @@ import {
 import {
     Box,
     Button,
-    Card,
     Typography,
     IconButton,
     InputAdornment,
-    Badge,
-    Snackbar,
-    Alert,
 } from "@mui/material";
-import { sliceNumberPrice, sliceNumberPriceRial } from "../../../_cloner/helpers/sliceNumberPrice";
+import { sliceNumberPriceRial } from "../../../_cloner/helpers/sliceNumberPrice";
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
@@ -52,8 +47,6 @@ import { AddCircle, Add, Grading, Delete } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
 import {
     dropdownProductByBrandName,
-    dropdownProductIntegrated,
-    dropdownProductName,
 } from "../generic/_functions";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
@@ -65,17 +58,14 @@ import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import FormikProximateAmount from "../product/components/FormikProximateAmount";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import SnackeBar from "../../../_cloner/components/SnackeBar";
 import CustomSnackbar from "../../../_cloner/components/SnackeBar";
 import { calculateTotalAmount } from "./helpers/functions";
 
 const orderPaymentValues = {
-    // amount: orders.length > 0 ? orders.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.productPrice.replace(/,/g, ""), 10), 0) : "",
     amount: "",
     number: "",
     settlement: ""
 }
-
 
 const initialValues = {
     customerId: "",
@@ -111,22 +101,11 @@ const initialValues = {
     purchaserCustomerName: ""
 };
 
-// const orderInitialValues = {
-// };
-
 const Order = () => {
     // Fetching Data
     const { data: customers, refetch: refetchCustomers } = useGetCustomers();
-    const {
-        data: products,
-        isLoading: productLoading,
-        isError: productError,
-    } = useRetrieveProducts();
-    const {
-        data: productsByBrand,
-        isLoading: productByBrandLoading,
-        isError: productByBrandError,
-    } = useRetrieveProductsByBrand();
+    const { data: products } = useRetrieveProducts();
+    const { data: productsByBrand, isLoading: productByBrandLoading, isError: productByBrandError, } = useRetrieveProductsByBrand();
     const { data: orderSendType } = useGetSendTypes();
     const { data: rent } = useGetPaymentTypes();
     const { data: purchaseInvoiceType } = useGetPurchaseInvoice();
@@ -139,33 +118,18 @@ const Order = () => {
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
     const [selectedOrderIndex, setSelectedOrderIndex] = useState<any>(null);
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-    const [selectedProductOpen, setSelectedProductOpen] =
-        useState<boolean>(false);
-    const [selectProductFromModal, setSelectProductFromModal] = useState<any>();
+    const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false);
     const [orders, setOrders] = useState<any>([]);
-    const [totalAmount, setTotalAmount] = useState(0);
-    const [purchaseInvoiceTypeSelected, setPurchaseInvoiceTypeSelected] =
-        useState<{ value: number | null; label: string | null }>();
+    const [purchaseInvoiceTypeSelected, setPurchaseInvoiceTypeSelected] = useState<{ value: number | null; label: string | null }>();
     const [isBuy, setIsBuy] = useState<boolean>(false);
     const [orderCode, setOrderCode] = useState<number>(0);
     const [orderData, setOrderData] = useState<any>();
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
     const [findCustomer, setFindCustomer] = useState<ICustomer>();
-
     // Snackebar
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('success');
-
-    // const calculateTotalAmount = (data: any) => {
-    //     const prices = data?.map((obj: any) =>
-    //         Number(obj.productPrice?.replace(/,/g, "")) * Number(obj.proximateAmount?.replace(/,/g, ""))
-    //     );
-    //     const newPrices = [...prices];
-    //     const newTotal = newPrices.reduce((acc: any, item) => acc + item, 0);
-    //     setTotalAmount(newTotal);
-    //     return newTotal
-    // }
 
     useEffect(() => {
         calculateTotalAmount(orders)
@@ -178,12 +142,17 @@ const Order = () => {
             case "customer":
                 return (
                     <Box component="div" className="flex flex-col w-full">
-                        <Box component="div" className="grid grid-col-1 md:grid-cols-2 gap-x-8">
-                            <Box component="div" className="flex gap-x-2 w-full">
+                        <Box component="div" className="grid grid-col-1 md:grid-cols-6 gap-x-8">
+                            <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
                                 <FormikComboBox
                                     disabled={data?.succeeded}
                                     onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
                                     options={dropdownCustomer(customers?.data)}
+                                    renderOption={(props: any, option: any) => (
+                                        <li {...props}>
+                                            <Typography>{option.label}</Typography>
+                                        </li>
+                                    )}
                                     {...rest}
                                 />
                                 <IconButton
@@ -193,7 +162,7 @@ const Order = () => {
                                     <AddCircle color="secondary" />
                                 </IconButton>
                             </Box>
-                            <Box component="div" className="flex flex-row pt-4">
+                            <Box component="div" className="flex flex-row pt-4 md:col-span-2">
                                 <Typography variant="h4" className="text-gray-500">معرف: </Typography>
                                 <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
                             </Box>
@@ -209,8 +178,8 @@ const Order = () => {
                             </Box>
                             <Box component="div" className="flex flex-row">
                                 {/* <Typography variant="h4" className="text-gray-500">نوع اعتبار: </Typography> */}
-                                <Typography variant="h3" className={`px-4 
-                                    font-bold rounded-md ${findCustomer?.customerValidityId === 1 ? "text-black" : findCustomer?.customerValidityId === 2 ? "text-green-500" : findCustomer?.customerValidityId === 3 ? "text-red-500" : ""}`}>
+                                <Typography variant="h3" className={`px-6 
+                                    font-bold rounded-md ${findCustomer?.customerValidityId === 1 ? "text-black py-1 bg-yellow-600" : findCustomer?.customerValidityId === 2 ? "text-green-500" : findCustomer?.customerValidityId === 3 ? "text-red-500" : ""}`}>
                                     {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : findCustomer?.customerValidityId === 3 ? "سیاه" : ""}
                                 </Typography>
                             </Box>
@@ -294,14 +263,10 @@ const Order = () => {
                             description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
                         >
                             <ProductSelectedListInModal
-                                // productsByBrand={productsByBrand?.data}
                                 products={productsByBrand?.data}
                                 productLoading={productByBrandLoading}
                                 productError={productByBrandError}
                                 setSelectedProductOpen={setSelectedProductOpen}
-                                setSelectProductFromModal={
-                                    setSelectProductFromModal
-                                }
                                 setFieldValue={setFieldValue}
                                 orders={orders}
                                 setOrders={setOrders}

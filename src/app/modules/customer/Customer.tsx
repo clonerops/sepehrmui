@@ -95,7 +95,7 @@ const Customer = () => {
                 minWidth: 60,
                 renderCell: (params: any) =>
                     params.value === 1
-                        ? <Typography variant="h4" className="text-indigo-600 px-4 py-1 rounded-md">عادی</Typography>
+                        ? <Typography variant="h4" className="text-indigo-600 px-4 py-1 rounded-md bg-yellow-500">عادی</Typography>
                         : params.value === 2
                             ? <Typography variant="h4" className="text-yellow-600 px-4 py-1 rounded-md">VIP</Typography>
                             : <Typography variant="h4" className="text-black px-4 py-1 rounded-md">سیاه</Typography>,

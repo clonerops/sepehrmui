@@ -131,7 +131,7 @@ const ToolbarComponent = () => {
                 </Box>
             </Box>
 
-            <TransitionsModal width="60%" title="قیمت محصولات" open={isPriceOpen} isClose={() => setIsPriceOpen(false)}>
+            <TransitionsModal width="50%" title="قیمت محصولات" open={isPriceOpen} isClose={() => setIsPriceOpen(false)}>
                 <ProductPriceLanding />
             </TransitionsModal>
         </>
