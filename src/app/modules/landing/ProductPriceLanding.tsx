@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
-import { Box, Typography, Button } from "@mui/material";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
+import { Box, Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import { columnsModalProduct } from "../order/helpers/columns";
 import {
-    useRetrieveProductsByBrand,
     useRetrieveProductsByType,
 } from "../product/core/_hooks";
 import {
-    columnsProductPrice,
     columnsProductPriceDashboard,
 } from "../product/helpers/columns";
 import ReusableTabComponent from "../../../_cloner/components/ReusableTab";
@@ -17,8 +13,13 @@ import FuzzySearch from "../../../_cloner/helpers/Fuse";
 
 const ProductPriceLanding = () => {
     const { data: productsByType } = useRetrieveProductsByType();
+    
 
     const [results, setResults] = useState<any>([]);
+    useEffect(() => {
+        setResults(productsByType?.data[0].products);
+    }, [productsByType]);
+
 
     const imageUrl = [
         { id: 1, url: "/media/product/border-design.png" },
@@ -31,7 +32,7 @@ const ProductPriceLanding = () => {
     ];
 
     const renderAction = () => {};
-    const tabs = productsByType?.data?.map((i: any) => {
+    const tabs = productsByType?.data?.map((i: any, index: number) => {
         const image: any = () => {
             switch (i.id) {
                 case 1: 
