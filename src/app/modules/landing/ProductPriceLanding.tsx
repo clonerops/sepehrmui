@@ -13,10 +13,8 @@ import FuzzySearch from "../../../_cloner/helpers/Fuse";
 
 const ProductPriceLanding = () => {
     const { data: productsByType } = useRetrieveProductsByType();
-    
 
     const [results, setResults] = useState<any>([]);
-
 
     const imageUrl = [
         { id: 1, url: "/media/product/border-design.png" },
@@ -28,15 +26,19 @@ const ProductPriceLanding = () => {
         { id: 7, url: "/media/product/can.png" },
     ];
 
-    const renderAction = () => {};
+    useEffect(() => {
+        if (productsByType && productsByType.data) {
+            const initialResults = productsByType.data.map((i: any) => i.products);
+            setResults(initialResults);
+        }
+    }, [productsByType]);
+
+    const renderAction = () => { };
     const tabs = productsByType?.data?.map((i: any, index: number) => {
         const image: any = () => {
             switch (i.id) {
-                case 1: 
-                {
-                    setResults(productsByType?.data[0].products)
+                case 1:
                     return imageUrl[0].url;
-                }
                 case 2:
                     return imageUrl[1].url;
                 case 3:
@@ -67,15 +69,21 @@ const ProductPriceLanding = () => {
             ),
             content: (
                 <Box>
-                    <FuzzySearch
+                    <Box component="div" className="pb-4">
+                        <FuzzySearch
                             keys={["productName", "productBrandName"]}
                             data={i.products}
                             threshold={0.5}
-                            setResults={setResults}
+                            setResults={(newResults: any) => {
+                                const updatedResults = [...results];
+                                updatedResults[index] = newResults;
+                                setResults(updatedResults);
+                            }}
                         />
+                    </Box>
                     <MuiDataGrid
                         columns={columnsProductPriceDashboard(renderAction)}
-                        rows={i.products}
+                        rows={results[index]}
                         data={i.products}
                     />
                 </Box>
@@ -84,7 +92,7 @@ const ProductPriceLanding = () => {
     });
     return (
         <>
-            <Box component="div" className="flex flex-col pb-4">
+            <Box component="div" className="flex flex-col">
                 <ReusableTabComponent tabs={tabs} />
             </Box>
         </>

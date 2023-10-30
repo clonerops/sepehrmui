@@ -186,16 +186,7 @@ const Order = () => {
                                 <Typography style={{
                                     backgroundColor: `#${findCustomer?.customerValidityColorCode}`
                                 }} variant="h3" className="px-4 rounded-md py-1">{findCustomer?.customerValidityDesc}</Typography>
-                                {/* <Typography variant="h4" className="text-gray-500">نوع اعتبار: </Typography> */}
-                                {/* <Typography variant="h3" className={`px-6 
-                                    font-bold rounded-md ${findCustomer?.customerValidityId === 1 ? "text-black py-1 bg-yellow-600" : findCustomer?.customerValidityId === 2 ? "text-green-500" : findCustomer?.customerValidityId === 3 ? "text-red-500" : ""}`}>
-                                    {findCustomer?.customerValidityId === 1 ? "عادی" : findCustomer?.customerValidityId === 2 ? "VIP" : findCustomer?.customerValidityId === 3 ? "سیاه" : ""}
-                                </Typography> */}
                             </Box>
-                            {/* <Box component="div" className="flex flex-row">
-                                <Typography variant="h4" className="text-gray-500">معرف: </Typography>
-                                <Typography variant="h3" className="px-4">{ findCustomer?.representative } </Typography>
-                            </Box> */}
                         </Box>
                     </Box>
                 );
@@ -860,6 +851,8 @@ const Order = () => {
                                             else {
                                                 setOrderPayment([...orderPaymentCP, orderPaymentData])
                                                 setFieldValue("amount", "")
+                                                setFieldValue("number", "")
+                                                setFieldValue("settlement", "")
                                             }
                                         }}>
                                             <Button>

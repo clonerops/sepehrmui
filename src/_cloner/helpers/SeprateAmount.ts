@@ -9,4 +9,4 @@ export function separateAmountWithCommas(amount: number | string): string {
     }
     return '0';
   }
-  
+

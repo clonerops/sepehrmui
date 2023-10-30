@@ -50,7 +50,7 @@ const ProductSelectedList = (props: {
 
     const columnTypes = {
         hidden: {
-            width: 0, // Set the width to 0 to effectively hide the column
+            width: 0, 
         },
     };
 

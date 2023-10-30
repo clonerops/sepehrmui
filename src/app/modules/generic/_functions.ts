@@ -57,7 +57,7 @@ export const dropdownProductByBrandName = (data: any) => {
         data &&
         data?.map((obj: { id: any; productName: any, productBrandName: any, warehouseName: any, warehouseId: any, productBrandId: any }): any => {
             const { id, productName, productBrandName, warehouseName, warehouseId, productBrandId } = obj;
-            return { value: id, label: `${productName} (${productBrandName}) -------- ${warehouseName}`, productBrandName: productBrandName, warehouseName: warehouseName, productName: productName, warehouseId: warehouseId, productBrandId: productBrandId };
+            return { value: id, label: `${productName} (${productBrandName})`, productBrandName: productBrandName, warehouseName: warehouseName, productName: productName, warehouseId: warehouseId, productBrandId: productBrandId };
         })
     );
 };

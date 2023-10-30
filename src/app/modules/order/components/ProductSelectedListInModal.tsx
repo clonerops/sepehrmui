@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IProducts } from "../../product/core/_models";
-import { Box, Button, OutlinedInput, Typography,FormControl, InputLabel, MenuItem, TextField } from "@mui/material";
+import { Box, Button, OutlinedInput, Typography, FormControl, InputLabel, MenuItem, TextField } from "@mui/material";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
@@ -26,7 +26,7 @@ const ProductSelectedListInModal = (props: {
     const { data: units } = useGetUnits()
 
     const [results, setResults] = useState<IProducts[]>([]);
-    const [subUnit, setSubUnit] =  useState<{
+    const [subUnit, setSubUnit] = useState<{
         [key: string]: string;
     }>({});
     const [selectionModel, setSelectionModel] = useState<any>({});
@@ -34,7 +34,7 @@ const ProductSelectedListInModal = (props: {
     const [proximateAmounts, setProximateAmounts] = useState<{
         [key: string]: string;
     }>({});
-    const [productPrice, setProductPrice] = useState<{[key: string]: string}>({});
+    const [productPrice, setProductPrice] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (productsByBrand?.data) setResults(productsByBrand?.data);
@@ -94,14 +94,14 @@ const ProductSelectedListInModal = (props: {
                         "aria-label": "weight",
                         style: {
                             textAlign: "center",
-                            },
+                        },
                     }}
                 />
             </>
         );
     };
 
-    const handleSubUnitChange  = (productId: string, value: string) => {
+    const handleSubUnitChange = (productId: string, value: string) => {
         setSubUnit({
             ...subUnit,
             [productId]: value,
@@ -135,14 +135,14 @@ const ProductSelectedListInModal = (props: {
                         onChange={(e: any) =>
                             handleSubUnitChange(productId, e.target.value)
                         }
-                            size="small"
+                        size="small"
                         inputProps={{
                             "aria-label": "weight",
                             style: {
                                 width: 28
                             },
                         }}
-    
+
                     >
                         {units?.map((item: any) => (
                             <MenuItem value={item.id}>{item.unitName}</MenuItem>
@@ -163,11 +163,18 @@ const ProductSelectedListInModal = (props: {
         setProductPrice({
             ...productPrice,
             [productId]: value,
-            // [productId]: value,
         });
-    };
+        // const sanitizedValue = value.replace(/,/g, '');
+        // const numericValue = parseFloat(sanitizedValue);
+        // if (!isNaN(numericValue)) {
+        //     const formattedValue = numericValue.toLocaleString('en-US');
 
-    console.log("productPrice", productPrice)
+        //     setProductPrice({
+        //         ...productPrice,
+        //         [productId]: formattedValue,
+        //     });
+        // }
+    };
 
 
 
@@ -225,7 +232,7 @@ const ProductSelectedListInModal = (props: {
             productPrice: separateAmountWithCommas(product.productPrice),
             proximateSubUnit: Math.ceil(
                 Number(proximateAmounts[product.id]) /
-                    Number(product.exchangeRate)
+                Number(product.exchangeRate)
             ),
         }));
 
