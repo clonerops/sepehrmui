@@ -5,6 +5,11 @@ import { IProductPrice, IProducts, ISuppliers } from "./_models";
 const useRetrieveProducts = () => {
     return useQuery(["products"], () => api.retrieveProducts());
 };
+const useRetrieveProductsByWarehouse = () => {
+    return useMutation((warehouseId: number) => {
+        return api.retrieveProductsByWarehouse(warehouseId)
+    });
+};
 const useRetrieveProductsByType = () => {
     return useQuery(["productsByType"], () => api.retrieveProductsByType());
 };
@@ -132,6 +137,7 @@ const useExportProductPrice = () => {
 
 export {
     useRetrieveProducts,
+    useRetrieveProductsByWarehouse,
     useRetrieveProductsByType,
     useRetrieveProductsByBrand,
     useCreateProduct,

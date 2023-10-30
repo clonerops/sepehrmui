@@ -1,3 +1,6 @@
+import { FormikErrors } from "formik";
+import { IProducts } from "../../product/core/_models";
+
 export interface IProduct {
     id: number;
     product: string;
@@ -28,20 +31,22 @@ export interface ICreateOrder {
     freightDriverName: string | undefined | null
     carPlaque: string | undefined | null
     details: ICreateOrderDetails[] | undefined | null
+    orderPayments: IOrderPayment[] | undefined | null
 }
 
 export interface ICreateOrderDetails {
     id?: string | undefined
     rowId: number | undefined | null
     productId: string | undefined | null
-    warehouseId: string | undefined | null
-    warehouseTypeId: string | undefined | null
+    // warehouseId: string | undefined | null
+    warehouseId: number | undefined | null
+    // warehouseTypeId: string | undefined | null
     proximateAmount: number | undefined | null
     numberInPackage: number | undefined | null
     price: number | undefined | null
     cargoSendDate: string | undefined | null
     buyPrice: number | undefined | null
-    purchaseInvoiceType: string | undefined | null
+    // purchaseInvoiceType: string | undefined | null
     purchaseInvoiceTypeId: number | undefined | null
     purchaserCustomerId: string  | undefined | null
     purchaseSettlementDate: string | undefined | null
@@ -68,8 +73,44 @@ export interface IOrderDetail extends IOrder {
 
 export interface IOrderPayment {
     id?: any,
-    amount: string | null | undefined,
-    paymentDate: string | null | undefined,
-    daysAfterExit: string | null | undefined,
-    paymentType: number | null | undefined
+    amount?: any,
+    paymentDate?: string | null | undefined,
+    daysAfterExit?: number | null | undefined,
+    paymentType?: number | null | undefined
+}
+
+export interface IOrderItems {
+    id?: string | null | undefined
+    productName?: string | null | undefined
+    warehouseId?: string | null | undefined
+    productBrandName?: string  | null | undefined
+    productBrandId?: string  | null | undefined
+    warehouseTypeId?: string  | null | undefined
+    warehouseName?: string  | null | undefined
+    productDesc?: string  | null | undefined
+    buyPrice?: number  | null | undefined
+    purchaseSettlementDate?: string  | null | undefined
+    purchaseInvoiceTypeId?: number   | null | undefined
+    purchaseInvoiceTypeName?: string  | null | undefined
+    sellerCompanyRow?: string | null | undefined
+    proximateAmount?: string  | null | undefined
+    proximateSubUnit?: string  | null | undefined
+    purchaserCustomerId?: string  | null | undefined
+    purchaserCustomerName?: string  | null | undefined
+    mainUnit?: string  | null | undefined
+    subUnit?: string  | null | undefined
+    productPrice?: string  | null | undefined
+    rowId?: string  | null | undefined
+}
+
+export type ProductProps = {
+    orders?: IOrderItems[] ;
+    setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
+    setIsBuy?:  React.Dispatch<React.SetStateAction<boolean>>;
+    setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>;
+    setIsUpdate?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
+    selectedOrderIndex?: number;
+    setSelectedOrderIndex?: React.Dispatch<React.SetStateAction<number>> | undefined;
+    products?: IProducts[]
+    disabled?: boolean
 }

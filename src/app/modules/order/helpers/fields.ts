@@ -14,12 +14,12 @@ export const settlementFields: FieldType[][] = [
 ];
 export const orderFields: FieldType[][] = [
     [
-        { label: "کالا", name: "productName", type: "product" },
         {
             label: "انبار",
             name: "warehouseId",
-            type: "warehouses",
+            type: "warehouse",
         },
+        { label: "کالا", name: "productName", type: "product" },
         {
             label: "مقدار",
             name: "proximateAmount",
@@ -52,12 +52,12 @@ export const orderFields: FieldType[][] = [
 ];
 export const orderFieldsIsBuy: FieldType[][] = [
     [
-        { label: "کالا", name: "productName", type: "product" },
         {
             label: "انبار",
             name: "warehouseId",
-            type: "warehouses",
+            type: "warehouse",
         },
+        { label: "کالا", name: "productName", type: "product" },
         {
             label: "مقدار",
             name: "proximateAmount",

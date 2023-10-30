@@ -2,40 +2,19 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import ProductSelectedList from "./components/ProductSelectedList";
 import ProductSelectedListInModal from "./components/ProductSelectedListInModal";
-import {
-    useRetrieveProducts,
-    useRetrieveProductsByBrand,
-} from "../product/core/_hooks";
-import { Form, Formik } from "formik";
+import { useRetrieveProducts, useRetrieveProductsByBrand, useRetrieveProductsByWarehouse } from "../product/core/_hooks";
+import { Form, Formik, FormikErrors } from "formik";
 import { useCreateOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
 import CreateCustomer from "../customer/components/CreateCustomer";
 import { useGetCustomers } from "../customer/core/_hooks";
-import {
-    dropdownCustomer,
-    dropdownExitType,
-    dropdownInvoiceType,
-    dropdownOrderSendType,
-    dropdownPurchaseInvoice,
-    dropdownRentPaymentType,
-} from "./helpers/dropdowns";
+import { dropdownCustomer, dropdownExitType, dropdownInvoiceType, dropdownOrderSendType, dropdownPurchaseInvoice, dropdownRentPaymentType, dropdownWarehouses } from "./helpers/dropdowns";
 import { exit } from "./helpers/fakeData";
 import Swal from 'sweetalert2'
 import { orderValidation } from "./validations/orderValidation";
-import {
-    useGetInvoiceType,
-    useGetPaymentTypes,
-    useGetPurchaseInvoice,
-    useGetSendTypes,
-    useGetWarehouses,
+import { useGetInvoiceType, useGetPaymentTypes, useGetPurchaseInvoice, useGetSendTypes, useGetWarehouses,
 } from "../generic/_hooks";
-import {
-    Box,
-    Button,
-    Typography,
-    IconButton,
-    InputAdornment,
-} from "@mui/material";
+import { Box, Button, Typography, IconButton, InputAdornment } from "@mui/material";
 import { sliceNumberPriceRial } from "../../../_cloner/helpers/sliceNumberPrice";
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
@@ -46,14 +25,12 @@ import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import { AddCircle, Add, Grading, Delete } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
-import {
-    dropdownProductByBrandName,
-} from "../generic/_functions";
+import { dropdownProductByBrandName } from "../generic/_functions";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import { FieldType } from "../../../_cloner/components/globalTypes";
-import { customerFields, orderFields, orderFieldsIsBuy, orderTypesFields, settlementFields } from "./helpers/fields";
-import { IOrderPayment, IProduct } from "./core/_models";
+import { customerFields, orderFields, orderFieldsIsBuy, orderTypesFields } from "./helpers/fields";
+import { IOrderItems, IOrderPayment } from "./core/_models";
 import { IProducts } from "../product/core/_models";
 import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
@@ -61,51 +38,13 @@ import FormikProximateAmount from "../product/components/FormikProximateAmount";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import CustomSnackbar from "../../../_cloner/components/SnackeBar";
 import { calculateTotalAmount } from "./helpers/functions";
-
-const orderPaymentValues = {
-    amount: "",
-    number: "",
-    settlement: ""
-}
-
-const initialValues = {
-    customerId: "",
-    settlementDate: "",
-    exitType: "1",
-    orderSendTypeId: "1",
-    paymentTypeId: "1",
-    invoiceTypeId: "",
-    customerOfficialName: "",
-    // Order
-    rowId: "",
-    id: "",
-    warehouseId: "",
-    warehouseTypeId: "",
-    proximateAmount: "",
-    numberInPackage: "",
-    productDesc: "",
-    productPrice: "",
-    cargoSendDate: "",
-    buyPrice: "",
-    purchaseInvoiceTypeId: "",
-    purchaserCustomerId: "",
-    purchaseSettlementDate: "",
-    sellerCompanyRow: "",
-    // not Main
-    productName: "",
-    warehouseName: "",
-    proximateSubUnit: "",
-    mainUnit: "",
-    subUnit: "",
-    productBrandId: "",
-    productBrandName: "",
-    purchaserCustomerName: ""
-};
+import { orderPaymentValues, orderInitialValues } from './helpers/initialValues'
 
 const Order = () => {
     // Fetching Data
     const { data: customers, refetch: refetchCustomers } = useGetCustomers();
     const { data: products } = useRetrieveProducts();
+    const productsTools = useRetrieveProductsByWarehouse();
     const { data: productsByBrand, isLoading: productByBrandLoading, isError: productByBrandError, } = useRetrieveProductsByBrand();
     const { data: orderSendType } = useGetSendTypes();
     const { data: rent } = useGetPaymentTypes();
@@ -113,14 +52,13 @@ const Order = () => {
     const { data: factor } = useGetInvoiceType();
     const { data: warehouse } = useGetWarehouses();
     const { mutate, data } = useCreateOrder();
-
     // States
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [isUpdate, setIsUpdate] = useState<boolean>(false);
-    const [selectedOrderIndex, setSelectedOrderIndex] = useState<any>(null);
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-    const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false);
-    const [orders, setOrders] = useState<any>([]);
+    const [isOpen, setIsOpen] = useState<boolean>(false); // OK
+    const [isUpdate, setIsUpdate] = useState<boolean>(false); // OK
+    const [selectedOrderIndex, setSelectedOrderIndex] = useState<number>(0); // OK
+    const [snackeOpen, setSnackeOpen] = useState<boolean>(false); //Ok
+    const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false); // OK
+    const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
     const [purchaseInvoiceTypeSelected, setPurchaseInvoiceTypeSelected] = useState<{ value: number | null; label: string | null }>();
     const [isBuy, setIsBuy] = useState<boolean>(false);
     const [orderCode, setOrderCode] = useState<number>(0);
@@ -132,10 +70,7 @@ const Order = () => {
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('success');
 
-    useEffect(() => {
-        calculateTotalAmount(orders)
-    }, [orders]);
-
+    useEffect(() => {calculateTotalAmount(orders)}, [orders]);
 
     const mainParseFields = (fields: FieldType, setFieldValue: any) => {
         const { type, ...rest } = fields;
@@ -150,9 +85,9 @@ const Order = () => {
                                     onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
                                     options={dropdownCustomer(customers?.data)}
                                     renderOption={(props: any, option: any) => {
-                                      return  <li {...props}>
+                                        return <li {...props}>
                                             <Typography style={{
-                                                backgroundColor:`#${option.customerValidityColorCode}`,
+                                                backgroundColor: `#${option.customerValidityColorCode}`,
                                                 width: "100%"
                                             }}>{option.label}</Typography>
                                         </li>
@@ -231,20 +166,19 @@ const Order = () => {
                 break;
         }
     };
-    const orderParseFields = (
-        fields: FieldType,
-        values: any,
-        setFieldValue: any
-    ) => {
+console.log("productsTools", productsTools?.data)
+    const orderParseFields = (fields: FieldType, values: any, setFieldValue: any) => {
         const { type, ...rest } = fields;
         switch (type) {
+            case "warehouse": 
+                return <FormikSelect options={dropdownWarehouses(warehouse)} onChange={(value: any) => handleChangeWarehouse(value)} {...rest} />
             case "product":
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
                         <FormikProductComboSelect
                             disabled={isUpdate || data?.succeeded}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
-                            options={dropdownProductByBrandName(productsByBrand?.data)}
+                            options={dropdownProductByBrandName(productsTools?.data?.data)}
                             {...rest}
                         />
                         <Button
@@ -259,7 +193,6 @@ const Order = () => {
                             title="انتخاب محصول"
                             open={selectedProductOpen}
                             isClose={() => setSelectedProductOpen(false)}
-                            // width="max-w-6xl"
                             description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
                         >
                             <ProductSelectedListInModal
@@ -344,67 +277,37 @@ const Order = () => {
         }
     };
 
+    const handleChangeWarehouse = (value: any) => {
+        productsTools.mutate(value)
+    }
+
     const handleChangeProduct = (value: any, setFieldValue: any) => {
-
-        setFieldValue("productBrandName", value?.productBrandName)
-        setFieldValue("warehouseName", value?.warehouseName)
-        setFieldValue("mainUnit", productsByBrand?.data?.find((i: IProducts) => i.id === value?.value)?.productMainUnitDesc)
-        setFieldValue("subUnit", productsByBrand?.data?.find((i: IProducts) => i.id === value?.value)?.productSubUnitDesc)
-
-        if (value?.warehouseId === 1) {
-            setIsBuy(true)
-        } else {
-            setIsBuy(false)
-        }
-
+        const fieldValue = [
+            { id: uuidv4, title: "productBrandName", value: value?.productBrandName },
+            { id: uuidv4, title: "warehouseName", value: value?.warehouseName },
+            { id: uuidv4, title: "mainUnit", value: value?.productMainUnitDesc },
+            { id: uuidv4, title: "subUnit", value: value?.productSubUnitDesc },
+        ]
+        fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
+        if (value?.warehouseId === 1) setIsBuy(true)
+        else setIsBuy(false)
     }
 
     const handleOrder = (values: any, setFieldValue: any) => {
-        const fields = [
-            "productName",
-            "id",
-            "warehouseId",
-            "warehouseTypeId",
-            "warehouseName",
-            "productDesc",
-            "productBrandDesc",
-            "buyPrice",
-            "purchaseSettlementDate",
-            "purchaseInvoiceTypeId",
-            "purchaseInvoiceTypeName",
-            "sellerCompanyRow",
-            "proximateAmount",
-            "productPrice",
-            "rowId",
-            "proximateSubUnit",
-            "purchaserCustomerId",
-            "purchaserCustomerName",
-            "mainUnit",
-            "subUnit"
-        ];
+        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "buyPrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "productPrice", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
 
-        const warehouseTypeId = warehouse?.find(
-            (i: any) => i.id === values.warehouseId
-        );
-        const warehouseName = warehouse?.find(
-            (i: any) => i.id === values.warehouseId
-        );
-        const purchaseInvoiceTypeName = purchaseInvoiceType?.find(
-            (i: any) => i.id === Number(values?.purchaseInvoiceTypeId)
-        );
+        const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId);
+        const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId);
+        const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId));
 
-        const productOrder = {
+        const productOrder: IOrderItems = {
             id: values?.productName?.value ? values?.productName?.value : values.id,
-            productName: values?.productName?.productName
-                ? values?.productName?.productName
-                : values?.productName,
+            productName: values?.productName?.productName ? values?.productName?.productName : values?.productName,
             warehouseId: values?.productName?.warehouseId ? values?.productName?.warehouseId : values.warehouseId,
             productBrandName: values?.productName?.productBrandName ? values?.productName?.productBrandName : values.productBrandName,
             productBrandId: values.productName.productBrandId ? values.productName.productBrandId : values.productBrandId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
-            warehouseName: values.warehouseName
-                ? values.warehouseName
-                : warehouseName?.name,
+            warehouseName: values.warehouseName ? values.warehouseName : warehouseName?.name,
             productDesc: values?.productDesc,
             buyPrice: values?.buyPrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
@@ -415,8 +318,6 @@ const Order = () => {
             proximateSubUnit: values.proximateSubUnit,
             purchaserCustomerId: values.purchaserCustomerId?.value ? values.purchaserCustomerId?.value : values.purchaserCustomerId,
             purchaserCustomerName: values.purchaserCustomerId?.label ? values.purchaserCustomerId?.label : values.purchaserCustomerName,
-            // mainUnit: products?.data?.find((i: IProducts) => i.id === values.productName.value ? values.productName.value : values.id)?.productMainUnitDesc,
-            // subUnit: products?.data?.find((i: IProducts) => i.id === values.productName.value ? values.productName.value : values.id)?.productSubUnitDesc,
             mainUnit: values.mainUnit,
             subUnit: values.subUnit,
             productPrice: values?.productPrice,
@@ -480,7 +381,7 @@ const Order = () => {
                 setOrders(updatedOrders);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders)))
             }
-            setSelectedOrderIndex(null);
+            setSelectedOrderIndex(0);
             fields.forEach((element) => {
                 setFieldValue(element, "");
             });
@@ -489,19 +390,13 @@ const Order = () => {
         }
     };
 
-
-
-    const handleChangeCustomer = (value: any, setFieldValue: any) => {
-        const findCustomer = customers?.data.find(
-            (i: any) => i.id === value?.value
-        );
+    const handleChangeCustomer = (value: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
+        const findCustomer = customers?.data.find((i: any) => i.id === value?.value);
         setFindCustomer(findCustomer);
         setFieldValue("number", findCustomer?.settlementDay)
-        if (findCustomer?.settlementType !== 1) {
-            setFieldValue("settlement", moment(new Date()).format("jYYYY/jMM/jDD"));
-        } else {
-            setFieldValue("settlement", "");
-        }
+        if (findCustomer?.settlementType !== 1) setFieldValue("settlement", moment(new Date()).format("jYYYY/jMM/jDD"));
+        else setFieldValue("settlement", "");
+
         if (findCustomer === undefined || findCustomer === null) {
             setFieldValue("number", "")
             setFieldValue("settlement", "");
@@ -510,10 +405,6 @@ const Order = () => {
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
-    const handleReset = () => {
-        window.location.reload()
-    }
-
     return (
         <>
             {snackeOpen && (
@@ -521,7 +412,8 @@ const Order = () => {
                     open={snackeOpen}
                     setState={setSnackeOpen}
                     title={
-                        orderData?.message || (orderData?.data?.Errors?.length > 0 && orderData?.data?.Errors[0]) ||
+                        orderData?.message ||
+                        (orderData?.data?.Errors?.length > 0 && orderData?.data?.Errors[0]) ||
                         orderData?.Message ||
                         orderData?.data?.Message
                     }
@@ -529,18 +421,9 @@ const Order = () => {
             )}
             <Formik
                 enableReinitialize
-                initialValues={{
-                    ...initialValues,
-                    ...orderPaymentValues,
-                }}
+                initialValues={{ ...orderInitialValues, ...orderPaymentValues }}
                 validationSchema={orderValidation}
-                onSubmit={async (
-                    values: any,
-                    {
-                        setStatus,
-                        setSubmitting,
-                    }
-                ) => {
+                onSubmit={async (values: any, { setStatus, setSubmitting }) => {
                     if (orders?.length === 0) {
                         alert("لیست سفارشات خالی می باشد");
                     } else {
@@ -549,20 +432,12 @@ const Order = () => {
                                 customerId: values.customerId.value,
                                 totalAmount: calculateTotalAmount(orders),
                                 description: values.description,
-                                productBrandId: 5,
                                 exitType: Number(values.exitType),
-                                orderSendTypeId: Number(
-                                    values.orderSendTypeId
-                                ),
-                                paymentTypeId: Number(
-                                    values.paymentTypeId
-                                ),
+                                orderSendTypeId: Number(values.orderSendTypeId),
+                                paymentTypeId: Number(values.paymentTypeId),
                                 customerOfficialName: "string",
-                                invoiceTypeId: Number(
-                                    values.invoiceTypeId
-                                ),
+                                invoiceTypeId: Number(values.invoiceTypeId),
                                 freightName: "string",
-                                // settlementDate: values.settlementDate,
                                 settlementDate: "1402/02/02",
                                 dischargePlaceAddress: "string",
                                 freightDriverName: "string",
@@ -600,18 +475,17 @@ const Order = () => {
                                         title: `سفارش شما با شماره ${orderData?.data[0].orderCode} ثبت گردید`,
                                         confirmButtonColor: "#fcc615",
                                         showClass: {
-                                          popup: 'animate__animated animate__fadeInDown'
+                                            popup: 'animate__animated animate__fadeInDown'
                                         },
                                         hideClass: {
-                                          popup: 'animate__animated animate__fadeOutUp'
+                                            popup: 'animate__animated animate__fadeOutUp'
                                         },
                                         confirmButtonText: "بستن",
                                         icon: "success",
                                         customClass: {
                                             title: "!text-md"
                                         }
-                                        
-                                      })
+                                    })
                                     setOrderData(orderData);
                                     setSnackeOpen(true);
                                     setOrderCode(
@@ -913,7 +787,7 @@ const Order = () => {
                             />
                             <CustomButton
                                 title="پاک کردن فرم"
-                                onClick={() => handleReset()}
+                                onClick={() => window.location.reload()}
                                 disabled={orderCode === 0}
                                 color="secondary"
                             />

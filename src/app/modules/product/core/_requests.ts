@@ -16,6 +16,10 @@ const retrieveProducts = async (
     const { data } = await http.get(url);
     return data;
 };
+const retrieveProductsByWarehouse = async (warehouseId: number) => {
+    const { data } = await http.get(`/v1/Product?WarehouseId=${warehouseId}`);
+    return data;
+};
 const retrieveProductsByBrand = async (
     PageNumber: number | null | string = "",
     PageSize: number | null | string = ""
@@ -233,6 +237,7 @@ export const exportProductPrices = async () => {
 
 export {
     retrieveProducts,
+    retrieveProductsByWarehouse,
     retrieveProductsByBrand,
     retrieveProductsByType,
     createProducts,
