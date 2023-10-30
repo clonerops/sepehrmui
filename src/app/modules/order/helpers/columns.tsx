@@ -104,17 +104,17 @@ export const columnsModalProduct = (renderAction: any) => {
             headerClassName: "headerClassName",
             flex: 1,
         },
-        {
-            field: "productMainUnitDesc",
-            width: 80,
-            headerName: "واحد",
-            renderCell: (params: any) => {
-             return <Typography variant="h5">{params.value}</Typography>;
-            },
+        // {
+        //     field: "productMainUnitDesc",
+        //     width: 80,
+        //     headerName: "واحد",
+        //     renderCell: (params: any) => {
+        //      return <Typography variant="h5">{params.value}</Typography>;
+        //     },
 
-            headerClassName: "headerClassName",
-            flex: 1,
-        },
+        //     headerClassName: "headerClassName",
+        //     flex: 1,
+        // },
         {
             field: "productPrice",
             minWidth: 60,
@@ -128,7 +128,7 @@ export const columnsModalProduct = (renderAction: any) => {
     return col;
 };
 
-export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
+export const columnsSelectProduct = (renderAction: any, renderInput: any, renderSubUnit: any, renderPrice: any) => {
     const col = [
         {
             field: "productName",
@@ -143,7 +143,7 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
         },
         {
             field: "thickness",
-            minWidth: 160,
+            minWidth: 80,
             headerName: "مقدار",
             renderCell: renderInput,
             headerAlign: "center",
@@ -174,15 +174,24 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any) => {
             flex: 1,
         },
         {
-            field: "productMainUnitDesc",
-            width: 80,
-            headerName: "واحد",
-            renderCell: (params: any) => {
-             return <Typography variant="h5">{params.value}</Typography>;
-            },
-
+            field: "productSubUnitDesc",
+            minWidth: 180,
+            maxWidth: 180,
+            headerName: "واحد فرعی",
+            renderCell: renderSubUnit,
             headerClassName: "headerClassName",
             flex: 1,
+        },
+        {
+            field: "productPrice",
+            minWidth: 180,
+            maxWidth: 180,
+            headerName: "قیمت",
+            flex: 1,
+            // renderCell: (value: any) =>
+            //     <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.productPrice)}</Typography>,
+            renderCell: renderPrice,
+            headerClassName: "headerClassName",
         },
         {
             field: "Action",

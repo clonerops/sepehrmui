@@ -16,9 +16,6 @@ const ProductPriceLanding = () => {
     
 
     const [results, setResults] = useState<any>([]);
-    useEffect(() => {
-        setResults(productsByType?.data[0].products);
-    }, [productsByType]);
 
 
     const imageUrl = [
@@ -36,7 +33,10 @@ const ProductPriceLanding = () => {
         const image: any = () => {
             switch (i.id) {
                 case 1: 
+                {
+                    setResults(productsByType?.data[0].products)
                     return imageUrl[0].url;
+                }
                 case 2:
                     return imageUrl[1].url;
                 case 3:

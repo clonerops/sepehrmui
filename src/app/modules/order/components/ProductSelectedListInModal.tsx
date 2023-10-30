@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IProducts } from "../../product/core/_models";
-import { Box, Button, OutlinedInput, Typography } from "@mui/material";
+import { Box, Button, OutlinedInput, Typography,FormControl, InputLabel, MenuItem } from "@mui/material";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
@@ -10,6 +11,7 @@ import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../helpers/functions";
+import { useGetUnits } from "../../generic/productUnit/_hooks";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -20,16 +22,19 @@ const ProductSelectedListInModal = (props: {
     orders?: any;
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    const {
-        data: productsByBrand,
-    } = useRetrieveProductsByBrand();
+    const { data: productsByBrand } = useRetrieveProductsByBrand();
+    const { data: units } = useGetUnits()
 
     const [results, setResults] = useState<IProducts[]>([]);
+    const [subUnit, setSubUnit] =  useState<{
+        [key: string]: string;
+    }>({});
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
     const [proximateAmounts, setProximateAmounts] = useState<{
         [key: string]: string;
     }>({});
+    const [productPrice, setProductPrice] = useState<{[key: string]: string}>({});
 
     useEffect(() => {
         if (productsByBrand?.data) setResults(productsByBrand?.data);
@@ -65,9 +70,86 @@ const ProductSelectedListInModal = (props: {
                     }
                     inputProps={{
                         "aria-label": "weight",
+                        style: {
+                            textAlign: "center",
+                        },
                     }}
                 />
             </>
+        );
+    };
+    const renderPrice = (params: any) => {
+        const productId = params.row.id;
+        return (
+            <>
+                <OutlinedInput
+                    id={`outlined-adornment-weight-${productId}`}
+                    size="small"
+                    defaultValue={productPrice}
+                    value={productPrice[productId]}
+                    onChange={(e: any) =>
+                        handleInputPriceChange(productId, e.target.value)
+                    }
+                    inputProps={{
+                        "aria-label": "weight",
+                        style: {
+                            textAlign: "center",
+                            },
+                    }}
+                />
+            </>
+        );
+    };
+
+    const handleSubUnitChange  = (productId: string, value: string) => {
+        setSubUnit({
+            ...subUnit,
+            [productId]: value,
+        });
+    }
+
+    const renderSubUnit = (params: any) => {
+        const productId = params.row.id;
+        return (
+            <Box component="div" className="flex gap-x-2">
+                <OutlinedInput
+                    id={`outlined-adornment-weight-${productId}`}
+                    size="small"
+                    value={proximateAmounts[productId] || ""}
+                    onChange={(e: any) =>
+                        handleInputValueChange(productId, e.target.value)
+                    }
+                    inputProps={{
+                        "aria-label": "weight",
+                        style: {
+                            textAlign: "center",
+                            width: 28
+                        },
+                    }}
+                />
+                <FormControl fullWidth>
+                    <Select
+                        labelId={`demo-simple-select-label-${productId}`}
+                        id={`demo-simple-select-label-${productId}`}
+                        value={subUnit[productId] || ""}
+                        onChange={(e: any) =>
+                            handleSubUnitChange(productId, e.target.value)
+                        }
+                            size="small"
+                        inputProps={{
+                            "aria-label": "weight",
+                            style: {
+                                width: 28
+                            },
+                        }}
+    
+                    >
+                        {units?.map((item: any) => (
+                            <MenuItem value={item.id}>{item.unitName}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>{" "}
+            </Box>
         );
     };
 
@@ -77,14 +159,31 @@ const ProductSelectedListInModal = (props: {
             [productId]: value,
         });
     };
+    const handleInputPriceChange = (productId: string, value: string) => {
+        setProductPrice({
+            ...productPrice,
+            [productId]: value,
+            // [productId]: value,
+        });
+    };
+
+    console.log("productPrice", productPrice)
+
+
 
     const handleSelectionChange: any = (newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
         const selectedRowData = {
             ...newSelectionModel.row,
-            mainUnit: props.products?.find((i: IProducts) => i.id === selectedRow.id)?.productMainUnitDesc,
-            subUnit: props.products?.find((i: IProducts) => i.id === selectedRow.id)?.productSubUnitDesc
-        }
+            mainUnit: props.products?.find(
+                (i: IProducts) => i.id === selectedRow.id
+            )?.productMainUnitDesc,
+            subUnit: props.products?.find(
+                (i: IProducts) => i.id === selectedRow.id
+            )?.productSubUnitDesc,
+        };
+        setProductPrice(newSelectionModel.row.productPrice)
+
         const isDuplicate = selectedProduct.some((item) => {
             return item.id === selectedRow.id;
         });
@@ -106,10 +205,16 @@ const ProductSelectedListInModal = (props: {
             warehouseName: product.warehouseName,
             productDesc: product?.productDesc ? product?.productDesc : "",
             buyPrice: product?.buyPrice ? product?.buyPrice : "",
-            purchaseSettlementDate: product.purchaseSettlementDate ? product.purchaseSettlementDate : "",
-            purchaseInvoiceTypeId: product?.purchaseInvoiceTypeId ? Number(product?.purchaseInvoiceTypeId) : 0,
+            purchaseSettlementDate: product.purchaseSettlementDate
+                ? product.purchaseSettlementDate
+                : "",
+            purchaseInvoiceTypeId: product?.purchaseInvoiceTypeId
+                ? Number(product?.purchaseInvoiceTypeId)
+                : 0,
             purchaseInvoiceTypeName: "",
-            sellerCompanyRow: product.sellerCompanyRow ? product.sellerCompanyRow : "string",
+            sellerCompanyRow: product.sellerCompanyRow
+                ? product.sellerCompanyRow
+                : "string",
             purchaserCustomerId: "",
             purchaserCustomerName: "",
             mainUnit: product.mainUnit,
@@ -118,7 +223,10 @@ const ProductSelectedListInModal = (props: {
             proximateAmount: proximateAmounts[product.id] || "",
             warehouseTypeId: 0,
             productPrice: separateAmountWithCommas(product.productPrice),
-            proximateSubUnit: Math.ceil(Number(proximateAmounts[product.id]) / Number(product.exchangeRate))
+            proximateSubUnit: Math.ceil(
+                Number(proximateAmounts[product.id]) /
+                    Number(product.exchangeRate)
+            ),
         }));
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
@@ -136,7 +244,10 @@ const ProductSelectedListInModal = (props: {
             ];
 
             props.setOrders(updatedOrders);
-            props.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders)))
+            props.setFieldValue(
+                "amount",
+                sliceNumberPriceRial(calculateTotalAmount(updatedOrders))
+            );
             props.setSelectedProductOpen(false);
         } else {
             alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
@@ -144,7 +255,7 @@ const ProductSelectedListInModal = (props: {
     };
 
     if (props.productLoading) {
-        return <Typography>Loading ...</Typography>
+        return <Typography>Loading ...</Typography>;
     }
 
     return (
@@ -176,7 +287,12 @@ const ProductSelectedListInModal = (props: {
                 <MuiSelectionDataGrid
                     selectionModel={selectionModel}
                     setSelectionModel={setSelectionModel}
-                    columns={columnsSelectProduct(renderAction, renderInput)}
+                    columns={columnsSelectProduct(
+                        renderAction,
+                        renderInput,
+                        renderSubUnit,
+                        renderPrice
+                    )}
                     rows={selectedProduct}
                     data={selectedProduct}
                     pagination={false}

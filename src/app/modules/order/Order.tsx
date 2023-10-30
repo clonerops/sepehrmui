@@ -20,6 +20,7 @@ import {
     dropdownRentPaymentType,
 } from "./helpers/dropdowns";
 import { exit } from "./helpers/fakeData";
+import Swal from 'sweetalert2'
 import { orderValidation } from "./validations/orderValidation";
 import {
     useGetInvoiceType,
@@ -70,9 +71,9 @@ const orderPaymentValues = {
 const initialValues = {
     customerId: "",
     settlementDate: "",
-    exitType: "",
-    orderSendTypeId: "",
-    paymentTypeId: "",
+    exitType: "1",
+    orderSendTypeId: "1",
+    paymentTypeId: "1",
     invoiceTypeId: "",
     customerOfficialName: "",
     // Order
@@ -151,7 +152,8 @@ const Order = () => {
                                     renderOption={(props: any, option: any) => {
                                       return  <li {...props}>
                                             <Typography style={{
-                                                color:`#${option.customerValidityColorCode}`
+                                                backgroundColor:`#${option.customerValidityColorCode}`,
+                                                width: "100%"
                                             }}>{option.label}</Typography>
                                         </li>
 
@@ -603,6 +605,22 @@ const Order = () => {
 
                             mutate(formData, {
                                 onSuccess: (orderData) => {
+                                    Swal.fire({
+                                        title: `سفارش شما با شماره ${orderData?.data[0].orderCode} ثبت گردید`,
+                                        confirmButtonColor: "#fcc615",
+                                        showClass: {
+                                          popup: 'animate__animated animate__fadeInDown'
+                                        },
+                                        hideClass: {
+                                          popup: 'animate__animated animate__fadeOutUp'
+                                        },
+                                        confirmButtonText: "بستن",
+                                        icon: "success",
+                                        customClass: {
+                                            title: "!text-md"
+                                        }
+                                        
+                                      })
                                     setOrderData(orderData);
                                     setSnackeOpen(true);
                                     setOrderCode(
@@ -897,7 +915,7 @@ const Order = () => {
                             <CustomButton
                                 title="ثبت سفارش"
                                 onClick={() => handleSubmit()}
-                                disabled={orderPayment?.length <= 0 || isUpdate}
+                                disabled={orderPayment?.length <= 0 || isUpdate || orderCode !== 0}
                                 color="primary"
                             />
                             <CustomButton
