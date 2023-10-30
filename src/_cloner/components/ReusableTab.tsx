@@ -46,6 +46,11 @@ const ReusableTab: React.FC<ReusableTabProps> = ({
                     backgroundColor: "#D97D54"
                   }
                 }}
+                sx={{
+                    '& .MuiTabs-flexContainer': {
+                      flexWrap: 'wrap',
+                    },
+                  }}        
                 indicatorColor={indicatorColor}
                 value={value}
                 onChange={handleChange}

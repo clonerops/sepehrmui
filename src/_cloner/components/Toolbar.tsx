@@ -6,16 +6,13 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import {
     LockReset,
     VerifiedUser,
-    NotificationAddOutlined,
-    Accessibility,
-    Directions,
     Assessment,
     Announcement,
-    Notifications
+    Notifications,
+    Settings
 } from "@mui/icons-material";
 
 import { useNavigate } from "react-router-dom";
-import React from "react";
 import ProductPriceLanding from "../../app/modules/landing/ProductPriceLanding";
 import TransitionsModal from "./ReusableModal";
 
@@ -46,12 +43,6 @@ const ToolbarComponent = () => {
         navigate("dashboard/user/create");
     };
 
-    const toolbarIcons = [
-        { id: 1, component: <Assessment /> },
-        { id: 2, component: <Announcement /> },
-        { id: 3, component: <Notifications /> },
-    ]
-
     return (
         <>
             <Box component="div" className="flex justify-between items-center">
@@ -68,7 +59,7 @@ const ToolbarComponent = () => {
                         <Announcement />
                     </Box>
                     <Box component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
-                        <Notifications />
+                        <Settings />
                     </Box>
                     <Button
                         onClick={handleClick}
@@ -131,7 +122,7 @@ const ToolbarComponent = () => {
                 </Box>
             </Box>
 
-            <TransitionsModal width="50%" title="قیمت محصولات" open={isPriceOpen} isClose={() => setIsPriceOpen(false)}>
+            <TransitionsModal  width="50%" title="قیمت محصولات" open={isPriceOpen} isClose={() => setIsPriceOpen(false)}>
                 <ProductPriceLanding />
             </TransitionsModal>
         </>
