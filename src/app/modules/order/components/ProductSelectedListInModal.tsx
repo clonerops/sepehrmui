@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IProducts } from "../../product/core/_models";
-import { Box, Button, OutlinedInput, Typography,FormControl, InputLabel, MenuItem } from "@mui/material";
+import { Box, Button, OutlinedInput, Typography,FormControl, InputLabel, MenuItem, TextField } from "@mui/material";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
@@ -82,10 +82,10 @@ const ProductSelectedListInModal = (props: {
         const productId = params.row.id;
         return (
             <>
-                <OutlinedInput
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
-                    defaultValue={productPrice}
+                    defaultValue={separateAmountWithCommas(Number(productPrice))}
                     value={productPrice[productId]}
                     onChange={(e: any) =>
                         handleInputPriceChange(productId, e.target.value)
