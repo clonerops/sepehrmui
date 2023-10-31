@@ -39,6 +39,15 @@ const retrieveProductsByType = async () => {
     const { data } = await http.get("/v1/Product/GetAllProductsByType");
     return data;
 };
+const retrieveProductsByTypeWarehouseFilter = async (warehouseId: string) => {
+    if(warehouseId) {
+        const { data } = await http.get(`/v1/Product/GetAllProductsByType?ByBrand=true&WarehouseId=${Number(warehouseId)}`);
+        return data;
+    } else {
+        const { data } = await http.get(`/v1/Product/GetAllProductsByType?ByBrand=true`);
+        return data;
+    }
+};
 
 const createProducts = async (formData: IProducts) => {
     try {
@@ -240,6 +249,7 @@ export {
     retrieveProductsByWarehouse,
     retrieveProductsByBrand,
     retrieveProductsByType,
+    retrieveProductsByTypeWarehouseFilter,
     createProducts,
     retrieveProductById,
     updateProduct,

@@ -7,11 +7,14 @@ import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDat
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
+import { useRetrieveProductsByBrand, useRetrieveProductsByType, useRetrieveProductsByTypeAndWarehouseFilter } from "../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../helpers/functions";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import ReusableTabComponent from "../../../../_cloner/components/ReusableTab";
+import { useGetWarehouses } from "../../generic/_hooks";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -23,6 +26,22 @@ const ProductSelectedListInModal = (props: {
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const { data: productsByBrand } = useRetrieveProductsByBrand();
+    const { data: productsByType } = useRetrieveProductsByType();
+    const filterTools = useRetrieveProductsByTypeAndWarehouseFilter();
+    const {data: warehouses } = useGetWarehouses()
+
+    const imageUrl = [
+        { id: 1, url: "/media/product/border-design.png" },
+        { id: 2, url: "/media/product/tubes.png" },
+        { id: 3, url: "/media/product/beam.png" },
+        { id: 4, url: "/media/product/steel.png" },
+        { id: 5, url: "/media/product/tissue-roll.png" },
+        { id: 6, url: "/media/product/conveyor-belt.png" },
+        { id: 7, url: "/media/product/can.png" },
+    ];
+
+
+
     const { data: units } = useGetUnits()
 
     const [results, setResults] = useState<IProducts[]>([]);
@@ -33,11 +52,22 @@ const ProductSelectedListInModal = (props: {
     const [proximateAmounts, setProximateAmounts] = useState<{[key: string]: string}>({});
     const [proximateSubAmounts, setProximateSubAmounts] = useState<{[key: string]: string}>({});
     const [productPrice, setProductPrice] = useState<{[key: string]: string}>({});
+    const [selectedWarehouse, setSelectedWarehouse] = useState<any>("")
 
     useEffect(() => {
         if (productsByBrand?.data) setResults(productsByBrand?.data);
     }, [productsByBrand?.data]);
     
+    useEffect(() => {
+        if (filterTools?.data) {
+            const initialResults = filterTools.data.data.map((i: any) => i.products);
+            setResults(initialResults);
+        }
+    }, [filterTools?.data]);
+
+    useEffect(() => {
+        filterTools.mutate("")
+    }, [])
 
     const renderAction = (indexToDelete: any) => {
         return (
@@ -276,10 +306,90 @@ const ProductSelectedListInModal = (props: {
         return <Typography>Loading ...</Typography>;
     }
 
+    const onFilterProductByWarehouse = (e: SelectChangeEvent) => {
+        setSelectedWarehouse(e.target.value)
+        if(e.target.value) filterTools.mutate(e.target.value)
+        else filterTools.mutate("")
+        
+    }
+
+    const tabs = productsByType?.data?.map((i: any, index: number) => {
+        const image: any = () => {
+            switch (i.id) {
+                case 1:
+                    return imageUrl[0].url;
+                case 2:
+                    return imageUrl[1].url;
+                case 3:
+                    return imageUrl[2].url;
+                case 4:
+                    return imageUrl[3].url;
+                case 5:
+                    return imageUrl[4].url;
+                case 6:
+                    return imageUrl[5].url;
+                case 7:
+                    return imageUrl[6].url;
+
+                default:
+                    break;
+            }
+        };
+        return {
+            label: (
+                <Box component="div" className="flex gap-x-2">
+                    <Box
+                        component="img"
+                        src={toAbsoulteUrl(image()?.toString())}
+                        width={16}
+                    />
+                    <Typography variant="h5">{i.desc}</Typography>
+                </Box>
+            ),
+            content: (
+                <Box>
+                    <Box component="div" className="grid grid-cols-2 gap-x-8 mb-2">
+                        <FuzzySearch
+                            keys={["productName"]}
+                            data={i.products}
+                            threshold={0.5}
+                            setResults={(newResults: any) => {
+                                const updatedResults = [...results];
+                                updatedResults[index] = newResults;
+                                setResults(updatedResults);
+                            }}
+                        />
+                        <FormControl size="small">
+                            <InputLabel id="demo-simple-select-label">انبار</InputLabel>
+                            <Select label="انبار" labelId="demo-simple-select-label" size="small" value={selectedWarehouse} onChange={onFilterProductByWarehouse}>
+                                {warehouses.map((i: any) => {
+                                return <MenuItem value={i.id}>{i.name}</MenuItem>
+                                })}
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <MuiDataGrid
+                    onDoubleClick={handleSelectionChange}
+                    columns={columnsModalProduct(renderAction)}
+                    rows={results[index]}
+                    data={filterTools?.data?.data}
+                />
+
+                    {/* <MuiDataGrid
+                        columns={columnsProductPriceDashboard(renderAction)}
+                        rows={results[index]}
+                        data={i.products}
+                    /> */}
+                </Box>
+            ),
+        };
+    });
+
+
     return (
         <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
             <Box component="div">
-                <Box component="div" className="w-80 md:w-[40%]">
+                {/* <Box component="div" className="w-80 md:w-[40%]">
                     <FuzzySearch
                         keys={[
                             "productName",
@@ -290,13 +400,14 @@ const ProductSelectedListInModal = (props: {
                         threshold={0.5}
                         setResults={setResults}
                     />
-                </Box>
-                <MuiDataGrid
+                </Box> */}
+                {/* <MuiDataGrid
                     onDoubleClick={handleSelectionChange}
                     columns={columnsModalProduct(renderAction)}
                     rows={results}
                     data={productsByBrand?.data}
-                />
+                /> */}
+                <ReusableTabComponent tabs={tabs} />
             </Box>
             <Box component="div" className="mt-4">
                 <Typography variant="h2" color="primary">

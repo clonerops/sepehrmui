@@ -13,6 +13,11 @@ const useRetrieveProductsByWarehouse = () => {
 const useRetrieveProductsByType = () => {
     return useQuery(["productsByType"], () => api.retrieveProductsByType());
 };
+const useRetrieveProductsByTypeAndWarehouseFilter = () => {
+    return useMutation((warehouseId: string) => {
+        return api.retrieveProductsByTypeWarehouseFilter(warehouseId)
+    })
+};
 const useRetrieveProductsByBrand = () => {
     return useQuery(["productsByBrand"], () => api.retrieveProductsByBrand());
 };
@@ -139,6 +144,7 @@ export {
     useRetrieveProducts,
     useRetrieveProductsByWarehouse,
     useRetrieveProductsByType,
+    useRetrieveProductsByTypeAndWarehouseFilter,
     useRetrieveProductsByBrand,
     useCreateProduct,
     useRetrieveProductById,
