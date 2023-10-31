@@ -107,7 +107,8 @@ export type ProductProps = {
     orders?: IOrderItems[] ;
     setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
     setIsBuy?:  React.Dispatch<React.SetStateAction<boolean>>;
-    setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>;
+    // setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>> | undefined;
+    setFieldValue?: any;
     setIsUpdate?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
     selectedOrderIndex?: number;
     setSelectedOrderIndex?: React.Dispatch<React.SetStateAction<number>> | undefined;

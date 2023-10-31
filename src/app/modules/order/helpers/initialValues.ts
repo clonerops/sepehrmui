@@ -9,7 +9,7 @@ export const orderInitialValues = {
     settlementDate: "",
     exitType: "1",
     orderSendTypeId: "1",
-    paymentTypeId: "1",
+    paymentTypeId: "2",
     invoiceTypeId: "",
     customerOfficialName: "",
     // Order

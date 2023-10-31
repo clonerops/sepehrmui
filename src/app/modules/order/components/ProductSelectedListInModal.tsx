@@ -26,19 +26,18 @@ const ProductSelectedListInModal = (props: {
     const { data: units } = useGetUnits()
 
     const [results, setResults] = useState<IProducts[]>([]);
-    const [subUnit, setSubUnit] = useState<{
-        [key: string]: string;
-    }>({});
+    // const [subUnit, setSubUnit] = useState<{ [key: string]: string }>({});
+    const [subUnit, setSubUnit] = useState<{ [key: string]: string }>({});
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
-    const [proximateAmounts, setProximateAmounts] = useState<{
-        [key: string]: string;
-    }>({});
-    const [productPrice, setProductPrice] = useState<{ [key: string]: string }>({});
+    const [proximateAmounts, setProximateAmounts] = useState<{[key: string]: string}>({});
+    const [proximateSubAmounts, setProximateSubAmounts] = useState<{[key: string]: string}>({});
+    const [productPrice, setProductPrice] = useState<{[key: string]: string}>({});
 
     useEffect(() => {
         if (productsByBrand?.data) setResults(productsByBrand?.data);
     }, [productsByBrand?.data]);
+    
 
     const renderAction = (indexToDelete: any) => {
         return (
@@ -66,7 +65,7 @@ const ProductSelectedListInModal = (props: {
                     size="small"
                     value={proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
-                        handleInputValueChange(productId, e.target.value)
+                        handleInputValueChange(productId, e.target.value, params.row.exchangeRate)
                     }
                     inputProps={{
                         "aria-label": "weight",
@@ -115,9 +114,9 @@ const ProductSelectedListInModal = (props: {
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
-                    value={proximateAmounts[productId] || ""}
+                    value={proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
-                        handleInputValueChange(productId, e.target.value)
+                        handleInputSubUnitChange(productId, e.target.value)
                     }
                     inputProps={{
                         "aria-label": "weight",
@@ -153,12 +152,25 @@ const ProductSelectedListInModal = (props: {
         );
     };
 
-    const handleInputValueChange = (productId: string, value: string) => {
+    const handleInputValueChange = (productId: string, value: string, exchangeRate: string) => {
         setProximateAmounts({
             ...proximateAmounts,
             [productId]: value,
         });
+        setProximateSubAmounts({
+            ...proximateSubAmounts,
+            [productId]: Math.ceil(Number(value) / Number(exchangeRate)).toString() ,
+        });
+
     };
+
+    const handleInputSubUnitChange = (productId: string, value: string) => {
+        setProximateSubAmounts({
+            ...proximateSubAmounts,
+            [productId]: value,
+        });
+    };
+
     const handleInputPriceChange = (productId: string, value: string) => {
         setProductPrice({
             ...productPrice,
@@ -188,8 +200,10 @@ const ProductSelectedListInModal = (props: {
             subUnit: props.products?.find(
                 (i: IProducts) => i.id === selectedRow.id
             )?.productSubUnitDesc,
+
         };
         setProductPrice(newSelectionModel.row.productPrice)
+        setSubUnit({...subUnit, [selectedRow.id]: newSelectionModel.row.productSubUnitId})
 
         const isDuplicate = selectedProduct.some((item) => {
             return item.id === selectedRow.id;
@@ -229,11 +243,8 @@ const ProductSelectedListInModal = (props: {
             rowId: product?.rowId ? product?.rowId : 0,
             proximateAmount: proximateAmounts[product.id] || "",
             warehouseTypeId: 0,
-            productPrice: separateAmountWithCommas(product.productPrice),
-            proximateSubUnit: Math.ceil(
-                Number(proximateAmounts[product.id]) /
-                Number(product.exchangeRate)
-            ),
+            productPrice: productPrice[product.id] ? separateAmountWithCommas(productPrice[product.id]) : separateAmountWithCommas(product.productPrice),
+            proximateSubUnit: proximateSubAmounts[product.id],
         }));
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>

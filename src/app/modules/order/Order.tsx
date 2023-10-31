@@ -21,7 +21,6 @@ import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import FormikInput from "../../../_cloner/components/FormikInput";
-import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import { AddCircle, Add, Grading, Delete } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
@@ -36,11 +35,13 @@ import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import FormikProximateAmount from "../product/components/FormikProximateAmount";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import CustomSnackbar from "../../../_cloner/components/SnackeBar";
 import { calculateTotalAmount } from "./helpers/functions";
 import { orderPaymentValues, orderInitialValues } from './helpers/initialValues'
+import { useSnackbar } from 'notistack';
 
 const Order = () => {
+    const { enqueueSnackbar } = useSnackbar();
+
     // Fetching Data
     const { data: customers, refetch: refetchCustomers } = useGetCustomers();
     const { data: products } = useRetrieveProducts();
@@ -54,21 +55,14 @@ const Order = () => {
     const { mutate, data } = useCreateOrder();
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
+    const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false); // OK
     const [isUpdate, setIsUpdate] = useState<boolean>(false); // OK
     const [selectedOrderIndex, setSelectedOrderIndex] = useState<number>(0); // OK
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false); //Ok
-    const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false); // OK
     const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
-    const [purchaseInvoiceTypeSelected, setPurchaseInvoiceTypeSelected] = useState<{ value: number | null; label: string | null }>();
-    const [isBuy, setIsBuy] = useState<boolean>(false);
-    const [orderCode, setOrderCode] = useState<number>(0);
-    const [orderData, setOrderData] = useState<any>();
-    const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
-    const [findCustomer, setFindCustomer] = useState<ICustomer>();
-    // Snackebar
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState('');
-    const [severity, setSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('success');
+    const [isBuy, setIsBuy] = useState<boolean>(false); // OK
+    const [orderCode, setOrderCode] = useState<number>(0); //OK
+    const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
+    const [findCustomer, setFindCustomer] = useState<ICustomer>(); //OK
 
     useEffect(() => {calculateTotalAmount(orders)}, [orders]);
 
@@ -108,7 +102,7 @@ const Order = () => {
                                 <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
                             </Box>
                         </Box>
-                        <Box component="div" className="flex justify-between mt-4">
+                        <Box component="div" className="flex flex-wrap justify-between space-y-4 md:space-y-0 mt-4">
                             <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
                                 <Typography variant="h3" className="px-4">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
@@ -166,12 +160,12 @@ const Order = () => {
                 break;
         }
     };
-console.log("productsTools", productsTools?.data)
+
     const orderParseFields = (fields: FieldType, values: any, setFieldValue: any) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "warehouse": 
-                return <FormikSelect options={dropdownWarehouses(warehouse)} onChange={(value: any) => handleChangeWarehouse(value)} {...rest} />
+                return <FormikSelect disabled={isUpdate || data?.succeeded} options={dropdownWarehouses(warehouse)} onChange={(value: any) => handleChangeWarehouse(value, setFieldValue)} {...rest} />
             case "product":
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
@@ -218,11 +212,6 @@ console.log("productsTools", productsTools?.data)
             case "purchaseInvoiceType":
                 return (
                     <FormikSelect
-                        disabled={data?.succeeded}
-                        value={purchaseInvoiceTypeSelected}
-                        onSelect={(value: any) =>
-                            setPurchaseInvoiceTypeSelected(value)
-                        }
                         options={dropdownPurchaseInvoice(purchaseInvoiceType)}
                         {...rest}
                     />
@@ -277,8 +266,32 @@ console.log("productsTools", productsTools?.data)
         }
     };
 
-    const handleChangeWarehouse = (value: any) => {
+    const handleChangeWarehouse = (value: any, setFieldValue: any) => {
         productsTools.mutate(value)
+        const fieldValue = [
+            {id: uuidv4(), title: "productName", value: ""},
+            {id: uuidv4(), title: "id", value: ""},
+            {id: uuidv4(), title: "productPrice", value: ""},
+            {id: uuidv4(), title: "productBrandId", value: ""},
+            {id: uuidv4(), title: "productBrandName", value: ""},
+            {id: uuidv4(), title: "warehouseId", value: ""},
+            {id: uuidv4(), title: "proximateAmount", value: ""},
+            {id: uuidv4(), title: "warehouseName", value: ""},
+            {id: uuidv4(), title: "proximateSubUnit", value: ""},
+            {id: uuidv4(), title: "buyPrice", value: ""},
+            {id: uuidv4(), title: "purchaseInvoiceTypeName", value: ""},
+            {id: uuidv4(), title: "purchaseInvoiceTypeId", value: ""},
+            {id: uuidv4(), title: "purchaseSettlementDate", value: ""},
+            {id: uuidv4(), title: "purchaserCustomerId", value: ""},
+            {id: uuidv4(), title: "purchaserCustomerName", value: ""},
+            {id: uuidv4(), title: "rowId", value: ""},
+            {id: uuidv4(), title: "productDesc", value: ""},
+            {id: uuidv4(), title: "mainUnit", value: ""},
+            {id: uuidv4(), title: "subUnit", value: ""},
+        ];
+        fieldValue?.forEach((i: {title: string , value: any}) => setFieldValue(i.title, i.value))
+        if (value === 1) setIsBuy(true)
+        else setIsBuy(false)
     }
 
     const handleChangeProduct = (value: any, setFieldValue: any) => {
@@ -334,23 +347,26 @@ console.log("productsTools", productsTools?.data)
             );
 
             if (values.productName === "" || values.productName.label === "") {
-                setOpen(true)
-                setMessage("کالا الزامی می باشد")
-                setSeverity("error")
-            } else if (values?.productPrice === "") {
-                setOpen(true)
-                setMessage("قیمت الزامی می باشد")
-                setSeverity("error")
-            } else if (values?.proximateAmount === "") {
-                setOpen(true)
-                setMessage("مقدار الزامی می باشد")
-                setSeverity("error")
-            }
+                enqueueSnackbar("وارد نمودن کالا الزامی می باشد", {
+                    variant: "error",
+                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                  })
+                } else if (values?.productPrice === "") {
+                enqueueSnackbar("وارد نمودن قیمت الزامی می باشد", {
+                    variant: "error",
+                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                    })
+                } else if (values?.proximateAmount === "") {
+                enqueueSnackbar("وارد نمودن مقدار الزامی می باشد", {
+                    variant: "error",
+                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                    })
+                }
             else if (isDuplicate) {
-                setOpen(true)
-                setMessage("کالا در لیست سفارشات موجود می باشد")
-                setSeverity("error")
-
+                enqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", {
+                    variant: "error",
+                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                    })
             } else {
                 setOrders([...orders, productOrder]);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder])))
@@ -366,17 +382,20 @@ console.log("productsTools", productsTools?.data)
             const updatedOrders = [...orders];
             updatedOrders[selectedOrderIndex] = updatedOrder;
             if (values.productName === "" || values.productName.label === "") {
-                setOpen(true)
-                setMessage("کالا الزامی می باشد")
-                setSeverity("error")
+                enqueueSnackbar("وارد نمودن کالا الزامی می باشد", {
+                    variant: "error",
+                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                  })
             } else if (values?.productPrice === "") {
-                setOpen(true)
-                setMessage("قیمت الزامی می باشد")
-                setSeverity("error")
+                enqueueSnackbar("وارد نمودن قیمت الزامی می باشد", {
+                    variant: "error",
+                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                  })
             } else if (values?.proximateAmount === "") {
-                setOpen(true)
-                setMessage("مقدار الزامی می باشد")
-                setSeverity("error")
+                enqueueSnackbar("وارد نمودن مقدار الزامی می باشد", {
+                    variant: "error",
+                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                  })
             } else {
                 setOrders(updatedOrders);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders)))
@@ -407,25 +426,16 @@ console.log("productsTools", productsTools?.data)
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        orderData?.message ||
-                        (orderData?.data?.Errors?.length > 0 && orderData?.data?.Errors[0]) ||
-                        orderData?.Message ||
-                        orderData?.data?.Message
-                    }
-                />
-            )}
             <Formik
                 enableReinitialize
                 initialValues={{ ...orderInitialValues, ...orderPaymentValues }}
                 validationSchema={orderValidation}
-                onSubmit={async (values: any, { setStatus, setSubmitting }) => {
+                onSubmit={async (values: any) => {
                     if (orders?.length === 0) {
-                        alert("لیست سفارشات خالی می باشد");
+                        enqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", {
+                            variant: "error",
+                            anchorOrigin: {vertical: "top", horizontal: "center"}
+                          })
                     } else {
                         try {
                             const formData = {
@@ -470,34 +480,37 @@ console.log("productsTools", productsTools?.data)
                             };
 
                             mutate(formData, {
-                                onSuccess: (orderData) => {
-                                    Swal.fire({
-                                        title: `سفارش شما با شماره ${orderData?.data[0].orderCode} ثبت گردید`,
-                                        confirmButtonColor: "#fcc615",
-                                        showClass: {
-                                            popup: 'animate__animated animate__fadeInDown'
-                                        },
-                                        hideClass: {
-                                            popup: 'animate__animated animate__fadeOutUp'
-                                        },
-                                        confirmButtonText: "بستن",
-                                        icon: "success",
-                                        customClass: {
-                                            title: "!text-md"
-                                        }
-                                    })
-                                    setOrderData(orderData);
-                                    setSnackeOpen(true);
-                                    setOrderCode(
-                                        orderData?.data[0].orderCode
-                                    );
-                                },
+                                onSuccess: (response) => {
+                                    if(response.succeeded) {
+                                        Swal.fire({
+                                            title: `سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`,
+                                            confirmButtonColor: "#fcc615",
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            },
+                                            confirmButtonText: "بستن",
+                                            icon: "success",
+                                            customClass: {
+                                                title: "text-lg"
+                                            }
+                                        })
+                                        setOrderCode(response?.data[0].orderCode);
+                                    } else {
+                                        enqueueSnackbar(response?.data.Message, {
+                                            variant: "error",
+                                            anchorOrigin: {vertical: "top", horizontal: "center"}
+                                          })            
+                                    }
+                                }
                             });
                         } catch (error) {
-                            setStatus(
-                                "اطلاعات ثبت مشتری نادرست می باشد"
-                            );
-                            setSubmitting(false);
+                            enqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید", {
+                                variant: "error",
+                                anchorOrigin: {vertical: "top", horizontal: "center"}
+                              })
                         }
                     }
                 }}
@@ -509,8 +522,8 @@ console.log("productsTools", productsTools?.data)
                             className="md:grid md:grid-cols-2 gap-x-4 space-y-4 md:space-y-0 my-4"
                         >
                             <ReusableCard>
-                                <Box component="div" className="space-y-8">
-                                    <Box component="div" className="flex justify-between">
+                                <Box component="div" className="md:space-y-8 space-y-4">
+                                    <Box component="div" className="flex flex-wrap justify-between space-y-4 md:space-y-0">
                                         <Box component="div" className="flex">
                                             <Typography variant="h4" className="text-gray-500">
                                                 شماره سفارش:
@@ -644,9 +657,6 @@ console.log("productsTools", productsTools?.data)
                                     products={productsByBrand?.data}
                                 />
                             </Form>
-                            {/* //         );
-                            //     }}
-                            // </Formik> */}
                         </ReusableCard>
                         <Box component="div" className="md:grid md:grid-cols-2 gap-x-4">
                             <ReusableCard>
@@ -705,22 +715,25 @@ console.log("productsTools", productsTools?.data)
                                             const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount.replace(/,/g, ""), 10), 0);
 
                                             if (Number(values.amount.replace(/,/g, "")) > calculateTotalAmount(orders)) {
-                                                setOpen(true)
-                                                setMessage("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد")
-                                                setSeverity("error")
+                                                enqueueSnackbar("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد", {
+                                                    variant: "error",
+                                                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                                                  })
                                             } else if (new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(values.settlement)) {
-                                                setOpen(true)
-                                                setMessage("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد")
-                                                setSeverity("error")
+                                                enqueueSnackbar("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد", {
+                                                    variant: "error",
+                                                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                                                  })
                                             } else if (currentTotalPayment + Number(values.amount.replace(/,/g, "")) > calculateTotalAmount(orders)) {
-                                                setOpen(true)
-                                                setMessage("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد")
-                                                setSeverity("error")
-
+                                                enqueueSnackbar("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد", {
+                                                    variant: "error",
+                                                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                                                  })
                                             } else if (values.amount === "0" || values.amount === "") {
-                                                setOpen(true)
-                                                setMessage("مبلغ نمیتولند صفر یا خالی باشد")
-                                                setSeverity("error")
+                                                enqueueSnackbar("مقدار صفر یا مقدار خالی برای مبلغ نامعتبر می باشد", {
+                                                    variant: "error",
+                                                    anchorOrigin: {vertical: "top", horizontal: "center"}
+                                                  })
                                             }
                                             else {
                                                 setOrderPayment([...orderPaymentCP, orderPaymentData])
@@ -809,12 +822,6 @@ console.log("productsTools", productsTools?.data)
                     setIsCreateOpen={setIsOpen}
                 />
             </TransitionsModal>
-            <CustomSnackbar
-                open={open}
-                message={message}
-                severity={severity}
-                handleClose={() => setOpen(false)}
-            />
         </>
     );
 };

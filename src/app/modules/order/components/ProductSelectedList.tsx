@@ -4,20 +4,8 @@ import MuiDataGridCustomRowStyle from "../../../../_cloner/components/MuiDataGri
 import { calculateTotalAmount } from "../helpers/functions";
 import { orderListColumns } from "./columns";
 import { ProductProps } from "../core/_models";
+import { v4 as uuidv4 } from 'uuid';
 
-
-
-// const ProductSelectedList = (props: {
-//     orders: IProducts[];
-//     setOrders: any;
-//     setIsBuy: any;
-//     setFieldValue?: any;
-//     setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
-//     selectedOrderIndex?: any;
-//     setSelectedOrderIndex?: any;
-//     products?: IProducts[]
-//     disabled?: boolean
-// }) => {
 const ProductSelectedList = (props: ProductProps) => {
     const handleDeleteFromList = (indexToDelete: any) => {
         if (props.orders) {
@@ -48,41 +36,41 @@ const ProductSelectedList = (props: ProductProps) => {
         );
     };
 
-    const columnTypes = {
-        hidden: {
-            width: 0,
-        },
-    };
-
     const onDoubleClick = (params: any) => {
         if (props?.orders) {
             const selectedRow: any = props?.orders.find(order => order.id === params.row.id);
             const rowIndex = props?.orders.indexOf(selectedRow);
 
             if (props?.setSelectedOrderIndex) props?.setSelectedOrderIndex(rowIndex);
+            
+            const fieldValue = [
+                {id: uuidv4(), title: "productName", value: params.row.productName},
+                {id: uuidv4(), title: "id", value: params.row.id},
+                {id: uuidv4(), title: "productPrice", value: params.row.productPrice},
+                {id: uuidv4(), title: "productBrandId", value: params.row.productBrandId},
+                {id: uuidv4(), title: "productBrandName", value: params.row.productBrandName},
+                {id: uuidv4(), title: "warehouseId", value: params.row.warehouseId},
+                {id: uuidv4(), title: "proximateAmount", value: params.row.proximateAmount},
+                {id: uuidv4(), title: "warehouseName", value: params.row.warehouseName},
+                {id: uuidv4(), title: "proximateSubUnit", value: params.row.proximateSubUnit},
+                {id: uuidv4(), title: "buyPrice", value: params.row.buyPrice},
+                {id: uuidv4(), title: "purchaseInvoiceTypeName", value: params.row.purchaseInvoiceTypeName},
+                {id: uuidv4(), title: "purchaseInvoiceTypeId", value: params.row.purchaseInvoiceTypeId},
+                {id: uuidv4(), title: "purchaseSettlementDate", value: params.row.purchaseSettlementDate},
+                {id: uuidv4(), title: "purchaserCustomerId", value: params.row.purchaserCustomerId},
+                {id: uuidv4(), title: "purchaserCustomerName", value: params.row.purchaserCustomerName},
+                {id: uuidv4(), title: "rowId", value: params.row.rowId},
+                {id: uuidv4(), title: "productDesc", value: params.row.productDesc},
+                {id: uuidv4(), title: "mainUnit", value: params.row.mainUnit},
+                {id: uuidv4(), title: "subUnit", value: params.row.subUnit},
+            ];
 
             if (props.setFieldValue) {
-                props.setFieldValue("productName", params.row.productName);
-                props.setFieldValue("id", params.row.id);
-                props.setFieldValue("productPrice", params.row.productPrice);
-                props.setFieldValue("productBrandId", params.row.productBrandId);
-                props.setFieldValue("productBrandName", params.row.productBrandName);
-                props.setFieldValue("warehouseId", params.row.warehouseId);
-                props.setFieldValue("proximateAmount", params.row.proximateAmount);
-                props.setFieldValue("warehouseName", params.row.warehouseName);
-                props.setFieldValue("proximateSubUnit", params.row.proximateSubUnit);
-                props.setFieldValue("buyPrice", params.row.buyPrice);
-                props.setFieldValue("purchaseInvoiceTypeName", params.row.purchaseInvoiceTypeName);
-                props.setFieldValue("purchaseInvoiceTypeId", params.row.purchaseInvoiceTypeId);
-                props.setFieldValue("purchaseSettlementDate", params.row.purchaseSettlementDate);
-                props.setFieldValue("purchaserCustomerId", params.row.purchaserCustomerId);
-                props.setFieldValue("purchaserCustomerName", params.row.purchaserCustomerName);
-                props.setFieldValue("rowId", params.row.rowId);
-                props.setFieldValue("productDesc", params.row.productDesc);
-                props.setFieldValue("mainUnit", params.row.mainUnit);
-                props.setFieldValue("subUnit", params.row.subUnit);
+                fieldValue.forEach((i: {title: string, value: any}) => (
+                    props.setFieldValue(i.title, i.value)
+                ))
             }
-
+            
             if (props.setIsBuy) {
                 if (params.row.warehouseId === 1) {
                     props.setIsBuy(true)
@@ -109,7 +97,7 @@ const ProductSelectedList = (props: ProductProps) => {
         <>
             <MuiDataGridCustomRowStyle
                 columns={filteredColumns}
-                columnTypes={columnTypes}
+                columnTypes={{ hidden: { width: 0 }}}
                 rows={props.orders}
                 data={props.orders}
                 getRowClassName={(params: any) => {

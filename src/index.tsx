@@ -1,5 +1,5 @@
 import React from "react";
-import theme from './_cloner/theme/theme'
+import theme from "./_cloner/theme/theme";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
@@ -11,8 +11,9 @@ import { StylesProvider, jssPreset } from "@mui/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactDOM from "react-dom/client";
+import { SnackbarProvider } from "notistack";
 
-import "./_cloner/assets/css/index.css"
+import "./_cloner/assets/css/index.css";
 import { AppRoutes } from "./app/routing/AppRoutes";
 
 const cacheRtl = createCache({
@@ -32,17 +33,19 @@ const queryClient = new QueryClient();
 
 root.render(
     <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={theme}>
-                    <StylesProvider jss={jss}>
-                        <CacheProvider value={cacheRtl}>
-                            <AppRoutes />
-                            <ReactQueryDevtools initialIsOpen={false} />
-                        </CacheProvider>
-                    </StylesProvider>
-                </ThemeProvider>
-            </StyledEngineProvider>
-        </QueryClientProvider>
+        <SnackbarProvider maxSnack={3}>
+            <QueryClientProvider client={queryClient}>
+                <StyledEngineProvider injectFirst>
+                    <ThemeProvider theme={theme}>
+                        <StylesProvider jss={jss}>
+                            <CacheProvider value={cacheRtl}>
+                                <AppRoutes />
+                                <ReactQueryDevtools initialIsOpen={false} />
+                            </CacheProvider>
+                        </StylesProvider>
+                    </ThemeProvider>
+                </StyledEngineProvider>
+            </QueryClientProvider>
+        </SnackbarProvider>
     </React.StrictMode>
 );

@@ -17,7 +17,7 @@ const retrieveProducts = async (
     return data;
 };
 const retrieveProductsByWarehouse = async (warehouseId: number) => {
-    const { data } = await http.get(`/v1/Product?WarehouseId=${warehouseId}`);
+    const { data } = await http.get(`/v1/Product?ByBrand=true&WarehouseId=${warehouseId}`);
     return data;
 };
 const retrieveProductsByBrand = async (
