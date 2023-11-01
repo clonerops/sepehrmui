@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Card, Typography } from "@mui/material";
 import { useRetrieveProducts } from "./product/core/_hooks";
 import { VerticalCharts } from "../../_cloner/components/VerticalCharts";
@@ -8,6 +8,7 @@ import { BubbleChart } from "../../_cloner/components/BubbleChart ";
 import { ColumnChart } from "../../_cloner/components/ColumnChart";
 import ReusableCard from "../../_cloner/components/ReusableCard";
 import ProductPriceLanding from "./landing/ProductPriceLanding";
+import BottomDrawer from "../../_cloner/components/BottomSheetDrawer";
 
 const Dashboard = () => {
     const { data: products, isError, isLoading } = useRetrieveProducts();
@@ -15,6 +16,7 @@ const Dashboard = () => {
         { name: "نبشی 8", y: 10, z: 10 },
         { name: "میلگرد 10", y: 20, z: 20 },
     ];
+
     return (
         <>
             <Box
@@ -28,6 +30,11 @@ const Dashboard = () => {
                 <ReusableCard>
                     <ColumnChart data={data} />
                 </ReusableCard>
+                {/* <BottomDrawer
+                 open={isDrawerOpen} onClose={handleCloseDrawer} title="My Bottom Drawer">
+                    {/* Content for the drawer */}
+                    {/* <p>This is the content of the drawer.</p>
+                </BottomDrawer> */}
             </Box>
         </>
     );

@@ -38,6 +38,7 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { calculateTotalAmount } from "./helpers/functions";
 import { orderPaymentValues, orderInitialValues } from './helpers/initialValues'
 import { useSnackbar } from 'notistack';
+import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
 
 const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -183,11 +184,11 @@ const Order = () => {
                         >
                             <Grading />
                         </Button>
-                        <TransitionsModal
+                        <BottomDrawer
                             title="انتخاب محصول"
                             open={selectedProductOpen}
-                            isClose={() => setSelectedProductOpen(false)}
-                            description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
+                            onClose={() => setSelectedProductOpen(false)}
+                            // description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
                         >
                             <ProductSelectedListInModal
                                 products={productsByBrand?.data}
@@ -198,7 +199,7 @@ const Order = () => {
                                 orders={orders}
                                 setOrders={setOrders}
                             />
-                        </TransitionsModal>
+                        </BottomDrawer>
                     </Box>
                 );
             case "purchaserCustomer":
@@ -810,18 +811,18 @@ const Order = () => {
 
             </Formik>
             {/* Ok */}
-            <TransitionsModal
+            <BottomDrawer
                 title="ایجاد مشتری جدید"
-                open={isOpen}
-                isClose={() => setIsOpen(false)}
-                width="max-w-6xl"
-                description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
+                open    ={isOpen}
+                onClose={() => setIsOpen(false)}
+                // width="max-w-6xl"
+                // description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
                 <CreateCustomer
                     refetch={refetchCustomers}
                     setIsCreateOpen={setIsOpen}
                 />
-            </TransitionsModal>
+            </BottomDrawer>
         </>
     );
 };
