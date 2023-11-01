@@ -9,7 +9,7 @@ type Props = {
 const ReusableCard = (props: Props) => {
     const { cardClassName, title, children } = props;
     return (
-        <Card className={`px-4 py-4 shadow-md !rounded-2xl ${cardClassName}`}>
+        <Card className={`px-4 py-4 shadow-md !rounded-xl ${cardClassName}`}>
             {/* <Typography variant="h2" color="primary">
                 {title}
             </Typography>

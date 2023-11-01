@@ -107,11 +107,11 @@ const Order = () => {
                         <Box component="div" className="flex flex-wrap justify-between space-y-4 md:space-y-0 mt-4">
                             <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
-                                <Typography variant="h3" className="px-4">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
+                                <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
                             </Box>
                             <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
-                                <Typography variant="h3" className="px-4">{findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) : 0} ریال</Typography>
+                                <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) : 0} ریال</Typography>
                             </Box>
                             <Box component="div" className="flex flex-row">
                                 <Typography style={{
@@ -521,7 +521,7 @@ const Order = () => {
                     return <Form>
                         <Box
                             component="div"
-                            className="md:grid md:grid-cols-2 gap-x-4 space-y-4 md:space-y-0 my-4"
+                            className="md:grid md:grid-cols-3 gap-x-4 space-y-4 md:space-y-0 my-4"
                         >
                             <ReusableCard>
                                 <Box component="div" className="md:space-y-8 space-y-4">
@@ -554,7 +554,7 @@ const Order = () => {
                                     </Box>
                                 </Box>
                             </ReusableCard>
-                            <ReusableCard>
+                            <ReusableCard cardClassName="col-span-2">
                                 <Box component="div" className="">
                                     {customerFields.map((rowFields) => (
                                         <Box
@@ -607,7 +607,8 @@ const Order = () => {
                                         </Box>
                                         <Box
                                             component="div"
-                                            className="md:w-1/4 w-full order-0 md:order-1 mb-2"
+                                            // className="md:w-1/4 w-full order-0 md:order-1 mb-2"
+                                            className="order-0 md:order-1 mb-2"
                                         >
                                             {isUpdate ? (
                                                 <Box
@@ -634,12 +635,13 @@ const Order = () => {
                                                             setFieldValue
                                                         )
                                                     }
-                                                    className="w-full flex p-2 rounded-md bg-green-500 cursor-pointer"
+                                                    // className="w-full flex p-2 rounded-md bg-green-500 cursor-pointer"
+                                                    className="p-2 rounded-md bg-green-500 cursor-pointer"
                                                 >
                                                     <Add />
-                                                    <Typography>
+                                                    {/* <Typography>
                                                         افزودن به لیست سفارشات
-                                                    </Typography>
+                                                    </Typography> */}
                                                 </Box>
                                             )}
                                         </Box>
