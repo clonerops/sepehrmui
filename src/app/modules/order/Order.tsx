@@ -39,6 +39,7 @@ import { calculateTotalAmount } from "./helpers/functions";
 import { orderPaymentValues, orderInitialValues } from './helpers/initialValues'
 import { useSnackbar } from 'notistack';
 import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
+import CustomerForm from "../customer/components/CustomerForm";
 
 const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -818,7 +819,7 @@ const Order = () => {
                 // width="max-w-6xl"
                 // description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <CreateCustomer
+                <CustomerForm
                     refetch={refetchCustomers}
                     setIsCreateOpen={setIsOpen}
                 />

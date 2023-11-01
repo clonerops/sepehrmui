@@ -19,7 +19,7 @@ export default function MuiDataGrid(props: Props) {
         const numRows = data?.length;
         const defaultRowHeight = 52;
         const headerHeight = 56;
-        const scrollbarHeight = 15;
+        const scrollbarHeight = 0;
 
         const calculatedHeight =
             numRows * defaultRowHeight + headerHeight + scrollbarHeight;
@@ -71,7 +71,8 @@ export default function MuiDataGrid(props: Props) {
                 hideFooter={true}
                 columnHeaderHeight={32}
                 disableVirtualization={true}
-                style={{ height: gridHeight, maxHeight: 400, overflow: "auto" }} // Set a max height and allow scrolling
+                // style={{ height: gridHeight, maxHeight: 400, overflow: "auto" }} // Set a max height and allow scrolling
+                style={{ height: gridHeight, maxHeight: gridHeight, overflow: "auto" }} // Set a max height and allow scrolling
             />
         </Box>
     );

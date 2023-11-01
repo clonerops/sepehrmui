@@ -54,9 +54,9 @@ const ProductSelectedListInModal = (props: {
     const [productPrice, setProductPrice] = useState<{[key: string]: string}>({});
     const [selectedWarehouse, setSelectedWarehouse] = useState<any>("")
 
-    useEffect(() => {
-        if (productsByBrand?.data) setResults(productsByBrand?.data);
-    }, [productsByBrand?.data]);
+    // useEffect(() => {
+    //     if (productsByBrand?.data) setResults(productsByBrand?.data);
+    // }, [productsByBrand?.data]);
     
     useEffect(() => {
         if (filterTools?.data) {
@@ -64,7 +64,7 @@ const ProductSelectedListInModal = (props: {
             setResults(initialResults);
         }
     }, [filterTools?.data]);
-
+    
     useEffect(() => {
         filterTools.mutate("")
     }, [])
@@ -202,20 +202,20 @@ const ProductSelectedListInModal = (props: {
     };
 
     const handleInputPriceChange = (productId: string, value: string) => {
-        setProductPrice({
-            ...productPrice,
-            [productId]: value,
-        });
-        // const sanitizedValue = value.replace(/,/g, '');
-        // const numericValue = parseFloat(sanitizedValue);
-        // if (!isNaN(numericValue)) {
-        //     const formattedValue = numericValue.toLocaleString('en-US');
-
-        //     setProductPrice({
-        //         ...productPrice,
-        //         [productId]: formattedValue,
-        //     });
-        // }
+        const sanitizedValue = value.replace(/,/g, '');
+        const numericValue = parseFloat(sanitizedValue);
+        if (!isNaN(numericValue)) {
+            const formattedValue = numericValue.toLocaleString('en-US');
+            setProductPrice({
+                ...productPrice,
+                [productId]: formattedValue,
+            });
+        } else {
+            setProductPrice({
+                ...productPrice,
+                [productId]: "",
+            });
+        }
     };
 
 
@@ -246,6 +246,8 @@ const ProductSelectedListInModal = (props: {
         }
     };
 
+    console.log(productPrice)
+    
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             id: product.id,
@@ -269,13 +271,15 @@ const ProductSelectedListInModal = (props: {
             purchaserCustomerId: "",
             purchaserCustomerName: "",
             mainUnit: product.mainUnit,
-            subUnit: product.subUnit,
+            subUnit: subUnit[product.id] ? units.find((i: any) => i.id === subUnit[product.id]).unitName : product.subUnit,
             rowId: product?.rowId ? product?.rowId : 0,
             proximateAmount: proximateAmounts[product.id] || "",
             warehouseTypeId: 0,
-            productPrice: productPrice[product.id] ? separateAmountWithCommas(productPrice[product.id]) : separateAmountWithCommas(product.productPrice),
-            proximateSubUnit: proximateSubAmounts[product.id],
+            productPrice: productPrice[product.id] ? productPrice[product.id] : separateAmountWithCommas(product.productPrice),
+            proximateSubUnit: proximateSubAmounts[product.id] === undefined ? 0 : proximateSubAmounts[product.id],
         }));
+
+        console.log("selectedProductWithAmounts", selectedProductWithAmounts)
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
             props.orders.some(
@@ -356,17 +360,18 @@ const ProductSelectedListInModal = (props: {
                             setResults={(newResults: any) => {
                                 const updatedResults = [...results];
                                 updatedResults[index] = newResults;
+                                console.log("newResults", newResults)
                                 setResults(updatedResults);
                             }}
                         />
-                        <FormControl size="small">
+                        {/* <FormControl size="small">
                             <InputLabel id="demo-simple-select-label">انبار</InputLabel>
                             <Select label="انبار" labelId="demo-simple-select-label" size="small" value={selectedWarehouse} onChange={onFilterProductByWarehouse}>
                                 {warehouses.map((i: any) => {
                                 return <MenuItem value={i.id}>{i.name}</MenuItem>
                                 })}
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
                     </Box>
                     <MuiDataGrid
                     onDoubleClick={handleSelectionChange}
