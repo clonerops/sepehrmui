@@ -14,21 +14,33 @@ type Props = {
 };
 
 export default function MuiDataGridCustomRowStyle(props: Props) {
-    const { columns, rows, data, width, maxVisibleRows = 12, getRowClassName, columnTypes  } = props;
+    const { columns, rows, data, width, maxVisibleRows = 12, getRowClassName, columnTypes } = props;
+
+    // const gridHeight = useMemo(() => {
+    //     const numRows = data?.length;
+    //     const defaultRowHeight = 52;
+    //     const headerHeight = data.length > 1 ? 0 : 16;
+    //     const scrollbarHeight = 15;
+
+    //     const calculatedHeight =
+    //         numRows * defaultRowHeight + headerHeight + scrollbarHeight;
+    //     return calculatedHeight <= maxVisibleRows * defaultRowHeight
+    //         ? calculatedHeight
+    //         : maxVisibleRows * defaultRowHeight;
+    // }, [data, maxVisibleRows]);
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
         const defaultRowHeight = 52;
-        const headerHeight = 56;
+        const headerHeight = numRows > 0 ? 8 : 16; // Adjust headerHeight based on the number of rows
         const scrollbarHeight = 15;
-
+    
         const calculatedHeight =
             numRows * defaultRowHeight + headerHeight + scrollbarHeight;
         return calculatedHeight <= maxVisibleRows * defaultRowHeight
             ? calculatedHeight
             : maxVisibleRows * defaultRowHeight;
     }, [data, maxVisibleRows]);
-
 
     return (
         <Box sx={{ width: width }}>
@@ -57,6 +69,8 @@ export default function MuiDataGridCustomRowStyle(props: Props) {
                 onRowDoubleClick={props.onDoubleClick}
                 getRowClassName={getRowClassName}
                 hideFooter={true}
+                hideFooterPagination={true}
+                hideFooterSelectedRowCount={true}
                 columnHeaderHeight={32}
                 disableVirtualization={true}
                 style={{ height: gridHeight, maxHeight: 400, overflow: "auto" }} // Set a max height and allow scrolling

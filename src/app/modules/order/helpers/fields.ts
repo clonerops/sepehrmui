@@ -20,6 +20,8 @@ export const orderFields: FieldType[][] = [
             type: "warehouse",
         },
         { label: "کالا", name: "productName", type: "product" },
+    ],
+    [
         {
             label: "مقدار",
             name: "proximateAmount",
@@ -30,8 +32,6 @@ export const orderFields: FieldType[][] = [
             name: "proximateSubUnit",
             type: "proximateSubUnit",
         },
-    ],
-    [
         {
             label: "قیمت",
             // name: "price",
@@ -48,6 +48,11 @@ export const orderFields: FieldType[][] = [
             name: "rowId",
             type: "input",
         },
+        {
+            label: "",
+            name: "",
+            type: "add",
+        },
     ],
 ];
 export const orderFieldsIsBuy: FieldType[][] = [
@@ -58,6 +63,18 @@ export const orderFieldsIsBuy: FieldType[][] = [
             type: "warehouse",
         },
         { label: "کالا", name: "productName", type: "product" },
+        // {
+        //     label: "مقدار",
+        //     name: "proximateAmount",
+        //     type: "proximateAmount",
+        // },
+        // {
+        //     label: "تعداد (واحدفرعی)",
+        //     name: "proximateSubUnit",
+        //     type: "proximateSubUnit",
+        // },
+    ],
+    [
         {
             label: "مقدار",
             name: "proximateAmount",
@@ -68,8 +85,6 @@ export const orderFieldsIsBuy: FieldType[][] = [
             name: "proximateSubUnit",
             type: "proximateSubUnit",
         },
-    ],
-    [
         {
             label: "قیمت",
             // name: "price",
@@ -112,6 +127,11 @@ export const orderFieldsIsBuy: FieldType[][] = [
             label: "تاریخ تسویه خرید",
             name: "purchaseSettlementDate",
             type: "date",
+        },
+        {
+            label: "",
+            name: "",
+            type: "add",
         },
     ],
 ];

@@ -27,14 +27,17 @@ const BottomDrawer: React.FC<BottomDrawerProps> = ({ open, onClose, children, ti
             style={{
                 height: 600,
                 zIndex: 9999,
-                backgroundColor:"transparent"
+                backgroundColor: "transparent"
             }}
         >
-            <Box onClick={onClose} component="div" style={{backgroundColor:"#fcc615"}}>
-                <CloseIcon style={{color:"white"}} />
-            </Box>
+
             <Box component="div" style={{ height: "90vh", backgroundColor: "white", color: "black", overflow: "auto" }}>
-                <Typography variant="h2" className='p-4'>{title}</Typography>
+                <Box component="div" className='flex justify-between items-center'>
+                    <Typography variant="h2" className='p-4'>{title}</Typography>
+                    <Box onClick={onClose} component="div" className='pl-8 cursor-pointer'>
+                        <CloseIcon style={{ color: "red" }} />
+                    </Box>
+                </Box>
                 <Divider />
                 <Box component="div" className='p-4'>
                     {children}

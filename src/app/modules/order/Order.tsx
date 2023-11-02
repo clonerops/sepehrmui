@@ -12,7 +12,8 @@ import { dropdownCustomer, dropdownExitType, dropdownInvoiceType, dropdownOrderS
 import { exit } from "./helpers/fakeData";
 import Swal from 'sweetalert2'
 import { orderValidation } from "./validations/orderValidation";
-import { useGetInvoiceType, useGetPaymentTypes, useGetPurchaseInvoice, useGetSendTypes, useGetWarehouses,
+import {
+    useGetInvoiceType, useGetPaymentTypes, useGetPurchaseInvoice, useGetSendTypes, useGetWarehouses,
 } from "../generic/_hooks";
 import { Box, Button, Typography, IconButton, InputAdornment } from "@mui/material";
 import { sliceNumberPriceRial } from "../../../_cloner/helpers/sliceNumberPrice";
@@ -22,7 +23,7 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import CustomButton from "../../../_cloner/components/CustomButton";
-import { AddCircle, Add, Grading, Delete } from "@mui/icons-material";
+import { AddCircle, Add, Grading, Delete, FiveMp, MonetizationOn, AttachMoney, DateRange, ProductionQuantityLimits, Edit } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
 import { dropdownProductByBrandName } from "../generic/_functions";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
@@ -66,7 +67,7 @@ const Order = () => {
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
     const [findCustomer, setFindCustomer] = useState<ICustomer>(); //OK
 
-    useEffect(() => {calculateTotalAmount(orders)}, [orders]);
+    useEffect(() => { calculateTotalAmount(orders) }, [orders]);
 
     const mainParseFields = (fields: FieldType, setFieldValue: any) => {
         const { type, ...rest } = fields;
@@ -74,37 +75,42 @@ const Order = () => {
             case "customer":
                 return (
                     <Box component="div" className="flex flex-col w-full">
-                        <Box component="div" className="grid grid-col-1 md:grid-cols-6 gap-x-8">
-                            <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
-                                <FormikComboBox
-                                    disabled={data?.succeeded}
-                                    onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
-                                    options={dropdownCustomer(customers?.data)}
-                                    renderOption={(props: any, option: any) => {
-                                        return <li {...props}>
-                                            <Typography style={{
-                                                backgroundColor: `#${option.customerValidityColorCode}`,
-                                                width: "100%"
-                                            }}>{option.label}</Typography>
-                                        </li>
+                        {/* <Box component="div" className="grid grid-col-1 md:grid-cols-6 gap-x-8"> */}
+                        <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
+                            <FormikComboBox
+                                disabled={data?.succeeded}
+                                onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
+                                options={dropdownCustomer(customers?.data)}
+                                renderOption={(props: any, option: any) => {
+                                    return <li {...props}>
+                                        <Typography style={{
+                                            backgroundColor: `#${option.customerValidityColorCode}`,
+                                            width: "100%"
+                                        }}>{option.label}</Typography>
+                                    </li>
 
-                                    }
-                                    }
-                                    {...rest}
-                                />
-                                <IconButton
-                                    onClick={() => setIsOpen(true)}
-                                    className="flex justify-center items-center cursor-pointer text-xl"
-                                >
-                                    <AddCircle color="secondary" />
-                                </IconButton>
-                            </Box>
+                                }
+                                }
+                                {...rest}
+                            />
+                            <IconButton
+                                onClick={() => setIsOpen(true)}
+                                className="flex justify-center items-center cursor-pointer text-xl"
+                            >
+                                <AddCircle color="secondary" />
+                            </IconButton>
+                        </Box>
+                        {/* <Box component="div" className="flex flex-row pt-4 md:col-span-2">
+                                <Typography variant="h4" className="text-gray-500">معرف: </Typography>
+                                <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
+                            </Box> */}
+                        {/* </Box> */}
+                        {/* <Box component="div" className="flex flex-wrap justify-between space-y-4 md:space-y-0 mt-4"> */}
+                        <Box component="div" className="flex flex-col space-y-4 md:space-y-8 mt-4">
                             <Box component="div" className="flex flex-row pt-4 md:col-span-2">
                                 <Typography variant="h4" className="text-gray-500">معرف: </Typography>
                                 <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
                             </Box>
-                        </Box>
-                        <Box component="div" className="flex flex-wrap justify-between space-y-4 md:space-y-0 mt-4">
                             <Box component="div" className="flex flex-row">
                                 <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
                                 <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
@@ -166,7 +172,7 @@ const Order = () => {
     const orderParseFields = (fields: FieldType, values: any, setFieldValue: any) => {
         const { type, ...rest } = fields;
         switch (type) {
-            case "warehouse": 
+            case "warehouse":
                 return <FormikSelect disabled={isUpdate || data?.succeeded} options={dropdownWarehouses(warehouse)} onChange={(value: any) => handleChangeWarehouse(value, setFieldValue)} {...rest} />
             case "product":
                 return (
@@ -189,7 +195,7 @@ const Order = () => {
                             title="انتخاب محصول"
                             open={selectedProductOpen}
                             onClose={() => setSelectedProductOpen(false)}
-                            // description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
+                        // description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
                         >
                             <ProductSelectedListInModal
                                 products={productsByBrand?.data}
@@ -262,36 +268,45 @@ const Order = () => {
                 return <FormikPrice disabled={data?.succeeded}  {...rest} />;
             case "input":
                 return <FormikInput disabled={data?.succeeded}  {...rest} />;
+            case "add":
+                return isUpdate ? (
+                    <Button onClick={() => handleOrder(values, setFieldValue)} className="!bg-yellow-500">
+                        <Edit />
+                    </Button>
+                ) : (
+                    <Button onClick={() => handleOrder(values, setFieldValue)} className="!bg-green-500">
+                        <Add />
+                    </Button>
+                );
             default:
-                <FormikInput disabled={data?.succeeded} {...rest} />;
-                break;
+                return <FormikInput disabled={data?.succeeded} {...rest} />;
         }
     };
 
     const handleChangeWarehouse = (value: any, setFieldValue: any) => {
         productsTools.mutate(value)
         const fieldValue = [
-            {id: uuidv4(), title: "productName", value: ""},
-            {id: uuidv4(), title: "id", value: ""},
-            {id: uuidv4(), title: "productPrice", value: ""},
-            {id: uuidv4(), title: "productBrandId", value: ""},
-            {id: uuidv4(), title: "productBrandName", value: ""},
-            {id: uuidv4(), title: "warehouseId", value: ""},
-            {id: uuidv4(), title: "proximateAmount", value: ""},
-            {id: uuidv4(), title: "warehouseName", value: ""},
-            {id: uuidv4(), title: "proximateSubUnit", value: ""},
-            {id: uuidv4(), title: "buyPrice", value: ""},
-            {id: uuidv4(), title: "purchaseInvoiceTypeName", value: ""},
-            {id: uuidv4(), title: "purchaseInvoiceTypeId", value: ""},
-            {id: uuidv4(), title: "purchaseSettlementDate", value: ""},
-            {id: uuidv4(), title: "purchaserCustomerId", value: ""},
-            {id: uuidv4(), title: "purchaserCustomerName", value: ""},
-            {id: uuidv4(), title: "rowId", value: ""},
-            {id: uuidv4(), title: "productDesc", value: ""},
-            {id: uuidv4(), title: "mainUnit", value: ""},
-            {id: uuidv4(), title: "subUnit", value: ""},
+            { id: uuidv4(), title: "productName", value: "" },
+            { id: uuidv4(), title: "id", value: "" },
+            { id: uuidv4(), title: "productPrice", value: "" },
+            { id: uuidv4(), title: "productBrandId", value: "" },
+            { id: uuidv4(), title: "productBrandName", value: "" },
+            { id: uuidv4(), title: "warehouseId", value: "" },
+            { id: uuidv4(), title: "proximateAmount", value: "" },
+            { id: uuidv4(), title: "warehouseName", value: "" },
+            { id: uuidv4(), title: "proximateSubUnit", value: "" },
+            { id: uuidv4(), title: "buyPrice", value: "" },
+            { id: uuidv4(), title: "purchaseInvoiceTypeName", value: "" },
+            { id: uuidv4(), title: "purchaseInvoiceTypeId", value: "" },
+            { id: uuidv4(), title: "purchaseSettlementDate", value: "" },
+            { id: uuidv4(), title: "purchaserCustomerId", value: "" },
+            { id: uuidv4(), title: "purchaserCustomerName", value: "" },
+            { id: uuidv4(), title: "rowId", value: "" },
+            { id: uuidv4(), title: "productDesc", value: "" },
+            { id: uuidv4(), title: "mainUnit", value: "" },
+            { id: uuidv4(), title: "subUnit", value: "" },
         ];
-        fieldValue?.forEach((i: {title: string , value: any}) => setFieldValue(i.title, i.value))
+        fieldValue?.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
         if (value === 1) setIsBuy(true)
         else setIsBuy(false)
     }
@@ -351,24 +366,24 @@ const Order = () => {
             if (values.productName === "" || values.productName.label === "") {
                 enqueueSnackbar("وارد نمودن کالا الزامی می باشد", {
                     variant: "error",
-                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                  })
-                } else if (values?.productPrice === "") {
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
+            } else if (values?.productPrice === "") {
                 enqueueSnackbar("وارد نمودن قیمت الزامی می باشد", {
                     variant: "error",
-                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                    })
-                } else if (values?.proximateAmount === "") {
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
+            } else if (values?.proximateAmount === "") {
                 enqueueSnackbar("وارد نمودن مقدار الزامی می باشد", {
                     variant: "error",
-                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                    })
-                }
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
+            }
             else if (isDuplicate) {
                 enqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", {
                     variant: "error",
-                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                    })
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
             } else {
                 setOrders([...orders, productOrder]);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder])))
@@ -386,18 +401,18 @@ const Order = () => {
             if (values.productName === "" || values.productName.label === "") {
                 enqueueSnackbar("وارد نمودن کالا الزامی می باشد", {
                     variant: "error",
-                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                  })
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
             } else if (values?.productPrice === "") {
                 enqueueSnackbar("وارد نمودن قیمت الزامی می باشد", {
                     variant: "error",
-                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                  })
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
             } else if (values?.proximateAmount === "") {
                 enqueueSnackbar("وارد نمودن مقدار الزامی می باشد", {
                     variant: "error",
-                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                  })
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
             } else {
                 setOrders(updatedOrders);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders)))
@@ -436,8 +451,8 @@ const Order = () => {
                     if (orders?.length === 0) {
                         enqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", {
                             variant: "error",
-                            anchorOrigin: {vertical: "top", horizontal: "center"}
-                          })
+                            anchorOrigin: { vertical: "top", horizontal: "center" }
+                        })
                     } else {
                         try {
                             const formData = {
@@ -483,7 +498,7 @@ const Order = () => {
 
                             mutate(formData, {
                                 onSuccess: (response) => {
-                                    if(response.succeeded) {
+                                    if (response.succeeded) {
                                         Swal.fire({
                                             title: `سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`,
                                             confirmButtonColor: "#fcc615",
@@ -503,27 +518,27 @@ const Order = () => {
                                     } else {
                                         enqueueSnackbar(response?.data.Message, {
                                             variant: "error",
-                                            anchorOrigin: {vertical: "top", horizontal: "center"}
-                                          })            
+                                            anchorOrigin: { vertical: "top", horizontal: "center" }
+                                        })
                                     }
                                 }
                             });
                         } catch (error) {
                             enqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید", {
                                 variant: "error",
-                                anchorOrigin: {vertical: "top", horizontal: "center"}
-                              })
+                                anchorOrigin: { vertical: "top", horizontal: "center" }
+                            })
                         }
                     }
                 }}
             >
                 {({ handleSubmit, values, setFieldValue }) => {
                     return <Form>
-                        <Box
+                        {/* <Box
                             component="div"
-                            className="md:grid md:grid-cols-3 gap-x-4 space-y-4 md:space-y-0 my-4"
-                        >
-                            <ReusableCard>
+                            className="md:grid md:grid-cols-4 gap-x-4 space-y-4 md:space-y-0 my-4"
+                        > */}
+                        {/* <ReusableCard>
                                 <Box component="div" className="md:space-y-8 space-y-4">
                                     <Box component="div" className="flex flex-wrap justify-between space-y-4 md:space-y-0">
                                         <Box component="div" className="flex">
@@ -543,18 +558,77 @@ const Order = () => {
                                             </Typography>
                                         </Box>
                                     </Box>
-                                    <Box component="div" className="flex">
-                                        <Typography variant="h4" className="text-gray-500">
-                                            قیمت کل:
-                                        </Typography>
-                                        <Typography variant="h2" className="px-4">
-                                            {sliceNumberPriceRial(calculateTotalAmount(orders))} ریال
-                                        </Typography>
-                                        <Typography className="px-2"> ({convertToPersianWord(calculateTotalAmount(orders))} تومان)</Typography>
+                                    <Box component="div" className="flex flex-col">
+                                        <Box component="div" className="flex flex-row">
+                                            <Typography variant="h4" className="text-gray-500">
+                                                قیمت کل:
+                                            </Typography>
+                                            <Typography variant="h2" className="px-4">
+                                                {sliceNumberPriceRial(calculateTotalAmount(orders))} ریال
+                                                <Typography className="px-2"> ({convertToPersianWord(calculateTotalAmount(orders))} تومان)</Typography>
+                                            </Typography>
+                                        </Box>
                                     </Box>
                                 </Box>
+                            </ReusableCard> */}
+                        <Box component="div" className="grid grid-cols-4 gap-x-4 my-4">
+                            <ReusableCard>
+                                <Box component="div" className="flex justify-between items-center space-y-4">
+                                    <Typography variant="body1">شماره سفارش</Typography>
+                                    <ProductionQuantityLimits color="secondary" />
+                                </Box>
+                                <Typography variant="h2" className="text-green-500">{orderCode}</Typography>
                             </ReusableCard>
-                            <ReusableCard cardClassName="col-span-2">
+                            <ReusableCard>
+                                <Box component="div" className="flex justify-between items-center space-y-4">
+                                    <Typography variant="body1">قیمت کل</Typography>
+                                    <MonetizationOn color="secondary" />
+                                </Box>
+                                <Typography variant="h2">{sliceNumberPriceRial(calculateTotalAmount(orders))}</Typography>
+                            </ReusableCard>
+                            <ReusableCard>
+                                <Box component="div" className="flex justify-between items-center space-y-4">
+                                    <Typography variant="body1">قیمت به حروف</Typography>
+                                    <AttachMoney color="secondary" />
+                                </Box>
+                                <Typography variant="h5">{convertToPersianWord(calculateTotalAmount(orders))} تومان</Typography>
+                            </ReusableCard>
+                            <ReusableCard>
+                                <Box component="div" className="flex justify-between items-center space-y-4">
+                                    <Typography variant="body1">تاریخ سفارش</Typography>
+                                    <DateRange color="secondary" />
+                                </Box>
+                                <Typography variant="h2">{moment(new Date()).format("jYYYY-jMM-jDD")}</Typography>
+                            </ReusableCard>
+                        </Box>
+                        {/* <ReusableCard cardClassName="space-y-2">
+                                <Box component="div" className="flex flex-row justify-between">
+                                    <Typography variant="body1">شماره سفارش</Typography>
+                                    <FiveMp color="secondary" />
+                                </Box>
+                                <Typography variant="h1">521587</Typography>
+                            </ReusableCard> */}
+                        {/* <ReusableCard cardClassName="col-span-2">
+                                <Box component="div" className="">
+                                    {customerFields.map((rowFields) => (
+                                        <Box
+                                            component="div"
+                                            className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                        >
+                                            {rowFields.map((field) =>
+                                                mainParseFields(
+                                                    field,
+                                                    setFieldValue
+                                                )
+                                            )}
+                                        </Box>
+                                    ))}
+                                </Box>
+                            </ReusableCard> */}
+
+                        {/* </Box> */}
+                        <Box component="div" className="grid grid-cols-4 gap-x-4">
+                            <ReusableCard cardClassName="">
                                 <Box component="div" className="">
                                     {customerFields.map((rowFields) => (
                                         <Box
@@ -571,98 +645,93 @@ const Order = () => {
                                     ))}
                                 </Box>
                             </ReusableCard>
-
-                        </Box>
-                        <ReusableCard cardClassName="my-4">
-                            <Form>
-                                <Box component="div" className="">
-                                    {fieldsToMap.map((rowFields) => (
-                                        <Box
-                                            component="div"
-                                            className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-                                        >
-                                            {rowFields.map((field) =>
-                                                orderParseFields(
-                                                    field,
-                                                    values,
-                                                    setFieldValue
-                                                )
-                                            )}
-                                        </Box>
-                                    ))}
-                                    <Box
-                                        component="div"
-                                        className="flex flex-col md:flex-row items-start justify-between "
-                                    >
-                                        <Box
-                                            component="div"
-                                            className="order-1 md:order-0"
-                                        >
-                                            <Typography
-                                                variant="h2"
-                                                color="primary"
+                            <ReusableCard cardClassName="col-span-3">
+                                <Form>
+                                    <Box component="div" className="">
+                                        {fieldsToMap.map((rowFields) => (
+                                            <Box
+                                                component="div"
+                                                className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                                             >
-                                                لیست سفارشات
-                                            </Typography>
-                                        </Box>
-                                        <Box
+                                                {rowFields.map((field) =>
+                                                    orderParseFields(
+                                                        field,
+                                                        values,
+                                                        setFieldValue
+                                                    )
+                                                )}
+                                            </Box>
+                                        ))}
+                                        {/* <Box
                                             component="div"
-                                            // className="md:w-1/4 w-full order-0 md:order-1 mb-2"
-                                            className="order-0 md:order-1 mb-2"
+                                            className="flex flex-col md:flex-row items-start justify-between "
                                         >
-                                            {isUpdate ? (
-                                                <Box
-                                                    component="div"
-                                                    onClick={() =>
-                                                        handleOrder(
-                                                            values,
-                                                            setFieldValue
-                                                        )
-                                                    }
-                                                    className="w-full flex p-2 rounded-md bg-yellow-500 cursor-pointer"
+                                            <Box
+                                                component="div"
+                                                className="order-1 md:order-0"
+                                            >
+                                                <Typography
+                                                    variant="h2"
+                                                    color="primary"
                                                 >
-                                                    <Add />
-                                                    <Typography>
-                                                        ویرایش
-                                                    </Typography>
-                                                </Box>
-                                            ) : (
-                                                <Box
-                                                    component="div"
-                                                    onClick={() =>
-                                                        handleOrder(
-                                                            values,
-                                                            setFieldValue
-                                                        )
-                                                    }
-                                                    // className="w-full flex p-2 rounded-md bg-green-500 cursor-pointer"
-                                                    className="p-2 rounded-md bg-green-500 cursor-pointer"
-                                                >
-                                                    <Add />
-                                                    {/* <Typography>
-                                                        افزودن به لیست سفارشات
-                                                    </Typography> */}
-                                                </Box>
-                                            )}
-                                        </Box>
+                                                    لیست سفارشات
+                                                </Typography>
+                                            </Box>
+                                            <Box
+                                                component="div"
+                                                className="order-0 md:order-1 mb-2"
+                                            >
+                                                {isUpdate ? (
+                                                    <Box
+                                                        component="div"
+                                                        onClick={() =>
+                                                            handleOrder(
+                                                                values,
+                                                                setFieldValue
+                                                            )
+                                                        }
+                                                        className="w-full flex p-2 rounded-md bg-yellow-500 cursor-pointer"
+                                                    >
+                                                        <Add />
+                                                        <Typography>
+                                                            ویرایش
+                                                        </Typography>
+                                                    </Box>
+                                                ) : (
+                                                    <Box
+                                                        component="div"
+                                                        onClick={() =>
+                                                            handleOrder(
+                                                                values,
+                                                                setFieldValue
+                                                            )
+                                                        }
+                                                        className="p-2 rounded-md bg-green-500 cursor-pointer"
+                                                    >
+                                                        <Add />
+                                                    </Box>
+                                                )}
+                                            </Box>
+                                        </Box> */}
                                     </Box>
-                                </Box>
-                                <ProductSelectedList
-                                    setSelectedOrderIndex={
-                                        setSelectedOrderIndex
-                                    }
-                                    selectedOrderIndex={selectedOrderIndex}
-                                    setIsUpdate={setIsUpdate}
-                                    setFieldValue={setFieldValue}
-                                    orders={orders}
-                                    setIsBuy={setIsBuy}
-                                    setOrders={setOrders}
-                                    disabled={data?.succeeded}
-                                    products={productsByBrand?.data}
-                                />
-                            </Form>
-                        </ReusableCard>
-                        <Box component="div" className="md:grid md:grid-cols-2 gap-x-4">
+                                    <ProductSelectedList
+                                        setSelectedOrderIndex={
+                                            setSelectedOrderIndex
+                                        }
+                                        selectedOrderIndex={selectedOrderIndex}
+                                        setIsUpdate={setIsUpdate}
+                                        setFieldValue={setFieldValue}
+                                        orders={orders}
+                                        setIsBuy={setIsBuy}
+                                        setOrders={setOrders}
+                                        disabled={data?.succeeded}
+                                        products={productsByBrand?.data}
+                                    />
+                                </Form>
+                            </ReusableCard>
+                        </Box>
+
+                        <Box component="div" className="md:grid md:grid-cols-2 gap-x-4 mt-4">
                             <ReusableCard>
                                 <Box component="div" className="">
                                     <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
@@ -721,23 +790,23 @@ const Order = () => {
                                             if (Number(values.amount.replace(/,/g, "")) > calculateTotalAmount(orders)) {
                                                 enqueueSnackbar("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد", {
                                                     variant: "error",
-                                                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                                                  })
+                                                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                                                })
                                             } else if (new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(values.settlement)) {
                                                 enqueueSnackbar("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد", {
                                                     variant: "error",
-                                                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                                                  })
+                                                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                                                })
                                             } else if (currentTotalPayment + Number(values.amount.replace(/,/g, "")) > calculateTotalAmount(orders)) {
                                                 enqueueSnackbar("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد", {
                                                     variant: "error",
-                                                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                                                  })
+                                                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                                                })
                                             } else if (values.amount === "0" || values.amount === "") {
                                                 enqueueSnackbar("مقدار صفر یا مقدار خالی برای مبلغ نامعتبر می باشد", {
                                                     variant: "error",
-                                                    anchorOrigin: {vertical: "top", horizontal: "center"}
-                                                  })
+                                                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                                                })
                                             }
                                             else {
                                                 setOrderPayment([...orderPaymentCP, orderPaymentData])
@@ -816,16 +885,28 @@ const Order = () => {
             {/* Ok */}
             <BottomDrawer
                 title="ایجاد مشتری جدید"
-                open    ={isOpen}
+                open={isOpen}
                 onClose={() => setIsOpen(false)}
-                // width="max-w-6xl"
-                // description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
+            // width="max-w-6xl"
+            // description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
                 <CustomerForm
                     refetch={refetchCustomers}
                     setIsCreateOpen={setIsOpen}
                 />
             </BottomDrawer>
+            {/* <TransitionsModal
+                title="ایجاد مشتری جدید"
+                open={isOpen}
+                isClose={() => setIsOpen(false)}
+                width="max-w-6xl"
+                description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
+            >
+                <CustomerForm
+                    refetch={refetchCustomers}
+                    setIsCreateOpen={setIsOpen}
+                />
+            </TransitionsModal> */}
         </>
     );
 };
