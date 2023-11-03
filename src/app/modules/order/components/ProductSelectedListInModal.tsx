@@ -15,6 +15,7 @@ import { useGetUnits } from "../../generic/productUnit/_hooks";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import ReusableTabComponent from "../../../../_cloner/components/ReusableTab";
 import { useGetWarehouses } from "../../generic/_hooks";
+import { IOrderService } from "../core/_models";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -23,6 +24,7 @@ const ProductSelectedListInModal = (props: {
     setFieldValue: any;
     setOrders?: any;
     orders?: any;
+    orderService?: IOrderService[]
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const { data: productsByBrand } = useRetrieveProductsByBrand();
@@ -298,7 +300,7 @@ const ProductSelectedListInModal = (props: {
             props.setOrders(updatedOrders);
             props.setFieldValue(
                 "amount",
-                sliceNumberPriceRial(calculateTotalAmount(updatedOrders))
+                sliceNumberPriceRial(calculateTotalAmount(updatedOrders, props.orderService))
             );
             props.setSelectedProductOpen(false);
         } else {
@@ -352,7 +354,7 @@ const ProductSelectedListInModal = (props: {
             ),
             content: (
                 <Box>
-                    <Box component="div" className="grid grid-cols-2 gap-x-8 mb-2">
+                    <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mb-2">
                         <FuzzySearch
                             keys={["productName"]}
                             data={i.products}

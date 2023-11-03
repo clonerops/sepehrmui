@@ -26,6 +26,7 @@ import React from "react";
 import ProductInventories from "../modules/product/ProductInventories";
 import OrderDetail from "../modules/order/OrderDetail";
 import ProductForm from "../modules/product/components/ProductForm";
+import ProductService from "../modules/generic/productService/ProductService";
 
 const PrivateRoutes = () => {
 
@@ -58,6 +59,7 @@ const PrivateRoutes = () => {
             <Route path='dashboard/productStandard' element={<ProductStandards />} />
             <Route path='dashboard/productInventories' element={<ProductInventories />} />
             <Route path='dashboard/productBrand' element={<ProductBrands />} />
+            <Route path='dashboard/productService' element={<ProductService />} />
 
             <Route path='dashboard/users' element={<Users />} />
             <Route path="dashboard/user/create" element={<CreateUser />} />

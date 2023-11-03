@@ -30,3 +30,9 @@ export interface IWarehouse {
     id: number | null,
 }
 export interface IReceivePaymentSources extends IPurchaseInvoice {}
+
+export interface IService {
+    description: string,
+    id?: number,
+    isActive: boolean
+}

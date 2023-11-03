@@ -4,6 +4,13 @@ export const orderPaymentValues = {
     settlement: ""
 }
 
+export const orderServiceValues = {
+    orderId: "",
+    serviceId: "",
+    // description: "",
+    serviceAmount: ""
+}
+
 export const orderInitialValues = {
     customerId: "",
     settlementDate: "",

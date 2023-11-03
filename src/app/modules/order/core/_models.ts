@@ -32,6 +32,7 @@ export interface ICreateOrder {
     carPlaque: string | undefined | null
     details: ICreateOrderDetails[] | undefined | null
     orderPayments: IOrderPayment[] | undefined | null
+    orderServices?: IOrderService[] | undefined | null
 }
 
 export interface ICreateOrderDetails {
@@ -79,6 +80,15 @@ export interface IOrderPayment {
     paymentType?: number | null | undefined
 }
 
+export interface IOrderService {
+    id?: any,
+    orderId?: any,
+    serviceId?: string | null | undefined,
+    serviceName?: string | null | undefined,
+    description?: string | null | undefined,
+}
+
+
 export interface IOrderItems {
     id?: string | null | undefined
     productName?: string | null | undefined
@@ -105,6 +115,7 @@ export interface IOrderItems {
 
 export type ProductProps = {
     orders?: IOrderItems[] ;
+    orderService?: IOrderService[] ;
     setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
     setIsBuy?:  React.Dispatch<React.SetStateAction<boolean>>;
     // setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>> | undefined;

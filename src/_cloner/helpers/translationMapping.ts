@@ -21,6 +21,7 @@ export const translationMapping: any = {
     role: 'نقش',
     productInventories: 'موجودی قابل فروش',
     productBrand: 'کالا برند',
+    productService: 'خدمات',
     // Add more translations as needed
   };
   

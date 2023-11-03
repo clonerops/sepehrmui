@@ -20,7 +20,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <Box component="div" className="grid grid-cols-4 gap-x-8 my-4">
+            <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
                 <ReusableCard>
                     <Box component="div" className="flex justify-between items-center space-y-4">
                         <Typography variant="body1">تعداد سفارشات</Typography>
@@ -53,7 +53,7 @@ const Dashboard = () => {
             <Box
                 component="div"
                 // className="flex flex-col md:flex-row justify-center items-center gap-8 my-8 md:my-0"
-                className="grid grid-cols-2 gap-x-8"
+                className="grid grid-cols-1 md:grid-cols-2 gap-x-8"
             >
 
                 <ReusableCard>

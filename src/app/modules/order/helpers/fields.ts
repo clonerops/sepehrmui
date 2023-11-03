@@ -38,11 +38,11 @@ export const orderFields: FieldType[][] = [
             name: "productPrice",
             type: "price",
         },
-        {
-            label: "توضیحات کالا",
-            name: "productDesc",
-            type: "input",
-        },
+        // {
+        //     label: "توضیحات کالا",
+        //     name: "productDesc",
+        //     type: "input",
+        // },
         {
             label: "ردیف فروش",
             name: "rowId",
@@ -91,11 +91,11 @@ export const orderFieldsIsBuy: FieldType[][] = [
             name: "productPrice",
             type: "price",
         },
-        {
-            label: "توضیحات کالا",
-            name: "productDesc",
-            type: "input",
-        },
+        // {
+        //     label: "توضیحات کالا",
+        //     name: "productDesc",
+        //     type: "input",
+        // },
         {
             label: "ردیف فروش",
             name: "rowId",

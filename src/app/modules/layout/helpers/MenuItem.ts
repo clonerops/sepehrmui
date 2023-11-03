@@ -108,6 +108,12 @@ const menuItem = [
         title: "کالا برند",
         to: "dashboard/productBrand",
       },
+      {
+        id: 1321,
+        iconName: "SettingsInputSvideo",
+        title: "خدمات ",
+        to: "dashboard/productService",
+      },
 
     ],
   },

@@ -16,7 +16,7 @@ const ProductSelectedList = (props: ProductProps) => {
                     order.productBrandId !== indexToDelete.row.productBrandId
             );
             if (props?.setOrders) props?.setOrders(updatedOrders);
-            if (props?.setFieldValue) props?.setFieldValue('amount', calculateTotalAmount(updatedOrders))
+            if (props?.setFieldValue) props?.setFieldValue('amount', calculateTotalAmount(updatedOrders, props.orderService))
         }
     };
 
