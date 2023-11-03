@@ -92,7 +92,7 @@ const Customer = () => {
             {
                 field: "customerValidityDesc",
                 headerName: "اعتبار",
-                minWidth: 60,
+                minWidth: 100,
                 renderCell: (params: any) => {
                     const backgroundColor = params.row.customerValidityColorCode; // Assuming this code exists in your data
                     return <Typography style={{

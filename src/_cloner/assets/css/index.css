@@ -130,3 +130,6 @@
     background-color: pink !important; /* Example custom background color */
     font-weight: bold; /* Example custom font weight */
 }
+.MuiDataGrid-root .MuiDataGrid-cell:focus-within {
+    outline: none !important;
+}

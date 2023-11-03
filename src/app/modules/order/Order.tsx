@@ -104,7 +104,7 @@ const Order = () => {
                                 <AddCircle color="secondary" />
                             </IconButton>
                         </Box>
-                        <Box component="div" className="grid grid-cols-2 space-y-4 md:space-y-0 mt-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
                             <Box component="div" className="flex flex-row pt-2">
                                 <Typography variant="h4" className="text-gray-500">معرف: </Typography>
                                 <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
