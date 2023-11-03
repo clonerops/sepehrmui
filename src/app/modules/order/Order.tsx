@@ -42,6 +42,7 @@ import { useSnackbar } from 'notistack';
 import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
 import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
+import Backdrop from "../../../_cloner/components/Backdrop";
 
 const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -57,7 +58,7 @@ const Order = () => {
     const { data: factor } = useGetInvoiceType();
     const { data: warehouse } = useGetWarehouses();
     const { data: services } = useGetServices();
-    const { mutate, data } = useCreateOrder();
+    const { mutate, data, isLoading } = useCreateOrder();
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
     const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false); // OK
@@ -79,7 +80,6 @@ const Order = () => {
             case "customer":
                 return (
                     <Box component="div" className="flex flex-col w-full">
-                        {/* <Box component="div" className="grid grid-col-1 md:grid-cols-6 gap-x-8"> */}
                         <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
                             <FormikComboBox
                                 disabled={data?.succeeded}
@@ -104,23 +104,23 @@ const Order = () => {
                                 <AddCircle color="secondary" />
                             </IconButton>
                         </Box>
-                        <Box component="div" className="flex flex-col space-y-4 md:space-y-8 mt-4">
-                            <Box component="div" className="flex flex-row pt-4 md:col-span-2">
+                        <Box component="div" className="grid grid-cols-2 space-y-4 md:space-y-0 mt-4">
+                            <Box component="div" className="flex flex-row pt-2">
                                 <Typography variant="h4" className="text-gray-500">معرف: </Typography>
                                 <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
                             </Box>
-                            <Box component="div" className="flex flex-row">
-                                <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
-                                <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
-                            </Box>
-                            <Box component="div" className="flex flex-row">
-                                <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
-                                <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) : 0} ریال</Typography>
-                            </Box>
-                            <Box component="div" className="flex flex-row">
+                            <Box component="div" className="flex flex-row pt-2">
                                 <Typography style={{
                                     backgroundColor: `#${findCustomer?.customerValidityColorCode}`
                                 }} variant="h3" className="px-4 rounded-md py-1">{findCustomer?.customerValidityDesc}</Typography>
+                            </Box>
+                            <Box component="div" className="flex flex-row pt-8">
+                                <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
+                                <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
+                            </Box>
+                            <Box component="div" className="flex flex-row pt-8">
+                                <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
+                                <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) : 0} ریال</Typography>
                             </Box>
                         </Box>
                     </Box>
@@ -440,6 +440,7 @@ const Order = () => {
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
+
     return (
         <>
             <Formik
@@ -493,12 +494,12 @@ const Order = () => {
                                         paymentType: item.paymentType
                                     }
                                 }),
-                                // orderServices: orderService.map((item: IOrderService) => {
-                                //     return {
-                                //         serviceId: item.serviceId,
-                                //         description: item.description
-                                //     }
-                                // })
+                                orderServices: orderService.map((item: IOrderService) => {
+                                    return {
+                                        serviceId: item.serviceId,
+                                        description: item.description
+                                    }
+                                })
                             };
 
                             mutate(formData, {
@@ -540,54 +541,58 @@ const Order = () => {
             >
                 {({ handleSubmit, values, setFieldValue }) => {
                     return <Form>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 md:space-y-0 space-y-4 gap-x-4 my-4">
-                            <ReusableCard>
-                                <Box component="div" className="flex justify-between items-center space-y-4">
-                                    <Typography variant="body1">شماره سفارش</Typography>
-                                    <ProductionQuantityLimits color="secondary" />
-                                </Box>
-                                <Typography variant="h2" className="text-green-500">{orderCode}</Typography>
-                            </ReusableCard>
-                            <ReusableCard>
-                                <Box component="div" className="flex justify-between items-center space-y-4">
-                                    <Typography variant="body1">قیمت کل</Typography>
-                                    <MonetizationOn color="secondary" />
-                                </Box>
-                                <Typography variant="h2">{sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال</Typography>
-                            </ReusableCard>
-                            <ReusableCard>
-                                <Box component="div" className="flex justify-between items-center space-y-4">
-                                    <Typography variant="body1">قیمت به حروف</Typography>
-                                    <AttachMoney color="secondary" />
-                                </Box>
-                                <Typography variant="h5">{convertToPersianWord(calculateTotalAmount(orders, orderService))} هزار تومان</Typography>
-                            </ReusableCard>
-                            <ReusableCard>
-                                <Box component="div" className="flex justify-between items-center space-y-4">
-                                    <Typography variant="body1">تاریخ سفارش</Typography>
-                                    <DateRange color="secondary" />
-                                </Box>
-                                <Typography variant="h2">{moment(new Date()).format("jYYYY-jMM-jDD")}</Typography>
-                            </ReusableCard>
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
+                            <Box component="div" className="grid grid-cols-2 gap-4">
+                                <ReusableCard>
+                                    <Box component="div" className="flex justify-between items-center space-y-4">
+                                        <Typography variant="body1">شماره سفارش</Typography>
+                                        <ProductionQuantityLimits color="secondary" />
+                                    </Box>
+                                    <Typography variant="h2" className="text-green-500">{orderCode}</Typography>
+                                </ReusableCard>
+                                <ReusableCard>
+                                    <Box component="div" className="flex justify-between items-center space-y-4">
+                                        <Typography variant="body1">تاریخ سفارش</Typography>
+                                        <DateRange color="secondary" />
+                                    </Box>
+                                    <Typography variant="h2">{moment(new Date()).format("jYYYY-jMM-jDD")}</Typography>
+                                </ReusableCard>
+                                <ReusableCard>
+                                    <Box component="div" className="flex justify-between items-center space-y-4">
+                                        <Typography variant="body1">قیمت کل</Typography>
+                                        <MonetizationOn color="secondary" />
+                                    </Box>
+                                    <Typography variant="h2">{sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال</Typography>
+                                </ReusableCard>
+                                <ReusableCard>
+                                    <Box component="div" className="flex justify-between items-center space-y-4">
+                                        <Typography variant="body1">قیمت به حروف</Typography>
+                                        <AttachMoney color="secondary" />
+                                    </Box>
+                                    <Typography variant="h5">{convertToPersianWord(calculateTotalAmount(orders, orderService))} هزار تومان</Typography>
+                                </ReusableCard>
+                            </Box>
+                            <Box component="div" className="grid grid-cols-2 gap-4">
+                                <ReusableCard cardClassName="col-span-2">
+                                    <Box component="div" className="">
+                                        {customerFields.map((rowFields) => (
+                                            <Box
+                                                component="div"
+                                                className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                            >
+                                                {rowFields.map((field) =>
+                                                    mainParseFields(
+                                                        field,
+                                                        setFieldValue
+                                                    )
+                                                )}
+                                            </Box>
+                                        ))}
+                                    </Box>
+                                </ReusableCard>
+                            </Box>
                         </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 md:space-y-0 space-y-4 md:gap-x-4">
-                            <ReusableCard cardClassName="">
-                                <Box component="div" className="">
-                                    {customerFields.map((rowFields) => (
-                                        <Box
-                                            component="div"
-                                            className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-                                        >
-                                            {rowFields.map((field) =>
-                                                mainParseFields(
-                                                    field,
-                                                    setFieldValue
-                                                )
-                                            )}
-                                        </Box>
-                                    ))}
-                                </Box>
-                            </ReusableCard>
+                        <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
                             <ReusableCard cardClassName="col-span-3">
                                 <Form>
                                     <Box component="div" className="">
@@ -833,6 +838,7 @@ const Order = () => {
                                 onClick={() => handleSubmit()}
                                 disabled={orderPayment?.length <= 0 || isUpdate || orderCode !== 0}
                                 color="primary"
+                                isLoading={isLoading}
                             />
                             <CustomButton
                                 title="پاک کردن فرم"
