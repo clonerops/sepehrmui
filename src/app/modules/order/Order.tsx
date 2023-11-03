@@ -542,7 +542,7 @@ const Order = () => {
                 {({ handleSubmit, values, setFieldValue }) => {
                     return <Form>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
-                            <Box component="div" className="grid grid-cols-2 gap-4">
+                            <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <ReusableCard>
                                     <Box component="div" className="flex justify-between items-center space-y-4">
                                         <Typography variant="body1">شماره سفارش</Typography>
