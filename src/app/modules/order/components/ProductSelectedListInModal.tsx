@@ -439,8 +439,8 @@ const ProductSelectedListInModal = (props: {
                 <TabProducts
                     handleSelectionChange={handleSelectionChange}
                     productsByBrand={productsByBrand}
-                    results={results}
-                    setResults={setResults}
+                    // results={results}
+                    // setResults={setResults}
                 />
                 {/* <ReusableTab tabs={tabs} /> */}
             </Box>
