@@ -17,13 +17,15 @@ type Props = {
 const TabProducts = (props: Props) => {
     const productTypeTools = useGetProductTypes();
 
-    const [selectedTab, setSelectedTab] = useState<number>(0)
-    const [filteredTabs, setFilteredTabs] = useState<any>([])
+    const [selectedTab, setSelectedTab] = useState<number>(-1);
+    const [filteredTabs, setFilteredTabs] = useState<any>([]);
 
     useEffect(() => {
-        const filtered = props.productsByBrand?.data.filter((item: any) => item.productTypeId === selectedTab)
-        setFilteredTabs(filtered)
-    }, [selectedTab])
+        const filtered = props.productsByBrand?.data.filter(
+            (item: any) => item.productTypeId === selectedTab
+        );
+        setFilteredTabs(selectedTab === -1 ? props.productsByBrand?.data : filtered);
+    }, [selectedTab]);
 
     const imageUrl = [
         { id: 1, url: "/media/product/border-design.png" },
@@ -57,15 +59,35 @@ const TabProducts = (props: Props) => {
     };
 
     const onSelectTab = (id: any) => {
-        setSelectedTab(id)
-    }
+        setSelectedTab(id);
+    };
 
     return (
         <>
+            <Button
+                className={`${
+                    selectedTab == -1 ? "!bg-indigo-500 !text-white" : ""
+                }`}
+                onClick={() => onSelectTab(-1)}
+            >
+                <Box
+                    component="img"
+                    src={toAbsoulteUrl(image(0))}
+                    width={20}
+                />
+                <Typography className="px-2">کل محصولات</Typography>
+            </Button>
 
             {productTypeTools?.data?.map((item: any, index: number) => {
                 return (
-                    <Button className={`${selectedTab == item.id ? "!bg-indigo-500 !text-white" : ""}`} onClick={() => onSelectTab(item.id)}>
+                    <Button
+                        className={`${
+                            selectedTab == item.id
+                                ? "!bg-indigo-500 !text-white"
+                                : ""
+                        }`}
+                        onClick={() => onSelectTab(item.id)}
+                    >
                         <Box
                             component="img"
                             src={toAbsoulteUrl(image(index))}
