@@ -740,7 +740,7 @@ const Order = () => {
                                                 },
                                             },
                                         }} />
-                                        <FormikInput disabled={values.settlement !== "" || data?.succeeded} name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
+                                        <FormikInput disabled={data?.succeeded} name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
                                             inputProps: {
                                                 style: {
                                                     textAlign: "center",
@@ -749,7 +749,7 @@ const Order = () => {
                                             },
                                         }} />
                                         <Box component="div" className="flex w-full">
-                                            <FormikDatepicker disabled={values.number && values.number != 0 || data?.succeeded} name="settlement" label="تاریخ" />
+                                            <FormikDatepicker disabled={data?.succeeded} name="settlement" label="تاریخ" />
                                         </Box>
                                         <Box component="div" className="" onClick={() => {
                                             const orderPaymentCP = [...orderPayment]

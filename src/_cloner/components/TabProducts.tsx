@@ -66,7 +66,7 @@ const TabProducts = (props: Props) => {
         <>
             <Button
                 className={`${
-                    selectedTab == -1 ? "!bg-indigo-500 !text-white" : ""
+                    selectedTab == -1 ? "!bg-[#fcc615] !text-black" : ""
                 }`}
                 onClick={() => onSelectTab(-1)}
             >
@@ -83,7 +83,7 @@ const TabProducts = (props: Props) => {
                     <Button
                         className={`${
                             selectedTab == item.id
-                                ? "!bg-indigo-500 !text-white"
+                                ? "!bg-[#fcc615] !text-black"
                                 : ""
                         }`}
                         onClick={() => onSelectTab(item.id)}
