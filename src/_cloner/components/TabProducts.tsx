@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Typography, Box } from "@mui/material";
 import { toAbsoulteUrl } from "../helpers/AssetsHelper";
 import { useGetProductTypes } from "../../app/modules/generic/_hooks";
-const TabProducts = () => {
+import FuzzySearch from "../helpers/Fuse";
+import MuiDataGrid from "./MuiDataGrid";
+import { columnsModalProduct } from "../../app/modules/order/helpers/columns";
+import { IProducts } from "../../app/modules/product/core/_models";
+
+type Props = {
+    handleSelectionChange: any;
+    productsByBrand: any;
+    setResults: any;
+    results: any;
+};
+
+const TabProducts = (props: Props) => {
     const productTypeTools = useGetProductTypes();
+
+    const [selectedTab, setSelectedTab] = useState<number>(0)
+    const [filteredTabs, setFilteredTabs] = useState<any>([])
+
+    useEffect(() => {
+        const filtered = props.productsByBrand?.data.filter((item: any) => item.productTypeId === selectedTab)
+        setFilteredTabs(filtered)
+    }, [selectedTab])
 
     const imageUrl = [
         { id: 1, url: "/media/product/border-design.png" },
@@ -36,12 +56,16 @@ const TabProducts = () => {
         }
     };
 
+    const onSelectTab = (id: any) => {
+        setSelectedTab(id)
+    }
 
     return (
         <>
+
             {productTypeTools?.data?.map((item: any, index: number) => {
                 return (
-                    <Button>
+                    <Button className={`${selectedTab == item.id ? "!bg-indigo-500 !text-white" : ""}`} onClick={() => onSelectTab(item.id)}>
                         <Box
                             component="img"
                             src={toAbsoulteUrl(image(index))}
@@ -51,9 +75,25 @@ const TabProducts = () => {
                     </Button>
                 );
             })}
-            
-            
-
+            <Box component="div" className="mt-4">
+                <Box
+                    component="div"
+                    className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mb-2"
+                >
+                    <FuzzySearch
+                        keys={["productName"]}
+                        data={filteredTabs}
+                        threshold={0.5}
+                        setResults={props.setResults}
+                    />
+                </Box>
+                <MuiDataGrid
+                    onDoubleClick={props.handleSelectionChange}
+                    columns={columnsModalProduct()}
+                    rows={filteredTabs}
+                    data={filteredTabs}
+                />
+            </Box>
         </>
     );
 };

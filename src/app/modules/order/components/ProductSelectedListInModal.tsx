@@ -80,17 +80,17 @@ const ProductSelectedListInModal = (props: {
     const [selectedWarehouse, setSelectedWarehouse] = useState<any>("");
 
     useEffect(() => {
-        if (productsByBrand?.data) setResultsAll(productsByBrand?.data);
+        if (productsByBrand?.data) setResults(productsByBrand?.data);
     }, [productsByBrand?.data]);
 
-    useEffect(() => {
-        if (filterTools?.data) {
-            const initialResults = filterTools.data.data.map(
-                (i: any) => i.products
-            );
-            setResults(initialResults);
-        }
-    }, [filterTools?.data]);
+    // useEffect(() => {
+    //     if (filterTools?.data) {
+    //         const initialResults = filterTools.data.data.map(
+    //             (i: any) => i.products
+    //         );
+    //         setResults(initialResults);
+    //     }
+    // }, [filterTools?.data]);
 
     useEffect(() => {
         filterTools.mutate("");
@@ -437,10 +437,10 @@ const ProductSelectedListInModal = (props: {
         <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
             <Box component="div">
                 <TabProducts
-                    // handleSelectionChange={handleSelectionChange}
-                    // productsByBrand={productsByBrand}
-                    // results={results}
-                    // setResults={setResults}
+                    handleSelectionChange={handleSelectionChange}
+                    productsByBrand={productsByBrand}
+                    results={results}
+                    setResults={setResults}
                 />
                 {/* <ReusableTab tabs={tabs} /> */}
             </Box>
