@@ -55,7 +55,7 @@ export const orderColumns = (renderAction: any) => {
     return col
 }
 
-export const columnsModalProduct = (renderAction: any) => {
+export const columnsModalProduct = () => {
     const col = [
         {
             field: "productName",

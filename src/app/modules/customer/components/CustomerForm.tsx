@@ -98,7 +98,7 @@ const CustomerForm = (props: {
         ],
     ];
 
-    const parseFields = (fields: FieldType) => {
+    const parseFields = (fields: FieldType, values: any) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "checkbox":
@@ -150,7 +150,7 @@ const CustomerForm = (props: {
                         </Box>
                         <Box component={"div"} className="flex items-center">
                             <Checkbox
-                                checked={isChecked}
+                                checked={isChecked || values.settlementDay}
                                 onChange={(e: any) =>
                                     setIsChecked(e.target.checked)
                                 }
@@ -272,7 +272,7 @@ const CustomerForm = (props: {
                 validationSchema={createValiadtion}
                 onSubmit={handleSubmit}
             >
-                {({ handleSubmit }) => {
+                {({ handleSubmit, values }) => {
                     return (
                         <Form onSubmit={handleSubmit} className="container">
                             {fields.map((rowFields) => (
@@ -281,7 +281,7 @@ const CustomerForm = (props: {
                                     className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
                                 >
                                     {rowFields.map((field) =>
-                                        parseFields(field)
+                                        parseFields(field, values)
                                     )}
                                 </Box>
                             ))}

@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { IProducts } from "../../product/core/_models";
-import { Box, Button, OutlinedInput, Typography, FormControl, InputLabel, MenuItem, TextField } from "@mui/material";
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {
+    Box,
+    Button,
+    OutlinedInput,
+    Typography,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    TextField,
+} from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import { useRetrieveProductsByBrand, useRetrieveProductsByType, useRetrieveProductsByTypeAndWarehouseFilter } from "../../product/core/_hooks";
+import {
+    useRetrieveProductsByBrand,
+    useRetrieveProductsByType,
+    useRetrieveProductsByTypeAndWarehouseFilter,
+} from "../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../helpers/functions";
@@ -16,6 +29,8 @@ import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import ReusableTabComponent from "../../../../_cloner/components/ReusableTab";
 import { useGetWarehouses } from "../../generic/_hooks";
 import { IOrderService } from "../core/_models";
+import TabProducts from "../../../../_cloner/components/TabProducts";
+import ReusableTab from "../../../../_cloner/components/ReusableTab";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -24,13 +39,13 @@ const ProductSelectedListInModal = (props: {
     setFieldValue: any;
     setOrders?: any;
     orders?: any;
-    orderService?: IOrderService[]
+    orderService?: IOrderService[];
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    const { data: productsByBrand } = useRetrieveProductsByBrand();
     const { data: productsByType } = useRetrieveProductsByType();
+    const { data: productsByBrand } = useRetrieveProductsByBrand();
     const filterTools = useRetrieveProductsByTypeAndWarehouseFilter();
-    const {data: warehouses } = useGetWarehouses()
+    const { data: warehouses } = useGetWarehouses();
 
     const imageUrl = [
         { id: 1, url: "/media/product/border-design.png" },
@@ -42,34 +57,44 @@ const ProductSelectedListInModal = (props: {
         { id: 7, url: "/media/product/can.png" },
     ];
 
-
-
-    const { data: units } = useGetUnits()
+    const { data: units } = useGetUnits();
 
     const [results, setResults] = useState<IProducts[]>([]);
+    const [resultsAll, setResultsAll] = useState<IProducts[]>([]);
+    const [value, setValue] = useState(0);
+    const [filteredData, setFilteredData] = useState<IProducts[]>([])
+
     // const [subUnit, setSubUnit] = useState<{ [key: string]: string }>({});
     const [subUnit, setSubUnit] = useState<{ [key: string]: string }>({});
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
-    const [proximateAmounts, setProximateAmounts] = useState<{[key: string]: string}>({});
-    const [proximateSubAmounts, setProximateSubAmounts] = useState<{[key: string]: string}>({});
-    const [productPrice, setProductPrice] = useState<{[key: string]: string}>({});
-    const [selectedWarehouse, setSelectedWarehouse] = useState<any>("")
+    const [proximateAmounts, setProximateAmounts] = useState<{
+        [key: string]: string;
+    }>({});
+    const [proximateSubAmounts, setProximateSubAmounts] = useState<{
+        [key: string]: string;
+    }>({});
+    const [productPrice, setProductPrice] = useState<{ [key: string]: string }>(
+        {}
+    );
+    const [selectedWarehouse, setSelectedWarehouse] = useState<any>("");
 
-    // useEffect(() => {
-    //     if (productsByBrand?.data) setResults(productsByBrand?.data);
-    // }, [productsByBrand?.data]);
-    
+    useEffect(() => {
+        if (productsByBrand?.data) setResultsAll(productsByBrand?.data);
+    }, [productsByBrand?.data]);
+
     useEffect(() => {
         if (filterTools?.data) {
-            const initialResults = filterTools.data.data.map((i: any) => i.products);
+            const initialResults = filterTools.data.data.map(
+                (i: any) => i.products
+            );
             setResults(initialResults);
         }
     }, [filterTools?.data]);
-    
+
     useEffect(() => {
-        filterTools.mutate("")
-    }, [])
+        filterTools.mutate("");
+    }, []);
 
     const renderAction = (indexToDelete: any) => {
         return (
@@ -97,7 +122,11 @@ const ProductSelectedListInModal = (props: {
                     size="small"
                     value={proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
-                        handleInputValueChange(productId, e.target.value, params.row.exchangeRate)
+                        handleInputValueChange(
+                            productId,
+                            e.target.value,
+                            params.row.exchangeRate
+                        )
                     }
                     inputProps={{
                         "aria-label": "weight",
@@ -116,7 +145,9 @@ const ProductSelectedListInModal = (props: {
                 <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
-                    defaultValue={separateAmountWithCommas(Number(productPrice))}
+                    defaultValue={separateAmountWithCommas(
+                        Number(productPrice)
+                    )}
                     value={productPrice[productId]}
                     onChange={(e: any) =>
                         handleInputPriceChange(productId, e.target.value)
@@ -137,7 +168,7 @@ const ProductSelectedListInModal = (props: {
             ...subUnit,
             [productId]: value,
         });
-    }
+    };
 
     const renderSubUnit = (params: any) => {
         const productId = params.row.id;
@@ -154,7 +185,7 @@ const ProductSelectedListInModal = (props: {
                         "aria-label": "weight",
                         style: {
                             textAlign: "center",
-                            width: 28
+                            width: 28,
                         },
                     }}
                 />
@@ -170,10 +201,9 @@ const ProductSelectedListInModal = (props: {
                         inputProps={{
                             "aria-label": "weight",
                             style: {
-                                width: 28
+                                width: 28,
                             },
                         }}
-
                     >
                         {units?.map((item: any) => (
                             <MenuItem value={item.id}>{item.unitName}</MenuItem>
@@ -184,16 +214,21 @@ const ProductSelectedListInModal = (props: {
         );
     };
 
-    const handleInputValueChange = (productId: string, value: string, exchangeRate: string) => {
+    const handleInputValueChange = (
+        productId: string,
+        value: string,
+        exchangeRate: string
+    ) => {
         setProximateAmounts({
             ...proximateAmounts,
             [productId]: value,
         });
         setProximateSubAmounts({
             ...proximateSubAmounts,
-            [productId]: Math.ceil(Number(value) / Number(exchangeRate)).toString() ,
+            [productId]: Math.ceil(
+                Number(value) / Number(exchangeRate)
+            ).toString(),
         });
-
     };
 
     const handleInputSubUnitChange = (productId: string, value: string) => {
@@ -204,10 +239,10 @@ const ProductSelectedListInModal = (props: {
     };
 
     const handleInputPriceChange = (productId: string, value: string) => {
-        const sanitizedValue = value.replace(/,/g, '');
+        const sanitizedValue = value.replace(/,/g, "");
         const numericValue = parseFloat(sanitizedValue);
         if (!isNaN(numericValue)) {
-            const formattedValue = numericValue.toLocaleString('en-US');
+            const formattedValue = numericValue.toLocaleString("en-US");
             setProductPrice({
                 ...productPrice,
                 [productId]: formattedValue,
@@ -220,8 +255,6 @@ const ProductSelectedListInModal = (props: {
         }
     };
 
-
-
     const handleSelectionChange: any = (newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
         const selectedRowData = {
@@ -232,10 +265,12 @@ const ProductSelectedListInModal = (props: {
             subUnit: props.products?.find(
                 (i: IProducts) => i.id === selectedRow.id
             )?.productSubUnitDesc,
-
         };
-        setProductPrice(newSelectionModel.row.productPrice)
-        setSubUnit({...subUnit, [selectedRow.id]: newSelectionModel.row.productSubUnitId})
+        setProductPrice(newSelectionModel.row.productPrice);
+        setSubUnit({
+            ...subUnit,
+            [selectedRow.id]: newSelectionModel.row.productSubUnitId,
+        });
 
         const isDuplicate = selectedProduct.some((item) => {
             return item.id === selectedRow.id;
@@ -248,8 +283,6 @@ const ProductSelectedListInModal = (props: {
         }
     };
 
-    console.log(productPrice)
-    
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             id: product.id,
@@ -273,15 +306,20 @@ const ProductSelectedListInModal = (props: {
             purchaserCustomerId: "",
             purchaserCustomerName: "",
             mainUnit: product.mainUnit,
-            subUnit: subUnit[product.id] ? units.find((i: any) => i.id === subUnit[product.id]).unitName : product.subUnit,
+            subUnit: subUnit[product.id]
+                ? units.find((i: any) => i.id === subUnit[product.id]).unitName
+                : product.subUnit,
             rowId: product?.rowId ? product?.rowId : 0,
             proximateAmount: proximateAmounts[product.id] || "",
             warehouseTypeId: 0,
-            productPrice: productPrice[product.id] ? productPrice[product.id] : separateAmountWithCommas(product.productPrice),
-            proximateSubUnit: proximateSubAmounts[product.id] === undefined ? 0 : proximateSubAmounts[product.id],
+            productPrice: productPrice[product.id]
+                ? productPrice[product.id]
+                : separateAmountWithCommas(product.productPrice),
+            proximateSubUnit:
+                proximateSubAmounts[product.id] === undefined
+                    ? 0
+                    : proximateSubAmounts[product.id],
         }));
-
-        console.log("selectedProductWithAmounts", selectedProductWithAmounts)
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
             props.orders.some(
@@ -300,7 +338,9 @@ const ProductSelectedListInModal = (props: {
             props.setOrders(updatedOrders);
             props.setFieldValue(
                 "amount",
-                sliceNumberPriceRial(calculateTotalAmount(updatedOrders, props.orderService))
+                sliceNumberPriceRial(
+                    calculateTotalAmount(updatedOrders, props.orderService)
+                )
             );
             props.setSelectedProductOpen(false);
         } else {
@@ -313,11 +353,10 @@ const ProductSelectedListInModal = (props: {
     }
 
     const onFilterProductByWarehouse = (e: SelectChangeEvent) => {
-        setSelectedWarehouse(e.target.value)
-        if(e.target.value) filterTools.mutate(e.target.value)
-        else filterTools.mutate("")
-        
-    }
+        setSelectedWarehouse(e.target.value);
+        if (e.target.value) filterTools.mutate(e.target.value);
+        else filterTools.mutate("");
+    };
 
     const tabs = productsByType?.data?.map((i: any, index: number) => {
         const image: any = () => {
@@ -354,7 +393,10 @@ const ProductSelectedListInModal = (props: {
             ),
             content: (
                 <Box>
-                    <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mb-2">
+                    <Box
+                        component="div"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mb-2"
+                    >
                         <FuzzySearch
                             keys={["productName"]}
                             data={i.products}
@@ -362,7 +404,6 @@ const ProductSelectedListInModal = (props: {
                             setResults={(newResults: any) => {
                                 const updatedResults = [...results];
                                 updatedResults[index] = newResults;
-                                console.log("newResults", newResults)
                                 setResults(updatedResults);
                             }}
                         />
@@ -376,11 +417,11 @@ const ProductSelectedListInModal = (props: {
                         </FormControl> */}
                     </Box>
                     <MuiDataGrid
-                    onDoubleClick={handleSelectionChange}
-                    columns={columnsModalProduct(renderAction)}
-                    rows={results[index]}
-                    data={filterTools?.data?.data}
-                />
+                        onDoubleClick={handleSelectionChange}
+                        columns={columnsModalProduct()}
+                        rows={results[index]}
+                        data={filterTools?.data?.data}
+                    />
 
                     {/* <MuiDataGrid
                         columns={columnsProductPriceDashboard(renderAction)}
@@ -392,29 +433,16 @@ const ProductSelectedListInModal = (props: {
         };
     });
 
-
     return (
         <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
             <Box component="div">
-                {/* <Box component="div" className="w-80 md:w-[40%]">
-                    <FuzzySearch
-                        keys={[
-                            "productName",
-                            "productIntegratedName",
-                            "approximateWeight",
-                        ]}
-                        data={productsByBrand?.data}
-                        threshold={0.5}
-                        setResults={setResults}
-                    />
-                </Box> */}
-                {/* <MuiDataGrid
-                    onDoubleClick={handleSelectionChange}
-                    columns={columnsModalProduct(renderAction)}
-                    rows={results}
-                    data={productsByBrand?.data}
-                /> */}
-                <ReusableTabComponent tabs={tabs} />
+                <TabProducts
+                    // handleSelectionChange={handleSelectionChange}
+                    // productsByBrand={productsByBrand}
+                    // results={results}
+                    // setResults={setResults}
+                />
+                {/* <ReusableTab tabs={tabs} /> */}
             </Box>
             <Box component="div" className="mt-4">
                 <Typography variant="h2" color="primary">

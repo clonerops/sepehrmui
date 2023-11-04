@@ -87,8 +87,15 @@ const Order = () => {
                                 options={dropdownCustomer(customers?.data)}
                                 renderOption={(props: any, option: any) => {
                                     return <li {...props}>
-                                        <Typography style={{
+                                       <Box component="div" style={{
                                             backgroundColor: `#${option.customerValidityColorCode}`,
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: 40
+                                       }}>
+
+                                        </Box> <Typography className="pr-4" style={{
+                                            // backgroundColor: `#${option.customerValidityColorCode}`,
                                             width: "100%"
                                         }}>{option.label}</Typography>
                                     </li>

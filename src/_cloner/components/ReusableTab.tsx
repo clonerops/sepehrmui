@@ -22,7 +22,7 @@ function TabPanel({ children, value, index }: TabPanelProps) {
 }
 
 interface ReusableTabProps {
-    tabs: { label: string; content: ReactNode }[];
+    tabs: { label: ReactNode; content: ReactNode }[];
     indicatorColor?: "primary" | "secondary";
 }
 
@@ -56,6 +56,7 @@ const ReusableTab: React.FC<ReusableTabProps> = ({
                 onChange={handleChange}
                 centered
             >
+                
                 {tabs?.map((tab, index) => (
                     <Tab
                         key={index}

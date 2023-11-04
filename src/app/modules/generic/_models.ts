@@ -36,3 +36,10 @@ export interface IService {
     id?: number,
     isActive: boolean
 }
+
+export interface IProductType {
+    desc: string,
+    typeColor: string | null ,
+    id: number,
+    isActive: boolean
+}
