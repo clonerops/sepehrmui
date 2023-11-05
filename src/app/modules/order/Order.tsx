@@ -118,7 +118,8 @@ const Order = () => {
                             </Box>
                             <Box component="div" className="flex flex-row pt-2">
                                 <Typography style={{
-                                    backgroundColor: `#${findCustomer?.customerValidityColorCode}`
+                                    backgroundColor: `#${findCustomer?.customerValidityColorCode}`,
+                                    color: "white"
                                 }} variant="h3" className="px-4 rounded-md py-1">{findCustomer?.customerValidityDesc}</Typography>
                             </Box>
                             <Box component="div" className="flex flex-row pt-8">

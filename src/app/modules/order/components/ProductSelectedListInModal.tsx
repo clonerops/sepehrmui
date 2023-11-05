@@ -6,31 +6,24 @@ import {
     OutlinedInput,
     Typography,
     FormControl,
-    InputLabel,
     MenuItem,
     TextField,
 } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import Select from "@mui/material/Select";
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import {
     useRetrieveProductsByBrand,
-    useRetrieveProductsByType,
     useRetrieveProductsByTypeAndWarehouseFilter,
 } from "../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../helpers/functions";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
-import ReusableTabComponent from "../../../../_cloner/components/ReusableTab";
-import { useGetWarehouses } from "../../generic/_hooks";
 import { IOrderService } from "../core/_models";
 import TabProducts from "../../../../_cloner/components/TabProducts";
-import ReusableTab from "../../../../_cloner/components/ReusableTab";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 
 const ProductSelectedListInModal = (props: {
     products: IProducts[];
@@ -42,38 +35,15 @@ const ProductSelectedListInModal = (props: {
     orderService?: IOrderService[];
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    const { data: productsByType } = useRetrieveProductsByType();
     const { data: productsByBrand } = useRetrieveProductsByBrand();
     const filterTools = useRetrieveProductsByTypeAndWarehouseFilter();
-    const { data: warehouses } = useGetWarehouses();
 
-    const imageUrl = [
-        { id: 1, url: "/media/product/border-design.png" },
-        { id: 2, url: "/media/product/tubes.png" },
-        { id: 3, url: "/media/product/beam.png" },
-        { id: 4, url: "/media/product/steel.png" },
-        { id: 5, url: "/media/product/tissue-roll.png" },
-        { id: 6, url: "/media/product/conveyor-belt.png" },
-        { id: 7, url: "/media/product/can.png" },
-    ];
-
-    const radioOption: {
-        label: string;
-        value: any;
-    }[] = [
-        { label: "همه", value: "" },
-        { label: "فعال", value: true },
-        { label: "غیر فعال", value: false },
-    ];
-    
     const { data: units } = useGetUnits();
 
     const [results, setResults] = useState<IProducts[]>([]);
-    const [resultsAll, setResultsAll] = useState<IProducts[]>([]);
-    const [value, setValue] = useState(0);
-    const [filteredData, setFilteredData] = useState<IProducts[]>([])
-
-    // const [subUnit, setSubUnit] = useState<{ [key: string]: string }>({});
+    const [filteredTabs, setFilteredTabs] = useState<any>([]);
+    const [selectedTab, setSelectedTab] = useState<number>(-1);
+    const [tabResult, setTabResult] = useState<any>([]);
     const [subUnit, setSubUnit] = useState<{ [key: string]: string }>({});
     const [selectionModel, setSelectionModel] = useState<any>({});
     const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
@@ -86,20 +56,6 @@ const ProductSelectedListInModal = (props: {
     const [productPrice, setProductPrice] = useState<{ [key: string]: string }>(
         {}
     );
-    const [selectedWarehouse, setSelectedWarehouse] = useState<any>("");
-
-    useEffect(() => {
-        if (productsByBrand?.data) setResults(productsByBrand?.data);
-    }, [productsByBrand?.data]);
-
-    // useEffect(() => {
-    //     if (filterTools?.data) {
-    //         const initialResults = filterTools.data.data.map(
-    //             (i: any) => i.products
-    //         );
-    //         setResults(initialResults);
-    //     }
-    // }, [filterTools?.data]);
 
     useEffect(() => {
         filterTools.mutate("");
@@ -358,136 +314,91 @@ const ProductSelectedListInModal = (props: {
         }
     };
 
+    useEffect(() => {
+        const filtered = productsByBrand?.data.filter(
+            (item: any) => item.productTypeId === selectedTab
+        );
+        setFilteredTabs(selectedTab === -1 ? productsByBrand?.data : filtered);
+        setResults(selectedTab === -1 ? productsByBrand?.data : filtered);
+    }, [selectedTab]);
+
+    const onSelectTab = (id: any) => {
+        setSelectedTab(id);
+    };
+
+    const onFilterProductByWarehouse = (value: any) => {
+        let filteredByWarehouse;
+        if (value === "-1") {
+            setResults(filteredTabs)
+            setTabResult(filteredTabs)
+        } else {
+            filteredByWarehouse = filteredTabs.filter((i: any) => Number(i.warehouseId) === Number(value));
+            setResults(filteredByWarehouse)
+            setTabResult(filteredByWarehouse)
+        }
+    };
+
+
     if (props.productLoading) {
         return <Typography>Loading ...</Typography>;
     }
 
-    const onFilterProductByWarehouse = (e: SelectChangeEvent) => {
-        setSelectedWarehouse(e.target.value);
-        if (e.target.value) filterTools.mutate(e.target.value);
-        else filterTools.mutate("");
-    };
-
-    const tabs = productsByType?.data?.map((i: any, index: number) => {
-        const image: any = () => {
-            switch (i.id) {
-                case 1:
-                    return imageUrl[0].url;
-                case 2:
-                    return imageUrl[1].url;
-                case 3:
-                    return imageUrl[2].url;
-                case 4:
-                    return imageUrl[3].url;
-                case 5:
-                    return imageUrl[4].url;
-                case 6:
-                    return imageUrl[5].url;
-                case 7:
-                    return imageUrl[6].url;
-
-                default:
-                    break;
-            }
-        };
-        return {
-            label: (
-                <Box component="div" className="flex gap-x-2">
-                    <Box
-                        component="img"
-                        src={toAbsoulteUrl(image()?.toString())}
-                        width={16}
-                    />
-                    <Typography variant="h5">{i.desc}</Typography>
-                </Box>
-            ),
-            content: (
-                <Box>
-                    <Box
-                        component="div"
-                        className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mb-2"
-                    >
-                        <FuzzySearch
-                            keys={["productName"]}
-                            data={i.products}
-                            threshold={0.5}
-                            setResults={(newResults: any) => {
-                                const updatedResults = [...results];
-                                updatedResults[index] = newResults;
-                                setResults(updatedResults);
-                            }}
-                        />
-                        {/* <FormControl size="small">
-                            <InputLabel id="demo-simple-select-label">انبار</InputLabel>
-                            <Select label="انبار" labelId="demo-simple-select-label" size="small" value={selectedWarehouse} onChange={onFilterProductByWarehouse}>
-                                {warehouses.map((i: any) => {
-                                return <MenuItem value={i.id}>{i.name}</MenuItem>
-                                })}
-                            </Select>
-                        </FormControl> */}
-                    </Box>
-                    <MuiDataGrid
-                        onDoubleClick={handleSelectionChange}
-                        columns={columnsModalProduct()}
-                        rows={results[index]}
-                        data={filterTools?.data?.data}
-                    />
-
-                    {/* <MuiDataGrid
-                        columns={columnsProductPriceDashboard(renderAction)}
-                        rows={results[index]}
-                        data={i.products}
-                    /> */}
-                </Box>
-            ),
-        };
-    });
-
     return (
-        <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
-            <Box component="div">
+        <>
+
+            <Box component="div" className="w-full">
                 <TabProducts
                     handleSelectionChange={handleSelectionChange}
                     productsByBrand={productsByBrand}
-                    // results={results}
-                    // setResults={setResults}
+                    onSelectTab={onSelectTab}
+                    onFilterProductByWarehouse={onFilterProductByWarehouse}
+                    results={results}
+                    setResults={setResults}
+                    selectedTab={selectedTab}
+                    tabResult={tabResult}
                 />
-                {/* <ReusableTab tabs={tabs} /> */}
             </Box>
-            <Box component="div" className="mt-4">
-                <Typography variant="h2" color="primary">
-                    کالاهای انتخاب شده
-                </Typography>
-                <MuiSelectionDataGrid
-                    selectionModel={selectionModel}
-                    setSelectionModel={setSelectionModel}
-                    columns={columnsSelectProduct(
-                        renderAction,
-                        renderInput,
-                        renderSubUnit,
-                        renderPrice
-                    )}
-                    rows={selectedProduct}
-                    data={selectedProduct}
-                    pagination={false}
-                    hideFooter={true}
-                    columnHeaderHeight={40}
-                />
-                <Box
-                    component="div"
-                    className="flex justify-end items-end mt-4"
-                >
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className=""
-                        onClick={handleSubmitSelectedProduct}
+            <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
+                <Box component="div">
+                    <MuiDataGrid
+                        onDoubleClick={handleSelectionChange}
+                        columns={columnsModalProduct()}
+                        rows={results}
+                        data={filteredTabs}
+                    />
+                </Box>
+                <Box component="div">
+                    <MuiSelectionDataGrid
+                        selectionModel={selectionModel}
+                        setSelectionModel={setSelectionModel}
+                        columns={columnsSelectProduct(
+                            renderAction,
+                            renderInput,
+                            renderSubUnit,
+                            renderPrice
+                        )}
+                        rows={selectedProduct}
+                        data={selectedProduct}
+                        pagination={false}
+                        hideFooter={true}
+                        columnHeaderHeight={40}
+                    />
+                    <Box
+                        component="div"
+                        className="flex justify-end items-end mt-4"
                     >
-                        <Typography>تایید</Typography>
-                    </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className=""
+                            onClick={handleSubmitSelectedProduct}
+                        >
+                            <Typography>تایید</Typography>
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
-        </Box>
+        </>
     );
 };
 

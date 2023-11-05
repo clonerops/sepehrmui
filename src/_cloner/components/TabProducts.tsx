@@ -8,31 +8,24 @@ import { columnsModalProduct } from "../../app/modules/order/helpers/columns";
 import { IProducts } from "../../app/modules/product/core/_models";
 import FormikRadioGroup from "./FormikRadioGroup";
 import { dropdownWarehouses } from "../../app/modules/order/helpers/dropdowns";
+import { Form, Formik } from "formik";
 
 type Props = {
     handleSelectionChange: any;
     productsByBrand: any;
+    onSelectTab: any;
+    onFilterProductByWarehouse: any;
+    results: any
+    setResults: any
+    selectedTab: any
+    tabResult: any
 };
 
 const TabProducts = (props: Props) => {
+    const { tabResult, selectedTab, onSelectTab, onFilterProductByWarehouse, setResults, } = props
     const productTypeTools = useGetProductTypes();
     const { data: warehouses } = useGetWarehouses();
 
-
-    const [selectedTab, setSelectedTab] = useState<number>(-1);
-    const [filteredTabs, setFilteredTabs] = useState<any>([]);
-    const [tabResult, setTabResult] = useState<any>([]);
-    const [results, setResults] = useState<IProducts[]>([]);
-    const [selectedWarehouse, setSelectedWarehouse] = useState<any>("");
-
-    useEffect(() => {
-        const filtered = props.productsByBrand?.data.filter(
-            (item: any) => item.productTypeId === selectedTab
-        );
-        setFilteredTabs(selectedTab === -1 ? props.productsByBrand?.data : filtered);
-        setResults(selectedTab === -1 ? props.productsByBrand?.data : filtered);
-        setSelectedWarehouse("")
-    }, [selectedTab]);
 
     const imageUrl = [
         { id: 1, url: "/media/product/border-design.png" },
@@ -65,32 +58,8 @@ const TabProducts = (props: Props) => {
         }
     };
 
-    const onSelectTab = (id: any) => {
-        setSelectedTab(id);
-    };
 
-    const onFilterProductByWarehouse = (value: any) => {
-        setSelectedWarehouse(value);
-        console.log("value", value)
-        let filteredByWarehouse;
-        if (value === -1) {
-            filteredByWarehouse = filteredTabs;
-        } else {
-            filteredByWarehouse = filteredTabs.filter((i: any) => Number(i.warehouseId) === Number(value));
-        }
-
-        console.log("filteredByWarehouse", filteredByWarehouse)
-        console.log("filteredTabs", filteredTabs)
-
-        if(value) {
-            setResults(filteredByWarehouse)
-        } else {
-            setResults(filteredByWarehouse)
-        }
-        setTabResult(filteredByWarehouse)
-    };
-
-    const allOption = [{ value: -1, label: "همه" }];
+    const allOption = [{ value: "-1", label: "همه" }];
     const radioData = [...allOption, ...dropdownWarehouses(warehouses)];
     return (
         <>
@@ -99,11 +68,6 @@ const TabProducts = (props: Props) => {
                     }`}
                 onClick={() => onSelectTab(-1)}
             >
-                {/* <Box
-                    component="img"
-                    src={toAbsoulteUrl(image(0))}
-                    width={20}
-                /> */}
                 <Typography className="px-2">کل محصولات</Typography>
             </Button>
 
@@ -114,7 +78,7 @@ const TabProducts = (props: Props) => {
                             ? "!bg-[#fcc615] !text-black"
                             : ""
                             }`}
-                    
+
                         onClick={() => onSelectTab(item.id)}
                     >
                         <Box
@@ -129,22 +93,26 @@ const TabProducts = (props: Props) => {
             <Box component="div" className="mt-4">
                 <Box
                     component="div"
-                    className="grid grid-cols-1 md:grid-cols-2 gap-x-8 mb-2"
+                    className="grid grid-cols-1 md:grid-cols-3 gap-x-4 mb-2"
                 >
-                    <FuzzySearch
-                        keys={["productName"]}
-                        data={tabResult}
-                        threshold={0.5}
-                        setResults={setResults}
-                    />
-                    <FormikRadioGroup value={selectedWarehouse} onChange={onFilterProductByWarehouse} radioData={radioData} name="warehouseId" />
+                    <Box>
+                        <FuzzySearch
+                            keys={["productName"]}
+                            data={tabResult}
+                            threshold={0.5}
+                            setResults={setResults}
+                        />
+                    </Box>
+                    <Box component="div" className="col-span-2">
+                        <Formik initialValues={{warehouseId: "-1"}} onSubmit={() => {}}>
+                            {({}) => {
+                                return <Form>
+                                    <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={radioData} name="warehouseId" />
+                                </Form>
+                            }}
+                        </Formik>
+                    </Box>
                 </Box>
-                <MuiDataGrid
-                    onDoubleClick={props.handleSelectionChange}
-                    columns={columnsModalProduct()}
-                    rows={results}
-                    data={filteredTabs}
-                />
             </Box>
         </>
     );
