@@ -137,6 +137,7 @@ const ProductSelectedListInModal = (props: {
                             params.row.exchangeRate
                         )
                     }
+                    autoFocus={true}
                     inputProps={{
                         "aria-label": "weight",
                         style: {
