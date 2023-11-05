@@ -57,6 +57,15 @@ const ProductSelectedListInModal = (props: {
         { id: 7, url: "/media/product/can.png" },
     ];
 
+    const radioOption: {
+        label: string;
+        value: any;
+    }[] = [
+        { label: "همه", value: "" },
+        { label: "فعال", value: true },
+        { label: "غیر فعال", value: false },
+    ];
+    
     const { data: units } = useGetUnits();
 
     const [results, setResults] = useState<IProducts[]>([]);

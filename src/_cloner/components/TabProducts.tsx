@@ -6,6 +6,8 @@ import FuzzySearch from "../helpers/Fuse";
 import MuiDataGrid from "./MuiDataGrid";
 import { columnsModalProduct } from "../../app/modules/order/helpers/columns";
 import { IProducts } from "../../app/modules/product/core/_models";
+import FormikRadioGroup from "./FormikRadioGroup";
+import { dropdownWarehouses } from "../../app/modules/order/helpers/dropdowns";
 
 type Props = {
     handleSelectionChange: any;
@@ -67,10 +69,20 @@ const TabProducts = (props: Props) => {
         setSelectedTab(id);
     };
 
-    const onFilterProductByWarehouse = (e: SelectChangeEvent) => {
-        setSelectedWarehouse(e.target.value);
-        const filteredByWarehouse = filteredTabs.filter((i: any) => Number(i.warehouseId) === Number(e.target.value))
-        if(e.target.value) {
+    const onFilterProductByWarehouse = (value: any) => {
+        setSelectedWarehouse(value);
+        console.log("value", value)
+        let filteredByWarehouse;
+        if (value === -1) {
+            filteredByWarehouse = filteredTabs;
+        } else {
+            filteredByWarehouse = filteredTabs.filter((i: any) => Number(i.warehouseId) === Number(value));
+        }
+
+        console.log("filteredByWarehouse", filteredByWarehouse)
+        console.log("filteredTabs", filteredTabs)
+
+        if(value) {
             setResults(filteredByWarehouse)
         } else {
             setResults(filteredByWarehouse)
@@ -78,6 +90,8 @@ const TabProducts = (props: Props) => {
         setTabResult(filteredByWarehouse)
     };
 
+    const allOption = [{ value: -1, label: "همه" }];
+    const radioData = [...allOption, ...dropdownWarehouses(warehouses)];
     return (
         <>
             <Button
@@ -123,14 +137,7 @@ const TabProducts = (props: Props) => {
                         threshold={0.5}
                         setResults={setResults}
                     />
-                    <FormControl size="small">
-                        <InputLabel id="demo-simple-select-label">انبار</InputLabel>
-                        <Select label="انبار" labelId="demo-simple-select-label" size="small" value={selectedWarehouse} onChange={onFilterProductByWarehouse}>
-                            {warehouses.map((i: any) => {
-                                return <MenuItem value={i.id}>{i.name}</MenuItem>
-                            })}
-                        </Select>
-                    </FormControl>
+                    <FormikRadioGroup value={selectedWarehouse} onChange={onFilterProductByWarehouse} radioData={radioData} name="warehouseId" />
                 </Box>
                 <MuiDataGrid
                     onDoubleClick={props.handleSelectionChange}

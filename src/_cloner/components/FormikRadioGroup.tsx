@@ -6,16 +6,14 @@ import {
     FormControlLabel,
     Radio,
 } from "@mui/material";
-import * as translation from "../../../public/assets/locales/en/translation.json";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
 
-export type Label = keyof typeof translation;
-
 type Props = {
-    label: Label;
+    label?: string;
     name: string;
-    value?: any,
+    value?: any;
+    onChange?: any; 
     radioData: {
         value: any;
         label: string;
@@ -23,11 +21,21 @@ type Props = {
 };
 
 const FormikRadioGroup = (props: Props) => {
-    const { label, name, radioData, value, ...rest } = props;
+    const { label, name, radioData, value, onChange, ...rest } = props;
 
     const [field] = useField({ name, value });
     const formikProps = useFormikContext();
-    const formikValigation = getFormikFieldValidationProps(formikProps, name);
+    const formikValidation = getFormikFieldValidationProps(formikProps, name);
+    const handleRadioChange = (e: any) => {
+        const selectedValue = e.target.value;
+        if (selectedValue !== value) {
+            if (onChange) {
+                onChange(selectedValue);
+            }
+            formikProps.setFieldValue(name, selectedValue);
+        }
+    };
+
     return (
         <Box component="div">
             <FormControl>
@@ -37,20 +45,33 @@ const FormikRadioGroup = (props: Props) => {
                 <RadioGroup
                     {...field}
                     {...rest}
-                    {...formikValigation}
+                    {...formikValidation}
+                    // value={field?.value}
+                    onChange={handleRadioChange}
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    defaultValue={1}
+                    defaultValue={-1}
                 >
-                    {radioData.map((item) => {
-                        return (
-                            <FormControlLabel
-                                value={item.value}
-                                control={<Radio />}
-                                label={item.label}
-                            />
-                        );
-                    })}
+                    {radioData.map((item) => (
+                        <FormControlLabel
+                            key={item.value}
+                            value={item.value}
+                            control={<Radio sx={{ display: "none" }} />}
+                            label={
+                                <>
+                                    <Box
+                                        className={`rounded-md py-2 px-8 ${
+                                            Number(field.value) === Number(item.value)
+                                                ? "bg-[#272862] text-white"
+                                                : "bg-gray-200"
+                                        }`}
+                                    >
+                                        {item.label}
+                                    </Box>
+                                </>
+                            }
+                        />
+                    ))}
                 </RadioGroup>
             </FormControl>{" "}
         </Box>
