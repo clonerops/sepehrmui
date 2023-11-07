@@ -43,6 +43,7 @@ import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
 import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
 import Backdrop from "../../../_cloner/components/Backdrop";
+import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 
 const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -448,6 +449,12 @@ const Order = () => {
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
+    const orderAndAmountInfo = [
+        {id:1, title: "شماره سفارش", icon: <ProductionQuantityLimits color="secondary" />, value: orderCode },
+        {id:2, title: "تاریخ سفارش", icon: <DateRange color="secondary" />, value: moment(new Date()).format("jYYYY-jMM-jDD") },
+        {id:3, title: "قیمت کل", icon: <MonetizationOn color="secondary" />, value: `${sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال` },
+        {id:4, title: "قیمت به حروف", icon: <AttachMoney color="secondary" />, value: `${convertToPersianWord(calculateTotalAmount(orders, orderService) )} تومان` }
+    ]
 
     return (
         <>
@@ -551,34 +558,13 @@ const Order = () => {
                     return <Form>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <ReusableCard>
-                                    <Box component="div" className="flex justify-between items-center space-y-4">
-                                        <Typography variant="body1">شماره سفارش</Typography>
-                                        <ProductionQuantityLimits color="secondary" />
-                                    </Box>
-                                    <Typography variant="h2" className="text-green-500">{orderCode}</Typography>
-                                </ReusableCard>
-                                <ReusableCard>
-                                    <Box component="div" className="flex justify-between items-center space-y-4">
-                                        <Typography variant="body1">تاریخ سفارش</Typography>
-                                        <DateRange color="secondary" />
-                                    </Box>
-                                    <Typography variant="h2">{moment(new Date()).format("jYYYY-jMM-jDD")}</Typography>
-                                </ReusableCard>
-                                <ReusableCard>
-                                    <Box component="div" className="flex justify-between items-center space-y-4">
-                                        <Typography variant="body1">قیمت کل</Typography>
-                                        <MonetizationOn color="secondary" />
-                                    </Box>
-                                    <Typography variant="h2">{sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال</Typography>
-                                </ReusableCard>
-                                <ReusableCard>
-                                    <Box component="div" className="flex justify-between items-center space-y-4">
-                                        <Typography variant="body1">قیمت به حروف</Typography>
-                                        <AttachMoney color="secondary" />
-                                    </Box>
-                                    <Typography variant="h5">{convertToPersianWord(calculateTotalAmount(orders, orderService))} هزار تومان</Typography>
-                                </ReusableCard>
+                                {orderAndAmountInfo.map((item: {
+                                    title: string,
+                                    icon: React.ReactNode,
+                                    value: any
+                                } ) => {
+                                    return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
+                                })}
                             </Box>
                             <Box component="div" className="grid grid-cols-2 gap-4">
                                 <ReusableCard cardClassName="col-span-2">

@@ -22,7 +22,7 @@ const menuItem = [
         id: 1321,
         iconName: "RocketTwoTone",
         title: "تایید سفارش",
-        to: "dashboard/order/confirm",
+        to: "dashboard/order/confirm-list",
       },
     ],
   },

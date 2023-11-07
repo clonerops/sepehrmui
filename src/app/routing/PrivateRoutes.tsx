@@ -27,6 +27,7 @@ import ProductInventories from "../modules/product/ProductInventories";
 import OrderDetail from "../modules/order/OrderDetail";
 import ProductForm from "../modules/product/components/ProductForm";
 import ProductService from "../modules/generic/productService/ProductService";
+import OrderConfirmList from "../modules/order/OrderConfirmList";
 
 const PrivateRoutes = () => {
 
@@ -40,8 +41,9 @@ const PrivateRoutes = () => {
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='dashboard/order' element={<Order />} />
             <Route path='dashboard/order/lists' element={<OrderList />} />
-            <Route path='dashboard/order/confirm' element={<OrderConfirm />} />
+            <Route path='dashboard/order/confirm-list' element={<OrderConfirmList />} />
             <Route path='dashboard/order/detail/:id' element={<OrderDetail data={undefined} isError={false} isLoading={false} />} />
+            <Route path='dashboard/order/confirm/:id' element={<OrderConfirm data={undefined} isError={false} isLoading={false} />} />
 
             <Route path="dashboard/customers" element={<Customer />} />
             <Route path="dashboard/products" element={<Products />} />

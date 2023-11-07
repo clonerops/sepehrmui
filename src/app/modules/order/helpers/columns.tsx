@@ -241,3 +241,40 @@ export const columnsOrderDetail = [
         }, headerClassName: "headerClassName", flex: 1
     },
 ];
+export const columnsOrderConfirm = [
+    {
+        headerName: 'نام کالا', field: 'productName', renderCell: (params: any) => {
+            return <Typography variant="h4">{params.value}</Typography>
+        }, headerClassName: "headerClassName", flex: 1
+    },
+    {
+        headerName: 'انبار', field: 'warehouseName', renderCell: (params: any) => {
+            return <Typography variant="h4">{params.value}</Typography>
+        }, headerClassName: "headerClassName", flex: 1
+    },
+    {
+        headerName: 'مقدار', field: 'proximateAmount', renderCell: (params: any) => {
+            return <Typography variant="h4">{params.value}</Typography>
+        }, headerClassName: "headerClassName", flex: 1
+    },
+    {
+        headerName: 'قیمت', field: 'price', renderCell: (params: any) => {
+            return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
+        }, headerClassName: "headerClassName", flex: 1
+    },
+    {
+        headerName: 'کالا رسمی', field: 'productName', renderCell: (params: any) => {
+            return <Typography variant="h4">{params.value}</Typography>
+        }, headerClassName: "headerClassName", flex: 1
+    },
+    {
+        headerName: 'مقدار', field: 'proximateAmount', renderCell: (params: any) => {
+            return <Typography variant="h4">{params.value}</Typography>
+        }, headerClassName: "headerClassName", flex: 1
+    },
+    {
+        headerName: 'قیمت', field: 'price', renderCell: (params: any) => {
+            return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
+        }, headerClassName: "headerClassName", flex: 1
+    },
+];
