@@ -8,8 +8,8 @@ import { useCreateOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
 import CreateCustomer from "../customer/components/CreateCustomer";
 import { useGetCustomers } from "../customer/core/_hooks";
-import { dropdownCustomer, dropdownExitType, dropdownInvoiceType, dropdownOrderSendType, dropdownPurchaseInvoice, dropdownRentPaymentType, dropdownServices, dropdownWarehouses } from "./helpers/dropdowns";
-import { exit } from "./helpers/fakeData";
+import { dropdownCustomer, dropdownExitType, dropdownInvoiceType, dropdownOrderSendType, dropdownPurchaseInvoice, dropdownRentPaymentType, dropdownServices, dropdownTemporaryType, dropdownWarehouses } from "./helpers/dropdowns";
+import { exit, temporary } from "./helpers/fakeData";
 import Swal from 'sweetalert2'
 import { orderValidation } from "./validations/orderValidation";
 import {
@@ -42,7 +42,6 @@ import { useSnackbar } from 'notistack';
 import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
 import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
-import Backdrop from "../../../_cloner/components/Backdrop";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 
 const Order = () => {
@@ -164,6 +163,11 @@ const Order = () => {
                 return (
                     <FormikSelect
                         disabled={data?.succeeded} options={dropdownExitType(exit)} {...rest} />
+                );
+            case "temporary":
+                return (
+                    <FormikSelect
+                        disabled={data?.succeeded} options={dropdownTemporaryType(temporary)} {...rest} />
                 );
             case "description":
                 return (
@@ -479,6 +483,7 @@ const Order = () => {
                                 paymentTypeId: Number(values.paymentTypeId),
                                 customerOfficialName: "string",
                                 invoiceTypeId: Number(values.invoiceTypeId),
+                                isTemporary: +values.isTemporary === 0 ? false : true,
                                 freightName: "string",
                                 settlementDate: "1402/02/02",
                                 dischargePlaceAddress: "string",

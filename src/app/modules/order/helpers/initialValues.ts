@@ -17,6 +17,7 @@ export const orderInitialValues = {
     exitType: "1",
     orderSendTypeId: "1",
     paymentTypeId: "2",
+    isTemporary: "1",
     invoiceTypeId: "",
     customerOfficialName: "",
     // Order

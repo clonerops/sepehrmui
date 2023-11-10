@@ -13,7 +13,7 @@ export const orderColumns = (renderAction: any) => {
             field: 'registerDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
+            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'customerName', renderCell: (params: any) => {
@@ -21,18 +21,18 @@ export const orderColumns = (renderAction: any) => {
             },
             headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 160, flex: 1
         },
-        {
-            field: 'orderSendTypeDesc', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
-            },
-            headerName: 'نحوه ارسال', headerClassName: "headerClassName", minWidth: 120, flex: 1
-        },
-        {
-            field: 'paymentTypeDesc', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
-            },
-            headerName: 'نحوه پرداخت', headerClassName: "headerClassName", minWidth: 120, flex: 1
-        },
+        // {
+        //     field: 'orderSendTypeDesc', renderCell: (params: any) => {
+        //         return <Typography variant="h4">{params.value}</Typography>;
+        //     },
+        //     headerName: 'نحوه ارسال', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        // },
+        // {
+        //     field: 'paymentTypeDesc', renderCell: (params: any) => {
+        //         return <Typography variant="h4">{params.value}</Typography>;
+        //     },
+        //     headerName: 'نحوه پرداخت', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        // },
         {
             field: 'invoiceTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -40,16 +40,22 @@ export const orderColumns = (renderAction: any) => {
             headerName: 'نوع فاکتور', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: 'totalAmount', renderCell: (params: any) => {
-                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            field: 'isTemporary', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value === false ? "ثبت نهایی" : "ثبت موقت"}</Typography>;
             },
-            headerName: 'مبلغ کل', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'نوع ثبت', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: 'exitType', headerName: 'نوع خروج', renderCell: (params: any) => (
-                params.value === 1 ? <Typography className="text-green-500" variant="h4">عادی</Typography> : <Typography className="text-blue-500">بعد از تسویه</Typography>
-            ), headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
+            field: 'totalAmount', renderCell: (params: any) => {
+                return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
+        // {
+        //     field: 'exitType', headerName: 'نوع خروج', renderCell: (params: any) => (
+        //         params.value === 1 ? <Typography className="text-green-500" variant="h4">عادی</Typography> : <Typography className="text-blue-500">بعد از تسویه</Typography>
+        //     ), headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
+        // },
         { headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col

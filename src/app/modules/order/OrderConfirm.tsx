@@ -6,7 +6,7 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import { useConfirmOrder, useRetrieveOrder } from "./core/_hooks";
 import { columnsOrderConfirm, columnsOrderDetail } from "./helpers/columns";
-import { Add, AttachMoney, CancelPresentation, Edit, LocalShipping, Person, PublishedWithChanges } from "@mui/icons-material";
+import { Add, AttachMoney, CancelPresentation, Description, Edit, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import { orderFieldsConfirm } from "./helpers/fields";
@@ -16,21 +16,25 @@ import { IProducts } from "../product/core/_models";
 import FormikProximateAmount from "../product/components/FormikProximateAmount";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import { dropdownCustomer, dropdownProductByBrandName, dropdownProductByInventory } from "../generic/_functions";
-import { dropdownPurchaseInvoice } from "./helpers/dropdowns";
+import { dropdownInvoiceType, dropdownPurchaseInvoice } from "./helpers/dropdowns";
 import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { useRetrieveProductsByBrand, useRetrieveProductsByWarehouse } from "../product/core/_hooks";
 import { Form, Formik } from "formik";
+import FileUpload from "../payment/components/FileUpload";
+import FormikCheckbox from "../../../_cloner/components/FormikCheckbox";
+import { useGetInvoiceType } from "../generic/_hooks";
 
 const initialValues = {
     productName: "",
     proximateAmount: "",
     productPrice: "",
-    productNameReplace: "",
-    proximateAmountReplace: "",
-    productPriceReplace: "",
+
+    invoiceTypeDesc: "",
+    description: "",
+    invoiceTypeCheck: false
 }
 
 type Props = {
@@ -47,15 +51,18 @@ const OrderConfirm = (props: Props) => {
     const { data } = useRetrieveOrder(id)
     const { data: productsByBrand, isLoading: productByBrandLoading, isError: productByBrandError, } = useRetrieveProductsByBrand();
     const productsTools = useRetrieveProductsByWarehouse();
+    const { data: factor } = useGetInvoiceType();
 
 
-    const { mutate, data: confirmOrder, isLoading } = useConfirmOrder()
+    const { mutate, data: confirmOrder } = useConfirmOrder()
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-    const [isReplace, setIsReplace] = useState<boolean>(false); // OK
-    const [isUpdate, setIsUpdate] = useState<boolean>(false); // OK
+    const [cpData, setCpData] = useState(data?.data?.details)
+    const [selectedRow, setSelectedRow] = useState<any>([])
+    const [files, setFiles] = useState<File[]>([]);
 
-    const [replaceData, setReplaceData] = useState<any[]>([])
-
+    useEffect(() => {
+        setCpData(data?.data?.details)
+    }, [data])
 
 
     const handleConfirmOrder = () => {
@@ -71,29 +78,7 @@ const OrderConfirm = (props: Props) => {
     const orderAndAmountInfo = [
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
-        { id: 3, title: "نوع خروج", icon: <CancelPresentation color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
-        { id: 4, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc }
     ]
-
-
-    const orderServiceColumn = [
-        { id: 1, header: "بسته خدمت", accessor: "name" },
-        { id: 2, header: "هزینه", accessor: "age" }
-    ]
-
-    const orderServiceData = [
-        { id: 1, name: 'بسته بندی محصول', age: "125,577" },
-    ]
-    const orderPaymentColumn = [
-        { id: 1, header: "مبلغ", accessor: "name" },
-        { id: 2, header: "روز", accessor: "age" },
-        { id: 3, header: "تاریخ", accessor: "date" }
-    ]
-
-    const orderPaymentData = [
-        { id: 1, name: '125,844 ریال', age: "0 روز بعد از وزن", date: "1402/12/02" },
-    ]
-
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName" },
         { id: 2, header: "انبار", accessor: "warehouseName" },
@@ -101,9 +86,9 @@ const OrderConfirm = (props: Props) => {
         { id: 4, header: "قیمت", accessor: "price" },
     ]
     const orderOrderColumnReplace = [
-        { id: 5, header: "کالا رسمی", accessor: isReplace ? "productNameReplace" : "productName" },
-        { id: 6, header: "مقدار", accessor: isReplace ? "proximateAmountReplace" : "proximateAmount" },
-        { id: 7, header: "قیمت", accessor: isReplace ? "productPriceReplace" : "price" }
+        { id: 5, header: "کالا رسمی", accessor: "productName" },
+        { id: 6, header: "مقدار", accessor: "proximateAmount" },
+        { id: 7, header: "قیمت", accessor: "price" }
 
     ]
 
@@ -127,15 +112,18 @@ const OrderConfirm = (props: Props) => {
             case "disabled":
                 return <FormikInput disabled={true}  {...rest} />;
             case "add":
-                return isUpdate ? (
-                    <Button className="!bg-yellow-500">
-                        <Edit />
-                    </Button>
-                ) : (
-                    <Button onClick={() => handleReplace(values, setFieldValue)} className="!bg-[#fcc615]">
-                        <PublishedWithChanges />
-                    </Button>
-                );
+                return <Button onClick={() => handleReplace(values, setFieldValue)} className="!bg-[#fcc615]">
+                    <PublishedWithChanges />
+                </Button>
+            // return isUpdate ? (
+            //     <Button className="!bg-yellow-500">
+            //         <Edit />
+            //     </Button>
+            // ) : (
+            //     <Button onClick={() => handleReplace(values, setFieldValue)} className="!bg-[#fcc615]">
+            //         <PublishedWithChanges />
+            //     </Button>
+            // );
             default:
                 return <FormikInput {...rest} />;
         }
@@ -148,26 +136,32 @@ const OrderConfirm = (props: Props) => {
         fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
     }
 
-
-    const handleDoubleClick = (params: any, setFieldValue: any) => {
+    const handleDoubleClick = (params: any, setFieldValue: any, rowIndex: number) => {
         setFieldValue("productName", params.productName)
         setFieldValue("proximateAmount", params.proximateAmount)
         setFieldValue("productPrice", params.price)
+
+        setSelectedRow(rowIndex)
+
     }
 
     const handleReplace = (values: any, setFieldValue: any) => {
-        setFieldValue("productNameReplace", values.productNameReplace.label)
-        setFieldValue("proximateAmountReplace", values.proximateAmountReplace)
-        setFieldValue("productPriceReplace", values.productPriceReplace)
-        setReplaceData(
-            [
-                { id: 1, productNameReplace: values.productNameReplace.label, proximateAmountReplace: values.proximateAmountReplace, productPriceReplace: values.productPriceReplace },
-            ]
-        )
-        setIsReplace(true)
+        if (selectedRow !== null) {
+            const updatedData = [...cpData];
+            updatedData[selectedRow] = {
+                ...updatedData[selectedRow],
+                productName: values.productNameReplace.label,
+                proximateAmount: values.proximateAmountReplace,
+                productPrice: values.productPriceReplace,
+            };
+
+            setCpData(updatedData);
+            console.log("updatedData", updatedData)
+        }
     }
 
-    const fieldsToMap = isReplace ? orderFieldsConfirm : orderFieldsConfirm;
+
+    // const fieldsToMap = isReplace ? orderFieldsConfirm : orderFieldsConfirm;
 
 
     return (
@@ -185,7 +179,7 @@ const OrderConfirm = (props: Props) => {
             <Formik initialValues={initialValues} onSubmit={() => { }}>
                 {({ values, setFieldValue }) => {
                     return <Form>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4 my-4">
                             {orderAndAmountInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
@@ -193,20 +187,12 @@ const OrderConfirm = (props: Props) => {
                             }) => {
                                 return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
                             })}
+                            <Box component="div" className="col-span-2">
+                                <CardTitleValue title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                            </Box>
                         </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 text-right gap-4 my-4">
-                            <ReusableCard>
-                                <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
-                                <MuiTable headClassName="bg-[#E2E8F0]" columns={orderServiceColumn} data={orderServiceData} />
-                            </ReusableCard>
-                            <ReusableCard>
-                                <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
-                                <MuiTable headClassName="bg-[#E2E8F0]" columns={orderPaymentColumn} data={orderPaymentData} />
-                            </ReusableCard>
-                        </Box>
-
-                        <ReusableCard>
-                            {fieldsToMap.map((rowFields) => (
+                        <ReusableCard cardClassName="my-4">
+                            {orderFieldsConfirm.map((rowFields) => (
                                 <Box
                                     component="div"
                                     className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
@@ -221,16 +207,57 @@ const OrderConfirm = (props: Props) => {
                                 </Box>
                             ))}
                         </ReusableCard>
-
                         <ReusableCard cardClassName="my-4">
                             <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                             <Box component="div" className="flex gap-x-4">
-                                <MuiTable onDoubleClick={(_: any) => handleDoubleClick(_, setFieldValue)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} / >
-                                <MuiTable onDoubleClick={(_: any) => handleDoubleClick(_, setFieldValue)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={replaceData.length > 0 ?replaceData : data?.data?.details} columns={orderOrderColumnReplace} />
+                                <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
+                                <MuiTable headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} />
                             </Box>
-                            {/* <MuiDataGrid columns={columnsOrderConfirm} data={data?.data?.details} rows={data?.data?.details} /> */}
                         </ReusableCard>
 
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <Box component="div" className="flex flex-col">
+                                <ReusableCard >
+                                    <Typography variant="h2" color="primary" className="pb-4">افزودن پیوست</Typography>
+                                    <FileUpload files={files} setFiles={setFiles} />
+                                </ReusableCard>
+                            </Box>
+                            <Box component="div" className="flex flex-col">
+                                <ReusableCard>
+                                    <Box component="div" className="flex justify-between items-center">
+                                        <Typography variant="h2" color="primary" className="pb-4">فاکتور</Typography>
+                                        <Newspaper color="secondary" />
+                                    </Box>
+                                    <Box component="div" className="flex items-center">
+                                        <FormikCheckbox label="" name="invoiceTypeCheck" />
+                                        <Typography>آیا مایل به تغییر نوع فاکتور می باشید؟</Typography>
+                                    </Box>
+                                    <FormikSelect
+                                        disabeld={!values.invoiceTypeCheck}
+                                        options={dropdownInvoiceType(factor)}
+                                        label="" name="invoiceTypeDesc"
+                                    />
+                                </ReusableCard>
+                            </Box>
+                            <Box component="div" className="flex flex-col">
+                                <ReusableCard>
+                                    <Box component="div" className="flex justify-between items-center">
+                                        <Typography variant="h2" color="primary" className="pb-4">توضیحات</Typography>
+                                        <Description color="secondary" />
+                                    </Box>
+                                    <FormikInput
+                                        multiline
+                                        minRows={3}
+                                        label="" name="description"
+                                    />
+                                </ReusableCard>
+                            </Box>
+                        </Box>
+                        <Box component="div" className="flex justify-end items-end my-4">
+                            <Button className="!bg-[#fcc615] !text-black">
+                                <Typography className="py-2 px-4">ثبت تایید سفارش</Typography>
+                            </Button>
+                        </Box>
                     </Form>
                 }}
             </Formik>

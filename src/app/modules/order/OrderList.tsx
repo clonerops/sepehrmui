@@ -41,6 +41,7 @@ const OrderList = () => {
                         "orderSendTypeDesc",
                         "paymentTypeDesc",
                         "invoiceTypeDesc",
+                        "isTemporary",
                         "totalAmount",
                         "exitType",
                     ]}

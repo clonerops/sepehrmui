@@ -157,6 +157,9 @@ export const orderTypesFields: FieldType[][] = [
         { label: "نوع خروج", name: "exitType", type: "exitType" },
     ],
     [
+        { label: "نوع ثبت", name: "isTemporary", type: "temporary" },
+    ],
+    [
         { label: "توضیحات", name: "description", type: "description" },
     ]
 ];
