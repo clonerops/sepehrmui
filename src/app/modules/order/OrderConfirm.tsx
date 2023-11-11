@@ -1,23 +1,17 @@
-import { useLocation, useParams } from "react-router-dom";
-import { Box, Button, Typography, InputAdornment } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import { useConfirmOrder, useRetrieveOrder } from "./core/_hooks";
-import { columnsOrderConfirm, columnsOrderDetail } from "./helpers/columns";
-import { Add, AttachMoney, CancelPresentation, Description, Edit, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
+import { Description, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import { orderFieldsConfirm } from "./helpers/fields";
 import FormikPrice from "../product/components/FormikPrice";
 import FormikInput from "../../../_cloner/components/FormikInput";
-import { IProducts } from "../product/core/_models";
-import FormikProximateAmount from "../product/components/FormikProximateAmount";
-import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
-import { dropdownCustomer, dropdownProductByBrandName, dropdownProductByInventory } from "../generic/_functions";
-import { dropdownInvoiceType, dropdownPurchaseInvoice } from "./helpers/dropdowns";
-import FormikComboBox from "../../../_cloner/components/FormikComboBox";
+import { dropdownProductByInventory } from "../generic/_functions";
+import { dropdownInvoiceType } from "./helpers/dropdowns";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import { FieldType } from "../../../_cloner/components/globalTypes";
@@ -27,6 +21,7 @@ import FileUpload from "../payment/components/FileUpload";
 import FormikCheckbox from "../../../_cloner/components/FormikCheckbox";
 import { useGetInvoiceType } from "../generic/_hooks";
 import Backdrop from "../../../_cloner/components/Backdrop";
+import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64";
 
 const initialValues = {
     productName: "",
@@ -45,11 +40,10 @@ type Props = {
     isLoading: boolean;
 }
 
-const OrderConfirm = (props: Props) => {
+const OrderConfirm = () => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
-    const { data: productsByBrand, isLoading: productByBrandLoading, isError: productByBrandError, } = useRetrieveProductsByBrand();
-    const productsTools = useRetrieveProductsByWarehouse();
+    const { data: productsByBrand, } = useRetrieveProductsByBrand();
     const { data: factor } = useGetInvoiceType();
 
 
@@ -58,11 +52,19 @@ const OrderConfirm = (props: Props) => {
     const [cpData, setCpData] = useState(data?.data?.details)
     const [selectedRow, setSelectedRow] = useState<any>([])
     const [files, setFiles] = useState<File[]>([]);
+    const [base64Attachments, setBase64Attachments] = useState<string[]>([])
 
     useEffect(() => {
         setCpData(data?.data?.details)
     }, [data])
 
+
+    useEffect(() => {
+        if (files.length > 0) {
+            convertFilesToBase64(files, setBase64Attachments);
+        }
+    }, [files]);
+    
 
     const handleConfirmOrder = () => {
         if (id)
@@ -111,18 +113,9 @@ const OrderConfirm = (props: Props) => {
             case "disabled":
                 return <FormikInput disabled={true}  {...rest} />;
             case "add":
-                return <Button onClick={() => handleReplace(values, setFieldValue)} className="!bg-[#fcc615]">
+                return <Button onClick={() => handleReplace(values)} className="!bg-[#fcc615]">
                     <PublishedWithChanges />
                 </Button>
-            // return isUpdate ? (
-            //     <Button className="!bg-yellow-500">
-            //         <Edit />
-            //     </Button>
-            // ) : (
-            //     <Button onClick={() => handleReplace(values, setFieldValue)} className="!bg-[#fcc615]">
-            //         <PublishedWithChanges />
-            //     </Button>
-            // );
             default:
                 return <FormikInput {...rest} />;
         }
@@ -144,7 +137,7 @@ const OrderConfirm = (props: Props) => {
 
     }
 
-    const handleReplace = (values: any, setFieldValue: any) => {
+    const handleReplace = (values: any) => {
         if (selectedRow !== null) {
             const updatedData = [...cpData];
             updatedData[selectedRow] = {
@@ -153,14 +146,9 @@ const OrderConfirm = (props: Props) => {
                 proximateAmount: values.proximateAmountReplace,
                 productPrice: values.productPriceReplace,
             };
-
             setCpData(updatedData);
-            console.log("updatedData", updatedData)
         }
     }
-
-
-    // const fieldsToMap = isReplace ? orderFieldsConfirm : orderFieldsConfirm;
 
     if(isLoading) {
         return <Backdrop loading={isLoading} />

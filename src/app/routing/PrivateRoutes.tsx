@@ -42,8 +42,8 @@ const PrivateRoutes = () => {
             <Route path='dashboard/order' element={<Order />} />
             <Route path='dashboard/order/lists' element={<OrderList />} />
             <Route path='dashboard/order/confirm-list' element={<OrderConfirmList />} />
-            <Route path='dashboard/order/detail/:id' element={<OrderDetail data={undefined} isError={false} isLoading={false} />} />
-            <Route path='dashboard/order/confirm/:id' element={<OrderConfirm data={undefined} isError={false} isLoading={false} />} />
+            <Route path='dashboard/order/detail/:id' element={<OrderDetail  />} />
+            <Route path='dashboard/order/confirm/:id' element={<OrderConfirm  />} />
 
             <Route path="dashboard/customers" element={<Customer />} />
             <Route path="dashboard/products" element={<Products />} />

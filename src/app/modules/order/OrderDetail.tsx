@@ -26,7 +26,7 @@ type Props = {
     isLoading: boolean;
 }
 
-const OrderConfirm = (props: Props) => {
+const OrderConfirm = () => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
 
@@ -61,7 +61,7 @@ const OrderConfirm = (props: Props) => {
     return (
         <>
             <Formik initialValues={initialValues} onSubmit={() => { }}>
-                {({ values, setFieldValue }) => {
+                {({ }) => {
                     return <Form>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4 my-4">
                             {orderAndAmountInfo.map((item: {

@@ -50,7 +50,7 @@ const Confirm = () => {
             )}
             {isLoading && <Backdrop loading={isLoading} />}
             {orderLoading && <Backdrop loading={orderLoading} />}
-            <OrderDetail data={orderDetail} isLoading={orderDetailLoading} isError={orderDetailError} />
+            <OrderDetail />
             <ReusableCard cardClassName="mt-8">
                 <Typography variant="h2" color="primary">مشخصات حمل</Typography>
                 <Formik initialValues={initialValues} validationSchema={confirmValidation} onSubmit={
