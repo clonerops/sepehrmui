@@ -26,6 +26,7 @@ import { Form, Formik } from "formik";
 import FileUpload from "../payment/components/FileUpload";
 import FormikCheckbox from "../../../_cloner/components/FormikCheckbox";
 import { useGetInvoiceType } from "../generic/_hooks";
+import Backdrop from "../../../_cloner/components/Backdrop";
 
 const initialValues = {
     productName: "",
@@ -45,10 +46,8 @@ type Props = {
 }
 
 const OrderConfirm = (props: Props) => {
-    const location = useLocation();
     const { id } = useParams()
-    const { isConfirmed }: any = location.state;
-    const { data } = useRetrieveOrder(id)
+    const { data, isLoading } = useRetrieveOrder(id)
     const { data: productsByBrand, isLoading: productByBrandLoading, isError: productByBrandError, } = useRetrieveProductsByBrand();
     const productsTools = useRetrieveProductsByWarehouse();
     const { data: factor } = useGetInvoiceType();
@@ -163,6 +162,9 @@ const OrderConfirm = (props: Props) => {
 
     // const fieldsToMap = isReplace ? orderFieldsConfirm : orderFieldsConfirm;
 
+    if(isLoading) {
+        return <Backdrop loading={isLoading} />
+    }
 
     return (
         <>

@@ -7,6 +7,7 @@ import { AttachMoney, CheckBox, Description, ExitToApp, LocalShipping, Newspaper
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import { Form, Formik } from "formik";
+import Backdrop from "../../../_cloner/components/Backdrop";
 
 const initialValues = {
     productName: "",
@@ -27,10 +28,7 @@ type Props = {
 
 const OrderConfirm = (props: Props) => {
     const { id } = useParams()
-    const { data } = useRetrieveOrder(id)
-
-
-
+    const { data, isLoading } = useRetrieveOrder(id)
 
     const orderAndAmountInfo = [
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
@@ -56,7 +54,9 @@ const OrderConfirm = (props: Props) => {
         { id: 3, header: "تاریخ", accessor: "proximateAmount" },
     ]
 
-    console.log("data", data?.data)
+    if(isLoading) {
+        return <Backdrop loading={isLoading} />
+    }
 
     return (
         <>

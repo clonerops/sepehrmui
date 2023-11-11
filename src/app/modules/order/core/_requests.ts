@@ -18,6 +18,14 @@ const retrieveOrders = async () => {
         return error.response
     }
 }
+const retrieveOrdersMutation = async (pageSize: number, pageNumber: number) => {
+    try {
+        const { data } = await http.get(`/v1/Order?pageSize=${pageSize}&pageNumber=${pageNumber}`)
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
 const retrieveOrder = async (id: string | undefined) => {
     try {
         const { data } = await http.get(`/v1/Order/${id}`)
@@ -42,5 +50,6 @@ export {
     createOrder,
     retrieveOrders,
     retrieveOrder,
-    confirmOrder 
+    confirmOrder,
+    retrieveOrdersMutation 
 }
