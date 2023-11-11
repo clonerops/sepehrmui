@@ -13,7 +13,7 @@ interface TableProps {
   data: any[]; // Your data array
   columns: TableColumn[];
   onDoubleClick?: any
-  headClassName: string;
+  headClassName?: string;
   headCellTextColor?: string;
   tooltipTitle?: React.ReactNode;
 }
