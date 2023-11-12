@@ -363,6 +363,7 @@ const Order = () => {
             mainUnit: values.mainUnit,
             subUnit: values.subUnit,
             productPrice: values?.productPrice,
+            description: values.productDesc,
             rowId: values?.rowId,
         };
 
@@ -499,6 +500,7 @@ const Order = () => {
                                         numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
                                         price: item.productPrice ? Number(item.productPrice?.replace(/,/g, "")) : null,
                                         cargoSendDate: "1402/01/01",
+                                        description: item.description,
                                         buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,
                                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                                         purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,

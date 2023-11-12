@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import PositionedSnackbar from "../../../_cloner/components/Snackbar";
-import { useConfirmOrder, useRetrieveOrder } from "./core/_hooks";
+import { useApproveInvoiceType, useConfirmOrder, useRetrieveOrder } from "./core/_hooks";
 import { Description, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import MuiTable from "../../../_cloner/components/MuiTable";
@@ -29,6 +29,7 @@ const initialValues = {
     productPrice: "",
 
     invoiceTypeDesc: "",
+    invoiceTypeId: "",
     description: "",
     invoiceTypeCheck: false
 }
@@ -47,7 +48,7 @@ const OrderConfirm = () => {
     const { data: factor } = useGetInvoiceType();
 
 
-    const { mutate, data: confirmOrder } = useConfirmOrder()
+    const approveTools = useApproveInvoiceType()
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
     const [cpData, setCpData] = useState(data?.data?.details)
     const [selectedRow, setSelectedRow] = useState<any>([])
@@ -64,17 +65,8 @@ const OrderConfirm = () => {
             convertFilesToBase64(files, setBase64Attachments);
         }
     }, [files]);
-    
 
-    const handleConfirmOrder = () => {
-        if (id)
-            mutate(id, {
-                onSuccess: (message) => {
-                    setSnackeOpen(true)
-                },
 
-            })
-    }
 
     const orderAndAmountInfo = [
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
@@ -143,14 +135,40 @@ const OrderConfirm = () => {
             updatedData[selectedRow] = {
                 ...updatedData[selectedRow],
                 productName: values.productNameReplace.label,
-                proximateAmount: values.proximateAmountReplace,
-                productPrice: values.productPriceReplace,
+                alternativeProductId: values.productNameReplace.value,
+                alternativeProductAmount: +values.proximateAmountReplace,
+                alternativeProductPrice: +values.productPriceReplace.replace(/,/g, ""),
             };
             setCpData(updatedData);
         }
     }
 
-    if(isLoading) {
+    const handleConfirmOrder = (values: any) => {
+        const formData = {
+            orderId: id,
+            invoiceTypeId: values.invoiceTypeId ? values?.invoiceTypeId : approveTools?.data?.data?.invoiceTypeId,
+            invoiceApproveDescription: values.description,
+            attachments: base64Attachments,
+            orderStatusId: 2,
+            orderDetails: cpData.map((element: any) => ({
+                productId: element.productId,
+                alternativeProductId: element.alternativeProductId,
+                alternativeProductAmount: element.alternativeProductAmount,
+                alternativeProductPrice: element.alternativeProductPrice
+            }))
+        }
+        console.log(JSON.stringify(formData))
+        approveTools.mutate(formData, {
+            onSuccess: (message) => {
+                console.log("message", message)
+            },
+
+        })
+
+    }
+
+
+    if (isLoading) {
         return <Backdrop loading={isLoading} />
     }
 
@@ -161,12 +179,16 @@ const OrderConfirm = () => {
                     open={snackeOpen}
                     setState={setSnackeOpen}
                     title={
-                        confirmOrder?.data?.Message ||
-                        confirmOrder?.message || "تایید سفارش با موفقیت ثبت گردید"
+                        approveTools?.data?.data?.Message ||
+                        approveTools?.data?.message || "تایید سفارش با موفقیت ثبت گردید"
                     }
                 />
             )}
-            <Formik initialValues={initialValues} onSubmit={() => { }}>
+            <Formik initialValues={{
+                ...initialValues,
+                invoiceTypeId: data?.data?.invoiceTypeId
+            }
+            } onSubmit={handleConfirmOrder}>
                 {({ values, setFieldValue }) => {
                     return <Form>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4 my-4">
@@ -200,8 +222,8 @@ const OrderConfirm = () => {
                         <ReusableCard cardClassName="my-4">
                             <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                             <Box component="div" className="flex gap-x-4">
-                                <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
-                                <MuiTable headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} />
+                                <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
+                                <MuiTable onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} />
                             </Box>
                         </ReusableCard>
 
@@ -225,7 +247,8 @@ const OrderConfirm = () => {
                                     <FormikSelect
                                         disabeld={!values.invoiceTypeCheck}
                                         options={dropdownInvoiceType(factor)}
-                                        label="" name="invoiceTypeDesc"
+                                        label="" name="invoiceTypeId"
+                                        defaultValue={values.invoiceTypeId}
                                     />
                                 </ReusableCard>
                             </Box>
@@ -244,7 +267,7 @@ const OrderConfirm = () => {
                             </Box>
                         </Box>
                         <Box component="div" className="flex justify-end items-end my-4">
-                            <Button className="!bg-[#fcc615] !text-black">
+                            <Button onClick={() => handleConfirmOrder(values)} className="!bg-[#fcc615] !text-black">
                                 <Typography className="py-2 px-4">ثبت تایید سفارش</Typography>
                             </Button>
                         </Box>

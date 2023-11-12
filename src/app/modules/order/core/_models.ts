@@ -1,4 +1,3 @@
-import { FormikErrors } from "formik";
 import { IProducts } from "../../product/core/_models";
 
 export interface IProduct {
@@ -111,6 +110,7 @@ export interface IOrderItems {
     subUnit?: string  | null | undefined
     productPrice?: string  | null | undefined
     rowId?: string  | null | undefined
+    description?: string  | null | undefined
 }
 
 export type ProductProps = {
@@ -125,4 +125,21 @@ export type ProductProps = {
     setSelectedOrderIndex?: React.Dispatch<React.SetStateAction<number>> | undefined;
     products?: IProducts[]
     disabled?: boolean
+}
+
+export interface IApproveInvoice {
+    orderId?: string | undefined | null,
+    invoiceTypeId?: number | null | undefined,
+    invoiceApproveDescription?: string | undefined | null,
+    orderDetails?: [
+      {
+        productId: string | undefined | null,
+        alternativeProductId: string | undefined | null,
+        alternativeProductAmount: number | null | undefined,
+        alternativeProductPrice: number | null | undefined
+      }
+    ],
+    attachments?: string[] | null | undefined
+    orderStatusId?: number | null | undefined
+  
 }

@@ -31,7 +31,7 @@ const MuiTable: React.FC<TableProps> = ({ data, columns, tooltipTitle, onDoubleC
         </TableHead>
         <TableBody>
           {data?.map((row, rowIndex) => (
-            <Tooltip title={tooltipTitle}>
+            <Tooltip title={row?.description ? <Typography>{row.description}</Typography> : ""}>
               <TableRow key={rowIndex} onDoubleClick={() => onDoubleClick(row, rowIndex)} className='cursor-pointer hover:bg-blue-200 transition'>
                 {columns.map((column) => (
                   <TableCell key={column.accessor}>

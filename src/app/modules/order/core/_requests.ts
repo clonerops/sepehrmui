@@ -1,5 +1,5 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
-import { ICreateOrder } from "./_models";
+import { IApproveInvoice, ICreateOrder } from "./_models";
 
 const createOrder = async (formData: ICreateOrder) => {
     try {
@@ -43,6 +43,14 @@ const confirmOrder = async (id: string) => {
         return error.response
     }
 }
+const approveInvoiceType = async (formData: IApproveInvoice) => {
+    try {
+        const { data } = await http.put(`/v1/Order/ApproveInvoiceType`, JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
 
 
 
@@ -51,5 +59,6 @@ export {
     retrieveOrders,
     retrieveOrder,
     confirmOrder,
+    approveInvoiceType,
     retrieveOrdersMutation 
 }

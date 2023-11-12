@@ -21,7 +21,8 @@ const convertFileToBase64 = (file: File): Promise<string> => {
 
       reader.onload = () => {
         const result = reader.result as string;
-        resolve(result);
+        // resolve(result);
+        resolve(result.slice(22));
       };
 
       reader.onerror = (error) => {

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ICreateOrder } from "./_models";
+import { IApproveInvoice, ICreateOrder } from "./_models";
 import * as api from "./_requests";
 
 const useCreateOrder = () => {
@@ -12,7 +12,7 @@ const useRetrieveOrders = () => {
     return useQuery(["orders"], () => api.retrieveOrders());
 };
 const useRetrieveOrdersByMutation = () => {
-    return useMutation((formData: {pageSize: number, pageNumber: number}) => {
+    return useMutation((formData: { pageSize: number, pageNumber: number }) => {
         return api.retrieveOrdersMutation(formData.pageSize, formData.pageNumber);
     });
 };
@@ -25,5 +25,10 @@ const useConfirmOrder = () => {
         return api.confirmOrder(id);
     });
 };
+const useApproveInvoiceType = () => {
+    return useMutation((formData: IApproveInvoice) => {
+        return api.approveInvoiceType(formData);
+    });
+};
 
-export { useCreateOrder, useRetrieveOrders, useRetrieveOrder, useConfirmOrder, useRetrieveOrdersByMutation };
+export { useCreateOrder, useRetrieveOrders, useRetrieveOrder, useConfirmOrder, useApproveInvoiceType, useRetrieveOrdersByMutation };
