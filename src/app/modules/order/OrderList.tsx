@@ -11,13 +11,12 @@ import {
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { orderColumns } from "./helpers/columns";
 import Pagination from "../../../_cloner/components/Pagination";
-import Backdrop from "../../../_cloner/components/Backdrop";
 
 const pageSize = 20
 
 const OrderList = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
-    
+
     let formData = {
         pageNumber: currentPage,
         pageSize: pageSize,    
@@ -81,7 +80,7 @@ const OrderList = () => {
                 data={orders?.data}
                 isLoading={isLoading}
             />
-            <Pagination pageCount={20} onPageChange={handlePageChange} />
+            <Pagination pageCount={orders?.totalCount / pageSize} onPageChange={handlePageChange} />
         </ReusableCard>
     );
 };

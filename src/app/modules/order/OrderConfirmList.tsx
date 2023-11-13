@@ -91,7 +91,7 @@ const OrderConfirmList = () => {
                 data={orders?.data}
                 isLoading={isLoading}
             />
-            <Pagination pageCount={20} onPageChange={handlePageChange} />
+            <Pagination pageCount={orders?.totalCount / pageSize} onPageChange={handlePageChange} />
         </ReusableCard>
     );
 };
