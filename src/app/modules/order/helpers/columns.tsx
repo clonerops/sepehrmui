@@ -46,6 +46,13 @@ export const orderColumns = (renderAction: any) => {
             headerName: 'نوع ثبت', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
+            field: 'confirmedStatus', renderCell: (params: any) => {
+                return params.value === false ? <Typography className="border-2 border-red-500 text-red-500 rounded-[4px] px-3 py-1">عدم تایید</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">تایید</Typography>
+                // return <Typography variant="h4">{params.value === false ? "عدم تایید" : "تایید"}</Typography>;
+            },
+            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
             field: 'totalAmount', renderCell: (params: any) => {
                 return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.value)}</Typography>;
             },

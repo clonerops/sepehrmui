@@ -22,6 +22,8 @@ import FormikCheckbox from "../../../_cloner/components/FormikCheckbox";
 import { useGetInvoiceType } from "../generic/_hooks";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64";
+import { enqueueSnackbar } from "notistack";
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 
 const initialValues = {
     productName: "",
@@ -54,6 +56,7 @@ const OrderConfirm = () => {
     const [selectedRow, setSelectedRow] = useState<any>([])
     const [files, setFiles] = useState<File[]>([]);
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
+    const [notApprove, setNotApprove] = useState<boolean>(false);
 
     useEffect(() => {
         setCpData(data?.data?.details)
@@ -143,13 +146,13 @@ const OrderConfirm = () => {
         }
     }
 
-    const handleConfirmOrder = (values: any) => {
+    const handleConfirmOrder = (values: any, statusId: number) => {
         const formData = {
             orderId: id,
             invoiceTypeId: values.invoiceTypeId ? values?.invoiceTypeId : approveTools?.data?.data?.invoiceTypeId,
             invoiceApproveDescription: values.description,
             attachments: base64Attachments,
-            orderStatusId: 2,
+            orderStatusId: statusId,
             orderDetails: cpData.map((element: any) => ({
                 productId: element.productId,
                 alternativeProductId: element.alternativeProductId,
@@ -157,14 +160,18 @@ const OrderConfirm = () => {
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
-        console.log(JSON.stringify(formData))
         approveTools.mutate(formData, {
             onSuccess: (message) => {
-                console.log("message", message)
+                if(message.succeeded) {
+                    enqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", {
+                        variant: `${statusId === 2 ? "success" : "warning" }`,
+                        anchorOrigin: { vertical: "top", horizontal: "center" }
+                    }) 
+
+                }
             },
 
         })
-
     }
 
 
@@ -188,7 +195,7 @@ const OrderConfirm = () => {
                 ...initialValues,
                 invoiceTypeId: data?.data?.invoiceTypeId
             }
-            } onSubmit={handleConfirmOrder}>
+            } onSubmit={(_) => handleConfirmOrder(_, 0)}>
                 {({ values, setFieldValue }) => {
                     return <Form>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4 my-4">
@@ -266,11 +273,22 @@ const OrderConfirm = () => {
                                 </ReusableCard>
                             </Box>
                         </Box>
-                        <Box component="div" className="flex justify-end items-end my-4">
-                            <Button onClick={() => handleConfirmOrder(values)} className="!bg-[#fcc615] !text-black">
+                        <Box component="div" className="flex justify-end items-end gap-x-4 my-4 ">
+                            <Button onClick={() => handleConfirmOrder(values, 2)} className="!bg-[#fcc615] !text-black">
                                 <Typography className="py-2 px-4">ثبت تایید سفارش</Typography>
                             </Button>
+                            <Button onClick={() => setNotApprove(true)} className="!bg-[#D80032] !text-white">
+                                <Typography className="py-2 px-4">عدم تایید سفارش</Typography>
+                            </Button>
                         </Box>
+                        <ConfirmDialog
+                            open={notApprove}
+                            hintTitle="آیا از عدم تایید سفارش مطمئن هستید؟"
+                            notConfirmText="لغو"
+                            confirmText="عدم تایید"
+                            onCancel={() => setNotApprove(false)}
+                            onConfirm={() => handleConfirmOrder(values, 3)}
+                        />
                     </Form>
                 }}
             </Formik>
