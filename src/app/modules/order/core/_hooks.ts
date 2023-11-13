@@ -8,8 +8,14 @@ const useCreateOrder = () => {
     });
 };
 
-const useRetrieveOrders = () => {
-    return useQuery(["orders"], () => api.retrieveOrders());
+const useRetrieveOrders = (formData: {
+    pageNumber?: number;
+    pageSize?: number;
+    InvoiceTypeId?: number;
+    OrderStatusId?: number;
+}) => {
+    // return useQuery(["orders"], () => api.retrieveOrders());
+    return useQuery(["orders", formData], () => api.retrieveOrders(formData));
 };
 const useRetrieveOrdersByMutation = () => {
     return useMutation((formData: { pageSize: number, pageNumber: number }) => {

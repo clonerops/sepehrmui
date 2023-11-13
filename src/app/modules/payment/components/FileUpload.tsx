@@ -97,9 +97,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles }) => {
       </Box>
       <Box component="div">
         <Typography className="pt-4">فایل های انتخاب شده:</Typography>
-        <Box component="ul" className="mt-8">
+        <Box component="ul" className="mt-8 flex gap-x-4">
           {files.map((file, index) => (
-            <Box component="li" className="text-xl" key={index}>
+            <Box component="li" className="text-xl " key={index}>
               {/* {file.name} */}
               <img
                 src={URL.createObjectURL(file)}

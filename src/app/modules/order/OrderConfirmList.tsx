@@ -9,9 +9,21 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { orderColumns } from "./helpers/columns";
 import { Form, Formik } from "formik";
 import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
+import Pagination from "../../../_cloner/components/Pagination";
+
+const pageSize = 20
+
 
 const OrderConfirmList = () => {
-    const { data: orders } = useRetrieveOrders();
+
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
+    let formData = {
+        pageNumber: currentPage,
+        pageSize: pageSize,    
+    }
+
+    const { data: orders, isLoading } = useRetrieveOrders(formData);
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
@@ -33,10 +45,13 @@ const OrderConfirmList = () => {
 
     const allOption = [
         { value: "-1", label: "همه" },
-        { value: "0", label: "تایید شده" },
-        { value: "1", label: "تایید نشده" }];
+        { value: "2", label: "تایید شده" },
+        { value: "3", label: "تایید نشده" }];
     const radioData = [...allOption];
 
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
 
     return (
         <ReusableCard>
@@ -74,7 +89,9 @@ const OrderConfirmList = () => {
                 columns={orderColumns(renderAction)}
                 rows={results}
                 data={orders?.data}
+                isLoading={isLoading}
             />
+            <Pagination pageCount={20} onPageChange={handlePageChange} />
         </ReusableCard>
     );
 };

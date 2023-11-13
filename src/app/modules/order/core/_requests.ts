@@ -1,4 +1,5 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
 import { IApproveInvoice, ICreateOrder } from "./_models";
 
 const createOrder = async (formData: ICreateOrder) => {
@@ -10,14 +11,35 @@ const createOrder = async (formData: ICreateOrder) => {
     }
 }
 
-const retrieveOrders = async () => {
+// const retrieveOrders = async () => {
+//     try {
+//         const { data } = await http.get(`/v1/Order`)
+//         return data
+//     } catch (error: any) {
+//         return error.response
+//     }
+// }
+
+const retrieveOrders = async (formData: {
+    pageNumber?: number;
+    pageSize?: number;
+    InvoiceTypeId?: number;
+    OrderStatusId?: number;
+}) => {
+    const filter = {
+        pageNumber: formData.pageNumber,
+        pageSize: formData.pageSize,
+      };
+    
     try {
-        const { data } = await http.get(`/v1/Order`)
+        const { data } = await http.get(`${generateURLQueryParam("/v1/Order", filter)}`)
         return data
     } catch (error: any) {
         return error.response
     }
 }
+
+
 const retrieveOrdersMutation = async (pageSize: number, pageNumber: number) => {
     try {
         const { data } = await http.get(`/v1/Order?pageSize=${pageSize}&pageNumber=${pageNumber}`)

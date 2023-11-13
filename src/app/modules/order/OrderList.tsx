@@ -1,44 +1,36 @@
 import { useEffect, useState } from "react";
-import { useRetrieveOrders, useRetrieveOrdersByMutation } from "./core/_hooks";
+import { useRetrieveOrders } from "./core/_hooks";
 import { Link } from "react-router-dom";
 import { IOrder } from "./core/_models";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import {
-    KeyboardArrowLeft,
-    KeyboardArrowRight,
     Visibility,
 } from "@mui/icons-material";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { orderColumns } from "./helpers/columns";
-import ReactPaginate from "react-paginate";
-import PaginationComponent from "../../../_cloner/components/Pagination";
 import Pagination from "../../../_cloner/components/Pagination";
+import Backdrop from "../../../_cloner/components/Backdrop";
+
+const pageSize = 20
 
 const OrderList = () => {
-    const { data: orders } = useRetrieveOrders();
-    // const { mutate, data: orders } = useRetrieveOrdersByMutation();
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    
+    let formData = {
+        pageNumber: currentPage,
+        pageSize: pageSize,    
+    }
+
+    const { data: orders, isLoading } = useRetrieveOrders(formData);
+
     const [results, setResults] = useState<IOrder[]>([]);
-    const [currentPage, setCurrentPage] = useState<number>(0);
-    const [pageSize, setPageSize] = useState<number>(200);
-    const [pageNumber, setPageNumber] = useState<number>(0);
 
     useEffect(() => {
         setResults(orders?.data);
     }, [orders?.data]);
 
-    // useEffect(() => {
-    //     const formData = {
-    //         pageSize,
-    //         pageNumber
-    //     }
-    //     mutate(formData, {
-    //         onSuccess: (message) => {
-    //             setResults(message?.data);
-    //         }
-    //     })
-    // }, [pageSize, pageNumber]);
 
     const renderAction = (item: any) => {
         return (
@@ -51,13 +43,10 @@ const OrderList = () => {
         );
     };
 
-    // const handlePageChange = (selectedItem: { selected: number }) => {
-    //     setPageNumber(selectedItem.selected);
-    // };
-
-    // console.log("pageSize", pageSize)
-    // console.log("setPageNumber", pageNumber)
-
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
+    
     return (
         <ReusableCard>
             <Typography
@@ -90,8 +79,9 @@ const OrderList = () => {
                 columns={orderColumns(renderAction)}
                 rows={results}
                 data={orders?.data}
+                isLoading={isLoading}
             />
-            {/* <Pagination pageCount={10} onPageChange={handlePageChange} /> */}
+            <Pagination pageCount={20} onPageChange={handlePageChange} />
         </ReusableCard>
     );
 };

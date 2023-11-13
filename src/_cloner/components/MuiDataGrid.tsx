@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+import Backdrop from "./Backdrop";
 
 type Props = {
     columns: any;
@@ -10,6 +11,7 @@ type Props = {
     width?: number;
     maxVisibleRows?: number;
     customRowStyle?: boolean;
+    isLoading?: boolean;
 };
 
 export default function MuiDataGrid(props: Props) {
@@ -37,6 +39,11 @@ export default function MuiDataGrid(props: Props) {
 
         return className;
     };
+
+    if(props.isLoading) {
+        return <Backdrop loading={props.isLoading} />
+    }
+
 
     return (
         <Box sx={{ width: width }}>

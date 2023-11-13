@@ -178,9 +178,6 @@ export const orderFieldsConfirm: FieldType[][] = [
             name: "productPrice",
             type: "disabled",
         },
-    ],
-    [
-    
         { label: "کالا رسمی", name: "productNameReplace", type: "product" },
         {
             label: "مقدار",
@@ -198,4 +195,7 @@ export const orderFieldsConfirm: FieldType[][] = [
             type: "add",
         },
     ],
+    // [
+    
+    // ],
 ];

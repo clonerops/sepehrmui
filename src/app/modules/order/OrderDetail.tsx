@@ -8,6 +8,9 @@ import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import { Form, Formik } from "formik";
 import Backdrop from "../../../_cloner/components/Backdrop";
+import moment from "moment-jalaali";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import ReusableTab from "../../../_cloner/components/ReusableTab";
 
 const initialValues = {
     productName: "",
@@ -49,17 +52,23 @@ const OrderConfirm = () => {
         { id: 2, header: "هزینه", accessor: "description" },
     ]
     const orderPaymentsColumn = [
-        { id: 1, header: "مبلغ", accessor: "productName" },
-        { id: 2, header: "روز", accessor: "warehouseName" },
-        { id: 3, header: "تاریخ", accessor: "proximateAmount" },
+        { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },
+        { id: 2, header: "روز", accessor: "daysAfterExit" },
+        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate" , render: (params: any) => moment(params.paymentDate).format('jYYYY/jMM/jDD') },
     ]
 
     if(isLoading) {
         return <Backdrop loading={isLoading} />
     }
 
+//       const tabsData = [
+//     { label: "Tab 1", content: <div>Content for Tab 1</div> },
+//     { label: "Tab 2", content: <div>Content for Tab 2</div> },
+//     { label: "Tab 3", content: <div>Content for Tab 3</div> },
+//   ];
     return (
         <>
+            {/* <ReusableTab /> */}
             <Formik initialValues={initialValues} onSubmit={() => { }}>
                 {({ }) => {
                     return <Form>
@@ -87,6 +96,11 @@ const OrderConfirm = () => {
                             <ReusableCard>
                                 <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
                                 <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => {}} />
+                            </ReusableCard>
+                        </Box>
+                        <Box component="div" className="my-4">
+                            <ReusableCard>
+                                <Typography variant="h2" color="primary" className="pb-4">ضمیمه ها</Typography>
                             </ReusableCard>
                         </Box>
                     </Form>
