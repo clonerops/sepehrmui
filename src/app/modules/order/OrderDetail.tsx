@@ -36,7 +36,7 @@ const OrderConfirm = () => {
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialName},
+        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.officialName},
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
         { id: 4, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
@@ -103,7 +103,7 @@ const OrderConfirm = () => {
                         <Box component="div" className="my-4">
                             <ReusableCard>
                                 <Typography variant="h2" color="primary" className="pb-4">ضمیمه ها</Typography>
-                                <ImagePreview base64Strings={data?.data?.attachments} />
+                                {/* <ImagePreview base64Strings={data?.data?.attachments} /> */}
                             </ReusableCard>
                         </Box>
                     </Form>
