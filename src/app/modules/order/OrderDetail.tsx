@@ -10,7 +10,7 @@ import { Form, Formik } from "formik";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import moment from "moment-jalaali";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
-import ReusableTab from "../../../_cloner/components/ReusableTab";
+import ImagePreview from "../../../_cloner/components/ImagePreview";
 
 const initialValues = {
     productName: "",
@@ -34,7 +34,9 @@ const OrderConfirm = () => {
     const { data, isLoading } = useRetrieveOrder(id)
 
     const orderAndAmountInfo = [
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialName},
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
         { id: 4, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
@@ -51,11 +53,11 @@ const OrderConfirm = () => {
         { id: 1, header: "نوع خدمت", accessor: "service", render: (params: any) => <Typography>{params.service.description}</Typography> },
         { id: 2, header: "هزینه", accessor: "description" },
     ]
-    const orderPaymentsColumn = [
-        { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },
-        { id: 2, header: "روز", accessor: "daysAfterExit" },
-        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate" , render: (params: any) => moment(params.paymentDate).format('jYYYY/jMM/jDD') },
-    ]
+    // const orderPaymentsColumn = [
+    //     { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },
+    //     { id: 2, header: "روز", accessor: "daysAfterExit" },
+    //     { id: 3, header: "تاریخ تسویه", accessor: "paymentDate" , render: (params: any) => moment(params.paymentDate).format('jYYYY/jMM/jDD') },
+    // ]
 
     if(isLoading) {
         return <Backdrop loading={isLoading} />
@@ -66,13 +68,15 @@ const OrderConfirm = () => {
 //     { label: "Tab 2", content: <div>Content for Tab 2</div> },
 //     { label: "Tab 3", content: <div>Content for Tab 3</div> },
 //   ];
+    console.log("data", data?.data)
     return (
         <>
             {/* <ReusableTab /> */}
             <Formik initialValues={initialValues} onSubmit={() => { }}>
                 {({ }) => {
                     return <Form>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4 my-4">
+                        {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4 my-4"> */}
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
                             {orderAndAmountInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
@@ -80,11 +84,9 @@ const OrderConfirm = () => {
                             }) => {
                                 return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
                             })}
-                            <Box component="div" className="col-span-2">
-                                <CardTitleValue title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
-                            </Box>
+                            <CardTitleValue className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                         </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <ReusableCard>
                                 <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
                                 <MuiTable data={data?.data?.orderServices} columns={orderServicesColumn} onDoubleClick={() => {}} />
@@ -93,14 +95,15 @@ const OrderConfirm = () => {
                                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                                 <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => {}} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                             </ReusableCard>
-                            <ReusableCard>
+                            {/* <ReusableCard>
                                 <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
                                 <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => {}} />
-                            </ReusableCard>
+                            </ReusableCard> */}
                         </Box>
                         <Box component="div" className="my-4">
                             <ReusableCard>
                                 <Typography variant="h2" color="primary" className="pb-4">ضمیمه ها</Typography>
+                                <ImagePreview base64Strings={data?.data?.attachments} />
                             </ReusableCard>
                         </Box>
                     </Form>
