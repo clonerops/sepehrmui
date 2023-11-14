@@ -48,14 +48,13 @@ const OrderConfirm = () => {
     const orderPaymentsColumn = [
         { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },
         { id: 2, header: "روز", accessor: "daysAfterExit" },
-        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate" , render: (params: any) => moment(params.paymentDate).format('jYYYY/jMM/jDD') },
+        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate" , render: (params: any) => moment(params.paymentDate).format('jYYYYjMM/jDD') },
     ]
 
     if(isLoading) {
         return <Backdrop loading={isLoading} />
     }
 
-    console.log("data", data?.data)
     return (
         <>
             {/* <ReusableTab /> */}
