@@ -20,7 +20,8 @@ const OrderConfirmList = () => {
 
     let formData = {
         pageNumber: currentPage,
-        pageSize: pageSize,    
+        pageSize: pageSize, 
+        InvoiceTypeId: [1, 2],   
     }
 
     const { data: orders, isLoading } = useRetrieveOrders(formData);
@@ -45,8 +46,8 @@ const OrderConfirmList = () => {
 
     const allOption = [
         { value: "-1", label: "همه" },
-        { value: "2", label: "تایید شده" },
-        { value: "3", label: "تایید نشده" }];
+        { value: "2", label: "تایید شده حسابداری" },
+        { value: "1", label: "جدید" }];
     const radioData = [...allOption];
 
     const handlePageChange = (selectedItem: { selected: number }) => {

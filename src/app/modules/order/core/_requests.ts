@@ -23,12 +23,13 @@ const createOrder = async (formData: ICreateOrder) => {
 const retrieveOrders = async (formData: {
     pageNumber?: number;
     pageSize?: number;
-    InvoiceTypeId?: number;
+    InvoiceTypeId?: number[];
     OrderStatusId?: number;
 }) => {
     const filter = {
         pageNumber: formData.pageNumber,
         pageSize: formData.pageSize,
+        InvoiceTypeId: formData.InvoiceTypeId
       };
     
     try {

@@ -72,7 +72,9 @@ const OrderConfirm = () => {
 
 
     const orderAndAmountInfo = [
+        { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.officialName },
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
     ]
     const orderOrderColumnMain = [
@@ -206,9 +208,7 @@ const OrderConfirm = () => {
                             }) => {
                                 return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
                             })}
-                            <Box component="div" className="col-span-2">
-                                <CardTitleValue title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
-                            </Box>
+                                <CardTitleValue className="col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                         </Box>
                         <ReusableCard cardClassName="my-4">
                             {orderFieldsConfirm.map((rowFields) => (

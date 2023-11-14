@@ -11,7 +11,7 @@ const useCreateOrder = () => {
 const useRetrieveOrders = (formData: {
     pageNumber?: number;
     pageSize?: number;
-    InvoiceTypeId?: number;
+    InvoiceTypeId?: number[];
     OrderStatusId?: number;
 }) => {
     // return useQuery(["orders"], () => api.retrieveOrders());
