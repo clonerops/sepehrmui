@@ -17,19 +17,25 @@ const pageSize = 20
 const OrderConfirmList = () => {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
-
-    let formData = {
+    const [filterData, setFilterData] = useState<{
+        pageNumber: number;
+        pageSize: number;
+        InvoiceTypeId: number[];
+        OrderStatusId?: number    
+    }>({
         pageNumber: currentPage,
         pageSize: pageSize, 
         InvoiceTypeId: [1, 2],   
-    }
+    })
 
-    const { data: orders, isLoading } = useRetrieveOrders(formData);
+    const { data: orders, isLoading , refetch} = useRetrieveOrders(filterData);
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
         setResults(orders?.data);
-    }, [orders?.data]);
+    }, [orders?.data, filterData]);
+
+
 
     const renderAction = (item: any) => {
         return (
@@ -53,6 +59,27 @@ const OrderConfirmList = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
+
+    const handleFilterBasedofStatus = (values: any) => {
+        if(+values.statusId === 1) {
+            setFilterData({
+                pageNumber: currentPage,
+                pageSize: pageSize, 
+                InvoiceTypeId: [1, 2],
+                OrderStatusId: 1                
+            })
+
+        }  else if(+values.statusId === 2) {
+            setFilterData({
+                pageNumber: currentPage,
+                pageSize: pageSize, 
+                InvoiceTypeId: [1, 2],
+                OrderStatusId: 2                
+            })
+
+        }
+        refetch()
+    }
 
     return (
         <ReusableCard>
@@ -78,10 +105,10 @@ const OrderConfirmList = () => {
                         setResults={setResults}
                     />
                 </Box>
-                <Formik initialValues={{ warehouseId: "-1" }} onSubmit={() => { }}>
-                    {({ }) => {
+                <Formik initialValues={{ statusId: "-1" }} onSubmit={() => { }}>
+                    {({ values }) => {
                         return <Form>
-                            <FormikRadioGroup onChange={() => { }} radioData={radioData} name="warehouseId" />
+                            <FormikRadioGroup radioData={radioData} name="statusId" />
                         </Form>
                     }}
                 </Formik>

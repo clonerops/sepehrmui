@@ -26,7 +26,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
     };
 
     return (
-        <>
+        <Box component="div" className="flex flex-wrap gap-x-8">
             {/* Display the image previews */}
             {dataURLs.map((dataURL, index) => (
                 <Box component="div" key={index}>
@@ -57,7 +57,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
                     )}
                 </Box>
             ))}
-        </>
+        </Box>
     );
 };
 

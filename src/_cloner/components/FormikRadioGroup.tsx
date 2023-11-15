@@ -36,8 +36,6 @@ const FormikRadioGroup = (props: Props) => {
         }
     };
 
-    console.log("value", field.value)
-
     return (
         <Box component="div">
             <FormControl>
@@ -48,7 +46,8 @@ const FormikRadioGroup = (props: Props) => {
                     {...field}
                     {...rest}
                     {...formikValidation}
-                    value={field.value === "" ? -1 : field.value}                    onChange={handleRadioChange}
+                    value={field.value === "" ? -1 : field.value}
+                    onChange={handleRadioChange}
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                 >
@@ -60,10 +59,12 @@ const FormikRadioGroup = (props: Props) => {
                             label={
                                 <>
                                     <Box
-                                        className={`rounded-md py-2 px-4 ${Number(field.value) === Number(item.value)
+                                        className={`rounded-md py-2 px-4 ${
+                                            Number(field.value) ===
+                                            Number(item.value)
                                                 ? "bg-[#272862] text-white"
                                                 : "bg-gray-200"
-                                            }`}
+                                        }`}
                                     >
                                         {item.label}
                                     </Box>

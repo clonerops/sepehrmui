@@ -36,32 +36,22 @@ const initialValues = {
     invoiceTypeCheck: false
 }
 
-type Props = {
-    data: any | undefined;
-    isConfirm?: boolean;
-    isError: boolean;
-    isLoading: boolean;
-}
-
 const OrderConfirm = () => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
     const { data: productsByBrand, } = useRetrieveProductsByBrand();
     const { data: factor } = useGetInvoiceType();
 
-
     const approveTools = useApproveInvoiceType()
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
     const [cpData, setCpData] = useState(data?.data?.details)
     const [selectedRow, setSelectedRow] = useState<any>([])
     const [files, setFiles] = useState<File[]>([]);
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
-    const [notApprove, setNotApprove] = useState<boolean>(false);
+    const [approve, setApprove] = useState<boolean>(false);
 
     useEffect(() => {
         setCpData(data?.data?.details)
     }, [data])
-
 
     useEffect(() => {
         if (files.length > 0) {
@@ -69,20 +59,20 @@ const OrderConfirm = () => {
         }
     }, [files]);
 
-
-
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.officialName },
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
     ]
+
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName" },
         { id: 2, header: "انبار", accessor: "warehouseName" },
         { id: 3, header: "مقدار", accessor: "proximateAmount" },
         { id: 4, header: "قیمت", accessor: "price" },
     ]
+
     const orderOrderColumnReplace = [
         { id: 5, header: "کالا رسمی", accessor: "productName" },
         { id: 6, header: "مقدار", accessor: "proximateAmount" },
@@ -155,28 +145,26 @@ const OrderConfirm = () => {
             invoiceApproveDescription: values.description,
             attachments: base64Attachments,
             orderStatusId: statusId,
-            orderDetails: cpData.map((element: any) => ({
-                productId: element.productId,
+            details: cpData.map((element: any) => ({
+                id: element.id,
                 alternativeProductId: element.alternativeProductId,
                 alternativeProductAmount: element.alternativeProductAmount,
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
-        console.log(JSON.stringify(formData))
         approveTools.mutate(formData, {
             onSuccess: (message) => {
                 if(message.succeeded) {
+                    setApprove(false) 
                     enqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", {
                         variant: `${statusId === 2 ? "success" : "warning" }`,
                         anchorOrigin: { vertical: "top", horizontal: "center" }
-                    }) 
-
+                    })
                 }
             },
 
         })
     }
-
 
     if (isLoading) {
         return <Backdrop loading={isLoading} />
@@ -184,16 +172,6 @@ const OrderConfirm = () => {
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        approveTools?.data?.data?.Message ||
-                        approveTools?.data?.message || "تایید سفارش با موفقیت ثبت گردید"
-                    }
-                />
-            )}
             <Formik initialValues={{
                 ...initialValues,
                 invoiceTypeId: data?.data?.invoiceTypeId
@@ -275,20 +253,17 @@ const OrderConfirm = () => {
                             </Box>
                         </Box>
                         <Box component="div" className="flex justify-end items-end gap-x-4 my-4 ">
-                            <Button onClick={() => handleConfirmOrder(values, 2)} className="!bg-[#fcc615] !text-black">
+                            <Button onClick={() => setApprove(true)} className="!bg-[#fcc615] !text-black">
                                 <Typography className="py-2 px-4">ثبت تایید سفارش</Typography>
-                            </Button>
-                            <Button onClick={() => setNotApprove(true)} className="!bg-[#D80032] !text-white">
-                                <Typography className="py-2 px-4">عدم تایید سفارش</Typography>
                             </Button>
                         </Box>
                         <ConfirmDialog
-                            open={notApprove}
-                            hintTitle="آیا از عدم تایید سفارش مطمئن هستید؟"
+                            open={approve}
+                            hintTitle="آیا از تایید سفارش مطمئن هستید؟"
                             notConfirmText="لغو"
-                            confirmText="عدم تایید"
-                            onCancel={() => setNotApprove(false)}
-                            onConfirm={() => handleConfirmOrder(values, 3)}
+                            confirmText="تایید"
+                            onCancel={() => setApprove(false)}
+                            onConfirm={() => handleConfirmOrder(values, 2)}
                         />
                     </Form>
                 }}
