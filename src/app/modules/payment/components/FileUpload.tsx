@@ -57,6 +57,7 @@
 
 // export default FileUpload;
 import { Box, Button, Typography } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 
@@ -67,8 +68,19 @@ interface FileUploadProps {
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles }) => {
+
+
   const onDrop = (acceptedFiles: File[]) => {
     setFiles([...files, ...acceptedFiles]);
+    console.log("acceptedFiles", acceptedFiles)
+
+    // if (acceptedFiles[0] && acceptedFiles[0].size > maxSize) {
+    if (acceptedFiles.length === 0) {
+      enqueueSnackbar("سایز فایل بیش از 200kb می باشد", {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "center" }
+      })
+    }
   };
 
   const removeFile = (file: File) => {
@@ -82,7 +94,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles }) => {
       'image/jpeg': ['.jpeg', '.jpg', '.Jpeg', '.JPG'],
       'image/png': ['.png', '.Png', '.PNG'],
     },
-    maxSize: 5242880,
+    // maxSize: 5242880,
+    maxSize: 209600, // 60KB in bytes (1KB = 1024 bytes)
+
   });
 
   return (

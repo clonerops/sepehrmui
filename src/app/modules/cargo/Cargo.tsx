@@ -6,7 +6,7 @@ import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { useEffect, useState } from "react";
 import { ICargo } from "./core/_models";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { columnsCargo } from "./helpers/columns";
+import { cargoColumns } from "./helpers/columns";
 import RecommendIcon from '@mui/icons-material/Recommend';
 const Cargo = () => {
     const { data: cargoNotSended } = useRetrievesNotSendedOrder();
@@ -51,7 +51,7 @@ const Cargo = () => {
                 />
             </Box>
             <MuiDataGrid
-                columns={columnsCargo(renderAction)}
+                columns={cargoColumns(renderAction)}
                 rows={results}
                 data={cargoNotSended}
             />

@@ -41,9 +41,21 @@ const retrieveOrders = async (formData: {
 }
 
 
-const retrieveOrdersMutation = async (pageSize: number, pageNumber: number) => {
+const retrieveOrdersMutation = async (formData: {
+    pageNumber?: number;
+    pageSize?: number;
+    InvoiceTypeId?: number[];
+    OrderStatusId?: number;
+}) => {
+    const filter = {
+        pageNumber: formData.pageNumber,
+        pageSize: formData.pageSize,
+        InvoiceTypeId: formData.InvoiceTypeId,
+        OrderStatusId: formData.OrderStatusId,
+      };
+
     try {
-        const { data } = await http.get(`/v1/Order?pageSize=${pageSize}&pageNumber=${pageNumber}`)
+        const { data } = await http.get(`${generateURLQueryParam("/v1/Order", filter)}`)
         return data
     } catch (error: any) {
         return error.response

@@ -21,18 +21,6 @@ export const orderColumns = (renderAction: any) => {
             },
             headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 160, flex: 1
         },
-        // {
-        //     field: 'orderSendTypeDesc', renderCell: (params: any) => {
-        //         return <Typography variant="h4">{params.value}</Typography>;
-        //     },
-        //     headerName: 'نحوه ارسال', headerClassName: "headerClassName", minWidth: 120, flex: 1
-        // },
-        // {
-        //     field: 'paymentTypeDesc', renderCell: (params: any) => {
-        //         return <Typography variant="h4">{params.value}</Typography>;
-        //     },
-        //     headerName: 'نحوه پرداخت', headerClassName: "headerClassName", minWidth: 120, flex: 1
-        // },
         {
             field: 'invoiceTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -48,9 +36,8 @@ export const orderColumns = (renderAction: any) => {
         {
             field: 'orderStatusId', renderCell: (params: any) => {
                 return params.value === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.orderStatusDesc}</Typography>
-                // return <Typography variant="h4">{params.value === false ? "عدم تایید" : "تایید"}</Typography>;
             },
-            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
         },
         {
             field: 'totalAmount', renderCell: (params: any) => {
@@ -58,11 +45,6 @@ export const orderColumns = (renderAction: any) => {
             },
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        // {
-        //     field: 'exitType', headerName: 'نوع خروج', renderCell: (params: any) => (
-        //         params.value === 1 ? <Typography className="text-green-500" variant="h4">عادی</Typography> : <Typography className="text-blue-500">بعد از تسویه</Typography>
-        //     ), headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
-        // },
         { headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col

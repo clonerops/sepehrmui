@@ -166,7 +166,7 @@ export const orderTypesFields: FieldType[][] = [
 
 export const orderFieldsConfirm: FieldType[][] = [
     [
-    
+
         { label: "کالا", name: "productName", type: "disabled" },
         {
             label: "مقدار",
@@ -178,6 +178,29 @@ export const orderFieldsConfirm: FieldType[][] = [
             name: "productPrice",
             type: "disabled",
         },
+        {
+            label: "",
+            name: "",
+            type: "hidden",
+        },
+        // { label: "کالا رسمی", name: "productNameReplace", type: "product" },
+        // {
+        //     label: "مقدار",
+        //     name: "proximateAmountReplace",
+        //     type: "input",
+        // },
+        // {
+        //     label: "قیمت",
+        //     name: "productPriceReplace",
+        //     type: "price",
+        // },
+        // {
+        //     label: "",
+        //     name: "",
+        //     type: "add",
+        // },
+    ],
+    [
         { label: "کالا رسمی", name: "productNameReplace", type: "product" },
         {
             label: "مقدار",
@@ -195,7 +218,4 @@ export const orderFieldsConfirm: FieldType[][] = [
             type: "add",
         },
     ],
-    // [
-    
-    // ],
 ];

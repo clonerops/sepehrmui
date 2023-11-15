@@ -27,13 +27,18 @@ const useRetrieveOrders = (formData: {
 
 };
 const useRetrieveOrdersByMutation = () => {
-    return useMutation((formData: { pageSize: number, pageNumber: number }) => {
-        return api.retrieveOrdersMutation(formData.pageSize, formData.pageNumber);
+    return useMutation((formData: {
+        pageNumber?: number;
+        pageSize?: number;
+        InvoiceTypeId?: number[];
+        OrderStatusId?: number;
+    }) => {
+        return api.retrieveOrdersMutation(formData);
     });
 };
 
 const useRetrieveOrder = (id: string | undefined) => {
-    return useQuery(["order"], () => api.retrieveOrder(id));
+    return useQuery(["order", id], () => api.retrieveOrder(id));
 };
 const useConfirmOrder = () => {
     return useMutation((id: string) => {

@@ -99,6 +99,10 @@ const OrderConfirm = () => {
                 return <FormikInput  {...rest} />;
             case "disabled":
                 return <FormikInput disabled={true}  {...rest} />;
+            case "hidden":
+                return <Button className="!invisible">
+                    <PublishedWithChanges />
+                </Button>
             case "add":
                 return <Button onClick={() => handleReplace(values)} className="!bg-[#fcc615]">
                     <PublishedWithChanges />

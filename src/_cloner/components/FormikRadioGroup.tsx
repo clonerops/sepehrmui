@@ -27,14 +27,11 @@ const FormikRadioGroup = (props: Props) => {
     const formikProps = useFormikContext();
     const formikValidation = getFormikFieldValidationProps(formikProps, name);
     const handleRadioChange = (e: any) => {
-        const selectedValue = e.target.value;
-        if (selectedValue !== value) {
-            if (onChange) {
-                onChange(selectedValue);
-            }
-            formikProps.setFieldValue(name, selectedValue);
+        if (onChange) {
+            onChange(e.target.value);
         }
-    };
+        formikProps.setFieldValue(name, e.target.value);
+};
 
     return (
         <Box component="div">
@@ -46,7 +43,6 @@ const FormikRadioGroup = (props: Props) => {
                     {...field}
                     {...rest}
                     {...formikValidation}
-                    value={field.value === "" ? -1 : field.value}
                     onChange={handleRadioChange}
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"

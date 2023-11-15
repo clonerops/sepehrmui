@@ -35,7 +35,7 @@ const OrderList = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/order/detail/${item?.row?.id}`}
+                to={`/dashboard/orderList/${item?.row?.id}`}
                 state={{ isConfirmed: false }}
             >
                 <Visibility color="secondary" />
@@ -49,13 +49,6 @@ const OrderList = () => {
     
     return (
         <ReusableCard>
-            <Typography
-                color="primary"
-                variant="h1"
-                className="pb-2 !text-sm md:!text-2xl"
-            >
-                لیست سفارشات
-            </Typography>
             <Box component="div" className="w-auto md:w-[40%] mb-4">
                 <FuzzySearch
                     keys={[

@@ -22,6 +22,8 @@ export const translationMapping: any = {
     productInventories: 'موجودی قابل فروش',
     productBrand: 'کالا برند',
     productService: 'خدمات',
+    approveOrderList: 'لیست سفارشات جهت تایید حسابداری',
+    orderList: 'لیست سفارشات',
     // Add more translations as needed
   };
   

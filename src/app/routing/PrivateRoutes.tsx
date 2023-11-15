@@ -40,10 +40,10 @@ const PrivateRoutes = () => {
             <Route path="auth/*" element={<Navigate to="/dashboard" />} />
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='dashboard/order' element={<Order />} />
-            <Route path='dashboard/order/lists' element={<OrderList />} />
-            <Route path='dashboard/order/confirm-list' element={<OrderConfirmList />} />
-            <Route path='dashboard/order/detail/:id' element={<OrderDetail  />} />
-            <Route path='dashboard/order/confirm/:id' element={<OrderConfirm  />} />
+            <Route path='dashboard/orderList' element={<OrderList />} />
+            <Route path='dashboard/approveOrderList' element={<OrderConfirmList />} />
+            <Route path='dashboard/orderList/:id' element={<OrderDetail  />} />
+            <Route path='dashboard/approveOrderList/:id' element={<OrderConfirm  />} />
 
             <Route path="dashboard/customers" element={<Customer />} />
             <Route path="dashboard/products" element={<Products />} />

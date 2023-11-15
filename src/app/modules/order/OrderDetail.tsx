@@ -10,6 +10,7 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import moment from "moment-jalaali";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import ImagePreview from "../../../_cloner/components/ImagePreview";
+import { useEffect } from "react";
 
 const initialValues = {
     productName: "",
@@ -24,6 +25,9 @@ const initialValues = {
 const OrderConfirm = () => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
+    useEffect(() => {
+        
+    }, [id])
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },

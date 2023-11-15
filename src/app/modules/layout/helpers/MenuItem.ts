@@ -16,13 +16,13 @@ const menuItem = [
         id: 1321,
         iconName: "RestorePage",
         title: "لیست سفارش",
-        to: "dashboard/order/lists",
+        to: "dashboard/orderList",
       },
       {
         id: 1321,
         iconName: "RocketTwoTone",
         title: "تایید سفارش",
-        to: "dashboard/order/confirm-list",
+        to: "dashboard/approveOrderList",
       },
     ],
   },
@@ -119,14 +119,14 @@ const menuItem = [
   },
   {
     id: 2,
-    title: "اعلام بار",
+    title: "لجستیک",
     to: "",
     iconName: "Psychology",
     submenu: [
       {
         id: 1321,
         iconName: "Home",
-        title: "مدیریت اعلام بار",
+        title: "اعلام بار",
         to: "dashboard/cargo",
       },
     ],
