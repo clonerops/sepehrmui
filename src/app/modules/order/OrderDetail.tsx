@@ -22,7 +22,7 @@ const initialValues = {
 
     invoiceTypeDesc: "",
     description: "",
-    invoiceTypeCheck: false
+    invoiceTypeCheck: false 
 }
 
 const OrderDetail = (props: Props) => {

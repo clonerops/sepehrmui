@@ -28,6 +28,7 @@ import OrderDetail from "../modules/order/OrderDetail";
 import ProductForm from "../modules/product/components/ProductForm";
 import ProductService from "../modules/generic/productService/ProductService";
 import OrderConfirmList from "../modules/order/OrderConfirmList";
+import CargoPaper from "../modules/cargo/components/CargoPaper";
 
 const PrivateRoutes = () => {
 
@@ -51,6 +52,7 @@ const PrivateRoutes = () => {
             <Route path="dashboard/productPrices" element={<ProductPrice />} />
             <Route path='dashboard/cargo' element={<Cargo />} />
             <Route path='dashboard/cargo/:id' element={<Confirm />} />
+            <Route path='dashboard/cargo/paper' element={<CargoPaper />} />
             <Route path='dashboard/payment' element={<RecievePayment />} />
             <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
             <Route path='dashboard/payment/accounting/:id' element={<Detail />} />
