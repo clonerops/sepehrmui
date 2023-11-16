@@ -143,11 +143,19 @@ const OrderConfirm = () => {
     }
 
     const handleConfirmOrder = (values: any, statusId: number) => {
+        let attachments = base64Attachments.map((i) => {
+            let convert = {
+                fileData: i,
+            }
+            return convert
+        })
+
+        console.log("attachments", attachments)
         const formData = {
             orderId: id,
             invoiceTypeId: values.invoiceTypeId ? values?.invoiceTypeId : approveTools?.data?.data?.invoiceTypeId,
             invoiceApproveDescription: values.description,
-            attachments: base64Attachments,
+            attachments: attachments,
             orderStatusId: statusId,
             details: cpData.map((element: any) => ({
                 id: element.id,
@@ -158,12 +166,20 @@ const OrderConfirm = () => {
         }
         approveTools.mutate(formData, {
             onSuccess: (message) => {
+                console.log(message)
                 if(message.succeeded) {
                     setApprove(false) 
                     enqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", {
                         variant: `${statusId === 2 ? "success" : "warning" }`,
                         anchorOrigin: { vertical: "top", horizontal: "center" }
                     })
+                } 
+                if(!message?.data?.Succeeded) {
+                    enqueueSnackbar(message.data.Message, {
+                        variant: `error`,
+                        anchorOrigin: { vertical: "top", horizontal: "center" }
+                    })
+
                 }
             },
 

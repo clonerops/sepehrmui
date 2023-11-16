@@ -139,7 +139,7 @@ export interface IApproveInvoice {
         alternativeProductPrice: number | null | undefined
       }
     ],
-    attachments?: string[] | null | undefined
+    attachments?: any,
     orderStatusId?: number | null | undefined
   
 }
