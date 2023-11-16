@@ -127,7 +127,7 @@ const CustomerForm = (props: {
                 );
             case "settlementDay":
                 return (
-                    <ReusableCard cardClassName="w-full">
+                    <Box component="div" className="!w-full">
                         <Box component={"div"} className="grid grid-cols-3">
                             <Typography variant="h3" className="px-4 py-1 ">
                                 تسویه حساب
@@ -157,13 +157,15 @@ const CustomerForm = (props: {
                             />{" "}
                             <Typography variant="h3">بعد از وزن</Typography>
                         </Box>
-                    </ReusableCard>
+                    </Box>
+                    // <ReusableCard cardClassName="w-full">
+                    // </ReusableCard>
                 );
             case "description":
                 return <FormikInput multiline rows={3} {...rest} />;
             case "firstName":
                 return <FormikInput  {...rest} />;
-            
+
             default:
                 return <FormikInput {...rest} />;
         }
@@ -265,9 +267,9 @@ const CustomerForm = (props: {
                     isNew
                         ? initialValues
                         : {
-                              ...initialValues,
-                              ...detailTools?.data?.data,
-                          }
+                            ...initialValues,
+                            ...detailTools?.data?.data,
+                        }
                 }
                 validationSchema={createValiadtion}
                 onSubmit={handleSubmit}

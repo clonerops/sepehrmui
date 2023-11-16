@@ -80,8 +80,7 @@ export const columnsProductPriceDashboard = (renderAction: any) => {
             },
             headerName: "نام کالا",
             headerClassName: "headerClassName",
-            minWidth: 220,
-            maxWidth: 220,
+            minWidth: 240,
             flex: 1,
         },
         {
@@ -92,7 +91,6 @@ export const columnsProductPriceDashboard = (renderAction: any) => {
             headerName: "نام برند",
             headerClassName: "headerClassName",
             minWidth: 100,
-            maxWidth: 100,
             flex: 1,
         },
         {
@@ -105,16 +103,6 @@ export const columnsProductPriceDashboard = (renderAction: any) => {
             minWidth: 160,
             flex: 1,
         },
-        // {
-        //     field: "registerDate",
-        //     renderCell: (params: any) => {
-        //         return <Typography variant="h5">{params.value}</Typography>;
-        //     },
-        //     headerName: "تاریخ قیمت",
-        //     headerClassName: "headerClassName font-bold",
-        //     minWidth: 160,
-        //     flex: 1,
-        // },
     ];
     return col;
 };

@@ -11,6 +11,7 @@ export const translationMapping: any = {
     suppliers: 'تامین کنندگان',
     productPrices: 'قیمت کالا',
     cargo: 'اعلام بار',
+    cargoList: 'لیست سفارشات جهت اعلام بار',
     payment: 'دریافت و پرداخت',
     accounting: 'حسابداری دریافت و پرداخت',
     brands: 'برندها',

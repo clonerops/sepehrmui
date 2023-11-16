@@ -32,7 +32,6 @@ const FormikDatepicker = forwardRef((props: Props) => {
     const validationProps = getFormikFieldValidationProps(formikProps, name);
 
     const handleChange = (date: any) => {
-        console.log(date)
         if (date !== null) {
             // If no date is selected, set the date as usual
             const formattedDate = moment(new Date(date)).format("jYYYY/jMM/jDD");

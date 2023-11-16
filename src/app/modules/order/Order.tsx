@@ -443,8 +443,7 @@ const Order = () => {
         const findCustomer = customers?.data.find((i: any) => i.id === value?.value);
         setFindCustomer(findCustomer);
         setFieldValue("number", findCustomer?.settlementDay)
-        if (findCustomer?.settlementType !== 1) setFieldValue("settlement", moment(new Date()).format("jYYYY/jMM/jDD"));
-        else setFieldValue("settlement", "");
+        setFieldValue("settlement", moment(new Date()).add(+findCustomer?.settlementDay, "days").format("jYYYY/jMM/jDD"))
 
         if (findCustomer === undefined || findCustomer === null) {
             setFieldValue("number", "")

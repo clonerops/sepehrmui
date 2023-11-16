@@ -183,22 +183,6 @@ export const orderFieldsConfirm: FieldType[][] = [
             name: "",
             type: "hidden",
         },
-        // { label: "کالا رسمی", name: "productNameReplace", type: "product" },
-        // {
-        //     label: "مقدار",
-        //     name: "proximateAmountReplace",
-        //     type: "input",
-        // },
-        // {
-        //     label: "قیمت",
-        //     name: "productPriceReplace",
-        //     type: "price",
-        // },
-        // {
-        //     label: "",
-        //     name: "",
-        //     type: "add",
-        // },
     ],
     [
         { label: "کالا رسمی", name: "productNameReplace", type: "product" },

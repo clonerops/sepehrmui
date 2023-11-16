@@ -87,6 +87,7 @@ const Customer = () => {
                 },
                 headerName: "معرف",
                 headerClassName: "headerClassName",
+                minWidth: 140,
                 flex: 1
             },
             {
@@ -144,32 +145,6 @@ const Customer = () => {
                 minWidth: 120,
                 flex: 1
             },
-            // {
-            //     field: "address1",
-            //     headerName: "آدرس یک",
-            //     renderCell: (params: any) => {
-            //         return <Typography variant="h4">{params.value}</Typography >;
-            //     },
-            //     headerClassName: "headerClassName",
-            //     minWidth: 280,
-            // },
-            // {
-            //     field: "customerType",
-            //     headerName: "نوع مشتری",
-            //     minWidth: 80,
-            //     renderCell: (params: any) =>
-            //         params.value === 0 ? <Typography variant="h4" className="text-purple-700">حقیقی</Typography > : <Typography variant="h4" className="text-yellow-700">حقوقی</Typography >,
-            //     headerClassName: "headerClassName",
-            // },
-            // {
-            //     field: "address2",
-            //     headerName: "آدرس دو",
-            //     renderCell: (params: any) => {
-            //         return <Typography variant="h4">{params.value}</Typography >;
-            //     },
-            //     headerClassName: "headerClassName",
-            //     minWidth: 280,
-            // },
             {
                 headerName: "عملیات",
                 renderCell: renderAction,

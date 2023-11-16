@@ -8,8 +8,9 @@ import { ICargo } from "./core/_models";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { cargoColumns } from "./helpers/columns";
 import RecommendIcon from '@mui/icons-material/Recommend';
+import Backdrop from "../../../_cloner/components/Backdrop";
 const Cargo = () => {
-    const { data: cargoNotSended } = useRetrievesNotSendedOrder();
+    const { data: cargoNotSended, isLoading } = useRetrievesNotSendedOrder();
 
     const [results, setResults] = useState<ICargo[]>([]);
 
@@ -19,7 +20,7 @@ const Cargo = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/cargo/${item?.row?.id}`}>
+            <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
                 <Typography variant="h3">
                     <RecommendIcon color="secondary" />
                 </Typography>
@@ -27,12 +28,13 @@ const Cargo = () => {
         );
     };
 
+    if(isLoading) {
+        return <Backdrop loading={isLoading} />
+    }
+
     return (
         <ReusableCard>
-            <Typography color="primary" variant="h1" className="pb-2">
-                سفارشات اعلام بار نشده
-            </Typography>
-            <Box component="div" className="w-auto md:w-[40%]">
+            <Box component="div" className="w-auto md:w-[40%] mb-4">
                 <FuzzySearch
                     keys={[
                         "orderCode",

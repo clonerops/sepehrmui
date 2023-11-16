@@ -80,13 +80,14 @@ const OrderConfirm = () => {
 
     ]
 
-    const orderParseFields = (fields: FieldType, values: any, setFieldValue: any) => {
+    const orderParseFields = (fields: FieldType, values: any, setFieldValue: any, resetForm: any) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "product":
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
                         <FormikProductComboSelect
+                            disabled={!values.productName}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
                             options={dropdownProductByInventory(productsByBrand?.data)}
                             {...rest}
@@ -94,9 +95,9 @@ const OrderConfirm = () => {
                     </Box>
                 );
             case "price":
-                return <FormikPrice  {...rest} />;
+                return <FormikPrice disabled={!values.productName} {...rest} />;
             case "input":
-                return <FormikInput  {...rest} />;
+                return <FormikInput disabled={!values.productName} {...rest} />;
             case "disabled":
                 return <FormikInput disabled={true}  {...rest} />;
             case "hidden":
@@ -104,7 +105,11 @@ const OrderConfirm = () => {
                     <PublishedWithChanges />
                 </Button>
             case "add":
-                return <Button onClick={() => handleReplace(values)} className="!bg-[#fcc615]">
+                return <Button disabled={
+                    !values.productNameReplace ||
+                    !values.proximateAmountReplace ||
+                    !values.productPriceReplace
+                } onClick={() => handleReplace(values, setFieldValue, resetForm)} className="!bg-[#fcc615]">
                     <PublishedWithChanges />
                 </Button>
             default:
@@ -128,7 +133,7 @@ const OrderConfirm = () => {
 
     }
 
-    const handleReplace = (values: any) => {
+    const handleReplace = (values: any, setFieldValue: any, resetForm: any) => {
         if (selectedRow !== null) {
             const updatedData = [...cpData];
             updatedData[selectedRow] = {
@@ -139,6 +144,11 @@ const OrderConfirm = () => {
                 alternativeProductPrice: +values.productPriceReplace.replace(/,/g, ""),
             };
             setCpData(updatedData);
+            resetForm()
+            setFieldValue("productNameReplace", "")
+            setFieldValue("productName", "")
+            setFieldValue("proximateAmount", "")
+            setFieldValue("productPrice", "")
         }
     }
 
@@ -150,7 +160,6 @@ const OrderConfirm = () => {
             return convert
         })
 
-        console.log("attachments", attachments)
         const formData = {
             orderId: id,
             invoiceTypeId: values.invoiceTypeId ? values?.invoiceTypeId : approveTools?.data?.data?.invoiceTypeId,
@@ -197,7 +206,7 @@ const OrderConfirm = () => {
                 invoiceTypeId: data?.data?.invoiceTypeId
             }
             } onSubmit={(_) => handleConfirmOrder(_, 0)}>
-                {({ values, setFieldValue }) => {
+                {({ values, setFieldValue, resetForm }) => {
                     return <Form>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4 my-4">
                             {orderAndAmountInfo.map((item: {
@@ -219,7 +228,8 @@ const OrderConfirm = () => {
                                         orderParseFields(
                                             field,
                                             values,
-                                            setFieldValue
+                                            setFieldValue,
+                                            resetForm
                                         )
                                     )}
                                 </Box>
@@ -281,7 +291,7 @@ const OrderConfirm = () => {
                             open={approve}
                             hintTitle="آیا از تایید سفارش مطمئن هستید؟"
                             notConfirmText="لغو"
-                            confirmText="تایید"
+                            confirmText={approveTools.isLoading ? "درحال پردازش ..." : "تایید"}
                             onCancel={() => setApprove(false)}
                             onConfirm={() => handleConfirmOrder(values, 2)}
                         />

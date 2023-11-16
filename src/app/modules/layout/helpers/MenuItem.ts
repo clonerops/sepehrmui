@@ -127,7 +127,7 @@ const menuItem = [
         id: 1321,
         iconName: "Home",
         title: "اعلام بار",
-        to: "dashboard/cargo",
+        to: "dashboard/cargoList",
       },
     ],
   },

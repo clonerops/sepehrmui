@@ -50,9 +50,9 @@ const PrivateRoutes = () => {
             <Route path="dashboard/products" element={<Products />} />
             <Route path="dashboard/suppliers" element={<Suppliers />} />
             <Route path="dashboard/productPrices" element={<ProductPrice />} />
-            <Route path='dashboard/cargo' element={<Cargo />} />
-            <Route path='dashboard/cargo/:id' element={<Confirm />} />
-            <Route path='dashboard/cargo/paper' element={<CargoPaper />} />
+            <Route path='dashboard/cargoList' element={<Cargo />} />
+            <Route path='dashboard/cargoList/:id' element={<Confirm />} />
+            <Route path='dashboard/cargoList/paper' element={<CargoPaper />} />
             <Route path='dashboard/payment' element={<RecievePayment />} />
             <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
             <Route path='dashboard/payment/accounting/:id' element={<Detail />} />
