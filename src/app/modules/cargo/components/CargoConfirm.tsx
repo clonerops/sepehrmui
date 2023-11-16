@@ -23,13 +23,14 @@ const initialValues = {
     carPlaque: "",
     driverMobile: "",
     approvedDate: new Date(),
-    rentAmount: 1
+    rentAmount: 1,
+    isComplete: false,
+    description: ""
 }
 
 const Confirm = () => {
     const { id } = useParams()
     const { mutate, data: cargoSended, isLoading } = useCreateCargo()
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
     const paymentInfo = [
         { value: 1, label: "نقدی" },
@@ -48,10 +49,10 @@ const Confirm = () => {
             { label: "نوع تسویه باربری", name: "rentAmount", type: "select" },
         ],
         [
-            { label: "", name: "description", type: "checkbox" },
+            { label: "ندارد", name: "isComplete", type: "checkbox" },
         ],
         [
-            { label: "توضیحات", name: "description", type: "description" },
+            { label: "توضیحات", name: "description", type: "desc" },
         ]
     ];
 
@@ -74,28 +75,19 @@ const Confirm = () => {
                 return <FormikDatepicker setFieldValue={setFieldValue} boxClassName="w-full" {...rest} />
             case "select":
                 return <FormikSelect options={paymentInfo} {...rest} />
-            case "description":
-                return <FormikInput multiline rows={3} {...rest} />;
+            case "desc":
+                return <FormikInput multiline {...rest} />;
 
             default:
                 return <FormikInput {...rest} />;
         }
     };
+    
+    // {isLoading && <Backdrop loading={isLoading} />}
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        cargoSended?.data?.Message ||
-                        cargoSended?.message || "اعلام بار با موفقیت ثبت گردید"
-                    }
-                />
-            )}
-            {isLoading && <Backdrop loading={isLoading} />}
-            <OrderDetail />
+            <OrderDetail isCargo />
             <ReusableCard cardClassName="mt-8">
                 <Typography variant="h2" color="primary">مشخصات حمل</Typography>
                 <Formik initialValues={initialValues} validationSchema={confirmValidation} onSubmit={
@@ -113,7 +105,6 @@ const Confirm = () => {
                             }
                             mutate(formData, {
                                 onSuccess: () => {
-                                    setSnackeOpen(true)
                                 }
                             })
                         } catch (error) {

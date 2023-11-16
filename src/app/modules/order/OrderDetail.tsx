@@ -10,7 +10,10 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import moment from "moment-jalaali";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import ImagePreview from "../../../_cloner/components/ImagePreview";
-import { useEffect } from "react";
+
+type Props = {
+    isCargo?: boolean
+}
 
 const initialValues = {
     productName: "",
@@ -22,23 +25,27 @@ const initialValues = {
     invoiceTypeCheck: false
 }
 
-const OrderConfirm = () => {
+const OrderDetail = (props: Props) => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
-    useEffect(() => {
-        
-    }, [id])
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.officialName},
-        { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
-        { id: 4, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
-        { id: 5, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc },
+        { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
+        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.officialName},
         { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc},
+        { id: 5, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc },
+        { id: 4, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
     ]
+    const orderAndAmountInfoInCargo = [
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
+        { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
+        { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
+    ]
+
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName" },
         { id: 2, header: "انبار", accessor: "warehouseName" },
@@ -59,6 +66,8 @@ const OrderConfirm = () => {
         return <Backdrop loading={isLoading} />
     }
 
+    let renderOrderInfo = !props.isCargo ? orderAndAmountInfo : orderAndAmountInfoInCargo
+
     return (
         <>
             {/* <ReusableTab /> */}
@@ -66,36 +75,42 @@ const OrderConfirm = () => {
                 {({ }) => {
                     return <Form>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
-                            {orderAndAmountInfo.map((item: {
+                            {renderOrderInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
                                 value: any
                             }) => {
                                 return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
                             })}
-                            <CardTitleValue className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                            {!props.isCargo &&
+                                <CardTitleValue className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                            }
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
+                        {!props.isCargo && 
                             <ReusableCard>
                                 <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
                                 <MuiTable data={data?.data?.orderServices} columns={orderServicesColumn} onDoubleClick={() => {}} />
                             </ReusableCard>
-                            <ReusableCard cardClassName="col-span-2">
+                        }
+                            <ReusableCard cardClassName={!props.isCargo ? "col-span-2" : "col-span-3"}>
                                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                                 <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => {}} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                             </ReusableCard>
                         </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
-                            <ReusableCard>
-                                <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
-                                <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => {}} />
-                            </ReusableCard>
+                        {!props.isCargo && 
+                            <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
+                                <ReusableCard>
+                                    <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
+                                    <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => {}} />
+                                </ReusableCard>
 
-                            <ReusableCard cardClassName="col-span-2">
-                                <Typography variant="h2" color="primary" className="pb-4">ضمیمه ها</Typography>
-                                <ImagePreview base64Strings={data?.data?.attachments.map((i: any) => i.fileData)} />
-                            </ReusableCard>
-                        </Box>
+                                <ReusableCard cardClassName="col-span-2">
+                                    <Typography variant="h2" color="primary" className="pb-4">ضمیمه ها</Typography>
+                                    <ImagePreview base64Strings={data?.data?.attachments.map((i: any) => i.fileData)} />
+                                </ReusableCard>
+                            </Box>
+                        }
                     </Form>
                 }}
             </Formik>
@@ -103,4 +118,4 @@ const OrderConfirm = () => {
     )
 }
 
-export default OrderConfirm
+export default OrderDetail

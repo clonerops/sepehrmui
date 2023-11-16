@@ -19,10 +19,7 @@ const Cargo = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`/dashboard/cargo/confirm/${item?.row?.id}`}
-                state={{ isConfirmed: false }}
-            >
+            <Link to={`/dashboard/cargo/${item?.row?.id}`}>
                 <Typography variant="h3">
                     <RecommendIcon color="secondary" />
                 </Typography>

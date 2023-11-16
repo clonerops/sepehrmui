@@ -71,16 +71,22 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles }) => {
 
 
   const onDrop = (acceptedFiles: File[]) => {
-    setFiles([...files, ...acceptedFiles]);
-    console.log("acceptedFiles", acceptedFiles)
-
-    // if (acceptedFiles[0] && acceptedFiles[0].size > maxSize) {
-    if (acceptedFiles.length === 0) {
-      enqueueSnackbar("سایز فایل بیش از 200kb می باشد", {
+    if (files.length > 1) {
+      enqueueSnackbar("امکان آپلود بیش از 2 ضمیمه وجود ندارد", {
         variant: "error",
         anchorOrigin: { vertical: "top", horizontal: "center" }
       })
+    } else {
+        setFiles([...files, ...acceptedFiles]);
+
+        if (acceptedFiles.length === 0) {
+          enqueueSnackbar("سایز فایل بیش از 200kb می باشد", {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "center" }
+          })
+        }    
     }
+
   };
 
   const removeFile = (file: File) => {
@@ -89,14 +95,13 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles }) => {
   };
 
   const { getRootProps, getInputProps } = useDropzone({
+    maxFiles: 2,
     onDrop,
     accept: {
       'image/jpeg': ['.jpeg', '.jpg', '.Jpeg', '.JPG'],
       'image/png': ['.png', '.Png', '.PNG'],
     },
-    // maxSize: 5242880,
     maxSize: 209600, // 60KB in bytes (1KB = 1024 bytes)
-
   });
 
   return (

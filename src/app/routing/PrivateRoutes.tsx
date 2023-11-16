@@ -5,7 +5,7 @@ import Products from "../modules/product/Products";
 import Suppliers from "../modules/product/Suppliers";
 import ProductPrice from "../modules/product/ProductPrice";
 import Cargo from "../modules/cargo/Cargo";
-import Confirm from "../modules/cargo/components/Confirm";
+import Confirm from "../modules/cargo/components/CargoConfirm";
 import RecievePayment from "../modules/payment/RecievePayment";
 import PaymentAccounting from "../modules/payment/PaymentAccounting";
 import Detail from "../modules/payment/components/Detail";
@@ -50,7 +50,7 @@ const PrivateRoutes = () => {
             <Route path="dashboard/suppliers" element={<Suppliers />} />
             <Route path="dashboard/productPrices" element={<ProductPrice />} />
             <Route path='dashboard/cargo' element={<Cargo />} />
-            <Route path='dashboard/cargo/confirm/:id' element={<Confirm />} />
+            <Route path='dashboard/cargo/:id' element={<Confirm />} />
             <Route path='dashboard/payment' element={<RecievePayment />} />
             <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
             <Route path='dashboard/payment/accounting/:id' element={<Detail />} />
