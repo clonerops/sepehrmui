@@ -834,7 +834,7 @@ const Order = () => {
                             className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
                         >
                             <CustomButton
-                                title="ثبت سفارش"
+                                title={isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
                                 disabled={orderPayment?.length <= 0 || isUpdate || orderCode !== 0}
                                 color="primary"

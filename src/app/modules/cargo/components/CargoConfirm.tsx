@@ -14,6 +14,12 @@ import { FieldType } from "../../../../_cloner/components/globalTypes"
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox"
 import { enqueueSnackbar } from "notistack"
 import MuiTable from "../../../../_cloner/components/MuiTable"
+import { useGetVehicleTypes } from "../../generic/_hooks"
+import { dropdownVehicleType } from "../helpers/dropdowns"
+import { ICargo } from "../core/_models"
+import Swal from 'sweetalert2'
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
+import FormikPrice from "../../product/components/FormikPrice"
 
 const initialValues = {
     driverName: "",
@@ -21,36 +27,35 @@ const initialValues = {
     carPlaque: "",
     driverMobile: "",
     approvedDate: new Date(),
-    rentAmount: 1,
+    rentAmount: "",
     isComplete: false,
-    description: ""
+    description: "",
+    vehicleTypeId: null,
+    deliveryDate: "",
+    unloadingPlaceAddress: ""    
 }
 
 const Confirm = () => {
     const { id } = useParams()
     const { mutate, data: cargoSended, isLoading } = useCreateCargo()
-    const cargosList = useRetrieveCargos()
-
-    const paymentInfo = [
-        { value: 1, label: "نقدی" },
-        { value: 2, label: "ماهیانه باربری" }
-    ]
+    const cargosList = useRetrieveCargos(id)
+    const vehicleList = useGetVehicleTypes()
 
     const fields: FieldType[][] = [
         [
             { label: "راننده", name: "driverName", type: "input" },
-            { label: "باربری", name: "approvedUserName", type: "input" },
+            { label: "باربری", name: "shippingName", type: "input" },
             { label: "پلاک خودرو", name: "carPlaque", type: "input" },
+            { label: "نوع خودرو", name: "vehicleTypeId", type: "select" },
         ],
         [
             { label: "شماره همراه راننده", name: "driverMobile", type: "input" },
-            { label: "تاریخ حمل", name: "approvedDate", type: "datepicker" },
-            { label: "نوع تسویه باربری", name: "rentAmount", type: "select" },
-        ],
-        [
+            { label: "تاریخ تحویل", name: "deliveryDate", type: "datepicker" },
+            { label: "مبلغ کرایه", name: "rentAmount", type: "price" },
             { label: "ندارد", name: "isComplete", type: "checkbox" },
         ],
         [
+            { label: "آدرس محل تخلیه", name: "unloadingPlaceAddress", type: "desc" },
             { label: "توضیحات", name: "description", type: "desc" },
         ]
     ];
@@ -62,7 +67,7 @@ const Confirm = () => {
                 return (
                     <Box component="div" className="w-full flex items-center">
                         <FormikCheckbox
-                            name="isSupplier"
+                            name="isComplete"
                             label=""
                         />
                         <Typography variant="h3">
@@ -73,24 +78,16 @@ const Confirm = () => {
             case "datepicker":
                 return <FormikDatepicker setFieldValue={setFieldValue} boxClassName="w-full" {...rest} />
             case "select":
-                return <FormikSelect options={paymentInfo} {...rest} />
+                return <FormikSelect options={dropdownVehicleType(vehicleList.data)} {...rest} />
+            case "price":
+                return <FormikPrice {...rest} />;
             case "desc":
-                return <FormikInput multiline {...rest} />;
+                return <FormikInput multiline minRows={3} {...rest} />;
 
             default:
                 return <FormikInput {...rest} />;
         }
     };
-
-    const lastCargoList = [
-        { id: 1, header: "راننده", accessor: "productName" },
-        { id: 2, header: "شماره موبایل راننده", accessor: "warehouseName" },
-        { id: 3, header: "شماره پلاک", accessor: "proximateAmount" },
-        { id: 4, header: "کرایه", accessor: "price" },
-        { id: 4, header: "تاریخ حمل", accessor: "price" },
-        { id: 4, header: "نوع تسویه باربری", accessor: "price" },
-    ]
-    // {isLoading && <Backdrop loading={isLoading} />}
 
     return (
         <>
@@ -100,18 +97,32 @@ const Confirm = () => {
                 <Formik initialValues={initialValues} validationSchema={confirmValidation} onSubmit={
                     async (values, { setStatus, setSubmitting }) => {
                         try {
-                            const formData = {
+                            const formData: any = {
+                                ...values,
                                 orderId: id,
-                                unloadingPlaceAddress: "",
-                                driverName: values.driverName,
-                                carPlaque: values.carPlaque,
-                                driverMobile: values.driverMobile,
-                                approvedUserName: values.approvedUserName,
-                                approvedDate: moment(values.approvedDate).format("jYYYY/jMM/jDD"),
-                                rentAmount: values.rentAmount
+                                rentAmount: +values.rentAmount.replace(/,/g, "")
                             }
                             mutate(formData, {
                                 onSuccess: (message) => {
+                                    if (message.succeeded) {
+                                        Swal.fire({
+                                            title: `اعلام بار با شماره ${message?.data.cargoAccounceNo} ثبت گردید`,
+                                            confirmButtonColor: "#fcc615",
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            },
+                                            confirmButtonText: "بستن",
+                                            icon: "success",
+                                            customClass: {
+                                                title: "text-lg"
+                                            }
+                                        })
+                                        cargosList.refetch()
+                                    }
+
                                     if (!message?.data?.Succeeded) {
                                         enqueueSnackbar(message.data.Message, {
                                             variant: `error`,
@@ -119,14 +130,9 @@ const Confirm = () => {
                                         })
                                     }
 
-                                    if (message.succeeded) {
-                                        enqueueSnackbar(message.message, {
-                                            variant: `success`,
-                                            anchorOrigin: { vertical: "top", horizontal: "center" }
-                                        })
-
-                                    }
+                                    
                                 }
+
                             })
                         } catch (error) {
                             setStatus("اطلاعات ثبت اعلام بار نادرست می باشد");
@@ -149,18 +155,13 @@ const Confirm = () => {
                             ))}
                             <Box component="div" className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                    <Typography variant="h3" className="px-8 py-2">ثبت اعلام بار</Typography>
+                                    <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ثبت اعلام بار" } </Typography>
                                 </Button>
                             </Box>
                         </Form>
                     }}
                 </Formik>
             </ReusableCard>
-            <Card className="p-4 mt-4">
-                <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار های قبلی</Typography>
-                <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data} columns={lastCargoList} />
-            </Card>
-
         </>
     )
 }

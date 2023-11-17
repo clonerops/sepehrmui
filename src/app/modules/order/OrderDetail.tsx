@@ -10,6 +10,7 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import moment from "moment-jalaali";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import ImagePreview from "../../../_cloner/components/ImagePreview";
+import { useRetrieveCargos } from "../cargo/core/_hooks";
 
 type Props = {
     isCargo?: boolean
@@ -22,20 +23,21 @@ const initialValues = {
 
     invoiceTypeDesc: "",
     description: "",
-    invoiceTypeCheck: false 
+    invoiceTypeCheck: false
 }
 
 const OrderDetail = (props: Props) => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
+    const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
-        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.officialName},
-        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc},
+        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.officialName },
+        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc },
         { id: 5, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc },
         { id: 4, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
     ]
@@ -59,10 +61,21 @@ const OrderDetail = (props: Props) => {
     const orderPaymentsColumn = [
         { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },
         { id: 2, header: "روز", accessor: "daysAfterExit" },
-        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate" , render: (params: any) => moment(params.paymentDate).format('jYYYYjMM/jDD') },
+        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate", render: (params: any) => moment(params.paymentDate).format('jYYYYjMM/jDD') },
     ]
 
-    if(isLoading) {
+    const lastCargoList = [
+        { id: 1, header: "شماره بارنامه", accessor: "cargoAccounceNo" },
+        { id: 1, header: "راننده", accessor: "driverName" },
+        { id: 2, header: "شماره موبایل راننده", accessor: "driverMobile" },
+        { id: 3, header: "شماره پلاک", accessor: "carPlaque" },
+        { id: 4, header: "کرایه(ریال)", accessor: "rentAmount", render: (params: any) => separateAmountWithCommas(params.rentAmount) },
+        { id: 4, header: "باربری", accessor: "shippingName" },
+        { id: 4, header: "تاریخ تحویل", accessor: "deliveryDate" },
+        { id: 4, header: "آدرس محل تخلیه", accessor: "unloadingPlaceAddress" },
+    ]
+
+    if (isLoading) {
         return <Backdrop loading={isLoading} />
     }
 
@@ -87,22 +100,22 @@ const OrderDetail = (props: Props) => {
                             }
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
-                        {!props.isCargo && 
-                            <ReusableCard>
-                                <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
-                                <MuiTable data={data?.data?.orderServices} columns={orderServicesColumn} onDoubleClick={() => {}} />
-                            </ReusableCard>
-                        }
+                            {!props.isCargo &&
+                                <ReusableCard>
+                                    <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
+                                    <MuiTable data={data?.data?.orderServices} columns={orderServicesColumn} onDoubleClick={() => { }} />
+                                </ReusableCard>
+                            }
                             <ReusableCard cardClassName={!props.isCargo ? "col-span-2" : "col-span-3"}>
                                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
-                                <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => {}} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
+                                <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                             </ReusableCard>
                         </Box>
-                        {!props.isCargo && 
+                        {!props.isCargo &&
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
-                                    <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => {}} />
+                                    <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => { }} />
                                 </ReusableCard>
 
                                 <ReusableCard cardClassName="col-span-2">
@@ -111,6 +124,10 @@ const OrderDetail = (props: Props) => {
                                 </ReusableCard>
                             </Box>
                         }
+                        <ReusableCard cardClassName="p-4 mt-4">
+                            <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار های قبلی</Typography>
+                            <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data} columns={lastCargoList} />
+                        </ReusableCard>
                     </Form>
                 }}
             </Formik>

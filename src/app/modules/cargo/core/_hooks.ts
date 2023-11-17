@@ -12,8 +12,8 @@ const useCreateCargo = () => {
     })
 }
 
-const useRetrieveCargos = () => {
-    return useQuery(['cargos'], () => api.retrievesCargos())
+const useRetrieveCargos = (orderId?: string) => {
+    return useQuery(['cargos', orderId], () => api.retrievesCargos(orderId))
 }
 
 export {

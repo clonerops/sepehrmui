@@ -43,3 +43,9 @@ export interface IProductType {
     id: number,
     isActive: boolean
 }
+
+export interface IVehicleType{
+    name: string
+    id: number,
+    isActive: boolean
+}

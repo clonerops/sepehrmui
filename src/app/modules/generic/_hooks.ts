@@ -31,6 +31,9 @@ const useGetServices = () => {
 const useGetProductTypes = () => {
     return useQuery(['productTypes'], () => api.getProductTypes())
 }
+const useGetVehicleTypes = () => {
+    return useQuery(['vehicleTypes'], () => api.getVehicleTypes())
+}
 
 export {
     useGetSendTypes,
@@ -42,5 +45,6 @@ export {
     useGetWarehouses,
     useGetReceivePaymentSources,
     useGetServices,
-    useGetProductTypes
+    useGetProductTypes,
+    useGetVehicleTypes
 }
