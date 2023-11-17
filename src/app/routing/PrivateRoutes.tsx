@@ -29,6 +29,7 @@ import ProductForm from "../modules/product/components/ProductForm";
 import ProductService from "../modules/generic/productService/ProductService";
 import OrderConfirmList from "../modules/order/OrderConfirmList";
 import CargoPaper from "../modules/cargo/components/CargoPaper";
+import CustomerCompanies from "../modules/generic/customerCompany/CustomerCompany";
 
 const PrivateRoutes = () => {
 
@@ -49,6 +50,7 @@ const PrivateRoutes = () => {
             <Route path="dashboard/customers" element={<Customer />} />
             <Route path="dashboard/products" element={<Products />} />
             <Route path="dashboard/suppliers" element={<Suppliers />} />
+            <Route path="dashboard/customerCompany" element={<CustomerCompanies />} />
             <Route path="dashboard/productPrices" element={<ProductPrice />} />
             <Route path='dashboard/cargoList' element={<Cargo />} />
             <Route path='dashboard/cargoList/:id' element={<Confirm />} />

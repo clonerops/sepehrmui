@@ -40,6 +40,12 @@ const menuItem = [
       },
       {
         id: 1321,
+        iconName: "Rsvp",
+        title: "شرکت های مشتریان",
+        to: "dashboard/customerCompany",
+      },
+      {
+        id: 1321,
         iconName: "SavingsRounded",
         title: "مدیریت تامین کنندگان",
         to: "dashboard/suppliers",

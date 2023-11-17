@@ -25,6 +25,7 @@ export const translationMapping: any = {
     productService: 'خدمات',
     approveOrderList: 'لیست سفارشات جهت تایید حسابداری',
     orderList: 'لیست سفارشات',
+    customerCompany: 'تعریف شرکت های مشتری',
     // Add more translations as needed
   };
   
