@@ -8,7 +8,7 @@ import { useCreateOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
 import CreateCustomer from "../customer/components/CreateCustomer";
 import { useGetCustomers } from "../customer/core/_hooks";
-import { dropdownCustomer, dropdownExitType, dropdownInvoiceType, dropdownOrderSendType, dropdownPurchaseInvoice, dropdownRentPaymentType, dropdownServices, dropdownTemporaryType, dropdownWarehouses } from "./helpers/dropdowns";
+import { dropdownCustomer, dropdownCustomerCompanies, dropdownExitType, dropdownInvoiceType, dropdownOrderSendType, dropdownPurchaseInvoice, dropdownRentPaymentType, dropdownServices, dropdownTemporaryType, dropdownWarehouses } from "./helpers/dropdowns";
 import { exit, temporary } from "./helpers/fakeData";
 import Swal from 'sweetalert2'
 import { orderValidation } from "./validations/orderValidation";
@@ -43,6 +43,8 @@ import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
 import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
+import { getCustomerCompanies } from "../generic/customerCompany/_requests";
+import { useGetCustomerCompanies, useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
 
 const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -59,6 +61,7 @@ const Order = () => {
     const { data: warehouse } = useGetWarehouses();
     const { data: services } = useGetServices();
     const { mutate, data, isLoading } = useCreateOrder();
+    const customerCompaniesTools = useGetCustomerCompaniesMutate();
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
     const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false); // OK
@@ -73,6 +76,8 @@ const Order = () => {
     const [findCustomer, setFindCustomer] = useState<ICustomer>(); //OK
 
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
+
+    console.log("customerCompaniesTools", customerCompaniesTools.data)
 
     const mainParseFields = (fields: FieldType, setFieldValue: any) => {
         const { type, ...rest } = fields;
@@ -110,6 +115,7 @@ const Order = () => {
                             >
                                 <AddCircle color="secondary" />
                             </IconButton>
+                            <FormikSelect options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری"  />
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
                             <Box component="div" className="flex flex-row pt-2">
@@ -441,6 +447,7 @@ const Order = () => {
 
     const handleChangeCustomer = (value: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
         const findCustomer = customers?.data.find((i: any) => i.id === value?.value);
+        customerCompaniesTools.mutate(findCustomer.id)
         setFindCustomer(findCustomer);
         setFieldValue("number", findCustomer?.settlementDay)
         setFieldValue("settlement", moment(new Date()).add(+findCustomer?.settlementDay, "days").format("jYYYY/jMM/jDD"))
@@ -482,6 +489,7 @@ const Order = () => {
                                 orderSendTypeId: Number(values.orderSendTypeId),
                                 paymentTypeId: Number(values.paymentTypeId),
                                 customerOfficialName: "string",
+                                customerOfficialCompanyId: +values.customerOfficialCompanyId,
                                 invoiceTypeId: Number(values.invoiceTypeId),
                                 isTemporary: +values.isTemporary === 0 ? false : true,
                                 freightName: "string",

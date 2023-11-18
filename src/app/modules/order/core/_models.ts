@@ -22,6 +22,7 @@ export interface ICreateOrder {
     orderSendTypeId: number | undefined | null 
     paymentTypeId: number | undefined | null
     customerOfficialName: string | undefined | null
+    customerOfficialCompanyId: number | undefined | null
     invoiceTypeId: number | undefined | null
     registerDate?: string | undefined | null
     freightName: string | undefined | null

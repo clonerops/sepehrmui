@@ -30,7 +30,7 @@ const validation = Yup.object({
 })
 
 const CustomerCompanies = () => {
-  const { data: customerCompanies, refetch, isLoading: CustomerCompanyLoading } = useGetCustomerCompanies()
+  const { data: customerCompanies, refetch, isLoading: CustomerCompanyLoading } = useGetCustomerCompanies("")
   const { mutate: postCustomerCompany, data: postData } = usePostCustomerCompanies()
   const { mutate: updateCustomerCompany, data: updateData } = useUpdateCustomerCompanies()
   const { mutate: deleteCustomerCompany, data: deleteData } = useDeleteCustomerCompanies()

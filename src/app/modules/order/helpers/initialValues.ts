@@ -20,6 +20,7 @@ export const orderInitialValues = {
     isTemporary: "1",
     invoiceTypeId: "",
     customerOfficialName: "",
+    customerOfficialCompanyId: "",
     // Order
     rowId: "",
     id: "",

@@ -88,3 +88,12 @@ export const dropdownServices = (data: any) => {
         })
     );
 };
+export const dropdownCustomerCompanies = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, companyName:string }): any => {
+            const { companyName, id } = obj;
+            return { value: id, label: companyName };
+        })
+    );
+};

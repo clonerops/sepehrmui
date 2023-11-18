@@ -1,10 +1,14 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig"
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
 import { ICustomerCompany } from "./_models";
 
-const getCustomerCompanies = async () => {
+const getCustomerCompanies = async (CustomerId: string) => {
+    const filter = {
+        CustomerId: CustomerId
+    }
     try {
 
-        const { data } = await http.get('/v1/CustomerOfficialCompany')
+        const { data } = await http.get(`${generateURLQueryParam("/v1/CustomerOfficialCompany", filter)}`)
         return data;
 
     } catch (error: any) {

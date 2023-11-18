@@ -11,7 +11,7 @@ import { orderFieldsConfirm } from "./helpers/fields";
 import FormikPrice from "../product/components/FormikPrice";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import { dropdownProductByInventory } from "../generic/_functions";
-import { dropdownInvoiceType } from "./helpers/dropdowns";
+import { dropdownCustomerCompanies, dropdownInvoiceType } from "./helpers/dropdowns";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import { FieldType } from "../../../_cloner/components/globalTypes";
@@ -24,6 +24,7 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64";
 import { enqueueSnackbar } from "notistack";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import { useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
 
 const initialValues = {
     productName: "",
@@ -33,7 +34,8 @@ const initialValues = {
     invoiceTypeDesc: "",
     invoiceTypeId: "",
     description: "",
-    invoiceTypeCheck: false
+    invoiceTypeCheck: false,
+    customerCompanyCheck: false
 }
 
 const OrderConfirm = () => {
@@ -41,6 +43,7 @@ const OrderConfirm = () => {
     const { data, isLoading } = useRetrieveOrder(id)
     const { data: productsByBrand, } = useRetrieveProductsByBrand();
     const { data: factor } = useGetInvoiceType();
+    const customerCompaniesTools = useGetCustomerCompaniesMutate();
 
     const approveTools = useApproveInvoiceType()
     const [cpData, setCpData] = useState(data?.data?.details)
@@ -59,10 +62,14 @@ const OrderConfirm = () => {
         }
     }, [files]);
 
+    useEffect(() => {
+        customerCompaniesTools.mutate(data?.data?.customer.id)
+    }, [data?.data?.customer.id])
+
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
         { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 1, title: "اسم رسمی مشتری", icon: <Person color="secondary" />, value: data?.data?.officialName },
+        { id: 1, title: "اسم رسمی شرکت مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName },
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
     ]
 
@@ -166,6 +173,7 @@ const OrderConfirm = () => {
             invoiceApproveDescription: values.description,
             attachments: attachments,
             orderStatusId: statusId,
+            customerOfficialCompanyId: values.customerOfficialCompanyId,
             details: cpData.map((element: any) => ({
                 id: element.id,
                 alternativeProductId: element.alternativeProductId,
@@ -176,14 +184,14 @@ const OrderConfirm = () => {
         approveTools.mutate(formData, {
             onSuccess: (message) => {
                 console.log(message)
-                if(message.succeeded) {
-                    setApprove(false) 
+                if (message.succeeded) {
+                    setApprove(false)
                     enqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", {
-                        variant: `${statusId === 2 ? "success" : "warning" }`,
+                        variant: `${statusId === 2 ? "success" : "warning"}`,
                         anchorOrigin: { vertical: "top", horizontal: "center" }
                     })
-                } 
-                if(!message?.data?.Succeeded) {
+                }
+                if (!message?.data?.Succeeded) {
                     enqueueSnackbar(message.data.Message, {
                         variant: `error`,
                         anchorOrigin: { vertical: "top", horizontal: "center" }
@@ -208,7 +216,7 @@ const OrderConfirm = () => {
             } onSubmit={(_) => handleConfirmOrder(_, 0)}>
                 {({ values, setFieldValue, resetForm }) => {
                     return <Form>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 text-right gap-4 my-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
                             {orderAndAmountInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
@@ -216,7 +224,7 @@ const OrderConfirm = () => {
                             }) => {
                                 return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
                             })}
-                                <CardTitleValue className="col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                            <CardTitleValue className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                         </Box>
                         <ReusableCard cardClassName="my-4">
                             {orderFieldsConfirm.map((rowFields) => (
@@ -237,7 +245,7 @@ const OrderConfirm = () => {
                         </ReusableCard>
                         <ReusableCard cardClassName="my-4">
                             <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
-                            <Box component="div" className="flex gap-x-4">
+                            <Box component="div" className="flex flex-col md:flex-row gap-x-4">
                                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                                 <MuiTable onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} />
                             </Box>
@@ -271,9 +279,19 @@ const OrderConfirm = () => {
                             <Box component="div" className="flex flex-col">
                                 <ReusableCard>
                                     <Box component="div" className="flex justify-between items-center">
-                                        <Typography variant="h2" color="primary" className="pb-4">توضیحات</Typography>
+                                        <Typography variant="h2" color="primary" className="pb-4">شرکت رسمی و توضیحات</Typography>
                                         <Description color="secondary" />
                                     </Box>
+                                    <Box component="div" className="flex items-center">
+                                        <FormikCheckbox label="" name="customerCompanyCheck" />
+                                        <Typography>آیا مایل به تغییر اسم رسمی شرکت مشتری می باشید؟</Typography>
+                                    </Box>
+                                    <FormikSelect
+                                        disabeld={!values.customerCompanyCheck}
+                                        className="mb-4"
+                                        options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)}
+                                        defaultValue={data?.data?.customerOfficialCompany?.id}
+                                        name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
                                     <FormikInput
                                         multiline
                                         minRows={3}

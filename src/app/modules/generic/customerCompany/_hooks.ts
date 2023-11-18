@@ -2,8 +2,14 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
 import { ICustomerCompany } from "./_models"
 
-const useGetCustomerCompanies = () => {
-    return useQuery(['CustomerCompanies'], () => api.getCustomerCompanies())
+const useGetCustomerCompanies = (CustomerId: string) => {
+    return useQuery(['CustomerCompanies', CustomerId], () => api.getCustomerCompanies(CustomerId))
+}
+
+const useGetCustomerCompaniesMutate = () => {
+    return useMutation((CustomerId: string) => {
+        return api.getCustomerCompanies(CustomerId)
+    })
 }
 
 const usePostCustomerCompanies = () => {
@@ -34,5 +40,6 @@ export {
     usePostCustomerCompanies,
     useGetCustomerCompany,
     useUpdateCustomerCompanies,
-    useDeleteCustomerCompanies
+    useDeleteCustomerCompanies,
+    useGetCustomerCompaniesMutate
 }
