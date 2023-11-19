@@ -19,8 +19,14 @@ const usePostCustomerCompanies = () => {
 }
 
 
-const useGetCustomerCompany = (id: string) => {
+const useGetCustomerCompany = (id: number) => {
     return useQuery(['CustomerCompanies', id], () => api.getCustomerCompany(id))
+}
+const useGetCustomerCompanyMutate = () => {
+    // return useQuery(['CustomerCompanies', id], () => api.getCustomerCompany(id))
+    return useMutation((id: number) => {
+        return api.getCustomerCompany(id)
+    })
 }
 
 const useUpdateCustomerCompanies = () => {
@@ -41,5 +47,6 @@ export {
     useGetCustomerCompany,
     useUpdateCustomerCompanies,
     useDeleteCustomerCompanies,
-    useGetCustomerCompaniesMutate
+    useGetCustomerCompaniesMutate,
+    useGetCustomerCompanyMutate
 }

@@ -27,7 +27,7 @@ const postCustomerCompanies = async (formData: ICustomerCompany) => {
     }
 }
 
-const getCustomerCompany = async (id: string) => {
+const getCustomerCompany = async (id: number) => {
     try {
 
         const { data } = await http.get(`/v1/CustomerOfficialCompany/${id}`)

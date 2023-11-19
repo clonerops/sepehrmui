@@ -12,7 +12,6 @@ import {
 } from "../core/_hooks";
 import { customerType } from "../helpers/customerType";
 import { convertValueLabelCustomerValidaty } from "../helpers/convertValueLabel";
-import { createValiadtion } from "../validation/createValidation";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { useGetCustomerValidities } from "../../generic/_hooks";
@@ -24,6 +23,7 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { ICustomer } from "../core/_models";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import { createValiadtion } from "../validation/validation";
 const initialValues = {
     firstName: "",
     lastName: "",

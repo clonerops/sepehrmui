@@ -43,7 +43,7 @@ import FormikService from "../../../_cloner/components/FormikService";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import { useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
 
-const Order = () => {
+const OrderUpdate = () => {
     const { enqueueSnackbar } = useSnackbar();
 
     // Fetching Data
@@ -869,4 +869,4 @@ const Order = () => {
     );
 };
 
-export default Order;
+export default OrderUpdate;
