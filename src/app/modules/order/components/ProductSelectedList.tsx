@@ -8,13 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ProductSelectedList = (props: ProductProps) => {
     const handleDeleteFromList = (indexToDelete: any) => {
+        console.log("indexToDelete", indexToDelete)
         if (props.orders) {
-            const updatedOrders = props.orders.filter(
-                (order) =>
-                    order.id !== indexToDelete.row.id &&
-                    order.warehouseId !== indexToDelete.row.warehouseId &&
-                    order.productBrandId !== indexToDelete.row.productBrandId
+            const updatedOrders = props.orders.filter((order) =>
+                    order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
+                    // order.warehouseId !== indexToDelete.row.warehouseId &&
+                    // order.productBrandId !== indexToDelete.row.productBrandId
             );
+            console.log("updatedOrders", updatedOrders)
             if (props?.setOrders) props?.setOrders(updatedOrders);
             if (props?.setFieldValue) props?.setFieldValue('amount', calculateTotalAmount(updatedOrders, props.orderService))
         }

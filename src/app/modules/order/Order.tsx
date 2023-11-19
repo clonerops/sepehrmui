@@ -6,7 +6,6 @@ import { useRetrieveProducts, useRetrieveProductsByBrand, useRetrieveProductsByW
 import { Form, Formik, FormikErrors } from "formik";
 import { useCreateOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
-import CreateCustomer from "../customer/components/CreateCustomer";
 import { useGetCustomers } from "../customer/core/_hooks";
 import { dropdownCustomer, dropdownCustomerCompanies, dropdownExitType, dropdownInvoiceType, dropdownOrderSendType, dropdownPurchaseInvoice, dropdownRentPaymentType, dropdownServices, dropdownTemporaryType, dropdownWarehouses } from "./helpers/dropdowns";
 import { exit, temporary } from "./helpers/fakeData";
@@ -20,10 +19,9 @@ import { sliceNumberPriceRial } from "../../../_cloner/helpers/sliceNumberPrice"
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
-import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import CustomButton from "../../../_cloner/components/CustomButton";
-import { AddCircle, Add, Grading, Delete, FiveMp, MonetizationOn, AttachMoney, DateRange, ProductionQuantityLimits, Edit } from "@mui/icons-material";
+import { AddCircle, Add, Grading, Delete, MonetizationOn, AttachMoney, DateRange, ProductionQuantityLimits, Edit } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
 import { dropdownProductByBrandName } from "../generic/_functions";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
@@ -43,8 +41,7 @@ import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
 import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
-import { getCustomerCompanies } from "../generic/customerCompany/_requests";
-import { useGetCustomerCompanies, useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
+import { useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
 
 const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -76,8 +73,6 @@ const Order = () => {
     const [findCustomer, setFindCustomer] = useState<ICustomer>(); //OK
 
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
-
-    console.log("customerCompaniesTools", customerCompaniesTools.data)
 
     const mainParseFields = (fields: FieldType, setFieldValue: any) => {
         const { type, ...rest } = fields;
@@ -115,7 +110,7 @@ const Order = () => {
                             >
                                 <AddCircle color="secondary" />
                             </IconButton>
-                            <FormikSelect options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری"  />
+                            <FormikComboBox options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری"  />
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
                             <Box component="div" className="flex flex-row pt-2">
