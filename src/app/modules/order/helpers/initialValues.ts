@@ -12,6 +12,9 @@ export const orderServiceValues = {
 }
 
 export const orderInitialValues = {
+    searchOrderCode: "",
+
+    
     customerId: "",
     settlementDate: "",
     exitType: "1",

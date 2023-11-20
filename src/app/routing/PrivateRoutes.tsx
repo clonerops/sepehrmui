@@ -30,6 +30,9 @@ import ProductService from "../modules/generic/productService/ProductService";
 import OrderConfirmList from "../modules/order/OrderConfirmList";
 import CargoPaper from "../modules/cargo/components/CargoPaper";
 import CustomerCompanies from "../modules/generic/customerCompany/CustomerCompany";
+import LadingLicence from "../modules/cargo/LadingLicence";
+import LadingList from "../modules/cargo/LadingList";
+import OrderUpdate from "../modules/order/OrderUpdate";
 
 const PrivateRoutes = () => {
 
@@ -42,6 +45,8 @@ const PrivateRoutes = () => {
             <Route path="auth/*" element={<Navigate to="/dashboard" />} />
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='dashboard/order' element={<Order />} />
+            {/* <Route path='dashboard/order/:id' element={<Order />} /> */}
+            <Route path='dashboard/orderUpdate' element={<OrderUpdate />} />
             <Route path='dashboard/orderList' element={<OrderList />} />
             <Route path='dashboard/approveOrderList' element={<OrderConfirmList />} />
             <Route path='dashboard/orderList/:id' element={<OrderDetail  />} />
@@ -55,6 +60,8 @@ const PrivateRoutes = () => {
             <Route path='dashboard/cargoList' element={<Cargo />} />
             <Route path='dashboard/cargoList/:id' element={<Confirm />} />
             <Route path='dashboard/cargoList/paper' element={<CargoPaper />} />
+            <Route path='dashboard/lading' element={<LadingLicence />} />
+            <Route path='dashboard/ladingList' element={<LadingList />} />
             <Route path='dashboard/payment' element={<RecievePayment />} />
             <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
             <Route path='dashboard/payment/accounting/:id' element={<Detail />} />

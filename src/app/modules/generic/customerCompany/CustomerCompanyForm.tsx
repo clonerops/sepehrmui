@@ -6,8 +6,9 @@ import { dropdownCustomer } from "../_functions";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { customerCompanyValidation } from "./validation";
-import { Box, Button, Card, Switch, Typography } from "@mui/material";
-import { useGetCustomerCompanies, useGetCustomerCompanyMutate, usePostCustomerCompanies } from "./_hooks";
+import { Box, Button, Typography } from "@mui/material";
+import { useGetCustomerCompanyMutate, usePostCustomerCompanies, useUpdateCustomerCompanies } from "./_hooks";
+import { ICustomerCompany } from './_models';
 
 const initialValues = {
     companyName: "",
@@ -15,15 +16,16 @@ const initialValues = {
     economicId: "",
     postalCode: "",
     nationalId: "",
+    customerType: 1,
     tel1: "",
     tel2: "",
     address: "",
     isActive: true
 };
 
-const companyType = [
-    { value: 1, label: "حقوقی" },
-    { value: 2, label: "حقیقی" },
+const customerType = [
+    { value: 1, label: "حقیقی" },
+    { value: 2, label: "حقوقی" },
 ]
 
 type Props = {
@@ -35,9 +37,9 @@ const CustomerCompanyForm = (props: Props) => {
     const { data: customers } = useGetCustomers();
     const { mutate: postCustomerCompany, data: postData } = usePostCustomerCompanies();
     const detailTools = useGetCustomerCompanyMutate()
+    const updateTools = useUpdateCustomerCompanies()
 
     const isNew = !props.id;
-
 
     const getDetail = () => {
         if (props.id)
@@ -67,7 +69,7 @@ const CustomerCompanyForm = (props: Props) => {
         ],
         [
             { label: "کدپستی", name: "postalCode", type: "input" },
-            { label: "نوع شرکت", name: "companyType", type: "companyType" },
+            { label: "نوع شرکت", name: "customerType", type: "customerType" },
         ],
         [
             { label: "تلفن", name: "tel1", type: "input" },
@@ -86,10 +88,10 @@ const CustomerCompanyForm = (props: Props) => {
                         {...rest}
                     />
                 );
-            case "companyType":
+            case "customerType":
                 return (
                     <FormikSelect
-                        options={companyType}
+                        options={customerType}
                         {...rest}
                     />
                 );
@@ -100,28 +102,41 @@ const CustomerCompanyForm = (props: Props) => {
         }
     };
 
-    const handleSubmit = async (values: any, setFieldValue: any) => {
+
+    const onUpdate = (values: ICustomerCompany) => {
         try {
-            // const formData = {
-            //     customerId: values.customerId,
-            //     companyName: values.companyName,
-            // };
-            postCustomerCompany(values, {
-                onSuccess: (message: any) => {
-                    setFieldValue("id", message.data.id);
+            return updateTools.mutate(values, {
+                onSuccess: (response) => {
                     props.refetch();
                 },
             });
-        } catch (error) {
-            console.log("error");
+        } catch (error: any) {
+            return error?.response;
         }
     };
+
+    const onAdd = (values: ICustomerCompany) => {
+        try {
+            return postCustomerCompany(values, {
+                onSuccess: (response) => {
+                    props.refetch();
+                },
+            });
+        } catch (error: any) {
+            return error?.response;
+        }
+    };
+
+    const handleSubmit = (values: ICustomerCompany) => {
+        if (props.id) onUpdate(values);
+        else onAdd(values);
+        props.refetch();
+    };
+
 
     if (props.id && detailTools?.isLoading) {
         return <Typography>Loading ...</Typography>;
     }
-
-    console.log("detailTools", detailTools?.data?.data)
 
     return (
         <Formik
@@ -149,7 +164,7 @@ const CustomerCompanyForm = (props: Props) => {
                         ))}
                         <Button
                             onClick={() =>
-                                handleSubmit(values, setFieldValue)
+                                handleSubmit(values)
                             }
                             variant="contained"
                             color="secondary"

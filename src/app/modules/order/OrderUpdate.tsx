@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import ProductSelectedList from "./components/ProductSelectedList";
 import ProductSelectedListInModal from "./components/ProductSelectedListInModal";
 import { useRetrieveProducts, useRetrieveProductsByBrand, useRetrieveProductsByWarehouse } from "../product/core/_hooks";
-import { Form, Formik, FormikErrors } from "formik";
-import { useCreateOrder } from "./core/_hooks";
+import { Form, Formik, FormikErrors, FormikProps, useFormikContext } from "formik";
+import { useCreateOrder, useRetrieveOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
 import { useGetCustomers } from "../customer/core/_hooks";
 import { dropdownCustomer, dropdownCustomerCompanies, dropdownExitType, dropdownInvoiceType, dropdownOrderSendType, dropdownPurchaseInvoice, dropdownRentPaymentType, dropdownServices, dropdownTemporaryType, dropdownWarehouses } from "./helpers/dropdowns";
@@ -21,7 +21,7 @@ import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import CustomButton from "../../../_cloner/components/CustomButton";
-import { AddCircle, Add, Grading, Delete, MonetizationOn, AttachMoney, DateRange, ProductionQuantityLimits, Edit } from "@mui/icons-material";
+import { AddCircle, Add, Grading, Delete, MonetizationOn, AttachMoney, DateRange, ProductionQuantityLimits, Edit, Search } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
 import { dropdownProductByBrandName } from "../generic/_functions";
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
@@ -42,8 +42,10 @@ import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import { useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
+import { useParams } from "react-router-dom";
 
-const OrderUpdate = () => {
+const Order = () => {
+    const {id} = useParams()
     const { enqueueSnackbar } = useSnackbar();
 
     // Fetching Data
@@ -59,9 +61,11 @@ const OrderUpdate = () => {
     const { data: services } = useGetServices();
     const { mutate, data, isLoading } = useCreateOrder();
     const customerCompaniesTools = useGetCustomerCompaniesMutate();
+    const detailTools = useRetrieveOrder(id)
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
     const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false); // OK
+    const [disabeldOrderSubmit, setDisabeldOrderSubmit] = useState<boolean>(false); // OK
     const [isUpdate, setIsUpdate] = useState<boolean>(false); // OK
     const [selectedOrderIndex, setSelectedOrderIndex] = useState<number>(0); // OK
     const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
@@ -72,7 +76,25 @@ const OrderUpdate = () => {
     const [orderService, setOrderService] = useState<IOrderService[]>([]); //OK
     const [findCustomer, setFindCustomer] = useState<ICustomer>(); //OK
 
+    const isNew = !id
+
+    const formikRef = useRef<FormikProps<any>>(null);
+
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
+
+    useEffect(() => {
+        if(id) {
+
+            setOrderService(prevOrderService => [
+                ...prevOrderService, 
+                ...detailTools?.data?.data?.orderServices?.map((i: any) => ({
+                    serviceName: i.service.description,
+                    description: i.description
+                })) || []
+            ]);
+
+        }
+    }, [id, detailTools?.data?.data])
 
     const mainParseFields = (fields: FieldType, setFieldValue: any) => {
         const { type, ...rest } = fields;
@@ -455,8 +477,9 @@ const OrderUpdate = () => {
 
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
+
     const orderAndAmountInfo = [
-        {id:1, title: "شماره سفارش", icon: <ProductionQuantityLimits color="secondary" />, value: orderCode },
+        // {id:1, title: "شماره سفارش", icon: <ProductionQuantityLimits color="secondary" />, value: orderCode },
         {id:2, title: "تاریخ سفارش", icon: <DateRange color="secondary" />, value: moment(new Date()).format("jYYYY-jMM-jDD") },
         {id:3, title: "قیمت کل", icon: <MonetizationOn color="secondary" />, value: `${sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال` },
         {id:4, title: "قیمت به حروف", icon: <AttachMoney color="secondary" />, value: `${convertToPersianWord(calculateTotalAmount(orders, orderService) )} تومان` }
@@ -464,9 +487,16 @@ const OrderUpdate = () => {
 
     return (
         <>
+            
             <Formik
                 enableReinitialize
-                initialValues={{ ...orderInitialValues, ...orderPaymentValues, ...orderServiceValues }}
+                innerRef={formikRef}
+                initialValues={
+                    isNew ?
+                    { ...orderInitialValues, ...orderPaymentValues, ...orderServiceValues } : 
+                    
+                    { ...orderInitialValues, ...orderPaymentValues, ...orderServiceValues, ...detailTools?.data?.data }  
+                }
                 validationSchema={orderValidation}
                 onSubmit={async (values: any) => {
                     if (orders?.length === 0) {
@@ -525,7 +555,7 @@ const OrderUpdate = () => {
                                     }
                                 })
                             };
-
+                            setDisabeldOrderSubmit(true)
                             mutate(formData, {
                                 onSuccess: (response) => {
                                     if (response.succeeded) {
@@ -567,6 +597,15 @@ const OrderUpdate = () => {
                     return <Form>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <ReusableCard cardClassName="">
+                                <Box component="div" className="flex mt-4 gap-4">
+                                    <FormikInput label="شماره سفارش" name="searchOrderCode" />
+                                    <Button variant="contained" color="secondary">
+                                        <Search />
+                                    </Button>
+                                </Box>
+                            </ReusableCard>
+
                                 {orderAndAmountInfo.map((item: {
                                     title: string,
                                     icon: React.ReactNode,
@@ -621,7 +660,7 @@ const OrderUpdate = () => {
                                         selectedOrderIndex={selectedOrderIndex}
                                         setIsUpdate={setIsUpdate}
                                         setFieldValue={setFieldValue}
-                                        orders={orders}
+                                        orders={!isNew ? detailTools?.data?.data?.details : orders}
                                         setIsBuy={setIsBuy}
                                         setOrders={setOrders}
                                         disabled={data?.succeeded}
@@ -869,4 +908,4 @@ const OrderUpdate = () => {
     );
 };
 
-export default OrderUpdate;
+export default Order;

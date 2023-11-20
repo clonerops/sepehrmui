@@ -441,8 +441,8 @@ const Order = () => {
     };
 
     const handleChangeCustomer = (value: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
-        const findCustomer = customers?.data?.find((i: any) => i?.id === value?.value);
-        customerCompaniesTools.mutate(findCustomer?.id)
+        const findCustomer = customers?.data.find((i: any) => i.id === value?.value);
+        customerCompaniesTools.mutate(findCustomer.id)
         setFindCustomer(findCustomer);
         setFieldValue("number", findCustomer?.settlementDay)
         setFieldValue("settlement", moment(new Date()).add(+findCustomer?.settlementDay, "days").format("jYYYY/jMM/jDD"))
@@ -484,7 +484,7 @@ const Order = () => {
                                 orderSendTypeId: Number(values.orderSendTypeId),
                                 paymentTypeId: Number(values.paymentTypeId),
                                 customerOfficialName: "string",
-                                customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
+                                customerOfficialCompanyId: +values.customerOfficialCompanyId,
                                 invoiceTypeId: Number(values.invoiceTypeId),
                                 isTemporary: +values.isTemporary === 0 ? false : true,
                                 freightName: "string",

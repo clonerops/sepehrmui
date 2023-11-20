@@ -4,7 +4,6 @@ import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanst
 import { useCreateCustomer } from "../core/_hooks";
 import { customerType } from "../helpers/customerType";
 import { convertValueLabelCustomerValidaty } from "../helpers/convertValueLabel";
-import { createValiadtion } from "../validation/createValidation";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { useGetCustomerValidities } from "../../generic/_hooks";
@@ -12,6 +11,7 @@ import { Box, Button, Typography } from "@mui/material";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import React from 'react';
 import PositionedSnackbar from '../../../../_cloner/components/Snackbar';
+import { createValiadtion } from '../validation/validation';
 const initialValues = {
     firstName: "",
     lastName: "",

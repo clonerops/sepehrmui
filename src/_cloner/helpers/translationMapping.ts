@@ -26,6 +26,9 @@ export const translationMapping: any = {
     approveOrderList: 'لیست سفارشات جهت تایید حسابداری',
     orderList: 'لیست سفارشات',
     customerCompany: 'تعریف شرکت های مشتری',
+    lading: 'مجوز بارگیری',
+    ladingList: 'سفارشات موجود برای بارگیری',
+    orderUpdate: 'ویرایش سفارش',
     // Add more translations as needed
   };
   
