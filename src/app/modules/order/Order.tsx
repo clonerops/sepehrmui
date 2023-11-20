@@ -62,6 +62,7 @@ const Order = () => {
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
     const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false); // OK
+    const [disabled, setDisabled] = useState<boolean>(false); // OK
     const [isUpdate, setIsUpdate] = useState<boolean>(false); // OK
     const [selectedOrderIndex, setSelectedOrderIndex] = useState<number>(0); // OK
     const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
@@ -475,6 +476,7 @@ const Order = () => {
                             anchorOrigin: { vertical: "top", horizontal: "center" }
                         })
                     } else {
+                        setDisabled(true)
                         try {
                             const formData = {
                                 customerId: values.customerId.value,
@@ -484,7 +486,7 @@ const Order = () => {
                                 orderSendTypeId: Number(values.orderSendTypeId),
                                 paymentTypeId: Number(values.paymentTypeId),
                                 customerOfficialName: "string",
-                                customerOfficialCompanyId: +values.customerOfficialCompanyId,
+                                customerOfficialCompanyId: +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
                                 invoiceTypeId: Number(values.invoiceTypeId),
                                 isTemporary: +values.isTemporary === 0 ? false : true,
                                 freightName: "string",
@@ -559,6 +561,7 @@ const Order = () => {
                                 variant: "error",
                                 anchorOrigin: { vertical: "top", horizontal: "center" }
                             })
+                            setDisabled(false)
                         }
                     }
                 }}
@@ -839,7 +842,7 @@ const Order = () => {
                             <CustomButton
                                 title={isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
-                                disabled={orderPayment?.length <= 0 || isUpdate || orderCode !== 0}
+                                disabled={orderPayment?.length <= 0 || isUpdate || orderCode !== 0 || disabled}
                                 color="primary"
                                 isLoading={isLoading}
                             />

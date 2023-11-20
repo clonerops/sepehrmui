@@ -35,7 +35,7 @@ import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount
 import FormikProximateAmount from "../product/components/FormikProximateAmount";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { calculateProximateAmount, calculateTotalAmount } from "./helpers/functions";
-import { orderPaymentValues, orderInitialValues, orderServiceValues } from './helpers/initialValues'
+import { orderPaymentValues, orderUpdateInitialValues, orderServiceValues } from './helpers/initialValues'
 import { useSnackbar } from 'notistack';
 import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
 import CustomerForm from "../customer/components/CustomerForm";
@@ -493,9 +493,9 @@ const Order = () => {
                 innerRef={formikRef}
                 initialValues={
                     isNew ?
-                    { ...orderInitialValues, ...orderPaymentValues, ...orderServiceValues } : 
+                    { ...orderUpdateInitialValues, ...orderPaymentValues, ...orderServiceValues } : 
                     
-                    { ...orderInitialValues, ...orderPaymentValues, ...orderServiceValues, ...detailTools?.data?.data }  
+                    { ...orderUpdateInitialValues, ...orderPaymentValues, ...orderServiceValues, ...detailTools?.data?.data }  
                 }
                 validationSchema={orderValidation}
                 onSubmit={async (values: any) => {
