@@ -42,10 +42,9 @@ import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import { useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
-import { useParams } from "react-router-dom";
 
 const Order = () => {
-    const {id} = useParams()
+    const id = "0c4279ca-ba40-4358-24e8-08dbe9cb402e"
     const { enqueueSnackbar } = useSnackbar();
 
     // Fetching Data
@@ -83,10 +82,9 @@ const Order = () => {
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
 
     useEffect(() => {
-        if(id) {
-
+        if (id) {
             setOrderService(prevOrderService => [
-                ...prevOrderService, 
+                // ...prevOrderService, 
                 ...detailTools?.data?.data?.orderServices?.map((i: any) => ({
                     serviceName: i.service.description,
                     description: i.description
@@ -99,63 +97,65 @@ const Order = () => {
     const mainParseFields = (fields: FieldType, setFieldValue: any) => {
         const { type, ...rest } = fields;
         switch (type) {
-            case "customer":
-                return (
-                    <Box component="div" className="flex flex-col w-full">
-                        <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
-                            <FormikComboBox
-                                disabled={data?.succeeded}
-                                onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
-                                options={dropdownCustomer(customers?.data)}
-                                renderOption={(props: any, option: any) => {
-                                    return <li {...props}>
-                                       <Box component="div" style={{
-                                            backgroundColor: `#${option.customerValidityColorCode}`,
-                                            width: 20,
-                                            height: 20,
-                                            borderRadius: 40
-                                       }}>
+            // case "customer":
+            //     return (
+            //         <Box component="div" className="flex flex-col w-full">
+            //             <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
+            //                 <FormikComboBox
+            //                     disabled={data?.succeeded}
+            //                     onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
+            //                     options={dropdownCustomer(customers?.data)}
+            //                     renderOption={(props: any, option: any) => {
+            //                         return <li {...props}>
+            //                            <Box component="div" style={{
+            //                                 backgroundColor: `#${option.customerValidityColorCode}`,
+            //                                 width: 20,
+            //                                 height: 20,
+            //                                 borderRadius: 40
+            //                            }}>
 
-                                        </Box> <Typography className="pr-4" style={{
-                                            // backgroundColor: `#${option.customerValidityColorCode}`,
-                                            width: "100%"
-                                        }}>{option.label}</Typography>
-                                    </li>
+            //                             </Box> <Typography className="pr-4" style={{
+            //                                 // backgroundColor: `#${option.customerValidityColorCode}`,
+            //                                 width: "100%"
+            //                             }}>{option.label}</Typography>
+            //                         </li>
 
-                                }
-                                }
-                                {...rest}
-                            />
-                            <IconButton
-                                onClick={() => setIsOpen(true)}
-                                className="flex justify-center items-center cursor-pointer text-xl"
-                            >
-                                <AddCircle color="secondary" />
-                            </IconButton>
-                            <FormikComboBox options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری"  />
-                        </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
-                            <Box component="div" className="flex flex-row pt-2">
-                                <Typography variant="h4" className="text-gray-500">معرف: </Typography>
-                                <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
-                            </Box>
-                            <Box component="div" className="flex flex-row pt-2">
-                                <Typography style={{
-                                    backgroundColor: `#${findCustomer?.customerValidityColorCode}`,
-                                    color: "white"
-                                }} variant="h3" className="px-4 rounded-md py-1">{findCustomer?.customerValidityDesc}</Typography>
-                            </Box>
-                            <Box component="div" className="flex flex-row pt-8">
-                                <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
-                                <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
-                            </Box>
-                            <Box component="div" className="flex flex-row pt-8">
-                                <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
-                                <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) : 0} ریال</Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                );
+            //                     }
+            //                     }
+            //                     {...rest}
+            //                 />
+            //                 <IconButton
+            //                     onClick={() => setIsOpen(true)}
+            //                     className="flex justify-center items-center cursor-pointer text-xl"
+            //                 >
+            //                     <AddCircle color="secondary" />
+            //                 </IconButton>
+            //                 <FormikComboBox options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری"  />
+            //             </Box>
+            //             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
+            //                 <Box component="div" className="flex flex-row pt-2">
+            //                     <Typography variant="h4" className="text-gray-500">معرف: </Typography>
+            //                     <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
+            //                 </Box>
+            //                 <Box component="div" className="flex flex-row pt-2">
+            //                     <Typography style={{
+            //                         backgroundColor: `#${findCustomer?.customerValidityColorCode}`,
+            //                         color: "white"
+            //                     }} variant="h3" className="px-4 rounded-md py-1">{findCustomer?.customerValidityDesc}</Typography>
+            //                 </Box>
+            //                 <Box component="div" className="flex flex-row pt-8">
+            //                     <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
+            //                     <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerCurrentDept ? separateAmountWithCommas(Number(findCustomer?.customerCurrentDept)) : 0} ریال</Typography>
+            //                 </Box>
+            //                 <Box component="div" className="flex flex-row pt-8">
+            //                     <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
+            //                     <Typography variant="h3" className="px-4 text-red-500">{findCustomer?.customerDept ? separateAmountWithCommas(Number(findCustomer?.customerDept)) : 0} ریال</Typography>
+            //                 </Box>
+            //             </Box>
+            //         </Box>
+            //     );
+
+
             case "settlementDate":
                 return <FormikDatepicker {...rest} />;
             case "orderSendTypeId":
@@ -480,22 +480,22 @@ const Order = () => {
 
     const orderAndAmountInfo = [
         // {id:1, title: "شماره سفارش", icon: <ProductionQuantityLimits color="secondary" />, value: orderCode },
-        {id:2, title: "تاریخ سفارش", icon: <DateRange color="secondary" />, value: moment(new Date()).format("jYYYY-jMM-jDD") },
-        {id:3, title: "قیمت کل", icon: <MonetizationOn color="secondary" />, value: `${sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال` },
-        {id:4, title: "قیمت به حروف", icon: <AttachMoney color="secondary" />, value: `${convertToPersianWord(calculateTotalAmount(orders, orderService) )} تومان` }
+        { id: 2, title: "تاریخ سفارش", icon: <DateRange color="secondary" />, value: moment(new Date()).format("jYYYY-jMM-jDD") },
+        { id: 3, title: "قیمت کل", icon: <MonetizationOn color="secondary" />, value: `${sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال` },
+        { id: 4, title: "قیمت به حروف", icon: <AttachMoney color="secondary" />, value: `${convertToPersianWord(calculateTotalAmount(orders, orderService))} تومان` }
     ]
 
     return (
         <>
-            
+
             <Formik
                 enableReinitialize
                 innerRef={formikRef}
                 initialValues={
                     isNew ?
-                    { ...orderUpdateInitialValues, ...orderPaymentValues, ...orderServiceValues } : 
-                    
-                    { ...orderUpdateInitialValues, ...orderPaymentValues, ...orderServiceValues, ...detailTools?.data?.data }  
+                        { ...orderUpdateInitialValues, ...orderPaymentValues, ...orderServiceValues } :
+
+                        { ...orderUpdateInitialValues, ...orderPaymentValues, ...orderServiceValues, ...detailTools?.data?.data }
                 }
                 validationSchema={orderValidation}
                 onSubmit={async (values: any) => {
@@ -516,7 +516,8 @@ const Order = () => {
                                 customerOfficialName: "string",
                                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
                                 invoiceTypeId: Number(values.invoiceTypeId),
-                                isTemporary: +values.isTemporary === 0 ? false : true,
+                                // isTemporary: +values.isTemporary === 0 ? false : true,
+                                isTemporary: values.isTemporary,
                                 freightName: "string",
                                 settlementDate: "1402/02/02",
                                 dischargePlaceAddress: "string",
@@ -595,8 +596,8 @@ const Order = () => {
             >
                 {({ handleSubmit, values, setFieldValue }) => {
                     return <Form>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
-                            <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4"> */}
+                        <Box component="div" className="flex justify-between gap-x-4 mb-4">
                             <ReusableCard cardClassName="">
                                 <Box component="div" className="flex mt-4 gap-4">
                                     <FormikInput label="شماره سفارش" name="searchOrderCode" />
@@ -606,15 +607,15 @@ const Order = () => {
                                 </Box>
                             </ReusableCard>
 
-                                {orderAndAmountInfo.map((item: {
-                                    title: string,
-                                    icon: React.ReactNode,
-                                    value: any
-                                } ) => {
-                                    return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
-                                })}
-                            </Box>
-                            <Box component="div" className="grid grid-cols-2 gap-4">
+                            {orderAndAmountInfo.map((item: {
+                                title: string,
+                                icon: React.ReactNode,
+                                value: any
+                            }) => {
+                                return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
+                            })}
+                        </Box>
+                        {/* <Box component="div" className="grid grid-cols-2 gap-4">
                                 <ReusableCard cardClassName="col-span-2">
                                     <Box component="div" className="">
                                         {customerFields.map((rowFields) => (
@@ -632,8 +633,8 @@ const Order = () => {
                                         ))}
                                     </Box>
                                 </ReusableCard>
-                            </Box>
-                        </Box>
+                            </Box> */}
+                        {/* </Box> */}
                         <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
                             <ReusableCard cardClassName="col-span-3">
                                 <Form>

@@ -4,6 +4,6 @@ export const exit = [
 ]
 
 export const temporary = [
-    { id: 0, title: "ثبت نهایی" },
-    { id: 1, title: "ثبت موقت" },
+    { id: false, title: "ثبت نهایی" },
+    { id: true, title: "ثبت موقت" },
 ]
