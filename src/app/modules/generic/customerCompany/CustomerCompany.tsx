@@ -107,16 +107,6 @@ const CustomerCompanies = () => {
                 flex: 1,
             },
             {
-                field: "postalCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کدپستی",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
                 field: "tel1",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
@@ -134,16 +124,6 @@ const CustomerCompanies = () => {
                 headerName: "موبایل",
                 headerClassName: "headerClassName",
                 minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "address",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "آدرس",
-                headerClassName: "headerClassName",
-                minWidth: 180,
                 flex: 1,
             },
             { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }

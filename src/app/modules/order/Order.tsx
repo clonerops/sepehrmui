@@ -842,7 +842,7 @@ const Order = () => {
                             <CustomButton
                                 title={isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
-                                disabled={orderPayment?.length <= 0 || isUpdate || orderCode !== 0 || disabled}
+                                disabled={orderPayment?.length <= 0 || isUpdate || orderCode !== 0}
                                 color="primary"
                                 isLoading={isLoading}
                             />

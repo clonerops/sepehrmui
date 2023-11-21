@@ -10,6 +10,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useGetCustomerCompanyMutate, usePostCustomerCompanies, useUpdateCustomerCompanies } from "./_hooks";
 import { ICustomerCompany } from './_models';
 import { enqueueSnackbar } from 'notistack';
+import FormikMaskInput from '../../../../_cloner/components/FormikMaskInput';
 
 const initialValues = {
     companyName: "",
@@ -65,7 +66,7 @@ const CustomerCompanyForm = (props: Props) => {
             { label: "شرکت", name: "companyName", type: "company" },
         ],
         [
-            { label: "شناسه اقتصادی", name: "economicId", type: "input" },
+            { label: "شناسه اقتصادی", name: "economicId", type: "economicId" },
             { label: "شناسه ملی", name: "nationalId", type: "input" },
         ],
         [
@@ -101,8 +102,10 @@ const CustomerCompanyForm = (props: Props) => {
                 return <FormikInput multiline minRows={3} {...rest} />;
             case "company":
                 return <FormikInput disabled={!isNew} {...rest} />;
+            case "economicId":
+                return <FormikMaskInput mask={Number} {...rest} />;
             default:
-                return <FormikInput {...rest} />;
+                return <FormikMaskInput mask={Number} {...rest} />;
         }
     };
 
