@@ -8,7 +8,7 @@ export type FormikMaskProps = ComponentProps<typeof MaskInput> & {
   value?: string;
 };
 
-const FormikMaskInput = (props: FormikMaskProps) => {
+const FormikMaskInput = (props: any) => {
   const { name, value, ...rest } = props;
   const [field, , meta] = useField({ name: name, value: value });
   const formikProps = useFormikContext();
@@ -24,7 +24,7 @@ const FormikMaskInput = (props: FormikMaskProps) => {
       {...getFormikFieldValidationProps(formikProps, name)}
       {...field}
       {...rest}
-      onAccept={(value, mask) => {
+      onAccept={(value: any, mask: any) => {
         if (rest?.onAccept) rest?.onAccept(value, mask);
         else meta.setValue(mask.unmaskedValue);
       }}

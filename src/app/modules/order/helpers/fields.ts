@@ -34,8 +34,8 @@ export const orderFields: FieldType[][] = [
         },
         {
             label: "قیمت",
+            name: "price",
             // name: "price",
-            name: "productPrice",
             type: "price",
         },
         {
@@ -88,7 +88,7 @@ export const orderFieldsIsBuy: FieldType[][] = [
         {
             label: "قیمت",
             // name: "price",
-            name: "productPrice",
+            name: "price",
             type: "price",
         },
         {
@@ -175,7 +175,7 @@ export const orderFieldsConfirm: FieldType[][] = [
         },
         {
             label: "قیمت",
-            name: "productPrice",
+            name: "price",
             type: "disabled",
         },
         {
@@ -193,7 +193,7 @@ export const orderFieldsConfirm: FieldType[][] = [
         },
         {
             label: "قیمت",
-            name: "productPriceReplace",
+            name: "priceReplace",
             type: "price",
         },
         {

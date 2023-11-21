@@ -53,7 +53,7 @@ const ProductSelectedListInModal = (props: {
     const [proximateSubAmounts, setProximateSubAmounts] = useState<{
         [key: string]: string;
     }>({});
-    const [productPrice, setProductPrice] = useState<{ [key: string]: string }>(
+    const [price, setPrice] = useState<{ [key: string]: string }>(
         {}
     );
 
@@ -112,9 +112,9 @@ const ProductSelectedListInModal = (props: {
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     defaultValue={separateAmountWithCommas(
-                        Number(productPrice)
+                        Number(price)
                     )}
-                    value={productPrice[productId]}
+                    value={price[productId]}
                     onChange={(e: any) =>
                         handleInputPriceChange(productId, e.target.value)
                     }
@@ -209,13 +209,13 @@ const ProductSelectedListInModal = (props: {
         const numericValue = parseFloat(sanitizedValue);
         if (!isNaN(numericValue)) {
             const formattedValue = numericValue.toLocaleString("en-US");
-            setProductPrice({
-                ...productPrice,
+            setPrice({
+                ...price,
                 [productId]: formattedValue,
             });
         } else {
-            setProductPrice({
-                ...productPrice,
+            setPrice({
+                ...price,
                 [productId]: "",
             });
         }
@@ -232,7 +232,7 @@ const ProductSelectedListInModal = (props: {
                 (i: IProducts) => i.id === selectedRow.id
             )?.productSubUnitDesc,
         };
-        setProductPrice(newSelectionModel.row.productPrice);
+        setPrice(newSelectionModel.row.price);
         setSubUnit({
             ...subUnit,
             [selectedRow.id]: newSelectionModel.row.productSubUnitId,
@@ -278,9 +278,9 @@ const ProductSelectedListInModal = (props: {
             rowId: product?.rowId ? product?.rowId : 0,
             proximateAmount: proximateAmounts[product.id] || "",
             warehouseTypeId: 0,
-            productPrice: productPrice[product.id]
-                ? productPrice[product.id]
-                : separateAmountWithCommas(product.productPrice),
+            price: price[product.id]
+                ? price[product.id]
+                : separateAmountWithCommas(product.price),
             proximateSubUnit:
                 proximateSubAmounts[product.id] === undefined
                     ? 0

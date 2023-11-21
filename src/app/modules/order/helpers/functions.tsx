@@ -1,6 +1,6 @@
 export const calculateTotalAmount = (data: any, orderService: any) => {
     const prices = data?.map((obj: any) =>
-        Number(obj.productPrice?.replace(/,/g, "")) * Number(obj.proximateAmount?.replace(/,/g, ""))
+        Number(obj.price?.replace(/,/g, "")) * Number(obj.proximateAmount?.replace(/,/g, ""))
     );
 
     const sericePrices = orderService?.map((obj: any) => Number(obj.description?.replace(/,/g, "")))
@@ -13,7 +13,7 @@ export const calculateTotalAmount = (data: any, orderService: any) => {
 
 export const calculateProximateAmount = (data: any, orderPayment: any, orderService: any) => {
     const prices = data?.map((obj: any) =>
-        Number(obj.productPrice?.replace(/,/g, "")) * Number(obj.proximateAmount?.replace(/,/g, ""))
+        Number(obj.price?.replace(/,/g, "")) * Number(obj.proximateAmount?.replace(/,/g, ""))
     );
 
     const orderPrices = orderPayment?.map((obj: any) => Number(obj.amount?.replace(/,/g, "")))

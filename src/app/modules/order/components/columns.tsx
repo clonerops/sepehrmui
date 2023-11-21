@@ -35,7 +35,7 @@ export const orderListColumns = (renderActions: any) => {
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },
         {
-            headerName: "قیمت(ریال)", field: "productPrice",
+            headerName: "قیمت(ریال)", field: "price",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,

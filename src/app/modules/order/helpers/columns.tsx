@@ -111,12 +111,12 @@ export const columnsModalProduct = () => {
         //     flex: 1,
         // },
         {
-            field: "productPrice",
+            field: "price",
             minWidth: 60,
             headerName: "قیمت",
             flex: 1,
             renderCell: (value: any) =>
-                <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.productPrice)}</Typography>,
+                <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
             headerClassName: "headerClassName",
         },
     ];
@@ -179,7 +179,7 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any, render
             flex: 1,
         },
         {
-            field: "productPrice",
+            field: "price",
             minWidth: 120,
             maxWidth: 120,
             headerName: "قیمت",

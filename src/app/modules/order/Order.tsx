@@ -302,7 +302,8 @@ const Order = () => {
         const fieldValue = [
             { id: uuidv4(), title: "productName", value: "" },
             { id: uuidv4(), title: "id", value: "" },
-            { id: uuidv4(), title: "productPrice", value: "" },
+            // { id: uuidv4(), title: "price", value: "" },
+            { id: uuidv4(), title: "price", value: "" },
             { id: uuidv4(), title: "productBrandId", value: "" },
             { id: uuidv4(), title: "productBrandName", value: "" },
             { id: uuidv4(), title: "warehouseId", value: "" },
@@ -338,7 +339,7 @@ const Order = () => {
     }
 
     const handleOrder = (values: any, setFieldValue: any) => {
-        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "buyPrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "productPrice", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
+        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "buyPrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
 
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId);
         const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId);
@@ -364,7 +365,7 @@ const Order = () => {
             purchaserCustomerName: values.purchaserCustomerId?.label ? values.purchaserCustomerId?.label : values.purchaserCustomerName,
             mainUnit: values.mainUnit,
             subUnit: values.subUnit,
-            productPrice: values?.productPrice,
+            price: values?.price,
             description: values.productDesc,
             rowId: values?.rowId,
         };
@@ -383,7 +384,7 @@ const Order = () => {
                     variant: "error",
                     anchorOrigin: { vertical: "top", horizontal: "center" }
                 })
-            } else if (values?.productPrice === "") {
+            } else if (values?.price === "") {
                 enqueueSnackbar("وارد نمودن قیمت الزامی می باشد", {
                     variant: "error",
                     anchorOrigin: { vertical: "top", horizontal: "center" }
@@ -418,7 +419,7 @@ const Order = () => {
                     variant: "error",
                     anchorOrigin: { vertical: "top", horizontal: "center" }
                 })
-            } else if (values?.productPrice === "") {
+            } else if (values?.price === "") {
                 enqueueSnackbar("وارد نمودن قیمت الزامی می باشد", {
                     variant: "error",
                     anchorOrigin: { vertical: "top", horizontal: "center" }
@@ -502,7 +503,7 @@ const Order = () => {
                                         productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
                                         proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0,
                                         numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
-                                        price: item.productPrice ? Number(item.productPrice?.replace(/,/g, "")) : null,
+                                        price: item.price ? Number(item.price?.replace(/,/g, "")) : null,
                                         cargoSendDate: "1402/01/01",
                                         description: item.description,
                                         buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,

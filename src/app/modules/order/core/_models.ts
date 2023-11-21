@@ -109,7 +109,7 @@ export interface IOrderItems {
     purchaserCustomerName?: string  | null | undefined
     mainUnit?: string  | null | undefined
     subUnit?: string  | null | undefined
-    productPrice?: string  | null | undefined
+    price?: string  | null | undefined
     rowId?: string  | null | undefined
     description?: string  | null | undefined
 }

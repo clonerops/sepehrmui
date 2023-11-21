@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ProductSelectedList = (props: ProductProps) => {
     const handleDeleteFromList = (indexToDelete: any) => {
-        console.log("indexToDelete", indexToDelete)
         if (props.orders) {
             const updatedOrders = props.orders.filter((order) =>
                     order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
@@ -47,7 +46,7 @@ const ProductSelectedList = (props: ProductProps) => {
             const fieldValue = [
                 {id: uuidv4(), title: "productName", value: params.row.productName},
                 {id: uuidv4(), title: "id", value: params.row.id},
-                {id: uuidv4(), title: "productPrice", value: params.row.productPrice},
+                {id: uuidv4(), title: "price", value: params.row.price},
                 {id: uuidv4(), title: "productBrandId", value: params.row.productBrandId},
                 {id: uuidv4(), title: "productBrandName", value: params.row.productBrandName},
                 {id: uuidv4(), title: "warehouseId", value: params.row.warehouseId},
