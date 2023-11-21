@@ -9,6 +9,7 @@ import { customerCompanyValidation } from "./validation";
 import { Box, Button, Typography } from "@mui/material";
 import { useGetCustomerCompanyMutate, usePostCustomerCompanies, useUpdateCustomerCompanies } from "./_hooks";
 import { ICustomerCompany } from './_models';
+import { enqueueSnackbar } from 'notistack';
 
 const initialValues = {
     companyName: "",
@@ -30,7 +31,7 @@ const customerType = [
 
 type Props = {
     refetch: any,
-    id?: any
+    id?: any,    
 }
 
 const CustomerCompanyForm = (props: Props) => {
@@ -61,7 +62,7 @@ const CustomerCompanyForm = (props: Props) => {
     const fields: FieldType[][] = [
         [
             { label: "مشتری", name: "customerId", type: "customer" },
-            { label: "شرکت", name: "companyName", type: "input" },
+            { label: "شرکت", name: "companyName", type: "company" },
         ],
         [
             { label: "شناسه اقتصادی", name: "economicId", type: "input" },
@@ -84,6 +85,7 @@ const CustomerCompanyForm = (props: Props) => {
             case "customer":
                 return (
                     <FormikSelect
+                        disabled={!isNew}
                         options={dropdownCustomer(customers?.data)}
                         {...rest}
                     />
@@ -97,6 +99,8 @@ const CustomerCompanyForm = (props: Props) => {
                 );
             case "address":
                 return <FormikInput multiline minRows={3} {...rest} />;
+            case "company":
+                return <FormikInput disabled={!isNew} {...rest} />;
             default:
                 return <FormikInput {...rest} />;
         }
@@ -107,6 +111,12 @@ const CustomerCompanyForm = (props: Props) => {
         try {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
+                    if(response.succeeded) {
+                        enqueueSnackbar("ویرایش با موفقیت انجام شد", {
+                            variant: "success",
+                            anchorOrigin: { vertical: "top", horizontal: "center" }
+                        })
+                    }
                     props.refetch();
                 },
             });
@@ -119,6 +129,12 @@ const CustomerCompanyForm = (props: Props) => {
         try {
             return postCustomerCompany(values, {
                 onSuccess: (response) => {
+                    if(response.succeeded) {
+                        enqueueSnackbar("ایجاد با موفقیت انجام شد", {
+                            variant: "success",
+                            anchorOrigin: { vertical: "top", horizontal: "center" }
+                        })
+                    } 
                     props.refetch();
                 },
             });

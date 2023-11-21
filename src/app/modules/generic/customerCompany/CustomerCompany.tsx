@@ -13,10 +13,12 @@ import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import CustomerCompanyForm from "./CustomerCompanyForm";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
+import SwitchComponent from "../../../../_cloner/components/Switch";
+import { enqueueSnackbar } from "notistack";
 
 const CustomerCompanies = () => {
     const { data: customerCompanies, refetch, isLoading: CustomerCompanyLoading, } = useGetCustomerCompanies("");
-    const { mutate: updateCustomerCompany, data: updateData } = useUpdateCustomerCompanies();
+    const updateTools = useUpdateCustomerCompanies()
     const { mutate: deleteCustomerCompany, data: deleteData } = useDeleteCustomerCompanies();
     const [open, setIsOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -29,30 +31,26 @@ const CustomerCompanies = () => {
         setResults(customerCompanies?.data);
     }, [customerCompanies?.data]);
 
-    const handleDelete = (id: number) => {
-        if (id)
-            deleteCustomerCompany(id, {
+
+    const onUpdateStatus = (rowData: any) => {
+        try {
+            const formData = {
+                ...rowData.row,
+                isActive: !rowData.row.isActive,
+            };
+            updateTools.mutate(formData, {
                 onSuccess: () => {
+                  enqueueSnackbar("تغییر وضعیت با موفقیت انجام شد", {
+                    variant: "success",
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
                     refetch();
                 },
             });
+        } catch (e) {
+            return e;
+        }
     };
-
-    // const onUpdateStatus = (rowData: any) => {
-    //     try {
-    //         const formData = {
-    //             ...values,
-    //             isActive: !rowData.row.isActive,
-    //         };
-    //         updateCustomerCompany(formData, {
-    //             onSuccess: () => {
-    //                 refetch();
-    //             },
-    //         });
-    //     } catch (e) {
-    //         return e;
-    //     }
-    // };
 
     const handleEdit = (item: ICustomerCompany) => {
         setItemForEdit(item);
@@ -84,21 +82,6 @@ const CustomerCompanies = () => {
                     );
                 },
                 headerName: "مشتری",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "customerOfficialName",
-                renderCell: (params: any) => {
-                    console.log("params", params);
-                    return (
-                        <Typography variant="h4">
-                            {params.row.customer.officialName}
-                        </Typography>
-                    );
-                },
-                headerName: "اسم رسمی مشتری",
                 headerClassName: "headerClassName",
                 minWidth: 120,
                 flex: 1,
@@ -171,7 +154,10 @@ const CustomerCompanies = () => {
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
-                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+              <SwitchComponent
+                  checked={item?.row.isActive}
+                  onChange={(_) => onUpdateStatus(item)}
+              />
                 <EditGridButton onClick={() => handleEdit(item?.row)}  />
             </Box>
         );
