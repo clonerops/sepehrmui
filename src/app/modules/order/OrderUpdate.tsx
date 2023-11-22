@@ -429,6 +429,8 @@ const Order = () => {
         return <Typography>در حال بارگزاری ......</Typography>
     }
 
+    console.log(orders)
+
     return (
         <>
 
@@ -461,24 +463,24 @@ const Order = () => {
                             dischargePlaceAddress: "string", //ok
                             freightDriverName: "string", //ok
                             carPlaque: "string", //ok
-                            // details: orders?.map((item: any) => {
-                            //     return {
-                            //         rowId: item.rowId ? Number(item.rowId) : 0,
-                            //         productId: item.id,
-                            //         warehouseId: item.warehouseId ? Number(item.warehouseId) : null,
-                            //         productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
-                            //         proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0,
-                            //         numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
-                            //         price: item.price ? Number(item.price) : null,
-                            //         cargoSendDate: "1402/01/01",
-                            //         description: item.description,
-                            //         buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,
-                            //         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                            //         purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
-                            //         purchaseSettlementDate: item.purchaseSettlementDate,
-                            //         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
-                            //     };
-                            // }),
+                            details: orders?.map((item: any) => {
+                                return {
+                                    rowId: item.rowId ? Number(item.rowId) : 0, //ok
+                                    productId: item.productId, //ok
+                                    warehouseId: item.warehouseId ? Number(item.warehouseId) : null, //NOTOK
+                                    productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
+                                    proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0, //ok
+                                    numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
+                                    // price: item.price ? Number(item.price) : null,
+                                    // cargoSendDate: "1402/01/01",
+                                    // description: item.description,
+                                    // buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,
+                                    // purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
+                                    // purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
+                                    // purchaseSettlementDate: item.purchaseSettlementDate,
+                                    // sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
+                                };
+                            }),
                             // orderPayments: orderPayment?.map((item: IOrderPayment) => {
                             //     return {
                             //         amount: Number(item.amount?.replace(/,/g, "")),
