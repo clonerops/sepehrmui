@@ -440,6 +440,8 @@ const Order = () => {
                         })
                     } else {
                         const formData = {
+                            id: detailTools?.data?.data?.id,
+                            productBrandId: null,
                             customerId: detailTools?.data?.data.customer.id, //ok
                             totalAmount: calculateTotalAmount(orders, orderService), //ok
                             description: values.description ? values.description : detailTools?.data?.data.description, //ok
@@ -473,14 +475,14 @@ const Order = () => {
                                     sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                                 };
                             }),
-                            // orderPayments: orderPayment?.map((item: IOrderPayment) => {
-                            //     return {
-                            //         amount: Number(item.amount?.replace(/,/g, "")),
-                            //         paymentDate: item.paymentDate,
-                            //         daysAfterExit: Number(item.daysAfterExit),
-                            //         paymentType: item.paymentType
-                            //     }
-                            // }),
+                            orderPayments: orderPayment?.map((item: IOrderPayment) => {
+                                return {
+                                    amount: Number(item.amount),
+                                    paymentDate: item.paymentDate,
+                                    daysAfterExit: Number(item.daysAfterExit),
+                                    paymentType: item.paymentType
+                                }
+                            }),
                             orderServices: orderService.map((item: IOrderService) => {
                                 return {
                                     serviceId: item.serviceId,
@@ -490,39 +492,39 @@ const Order = () => {
                         };
                         console.log("formData", formData)
 
-                        // try {
-                        //     mutate(formData, {
-                        //         onSuccess: (response) => {
-                        //             if (response.succeeded) {
-                        //                 Swal.fire({
-                        //                     title: `سفارش با موفقیت ویرایش گردید`,
-                        //                     confirmButtonColor: "#fcc615",
-                        //                     showClass: {
-                        //                         popup: 'animate__animated animate__fadeInDown'
-                        //                     },
-                        //                     hideClass: {
-                        //                         popup: 'animate__animated animate__fadeOutUp'
-                        //                     },
-                        //                     confirmButtonText: "بستن",
-                        //                     icon: "success",
-                        //                     customClass: {
-                        //                         title: "text-lg"
-                        //                     }
-                        //                 })
-                        //             } else {
-                        //                 enqueueSnackbar(response?.data.Message, {
-                        //                     variant: "error",
-                        //                     anchorOrigin: { vertical: "top", horizontal: "center" }
-                        //                 })
-                        //             }
-                        //         }
-                        //     });
-                        // } catch (error) {
-                        //     enqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید", {
-                        //         variant: "error",
-                        //         anchorOrigin: { vertical: "top", horizontal: "center" }
-                        //     })
-                        // }
+                        try {
+                            mutate(formData, {
+                                onSuccess: (response) => {
+                                    if (response.succeeded) {
+                                        Swal.fire({
+                                            title: `سفارش با موفقیت ویرایش گردید`,
+                                            confirmButtonColor: "#fcc615",
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            },
+                                            confirmButtonText: "بستن",
+                                            icon: "warning",
+                                            customClass: {
+                                                title: "text-lg"
+                                            }
+                                        })
+                                    } else {
+                                        enqueueSnackbar(response?.data.Message, {
+                                            variant: "error",
+                                            anchorOrigin: { vertical: "top", horizontal: "center" }
+                                        })
+                                    }
+                                }
+                            });
+                        } catch (error) {
+                            enqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید", {
+                                variant: "error",
+                                anchorOrigin: { vertical: "top", horizontal: "center" }
+                            })
+                        }
                     }
                 }}
             >
@@ -764,7 +766,7 @@ const Order = () => {
                                     {orderPayment.map((i: IOrderPayment) =>
                                         <ReusableCard cardClassName="flex justify-between items-center my-4">
                                             <Box>
-                                                <Typography variant="h4" color="primary"> مبلغ: {i.amount} ریال</Typography>
+                                                <Typography variant="h4" color="primary"> مبلغ: {separateAmountWithCommas(i.amount)} ریال</Typography>
                                             </Box>
                                             <Box>
                                                 <Typography variant="h4" color="primary"> تاریخ تسویه: {i.paymentDate ? i.paymentDate : i.daysAfterExit + " " + "روز بعد از وزن"} </Typography>

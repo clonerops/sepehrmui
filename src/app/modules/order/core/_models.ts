@@ -14,6 +14,7 @@ export interface IProductOrder {
 }
 
 export interface ICreateOrder {
+    id?: string
     customerId: string | undefined | null
     totalAmount: number | undefined | null
     orderCode?: number | undefined | null

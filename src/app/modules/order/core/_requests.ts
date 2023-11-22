@@ -12,7 +12,7 @@ const createOrder = async (formData: ICreateOrder) => {
 }
 const updateOrder = async (formData: ICreateOrder) => {
     try {
-        const { data } = await http.put(`/v1/Order`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/Order/${formData.id}`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response
