@@ -14,7 +14,6 @@ const ProductSelectedList = (props: ProductProps) => {
                     // order.warehouseId !== indexToDelete.row.warehouseId &&
                     // order.productBrandId !== indexToDelete.row.productBrandId
             );
-            console.log("updatedOrders", updatedOrders)
             if (props?.setOrders) props?.setOrders(updatedOrders);
             if (props?.setFieldValue) props?.setFieldValue('amount', calculateTotalAmount(updatedOrders, props.orderService))
         }
@@ -37,6 +36,7 @@ const ProductSelectedList = (props: ProductProps) => {
     };
 
     const onDoubleClick = (params: any) => {
+        console.log("params", params.row)
         if (props?.orders) {
             const selectedRow: any = props?.orders.find(order => order.id === params.row.id);
             const rowIndex = props?.orders.indexOf(selectedRow);
@@ -46,6 +46,7 @@ const ProductSelectedList = (props: ProductProps) => {
             const fieldValue = [
                 {id: uuidv4(), title: "productName", value: params.row.productName},
                 {id: uuidv4(), title: "id", value: params.row.id},
+                {id: uuidv4(), title: "productId", value: params.row.productId},
                 {id: uuidv4(), title: "price", value: params.row.price},
                 {id: uuidv4(), title: "productBrandId", value: params.row.productBrandId},
                 {id: uuidv4(), title: "productBrandName", value: params.row.productBrandName},
@@ -63,6 +64,7 @@ const ProductSelectedList = (props: ProductProps) => {
                 {id: uuidv4(), title: "productDesc", value: params.row.productDesc},
                 {id: uuidv4(), title: "mainUnit", value: params.row.mainUnit},
                 {id: uuidv4(), title: "subUnit", value: params.row.subUnit},
+                {id: uuidv4(), title: "exchangeRate", value: params.row.exchangeRate},
             ];
 
             if (props.setFieldValue) {
@@ -110,7 +112,8 @@ const ProductSelectedList = (props: ProductProps) => {
                     )) {
                         return 'custom-row-style'
                     } else if (params.row.warehouseId === 2 && (
-                        params.row.proximateAmount === ""
+                        params.row.proximateAmount === "" ||
+                        params.row.price === "0"
                     )) {
                         return 'custom-row-style'
                     } else {

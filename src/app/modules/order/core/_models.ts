@@ -91,6 +91,7 @@ export interface IOrderService {
 
 export interface IOrderItems {
     id?: string | null | undefined
+    productId?: string | null | undefined
     productName?: string | null | undefined
     warehouseId?: string | null | undefined
     productBrandName?: string  | null | undefined

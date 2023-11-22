@@ -223,6 +223,7 @@ const ProductSelectedListInModal = (props: {
 
     const handleSelectionChange: any = (newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
+        console.log("selectedRow", selectedRow)
         const selectedRowData = {
             ...newSelectionModel.row,
             mainUnit: props.products?.find(
@@ -232,7 +233,7 @@ const ProductSelectedListInModal = (props: {
                 (i: IProducts) => i.id === selectedRow.id
             )?.productSubUnitDesc,
         };
-        setPrice(newSelectionModel.row.price);
+        setPrice(newSelectionModel.row.productPrice);
         setSubUnit({
             ...subUnit,
             [selectedRow.id]: newSelectionModel.row.productSubUnitId,
