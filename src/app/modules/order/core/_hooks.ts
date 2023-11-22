@@ -7,6 +7,11 @@ const useCreateOrder = () => {
         return api.createOrder(formData);
     });
 };
+const useUpdateOrder = () => {
+    return useMutation((formData: ICreateOrder) => {
+        return api.updateOrder(formData);
+    });
+};
 
 const useRetrieveOrders = (formData: {
     pageNumber?: number;
@@ -16,7 +21,7 @@ const useRetrieveOrders = (formData: {
 }) => {
     // return useQuery(["orders"], () => api.retrieveOrders());
     return useQuery(["orders", formData], () => api.retrieveOrders(formData));
-        // return useMutation((formData: {
+    // return useMutation((formData: {
     //     pageNumber?: number;
     //     pageSize?: number;
     //     InvoiceTypeId?: number[];
@@ -24,17 +29,18 @@ const useRetrieveOrders = (formData: {
     // }) => {
     //     return api.retrieveOrders(formData)
     // })
-
 };
 const useRetrieveOrdersByMutation = () => {
-    return useMutation((formData: {
-        pageNumber?: number;
-        pageSize?: number;
-        InvoiceTypeId?: number[];
-        OrderStatusId?: number;
-    }) => {
-        return api.retrieveOrdersMutation(formData);
-    });
+    return useMutation(
+        (formData: {
+            pageNumber?: number;
+            pageSize?: number;
+            InvoiceTypeId?: number[];
+            OrderStatusId?: number;
+        }) => {
+            return api.retrieveOrdersMutation(formData);
+        }
+    );
 };
 
 const useRetrieveOrder = (id: string | undefined) => {
@@ -50,5 +56,19 @@ const useApproveInvoiceType = () => {
         return api.approveInvoiceType(formData);
     });
 };
+const useGetOrderDetailByCode = () => {
+    return useMutation((orderCode: number) => {
+        return api.getOrderDetailByCode(orderCode);
+    });
+};
 
-export { useCreateOrder, useRetrieveOrders, useRetrieveOrder, useConfirmOrder, useApproveInvoiceType, useRetrieveOrdersByMutation };
+export {
+    useCreateOrder,
+    useUpdateOrder,
+    useRetrieveOrders,
+    useRetrieveOrder,
+    useConfirmOrder,
+    useApproveInvoiceType,
+    useRetrieveOrdersByMutation,
+    useGetOrderDetailByCode,
+};

@@ -10,6 +10,14 @@ const createOrder = async (formData: ICreateOrder) => {
         return error.response
     }
 }
+const updateOrder = async (formData: ICreateOrder) => {
+    try {
+        const { data } = await http.put(`/v1/Order`, JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
 
 // const retrieveOrders = async () => {
 //     try {
@@ -87,13 +95,25 @@ const approveInvoiceType = async (formData: IApproveInvoice) => {
     }
 }
 
+const getOrderDetailByCode = async(orderCode: number) => {
+    try {
+        const { data } = await http.get(`/v1/Order/GetOrderInfo/${orderCode}`)
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+
+}
+
 
 
 export {
     createOrder,
+    updateOrder,
     retrieveOrders,
     retrieveOrder,
     confirmOrder,
     approveInvoiceType,
-    retrieveOrdersMutation 
+    retrieveOrdersMutation,
+    getOrderDetailByCode 
 }
