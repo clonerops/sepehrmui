@@ -98,7 +98,7 @@ const Order = () => {
                     ...i,
                     mainUnit: i.product.productMainUnitDesc,
                     subUnit: i.product.productSubUnitDesc,
-                    exchangeRate: i.product.exchangeRate,
+                    exchangeRate: +i.product.exchangeRate,
                     warehouseId: warehouse.find((item: any) => item.name === i.warehouseName).id,
                     price: separateAmountWithCommas(i.price),
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
@@ -327,7 +327,7 @@ const Order = () => {
             productBrandId: values.productName.productBrandId ? values.productName.productBrandId : values.productBrandId,
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             warehouseName: values.warehouseName ? values.warehouseName : warehouseName?.name,
-            productId: values?.productId,
+            productId: values?.productName?.value ? values?.productName?.value : values?.productId ,
             productDesc: values?.productDesc,
             buyPrice: values?.buyPrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
@@ -459,18 +459,18 @@ const Order = () => {
                                 return {
                                     rowId: item.rowId ? Number(item.rowId) : 0, //ok
                                     productId: item.productId, //ok
-                                    warehouseId: item.warehouseId ? Number(item.warehouseId) : null, //NOTOK
-                                    // productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
-                                    // proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0, //ok
-                                    // numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
-                                    // price: item.price ? Number(item.price) : null,
-                                    // cargoSendDate: "1402/01/01",
-                                    // description: item.description,
-                                    // buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,
-                                    // purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                                    // purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
-                                    // purchaseSettlementDate: item.purchaseSettlementDate,
-                                    // sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
+                                    warehouseId: item.warehouseId ? Number(item.warehouseId) : null, //ok
+                                    productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,//ok
+                                    proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0, //ok
+                                    numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
+                                    price: item.price ? Number(item.price?.replace(/,/g, "")) : null, //ok
+                                    cargoSendDate: "1402/01/01",
+                                    description: item.description,
+                                    buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,
+                                    purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
+                                    purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
+                                    purchaseSettlementDate: item.purchaseSettlementDate,
+                                    sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                                 };
                             }),
                             // orderPayments: orderPayment?.map((item: IOrderPayment) => {
