@@ -32,7 +32,8 @@ export interface ICreateOrder {
     freightDriverName: string | undefined | null
     carPlaque: string | undefined | null
     details: ICreateOrderDetails[] | undefined | null
-    orderPayments: IOrderPayment[] | undefined | null
+    orderPayments?: IOrderPayment[] | undefined | null
+    orderPayment?: IOrderPayment[] | undefined | null
     orderServices?: IOrderService[] | undefined | null
 }
 

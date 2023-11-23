@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { useRetrieveOrder } from "./core/_hooks";
-import { AttachMoney, CheckBox, Description, ExitToApp, LocalShipping, Newspaper, Person } from "@mui/icons-material";
+import { AttachMoney, CheckBox, ConfirmationNumber, Description, ExitToApp, LocalShipping, Newspaper, Person } from "@mui/icons-material";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import { Form, Formik } from "formik";
@@ -14,6 +14,8 @@ import { useRetrieveCargos } from "../cargo/core/_hooks";
 
 type Props = {
     isCargo?: boolean
+    isLading?: boolean
+    ladingStateModal?: React.Dispatch<React.SetStateAction<boolean>> | undefined | any
 }
 
 const initialValues = {
@@ -51,7 +53,7 @@ const OrderDetail = (props: Props) => {
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName" },
         { id: 2, header: "انبار", accessor: "warehouseName" },
-        { id: 3, header: "مقدار", accessor: "proximateAmount" },
+        { id: 3, header: "مقدار", accessor: "proximateAmount", },
         { id: 4, header: "قیمت", accessor: "price" },
     ]
     const orderServicesColumn = [
@@ -64,7 +66,8 @@ const OrderDetail = (props: Props) => {
         { id: 3, header: "تاریخ تسویه", accessor: "paymentDate", render: (params: any) => moment(params.paymentDate).format('jYYYYjMM/jDD') },
     ]
 
-    const lastCargoList = [
+
+    const lastCargoList: any = [
         { id: 1, header: "شماره بارنامه", accessor: "cargoAccounceNo" },
         { id: 1, header: "راننده", accessor: "driverName" },
         { id: 2, header: "شماره موبایل راننده", accessor: "driverMobile" },
@@ -74,6 +77,18 @@ const OrderDetail = (props: Props) => {
         { id: 4, header: "تاریخ تحویل", accessor: "deliveryDate" },
         { id: 4, header: "آدرس محل تخلیه", accessor: "unloadingPlaceAddress" },
     ]
+
+    if(props.isLading) {
+        const appendActionLading = {
+            id: 10, header: "صدور مجوز", accessor: "", render: (params: any) => {
+                return <Button onClick={() => props.ladingStateModal(true)}>
+                    <ConfirmationNumber color="secondary" />
+                </Button>
+            }
+        }
+        lastCargoList.push(appendActionLading)
+    }
+
 
     if (isLoading) {
         return <Backdrop loading={isLoading} />
@@ -111,7 +126,7 @@ const OrderDetail = (props: Props) => {
                                 <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                             </ReusableCard>
                         </Box>
-                        {!props.isCargo &&
+                        {!props.isCargo && !props.isLading && 
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
@@ -125,7 +140,7 @@ const OrderDetail = (props: Props) => {
                             </Box>
                         }
                         <ReusableCard cardClassName="p-4 mt-4">
-                            <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار های قبلی</Typography>
+                            <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
                             <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data} columns={lastCargoList} />
                         </ReusableCard>
                     </Form>

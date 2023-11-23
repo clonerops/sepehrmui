@@ -36,7 +36,6 @@ const ProductSelectedList = (props: ProductProps) => {
     };
 
     const onDoubleClick = (params: any) => {
-        console.log("params", params.row)
         if (props?.orders) {
             const selectedRow: any = props?.orders.find(order => order.id === params.row.id);
             const rowIndex = props?.orders.indexOf(selectedRow);
@@ -74,7 +73,7 @@ const ProductSelectedList = (props: ProductProps) => {
             }
             
             if (props.setIsBuy) {
-                if (params.row.warehouseId === 1) {
+                if ([1, 3, 4, 5, 7].includes(params.row.warehouseId)) {
                     props.setIsBuy(true)
                 } else {
                     props.setIsBuy(false)
@@ -103,7 +102,7 @@ const ProductSelectedList = (props: ProductProps) => {
                 rows={props.orders}
                 data={props.orders}
                 getRowClassName={(params: any) => {
-                    if (params.row.warehouseId === 1 && (
+                    if ([1, 3, 4, 5, 7].includes(params.row.warehouseId) && (
                         params.row.purchaseSettlementDate === "" ||
                         params.row.buyPrice === "" ||
                         params.row.proximateAmount === "" ||
@@ -111,7 +110,7 @@ const ProductSelectedList = (props: ProductProps) => {
                         !params.row.purchaserCustomerName
                     )) {
                         return 'custom-row-style'
-                    } else if (params.row.warehouseId === 2 && (
+                    } else if ([2, 6].includes(params.row.warehouseId) && (
                         params.row.proximateAmount === "" ||
                         params.row.price === "0"
                     )) {

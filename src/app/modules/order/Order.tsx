@@ -88,12 +88,12 @@ const Order = () => {
                                 options={dropdownCustomer(customers?.data)}
                                 renderOption={(props: any, option: any) => {
                                     return <li {...props}>
-                                       <Box component="div" style={{
+                                        <Box component="div" style={{
                                             backgroundColor: `#${option.customerValidityColorCode}`,
                                             width: 20,
                                             height: 20,
                                             borderRadius: 40
-                                       }}>
+                                        }}>
 
                                         </Box> <Typography className="pr-4" style={{
                                             // backgroundColor: `#${option.customerValidityColorCode}`,
@@ -111,7 +111,7 @@ const Order = () => {
                             >
                                 <AddCircle color="secondary" />
                             </IconButton>
-                            <FormikComboBox options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری"  />
+                            <FormikComboBox options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
                             <Box component="div" className="flex flex-row pt-2">
@@ -322,7 +322,7 @@ const Order = () => {
             { id: uuidv4(), title: "subUnit", value: "" },
         ];
         fieldValue?.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
-        if (value === 1) setIsBuy(true)
+        if ([1, 3, 4, 5, 7].includes(value)) setIsBuy(true)
         else setIsBuy(false)
     }
 
@@ -334,7 +334,7 @@ const Order = () => {
             { id: uuidv4, title: "subUnit", value: value?.productSubUnitDesc },
         ]
         fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
-        if (value?.warehouseId === 1) setIsBuy(true)
+        if ([1, 3, 4, 5, 7].includes(value?.warehouseId)) setIsBuy(true)
         else setIsBuy(false)
     }
 
@@ -458,10 +458,10 @@ const Order = () => {
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
     const orderAndAmountInfo = [
-        {id:1, title: "شماره سفارش", icon: <ProductionQuantityLimits color="secondary" />, value: orderCode },
-        {id:2, title: "تاریخ سفارش", icon: <DateRange color="secondary" />, value: moment(new Date()).format("jYYYY-jMM-jDD") },
-        {id:3, title: "قیمت کل", icon: <MonetizationOn color="secondary" />, value: `${sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال` },
-        {id:4, title: "قیمت به حروف", icon: <AttachMoney color="secondary" />, value: `${convertToPersianWord(calculateTotalAmount(orders, orderService) )} تومان` }
+        { id: 1, title: "شماره سفارش", icon: <ProductionQuantityLimits color="secondary" />, value: orderCode },
+        { id: 2, title: "تاریخ سفارش", icon: <DateRange color="secondary" />, value: moment(new Date()).format("jYYYY-jMM-jDD") },
+        { id: 3, title: "قیمت کل", icon: <MonetizationOn color="secondary" />, value: `${sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال` },
+        { id: 4, title: "قیمت به حروف", icon: <AttachMoney color="secondary" />, value: `${convertToPersianWord(calculateTotalAmount(orders, orderService))} تومان` }
     ]
 
     return (
@@ -528,32 +528,42 @@ const Order = () => {
                                     }
                                 })
                             };
-
+                            console.log("formData", JSON.stringify(formData))
                             mutate(formData, {
                                 onSuccess: (response) => {
-                                    if (response.succeeded) {
-                                        Swal.fire({
-                                            title: `سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`,
-                                            confirmButtonColor: "#fcc615",
-                                            showClass: {
-                                                popup: 'animate__animated animate__fadeInDown'
-                                            },
-                                            hideClass: {
-                                                popup: 'animate__animated animate__fadeOutUp'
-                                            },
-                                            confirmButtonText: "بستن",
-                                            icon: "success",
-                                            customClass: {
-                                                title: "text-lg"
-                                            }
+
+                                    if (response.data.Errors && response.data.Errors.length > 0) {
+                                        response.data.Errors.forEach((item: any) => {
+                                            enqueueSnackbar(item, {
+                                                variant: "error",
+                                                anchorOrigin: { vertical: "top", horizontal: "center" }
+                                            })
                                         })
-                                        setOrderCode(response?.data[0].orderCode);
-                                        setOrderId(response?.data[0].id);
                                     } else {
-                                        enqueueSnackbar(response?.data.Message, {
-                                            variant: "error",
-                                            anchorOrigin: { vertical: "top", horizontal: "center" }
-                                        })
+                                        if (response.succeeded) {
+                                            Swal.fire({
+                                                title: `سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`,
+                                                confirmButtonColor: "#fcc615",
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                },
+                                                confirmButtonText: "بستن",
+                                                icon: "success",
+                                                customClass: {
+                                                    title: "text-lg"
+                                                }
+                                            })
+                                            setOrderCode(response?.data[0].orderCode);
+                                            setOrderId(response?.data[0].id);
+                                        } else {
+                                            enqueueSnackbar(response?.data.Message, {
+                                                variant: "error",
+                                                anchorOrigin: { vertical: "top", horizontal: "center" }
+                                            })
+                                        }
                                     }
                                 }
                             });
@@ -575,7 +585,7 @@ const Order = () => {
                                     title: string,
                                     icon: React.ReactNode,
                                     value: any
-                                } ) => {
+                                }) => {
                                     return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
                                 })}
                             </Box>

@@ -441,7 +441,7 @@ const Order = () => {
                     } else {
                         const formData = {
                             id: detailTools?.data?.data?.id,
-                            productBrandId: null,
+                            productBrandId: 25,
                             customerId: detailTools?.data?.data.customer.id, //ok
                             totalAmount: calculateTotalAmount(orders, orderService), //ok
                             description: values.description ? values.description : detailTools?.data?.data.description, //ok
@@ -475,7 +475,7 @@ const Order = () => {
                                     sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                                 };
                             }),
-                            orderPayments: orderPayment?.map((item: IOrderPayment) => {
+                            orderPayment: orderPayment?.map((item: IOrderPayment) => {
                                 return {
                                     amount: Number(item.amount),
                                     paymentDate: item.paymentDate,
@@ -490,32 +490,41 @@ const Order = () => {
                                 }
                             }) //ok
                         };
-                        console.log("formData", formData)
+                        console.log("formData", JSON.stringify(formData))
 
                         try {
                             mutate(formData, {
                                 onSuccess: (response) => {
-                                    if (response.succeeded) {
-                                        Swal.fire({
-                                            title: `سفارش با موفقیت ویرایش گردید`,
-                                            confirmButtonColor: "#fcc615",
-                                            showClass: {
-                                                popup: 'animate__animated animate__fadeInDown'
-                                            },
-                                            hideClass: {
-                                                popup: 'animate__animated animate__fadeOutUp'
-                                            },
-                                            confirmButtonText: "بستن",
-                                            icon: "warning",
-                                            customClass: {
-                                                title: "text-lg"
-                                            }
+                                    if(response.data.Errors && response.data.Errors.length >0) {
+                                        response.data.Errors.forEach((item: any) => {
+                                            enqueueSnackbar(item, {
+                                                variant: "error",
+                                                anchorOrigin: { vertical: "top", horizontal: "center" }
+                                            })
                                         })
                                     } else {
-                                        enqueueSnackbar(response?.data.Message, {
-                                            variant: "error",
-                                            anchorOrigin: { vertical: "top", horizontal: "center" }
-                                        })
+                                        if (response.succeeded) {
+                                            Swal.fire({
+                                                title: `سفارش با موفقیت ویرایش گردید`,
+                                                confirmButtonColor: "#fcc615",
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                },
+                                                confirmButtonText: "بستن",
+                                                icon: "warning",
+                                                customClass: {
+                                                    title: "text-lg"
+                                                }
+                                            })
+                                        } else {
+                                            enqueueSnackbar(response?.data.Message, {
+                                                variant: "error",
+                                                anchorOrigin: { vertical: "top", horizontal: "center" }
+                                            })
+                                        }
                                     }
                                 }
                             });

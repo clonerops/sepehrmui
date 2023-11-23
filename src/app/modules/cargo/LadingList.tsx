@@ -29,7 +29,7 @@ const LadingList = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/orderList/${item?.row?.id}`}
+                to={`/dashboard/lading/${item?.row?.id}`}
             >
                 <Button variant="contained" color="secondary">
                     <Typography>صدور مجوز بارگیری</Typography>
