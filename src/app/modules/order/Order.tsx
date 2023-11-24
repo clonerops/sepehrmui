@@ -310,7 +310,7 @@ const Order = () => {
             { id: uuidv4(), title: "proximateAmount", value: "" },
             { id: uuidv4(), title: "warehouseName", value: "" },
             { id: uuidv4(), title: "proximateSubUnit", value: "" },
-            { id: uuidv4(), title: "buyPrice", value: "" },
+            { id: uuidv4(), title: "purchasePrice", value: "" },
             { id: uuidv4(), title: "purchaseInvoiceTypeName", value: "" },
             { id: uuidv4(), title: "purchaseInvoiceTypeId", value: "" },
             { id: uuidv4(), title: "purchaseSettlementDate", value: "" },
@@ -339,7 +339,7 @@ const Order = () => {
     }
 
     const handleOrder = (values: any, setFieldValue: any) => {
-        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "buyPrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
+        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
 
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId);
         const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId);
@@ -354,7 +354,7 @@ const Order = () => {
             warehouseTypeId: warehouseTypeId?.warehouseTypeId,
             warehouseName: values.warehouseName ? values.warehouseName : warehouseName?.name,
             productDesc: values?.productDesc,
-            buyPrice: values?.buyPrice,
+            purchasePrice: values?.purchasePrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
             purchaseInvoiceTypeId: Number(values?.purchaseInvoiceTypeId),
             purchaseInvoiceTypeName: purchaseInvoiceTypeName?.desc,
@@ -506,7 +506,7 @@ const Order = () => {
                                         price: item.price ? Number(item.price?.replace(/,/g, "")) : null,
                                         cargoSendDate: "1402/01/01",
                                         description: item.description,
-                                        buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,
+                                        purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                                         purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
                                         purchaseSettlementDate: item.purchaseSettlementDate,
@@ -528,7 +528,6 @@ const Order = () => {
                                     }
                                 })
                             };
-                            console.log("formData", JSON.stringify(formData))
                             mutate(formData, {
                                 onSuccess: (response) => {
 

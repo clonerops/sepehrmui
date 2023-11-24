@@ -48,7 +48,7 @@ export interface ICreateOrderDetails {
     numberInPackage: number | undefined | null
     price: number | undefined | null
     cargoSendDate: string | undefined | null
-    buyPrice: number | undefined | null
+    purchasePrice?: number | undefined | null
     // purchaseInvoiceType: string | undefined | null
     purchaseInvoiceTypeId: number | undefined | null
     purchaserCustomerId: string  | undefined | null
@@ -101,7 +101,7 @@ export interface IOrderItems {
     warehouseTypeId?: string  | null | undefined
     warehouseName?: string  | null | undefined
     productDesc?: string  | null | undefined
-    buyPrice?: number  | null | undefined
+    purchasePrice?: number  | null | undefined
     purchaseSettlementDate?: string  | null | undefined
     purchaseInvoiceTypeId?: number   | null | undefined
     purchaseInvoiceTypeName?: string  | null | undefined

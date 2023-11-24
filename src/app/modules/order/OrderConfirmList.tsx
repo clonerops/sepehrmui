@@ -76,9 +76,7 @@ const OrderConfirmList = () => {
                     setResults(message?.data);
                 },
             });
-
         }
-
     };
 
     return (

@@ -259,7 +259,7 @@ const ProductSelectedListInModal = (props: {
             productBrandName: product.productBrandName,
             warehouseName: product.warehouseName,
             productDesc: product?.productDesc ? product?.productDesc : "",
-            buyPrice: product?.buyPrice ? product?.buyPrice : "",
+            purchasePrice: product?.purchasePrice ? product?.purchasePrice : "",
             purchaseSettlementDate: product.purchaseSettlementDate
                 ? product.purchaseSettlementDate
                 : "",

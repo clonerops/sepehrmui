@@ -53,7 +53,7 @@ const ProductSelectedList = (props: ProductProps) => {
                 {id: uuidv4(), title: "proximateAmount", value: params.row.proximateAmount},
                 {id: uuidv4(), title: "warehouseName", value: params.row.warehouseName},
                 {id: uuidv4(), title: "proximateSubUnit", value: params.row.proximateSubUnit},
-                {id: uuidv4(), title: "buyPrice", value: params.row.buyPrice},
+                {id: uuidv4(), title: "purchasePrice", value: params.row.purchasePrice},
                 {id: uuidv4(), title: "purchaseInvoiceTypeName", value: params.row.purchaseInvoiceTypeName},
                 {id: uuidv4(), title: "purchaseInvoiceTypeId", value: params.row.purchaseInvoiceTypeId},
                 {id: uuidv4(), title: "purchaseSettlementDate", value: params.row.purchaseSettlementDate},
@@ -83,6 +83,8 @@ const ProductSelectedList = (props: ProductProps) => {
         }
     };
 
+    console.log("props.orders", props.orders)
+
     const filteredColumns = orderListColumns(renderActions).filter(column =>
         column.field !== "warehouseId" &&
         column.field !== "productBrandId" &&
@@ -104,7 +106,7 @@ const ProductSelectedList = (props: ProductProps) => {
                 getRowClassName={(params: any) => {
                     if ([1, 3, 4, 5, 7].includes(params.row.warehouseId) && (
                         params.row.purchaseSettlementDate === "" ||
-                        params.row.buyPrice === "" ||
+                        params.row.purchasePrice === "" ||
                         params.row.proximateAmount === "" ||
                         params.row.purchaseInvoiceTypeId === 0 ||
                         !params.row.purchaserCustomerName

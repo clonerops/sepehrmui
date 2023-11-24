@@ -73,12 +73,13 @@ const Order = () => {
     const formikRef = useRef<FormikProps<any>>(null);
 
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
-
+    console.log("detailTools?.data?.data?.order", detailTools?.data?.data)
     useEffect(() => {
         if (detailTools?.data?.data) {
 
             setOrderService([
                 ...detailTools?.data?.data?.orderServices?.map((i: any) => ({
+                    id: i.id,
                     serviceName: i.service.description,
                     serviceId: i.service.id,
                     description: i.description
@@ -87,6 +88,7 @@ const Order = () => {
 
             setOrderPayment([
                 ...detailTools?.data?.data?.orderPayments?.map((i: any) => ({
+                    id: i.id,
                     amount: +i.amount,
                     paymentDate: moment(i.paymentDate).format("jYYYY/jMM/jDD"),
                     daysAfterExit: i.daysAfterExit
@@ -99,6 +101,7 @@ const Order = () => {
                     mainUnit: i.product.productMainUnitDesc,
                     subUnit: i.product.productSubUnitDesc,
                     exchangeRate: +i.product.exchangeRate,
+                    purchasePrice: +i.purchasePrice,
                     warehouseId: warehouse.find((item: any) => item.name === i.warehouseName).id,
                     price: separateAmountWithCommas(i.price),
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
@@ -109,6 +112,7 @@ const Order = () => {
 
         }
     }, [detailTools?.data?.data])
+
     const onGetOrderDetailByCode = (orderCode: number) => {
         detailTools.mutate(orderCode, {
             onSuccess: () => {
@@ -284,7 +288,7 @@ const Order = () => {
             { id: uuidv4(), title: "proximateAmount", value: "" },
             { id: uuidv4(), title: "warehouseName", value: "" },
             { id: uuidv4(), title: "proximateSubUnit", value: "" },
-            { id: uuidv4(), title: "buyPrice", value: "" },
+            { id: uuidv4(), title: "purchasePrice", value: "" },
             { id: uuidv4(), title: "purchaseInvoiceTypeName", value: "" },
             { id: uuidv4(), title: "purchaseInvoiceTypeId", value: "" },
             { id: uuidv4(), title: "purchaseSettlementDate", value: "" },
@@ -313,7 +317,7 @@ const Order = () => {
     }
 
     const handleOrder = (values: any, setFieldValue: any) => {
-        const fields = ["productName", "productId", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "buyPrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
+        const fields = ["productName", "productId", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
 
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId);
         const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId);
@@ -329,7 +333,7 @@ const Order = () => {
             warehouseName: values.warehouseName ? values.warehouseName : warehouseName?.name,
             productId: values?.productName?.value ? values?.productName?.value : values?.productId ,
             productDesc: values?.productDesc,
-            buyPrice: values?.buyPrice,
+            purchasePrice: values?.purchasePrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
             purchaseInvoiceTypeId: Number(values?.purchaseInvoiceTypeId),
             purchaseInvoiceTypeName: purchaseInvoiceTypeName?.desc,
@@ -423,8 +427,6 @@ const Order = () => {
         return <Typography>در حال بارگزاری ......</Typography>
     }
 
-    console.log(orders)
-
     return (
         <>
 
@@ -459,6 +461,7 @@ const Order = () => {
                             carPlaque: "string", //ok
                             details: orders?.map((item: any) => {
                                 return {
+                                    id: item.id ? item.id : null,
                                     rowId: item.rowId ? Number(item.rowId) : 0, //ok
                                     productId: item.productId, //ok
                                     warehouseId: item.warehouseId ? Number(item.warehouseId) : null, //ok
@@ -468,15 +471,16 @@ const Order = () => {
                                     price: item.price ? Number(item.price?.replace(/,/g, "")) : null, //ok
                                     cargoSendDate: "1402/01/01",
                                     description: item.description,
-                                    buyPrice: item.buyPrice ? Number(item.buyPrice) : 0,
+                                    purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                                     purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                                     purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
                                     purchaseSettlementDate: item.purchaseSettlementDate,
                                     sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                                 };
                             }),
-                            orderPayment: orderPayment?.map((item: IOrderPayment) => {
+                            orderPayments: orderPayment?.map((item: IOrderPayment) => {
                                 return {
+                                    id: item.id ? item.id : null,
                                     amount: Number(item.amount),
                                     paymentDate: item.paymentDate,
                                     daysAfterExit: Number(item.daysAfterExit),
@@ -485,6 +489,7 @@ const Order = () => {
                             }),
                             orderServices: orderService.map((item: IOrderService) => {
                                 return {
+                                    id: item.id ? item.id : null,
                                     serviceId: item.serviceId,
                                     description: item.description
                                 }
@@ -514,7 +519,7 @@ const Order = () => {
                                                     popup: 'animate__animated animate__fadeOutUp'
                                                 },
                                                 confirmButtonText: "بستن",
-                                                icon: "warning",
+                                                icon: "success",
                                                 customClass: {
                                                     title: "text-lg"
                                                 }
@@ -646,7 +651,7 @@ const Order = () => {
                                         () => {
                                             const orderServices = [...orderService]
                                             const orderServicetData: IOrderService = {
-                                                id: uuidv4(),
+                                                // id: uuidv4(),
                                                 description: values.serviceAmount,
                                                 serviceId: values.serviceId,
                                                 serviceName: services?.find((i: IOrderService) => i.id === values.serviceId)?.description
@@ -694,7 +699,6 @@ const Order = () => {
                                                 <TableCell>
                                                     <Box component="div" onClick={
                                                         () => {
-                                                            console.log(orderService)
                                                             const filterServices = orderService.filter((item: IOrderService) => item.serviceId !== i.serviceId)
                                                             setOrderService(filterServices)
                                                             setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
@@ -730,7 +734,7 @@ const Order = () => {
                                         <Box component="div" className="" onClick={() => {
                                             const orderPaymentCP = [...orderPayment]
                                             const orderPaymentData: IOrderPayment = {
-                                                id: uuidv4(),
+                                                // id: uuidv4(),
                                                 amount: values.amount,
                                                 daysAfterExit: values.number,
                                                 paymentDate: values.settlement,

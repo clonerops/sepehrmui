@@ -115,7 +115,7 @@ export const orderFieldsIsBuy: FieldType[][] = [
         // },
         {
             label: "قیمت خرید",
-            name: "buyPrice",
+            name: "purchasePrice",
             type: "input",
         },
         {

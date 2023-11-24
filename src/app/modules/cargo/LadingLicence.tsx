@@ -7,7 +7,6 @@ import { useGetCustomers } from '../customer/core/_hooks'
 import { Box, Button, Typography } from '@mui/material'
 import { Delete, Search } from '@mui/icons-material'
 import OrderDetail from '../order/OrderDetail'
-import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import { useParams } from 'react-router-dom'
 import { useRetrieveOrder } from '../order/core/_hooks'
@@ -54,7 +53,7 @@ const LadingLicence = () => {
             <ReusableCard>
                 <OrderDetail isLading ladingStateModal={setOpen} />
             </ReusableCard>
-
+            
             <TransitionsModal
                 open={open}
                 isClose={() => setOpen(false)}
