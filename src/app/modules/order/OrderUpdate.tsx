@@ -28,7 +28,6 @@ import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { orderFields, orderFieldsIsBuy, orderTypesFields } from "./helpers/fields";
 import { IOrderItems, IOrderPayment, IOrderService } from "./core/_models";
-import { IProducts } from "../product/core/_models";
 import FormikPrice from "../product/components/FormikPrice";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import FormikProximateAmount from "../product/components/FormikProximateAmount";
@@ -46,7 +45,7 @@ const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
 
     // Fetching Data
-    const { data: customers, refetch: refetchCustomers } = useGetCustomers();
+    const { data: customers } = useGetCustomers();
     const { data: products } = useRetrieveProducts();
     const productsTools = useRetrieveProductsByWarehouse();
     const { data: productsByBrand, isLoading: productByBrandLoading, isError: productByBrandError, } = useRetrieveProductsByBrand();
