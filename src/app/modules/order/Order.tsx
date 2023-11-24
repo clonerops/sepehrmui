@@ -311,7 +311,7 @@ const Order = () => {
             { id: uuidv4(), title: "warehouseName", value: "" },
             { id: uuidv4(), title: "proximateSubUnit", value: "" },
             { id: uuidv4(), title: "purchasePrice", value: "" },
-            { id: uuidv4(), title: "purchaseInvoiceTypeName", value: "" },
+            { id: uuidv4(), title: "purchaseInvoiceTypeDesc", value: "" },
             { id: uuidv4(), title: "purchaseInvoiceTypeId", value: "" },
             { id: uuidv4(), title: "purchaseSettlementDate", value: "" },
             { id: uuidv4(), title: "purchaserCustomerId", value: "" },
@@ -339,11 +339,11 @@ const Order = () => {
     }
 
     const handleOrder = (values: any, setFieldValue: any) => {
-        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
+        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
 
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId);
         const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId);
-        const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId));
+        const purchaseInvoiceTypeDesc = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId));
 
         const productOrder: IOrderItems = {
             id: values?.productName?.value ? values?.productName?.value : values.id,
@@ -357,7 +357,7 @@ const Order = () => {
             purchasePrice: values?.purchasePrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
             purchaseInvoiceTypeId: Number(values?.purchaseInvoiceTypeId),
-            purchaseInvoiceTypeName: purchaseInvoiceTypeName?.desc,
+            purchaseInvoiceTypeDesc: purchaseInvoiceTypeDesc?.desc,
             sellerCompanyRow: values.sellerCompanyRow,
             proximateAmount: values.proximateAmount,
             proximateSubUnit: values.proximateSubUnit,

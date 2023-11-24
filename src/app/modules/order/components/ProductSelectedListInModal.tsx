@@ -266,7 +266,7 @@ const ProductSelectedListInModal = (props: {
             purchaseInvoiceTypeId: product?.purchaseInvoiceTypeId
                 ? Number(product?.purchaseInvoiceTypeId)
                 : 0,
-            purchaseInvoiceTypeName: "",
+            purchaseInvoiceTypeDesc: "",
             sellerCompanyRow: product.sellerCompanyRow
                 ? product.sellerCompanyRow
                 : "string",

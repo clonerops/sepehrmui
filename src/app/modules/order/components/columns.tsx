@@ -51,7 +51,7 @@ export const orderListColumns = (renderActions: any) => {
             headerName: "", field: "purchaseSettlementDate", hide: true
         },
         {
-            headerName: "نوع فاکتور خرید", field: "purchaseInvoiceTypeName",
+            headerName: "نوع فاکتور خرید", field: "purchaseInvoiceTypeDesc",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,

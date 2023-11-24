@@ -104,7 +104,7 @@ export interface IOrderItems {
     purchasePrice?: number  | null | undefined
     purchaseSettlementDate?: string  | null | undefined
     purchaseInvoiceTypeId?: number   | null | undefined
-    purchaseInvoiceTypeName?: string  | null | undefined
+    purchaseInvoiceTypeDesc?: string  | null | undefined
     sellerCompanyRow?: string | null | undefined
     proximateAmount?: string  | null | undefined
     proximateSubUnit?: string  | null | undefined

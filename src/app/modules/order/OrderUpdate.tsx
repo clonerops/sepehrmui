@@ -70,26 +70,29 @@ const Order = () => {
     // const isNew = !id
 
     const formikRef = useRef<FormikProps<any>>(null);
+    console.log("orders", orders)
+    console.log("customers", customers)
+    console.log("detailTools?.data?.data?.details", detailTools?.data?.data?.details)
 
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
-    console.log("detailTools?.data?.data?.order", detailTools?.data?.data)
     useEffect(() => {
         if (detailTools?.data?.data) {
 
             setOrderService([
                 ...detailTools?.data?.data?.orderServices?.map((i: any) => ({
                     id: i.id,
-                    serviceName: i.service.description,
-                    serviceId: i.service.id,
-                    description: i.description
+                    serviceName: services.find((item: any) => item.id === i.serviceId)?.description,
+                    serviceId: i?.serviceId,
+                    description: i?.description
                 })) || []
             ]);
 
             setOrderPayment([
                 ...detailTools?.data?.data?.orderPayments?.map((i: any) => ({
-                    id: i.id,
+                    id: i?.id,
                     amount: +i.amount,
-                    paymentDate: moment(i.paymentDate).format("jYYYY/jMM/jDD"),
+                    // paymentDate: moment(i.paymentDate).format("jYYYY/jMM/jDD"),
+                    paymentDate: i.paymentDate,
                     daysAfterExit: i.daysAfterExit
                 })) || []
             ]);
@@ -105,12 +108,15 @@ const Order = () => {
                     price: separateAmountWithCommas(i.price),
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
                     productBrandName: i.brandName,
+                    purchaserCustomerId: i.purchaserCustomerId ,
+                    purchaserCustomerName: customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.firstName+" "+customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.lastName,
                     proximateSubUnit: Math.ceil(+i.proximateAmount / +i.product.exchangeRate)
                 })) || []
             ]);
 
         }
     }, [detailTools?.data?.data])
+
 
     const onGetOrderDetailByCode = (orderCode: number) => {
         detailTools.mutate(orderCode, {
@@ -288,7 +294,7 @@ const Order = () => {
             { id: uuidv4(), title: "warehouseName", value: "" },
             { id: uuidv4(), title: "proximateSubUnit", value: "" },
             { id: uuidv4(), title: "purchasePrice", value: "" },
-            { id: uuidv4(), title: "purchaseInvoiceTypeName", value: "" },
+            { id: uuidv4(), title: "purchaseInvoiceTypeDesc", value: "" },
             { id: uuidv4(), title: "purchaseInvoiceTypeId", value: "" },
             { id: uuidv4(), title: "purchaseSettlementDate", value: "" },
             { id: uuidv4(), title: "purchaserCustomerId", value: "" },
@@ -316,11 +322,11 @@ const Order = () => {
     }
 
     const handleOrder = (values: any, setFieldValue: any) => {
-        const fields = ["productName", "productId", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeName", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
+        const fields = ["productName", "productId", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
 
         const warehouseTypeId = warehouse?.find((i: any) => i.id === values.warehouseId);
         const warehouseName = warehouse?.find((i: any) => i.id === values.warehouseId);
-        const purchaseInvoiceTypeName = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId));
+        const purchaseInvoiceTypeDesc = purchaseInvoiceType?.find((i: any) => i.id === Number(values?.purchaseInvoiceTypeId));
 
         const productOrder: IOrderItems = {
             id: values?.productName?.value ? values?.productName?.value : values.id,
@@ -335,7 +341,7 @@ const Order = () => {
             purchasePrice: values?.purchasePrice,
             purchaseSettlementDate: values.purchaseSettlementDate,
             purchaseInvoiceTypeId: Number(values?.purchaseInvoiceTypeId),
-            purchaseInvoiceTypeName: purchaseInvoiceTypeName?.desc,
+            purchaseInvoiceTypeDesc: purchaseInvoiceTypeDesc?.desc,
             sellerCompanyRow: values.sellerCompanyRow,
             proximateAmount: values.proximateAmount,
             proximateSubUnit: values.proximateSubUnit,

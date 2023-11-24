@@ -57,7 +57,7 @@ const OrderDetail = (props: Props) => {
         { id: 4, header: "قیمت", accessor: "price" },
     ]
     const orderServicesColumn = [
-        { id: 1, header: "نوع خدمت", accessor: "service", render: (params: any) => <Typography>{params.service.description}</Typography> },
+        { id: 1, header: "نوع خدمت", accessor: "service", render: (params: any) => <Typography>{params.description}</Typography> },
         { id: 2, header: "هزینه", accessor: "description" },
     ]
     const orderPaymentsColumn = [
