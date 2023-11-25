@@ -96,7 +96,6 @@ const Order = () => {
                                         }}>
 
                                         </Box> <Typography className="pr-4" style={{
-                                            // backgroundColor: `#${option.customerValidityColorCode}`,
                                             width: "100%"
                                         }}>{option.label}</Typography>
                                     </li>
@@ -443,8 +442,8 @@ const Order = () => {
     };
 
     const handleChangeCustomer = (value: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
-        const findCustomer = customers?.data.find((i: any) => i.id === value?.value);
-        customerCompaniesTools.mutate(findCustomer.id)
+        const findCustomer = customers?.data?.find((i: any) => i.id === value?.value);
+        customerCompaniesTools.mutate(findCustomer?.id)
         setFindCustomer(findCustomer);
         setFieldValue("number", findCustomer?.settlementDay)
         setFieldValue("settlement", moment(new Date()).add(+findCustomer?.settlementDay, "days").format("jYYYY/jMM/jDD"))

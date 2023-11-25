@@ -70,9 +70,6 @@ const Order = () => {
     // const isNew = !id
 
     const formikRef = useRef<FormikProps<any>>(null);
-    console.log("orders", orders)
-    console.log("customers", customers)
-    console.log("detailTools?.data?.data?.details", detailTools?.data?.data?.details)
 
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
     useEffect(() => {
@@ -91,7 +88,6 @@ const Order = () => {
                 ...detailTools?.data?.data?.orderPayments?.map((i: any) => ({
                     id: i?.id,
                     amount: +i.amount,
-                    // paymentDate: moment(i.paymentDate).format("jYYYY/jMM/jDD"),
                     paymentDate: i.paymentDate,
                     daysAfterExit: i.daysAfterExit
                 })) || []
@@ -109,7 +105,8 @@ const Order = () => {
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
                     productBrandName: i.brandName,
                     purchaserCustomerId: i.purchaserCustomerId ,
-                    purchaserCustomerName: customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.firstName+" "+customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.lastName,
+                    // purchaserCustomerName: customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.firstName+" "+customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.lastName,
+                    purchaserCustomerName: i.purchaserCustomerName,
                     proximateSubUnit: Math.ceil(+i.proximateAmount / +i.product.exchangeRate)
                 })) || []
             ]);
@@ -134,7 +131,7 @@ const Order = () => {
             case "orderSendTypeId":
                 return (
                     <FormikSelect
-                        disabled={data?.succeeded}
+                        
                         options={dropdownOrderSendType(orderSendType)}
                         {...rest}
                     />
@@ -150,7 +147,7 @@ const Order = () => {
             case "paymentTypeId":
                 return (
                     <FormikSelect
-                        disabled={data?.succeeded}
+                        
                         options={dropdownRentPaymentType(rent)}
                         {...rest}
                     />
@@ -158,17 +155,17 @@ const Order = () => {
             case "exitType":
                 return (
                     <FormikSelect
-                        disabled={data?.succeeded} options={dropdownExitType(exit)} {...rest} />
+                         options={dropdownExitType(exit)} {...rest} />
                 );
             case "temporary":
                 return (
                     <FormikSelect
-                        disabled={data?.succeeded} options={dropdownTemporaryType(temporary)} {...rest} />
+                         options={dropdownTemporaryType(temporary)} {...rest} />
                 );
             case "description":
                 return (
                     <FormikInput
-                        disabled={data?.succeeded} multiline rows={3} {...rest} />
+                         multiline rows={3} {...rest} />
                 );
             default:
                 <FormikInput {...rest} />;
@@ -194,7 +191,7 @@ const Order = () => {
                             onClick={() => setSelectedProductOpen(true)}
                             variant="contained"
                             color="primary"
-                            disabled={data?.succeeded}
+                            
                         >
                             <Grading />
                         </Button>
@@ -219,7 +216,7 @@ const Order = () => {
             case "purchaserCustomer":
                 return (
                     <FormikComboBox
-                        disabled={data?.succeeded}
+                        
                         options={dropdownCustomer(customers?.data)}
                         {...rest}
                     />
@@ -232,11 +229,11 @@ const Order = () => {
                     />
                 );
             case "date":
-                return <FormikDatepicker disabled={data?.succeeded} {...rest} />;
+                return <FormikDatepicker  {...rest} />;
             case "proximateAmount":
                 return (
                     <FormikProximateAmount
-                        disabled={data?.succeeded}
+                        
                         exchangeRate={values.exchangeRate}
                         InputProps={{
                             endAdornment: (
@@ -251,7 +248,7 @@ const Order = () => {
             case "proximateSubUnit":
                 return (
                     <FormikPrice
-                        disabled={data?.succeeded}
+                        
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
@@ -263,9 +260,9 @@ const Order = () => {
                     />
                 );
             case "price":
-                return <FormikPrice disabled={data?.succeeded}  {...rest} />;
+                return <FormikPrice   {...rest} />;
             case "input":
-                return <FormikInput disabled={data?.succeeded}  {...rest} />;
+                return <FormikInput   {...rest} />;
             case "add":
                 return isUpdate ? (
                     <Button onClick={() => handleOrder(values, setFieldValue)} className="!bg-yellow-500">
@@ -277,7 +274,7 @@ const Order = () => {
                     </Button>
                 );
             default:
-                return <FormikInput disabled={data?.succeeded} {...rest} />;
+                return <FormikInput  {...rest} />;
         }
     };
 
@@ -447,7 +444,7 @@ const Order = () => {
                         })
                     } else {
                         const formData = {
-                            id: detailTools?.data?.data?.id,
+                            id: detailTools?.data?.data?.id, 
                             productBrandId: 25,
                             customerId: detailTools?.data?.data.customer.id, //ok
                             totalAmount: calculateTotalAmount(orders, orderService), //ok
@@ -478,7 +475,7 @@ const Order = () => {
                                     description: item.description,
                                     purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                                     purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                                    purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
+                                    purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId,
                                     purchaseSettlementDate: item.purchaseSettlementDate,
                                     sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                                 };
@@ -500,7 +497,6 @@ const Order = () => {
                                 }
                             }) //ok
                         };
-                        console.log("formData", JSON.stringify(formData))
 
                         try {
                             mutate(formData, {
@@ -641,7 +637,7 @@ const Order = () => {
                                         orders={orders}
                                         setIsBuy={setIsBuy}
                                         setOrders={setOrders}
-                                        disabled={data?.succeeded}
+                                        
                                         products={productsByBrand?.data}
                                         orderService={orderService}
                                     />
@@ -725,7 +721,7 @@ const Order = () => {
                                 <Form className="mt-4">
                                     <Box component="div" className="md:flex space-y-4 md:space-y-0 gap-x-2">
                                         <FormikMaskInput mask={Number} thousandsSeparator={","} name="amount" label="مبلغ" />
-                                        <FormikInput disabled={data?.succeeded} name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
+                                        <FormikInput  name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
                                             inputProps: {
                                                 style: {
                                                     textAlign: "center",
@@ -734,7 +730,7 @@ const Order = () => {
                                             },
                                         }} />
                                         <Box component="div" className="flex w-full">
-                                            <FormikDatepicker disabled={data?.succeeded} name="settlement" label="تاریخ" />
+                                            <FormikDatepicker  name="settlement" label="تاریخ" />
                                         </Box>
                                         <Box component="div" className="" onClick={() => {
                                             const orderPaymentCP = [...orderPayment]
