@@ -1,5 +1,5 @@
 export const orderPaymentValues = {
-    amount: "",
+    amount: "0",
     number: "",
     settlement: ""
 }

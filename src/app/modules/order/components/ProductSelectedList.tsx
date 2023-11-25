@@ -11,11 +11,10 @@ const ProductSelectedList = (props: ProductProps) => {
         if (props.orders) {
             const updatedOrders = props.orders.filter((order) =>
                     order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
-                    // order.warehouseId !== indexToDelete.row.warehouseId &&
-                    // order.productBrandId !== indexToDelete.row.productBrandId
             );
             if (props?.setOrders) props?.setOrders(updatedOrders);
-            if (props?.setFieldValue) props?.setFieldValue('amount', calculateTotalAmount(updatedOrders, props.orderService))
+            if (props?.setOrderPayment) props?.setOrderPayment([]);
+            if (props?.setFieldValue) props?.setFieldValue('amount', calculateTotalAmount(updatedOrders, props.orderService).toString())
         }
     };
 
@@ -83,8 +82,6 @@ const ProductSelectedList = (props: ProductProps) => {
             if (props?.setIsUpdate) props?.setIsUpdate(true);
         }
     };
-
-    console.log("props.orders", props.orders)
 
     const filteredColumns = orderListColumns(renderActions).filter(column =>
         column.field !== "warehouseId" &&

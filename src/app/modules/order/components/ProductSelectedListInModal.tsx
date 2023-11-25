@@ -31,6 +31,7 @@ const ProductSelectedListInModal = (props: {
     productError: boolean;
     setFieldValue: any;
     setOrders?: any;
+    setOrderPayment?: any;
     orders?: any;
     orderService?: IOrderService[];
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -253,6 +254,7 @@ const ProductSelectedListInModal = (props: {
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = selectedProduct.map((product) => ({
             id: product.id,
+            productId: product.id,
             warehouseId: product.warehouseId,
             productBrandId: product.productBrandId,
             productName: product.productName,
@@ -303,6 +305,7 @@ const ProductSelectedListInModal = (props: {
             ];
 
             props.setOrders(updatedOrders);
+            props.setOrderPayment([])
             props.setFieldValue(
                 "amount",
                 sliceNumberPriceRial(

@@ -121,6 +121,7 @@ export type ProductProps = {
     orders?: IOrderItems[] ;
     orderService?: IOrderService[] ;
     setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
+    setOrderPayment?: React.Dispatch<React.SetStateAction<IOrderPayment[]>>;
     setIsBuy?:  React.Dispatch<React.SetStateAction<boolean>>;
     // setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>> | undefined;
     setFieldValue?: any;

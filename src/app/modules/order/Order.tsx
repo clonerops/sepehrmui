@@ -217,6 +217,7 @@ const Order = () => {
                                 setFieldValue={setFieldValue}
                                 orders={orders}
                                 setOrders={setOrders}
+                                setOrderPayment={setOrderPayment}
                                 orderService={orderService}
                             />
                         </BottomDrawer>

@@ -24,6 +24,12 @@ const menuItem = [
         title: "تایید سفارش",
         to: "dashboard/approveOrderList",
       },
+      {
+        id: 1321,
+        iconName: "RocketTwoTone",
+        title: "ویرایش سفارش",
+        to: "dashboard/orderUpdate",
+      },
     ],
   },
   {
@@ -134,6 +140,12 @@ const menuItem = [
         iconName: "Home",
         title: "اعلام بار",
         to: "dashboard/cargoList",
+      },
+      {
+        id: 1321,
+        iconName: "SettingsInputSvideo",
+        title: "مجوز خروج",
+        to: "dashboard/ladingList",
       },
     ],
   },

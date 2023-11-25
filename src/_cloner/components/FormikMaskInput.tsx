@@ -8,9 +8,9 @@ export type FormikMaskProps = ComponentProps<typeof MaskInput> & {
   value?: string;
 };
 
-const FormikMaskInput = (props: any) => {
+const FormikMaskInput = (props: FormikMaskProps) => {
   const { name, value, ...rest } = props;
-  const [field, , meta] = useField({ name: name, value: value });
+  const [field, , meta] = useField({ name, value: value || "" }); // Set a default value if 'value' is undefined
   const formikProps = useFormikContext();
 
   useEffect(() => {
@@ -19,16 +19,17 @@ const FormikMaskInput = (props: any) => {
       meta.setValue(stringValue);
     }
   }, [value]);
+
   return (
     <MaskInput
       {...getFormikFieldValidationProps(formikProps, name)}
       {...field}
       {...rest}
-      onAccept={(value: any, mask: any) => {
-        if (rest?.onAccept) rest?.onAccept(value, mask);
+      onAccept={(maskedValue: any, mask: any) => {
+        if (rest?.onAccept) rest.onAccept(maskedValue, mask);
         else meta.setValue(mask.unmaskedValue);
       }}
-      value={field.value || undefined}
+      value={field.value || ""} // Set a default value if 'field.value' is undefined
     />
   );
 };

@@ -88,6 +88,7 @@ const Order = () => {
                 ...detailTools?.data?.data?.orderPayments?.map((i: any) => ({
                     id: i?.id,
                     amount: +i.amount,
+                    // paymentDate: moment(i.paymentDate).format("jYYYY/jMM/jDD"),
                     paymentDate: i.paymentDate,
                     daysAfterExit: i.daysAfterExit
                 })) || []
@@ -105,8 +106,7 @@ const Order = () => {
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
                     productBrandName: i.brandName,
                     purchaserCustomerId: i.purchaserCustomerId ,
-                    // purchaserCustomerName: customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.firstName+" "+customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.lastName,
-                    purchaserCustomerName: i.purchaserCustomerName,
+                    purchaserCustomerName: customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.firstName+" "+customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.lastName,
                     proximateSubUnit: Math.ceil(+i.proximateAmount / +i.product.exchangeRate)
                 })) || []
             ]);
@@ -131,7 +131,6 @@ const Order = () => {
             case "orderSendTypeId":
                 return (
                     <FormikSelect
-                        
                         options={dropdownOrderSendType(orderSendType)}
                         {...rest}
                     />
@@ -147,25 +146,21 @@ const Order = () => {
             case "paymentTypeId":
                 return (
                     <FormikSelect
-                        
                         options={dropdownRentPaymentType(rent)}
                         {...rest}
                     />
                 );
             case "exitType":
                 return (
-                    <FormikSelect
-                         options={dropdownExitType(exit)} {...rest} />
+                    <FormikSelect options={dropdownExitType(exit)} {...rest} />
                 );
             case "temporary":
                 return (
-                    <FormikSelect
-                         options={dropdownTemporaryType(temporary)} {...rest} />
+                    <FormikSelect options={dropdownTemporaryType(temporary)} {...rest} />
                 );
             case "description":
                 return (
-                    <FormikInput
-                         multiline rows={3} {...rest} />
+                    <FormikInput multiline rows={3} {...rest} />
                 );
             default:
                 <FormikInput {...rest} />;
@@ -191,7 +186,7 @@ const Order = () => {
                             onClick={() => setSelectedProductOpen(true)}
                             variant="contained"
                             color="primary"
-                            
+                        
                         >
                             <Grading />
                         </Button>
@@ -208,6 +203,7 @@ const Order = () => {
                                 setFieldValue={setFieldValue}
                                 orders={orders}
                                 setOrders={setOrders}
+                                setOrderPayment={setOrderPayment}
                                 orderService={orderService}
                             />
                         </BottomDrawer>
@@ -216,7 +212,6 @@ const Order = () => {
             case "purchaserCustomer":
                 return (
                     <FormikComboBox
-                        
                         options={dropdownCustomer(customers?.data)}
                         {...rest}
                     />
@@ -229,11 +224,10 @@ const Order = () => {
                     />
                 );
             case "date":
-                return <FormikDatepicker  {...rest} />;
+                return <FormikDatepicker {...rest} />;
             case "proximateAmount":
                 return (
                     <FormikProximateAmount
-                        
                         exchangeRate={values.exchangeRate}
                         InputProps={{
                             endAdornment: (
@@ -248,7 +242,6 @@ const Order = () => {
             case "proximateSubUnit":
                 return (
                     <FormikPrice
-                        
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
@@ -260,9 +253,9 @@ const Order = () => {
                     />
                 );
             case "price":
-                return <FormikPrice   {...rest} />;
+                return <FormikPrice  {...rest} />;
             case "input":
-                return <FormikInput   {...rest} />;
+                return <FormikInput  {...rest} />;
             case "add":
                 return isUpdate ? (
                     <Button onClick={() => handleOrder(values, setFieldValue)} className="!bg-yellow-500">
@@ -274,7 +267,7 @@ const Order = () => {
                     </Button>
                 );
             default:
-                return <FormikInput  {...rest} />;
+                return <FormikInput {...rest} />;
         }
     };
 
@@ -383,6 +376,7 @@ const Order = () => {
                 })
             } else {
                 setOrders([...orders, productOrder]);
+                setOrderPayment([])
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderService)))
             }
             fields.forEach((element) => {
@@ -412,6 +406,7 @@ const Order = () => {
                 })
             } else {
                 setOrders(updatedOrders);
+                setOrderPayment([])
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderService)))
             }
             setSelectedOrderIndex(0);
@@ -444,7 +439,7 @@ const Order = () => {
                         })
                     } else {
                         const formData = {
-                            id: detailTools?.data?.data?.id, 
+                            id: detailTools?.data?.data?.id,
                             productBrandId: 25,
                             customerId: detailTools?.data?.data.customer.id, //ok
                             totalAmount: calculateTotalAmount(orders, orderService), //ok
@@ -461,13 +456,31 @@ const Order = () => {
                             dischargePlaceAddress: "string", //ok
                             freightDriverName: "string", //ok
                             carPlaque: "string", //ok
+                            // details: orders?.map((item: any) => {
+                            //     return {
+                            //         id: Number.isInteger(item.id) ? item.id : null,
+                            //         rowId: item.rowId ? Number(item.rowId) : 0, //ok
+                            //         productId: item.productId, //ok
+                            //         warehouseId: item.warehouseId ? Number(item.warehouseId) : null, //ok
+                            //         productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,//ok
+                            //         proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0, //ok
+                            //         numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
+                            //         price: item.price ? Number(item.price?.replace(/,/g, "")) : null, //ok
+                            //         cargoSendDate: "1402/01/01",
+                            //         description: item.description,
+                            //         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
+                            //         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
+                            //         purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
+                            //         purchaseSettlementDate: item.purchaseSettlementDate,
+                            //         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
+                            //     };
+                            // }),
                             details: orders?.map((item: any) => {
-                                return {
-                                    id: item.id ? item.id : null,
+                                const orderDetails: any = {
                                     rowId: item.rowId ? Number(item.rowId) : 0, //ok
                                     productId: item.productId, //ok
                                     warehouseId: item.warehouseId ? Number(item.warehouseId) : null, //ok
-                                    productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,//ok
+                                    productBrandId: item.productBrandId ? Number(item.productBrandId) : 25, //ok
                                     proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0, //ok
                                     numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
                                     price: item.price ? Number(item.price?.replace(/,/g, "")) : null, //ok
@@ -475,10 +488,17 @@ const Order = () => {
                                     description: item.description,
                                     purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                                     purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                                    purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId,
+                                    purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
                                     purchaseSettlementDate: item.purchaseSettlementDate,
                                     sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                                 };
+                            
+                                // Conditionally include id if it exists
+                                if (Number.isInteger(item.id)) {
+                                    orderDetails.id = item.id;
+                                }
+                            
+                                return orderDetails;
                             }),
                             orderPayments: orderPayment?.map((item: IOrderPayment) => {
                                 return {
@@ -497,6 +517,7 @@ const Order = () => {
                                 }
                             }) //ok
                         };
+                        console.log("formData", JSON.stringify(formData))
 
                         try {
                             mutate(formData, {
@@ -637,7 +658,7 @@ const Order = () => {
                                         orders={orders}
                                         setIsBuy={setIsBuy}
                                         setOrders={setOrders}
-                                        
+                                        setOrderPayment={setOrderPayment}
                                         products={productsByBrand?.data}
                                         orderService={orderService}
                                     />
@@ -721,7 +742,7 @@ const Order = () => {
                                 <Form className="mt-4">
                                     <Box component="div" className="md:flex space-y-4 md:space-y-0 gap-x-2">
                                         <FormikMaskInput mask={Number} thousandsSeparator={","} name="amount" label="مبلغ" />
-                                        <FormikInput  name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
+                                        <FormikInput name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
                                             inputProps: {
                                                 style: {
                                                     textAlign: "center",
@@ -730,7 +751,7 @@ const Order = () => {
                                             },
                                         }} />
                                         <Box component="div" className="flex w-full">
-                                            <FormikDatepicker  name="settlement" label="تاریخ" />
+                                            <FormikDatepicker name="settlement" label="تاریخ" />
                                         </Box>
                                         <Box component="div" className="" onClick={() => {
                                             const orderPaymentCP = [...orderPayment]
@@ -765,6 +786,12 @@ const Order = () => {
                                                     anchorOrigin: { vertical: "top", horizontal: "center" }
                                                 })
                                             }
+                                            else if (values.settlement === "" || values.settlement === null) {
+                                                enqueueSnackbar("تاریخ تسویه نمی تواند خالی باشد", {
+                                                    variant: "error",
+                                                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                                                })
+                                            }
                                             else {
                                                 setOrderPayment([...orderPaymentCP, orderPaymentData])
                                                 setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, [...orderPaymentCP, orderPaymentData], orderService)))
@@ -785,15 +812,16 @@ const Order = () => {
                                             <Box>
                                                 <Typography variant="h4" color="primary"> تاریخ تسویه: {i.paymentDate ? i.paymentDate : i.daysAfterExit + " " + "روز بعد از وزن"} </Typography>
                                             </Box>
-                                            {!data?.succeeded &&
+                                            {/* {!data?.succeeded && */}
                                                 <Box>
                                                     <Delete className="text-red-500 cursor-pointer" onClick={() => {
                                                         const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== i.id)
                                                         setOrderPayment(orderPaymentFilter)
+                                                        // setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, orderPaymentFilter, orderService)))
                                                         setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, orderPaymentFilter, orderService)))
                                                     }} />
                                                 </Box>
-                                            }
+                                            {/* } */}
                                         </ReusableCard>
                                     )}
                                     <Box component="div" className="flex flex-col justify-between mt-8">
@@ -826,6 +854,7 @@ const Order = () => {
                                 onClick={() => handleSubmit()}
                                 color="secondary"
                                 isLoading={isLoading}
+                                disabled={orderPayment.length === 0}
                             />
                         </Box>
                     </Form >
