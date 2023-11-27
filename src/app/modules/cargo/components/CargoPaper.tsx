@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Typography, Container, Box, Divider, List, ListItem, ListItemAvatar, Avatar, ListItemText } from "@mui/material";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import MuiTable from "../../../../_cloner/components/MuiTable";
 
 export type FieldType = {
     title: string;
@@ -14,7 +15,7 @@ type Props = {
 const CargoPaper = (props: Props) => {
     const fields: FieldType[][] = [
         [
-            { title: "شماره حواله", value: "25268" },
+            { title: "شماره اعلام بار", value: "25268" },
             { title: "شماره سفارش", value: "65484" },
         ],
         [
@@ -38,6 +39,21 @@ const CargoPaper = (props: Props) => {
             },
         ],
     ];
+
+    const ladingProducts = [
+        { id: 1, header: "کد کالا", accessor: "productCode", },
+        { id: 2, header: "شرح کالا", accessor: "productName", },
+        { id: 3, header: "برند", accessor: "productBrandName", },
+        { id: 4, header: "مقدار قابل بارگیری", accessor: "mainAmount", },
+        { id: 5, header: "واحد اصلی", accessor: "mainUnit", },
+        { id: 6, header: "مقدار قابل بارگیری واحد فرعی", accessor: "subAmount", },
+        { id: 7, header: "واحد فرعی", accessor: "subUnit", },
+    ]
+
+    const fakeData = [
+        {id: 1, productCode: "124545", productName: "میلگرد 8", productBrandName: "ذوب آهن", mainAmount: "20,000", mainUnit: "کیلو", subAmount: "24", subUnit: "بسته"},
+        {id: 1, productCode: "124545", productName: "نبشی 4", productBrandName: "ذوب آهن", mainAmount: "20,000", mainUnit: "کیلو", subAmount: "24", subUnit: "بسته"},
+    ]
 
     return (
         <>
@@ -67,7 +83,7 @@ const CargoPaper = (props: Props) => {
                             </Box>
                         </Box>
                     </header>
-                    <main className="border-2 border-dashed mt-4 px-4">
+                    <Box component="div" className="border-2 border-dashed mt-4 px-4">
                         {fields.map((rowFields) => (
                             <Box
                                 component="div"
@@ -81,7 +97,11 @@ const CargoPaper = (props: Props) => {
                                 ))}
                             </Box>
                         ))}
-                    </main>
+                    </Box>
+
+                    <Box component="div" className="border-2 border-dashed mt-4 p-4">
+                        <MuiTable data={fakeData} columns={ladingProducts} onDoubleClick={() => { }} />
+                    </Box>
                 </Container>
             </Card>
         </>
