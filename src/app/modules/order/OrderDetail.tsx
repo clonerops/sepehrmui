@@ -45,9 +45,10 @@ const OrderDetail = (props: Props) => {
     ]
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
-        { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
-        { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
+        { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
     ]
 
     const orderOrderColumnMain = [
@@ -102,7 +103,7 @@ const OrderDetail = (props: Props) => {
             <Formik initialValues={initialValues} onSubmit={() => { }}>
                 {({ }) => {
                     return <Form>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
+                        <Box component="div" className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-4"} gap-4 my-4`}>
                             {renderOrderInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,

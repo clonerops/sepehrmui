@@ -1,10 +1,21 @@
 import * as Yup from "yup";
 
-export const confirmValidation = Yup.object({
-    driverName: Yup.string().required("فیلد اجباری می باشد"),
-    // approvedUserName: Yup.string().required("فیلد اجباری می باشد"),
-    // carPlaque: Yup.string().required("فیلد اجباری می باشد"),
-    // driverMobile: Yup.string().required("فیلد اجباری می باشد"),
-    // approvedDate: Yup.string().required("فیلد اجباری می باشد"),
-    // rentAmount: Yup.string().required("فیلد اجباری می باشد"),
+interface ConfirmValidation {
+    driverName: string;
+    shippingName: string;
+}
+
+export const confirmValidation = Yup.object<ConfirmValidation>({
+    // driverName: Yup.string().when("shippingName", {
+    //     is: (shippingName: any) => !!shippingName && shippingName.length > 0,
+    //     then: Yup.string().required("فیلد الزامی می باشد"),
+    //     otherwise: Yup.string(),
+    // }),
+    // shippingName: Yup.string().when("driverName", {
+    //     test: function (driverName: string | undefined) {
+    //         return !!driverName && driverName.length > 0;
+    //     },
+    //     then: Yup.string().required("فیلد الزامی می باشد"),
+    //     otherwise: Yup.string(),
+    // }),
 });
