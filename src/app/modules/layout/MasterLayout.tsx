@@ -81,7 +81,7 @@ const Drawer = styled(MuiDrawer, {
 const MasterLayout = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
   const theme = useTheme();
-  const { data } = useMenuItems();
+  // const { data } = useMenuItems();
   const [open, setOpen] = React.useState(false);
   // const [menuItemsData, setMenuItemsData] = useState<IMenuItem[]>([]);
 

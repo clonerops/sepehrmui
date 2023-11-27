@@ -33,6 +33,8 @@ import CustomerCompanies from "../modules/generic/customerCompany/CustomerCompan
 import LadingLicence from "../modules/cargo/LadingLicence";
 import LadingList from "../modules/cargo/LadingList";
 import OrderUpdate from "../modules/order/OrderUpdate";
+import ExitRemittance from "../modules/cargo/ExitRemittance";
+import ExitRemittanceList from "../modules/cargo/ExitRemittanceList";
 
 const PrivateRoutes = () => {
 
@@ -62,6 +64,8 @@ const PrivateRoutes = () => {
             <Route path='dashboard/cargoList/paper' element={<CargoPaper />} />
             <Route path='dashboard/lading/:id' element={<LadingLicence />} />
             <Route path='dashboard/ladingList' element={<LadingList />} />
+            <Route path='dashboard/exitRemittance/:id' element={<ExitRemittance />} />
+            <Route path='dashboard/exitRemittanceList' element={<ExitRemittanceList />} />
             <Route path='dashboard/payment' element={<RecievePayment />} />
             <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
             <Route path='dashboard/payment/accounting/:id' element={<Detail />} />

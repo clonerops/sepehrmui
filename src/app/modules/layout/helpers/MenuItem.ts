@@ -144,7 +144,7 @@ const menuItem = [
       {
         id: 1321,
         iconName: "SettingsInputSvideo",
-        title: "مجوز خروج",
+        title: "صدور مجوز بارگیری",
         to: "dashboard/ladingList",
       },
     ],

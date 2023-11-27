@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import { IconComponent } from "../../../../_cloner/components/DynamicIcon";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import React from "react";
 
 const MenuItems = (props: { menuItems: any }) => {
   const [openSubMenu, setOpenSubMenu] = useState(

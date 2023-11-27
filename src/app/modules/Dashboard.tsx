@@ -52,7 +52,6 @@ const Dashboard = () => {
             </Box>
             <Box
                 component="div"
-                // className="flex flex-col md:flex-row justify-center items-center gap-8 my-8 md:my-0"
                 className="grid grid-cols-1 md:grid-cols-2 gap-x-8"
             >
 
@@ -63,6 +62,12 @@ const Dashboard = () => {
                     <ColumnChart data={data} />
                 </ReusableCard>
             </Box>
+
+            {/* <ReusablePrintableComponent renderPrintable={(contentRef: any) => {
+                return <CargoPaper contentRef={contentRef} />;
+            }} />
+             */}
+
         </>
     );
 };
