@@ -1,5 +1,30 @@
 import { http, httpFormData } from "../../../../_cloner/helpers/axiosConfig";
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
 import { IProductPrice, IProducts, ISuppliers } from "./_models";
+
+const getProductList = async (formdata: {
+    productSortBase?: number,
+    ByBrand?: boolean,
+    WarehouseId?: number,
+    PageNumber?: number,
+    PageSize?: number
+}) => {
+    const filter = {
+        productSortBase: formdata.productSortBase,
+        ByBrand: formdata.ByBrand,
+        WarehouseId: formdata.WarehouseId,
+        PageNumber: formdata.PageNumber,
+        PageSize: formdata.PageSize,
+    }
+
+    try {
+        const { data } = await http.get(`${generateURLQueryParam('/v1/Product', filter)}`)
+        return data
+    } catch (error: any) {
+        return error.response;
+    }
+
+}
 
 const retrieveProducts = async (
     PageNumber: number | null | string = "",
@@ -40,7 +65,7 @@ const retrieveProductsByType = async () => {
     return data;
 };
 const retrieveProductsByTypeWarehouseFilter = async (warehouseId: string) => {
-    if(warehouseId) {
+    if (warehouseId) {
         const { data } = await http.get(`/v1/Product/GetAllProductsByType?ByBrand=true&WarehouseId=${Number(warehouseId)}`);
         return data;
     } else {
@@ -90,7 +115,7 @@ const disableProduct = async (id: string) => {
         return error.response;
     }
 };
-const enableProduct = async (formDate: {id: string, active: boolean}) => {
+const enableProduct = async (formDate: { id: string, active: boolean }) => {
     try {
         const { data } = await http.put(`/v${1}/Product/EnableProduct/${formDate.id}`, JSON.stringify(formDate));
         return data;
@@ -224,7 +249,7 @@ const deleteProductPrice = async (id: string) => {
 
 const uploadProductPrice = async (formData: any, onUploadProgress: any) => {
     try {
-        const { data } = await httpFormData.post(`/v${1}/ProductPrice/UploadFilePost`,formData, {
+        const { data } = await httpFormData.post(`/v${1}/ProductPrice/UploadFilePost`, formData, {
             onUploadProgress: onUploadProgress
         });
         return data;
@@ -245,6 +270,7 @@ export const exportProductPrices = async () => {
 
 
 export {
+    getProductList,
     retrieveProducts,
     retrieveProductsByWarehouse,
     retrieveProductsByBrand,

@@ -2,6 +2,18 @@ import { MutationFunction, useMutation, useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
 import { IProductPrice, IProducts, ISuppliers } from "./_models";
 
+const useGetProductList = () => {
+    return useMutation((formdata: {
+        productSortBase?: number,
+        ByBrand?: boolean,
+        WarehouseId?: number,
+        PageNumber?: number,
+        PageSize?: number
+    }) => {
+        return api.getProductList(formdata)
+    });
+};
+
 const useRetrieveProducts = () => {
     return useQuery(["products"], () => api.retrieveProducts());
 };
@@ -141,6 +153,7 @@ const useExportProductPrice = () => {
 
 
 export {
+    useGetProductList,
     useRetrieveProducts,
     useRetrieveProductsByWarehouse,
     useRetrieveProductsByType,

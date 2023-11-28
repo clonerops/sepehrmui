@@ -14,6 +14,7 @@ import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDat
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import {
+    useGetProductList,
     useRetrieveProductsByBrand,
     useRetrieveProductsByTypeAndWarehouseFilter,
 } from "../../product/core/_hooks";
@@ -37,7 +38,8 @@ const ProductSelectedListInModal = (props: {
     setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const { data: productsByBrand } = useRetrieveProductsByBrand();
-    const filterTools = useRetrieveProductsByTypeAndWarehouseFilter();
+    // const filterTools = useRetrieveProductsByTypeAndWarehouseFilter();
+    const filterTools = useGetProductList();
 
     const { data: units } = useGetUnits();
 
@@ -59,7 +61,10 @@ const ProductSelectedListInModal = (props: {
     );
 
     useEffect(() => {
-        filterTools.mutate("");
+        const filter = {
+            ByBrand: true
+        }
+        filterTools.mutate(filter);
     }, []);
 
     const renderAction = (indexToDelete: any) => {
@@ -283,7 +288,7 @@ const ProductSelectedListInModal = (props: {
             warehouseTypeId: 0,
             price: price[product.id]
                 ? price[product.id]
-                : separateAmountWithCommas(product.price),
+                : separateAmountWithCommas(product.productPrice),
             proximateSubUnit:
                 proximateSubAmounts[product.id] === undefined
                     ? 0
