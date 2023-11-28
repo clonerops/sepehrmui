@@ -12,3 +12,15 @@ export interface ICargo {
     deliveryDate?: string | null | undefined,
     description?: string | null | undefined 
 }
+
+export interface ILadingLicence {
+    id?: string
+    cargoAnnounceId?: string,
+    description?: string,
+    ladingLicenseDetails?: [
+      {
+        orderDetailId?: string,
+        ladingAmount?: number
+      }
+    ]
+}

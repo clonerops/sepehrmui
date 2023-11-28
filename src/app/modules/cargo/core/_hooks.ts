@@ -1,23 +1,56 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { ICargo } from "./_models"
-import * as api from './_requests'
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ICargo, ILadingLicence } from "./_models";
+import * as api from "./_requests";
 
 const useRetrievesNotSendedOrder = () => {
-    return useQuery(['ordersNotSend'], () => api.retrievesNotSendedOrder())
-}
+    return useQuery(["ordersNotSend"], () => api.retrievesNotSendedOrder());
+};
 
 const useCreateCargo = () => {
     return useMutation((formData: ICargo) => {
-        return api.createCargo(formData)
-    })
-}
+        return api.createCargo(formData);
+    });
+};
 
 const useRetrieveCargos = (orderId?: string) => {
-    return useQuery(['cargos', orderId], () => api.retrievesCargos(orderId))
-}
+    return useQuery(["cargos", orderId], () => api.retrievesCargos(orderId));
+};
+
+// Lading Licence
+
+const useGetLadingLicenceList = () => {
+    return useQuery(["ladingLicence"], () => api.getLadingLicenceList());
+};
+
+const usePostLadingLicence = () => {
+    return useMutation((formData: ILadingLicence) => {
+        return api.postLadingLicence(formData);
+    });
+};
+
+const useGetLadingLicenceById = (id: string) => {
+    return useQuery(["cargos", id], () => api.getLadingLicenceById(id));
+};
+
+const useEditLadingLicence = () => {
+    return useMutation((formData: ILadingLicence) => {
+        return api.editLadingLicence(formData);
+    });
+};
+
+const useDeleteLadingLicenceById = () => {
+    return useMutation((id: string) => {
+        return api.deleteLadingLicenceById(id);
+    });
+};
 
 export {
     useRetrievesNotSendedOrder,
     useCreateCargo,
-    useRetrieveCargos
-}
+    useRetrieveCargos,
+    useGetLadingLicenceList,
+    usePostLadingLicence,
+    useGetLadingLicenceById,
+    useEditLadingLicence,
+    useDeleteLadingLicenceById,
+};

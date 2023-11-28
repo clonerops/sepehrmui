@@ -63,23 +63,22 @@ const CargoPaper = (props: Props) => {
                         <Box component="div">
                             <img
                                 src={toAbsoulteUrl("/media/logos/follad.png")}
-                                width={60}
-                                height={60}
+                                className="w-[60px] h-[60px] print:w-[30px] print:h-[30px]"
                             />
                         </Box>
                         <Box component="div">
-                            <Typography variant="h2">
+                            <Typography variant="h2" className="print:!text-sm">
                                 بازرگانی سپهر ایرانیان
                             </Typography>
                         </Box>
                         <Box component="div" className="flex flex-col gap-y-4">
                             <Box component="div" className="flex flex-row gap-x-4">
-                                <Typography variant="h4" className="text-gray-500">شماره مجوز:</Typography>
-                                <Typography variant="h3">245874</Typography>
+                                <Typography variant="h4" className="text-gray-500 print:!text-sm">شماره مجوز:</Typography>
+                                <Typography variant="h3" className="print:!text-sm">245874</Typography>
                             </Box>
                             <Box component="div" className="flex flex-row gap-x-4">
-                                <Typography variant="h4" className="text-gray-500">تاریخ مجوز:</Typography>
-                                <Typography variant="h3">1402/09/02</Typography>
+                                <Typography variant="h4" className="text-gray-500 print:!text-sm">تاریخ مجوز:</Typography>
+                                <Typography variant="h3" className="print:!text-sm">1402/09/02</Typography>
                             </Box>
                         </Box>
                     </header>
@@ -87,12 +86,12 @@ const CargoPaper = (props: Props) => {
                         {fields.map((rowFields) => (
                             <Box
                                 component="div"
-                                className="md:flex md:justify-between md:items-start !p-0 !m-0"
+                                className="md:flex md:justify-between md:items-start print:flex print:justify-between print:flex-nowrap !p-0 !m-0"
                             >
                                 {rowFields.map((field) => (
                                     <Box component="div" className="flex flex-row gap-x-2 py-3">
-                                        <Typography variant="h4" className="text-gray-500">{field.title}:</Typography>
-                                        <Typography variant="h3">{field.value}</Typography>
+                                        <Typography variant="h4" className="text-gray-500 print:!text-sm" >{field.title}:</Typography>
+                                        <Typography variant="h3" className="print:!text-sm">{field.value}</Typography>
                                     </Box>
                                 ))}
                             </Box>
