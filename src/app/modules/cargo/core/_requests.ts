@@ -2,6 +2,27 @@ import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
 import { ICargo, ILadingLicence } from "./_models";
 
+const getCargosList = async (formData: {
+    PageNumber?: number,
+    PageSize?: number,
+    OrderCode?: number
+    CustomerId?: string
+}) => {
+
+    const filter = {
+        PageNumber: formData?.PageNumber,
+        PageSize: formData?.PageSize,
+        OrderCode: formData?.OrderCode,
+        CustomerId: formData?.CustomerId
+    
+    }
+    try {
+        const { data } = await http.get(`${generateURLQueryParam('/v1/CargoAnnouncement', filter)}`);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
 const retrievesNotSendedOrder = async () => {
     try {
         const { data } = await http.get(
@@ -87,6 +108,7 @@ const deleteLadingLicenceById = async (id: string) => {
 };
 
 export {
+    getCargosList,
     retrievesNotSendedOrder,
     createCargo,
     retrievesCargos,

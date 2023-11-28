@@ -5,6 +5,18 @@ import * as api from "./_requests";
 const useRetrievesNotSendedOrder = () => {
     return useQuery(["ordersNotSend"], () => api.retrievesNotSendedOrder());
 };
+const useGetCargosList = () => {
+    // return useQuery(["cargosList"], () => api.getCargosList());
+    return useMutation((formData: {
+        PageNumber?: number,
+        PageSize?: number,
+        OrderCode?: number
+        CustomerId?: string
+    }) => {
+        return api.getCargosList(formData);
+    });
+
+};
 
 const useCreateCargo = () => {
     return useMutation((formData: ICargo) => {
@@ -45,6 +57,7 @@ const useDeleteLadingLicenceById = () => {
 };
 
 export {
+    useGetCargosList,
     useRetrievesNotSendedOrder,
     useCreateCargo,
     useRetrieveCargos,
