@@ -1,21 +1,17 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { enqueueSnackbar } from "notistack";
+
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
-import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import Captcha from "./components/Captcha";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
-import React from "react";
 
 const Login = () => {
   // Api
-  const { mutate, data, isLoading } = useLoginUser();
-  const { data: captcha, refetch } = useGetCaptcha()
-  // States
-  const [isError, setIsError] = useState<boolean>(false);
-  const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+  const { mutate, isLoading } = useLoginUser();
+  const { data: captcha } = useGetCaptcha()
 
 
   const initialValues = {
@@ -42,10 +38,15 @@ const Login = () => {
               localStorage.setItem("auth", JSON.stringify(loginData?.data));
               Cookies.set("token", `${loginData?.data?.jwToken}`);
               window.location.reload();
-              setSnackeOpen(true)
+              enqueueSnackbar(loginData.message, {
+                variant: "success",
+                anchorOrigin: { vertical: "top", horizontal: "center" }
+              })
             } else {
-              refetch()
-              setSnackeOpen(true)
+              enqueueSnackbar(loginData.data.Message, {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "center" }
+              })
             }
           }
         });
@@ -56,16 +57,6 @@ const Login = () => {
     },
   }); return (
     <>
-      {snackeOpen && (
-        <PositionedSnackbar
-          open={snackeOpen}
-          setState={setSnackeOpen}
-          title={
-            data?.data?.Message ||
-            data?.message
-          }
-        />
-      )}
       {isLoading && <Backdrop loading={isLoading} />}
       <Box component="div" className="md:grid md:grid-cols-2 h-screen">
         <Box
@@ -118,6 +109,7 @@ const Login = () => {
                 color="primary"
                 type="password"
                 id="password"
+                autoComplete="off"
                 error={
                   formik.touched.password && Boolean(formik.errors.password)
                 }
@@ -128,7 +120,7 @@ const Login = () => {
                 {...formik.getFieldProps("password")}
               />
             </Box>
-            <Captcha captcha={captcha?.data?.cImage} refetch={refetch} />
+            <Captcha captcha={captcha?.data?.cImage} />
             <Box component="div" className="w-[60%] md:w-[40%] my-4 mb-8">
               <TextField
                 fullWidth
@@ -171,11 +163,11 @@ const Login = () => {
         <Box component="div" className="hidden md:block">
           <Box component="div"
             className="h-screen w-full flex flex-col bg-cover"
-          style={{
-            backgroundImage: `url(${toAbsoulteUrl(
-              "/media/logos/bg.png"
-            )})`,
-          }}
+            style={{
+              backgroundImage: `url(${toAbsoulteUrl(
+                "/media/logos/bg.png"
+              )})`,
+            }}
           >
             <div className="mt-auto" />
           </Box>

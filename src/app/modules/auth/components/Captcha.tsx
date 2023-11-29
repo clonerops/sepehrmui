@@ -1,32 +1,19 @@
-import { FC, useEffect, useState } from "react";
-import {
-    QueryObserverResult,
-    RefetchOptions,
-    RefetchQueryFilters,
-    useQueryClient,
-} from "@tanstack/react-query";
-import React from "react";
+import { FC, memo, useEffect, useState } from "react";
 
 interface IProps {
     captcha: string;
-    refetch: <TPageData>(
-        options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-    ) => Promise<QueryObserverResult<any, unknown>>;
 }
 
 const Captcha: FC<IProps> = ({ captcha }) => {
-    const queryClient = useQueryClient();
-    const refetchData = () => {
-        queryClient.invalidateQueries(["captcha"]);
-    };
 
     const [captchaValue, setCaptchaValue] = useState<string>("");
-
+    
+    const getCaptchaIsOnMount = async () => {
+        setCaptchaValue("data:image/jpeg;base64," + captcha);
+    };
+    
     useEffect(() => {
-        const getCaptchaIsOnMount = async () => {
-            setCaptchaValue("data:image/jpeg;base64," + captcha);
-        };
-        getCaptchaIsOnMount();
+        if(captcha) getCaptchaIsOnMount();
         // eslint-disable-next-line
     }, [captcha]);
 
@@ -37,10 +24,9 @@ const Captcha: FC<IProps> = ({ captcha }) => {
                     <img
                         id="imgCaptcha"
                         className=""
-                        alt=""
+                        alt="captcha"
                         src={captchaValue}
                         style={{ height: 46, width: 150 }}
-                        onClick={refetchData}
                     />
                 </div>
             </div>
@@ -48,4 +34,6 @@ const Captcha: FC<IProps> = ({ captcha }) => {
     );
 };
 
-export default Captcha;
+export default memo(Captcha, (prev: any, next: any) => {
+    return prev.captcha === next.captcha
+});
