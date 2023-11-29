@@ -1,95 +1,100 @@
+import React, { Suspense } from 'react'
+
 import { Navigate, Route, Routes } from "react-router-dom";
-import MasterLayout from "../modules/layout/MasterLayout";
-import Customer from "../modules/customer/Customer";
-import Products from "../modules/product/Products";
-import Suppliers from "../modules/product/Suppliers";
-import ProductPrice from "../modules/product/ProductPrice";
-import Cargo from "../modules/cargo/Cargo";
-import Confirm from "../modules/cargo/components/CargoConfirm";
-import RecievePayment from "../modules/payment/RecievePayment";
-import PaymentAccounting from "../modules/payment/PaymentAccounting";
-import Detail from "../modules/payment/components/Detail";
-import Order from "../modules/order/Order";
-import OrderList from "../modules/order/OrderList";
-import OrderConfirm from "../modules/order/OrderConfirm";
-import Dashboard from "../modules/Dashboard";
-import DynamicBreadcrumbs from "../../_cloner/components/Breadcumbs";
-import Brands from "../modules/generic/brands/Brands";
-import ProductTypes from "../modules/generic/productType/ProductTypes";
-import ProductState from "../modules/generic/productState/ProductState";
-import ProductStandards from "../modules/generic/productStandard/ProductStandard";
-import ProductBrands from "../modules/generic/productBrands/ProductBrands";
-import Users from "../modules/user/Users";
-import CreateUser from "../modules/user/components/CreateUser";
-import RoleUser from "../modules/user/components/RoleUser";
-import React from "react";
-import ProductInventories from "../modules/product/ProductInventories";
-import OrderDetail from "../modules/order/OrderDetail";
-import ProductForm from "../modules/product/components/ProductForm";
-import ProductService from "../modules/generic/productService/ProductService";
-import OrderConfirmList from "../modules/order/OrderConfirmList";
-import CargoPaper from "../modules/cargo/components/CargoPaper";
-import CustomerCompanies from "../modules/generic/customerCompany/CustomerCompany";
-import LadingLicence from "../modules/cargo/LadingLicence";
-import LadingList from "../modules/cargo/LadingList";
-import OrderUpdate from "../modules/order/OrderUpdate";
-import ExitRemittance from "../modules/cargo/ExitRemittance";
-import ExitRemittanceList from "../modules/cargo/ExitRemittanceList";
+import Backdrop from '../../_cloner/components/Backdrop';
+
+const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
+const Customer = React.lazy(() => import("../modules/customer/Customer"));
+const Products = React.lazy(() => import("../modules/product/Products"));
+const Suppliers = React.lazy(() => import("../modules/product/Suppliers"));
+const ProductPrice = React.lazy(() => import("../modules/product/ProductPrice"));
+const Cargo = React.lazy(() => import("../modules/cargo/Cargo"));
+const Confirm = React.lazy(() => import("../modules/cargo/components/CargoConfirm"));
+const RecievePayment = React.lazy(() => import("../modules/payment/RecievePayment"));
+const PaymentAccounting = React.lazy(() => import("../modules/payment/PaymentAccounting"));
+const Detail = React.lazy(() => import("../modules/payment/components/Detail"));
+const Order = React.lazy(() => import("../modules/order/Order"));
+const OrderList = React.lazy(() => import("../modules/order/OrderList"));
+const OrderConfirm = React.lazy(() => import("../modules/order/OrderConfirm"));
+const Dashboard = React.lazy(() => import("../modules/Dashboard"));
+const DynamicBreadcrumbs = React.lazy(() => import("../../_cloner/components/Breadcumbs"));
+const Brands = React.lazy(() => import("../modules/generic/brands/Brands"));
+const ProductTypes = React.lazy(() => import("../modules/generic/productType/ProductTypes"));
+const ProductState = React.lazy(() => import("../modules/generic/productState/ProductState"));
+const ProductStandards = React.lazy(() => import("../modules/generic/productStandard/ProductStandard"));
+const ProductBrands = React.lazy(() => import("../modules/generic/productBrands/ProductBrands"));
+const Users = React.lazy(() => import("../modules/user/Users"));
+const CreateUser = React.lazy(() => import("../modules/user/components/CreateUser"));
+const RoleUser = React.lazy(() => import("../modules/user/components/RoleUser"));
+const ProductInventories = React.lazy(() => import("../modules/product/ProductInventories"));
+const OrderDetail = React.lazy(() => import("../modules/order/OrderDetail"));
+const ProductForm = React.lazy(() => import("../modules/product/components/ProductForm"));
+const ProductService = React.lazy(() => import("../modules/generic/productService/ProductService"));
+const OrderConfirmList = React.lazy(() => import("../modules/order/OrderConfirmList"));
+const CargoPaper = React.lazy(() => import("../modules/cargo/components/CargoPaper"));
+const CustomerCompanies = React.lazy(() => import("../modules/generic/customerCompany/CustomerCompany"));
+const LadingLicence = React.lazy(() => import("../modules/cargo/LadingLicence"));
+const LadingList = React.lazy(() => import("../modules/cargo/LadingList"));
+const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
+const ExitRemittance = React.lazy(() => import("../modules/cargo/ExitRemittance"));
+const ExitRemittanceList = React.lazy(() => import("../modules/cargo/ExitRemittanceList"));
 
 const PrivateRoutes = () => {
 
   return (
-    <Routes>
-      <Route element={<MasterLayout />}>
-        <Route>
-          <Route element={<DynamicBreadcrumbs />}>
-            {/* Redirect to Dashboard after success login/registartion */}
-            <Route path="auth/*" element={<Navigate to="/dashboard" />} />
-            <Route path='dashboard' element={<Dashboard />} />
-            <Route path='dashboard/order' element={<Order />} />
-            {/* <Route path='dashboard/order/:id' element={<Order />} /> */}
-            <Route path='dashboard/orderUpdate' element={<OrderUpdate />} />
-            <Route path='dashboard/orderList' element={<OrderList />} />
-            <Route path='dashboard/approveOrderList' element={<OrderConfirmList />} />
-            <Route path='dashboard/orderList/:id' element={<OrderDetail  />} />
-            <Route path='dashboard/approveOrderList/:id' element={<OrderConfirm  />} />
+    <Suspense fallback={<Backdrop loading={true} />}>
+      <Routes>
+        <Route element={<MasterLayout />}>
+          <Route>
+            <Route element={<DynamicBreadcrumbs />}>
+              {/* Redirect to Dashboard after success login/registartion */}
+              <Route path="auth/*" element={<Navigate to="/dashboard" />} />
+              <Route path='dashboard' element={<Dashboard />} />
+              <Route path='dashboard/order' element={<Order />} />
+              {/* <Route path='dashboard/order/:id' element={<Order />} /> */}
+              <Route path='dashboard/orderUpdate' element={<OrderUpdate />} />
+              <Route path='dashboard/orderList' element={<OrderList />} />
+              <Route path='dashboard/approveOrderList' element={<OrderConfirmList />} />
+              <Route path='dashboard/orderList/:id' element={<OrderDetail />} />
+              <Route path='dashboard/approveOrderList/:id' element={<OrderConfirm />} />
 
-            <Route path="dashboard/customers" element={<Customer />} />
-            <Route path="dashboard/products" element={<Products />} />
-            <Route path="dashboard/suppliers" element={<Suppliers />} />
-            <Route path="dashboard/customerCompany" element={<CustomerCompanies />} />
-            <Route path="dashboard/productPrices" element={<ProductPrice />} />
-            <Route path='dashboard/cargoList' element={<Cargo />} />
-            <Route path='dashboard/cargoList/:id' element={<Confirm />} />
-            <Route path='dashboard/cargoList/paper' element={<CargoPaper />} />
-            <Route path='dashboard/lading/:id' element={<LadingLicence />} />
-            <Route path='dashboard/ladingList' element={<LadingList />} />
-            <Route path='dashboard/exitRemittance/:id' element={<ExitRemittance />} />
-            <Route path='dashboard/exitRemittanceList' element={<ExitRemittanceList />} />
-            <Route path='dashboard/payment' element={<RecievePayment />} />
-            <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
-            <Route path='dashboard/payment/accounting/:id' element={<Detail />} />
-            {/* Brands */}
-            <Route path='dashboard/brands' element={<Brands />} />
-            <Route path='dashboard/productTypes' element={<ProductTypes />} />
-            <Route path='dashboard/productState' element={<ProductState />} />
-            <Route path='dashboard/productStandard' element={<ProductStandards />} />
-            <Route path='dashboard/productInventories' element={<ProductInventories />} />
-            <Route path='dashboard/productBrand' element={<ProductBrands />} />
-            <Route path='dashboard/productService' element={<ProductService />} />
+              <Route path="dashboard/customers" element={<Customer />} />
+              <Route path="dashboard/products" element={<Products />} />
+              <Route path="dashboard/suppliers" element={<Suppliers />} />
+              <Route path="dashboard/customerCompany" element={<CustomerCompanies />} />
+              <Route path="dashboard/productPrices" element={<ProductPrice />} />
+              <Route path='dashboard/cargoList' element={<Cargo />} />
+              <Route path='dashboard/cargoList/:id' element={<Confirm />} />
+              <Route path='dashboard/cargoList/paper' element={<CargoPaper />} />
+              <Route path='dashboard/lading/:id' element={<LadingLicence />} />
+              <Route path='dashboard/ladingList' element={<LadingList />} />
+              <Route path='dashboard/exitRemittance/:id' element={<ExitRemittance />} />
+              <Route path='dashboard/exitRemittanceList' element={<ExitRemittanceList />} />
+              <Route path='dashboard/payment' element={<RecievePayment />} />
+              <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />
+              <Route path='dashboard/payment/accounting/:id' element={<Detail />} />
+              {/* Brands */}
+              <Route path='dashboard/brands' element={<Brands />} />
+              <Route path='dashboard/productTypes' element={<ProductTypes />} />
+              <Route path='dashboard/productState' element={<ProductState />} />
+              <Route path='dashboard/productStandard' element={<ProductStandards />} />
+              <Route path='dashboard/productInventories' element={<ProductInventories />} />
+              <Route path='dashboard/productBrand' element={<ProductBrands />} />
+              <Route path='dashboard/productService' element={<ProductService />} />
 
-            <Route path='dashboard/users' element={<Users />} />
-            <Route path="dashboard/user/create" element={<CreateUser />} />
-            <Route path="dashboard/user/role/:id" element={<RoleUser />} />
+              <Route path='dashboard/users' element={<Users />} />
+              <Route path="dashboard/user/create" element={<CreateUser />} />
+              <Route path="dashboard/user/role/:id" element={<RoleUser />} />
 
 
-            {/* Lazy Modules */}
-            {/* Page Not Found */}
-            <Route path="*" element={<Navigate to="/error/404" />} />
+              {/* Lazy (M => import(""))odules */}
+              {/* Page Not Found */}
+              <Route path="*" element={<Navigate to="/error/404" />} />
+            </Route>
           </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </Suspense>
   );
 };
 
