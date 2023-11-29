@@ -44,7 +44,7 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
         <AppBar
             position="fixed"
             open={open}
-            elevation={0.9}
+            // elevation={0.9}
             // color="secondary"
             sx={{
                 boxShadow: "3px 4px 39px -14px rgba(0,0,0,0.26)",
