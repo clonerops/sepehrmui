@@ -229,7 +229,6 @@ const ProductSelectedListInModal = (props: {
 
     const handleSelectionChange: any = (newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
-        console.log("selectedRow", selectedRow)
         const selectedRowData = {
             ...newSelectionModel.row,
             mainUnit: props.products?.find(
@@ -331,22 +330,26 @@ const ProductSelectedListInModal = (props: {
         setResults(selectedTab === -1 ? productsByBrand?.data : filtered);
     }, [selectedTab]);
 
-    const onSelectTab = (id: any) => {
-        setSelectedTab(id);
-    };
+    const onSelectTab = (id: any) => setSelectedTab(id);
+
 
     const onFilterProductByWarehouse = (value: any) => {
-        let filteredByWarehouse;
         if (value === "-1") {
             setResults(filteredTabs)
             setTabResult(filteredTabs)
         } else {
-            filteredByWarehouse = filteredTabs.filter((i: any) => Number(i.warehouseId) === Number(value));
-            setResults(filteredByWarehouse)
-            setTabResult(filteredByWarehouse)
-        }
+            const filter = {
+                ByBrand: true,
+                WarehouseId: +value
+            }
+            filterTools.mutate(filter, {
+                onSuccess: (res) => {
+                    setResults(res?.data)
+                    setTabResult(res?.data)
+                }
+            });
+         }
     };
-
 
     if (props.productLoading) {
         return <Typography>Loading ...</Typography>;
