@@ -42,6 +42,8 @@ import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import { useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
+import FormikCustomer from "../../../_cloner/components/FormikCustomer";
+import FormikCompany from "../../../_cloner/components/FormikCompany";
 
 const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -75,42 +77,18 @@ const Order = () => {
 
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
 
-    const mainParseFields = (fields: FieldType, setFieldValue: any) => {
+    const mainParseFields = (fields: FieldType, setFieldValue: any, values: any) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "customer":
                 return (
                     <Box component="div" className="flex flex-col w-full">
                         <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
-                            <FormikComboBox
-                                disabled={data?.succeeded}
-                                onChange={(value: any) => handleChangeCustomer(value, setFieldValue)}
-                                options={dropdownCustomer(customers?.data)}
-                                renderOption={(props: any, option: any) => {
-                                    return <li {...props}>
-                                        <Box component="div" style={{
-                                            backgroundColor: `#${option.customerValidityColorCode}`,
-                                            width: 20,
-                                            height: 20,
-                                            borderRadius: 40
-                                        }}>
-
-                                        </Box> <Typography className="pr-4" style={{
-                                            width: "100%"
-                                        }}>{option.label}</Typography>
-                                    </li>
-
-                                }
-                                }
-                                {...rest}
-                            />
-                            <IconButton
-                                onClick={() => setIsOpen(true)}
-                                className="flex justify-center items-center cursor-pointer text-xl"
-                            >
+                            <FormikCustomer disabled={data?.succeeded} onChange={(value: any) => handleChangeCustomer(value, setFieldValue)} {...rest}/>
+                            <IconButton onClick={() => setIsOpen(true)} className="flex justify-center items-center cursor-pointer text-xl">
                                 <AddCircle color="secondary" />
                             </IconButton>
-                            <FormikComboBox options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
+                            <FormikCompany customerID={values.customerID} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
                             <Box component="div" className="flex flex-row pt-2">
@@ -444,7 +422,8 @@ const Order = () => {
 
     const handleChangeCustomer = (value: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
         const findCustomer = customers?.data?.find((i: any) => i.id === value?.value);
-        customerCompaniesTools.mutate(findCustomer?.id)
+        // customerCompaniesTools.mutate(findCustomer?.id)
+        setFieldValue("customerID", findCustomer?.id)
         setFindCustomer(findCustomer);
         setFieldValue("number", findCustomer?.settlementDay)
         setFieldValue("settlement", moment(new Date()).add(+findCustomer?.settlementDay, "days").format("jYYYY/jMM/jDD"))
@@ -599,7 +578,8 @@ const Order = () => {
                                                 {rowFields.map((field) =>
                                                     mainParseFields(
                                                         field,
-                                                        setFieldValue
+                                                        setFieldValue,
+                                                        values
                                                     )
                                                 )}
                                             </Box>
@@ -657,7 +637,8 @@ const Order = () => {
                                             {rowFields.map((field) =>
                                                 mainParseFields(
                                                     field,
-                                                    setFieldValue
+                                                    setFieldValue,
+                                                    values
                                                 )
                                             )}
                                         </Box>

@@ -16,6 +16,8 @@ export const orderInitialValues = {
 
 
     customerId: "",
+    customerID: "",
+    
     settlementDate: "",
     exitType: "1",
     orderSendTypeId: "1",
