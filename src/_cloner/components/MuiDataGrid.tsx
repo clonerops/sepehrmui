@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import Backdrop from "./Backdrop";
@@ -14,7 +14,7 @@ type Props = {
     isLoading?: boolean;
 };
 
-export default function MuiDataGrid(props: Props) {
+const MuiDataGrid = (props: Props) => {
     const { columns, rows, data, width, maxVisibleRows = 12, customRowStyle  } = props;
 
     const gridHeight = useMemo(() => {
@@ -30,7 +30,7 @@ export default function MuiDataGrid(props: Props) {
             : maxVisibleRows * defaultRowHeight;
     }, [data, maxVisibleRows]);
 
-    const getRowClassName = (params: any) => {
+    const getRowClassName = useCallback((params: any) => {
         let className = params.indexRelativeToCurrentPage % 2 === 0 ? "bg-[#ECF5FF]" : "bg-white";
 
         if (customRowStyle) {
@@ -38,7 +38,18 @@ export default function MuiDataGrid(props: Props) {
         }
 
         return className;
-    };
+
+    }, [])
+
+    // const getRowClassName = (params: any) => {
+    //     let className = params.indexRelativeToCurrentPage % 2 === 0 ? "bg-[#ECF5FF]" : "bg-white";
+
+    //     if (customRowStyle) {
+    //         className = "custom-row-style";
+    //     }
+
+    //     return className;
+    // };
 
     if(props.isLoading) {
         return <Backdrop loading={props.isLoading} />
@@ -64,23 +75,18 @@ export default function MuiDataGrid(props: Props) {
                 rows={rows ? rows : []}
                 columns={columns}
                 pagination={false}
-                // getRowId={(row) => row.id}
                 getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}
                 rowHeight={42}
                 autoPageSize={false}
                 onRowDoubleClick={props.onDoubleClick}
-                // getRowClassName={(params) =>
-                //     params.indexRelativeToCurrentPage % 2 === 0
-                //         ? "bg-[#ECF5FF]"
-                //         : "bg-white"
-                // }
                 getRowClassName={getRowClassName}
                 hideFooter={true}
                 columnHeaderHeight={32}
                 disableVirtualization={true}
-                // style={{ height: gridHeight, maxHeight: 400, overflow: "auto" }} // Set a max height and allow scrolling
                 style={{ height: gridHeight, maxHeight: gridHeight, overflow: "auto" }} // Set a max height and allow scrolling
             />
         </Box>
     );
 }
+
+export default MuiDataGrid
