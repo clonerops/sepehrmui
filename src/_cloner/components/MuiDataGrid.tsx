@@ -15,7 +15,7 @@ type Props = {
 };
 
 const MuiDataGrid = (props: Props) => {
-    const { columns, rows, data, width, maxVisibleRows = 12, customRowStyle  } = props;
+    const { columns, rows, isLoading, data, width, maxVisibleRows = 12, customRowStyle, onDoubleClick  } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
@@ -36,9 +36,7 @@ const MuiDataGrid = (props: Props) => {
         if (customRowStyle) {
             className = "custom-row-style";
         }
-
         return className;
-
     }, [])
 
     // const getRowClassName = (params: any) => {
@@ -51,10 +49,9 @@ const MuiDataGrid = (props: Props) => {
     //     return className;
     // };
 
-    if(props.isLoading) {
-        return <Backdrop loading={props.isLoading} />
+    if(isLoading) {
+        return <Backdrop loading={isLoading} />
     }
-
 
     return (
         <Box sx={{ width: width }}>
@@ -78,11 +75,12 @@ const MuiDataGrid = (props: Props) => {
                 getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}
                 rowHeight={42}
                 autoPageSize={false}
-                onRowDoubleClick={props.onDoubleClick}
+                onRowDoubleClick={onDoubleClick}
                 getRowClassName={getRowClassName}
                 hideFooter={true}
                 columnHeaderHeight={32}
-                disableVirtualization={true}
+                // disableVirtualization={true}
+                disableVirtualization={false}
                 style={{ height: gridHeight, maxHeight: gridHeight, overflow: "auto" }} // Set a max height and allow scrolling
             />
         </Box>
