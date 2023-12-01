@@ -43,7 +43,7 @@ const Cargo = () => {
                         "registerDate",
                         "customerFirstName",
                         "customerLastName",
-                        "totalAmount",
+                        "fareAmount",
                         "description",
                     ]}
                     data={cargoNotSended}

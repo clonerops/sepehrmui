@@ -26,8 +26,8 @@ const initialValues = {
     approvedUserName: "",
     carPlaque: "",
     driverMobile: "",
-    approvedDate: new Date(),
-    rentAmount: "",
+    approvedDate: moment(new Date()).format('jYYYY/jMM/jDD'),
+    fareAmount: "",
     isComplete: false,
     description: "",
     vehicleTypeId: null,
@@ -37,7 +37,7 @@ const initialValues = {
 
 const Confirm = () => {
     const { id } = useParams()
-    const { mutate, data: cargoSended, isLoading } = useCreateCargo()
+    const { mutate, isLoading } = useCreateCargo()
     const cargosList = useRetrieveCargos(id)
     const vehicleList = useGetVehicleTypes()
 
@@ -51,7 +51,7 @@ const Confirm = () => {
         [
             { label: "شماره همراه راننده", name: "driverMobile", type: "input" },
             { label: "تاریخ تحویل", name: "deliveryDate", type: "datepicker" },
-            { label: "مبلغ کرایه", name: "rentAmount", type: "price" },
+            { label: "مبلغ کرایه", name: "fareAmount", type: "price" },
             { label: "ندارد", name: "isComplete", type: "checkbox" },
         ],
         [
@@ -100,7 +100,7 @@ const Confirm = () => {
                             const formData: any = {
                                 ...values,
                                 orderId: id,
-                                rentAmount: +values.rentAmount.replace(/,/g, "")
+                                fareAmount: +values.fareAmount.replace(/,/g, "")
                             }
                             mutate(formData, {
                                 onSuccess: (message) => {

@@ -282,6 +282,9 @@ const ProductSelectedListInModal = (props: {
             subUnit: subUnit[product.id]
                 ? units.find((i: any) => i.id === subUnit[product.id]).unitName
                 : product.subUnit,
+            productSubUnitId: subUnit[product.id]
+                ? units.find((i: any) => i.id === subUnit[product.id]).id
+                : product.subUnit,
             rowId: product?.rowId ? product?.rowId : 0,
             proximateAmount: proximateAmounts[product.id] || "",
             warehouseTypeId: 0,
@@ -348,7 +351,7 @@ const ProductSelectedListInModal = (props: {
                     setTabResult(res?.data)
                 }
             });
-         }
+        }
     };
 
     if (props.productLoading) {

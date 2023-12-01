@@ -140,10 +140,10 @@ const OrderDetail = (props: Props) => {
                                 </ReusableCard>
                             </Box>
                         }
-                        <ReusableCard cardClassName="p-4 mt-4">
+                        {/* <ReusableCard cardClassName="p-4 mt-4">
                             <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
-                            <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data} columns={lastCargoList} />
-                        </ReusableCard>
+                            <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
+                        </ReusableCard> */}
                     </Form>
                 }}
             </Formik>

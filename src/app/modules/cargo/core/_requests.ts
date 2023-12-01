@@ -33,7 +33,6 @@ const retrievesNotSendedOrder = async () => {
         return error.response;
     }
 };
-
 const createCargo = async (formData: ICargo) => {
     try {
         const { data } = await http.post(
@@ -60,6 +59,11 @@ const retrievesCargos = async (orderId?: string) => {
     }
 };
 
+const getCargoById = async (cargoId: string) => {
+    const {data} = await http.get(`/v1/CargoAnnouncement/${cargoId}`)
+    return data
+}
+
 // Lading Licence
 const getLadingLicenceList = async () => {
     const { data } = await http.get("/v1/LadingLicence");
@@ -69,7 +73,7 @@ const getLadingLicenceList = async () => {
 const postLadingLicence = async (formdata: ILadingLicence) => {
     try {
         const { data } = await http.post(
-            "/v1/LadingLicence",
+            "/v1/LadingLicense",
             JSON.stringify(formdata)
         );
         return data;
@@ -111,6 +115,7 @@ export {
     getCargosList,
     retrievesNotSendedOrder,
     createCargo,
+    getCargoById,
     retrievesCargos,
     getLadingLicenceList,
     postLadingLicence,

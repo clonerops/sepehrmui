@@ -4,7 +4,7 @@ import { dropdownProductIntegrated } from "../../generic/_functions";
 import { useRetrieveProducts } from "../../product/core/_hooks";
 
 
-const FormikProductComboSelect = (props: any) => {
+const FormikProduct = (props: any) => {
     const { data } = useRetrieveProducts()
     return <FormikComboBox
         disabled={props.disabled}
@@ -12,4 +12,4 @@ const FormikProductComboSelect = (props: any) => {
         {...props} />;
 };
 
-export default FormikProductComboSelect;
+export default FormikProduct;

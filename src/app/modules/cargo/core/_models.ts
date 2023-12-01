@@ -14,13 +14,13 @@ export interface ICargo {
 }
 
 export interface ILadingLicence {
-    id?: string
-    cargoAnnounceId?: string,
-    description?: string,
+    id?: string | null | undefined
+    cargoAnnounceId?: string | null | undefined,
+    description?: string | null | undefined,
     ladingLicenseDetails?: [
       {
-        orderDetailId?: string,
-        ladingAmount?: number
+        orderDetailId?: string | null | undefined,
+        ladingAmount?: number | null | undefined
       }
     ]
 }

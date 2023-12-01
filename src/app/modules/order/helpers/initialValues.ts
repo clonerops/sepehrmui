@@ -48,6 +48,7 @@ export const orderInitialValues = {
     proximateSubUnit: "",
     mainUnit: "",
     subUnit: "",
+    productSubUnitId: "",
     productBrandId: "",
     productBrandName: "",
     purchaserCustomerName: ""
@@ -87,6 +88,7 @@ export const orderUpdateInitialValues = {
     proximateSubUnit: "",
     mainUnit: "",
     subUnit: "",
+    productSubUnitId: "",
     productBrandId: "",
     productBrandName: "",
     purchaserCustomerName: ""

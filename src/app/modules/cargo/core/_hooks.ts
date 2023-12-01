@@ -18,6 +18,8 @@ const useGetCargosList = () => {
 
 };
 
+
+
 const useCreateCargo = () => {
     return useMutation((formData: ICargo) => {
         return api.createCargo(formData);
@@ -27,6 +29,11 @@ const useCreateCargo = () => {
 const useRetrieveCargos = (orderId?: string) => {
     return useQuery(["cargos", orderId], () => api.retrievesCargos(orderId));
 };
+
+const useCargoById = (cargoId: string) => {
+    return useQuery(["cargos", cargoId], () => api.getCargoById(cargoId));
+};
+
 
 // Lading Licence
 
@@ -60,6 +67,7 @@ export {
     useGetCargosList,
     useRetrievesNotSendedOrder,
     useCreateCargo,
+    useCargoById,
     useRetrieveCargos,
     useGetLadingLicenceList,
     usePostLadingLicence,

@@ -7,25 +7,19 @@ import { Form, Formik, FormikErrors } from "formik";
 import { useCreateOrder } from "./core/_hooks";
 import moment from "moment-jalaali";
 import { useGetCustomers } from "../customer/core/_hooks";
-import { dropdownCustomer, dropdownCustomerCompanies, dropdownExitType, dropdownInvoiceType, dropdownOrderSendType, dropdownPurchaseInvoice, dropdownRentPaymentType, dropdownServices, dropdownTemporaryType, dropdownWarehouses } from "./helpers/dropdowns";
-import { exit, temporary } from "./helpers/fakeData";
+import { dropdownCustomer, dropdownPurchaseInvoice } from "./helpers/dropdowns";
 import Swal from 'sweetalert2'
 import { orderValidation } from "./validations/orderValidation";
-import {
-    useGetInvoiceType, useGetPaymentTypes, useGetPurchaseInvoice, useGetSendTypes, useGetServices, useGetWarehouses,
-} from "../generic/_hooks";
+import { useGetPurchaseInvoice, useGetServices, useGetWarehouses } from "../generic/_hooks";
 import { Box, Button, Typography, IconButton, InputAdornment, Table, TableHead, TableBody, TableCell, TableRow } from "@mui/material";
 import { sliceNumberPriceRial } from "../../../_cloner/helpers/sliceNumberPrice";
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian";
-import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import { AddCircle, Add, Grading, Delete, MonetizationOn, AttachMoney, DateRange, ProductionQuantityLimits, Edit } from "@mui/icons-material";
 import { ICustomer } from "../customer/core/_models";
 import { dropdownProductByBrandName } from "../generic/_functions";
-import FormikProductComboSelect from "./components/FormikProductComboSelect";
-import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { customerFields, orderFields, orderFieldsIsBuy, orderTypesFields } from "./helpers/fields";
 import { IOrderItems, IOrderPayment, IOrderService } from "./core/_models";
@@ -41,9 +35,41 @@ import BottomDrawer from "../../../_cloner/components/BottomSheetDrawer";
 import CustomerForm from "../customer/components/CustomerForm";
 import FormikService from "../../../_cloner/components/FormikService";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
-import { useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
 import FormikCustomer from "../../../_cloner/components/FormikCustomer";
 import FormikCompany from "../../../_cloner/components/FormikCompany";
+import FormikOrderSend from "../../../_cloner/components/FormikOrderSend";
+import FormikInvoiceType from "../../../_cloner/components/FormikInvoiceType";
+import FormikPaymentType from "../../../_cloner/components/FormikPaymentType";
+import FormikExitType from "../../../_cloner/components/FormikExitType";
+import FormikTemporary from "../../../_cloner/components/FormikTemporary";
+import FormikDescription from "../../../_cloner/components/FormikDescription";
+import FormikWarehouse from "../../../_cloner/components/FormikWarehouse";
+import FormikProduct from "./components/FormikProductComboSelect";
+import FormikPurchaserInvoiceType from "../../../_cloner/components/FormikPurchaserInvoiceType";
+import FormikAmount from "../product/components/FormikAmount";
+
+const BUY_WAREHOUSE_TYPES = [1, 3, 4, 5, 7];
+const fieldValue = [
+    { title: "productName", value: "" },
+    { title: "id", value: "" },
+    { title: "price", value: "" },
+    { title: "productBrandId", value: "" },
+    { title: "productBrandName", value: "" },
+    { title: "warehouseId", value: "" },
+    { title: "proximateAmount", value: "" },
+    { title: "warehouseName", value: "" },
+    { title: "proximateSubUnit", value: "" },
+    { title: "purchasePrice", value: "" },
+    { title: "purchaseInvoiceTypeDesc", value: "" },
+    { title: "purchaseInvoiceTypeId", value: "" },
+    { title: "purchaseSettlementDate", value: "" },
+    { title: "purchaserCustomerId", value: "" },
+    { title: "purchaserCustomerName", value: "" },
+    { title: "rowId", value: "" },
+    { title: "productDesc", value: "" },
+    { title: "mainUnit", value: "" },
+    { title: "subUnit", value: "" },
+];
 
 const Order = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -53,18 +79,14 @@ const Order = () => {
     const { data: products } = useRetrieveProducts();
     const productsTools = useRetrieveProductsByWarehouse();
     const { data: productsByBrand, isLoading: productByBrandLoading, isError: productByBrandError, } = useRetrieveProductsByBrand();
-    const { data: orderSendType } = useGetSendTypes();
-    const { data: rent } = useGetPaymentTypes();
     const { data: purchaseInvoiceType } = useGetPurchaseInvoice();
-    const { data: factor } = useGetInvoiceType();
     const { data: warehouse } = useGetWarehouses();
     const { data: services } = useGetServices();
     const { mutate, data, isLoading } = useCreateOrder();
-    const customerCompaniesTools = useGetCustomerCompaniesMutate();
+
     // States
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
     const [selectedProductOpen, setSelectedProductOpen] = useState<boolean>(false); // OK
-    const [disabled, setDisabled] = useState<boolean>(false); // OK
     const [isUpdate, setIsUpdate] = useState<boolean>(false); // OK
     const [selectedOrderIndex, setSelectedOrderIndex] = useState<number>(0); // OK
     const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
@@ -75,6 +97,13 @@ const Order = () => {
     const [orderService, setOrderService] = useState<IOrderService[]>([]); //OK
     const [findCustomer, setFindCustomer] = useState<ICustomer>(); //OK
 
+    const validateAndEnqueueSnackbar = (message: string) => {
+        enqueueSnackbar(message, {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "center" }
+        });
+    };
+
     useEffect(() => { calculateTotalAmount(orders, orderService) }, [orders, orderService]);
 
     const mainParseFields = (fields: FieldType, setFieldValue: any, values: any) => {
@@ -84,7 +113,7 @@ const Order = () => {
                 return (
                     <Box component="div" className="flex flex-col w-full">
                         <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
-                            <FormikCustomer disabled={data?.succeeded} onChange={(value: any) => handleChangeCustomer(value, setFieldValue)} {...rest}/>
+                            <FormikCustomer disabled={data?.succeeded} onChange={(value: any) => handleChangeCustomer(value, setFieldValue)} {...rest} />
                             <IconButton onClick={() => setIsOpen(true)} className="flex justify-center items-center cursor-pointer text-xl">
                                 <AddCircle color="secondary" />
                             </IconButton>
@@ -96,10 +125,7 @@ const Order = () => {
                                 <Typography variant="h3" className="px-4">{findCustomer?.representative} </Typography>
                             </Box>
                             <Box component="div" className="flex flex-row pt-2">
-                                <Typography style={{
-                                    backgroundColor: `#${findCustomer?.customerValidityColorCode}`,
-                                    color: "white"
-                                }} variant="h3" className="px-4 rounded-md py-1">{findCustomer?.customerValidityDesc}</Typography>
+                                <Typography sx={{ backgroundColor: `#${findCustomer?.customerValidityColorCode}` }} variant="h3" className={`text-white px-4 rounded-md py-1`}>{findCustomer?.customerValidityDesc}</Typography>
                             </Box>
                             <Box component="div" className="flex flex-row pt-8">
                                 <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
@@ -115,47 +141,19 @@ const Order = () => {
             case "settlementDate":
                 return <FormikDatepicker {...rest} />;
             case "orderSendTypeId":
-                return (
-                    <FormikSelect
-                        disabled={data?.succeeded}
-                        options={dropdownOrderSendType(orderSendType)}
-                        {...rest}
-                    />
-                );
+                return <FormikOrderSend disabled={data?.succeeded} {...rest} />
             case "invoiceTypeId":
-                return (
-                    <FormikSelect
-                        disabled={data?.succeeded}
-                        options={dropdownInvoiceType(factor)}
-                        {...rest}
-                    />
-                );
+                return <FormikInvoiceType disabled={data?.succeeded} {...rest} />
             case "paymentTypeId":
-                return (
-                    <FormikSelect
-                        disabled={data?.succeeded}
-                        options={dropdownRentPaymentType(rent)}
-                        {...rest}
-                    />
-                );
+                return <FormikPaymentType disabled={data?.succeeded} {...rest} />
             case "exitType":
-                return (
-                    <FormikSelect
-                        disabled={data?.succeeded} options={dropdownExitType(exit)} {...rest} />
-                );
+                return <FormikExitType disabled={data?.succeeded} {...rest} />
             case "temporary":
-                return (
-                    <FormikSelect
-                        disabled={data?.succeeded} options={dropdownTemporaryType(temporary)} {...rest} />
-                );
+                return <FormikTemporary disabled={data?.succeeded} {...rest} />
             case "description":
-                return (
-                    <FormikInput
-                        disabled={data?.succeeded} multiline rows={3} {...rest} />
-                );
+                return <FormikDescription disabled={data?.succeeded} {...rest} />
             default:
-                <FormikInput {...rest} />;
-                break;
+                return <FormikInput {...rest} />;
         }
     };
 
@@ -163,59 +161,35 @@ const Order = () => {
         const { type, ...rest } = fields;
         switch (type) {
             case "warehouse":
-                return <FormikSelect disabled={isUpdate || data?.succeeded} options={dropdownWarehouses(warehouse)} onChange={(value: any) => handleChangeWarehouse(value, setFieldValue)} {...rest} />
+                return <FormikWarehouse disabled={isUpdate || data?.succeeded} onChange={(value: any) => handleChangeWarehouse(value, setFieldValue)} {...rest} />
             case "product":
                 return (
                     <Box component="div" className="flex gap-x-2 w-full">
-                        <FormikProductComboSelect
-                            disabled={isUpdate || data?.succeeded}
-                            onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
-                            options={dropdownProductByBrandName(productsTools?.data?.data)}
-                            {...rest}
-                        />
-                        <Button
-                            onClick={() => setSelectedProductOpen(true)}
-                            variant="contained"
-                            color="primary"
-                            disabled={data?.succeeded}
-                        >
+                        <FormikProduct disabled={isUpdate || data?.succeeded} onChange={(value: any) => handleChangeProduct(value, setFieldValue)} options={dropdownProductByBrandName(productsTools?.data?.data)} {...rest} />
+                        <Button onClick={() => setSelectedProductOpen(true)} variant="contained" color="primary" disabled={data?.succeeded}>
                             <Grading />
                         </Button>
-                        <BottomDrawer
-                            title="انتخاب محصول"
-                            open={selectedProductOpen}
-                            onClose={() => setSelectedProductOpen(false)}
-                        // description="می توانید از طریق لیست محصولات ذیل نیست به انتخاب کالا و ثبت در لیست سفارشات اقدام نمایید"
-                        >
-                            <ProductSelectedListInModal
-                                products={productsByBrand?.data}
-                                productLoading={productByBrandLoading}
-                                productError={productByBrandError}
-                                setSelectedProductOpen={setSelectedProductOpen}
-                                setFieldValue={setFieldValue}
-                                orders={orders}
-                                setOrders={setOrders}
-                                setOrderPayment={setOrderPayment}
-                                orderService={orderService}
-                            />
-                        </BottomDrawer>
+                        {selectedProductOpen &&
+                            <BottomDrawer title="انتخاب محصول" open={selectedProductOpen} onClose={() => setSelectedProductOpen(false)}>
+                                <ProductSelectedListInModal
+                                    products={productsByBrand?.data}
+                                    productLoading={productByBrandLoading}
+                                    productError={productByBrandError}
+                                    setSelectedProductOpen={setSelectedProductOpen}
+                                    setFieldValue={setFieldValue}
+                                    orders={orders}
+                                    setOrders={setOrders}
+                                    setOrderPayment={setOrderPayment}
+                                    orderService={orderService}
+                                />
+                            </BottomDrawer>
+                        }
                     </Box>
                 );
             case "purchaserCustomer":
-                return (
-                    <FormikComboBox
-                        disabled={data?.succeeded}
-                        options={dropdownCustomer(customers?.data)}
-                        {...rest}
-                    />
-                );
+                return <FormikCustomer disabled={data?.succeeded} {...rest} />
             case "purchaseInvoiceType":
-                return (
-                    <FormikSelect
-                        options={dropdownPurchaseInvoice(purchaseInvoiceType)}
-                        {...rest}
-                    />
-                );
+                return <FormikPurchaserInvoiceType {...rest} />
             case "date":
                 return <FormikDatepicker disabled={data?.succeeded} {...rest} />;
             case "proximateAmount":
@@ -257,7 +231,8 @@ const Order = () => {
                     />
                 );
             case "price":
-                return <FormikPrice disabled={data?.succeeded}  {...rest} />;
+                return <FormikAmount disabled={data?.succeeded}  {...rest} />
+                // return <FormikPrice disabled={data?.succeeded}  {...rest} />;
             case "input":
                 return <FormikInput disabled={data?.succeeded}  {...rest} />;
             case "add":
@@ -275,44 +250,29 @@ const Order = () => {
         }
     };
 
-    const handleChangeWarehouse = (value: any, setFieldValue: any) => {
-        productsTools.mutate(value)
-        const fieldValue = [
-            { id: uuidv4(), title: "productName", value: "" },
-            { id: uuidv4(), title: "id", value: "" },
-            // { id: uuidv4(), title: "price", value: "" },
-            { id: uuidv4(), title: "price", value: "" },
-            { id: uuidv4(), title: "productBrandId", value: "" },
-            { id: uuidv4(), title: "productBrandName", value: "" },
-            { id: uuidv4(), title: "warehouseId", value: "" },
-            { id: uuidv4(), title: "proximateAmount", value: "" },
-            { id: uuidv4(), title: "warehouseName", value: "" },
-            { id: uuidv4(), title: "proximateSubUnit", value: "" },
-            { id: uuidv4(), title: "purchasePrice", value: "" },
-            { id: uuidv4(), title: "purchaseInvoiceTypeDesc", value: "" },
-            { id: uuidv4(), title: "purchaseInvoiceTypeId", value: "" },
-            { id: uuidv4(), title: "purchaseSettlementDate", value: "" },
-            { id: uuidv4(), title: "purchaserCustomerId", value: "" },
-            { id: uuidv4(), title: "purchaserCustomerName", value: "" },
-            { id: uuidv4(), title: "rowId", value: "" },
-            { id: uuidv4(), title: "productDesc", value: "" },
-            { id: uuidv4(), title: "mainUnit", value: "" },
-            { id: uuidv4(), title: "subUnit", value: "" },
-        ];
-        fieldValue?.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
-        if ([1, 3, 4, 5, 7].includes(value)) setIsBuy(true)
-        else setIsBuy(false)
-    }
+    const handleChangeWarehouse = (warehouseType: number, setFieldValue: (field: string, value: any) => void) => {
+        try {
+            productsTools.mutate(warehouseType);
+
+            fieldValue.forEach((field) => setFieldValue(field.title, field.value));
+
+            if (BUY_WAREHOUSE_TYPES.includes(warehouseType)) setIsBuy(true);
+            else setIsBuy(false);
+        } catch (error) {
+            console.error("Error handling warehouse change:", error);
+        }
+    };
 
     const handleChangeProduct = (value: any, setFieldValue: any) => {
         const fieldValue = [
-            { id: uuidv4, title: "productBrandName", value: value?.productBrandName },
-            { id: uuidv4, title: "warehouseName", value: value?.warehouseName },
-            { id: uuidv4, title: "mainUnit", value: value?.productMainUnitDesc },
-            { id: uuidv4, title: "subUnit", value: value?.productSubUnitDesc },
+            { title: "productBrandName", value: value?.productBrandName },
+            { title: "warehouseName", value: value?.warehouseName },
+            { title: "mainUnit", value: value?.productMainUnitDesc },
+            { title: "subUnit", value: value?.productSubUnitDesc },
+            { title: "productSubUnitId", value: value?.productSubUnitId },
         ]
         fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
-        if ([1, 3, 4, 5, 7].includes(value?.warehouseId)) setIsBuy(true)
+        if (BUY_WAREHOUSE_TYPES.includes(value?.warehouseId)) setIsBuy(true)
         else setIsBuy(false)
     }
 
@@ -343,10 +303,13 @@ const Order = () => {
             purchaserCustomerName: values.purchaserCustomerId?.label ? values.purchaserCustomerId?.label : values.purchaserCustomerName,
             mainUnit: values.mainUnit,
             subUnit: values.subUnit,
+            productSubUnitId: values.productSubUnitId,
             price: values?.price,
             description: values.productDesc,
             rowId: values?.rowId,
         };
+
+        console.log("productOrder", productOrder)
 
         if (!isUpdate) {
             const isDuplicate = orders.some(
@@ -358,26 +321,13 @@ const Order = () => {
             );
 
             if (values.productName === "" || values.productName.label === "") {
-                enqueueSnackbar("وارد نمودن کالا الزامی می باشد", {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                })
+                validateAndEnqueueSnackbar("وارد نمودن کالا الزامی می باشد")
             } else if (values?.price === "") {
-                enqueueSnackbar("وارد نمودن قیمت الزامی می باشد", {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                })
+                validateAndEnqueueSnackbar("وارد نمودن قیمت الزامی می باشد")
             } else if (values?.proximateAmount === "") {
-                enqueueSnackbar("وارد نمودن مقدار الزامی می باشد", {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                })
-            }
-            else if (isDuplicate) {
-                enqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                })
+                validateAndEnqueueSnackbar("وارد نمودن مقدار الزامی می باشد")
+            } else if (isDuplicate) {
+                validateAndEnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد")
             } else {
                 setOrders([...orders, productOrder]);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderService)))
@@ -393,20 +343,11 @@ const Order = () => {
             const updatedOrders = [...orders];
             updatedOrders[selectedOrderIndex] = updatedOrder;
             if (values.productName === "" || values.productName.label === "") {
-                enqueueSnackbar("وارد نمودن کالا الزامی می باشد", {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                })
+                validateAndEnqueueSnackbar("وارد نمودن کالا الزامی می باشد")
             } else if (values?.price === "") {
-                enqueueSnackbar("وارد نمودن قیمت الزامی می باشد", {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                })
+                validateAndEnqueueSnackbar("وارد نمودن قیمت الزامی می باشد")
             } else if (values?.proximateAmount === "") {
-                enqueueSnackbar("وارد نمودن مقدار الزامی می باشد", {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                })
+                validateAndEnqueueSnackbar("وارد نمودن مقدار الزامی می باشد")
             } else {
                 setOrders(updatedOrders);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderService)))
@@ -422,7 +363,6 @@ const Order = () => {
 
     const handleChangeCustomer = (value: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
         const findCustomer = customers?.data?.find((i: any) => i.id === value?.value);
-        // customerCompaniesTools.mutate(findCustomer?.id)
         setFieldValue("customerID", findCustomer?.id)
         setFindCustomer(findCustomer);
         setFieldValue("number", findCustomer?.settlementDay)
@@ -437,11 +377,117 @@ const Order = () => {
     const fieldsToMap = isBuy ? orderFieldsIsBuy : orderFields;
 
     const orderAndAmountInfo = [
-        { id: 1, title: "شماره سفارش", icon: <ProductionQuantityLimits color="secondary" />, value: orderCode },
-        { id: 2, title: "تاریخ سفارش", icon: <DateRange color="secondary" />, value: moment(new Date()).format("jYYYY-jMM-jDD") },
-        { id: 3, title: "قیمت کل", icon: <MonetizationOn color="secondary" />, value: `${sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال` },
-        { id: 4, title: "قیمت به حروف", icon: <AttachMoney color="secondary" />, value: `${convertToPersianWord(calculateTotalAmount(orders, orderService))} تومان` }
+        { title: "شماره سفارش", icon: <ProductionQuantityLimits color="secondary" />, value: orderCode },
+        { title: "تاریخ سفارش", icon: <DateRange color="secondary" />, value: moment(new Date()).format("jYYYY-jMM-jDD") },
+        { title: "قیمت کل", icon: <MonetizationOn color="secondary" />, value: `${sliceNumberPriceRial(calculateTotalAmount(orders, orderService))} ریال` },
+        { title: "قیمت به حروف", icon: <AttachMoney color="secondary" />, value: `${convertToPersianWord(calculateTotalAmount(orders, orderService))} تومان` }
     ]
+
+    const onSubmit = (values: any) => {
+        if (orders?.length === 0) {
+            enqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "center" }
+            })
+        } else {
+            try {
+                const formData = {
+                    customerId: values.customerId.value,
+                    totalAmount: calculateTotalAmount(orders, orderService),
+                    description: values.description,
+                    exitType: Number(values.exitType),
+                    orderSendTypeId: Number(values.orderSendTypeId),
+                    paymentTypeId: Number(values.paymentTypeId),
+                    customerOfficialName: "string",
+                    customerOfficialCompanyId: +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
+                    invoiceTypeId: Number(values.invoiceTypeId),
+                    isTemporary: +values.isTemporary === 0 ? false : true,
+                    freightName: "string",
+                    settlementDate: "1402/02/02",
+                    dischargePlaceAddress: "string",
+                    freightDriverName: "string",
+                    carPlaque: "string",
+                    details: orders?.map((item: any) => {
+                        return {
+                            rowId: item.rowId ? +item.rowId : 0,
+                            productId: item.id,
+                            warehouseId: item.warehouseId ? +item.warehouseId : null,
+                            productBrandId: item.productBrandId ? +item.productBrandId : 25,
+                            proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
+                            productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                            productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                            numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
+                            price: item.price ? +item.price?.replace(/,/g, "") : null,
+                            cargoSendDate: "1402/01/01",
+                            description: item.description,
+                            purchasePrice: item.purchasePrice ? +item.purchasePrice : 0,
+                            purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
+                            purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
+                            purchaseSettlementDate: item.purchaseSettlementDate,
+                            sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
+                        };
+                    }),
+                    orderPayments: orderPayment?.map((item: IOrderPayment) => {
+                        return {
+                            amount: Number(item.amount?.replace(/,/g, "")),
+                            paymentDate: item.paymentDate,
+                            daysAfterExit: Number(item.daysAfterExit),
+                            paymentType: item.paymentType
+                        }
+                    }),
+                    orderServices: orderService.map((item: IOrderService) => {
+                        return {
+                            serviceId: item.serviceId,
+                            description: item.description
+                        }
+                    })
+                };
+                mutate(formData, {
+                    onSuccess: (response) => {
+
+                        if (response.data.Errors && response.data.Errors.length > 0) {
+                            response.data.Errors.forEach((item: any) => {
+                                enqueueSnackbar(item, {
+                                    variant: "error",
+                                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                                })
+                            })
+                        } else {
+                            if (response.succeeded) {
+                                Swal.fire({
+                                    title: `سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`,
+                                    confirmButtonColor: "#fcc615",
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    },
+                                    confirmButtonText: "بستن",
+                                    icon: "success",
+                                    customClass: {
+                                        title: "text-lg"
+                                    }
+                                })
+                                setOrderCode(response?.data[0].orderCode);
+                                setOrderId(response?.data[0].id);
+                            } else {
+                                enqueueSnackbar(response?.data.Message, {
+                                    variant: "error",
+                                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                                })
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                enqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید", {
+                    variant: "error",
+                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                })
+            }
+        }
+    }
 
     return (
         <>
@@ -449,111 +495,7 @@ const Order = () => {
                 enableReinitialize
                 initialValues={{ ...orderInitialValues, ...orderPaymentValues, ...orderServiceValues }}
                 validationSchema={orderValidation}
-                onSubmit={async (values: any) => {
-                    if (orders?.length === 0) {
-                        enqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", {
-                            variant: "error",
-                            anchorOrigin: { vertical: "top", horizontal: "center" }
-                        })
-                    } else {
-                        setDisabled(true)
-                        try {
-                            const formData = {
-                                customerId: values.customerId.value,
-                                totalAmount: calculateTotalAmount(orders, orderService),
-                                description: values.description,
-                                exitType: Number(values.exitType),
-                                orderSendTypeId: Number(values.orderSendTypeId),
-                                paymentTypeId: Number(values.paymentTypeId),
-                                customerOfficialName: "string",
-                                customerOfficialCompanyId: +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
-                                invoiceTypeId: Number(values.invoiceTypeId),
-                                isTemporary: +values.isTemporary === 0 ? false : true,
-                                freightName: "string",
-                                settlementDate: "1402/02/02",
-                                dischargePlaceAddress: "string",
-                                freightDriverName: "string",
-                                carPlaque: "string",
-                                details: orders?.map((item: any) => {
-                                    return {
-                                        rowId: item.rowId ? Number(item.rowId) : 0,
-                                        productId: item.id,
-                                        warehouseId: item.warehouseId ? Number(item.warehouseId) : null,
-                                        productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
-                                        proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0,
-                                        numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
-                                        price: item.price ? Number(item.price?.replace(/,/g, "")) : null,
-                                        cargoSendDate: "1402/01/01",
-                                        description: item.description,
-                                        purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
-                                        purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                                        purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
-                                        purchaseSettlementDate: item.purchaseSettlementDate,
-                                        sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
-                                    };
-                                }),
-                                orderPayments: orderPayment?.map((item: IOrderPayment) => {
-                                    return {
-                                        amount: Number(item.amount?.replace(/,/g, "")),
-                                        paymentDate: item.paymentDate,
-                                        daysAfterExit: Number(item.daysAfterExit),
-                                        paymentType: item.paymentType
-                                    }
-                                }),
-                                orderServices: orderService.map((item: IOrderService) => {
-                                    return {
-                                        serviceId: item.serviceId,
-                                        description: item.description
-                                    }
-                                })
-                            };
-                            mutate(formData, {
-                                onSuccess: (response) => {
-
-                                    if (response.data.Errors && response.data.Errors.length > 0) {
-                                        response.data.Errors.forEach((item: any) => {
-                                            enqueueSnackbar(item, {
-                                                variant: "error",
-                                                anchorOrigin: { vertical: "top", horizontal: "center" }
-                                            })
-                                        })
-                                    } else {
-                                        if (response.succeeded) {
-                                            Swal.fire({
-                                                title: `سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`,
-                                                confirmButtonColor: "#fcc615",
-                                                showClass: {
-                                                    popup: 'animate__animated animate__fadeInDown'
-                                                },
-                                                hideClass: {
-                                                    popup: 'animate__animated animate__fadeOutUp'
-                                                },
-                                                confirmButtonText: "بستن",
-                                                icon: "success",
-                                                customClass: {
-                                                    title: "text-lg"
-                                                }
-                                            })
-                                            setOrderCode(response?.data[0].orderCode);
-                                            setOrderId(response?.data[0].id);
-                                        } else {
-                                            enqueueSnackbar(response?.data.Message, {
-                                                variant: "error",
-                                                anchorOrigin: { vertical: "top", horizontal: "center" }
-                                            })
-                                        }
-                                    }
-                                }
-                            });
-                        } catch (error) {
-                            enqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید", {
-                                variant: "error",
-                                anchorOrigin: { vertical: "top", horizontal: "center" }
-                            })
-                            setDisabled(false)
-                        }
-                    }
-                }}
+                onSubmit={onSubmit}
             >
                 {({ handleSubmit, values, setFieldValue }) => {
                     return <Form>
@@ -746,7 +688,7 @@ const Order = () => {
                                             const orderPaymentData: IOrderPayment = {
                                                 id: uuidv4(),
                                                 amount: values.amount,
-                                                daysAfterExit: values.number,
+                                                daysAfterExit: +values.number,
                                                 paymentDate: values.settlement,
                                                 paymentType: 0
                                             }
@@ -837,28 +779,32 @@ const Order = () => {
                                 color="primary"
                                 isLoading={isLoading}
                             />
-                            <CustomButton
-                                title="پاک کردن فرم"
-                                onClick={() => window.location.reload()}
-                                disabled={orderCode === 0}
-                                color="secondary"
-                            />
+                            {orderCode !== 0 &&
+                                <CustomButton
+                                    title="پاک کردن فرم"
+                                    onClick={() => window.location.reload()}
+                                    disabled={orderCode === 0}
+                                    color="secondary"
+                                />
+                            }
                         </Box>
                     </Form >
                 }}
 
             </Formik >
             {/* Ok */}
-            <BottomDrawer
-                title="ایجاد مشتری جدید"
-                open={isOpen}
-                onClose={() => setIsOpen(false)}
-            >
-                <CustomerForm
-                    refetch={refetchCustomers}
-                    setIsCreateOpen={setIsOpen}
-                />
-            </BottomDrawer >
+            {isOpen &&
+                <BottomDrawer
+                    title="ایجاد مشتری جدید"
+                    open={isOpen}
+                    onClose={() => setIsOpen(false)}
+                >
+                    <CustomerForm
+                        refetch={refetchCustomers}
+                        setIsCreateOpen={setIsOpen}
+                    />
+                </BottomDrawer >
+            }
         </>
     );
 };

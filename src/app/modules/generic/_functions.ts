@@ -57,9 +57,9 @@ export const dropdownProductName = (data: any) => {
 export const dropdownProductByBrandName = (data: any) => {
     return (
         data &&
-        data?.map((obj: { id: any; productName: string, productBrandName: string, warehouseName: string, warehouseId: number, productBrandId: number, productMainUnitDesc: string, productSubUnitDesc: string}): any => {
-            const { id, productName, productBrandName, warehouseName, warehouseId, productBrandId, productMainUnitDesc, productSubUnitDesc } = obj;
-            return { value: id, label: `${productName} (${productBrandName})`, productBrandName: productBrandName, warehouseName: warehouseName, productName: productName, warehouseId: warehouseId, productBrandId: productBrandId, productMainUnitDesc: productMainUnitDesc, productSubUnitDesc: productSubUnitDesc };
+        data?.map((obj: { id: any; productName: string, productBrandName: string, warehouseName: string, warehouseId: number, productBrandId: number, productMainUnitDesc: string, productSubUnitDesc: string, productSubUnitId: number} ): any => {
+            const { id, productName, productBrandName, warehouseName, warehouseId, productBrandId, productMainUnitDesc, productSubUnitDesc, productSubUnitId } = obj;
+            return { value: id, label: `${productName} (${productBrandName})`, productBrandName: productBrandName, warehouseName: warehouseName, productName: productName, warehouseId: warehouseId, productBrandId: productBrandId, productMainUnitDesc: productMainUnitDesc, productSubUnitDesc: productSubUnitDesc, productSubUnitId: productSubUnitId };
         })
     );
 };
