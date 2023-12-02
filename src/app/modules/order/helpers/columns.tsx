@@ -101,7 +101,7 @@ export const readyToLadingColumns = (renderAction: any) => {
 export const ladingColumns = (renderAction: any) => {
     const col = [
         {
-            field: 'orderCode', renderCell: (params: any) => {
+            field: 'id', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'شماره مجوز', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1

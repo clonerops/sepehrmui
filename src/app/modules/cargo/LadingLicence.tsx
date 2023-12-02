@@ -76,7 +76,6 @@ const LadingLicence = () => {
     ]
 
     const handleLadingList = (values: ILadingList) => {
-        console.log(values, "values")
         const newList: any = {
             orderDetailName: data?.data?.order.details.find((i: any) => i.productId === values?.orderDetailId?.productId).productName,
             orderDetailId: values?.orderDetailId?.value,

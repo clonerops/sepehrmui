@@ -4,7 +4,7 @@ import FormikInput from "../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import { dropdownCustomer } from "../generic/_functions";
 import { useGetCustomers } from "../customer/core/_hooks";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, OutlinedInput, Typography } from "@mui/material";
 import { Delete, Person, Search, Add } from "@mui/icons-material";
 import OrderDetail from "../order/OrderDetail";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
@@ -56,8 +56,12 @@ const orderOrderColumnMain = [
     { id: 2, header: "مقدار بارگیری", accessor: "ladingAmount" },
     { id: 3, header: "مقدار واحد فرعی", accessor: "proximateAmount" },
     { id: 4, header: "واحد فرعی", accessor: "price" },
-    { id: 4, header: "مقدار واقعی بارگیری شده", accessor: "price" },
-    { id: 4, header: "مقدار واقعی واحد فرعی", accessor: "price" },
+    { id: 4, header: "مقدار واقعی بارگیری شده", accessor: "price", render: (params: any) => {
+        return <OutlinedInput size="small" />
+    }},
+    { id: 4, header: "مقدار واقعی واحد فرعی", accessor: "price", render: (params: any) => {
+        return <OutlinedInput size="small" />
+    }},
     { id: 4, header: "واحد فرعی", accessor: "price" },
 ];
 
@@ -145,7 +149,7 @@ const LadingLicence = () => {
                 <CardTitleValue
                     icon={<Person color="secondary" />}
                     title="شماره مجوز"
-                    value={data?.data?.order?.orderCode}
+                    value={data?.data?.id}
                 />
                 <CardTitleValue
                     icon={<Person color="secondary" />}
