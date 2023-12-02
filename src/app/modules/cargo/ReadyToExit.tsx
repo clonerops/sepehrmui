@@ -7,32 +7,32 @@ import { dropdownCustomer } from '../generic/_functions'
 import { useGetCustomers } from '../customer/core/_hooks'
 import { Box, Button, Typography } from '@mui/material'
 import { Search } from '@mui/icons-material'
-import OrderList from '../order/OrderList'
-import { orderColumns } from '../order/helpers/columns'
+import { ladingColumns } from '../order/helpers/columns'
 import { useRetrieveOrders } from '../order/core/_hooks'
 import { Link } from 'react-router-dom'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../_cloner/components/Pagination'
+import { useGetLadingLicenceList } from './core/_hooks'
 
 const pageSize = 20
 
-const ExitRemittanceList = () => {
+const ReadyToExit = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     let formData = {
         pageNumber: currentPage,
         pageSize: pageSize,    
     }
-    const { data: customers } = useGetCustomers();
-    const { data: orders, isLoading } = useRetrieveOrders(formData);
+    const ladingList = useGetLadingLicenceList();
+
 
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/lading/${item?.row?.id}`}
+                to={`/dashboard/exit/${item?.row?.id}`}
             >
                 <Button variant="contained" color="secondary">
-                    <Typography>صدور مجوز بارگیری</Typography>
+                    <Typography>صدور مجوز خروج</Typography>
                 </Button>
             </Link>
         );
@@ -51,7 +51,6 @@ const ExitRemittanceList = () => {
                     return <Form>
                         <Box component="div" className='flex gap-4 w-[50%]'>
                             <FormikInput name="orderCode" label="شماره سفارش" />
-                            <FormikSelect options={dropdownCustomer(customers?.data)} label="مشتری" name="customerId" />
                             <Button><Typography><Search /></Typography></Button>
                         </Box>
                     </Form>
@@ -59,16 +58,16 @@ const ExitRemittanceList = () => {
             </Formik>
 
             <MuiDataGrid
-                columns={orderColumns(renderAction)}
-                rows={orders?.data}
-                data={orders?.data}
-                isLoading={isLoading}
+                columns={ladingColumns(renderAction)}
+                rows={ladingList?.data?.data}
+                data={ladingList?.data?.data}
+                isLoading={ladingList.isLoading}
             />
-            <Pagination pageCount={orders?.totalCount / pageSize} onPageChange={handlePageChange} />
+            <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 
         </ReusableCard>
     </>
   )
 }
 
-export default ExitRemittanceList
+export default ReadyToExit

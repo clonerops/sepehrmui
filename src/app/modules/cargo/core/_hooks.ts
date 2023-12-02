@@ -54,7 +54,7 @@ const usePostLadingLicence = () => {
 };
 
 const useGetLadingLicenceById = (id: string) => {
-    return useQuery(["cargos", id], () => api.getLadingLicenceById(id));
+    return useQuery(["ladingLicenceById", id], () => api.getLadingLicenceById(id));
 };
 
 const useEditLadingLicence = () => {

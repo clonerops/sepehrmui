@@ -113,14 +113,15 @@ export const ladingColumns = (renderAction: any) => {
             headerName: 'تاریخ ثبت مجوز', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: 'customerName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+            field: 'cargoAnnounceNo', renderCell: (params: any) => {
+                console.log("params", params)
+                return <Typography variant="h4">{params.row.cargoAnnounce.cargoAnnounceNo}</Typography>;
             },
             headerName: 'شماره اعلام بار', headerClassName: "headerClassName", minWidth: 160, flex: 1
         },
         {
-            field: 'invoiceTypeDesc', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+            field: 'driverName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.driverName}</Typography>;
             },
             headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
@@ -129,6 +130,12 @@ export const ladingColumns = (renderAction: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'نوع وسیله نقلیه', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'carPlaque', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.carPlaque}</Typography>;
+            },
+            headerName: 'شماره پلاک خودروبر', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         { headerName: 'ویرایش', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]

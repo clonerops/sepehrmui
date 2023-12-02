@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import Backdrop from '../../_cloner/components/Backdrop';
+import ReadyToExit from '../modules/cargo/ReadyToExit';
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -40,7 +41,7 @@ const LadingList = React.lazy(() => import("../modules/cargo/LadingList"));
 const ReadyToLading = React.lazy(() => import("../modules/cargo/ReadyToLading"));
 const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
 const ExitRemittance = React.lazy(() => import("../modules/cargo/ExitRemittance"));
-const ExitRemittanceList = React.lazy(() => import("../modules/cargo/ExitRemittanceList"));
+const ExitRemittanceList = React.lazy(() => import("../modules/cargo/ReadyToExit"));
 
 const PrivateRoutes = () => {
 
@@ -73,8 +74,9 @@ const PrivateRoutes = () => {
               <Route path='dashboard/cargoList/paper' element={<CargoPaper />} />
               <Route path='dashboard/lading/:id' element={<LadingLicence />} />
               <Route path='dashboard/ready_to_lading' element={<ReadyToLading />} />
+              <Route path='dashboard/ready_to_exit' element={<ReadyToExit />} />
+              <Route path='dashboard/exit/:id' element={<ExitRemittance />} />
               <Route path='dashboard/lading_list' element={<LadingList />} />
-              <Route path='dashboard/exitRemittance/:id' element={<ExitRemittance />} />
               <Route path='dashboard/exitRemittanceList' element={<ExitRemittanceList />} />
               <Route path='dashboard/payment' element={<RecievePayment />} />
               <Route path='dashboard/payment/accounting' element={<PaymentAccounting />} />

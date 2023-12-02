@@ -29,6 +29,7 @@ export const translationMapping: any = {
     customerCompany: 'تعریف شرکت های مشتری',
     lading: 'مجوز بارگیری',
     ready_to_lading: 'سفارشات موجود برای بارگیری',
+    ready_to_exit: 'سفارشات بارگیری شده جهت صدور مجوز خروج',
     lading_list: 'لیست مجوز های بارگیری',
     orderUpdate: 'ویرایش سفارش',
     // Add more translations as needed

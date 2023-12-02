@@ -152,6 +152,12 @@ const menuItem = [
                 title: "صدور مجوز بارگیری",
                 to: "dashboard/ready_to_lading",
             },
+            {
+                id: 1321,
+                iconName: "SettingsInputSvideo",
+                title: "صدور مجوز خروج",
+                to: "dashboard/ready_to_exit",
+            },
         ],
     },
     {

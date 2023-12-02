@@ -203,7 +203,6 @@ const CargoEditForm = () => {
                                 id: id,
                                 approvedUserName: "",
                             };
-                            console.log("formData", JSON.stringify(formData))
                             mutate(formData, {
                                 onSuccess: (message) => {
                                     if (message.succeeded) {
