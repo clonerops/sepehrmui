@@ -11,7 +11,8 @@ export const translationMapping: any = {
     suppliers: 'تامین کنندگان',
     productPrices: 'قیمت کالا',
     cargo: 'اعلام بار',
-    cargoList: 'لیست سفارشات جهت اعلام بار',
+    order_ready_cargo: 'لیست سفارشات جهت اعلام بار',
+    cargoList: 'لیست اعلام بار',
     payment: 'دریافت و پرداخت',
     accounting: 'حسابداری دریافت و پرداخت',
     brands: 'برندها',
@@ -27,7 +28,8 @@ export const translationMapping: any = {
     orderList: 'لیست سفارشات',
     customerCompany: 'تعریف شرکت های مشتری',
     lading: 'مجوز بارگیری',
-    ladingList: 'سفارشات موجود برای بارگیری',
+    ready_to_lading: 'سفارشات موجود برای بارگیری',
+    lading_list: 'لیست مجوز های بارگیری',
     orderUpdate: 'ویرایش سفارش',
     // Add more translations as needed
   };

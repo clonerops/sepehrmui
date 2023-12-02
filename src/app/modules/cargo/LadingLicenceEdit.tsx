@@ -53,7 +53,7 @@ const orderOrderColumnMain = [
 ]
 
 
-const LadingLicence = () => {
+const LadingLicenceEdit = () => {
     const { id }: any = useParams()
     const { data, isLoading } = useCargoById(id)
     const postLadingLicence = usePostLadingLicence()
@@ -178,4 +178,4 @@ const LadingLicence = () => {
     )
 }
 
-export default LadingLicence
+export default LadingLicenceEdit

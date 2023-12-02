@@ -64,9 +64,22 @@ const getCargoById = async (cargoId: string) => {
     return data
 }
 
+const editCargo = async (formData: ICargo) => {
+    try {
+        const { data } = await http.put(
+            `/v1/CargoAnnouncement/${formData.id}`,
+            JSON.stringify(formData)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
+
 // Lading Licence
 const getLadingLicenceList = async () => {
-    const { data } = await http.get("/v1/LadingLicence");
+    const { data } = await http.get("/v1/LadingLicense");
     return data;
 };
 
@@ -83,7 +96,7 @@ const postLadingLicence = async (formdata: ILadingLicence) => {
 };
 const getLadingLicenceById = async (id: string) => {
     try {
-        const { data } = await http.get(`/v1/LadingLicence/${id}`);
+        const { data } = await http.get(`/v1/LadingLicense/${id}`);
         return data;
     } catch (error: any) {
         return error.response;
@@ -104,7 +117,7 @@ const editLadingLicence = async (formdata: ILadingLicence) => {
 
 const deleteLadingLicenceById = async (id: string) => {
     try {
-        const { data } = await http.delete(`/v1/LadingLicence/${id}`);
+        const { data } = await http.delete(`/v1/LadingLicense/${id}`);
         return data;
     } catch (error: any) {
         return error.response;
@@ -117,6 +130,7 @@ export {
     createCargo,
     getCargoById,
     retrievesCargos,
+    editCargo,
     getLadingLicenceList,
     postLadingLicence,
     getLadingLicenceById,

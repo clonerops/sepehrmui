@@ -22,7 +22,7 @@ const Cargo = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
+            <Link to={`/dashboard/order_ready_cargo/${item?.row?.id}`}>
                 <Typography variant="h3">
                     <Recommend color="secondary" />
                 </Typography>

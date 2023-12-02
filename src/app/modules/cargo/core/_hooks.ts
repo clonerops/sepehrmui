@@ -31,7 +31,13 @@ const useRetrieveCargos = (orderId?: string) => {
 };
 
 const useCargoById = (cargoId: string) => {
-    return useQuery(["cargos", cargoId], () => api.getCargoById(cargoId));
+    return useQuery(["cargosById", cargoId], () => api.getCargoById(cargoId));
+};
+
+const useEditCargo = () => {
+    return useMutation((formData: ICargo) => {
+        return api.editCargo(formData);
+    });
 };
 
 
@@ -68,6 +74,7 @@ export {
     useRetrievesNotSendedOrder,
     useCreateCargo,
     useCargoById,
+    useEditCargo,
     useRetrieveCargos,
     useGetLadingLicenceList,
     usePostLadingLicence,

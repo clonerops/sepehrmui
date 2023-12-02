@@ -9,7 +9,9 @@ const Products = React.lazy(() => import("../modules/product/Products"));
 const Suppliers = React.lazy(() => import("../modules/product/Suppliers"));
 const ProductPrice = React.lazy(() => import("../modules/product/ProductPrice"));
 const Cargo = React.lazy(() => import("../modules/cargo/Cargo"));
-const Confirm = React.lazy(() => import("../modules/cargo/components/CargoConfirm"));
+const CargoList = React.lazy(() => import("../modules/cargo/CargoList"));
+const CargoForm = React.lazy(() => import("../modules/cargo/components/CargoForm"));
+const CargoEditForm = React.lazy(() => import("../modules/cargo/components/CargoEditForm"));
 const RecievePayment = React.lazy(() => import("../modules/payment/RecievePayment"));
 const PaymentAccounting = React.lazy(() => import("../modules/payment/PaymentAccounting"));
 const Detail = React.lazy(() => import("../modules/payment/components/Detail"));
@@ -35,6 +37,7 @@ const CargoPaper = React.lazy(() => import("../modules/cargo/components/CargoPap
 const CustomerCompanies = React.lazy(() => import("../modules/generic/customerCompany/CustomerCompany"));
 const LadingLicence = React.lazy(() => import("../modules/cargo/LadingLicence"));
 const LadingList = React.lazy(() => import("../modules/cargo/LadingList"));
+const ReadyToLading = React.lazy(() => import("../modules/cargo/ReadyToLading"));
 const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
 const ExitRemittance = React.lazy(() => import("../modules/cargo/ExitRemittance"));
 const ExitRemittanceList = React.lazy(() => import("../modules/cargo/ExitRemittanceList"));
@@ -63,11 +66,14 @@ const PrivateRoutes = () => {
               <Route path="dashboard/suppliers" element={<Suppliers />} />
               <Route path="dashboard/customerCompany" element={<CustomerCompanies />} />
               <Route path="dashboard/productPrices" element={<ProductPrice />} />
-              <Route path='dashboard/cargoList' element={<Cargo />} />
-              <Route path='dashboard/cargoList/:id' element={<Confirm />} />
+              <Route path='dashboard/cargoList' element={<CargoList />} />
+              <Route path='dashboard/cargoList/:id' element={<CargoEditForm />} />
+              <Route path='dashboard/order_ready_cargo' element={<Cargo />} />
+              <Route path='dashboard/order_ready_cargo/:id' element={<CargoForm />} />
               <Route path='dashboard/cargoList/paper' element={<CargoPaper />} />
               <Route path='dashboard/lading/:id' element={<LadingLicence />} />
-              <Route path='dashboard/ladingList' element={<LadingList />} />
+              <Route path='dashboard/ready_to_lading' element={<ReadyToLading />} />
+              <Route path='dashboard/lading_list' element={<LadingList />} />
               <Route path='dashboard/exitRemittance/:id' element={<ExitRemittance />} />
               <Route path='dashboard/exitRemittanceList' element={<ExitRemittanceList />} />
               <Route path='dashboard/payment' element={<RecievePayment />} />

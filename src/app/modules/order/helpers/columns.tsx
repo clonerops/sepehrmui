@@ -50,7 +50,7 @@ export const orderColumns = (renderAction: any) => {
     return col
 }
 
-export const ladingColumns = (renderAction: any) => {
+export const readyToLadingColumns = (renderAction: any) => {
     const col = [
         {
             field: 'orderCode', renderCell: (params: any) => {
@@ -95,6 +95,42 @@ export const ladingColumns = (renderAction: any) => {
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         { headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+    ]
+    return col
+}
+export const ladingColumns = (renderAction: any) => {
+    const col = [
+        {
+            field: 'orderCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
+            field: 'registerDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت مجوز', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'customerName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره اعلام بار', headerClassName: "headerClassName", minWidth: 160, flex: 1
+        },
+        {
+            field: 'invoiceTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'isTemporary', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع وسیله نقلیه', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        { headerName: 'ویرایش', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
 }
