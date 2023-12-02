@@ -12,9 +12,9 @@ export const dropdownVehicleType = (data: any) => {
 export const dropdownProductLading = (data: any) => {
     return (
         data &&
-        data?.map((obj: { productId: number, productName:string }): any => {
-            const { productName, productId } = obj;
-            return { value: productId, label: productName };
+        data?.map((obj: { productId: string, productName:string, id: number }): any => {
+            const { productName, productId, id } = obj;
+            return { value: id, label: productName, productId: productId };
         })
     );
 };

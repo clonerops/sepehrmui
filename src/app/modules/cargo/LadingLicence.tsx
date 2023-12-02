@@ -18,17 +18,28 @@ import FormikMaskInput from '../../../_cloner/components/FormikMaskInput'
 import CardTitleValue from '../../../_cloner/components/CardTitleValue'
 import { ILadingLicence } from './core/_models'
 import { enqueueSnackbar } from 'notistack'
+import FormikComboBox from '../../../_cloner/components/FormikComboBox'
 
 interface ILadingList {
+    id?: number
     description?: string
-    orderDetailId?: string
+    orderDetailId?: {
+        value: number,
+        label: string,
+        productId: string
+    } 
     orderDetailName?: string
     ladingAmount?: any
 }
 
 const initialValues: ILadingList = {
+    id: 0,
     description: "",
-    orderDetailId: "",
+    orderDetailId: {
+        value: 0,
+        label: "",
+        productId: ""
+    },
     orderDetailName: "",
     ladingAmount: 0
 }
@@ -64,16 +75,17 @@ const LadingLicence = () => {
     ]
 
     const handleLadingList = (values: ILadingList) => {
-        const newList = {
-            orderDetailName: data?.data?.order.details.find((i: any) => i.productId === values.orderDetailId).productName,
-            orderDetailId: values.orderDetailId,
+        console.log(values, "values")
+        const newList: any = {
+            orderDetailName: data?.data?.order.details.find((i: any) => i.productId === values?.orderDetailId?.productId).productName,
+            orderDetailId: values?.orderDetailId?.value,
             ladingAmount: +values.ladingAmount
         }
         setLadingList(prev => [...prev, newList])
     }
 
     const handleDeleteProductInList = (rowData: any) => {
-        const filtered = ladingList.filter((item) => item.orderDetailId !== rowData.orderDetailId)
+        const filtered = ladingList.filter((item) => item.orderDetailId !== rowData.orderDetailId.value)
         setLadingList(filtered)
     }
 
@@ -81,12 +93,11 @@ const LadingLicence = () => {
         const formData: ILadingLicence | any = {
             cargoAnnounceId: id,
             description: values.description,
-            ladingLicenseDetails: ladingList.map((item) => ({
-                orderDetailId: item.orderDetailId,
+            ladingLicenseDetails: ladingList.map((item: any) => ({
+                orderDetailId: item?.orderDetailId,
                 ladingAmount: item.ladingAmount
             }))
         }
-        console.log("formdata", JSON.stringify(formData))
         postLadingLicence.mutate(formData, {
             onSuccess: (res) => {
                 if(res.succeeded) {
@@ -94,7 +105,7 @@ const LadingLicence = () => {
                         variant: "success",
                         anchorOrigin: { vertical: "top", horizontal: "center" }
                     })
-                    setOpen(true)
+                    setOpen(false)
                 } else {
                     enqueueSnackbar(res.data.Message, {
                         variant: "error",
@@ -137,7 +148,7 @@ const LadingLicence = () => {
                     {({ values }) => {
                         return <Form className='mt-8'>
                             <Box component="div" className='flex items-center justify-center gap-x-4 mb-4'>
-                                <FormikSelect name='orderDetailId' label={"کالای سفارش"} options={dropdownProductLading(data?.data?.order.details)} />
+                                <FormikComboBox name='orderDetailId' label={"کالای سفارش"} options={dropdownProductLading(data?.data?.order.details)} />
                                 <FormikMaskInput thousandsSeparator=',' mask={Number} name='ladingAmount' label={"مقدار بارگیری"} />
                                 <Button onClick={() => handleLadingList(values)} className='w-[50%] !bg-fuchsia-700 !text-white'>
                                     <Typography className='py-1'>
