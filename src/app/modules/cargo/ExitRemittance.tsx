@@ -52,107 +52,6 @@ const initialValues: ILadingList = {
     ladingAmount: 0,
 };
 
-const orderOrderColumnMain = (realAmount: any, productSubUnitAmount: any) => {
-    return [
-        {
-            id: 1,
-            headerName: "نام کالا",
-            field: "productName",
-            flex: 1,
-            headerClassName: "headerClassName",
-            renderCell: (params: any) => {
-                return (
-                    <Typography>
-                        {params.value}
-                    </Typography>
-                );
-            },
-        },
-        {
-            id: 2,
-            headerName: "مقدار بارگیری",
-            field: "ladingAmount",
-            headerClassName: "headerClassName",
-            flex: 1,
-            renderCell: (params: any) => {
-                return (
-                    <Typography>
-                        {params.value}
-                    </Typography>
-                );
-            },
-        },
-        {
-            id: 3,
-            headerName: "مقدار واحد فرعی",
-            field: "proximateAmount",
-            headerClassName: "headerClassName",
-            flex: 1,
-            renderCell: (params: any) => {
-                return (
-                    <Typography>
-                        {params.value}
-                    </Typography>
-                );
-            },
-        },
-        {
-            id: 4,
-            headerName: "واحد فرعی",
-            field: "productSubUnitDesc",
-            flex: 1,
-            headerClassName: "headerClassName",
-            renderCell: (params: any) => {
-                return (
-                    <Typography>
-                        {params.value}
-                    </Typography>
-                );
-            },
-        },
-        {
-            id: 4,
-            headerName: "مقدار واقعی بارگیری شده",
-            field: "realAmount",
-            flex: 1,
-            headerClassName: "headerClassName",
-            renderCell: (params: any) => {
-                return <OutlinedInput inputRef={realAmount} size="small" />;
-            },
-        },
-        {
-            id: 4,
-            headerName: "مقدار واقعی واحد فرعی",
-            field: "productSubUnitAmount",
-            flex: 1,
-            headerClassName: "headerClassName",
-            renderCell: (params: any) => {
-                return (
-                    <OutlinedInput
-                        inputRef={productSubUnitAmount}
-                        size="small"
-                    />
-                );
-            },
-        },
-        {
-            id: 4,
-            headerName: "واحد فرعی",
-            field: "productSubUnitDesc",
-            flex: 1,
-            headerClassName: "headerClassName",
-            renderCell: (params: any) => {
-                return (
-                    <Typography>
-                        {params.value}
-                    </Typography>
-                );
-            },
-        },
-    ];
-};
-
-
 const ExitRemiitance = () => {
     const { id }: any = useParams();
     const { data, isLoading } = useGetLadingLicenceById(id);
@@ -165,24 +64,147 @@ const ExitRemiitance = () => {
     const [ladingList, setLadingList] = useState<any[]>([]);
     const [files, setFiles] = useState<File[]>([]);
 
+    const orderOrderColumnMain = (
+        realAmount: React.RefObject<HTMLInputElement>,
+        productSubUnitAmount: React.RefObject<HTMLInputElement>
+    ) => {
+        return [
+            {
+                id: 1,
+                headerName: "نام کالا",
+                field: "productName",
+                flex: 1,
+                headerClassName: "headerClassName",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+            },
+            {
+                id: 2,
+                headerName: "مقدار بارگیری",
+                field: "ladingAmount",
+                headerClassName: "headerClassName",
+                flex: 1,
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+            },
+            {
+                id: 3,
+                headerName: "مقدار واحد فرعی",
+                field: "proximateAmount",
+                headerClassName: "headerClassName",
+                flex: 1,
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+            },
+            {
+                id: 4,
+                headerName: "واحد فرعی",
+                field: "productSubUnitDesc",
+                flex: 1,
+                headerClassName: "headerClassName",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+            },
+            {
+                id: 4,
+                headerName: "مقدار واقعی بارگیری شده",
+                field: "realAmount",
+                flex: 1,
+                headerClassName: "headerClassName",
+                renderCell: (params: any) => {
+                    console.log("params", params)
+                    return (
+                        <OutlinedInput
+                            onChange={(e) => {
+                                handleRealAmountChange(
+                                    params.api.getRowIndex,
+                                    e.target.value
+                                );
+                            }}
+                            inputRef={realAmount}
+                            size="small"
+                        />
+                    );
+                },
+            },
+            {
+                id: 4,
+                headerName: "مقدار واقعی واحد فرعی",
+                field: "productSubUnitAmount",
+                flex: 1,
+                headerClassName: "headerClassName",
+                renderCell: (params: any) => {
+                    return (
+                        <OutlinedInput
+                            inputRef={productSubUnitAmount}
+                            onChange={(e) => {
+                                handleProductSubUnitAmountChange(
+                                    params.rowIndex,
+                                    e.target.value
+                                );
+                            }}
+                            size="small"
+                        />
+                    );
+                },
+            },
+            {
+                id: 4,
+                headerName: "واحد فرعی",
+                field: "productSubUnitDesc",
+                flex: 1,
+                headerClassName: "headerClassName",
+                renderCell: (params: any) => {
+                    return <Typography>{params.value}</Typography>;
+                },
+            },
+        ];
+    };
+
     useEffect(() => {
-        if(data?.data?.ladingLicenseDetails.length > 0) {
-            const destructureData = data?.data?.ladingLicenseDetails.map((item: any) => {
-                return {
-                    productName: item?.orderDetail?.productName,
-                    ladingAmount: item?.ladingAmount,
-                    exchangeRate: item?.orderDetail?.product?.exchangeRate,
-                    proximateAmount: +item?.ladingAmount / +item.orderDetail?.product?.exchangeRate,
-                    productSubUnitDesc: item?.orderDetail?.productSubUnitDesc,
-                    productSubUnitAmount: 0,
-                    realAmount: 0,
+        if (data?.data?.ladingLicenseDetails.length > 0) {
+            const destructureData = data?.data?.ladingLicenseDetails.map(
+                (item: any) => {
+                    return {
+                        
+                        productName: item?.orderDetail?.productName,
+                        ladingAmount: item?.ladingAmount,
+                        exchangeRate: item?.orderDetail?.product?.exchangeRate,
+                        proximateAmount:
+                            +item?.ladingAmount /
+                            +item.orderDetail?.product?.exchangeRate,
+                        productSubUnitDesc:
+                            item?.orderDetail?.productSubUnitDesc,
+                        productSubUnitAmount: 0,
+                        realAmount: 0,
+                    };
                 }
-            })
-            setLadingList(destructureData)
+            );
+            if (destructureData) {
+                setLadingList(destructureData);
+            }
         }
-    }, [data?.data?.ladingLicenseDetails])
+    }, [data?.data?.ladingLicenseDetails]);
+
+    const handleRealAmountChange = (index: number, value: string) => {
+        const updatedLadingList: any = [...ladingList];
+        console.log("index", index)
+        // updatedLadingList[index].realAmount = value;
+        // setLadingList(updatedLadingList);
+    };
+
+    const handleProductSubUnitAmountChange = (index: number, value: string) => {
+        const updatedLadingList = [...ladingList];
+        updatedLadingList[index].productSubUnitAmount = value;
+        setLadingList(updatedLadingList);
+    };
 
     const onSubmit = async (values: any) => {
+        console.log("ladingList", ladingList);
         // const formData: any = {
         //     ladingLicenseId: id,
         //     bankAccountNo: values.bankAccountNo,
