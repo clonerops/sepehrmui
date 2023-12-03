@@ -71,51 +71,51 @@ const ExitRemiitance = () => {
         return [
             {
                 id: 1,
-                headerName: "نام کالا",
-                field: "productName",
+                header: "نام کالا",
+                accessor: "productName",
                 flex: 1,
                 headerClassName: "headerClassName",
-                renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                render: (params: any) => {
+                    return <Typography>{params.productName}</Typography>;
                 },
             },
             {
                 id: 2,
-                headerName: "مقدار بارگیری",
-                field: "ladingAmount",
+                header: "مقدار بارگیری",
+                accessor: "ladingAmount",
                 headerClassName: "headerClassName",
                 flex: 1,
-                renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                render: (params: any) => {
+                    return <Typography>{params.ladingAmount}</Typography>;
                 },
             },
             {
                 id: 3,
-                headerName: "مقدار واحد فرعی",
-                field: "proximateAmount",
+                header: "مقدار واحد فرعی",
+                accessor: "proximateAmount",
                 headerClassName: "headerClassName",
                 flex: 1,
-                renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                render: (params: any) => {
+                    return <Typography>{params.proximateAmount}</Typography>;
                 },
             },
             {
                 id: 4,
-                headerName: "واحد فرعی",
-                field: "productSubUnitDesc",
+                header: "واحد فرعی",
+                accessor: "productSubUnitDesc",
                 flex: 1,
                 headerClassName: "headerClassName",
-                renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                render: (params: any) => {
+                    return <Typography>{params.productSubUnitDesc}</Typography>;
                 },
             },
             {
                 id: 4,
-                headerName: "مقدار واقعی بارگیری شده",
-                field: "realAmount",
+                header: "مقدار واقعی بارگیری شده",
+                accessor: "realAmount",
                 flex: 1,
                 headerClassName: "headerClassName",
-                renderCell: (params: any) => {
+                render: (params: any) => {
                     console.log("params", params)
                     return (
                         <OutlinedInput
@@ -133,11 +133,11 @@ const ExitRemiitance = () => {
             },
             {
                 id: 4,
-                headerName: "مقدار واقعی واحد فرعی",
-                field: "productSubUnitAmount",
+                header: "مقدار واقعی واحد فرعی",
+                accessor: "productSubUnitAmount",
                 flex: 1,
                 headerClassName: "headerClassName",
-                renderCell: (params: any) => {
+                render: (params: any) => {
                     return (
                         <OutlinedInput
                             inputRef={productSubUnitAmount}
@@ -154,12 +154,12 @@ const ExitRemiitance = () => {
             },
             {
                 id: 4,
-                headerName: "واحد فرعی",
-                field: "productSubUnitDesc",
+                header: "واحد فرعی",
+                accessor: "productSubUnitDesc",
                 flex: 1,
                 headerClassName: "headerClassName",
-                renderCell: (params: any) => {
-                    return <Typography>{params.value}</Typography>;
+                render: (params: any) => {
+                    return <Typography>{params.productSubUnitDesc}</Typography>;
                 },
             },
         ];
@@ -170,7 +170,7 @@ const ExitRemiitance = () => {
             const destructureData = data?.data?.ladingLicenseDetails.map(
                 (item: any) => {
                     return {
-                        
+
                         productName: item?.orderDetail?.productName,
                         ladingAmount: item?.ladingAmount,
                         exchangeRate: item?.orderDetail?.product?.exchangeRate,
@@ -283,7 +283,7 @@ const ExitRemiitance = () => {
                 <Typography variant="h2" color="primary" className="pb-4">
                     اقلام مجوز بارگیری
                 </Typography>
-                {/* <MuiTable
+                <MuiTable
                     tooltipTitle={
                         data?.data?.order?.description ? (
                             <Typography>
@@ -296,17 +296,17 @@ const ExitRemiitance = () => {
                     onDoubleClick={() => {}}
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
-                    data={data?.data?.ladingLicenseDetails}
+                    data={ladingList}
                     columns={orderOrderColumnMain(realAmount, productSubUnitAmount)}
-                /> */}
-                <MuiDataGrid
+                />
+                {/* <MuiDataGrid
                     rows={ladingList}
                     data={ladingList}
                     columns={orderOrderColumnMain(
                         realAmount,
                         productSubUnitAmount
                     )}
-                />
+                /> */}
             </ReusableCard>
             <ReusableCard cardClassName="mt-4">
                 <Formik
