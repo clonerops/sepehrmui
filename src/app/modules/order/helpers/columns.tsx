@@ -107,7 +107,7 @@ export const ladingColumns = (renderAction: any) => {
             headerName: 'شماره مجوز', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
         },
         {
-            field: 'registerDate', renderCell: (params: any) => {
+            field: 'createDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'تاریخ ثبت مجوز', headerClassName: "headerClassName", minWidth: 120, flex: 1
@@ -127,7 +127,7 @@ export const ladingColumns = (renderAction: any) => {
         },
         {
             field: 'isTemporary', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.row.cargoAnnounce.vehicleTypeName}</Typography>;
             },
             headerName: 'نوع وسیله نقلیه', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },

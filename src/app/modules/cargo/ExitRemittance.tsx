@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
@@ -26,6 +26,7 @@ import FormikComboBox from "../../../_cloner/components/FormikComboBox";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../_cloner/components/FormikDescription";
 import FileUpload from "../payment/components/FileUpload";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 
 interface ILadingList {
     id?: number;
@@ -51,92 +52,166 @@ const initialValues: ILadingList = {
     ladingAmount: 0,
 };
 
-const orderOrderColumnMain = [
-    { id: 1, header: "نام کالا", accessor: "productName" },
-    { id: 2, header: "مقدار بارگیری", accessor: "ladingAmount" },
-    { id: 3, header: "مقدار واحد فرعی", accessor: "proximateAmount" },
-    { id: 4, header: "واحد فرعی", accessor: "price" },
-    { id: 4, header: "مقدار واقعی بارگیری شده", accessor: "price", render: (params: any) => {
-        return <OutlinedInput size="small" />
-    }},
-    { id: 4, header: "مقدار واقعی واحد فرعی", accessor: "price", render: (params: any) => {
-        return <OutlinedInput size="small" />
-    }},
-    { id: 4, header: "واحد فرعی", accessor: "price" },
-];
+const orderOrderColumnMain = (realAmount: any, productSubUnitAmount: any) => {
+    return [
+        {
+            id: 1,
+            headerName: "نام کالا",
+            field: "productName",
+            flex: 1,
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return (
+                    <Typography>
+                        {params.value}
+                    </Typography>
+                );
+            },
+        },
+        {
+            id: 2,
+            headerName: "مقدار بارگیری",
+            field: "ladingAmount",
+            headerClassName: "headerClassName",
+            flex: 1,
+            renderCell: (params: any) => {
+                return (
+                    <Typography>
+                        {params.value}
+                    </Typography>
+                );
+            },
+        },
+        {
+            id: 3,
+            headerName: "مقدار واحد فرعی",
+            field: "proximateAmount",
+            headerClassName: "headerClassName",
+            flex: 1,
+            renderCell: (params: any) => {
+                return (
+                    <Typography>
+                        {params.value}
+                    </Typography>
+                );
+            },
+        },
+        {
+            id: 4,
+            headerName: "واحد فرعی",
+            field: "productSubUnitDesc",
+            flex: 1,
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return (
+                    <Typography>
+                        {params.value}
+                    </Typography>
+                );
+            },
+        },
+        {
+            id: 4,
+            headerName: "مقدار واقعی بارگیری شده",
+            field: "realAmount",
+            flex: 1,
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return <OutlinedInput inputRef={realAmount} size="small" />;
+            },
+        },
+        {
+            id: 4,
+            headerName: "مقدار واقعی واحد فرعی",
+            field: "productSubUnitAmount",
+            flex: 1,
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return (
+                    <OutlinedInput
+                        inputRef={productSubUnitAmount}
+                        size="small"
+                    />
+                );
+            },
+        },
+        {
+            id: 4,
+            headerName: "واحد فرعی",
+            field: "productSubUnitDesc",
+            flex: 1,
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return (
+                    <Typography>
+                        {params.value}
+                    </Typography>
+                );
+            },
+        },
+    ];
+};
 
-const LadingLicence = () => {
+
+const ExitRemiitance = () => {
     const { id }: any = useParams();
     const { data, isLoading } = useGetLadingLicenceById(id);
     const postLadingLicence = usePostLadingLicence();
 
     let formikRef: any = useRef();
+    let realAmount = useRef<HTMLInputElement>(null);
+    let productSubUnitAmount = useRef<HTMLInputElement>(null);
 
-    const [ladingList, setLadingList] = useState<ILadingList[]>([]);
+    const [ladingList, setLadingList] = useState<any[]>([]);
     const [files, setFiles] = useState<File[]>([]);
 
-    const [open, setOpen] = useState<boolean>(false);
-    const lastCargoList: any = [
-        { id: 1, header: "کالا", flex: 1, accessor: "orderDetailName" },
-        { id: 2, header: "مقدار خروج", flex: 1, accessor: "ladingAmount" },
-        {
-            id: 3,
-            header: "حذف",
-            flex: 1,
-            accessor: "",
-            render: (params: any) => {
-                return (
-                    <Button onClick={() => handleDeleteProductInList(params)}>
-                        <Delete className="!text-red-500" />
-                    </Button>
-                );
-            },
-        },
-    ];
-
-    const handleLadingList = (values: ILadingList) => {
-        const newList: any = {
-            orderDetailName: data?.data?.order?.details.find(
-                (i: any) => i.productId === values?.orderDetailId?.productId
-            ).productName,
-            orderDetailId: values?.orderDetailId?.value,
-            ladingAmount: +values.ladingAmount,
-        };
-        setLadingList((prev) => [...prev, newList]);
-    };
-
-    const handleDeleteProductInList = (rowData: any) => {
-        const filtered = ladingList.filter(
-            (item) => item.orderDetailId !== rowData.orderDetailId.value
-        );
-        setLadingList(filtered);
-    };
+    useEffect(() => {
+        if(data?.data?.ladingLicenseDetails.length > 0) {
+            const destructureData = data?.data?.ladingLicenseDetails.map((item: any) => {
+                return {
+                    productName: item?.orderDetail?.productName,
+                    ladingAmount: item?.ladingAmount,
+                    exchangeRate: item?.orderDetail?.product?.exchangeRate,
+                    proximateAmount: +item?.ladingAmount / +item.orderDetail?.product?.exchangeRate,
+                    productSubUnitDesc: item?.orderDetail?.productSubUnitDesc,
+                    productSubUnitAmount: 0,
+                    realAmount: 0,
+                }
+            })
+            setLadingList(destructureData)
+        }
+    }, [data?.data?.ladingLicenseDetails])
 
     const onSubmit = async (values: any) => {
-        const formData: ILadingLicence | any = {
-            cargoAnnounceId: id,
-            description: values.description,
-            ladingLicenseDetails: ladingList.map((item: any) => ({
-                orderDetailId: item?.orderDetailId,
-                ladingAmount: item.ladingAmount,
-            })),
-        };
-        postLadingLicence.mutate(formData, {
-            onSuccess: (res) => {
-                if (res.succeeded) {
-                    enqueueSnackbar(res.message, {
-                        variant: "success",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
-                    setOpen(false);
-                } else {
-                    enqueueSnackbar(res.data.Message, {
-                        variant: "error",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
-                }
-            },
-        });
+        // const formData: any = {
+        //     ladingLicenseId: id,
+        //     bankAccountNo: values.bankAccountNo,
+        //     creditCardNo: values.creditCardNo,
+        //     fareAmount: values.fareAmount,
+        //     otherAmount: values.otherAmount,
+        //     description: values.description,
+        //     cargoExitPermitDetails: ladingList.map((item: any) => ({
+        //         ladingLicenseDetailId: item?.ladingLicenseDetailId,
+        //         realAmount: item.realAmount,
+        //         productSubUnitId: item.productSubUnitId,
+        //         productSubUnitAmount: item.productSubUnitAmount,
+        //     })),
+        // };
+        // postLadingLicence.mutate(formData, {
+        //     onSuccess: (res) => {
+        //         if (res.succeeded) {
+        //             enqueueSnackbar(res.message, {
+        //                 variant: "success",
+        //                 anchorOrigin: { vertical: "top", horizontal: "center" },
+        //             });
+        //         } else {
+        //             enqueueSnackbar(res.data.Message, {
+        //                 variant: "error",
+        //                 anchorOrigin: { vertical: "top", horizontal: "center" },
+        //             });
+        //         }
+        //     },
+        // });
     };
 
     if (isLoading) {
@@ -154,7 +229,7 @@ const LadingLicence = () => {
                 <CardTitleValue
                     icon={<Person color="secondary" />}
                     title="تاریخ ثبت مجوز"
-                    value={data?.data?.order?.customerName}
+                    value={data?.data?.createDate}
                 />
                 <CardTitleValue
                     icon={<Person color="secondary" />}
@@ -164,7 +239,7 @@ const LadingLicence = () => {
                 <CardTitleValue
                     icon={<Person color="secondary" />}
                     title="نوع خودروبر"
-                    value={data?.data?.cargoAnnounce.vehicleTypeDesc}
+                    value={data?.data?.cargoAnnounce.vehicleTypeName}
                 />
                 <CardTitleValue
                     icon={<Person color="secondary" />}
@@ -186,7 +261,7 @@ const LadingLicence = () => {
                 <Typography variant="h2" color="primary" className="pb-4">
                     اقلام مجوز بارگیری
                 </Typography>
-                <MuiTable
+                {/* <MuiTable
                     tooltipTitle={
                         data?.data?.order?.description ? (
                             <Typography>
@@ -200,7 +275,15 @@ const LadingLicence = () => {
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
                     data={data?.data?.ladingLicenseDetails}
-                    columns={orderOrderColumnMain}
+                    columns={orderOrderColumnMain(realAmount, productSubUnitAmount)}
+                /> */}
+                <MuiDataGrid
+                    rows={ladingList}
+                    data={ladingList}
+                    columns={orderOrderColumnMain(
+                        realAmount,
+                        productSubUnitAmount
+                    )}
                 />
             </ReusableCard>
             <ReusableCard cardClassName="mt-4">
@@ -283,4 +366,4 @@ const LadingLicence = () => {
     );
 };
 
-export default LadingLicence;
+export default ExitRemiitance;
