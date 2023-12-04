@@ -10,6 +10,7 @@ import { BUY_WAREHOUSE_TYPES, FIELD_VALUE } from "../helpers/constants";
 
 import { IOrderDetail, IOrderItems, IOrderPayment, IOrderService } from "../core/_models";
 import { validateAndEnqueueSnackbar } from '../sales-order/functions';
+import OrderProductList from './OrderProductList';
 
 type Props = {
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
@@ -63,7 +64,18 @@ const OrderProductDetail = (props: Props) => {
 
     }
 
-    const changeProductFunction = () => { }
+    const changeProductFunction = (value: any) => { 
+        const fieldValue = [
+            { title: "productBrandName", value: value?.productBrandName },
+            { title: "warehouseName", value: value?.warehouseName },
+            { title: "mainUnit", value: value?.productMainUnitDesc },
+            { title: "subUnit", value: value?.productSubUnitDesc },
+            { title: "productSubUnitId", value: value?.productSubUnitId },
+        ]
+        fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
+        if (BUY_WAREHOUSE_TYPES.includes(value?.warehouseId)) setIsBuy(true)
+        else setIsBuy(false)
+    }
 
     const handleOrder = () => {
         const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
@@ -71,15 +83,16 @@ const OrderProductDetail = (props: Props) => {
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
             productName: formikRef?.current?.values?.productName?.productName ? formikRef?.current?.values?.productName?.productName : formikRef?.current?.values?.productName,
+            exchangeRate: formikRef?.current?.values?.productName?.exchangeRate ? formikRef?.current?.values?.productName?.exchangeRate : formikRef?.current?.values?.exchangeRate,
             warehouseId: formikRef?.current?.values?.productName?.warehouseId ? formikRef?.current?.values?.productName?.warehouseId : formikRef?.current?.values.warehouseId,
             productBrandName: formikRef?.current?.values?.productName?.productBrandName ? formikRef?.current?.values?.productName?.productBrandName : formikRef?.current?.values.productBrandName,
             productBrandId: formikRef?.current?.values.productName.productBrandId ? formikRef?.current?.values.productName.productBrandId : formikRef?.current?.values.productBrandId,
             // warehouseTypeId: warehouseTypeId?.warehouseTypeId,
-            // warehouseName: formikRef?.current?.values.warehouseName ? formikRef?.current?.values.warehouseName : warehouseName?.name,
+            warehouseName: formikRef?.current?.values?.productName.warehouseName ? formikRef?.current?.values?.productName.warehouseName : formikRef?.current?.values?.warehouseName,
             productDesc: formikRef?.current?.values?.productDesc,
             purchasePrice: formikRef?.current?.values?.purchasePrice,
             purchaseSettlementDate: formikRef?.current?.values.purchaseSettlementDate,
-            purchaseInvoiceTypeId: Number(formikRef?.current?.values?.purchaseInvoiceTypeId),
+            purchaseInvoiceTypeId: formikRef?.current?.values?.purchaseInvoiceTypeId ,
             // purchaseInvoiceTypeDesc: purchaseInvoiceTypeDesc?.desc,
             sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
             proximateAmount: formikRef?.current?.values.proximateAmount,
@@ -180,7 +193,7 @@ const OrderProductDetail = (props: Props) => {
                         </Box>
                     ))}
                 </Box>
-                <ProductSelectedList
+                <OrderProductList
                     setSelectedOrderIndex={setOrderIndex}
                     selectedOrderIndex={orderIndex}
                     setIsUpdate={setIsUpdate}

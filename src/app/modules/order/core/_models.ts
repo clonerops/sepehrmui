@@ -114,6 +114,7 @@ export interface IOrderItems {
     subUnit?: string  | null | undefined
     productSubUnitId?: number  | null | undefined
     price?: string  | null | undefined
+    exchangeRate?: string  | null | undefined
     rowId?: string  | null | undefined
     description?: string  | null | undefined
 }

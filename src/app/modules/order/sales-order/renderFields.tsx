@@ -20,7 +20,6 @@ import FormikDescription from '../../../../_cloner/components/FormikDescription'
 import FormikInput from '../../../../_cloner/components/FormikInput';
 import FormikWarehouse from '../../../../_cloner/components/FormikWarehouse';
 import FormikProduct from '../components/FormikProductComboSelect';
-import BottomDrawer from '../../../../_cloner/components/BottomSheetDrawer';
 import ProductSelectedListInModal from '../components/ProductSelectedListInModal';
 import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType';
 import FormikProximateAmount from '../../product/components/FormikProximateAmount';
@@ -29,8 +28,8 @@ import FormikAmount from '../../product/components/FormikAmount';
 
 import { ICreateOrder, IOrderItems, IOrderPayment, IOrderService } from '../core/_models';
 import { ICustomer } from '../../customer/core/_models';
-import { IProducts } from '../../product/core/_models';
 import TransitionsModal from '../../../../_cloner/components/ReusableModal';
+import ProductsList from '../components/ProductsList';
 
 
 
@@ -109,7 +108,6 @@ const orderDetailParseFields = (
     postSaleOrder: UseMutationResult<any, unknown, ICreateOrder, unknown>,
     isProductChoose: boolean,
     setIsProductChoose:  React.Dispatch<React.SetStateAction<boolean>>,
-    // productsByWarehouse: any,
     products: any,
     changeWarehouseFunction: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
     changeProductFunction: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
@@ -135,7 +133,7 @@ const orderDetailParseFields = (
                     </Button>
                     {isProductChoose &&
                         <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='80%' isClose={() => setIsProductChoose(false)}>
-                            <ProductSelectedListInModal
+                            <ProductsList
                                 products={products?.data?.data}
                                 productLoading={products.isLoading}
                                 productError={products.isError}
@@ -160,16 +158,6 @@ const orderDetailParseFields = (
             return (
                 <FormikProximateAmount
                     disabled={postSaleOrder.data?.succeeded}
-                    // exchangeRate={
-                    //     values.id
-                    //         ? products?.data?.find(
-                    //             (i: IProducts) => i.id === values?.id
-                    //         )?.exchangeRate
-                    //         : products?.data?.find(
-                    //             (i: IProducts) =>
-                    //                 i.id === values?.productName?.value
-                    //         )?.exchangeRate
-                    // }
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="start">
