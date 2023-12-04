@@ -1,9 +1,12 @@
-import { Box, IconButton, Typography } from '@mui/material'
-import { AddCircle } from "@mui/icons-material"
+import { Box, IconButton, Typography, Button, InputAdornment } from '@mui/material'
+import { AddCircle, Edit, Add, Grading } from "@mui/icons-material"
 import { FormikErrors } from 'formik';
 import { UseMutationResult } from '@tanstack/react-query';
 
 import { FieldType } from "../../../../_cloner/components/globalTypes";
+import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount';
+import { dropdownProductByBrandName } from '../../generic/_functions';
+import { useRetrieveProductsByBrand } from '../../product/core/_hooks';
 
 import FormikCustomer from "../../../../_cloner/components/FormikCustomer";
 import FormikCompany from '../../../../_cloner/components/FormikCompany';
@@ -15,10 +18,22 @@ import FormikExitType from '../../../../_cloner/components/FormikExitType';
 import FormikTemporary from '../../../../_cloner/components/FormikTemporary';
 import FormikDescription from '../../../../_cloner/components/FormikDescription';
 import FormikInput from '../../../../_cloner/components/FormikInput';
+import FormikWarehouse from '../../../../_cloner/components/FormikWarehouse';
+import FormikProduct from '../components/FormikProductComboSelect';
+import BottomDrawer from '../../../../_cloner/components/BottomSheetDrawer';
+import ProductSelectedListInModal from '../components/ProductSelectedListInModal';
+import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType';
+import FormikProximateAmount from '../../product/components/FormikProximateAmount';
+import FormikPrice from '../../product/components/FormikPrice';
+import FormikAmount from '../../product/components/FormikAmount';
 
-import { ICreateOrder } from '../core/_models';
+import { ICreateOrder, IOrderItems, IOrderPayment, IOrderService } from '../core/_models';
 import { ICustomer } from '../../customer/core/_models';
-import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount';
+import { IProducts } from '../../product/core/_models';
+import TransitionsModal from '../../../../_cloner/components/ReusableModal';
+
+
+
 
 const saleOrderParseFields = (
     index: number | string,
@@ -86,7 +101,116 @@ const saleOrderParseFields = (
     }
 };
 
+const orderDetailParseFields = (
+    fields: FieldType,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>,
+    values: any,
+    isUpdate: boolean,
+    postSaleOrder: UseMutationResult<any, unknown, ICreateOrder, unknown>,
+    isProductChoose: boolean,
+    setIsProductChoose:  React.Dispatch<React.SetStateAction<boolean>>,
+    productsByWarehouse: any,
+    changeWarehouseFunction: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
+    changeProductFunction: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
+    handleOrder: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
+    orders: IOrderItems[],
+    setOrders: React.Dispatch<React.SetStateAction<IOrderItems[]>>,
+    orderPayment: IOrderPayment[],
+    setOrderPayment: React.Dispatch<React.SetStateAction<IOrderPayment[]>>,
+    orderService: IOrderService[],
+    setOrderService: React.Dispatch<React.SetStateAction<IOrderService[]>>,
+    productsByBrand: any
+
+    ) => {
+    const { type, ...rest } = fields;
+    switch (type) {
+        case "warehouse":
+            return <FormikWarehouse disabled={isUpdate || postSaleOrder.data?.succeeded} onChange={(value: any) => changeWarehouseFunction(value, setFieldValue)} {...rest} />
+        case "product":
+            return (
+                <Box component="div" className="flex gap-x-2 w-full">
+                    <FormikProduct disabled={isUpdate || postSaleOrder.data?.succeeded} onChange={(value: any) => changeProductFunction(value, setFieldValue)} options={dropdownProductByBrandName(productsByWarehouse?.data?.data)} {...rest} />
+                    <Button onClick={() => setIsProductChoose(true)} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded}>
+                        <Grading />
+                    </Button>
+                    {isProductChoose &&
+                        <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='80%' isClose={() => setIsProductChoose(false)}>
+                            <ProductSelectedListInModal
+                                products={productsByBrand?.data?.data}
+                                productLoading={productsByBrand.isLoading}
+                                productError={productsByBrand.isError}
+                                setSelectedProductOpen={setIsProductChoose}
+                                setFieldValue={setFieldValue}
+                                orders={orders}
+                                setOrders={setOrders}
+                                setOrderPayment={setOrderPayment}
+                                orderService={orderService}
+                            />
+                        </TransitionsModal>
+                    }
+                </Box>
+            );
+        case "purchaserCustomer":
+            return <FormikCustomer disabled={postSaleOrder.data?.succeeded} {...rest} />
+        case "purchaseInvoiceType":
+            return <FormikPurchaserInvoiceType {...rest} />
+        case "date":
+            return <FormikDatepicker disabled={postSaleOrder.data?.succeeded} {...rest} />;
+        case "proximateAmount":
+            return (
+                <FormikProximateAmount
+                    disabled={postSaleOrder.data?.succeeded}
+                    // exchangeRate={
+                    //     values.id
+                    //         ? products?.data?.find(
+                    //             (i: IProducts) => i.id === values?.id
+                    //         )?.exchangeRate
+                    //         : products?.data?.find(
+                    //             (i: IProducts) =>
+                    //                 i.id === values?.productName?.value
+                    //         )?.exchangeRate
+                    // }
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="start">
+                                {values.mainUnit}
+                            </InputAdornment>
+                        ),
+                    }}
+                    {...rest}
+                />
+            );
+        case "proximateSubUnit":
+            return (
+                <FormikPrice
+                    disabled={postSaleOrder.data?.succeeded}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="start">
+                                {values.subUnit}
+                            </InputAdornment>
+                        ),
+                    }}
+                    {...rest}
+                />
+            );
+        case "price":
+            return <FormikAmount disabled={postSaleOrder.data?.succeeded}  {...rest} />
+        case "input":
+            return <FormikInput disabled={postSaleOrder.data?.succeeded}  {...rest} />;
+        case "add":
+            return isUpdate ? 
+                <Button onClick={() => handleOrder(values, setFieldValue)} className="!bg-yellow-500"><Edit /></Button>
+             : 
+                <Button onClick={() => handleOrder(values, setFieldValue)} className="!bg-green-500"><Add /></Button>
+            
+        default:
+            return <FormikInput disabled={postSaleOrder.data?.succeeded} {...rest} />;
+    }
+};
+
 
 export {
-    saleOrderParseFields
+    saleOrderParseFields,
+    orderDetailParseFields
 }

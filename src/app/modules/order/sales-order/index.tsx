@@ -8,20 +8,34 @@ import { saleOrderValidation } from "./validation"
 import { saleBaseOrderInformation } from './informations'
 
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
-import { customerFields } from './fields'
-import { useCreateOrder } from '../core/_hooks'
-import { saleOrderParseFields } from './renderFields'
+import CustomerForm from '../../customer/components/CustomerForm'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
+import { customerFields, orderFieldWhenNotWarehouseMain, orderFieldWhenWarehouseIsMain } from './fields'
+import { useCreateOrder } from '../core/_hooks'
+import { orderDetailParseFields, saleOrderParseFields } from './renderFields'
 import { useGetCustomer } from '../../customer/core/_hooks'
+import { useRetrieveProductsByBrand, useRetrieveProductsByWarehouse } from '../../product/core/_hooks'
+
+import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 
 const SalesOrder = () => {
     
     let formikRef = useRef<FormikProps<any>>(null);
     
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
-    
+    const [isBuy, setIsBuy] = useState<boolean>(false); // OK
+    const [isUpdate, setIsUpdate] = useState<boolean>(false); // OK
+    const [isProductChoose, setIsProductChoose] = useState<boolean>(false); // OK
+    const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
+    const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
+    const [orderService, setOrderService] = useState<IOrderService[]>([]); //OK
+
+
     const postSaleOrder = useCreateOrder();
-    const detailCustomer = useGetCustomer()
+    const detailCustomer = useGetCustomer();
+    const productsByWarehouse = useRetrieveProductsByWarehouse();
+    const productsByBrand = useRetrieveProductsByBrand();
+
     
     const changeCustomerFunction = (item: {value: string, label: string, customerValidityColorCode: string}) => {
         if(item?.value) {
@@ -40,7 +54,16 @@ const SalesOrder = () => {
             detailCustomer.data.data = {}
         }
     };
+
+    const changeWarehouseFunction = () => {}
     
+    const changeProductFunction = () => {}
+
+    const handleOrder = () => {}
+
+    
+    const fieldsToMap = isBuy ? orderFieldWhenNotWarehouseMain : orderFieldWhenWarehouseIsMain;
+
 
   return (
     <>
@@ -78,6 +101,59 @@ const SalesOrder = () => {
                                 </ReusableCard>
                             </Box>
                         </Box>
+                        {/*The design of the main section of the order module order */}
+                        <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
+                            <ReusableCard cardClassName="col-span-3">
+                                <Form>
+                                    <Box component="div" className="">
+                                        {fieldsToMap.map((rowFields) => (
+                                            <Box
+                                                component="div"
+                                                className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                                            >
+                                                {rowFields.map((field) =>
+                                                    orderDetailParseFields(
+                                                        field,
+                                                        setFieldValue,
+                                                        values,
+                                                        isUpdate,
+                                                        postSaleOrder,
+                                                        isProductChoose,
+                                                        setIsProductChoose,
+                                                        productsByWarehouse,
+                                                        changeWarehouseFunction,
+                                                        changeProductFunction,
+                                                        handleOrder,
+                                                        orders,
+                                                        setOrders,
+                                                        orderPayment,
+                                                        setOrderPayment,
+                                                        orderService,
+                                                        setOrderService,
+                                                        productsByBrand
+
+                                                    )
+                                                )}
+                                            </Box>
+                                        ))}
+                                    </Box>
+                                    {/* <ProductSelectedList
+                                        setSelectedOrderIndex={
+                                            setSelectedOrderIndex
+                                        }
+                                        selectedOrderIndex={selectedOrderIndex}
+                                        setIsUpdate={setIsUpdate}
+                                        setFieldValue={setFieldValue}
+                                        orders={orders}
+                                        setIsBuy={setIsBuy}
+                                        setOrders={setOrders}
+                                        disabled={data?.succeeded}
+                                        products={productsByBrand?.data}
+                                        orderService={orderService}
+                                    /> */}
+                                </Form>
+                            </ReusableCard>
+                        </Box>
 
                 </Form>
             }}
@@ -87,11 +163,11 @@ const SalesOrder = () => {
                     title="ایجاد مشتری جدید"
                     open={isOpen}
                     isClose={() => setIsOpen(false)}
+                    width="80%"
                 >
-                    {/* <CustomerForm
-                        refetch={refetchCustomers}
+                    <CustomerForm
                         setIsCreateOpen={setIsOpen}
-                    /> */}
+                    />
                 </TransitionsModal >
             }
     </>

@@ -47,9 +47,10 @@ const initialValues = {
 const CustomerForm = (props: {
     id?: string;
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    refetch: <TPageData>(
-        options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-    ) => Promise<QueryObserverResult<any, unknown>>;
+    // refetch?: <TPageData>(
+    //     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+    // ) => Promise<QueryObserverResult<any, unknown>>;
+    refetch?: any;
 }) => {
     const { mutate, data } = useCreateCustomer();
     const updateTools = useUpdateCustomer();
@@ -202,7 +203,7 @@ const CustomerForm = (props: {
             return updateTools.mutate(formData, {
                 onSuccess: (response) => {
                     setSnackeEditOpen(true);
-                    props.refetch();
+                    props?.refetch();
                 },
             });
         } catch (error: any) {
@@ -220,7 +221,7 @@ const CustomerForm = (props: {
             return mutate(formData, {
                 onSuccess: (response) => {
                     setSnackeOpen(true);
-                    props.refetch();
+                    props?.refetch();
                 },
             });
         } catch (error: any) {
@@ -232,7 +233,7 @@ const CustomerForm = (props: {
     const handleSubmit = (values: ICustomer) => {
         if (props.id) onUpdate(values);
         else onAdd(values);
-        props.refetch();
+        props?.refetch();
     };
 
     if (props.id && detailTools?.isLoading) {
