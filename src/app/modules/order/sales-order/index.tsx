@@ -1,7 +1,7 @@
 import {useState, useRef} from 'react'
 
 import { Box, Typography, Card } from '@mui/material'
-import { Formik, Form, FormikProps } from "formik"
+import { Formik, Form, FormikProps, FormikErrors } from "formik"
 
 import { saleOrderInitialValues } from "./initialValues"
 import { saleOrderValidation } from "./validation"
@@ -14,9 +14,10 @@ import { customerFields, orderFieldWhenNotWarehouseMain, orderFieldWhenWarehouse
 import { useCreateOrder } from '../core/_hooks'
 import { orderDetailParseFields, saleOrderParseFields } from './renderFields'
 import { useGetCustomer } from '../../customer/core/_hooks'
-import { useRetrieveProductsByBrand, useRetrieveProductsByWarehouse } from '../../product/core/_hooks'
+import { useGetProductList, useRetrieveProductsByBrand } from '../../product/core/_hooks'
 
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
+import { BUY_WAREHOUSE_TYPES, FIELD_VALUE } from '../helpers/constants'
 
 const SalesOrder = () => {
     
@@ -33,8 +34,9 @@ const SalesOrder = () => {
 
     const postSaleOrder = useCreateOrder();
     const detailCustomer = useGetCustomer();
-    const productsByWarehouse = useRetrieveProductsByWarehouse();
-    const productsByBrand = useRetrieveProductsByBrand();
+    const productsByBrand =  useRetrieveProductsByBrand(isProductChoose);
+    const products =  useGetProductList();
+    
 
     
     const changeCustomerFunction = (item: {value: string, label: string, customerValidityColorCode: string}) => {
@@ -55,7 +57,23 @@ const SalesOrder = () => {
         }
     };
 
-    const changeWarehouseFunction = () => {}
+    const changeWarehouseFunction = (warehouseType: number, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
+        try {
+            const filter = {
+                ByBrand: true,
+                WarehouseId: warehouseType
+            }
+            products.mutate(filter)
+
+            FIELD_VALUE.forEach((field) => setFieldValue(field.title, field.value));
+
+            if (BUY_WAREHOUSE_TYPES.includes(warehouseType)) setIsBuy(true);
+            else setIsBuy(false);
+        } catch (error) {
+            console.error("Error handling warehouse change:", error);
+        }
+
+    }
     
     const changeProductFunction = () => {}
 
@@ -63,7 +81,6 @@ const SalesOrder = () => {
 
     
     const fieldsToMap = isBuy ? orderFieldWhenNotWarehouseMain : orderFieldWhenWarehouseIsMain;
-
 
   return (
     <>
@@ -120,7 +137,7 @@ const SalesOrder = () => {
                                                         postSaleOrder,
                                                         isProductChoose,
                                                         setIsProductChoose,
-                                                        productsByWarehouse,
+                                                        products,
                                                         changeWarehouseFunction,
                                                         changeProductFunction,
                                                         handleOrder,

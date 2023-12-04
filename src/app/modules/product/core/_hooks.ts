@@ -3,15 +3,10 @@ import * as api from "./_requests";
 import { IProductPrice, IProducts, ISuppliers } from "./_models";
 
 const useGetProductList = () => {
-    return useMutation((formdata: {
-        productSortBase?: number,
-        ByBrand?: boolean,
-        WarehouseId?: number,
-        PageNumber?: number,
-        PageSize?: number
-    }) => {
+    return useMutation(
+        (formdata: {productSortBase?: number,ByBrand?: boolean,WarehouseId?: number,PageNumber?: number,PageSize?: number}) => {
         return api.getProductList(formdata)
-    });
+    }, );
 };
 
 const useRetrieveProducts = () => {
@@ -30,8 +25,10 @@ const useRetrieveProductsByTypeAndWarehouseFilter = () => {
         return api.retrieveProductsByTypeWarehouseFilter(warehouseId)
     })
 };
-const useRetrieveProductsByBrand = () => {
-    return useQuery(["productsByBrand"], () => api.retrieveProductsByBrand());
+const useRetrieveProductsByBrand = (isProductChoose?: boolean) => {
+    return useQuery(["productsByBrand"], () => api.retrieveProductsByBrand(), {
+        enabled: isProductChoose
+    });
 };
 
 const useCreateProduct = () => {
