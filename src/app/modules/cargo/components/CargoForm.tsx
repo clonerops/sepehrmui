@@ -102,6 +102,7 @@ const Confirm = () => {
                                 orderId: id,
                                 fareAmount: +values.fareAmount.replace(/,/g, "")
                             }
+                            console.log("formData", JSON.stringify(formData))
                             mutate(formData, {
                                 onSuccess: (message) => {
                                     if (message.succeeded) {
