@@ -26,10 +26,10 @@ const saleOrderParseFields = (
     fields: FieldType,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>,
     values: any,
-    customerInformation: ICustomer | undefined,
+    customerInformation: ICustomer | undefined | null,
     changeCustomerFunction: (value: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
-    setOpenState: (value: React.SetStateAction<boolean>) => void
- 
+    setOpenState: (value: React.SetStateAction<boolean>) => void,
+    customerDetailLoading?: boolean
     ) => {
     const { type, ...rest } = fields;
     
@@ -44,23 +44,27 @@ const saleOrderParseFields = (
                         </IconButton>
                         <FormikCompany customerid={values.customerID} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
                     </Box>
-                    <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
-                        <Box component="div" className="flex flex-row pt-2">
-                            <Typography variant="h4" className="text-gray-500">معرف: </Typography>
-                            <Typography variant="h3" className="px-4">{customerInformation?.representative} </Typography>
+                    {customerDetailLoading ? (
+                        <Typography>درحال بارگزاری ...</Typography>
+                    ) : (
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
+                            <Box component="div" className="flex flex-row pt-2">
+                                <Typography variant="h4" className="text-gray-500">معرف: </Typography>
+                                <Typography variant="h3" className="px-4">{customerInformation?.representative} </Typography>
+                            </Box>
+                            <Box component="div" className="flex flex-row pt-2">
+                                <Typography sx={{ backgroundColor: `#${customerInformation?.customerValidityColorCode}` }} variant="h3" className={`text-white px-4 rounded-md py-1`}>{customerInformation?.customerValidityDesc}</Typography>
+                            </Box>
+                            <Box component="div" className="flex flex-row pt-8">
+                                <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
+                                <Typography variant="h3" className="px-4 text-red-500">{customerInformation?.customerCurrentDept ? separateAmountWithCommas(Number(customerInformation?.customerCurrentDept)) : 0} ریال</Typography>
+                            </Box>
+                            <Box component="div" className="flex flex-row pt-8">
+                                <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
+                                <Typography variant="h3" className="px-4 text-red-500">{customerInformation?.customerDept ? separateAmountWithCommas(Number(customerInformation?.customerDept)) : 0} ریال</Typography>
+                            </Box>
                         </Box>
-                        <Box component="div" className="flex flex-row pt-2">
-                            <Typography sx={{ backgroundColor: `#${customerInformation?.customerValidityColorCode}` }} variant="h3" className={`text-white px-4 rounded-md py-1`}>{customerInformation?.customerValidityDesc}</Typography>
-                        </Box>
-                        <Box component="div" className="flex flex-row pt-8">
-                            <Typography variant="h4" className="text-gray-500">بدهی جاری: </Typography>
-                            <Typography variant="h3" className="px-4 text-red-500">{customerInformation?.customerCurrentDept ? separateAmountWithCommas(Number(customerInformation?.customerCurrentDept)) : 0} ریال</Typography>
-                        </Box>
-                        <Box component="div" className="flex flex-row pt-8">
-                            <Typography variant="h4" className="text-gray-500">بدهی کل: </Typography>
-                            <Typography variant="h3" className="px-4 text-red-500">{customerInformation?.customerDept ? separateAmountWithCommas(Number(customerInformation?.customerDept)) : 0} ریال</Typography>
-                        </Box>
-                    </Box>
+                    )}
                 </Box>
             );
         case "settlementDate":

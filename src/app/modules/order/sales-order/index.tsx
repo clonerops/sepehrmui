@@ -1,64 +1,44 @@
-import {useState, useRef, useEffect} from 'react'
+import {useState, useRef} from 'react'
 
-import { Box, IconButton, Typography, Card } from '@mui/material'
-import { AddCircle } from '@mui/icons-material'
-import { Formik, Form, FormikErrors, FormikProps } from "formik"
+import { Box, Typography, Card } from '@mui/material'
+import { Formik, Form, FormikProps } from "formik"
 
 import { saleOrderInitialValues } from "./initialValues"
 import { saleOrderValidation } from "./validation"
 import { saleBaseOrderInformation } from './informations'
 
-import CardTitleValue from '../../../../_cloner/components/CardTitleValue'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import { customerFields } from './fields'
-import FormikCustomer from '../../../../_cloner/components/FormikCustomer'
-import { FieldType } from '../../../../_cloner/components/globalTypes'
-import FormikCompany from '../../../../_cloner/components/FormikCompany'
-import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker'
-import FormikOrderSend from '../../../../_cloner/components/FormikOrderSend'
-import FormikInvoiceType from '../../../../_cloner/components/FormikInvoiceType'
-import FormikPaymentType from '../../../../_cloner/components/FormikPaymentType'
-import FormikExitType from '../../../../_cloner/components/FormikExitType'
-import FormikTemporary from '../../../../_cloner/components/FormikTemporary'
-import FormikDescription from '../../../../_cloner/components/FormikDescription'
-import FormikInput from '../../../../_cloner/components/FormikInput'
 import { useCreateOrder } from '../core/_hooks'
 import { saleOrderParseFields } from './renderFields'
-import { ICustomer } from '../../customer/core/_models'
-import { useQueryClient } from '@tanstack/react-query'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
-import CustomerForm from '../../customer/components/CustomerForm'
-import { useGetCustomer, useGetCustomers } from '../../customer/core/_hooks'
+import { useGetCustomer } from '../../customer/core/_hooks'
 
 const SalesOrder = () => {
     
     let formikRef = useRef<FormikProps<any>>(null);
     
-    const [customerInformation, setCustomerInformation] = useState<ICustomer>(); //OK
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
     
     const postSaleOrder = useCreateOrder();
     const detailCustomer = useGetCustomer()
     
     const changeCustomerFunction = (item: {value: string, label: string, customerValidityColorCode: string}) => {
-        if(item.value) {
-            detailCustomer.mutate(item.value, {
+        if(item?.value) {
+            detailCustomer.mutate(item?.value, {
                 onSuccess: (result) => {
-                    console.log(result)
+                    formikRef.current?.setFieldValue("customerID", result.data.id)
+                    formikRef.current?.setFieldValue("number", result.data.settlementDay)
+                    formikRef.current?.setFieldValue("settlement", result.data.settlement)
+                    if(!result?.data) {
+                        formikRef.current?.setFieldValue("number", "")
+                        formikRef.current?.setFieldValue("settlement", "")
+                    }
                 }
             })
+        } else {
+            detailCustomer.data.data = {}
         }
-        // const findCustomer = queryData?.data?.find((i: any) => i.id === value?.value);
-        // console.log("findCustomer", findCustomer)
-        // setFieldValue("customerID", findCustomer?.id)
-        // setFindCustomer(findCustomer);
-        // setFieldValue("number", findCustomer?.settlementDay)
-        // setFieldValue("settlement", moment(new Date()).add(+findCustomer?.settlementDay, "days").format("jYYYY/jMM/jDD"))
-    
-        // if (findCustomer === undefined || findCustomer === null) {
-        //     setFieldValue("number", "")
-        //     setFieldValue("settlement", "");
-        // }
     };
     
 
@@ -67,6 +47,7 @@ const SalesOrder = () => {
         <Formik enableReinitialize innerRef={formikRef} initialValues={saleOrderInitialValues} onSubmit={() => {}} validationSchema={saleOrderValidation}>
             {({values, setFieldValue}) => {
                 return <Form>
+                        {/*The design of the header section of the order module includes order information and customer information */}
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {saleBaseOrderInformation(12, 125000).map((item: { title: string, icon: React.ReactNode, value: any}, index) => {
@@ -89,7 +70,7 @@ const SalesOrder = () => {
                                                 className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                                             >
                                                 {rowFields.map((field, index) =>
-                                                    saleOrderParseFields(index, postSaleOrder, field, setFieldValue, values, customerInformation, changeCustomerFunction, setIsOpen)
+                                                    saleOrderParseFields(index, postSaleOrder, field, setFieldValue, values, detailCustomer?.data?.data, changeCustomerFunction, setIsOpen, detailCustomer.isLoading)
                                                 )}
                                             </Box>
                                         ))}
