@@ -109,7 +109,8 @@ const orderDetailParseFields = (
     postSaleOrder: UseMutationResult<any, unknown, ICreateOrder, unknown>,
     isProductChoose: boolean,
     setIsProductChoose:  React.Dispatch<React.SetStateAction<boolean>>,
-    productsByWarehouse: any,
+    // productsByWarehouse: any,
+    products: any,
     changeWarehouseFunction: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
     changeProductFunction: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
     handleOrder: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
@@ -119,7 +120,6 @@ const orderDetailParseFields = (
     setOrderPayment: React.Dispatch<React.SetStateAction<IOrderPayment[]>>,
     orderService: IOrderService[],
     setOrderService: React.Dispatch<React.SetStateAction<IOrderService[]>>,
-    productsByBrand: any
 
     ) => {
     const { type, ...rest } = fields;
@@ -129,16 +129,16 @@ const orderDetailParseFields = (
         case "product":
             return (
                 <Box component="div" className="flex gap-x-2 w-full">
-                    <FormikProduct disabled={isUpdate || postSaleOrder.data?.succeeded} onChange={(value: any) => changeProductFunction(value, setFieldValue)} options={dropdownProductByBrandName(productsByWarehouse?.data?.data)} {...rest} />
+                    <FormikProduct disabled={isUpdate || postSaleOrder.data?.succeeded} onChange={(value: any) => changeProductFunction(value, setFieldValue)} options={dropdownProductByBrandName(products?.data?.data)} {...rest} />
                     <Button onClick={() => setIsProductChoose(true)} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded}>
                         <Grading />
                     </Button>
                     {isProductChoose &&
                         <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='80%' isClose={() => setIsProductChoose(false)}>
                             <ProductSelectedListInModal
-                                products={productsByBrand?.data?.data}
-                                productLoading={productsByBrand.isLoading}
-                                productError={productsByBrand.isError}
+                                products={products?.data?.data}
+                                productLoading={products.isLoading}
+                                productError={products.isError}
                                 setSelectedProductOpen={setIsProductChoose}
                                 setFieldValue={setFieldValue}
                                 orders={orders}
