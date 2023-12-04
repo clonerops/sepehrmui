@@ -82,7 +82,7 @@
 //                 id={name}
 //             />
 //             <Typography variant="body2" className={"text-red-600"}>
-//                 {getFormikFieldValidationProps(formikProps, name).helperText}
+//                 {getFormikFieldValidationProps(formikProps, name).helpertext}
 //             </Typography>
 
 //         </Box>
@@ -160,9 +160,9 @@ const FormikComboBox = (props: Props) => {
                     option.id === value.id
                 }
                 defaultValue={defaultValue}
-                getOptionSelected={(option: any, value: any) =>
-                    option.id === value.id
-                }
+                // getOptionSelected={(option: any, value: any) =>
+                //     option.id === value.id
+                // }
                 onChange={handleSelectChange}
                 filterOptions={(optionData, { inputValue }) => {
                     const searchWords = inputValue
@@ -190,7 +190,7 @@ const FormikComboBox = (props: Props) => {
                 id={name}
             />
             <Typography variant="body2" className={"text-red-600"}>
-                {getFormikFieldValidationProps(formikProps, name).helperText}
+                {getFormikFieldValidationProps(formikProps, name).helpertext}
             </Typography>
         </Box>
     );

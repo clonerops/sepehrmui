@@ -3,12 +3,17 @@ import { dropdownCustomerCompanies } from '../../app/modules/order/helpers/dropd
 import { useGetCustomerCompaniesMutate } from '../../app/modules/generic/customerCompany/_hooks';
 import { useEffect } from 'react';
 
+
 const FormikCompany = (props: any) => {
+
+    const { customerid } = props;
+
     const { mutate, data: customerCompanies } = useGetCustomerCompaniesMutate();
 
     useEffect(() => {
-        mutate(props.customerID)
-    }, [props.customerID])
+        if(customerid)
+            mutate(customerid)
+    }, [customerid])
 
     return (
         <FormikSelect

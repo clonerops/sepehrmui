@@ -24,7 +24,7 @@ type Props = {
     ) => Promise<void | FormikErrors<{}>>;
 };
 
-const FormikDatepicker = forwardRef((props: Props) => {
+const FormikDatepicker = forwardRef((props: Props, ref) => {
     const { boxClassName, name, label, value, disabled, ...rest } = props;
 
     const [field, , helpers] = useField({ name, value });
@@ -70,7 +70,7 @@ const FormikDatepicker = forwardRef((props: Props) => {
                 />
                 {validationProps.error && (
                     <Typography variant="body2" className="text-red-500 pl-4">
-                        {validationProps.helperText}
+                        {validationProps.helpertext}
                     </Typography>
                 )}
             </Box>

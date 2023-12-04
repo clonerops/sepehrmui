@@ -8,10 +8,10 @@ export const getFormikFieldValidationProps = (
   const { touched, errors, getFieldProps } = formikProps;
   const error = touched?.[fieldName] && Boolean(errors?.[fieldName]);
 
-  // const helperText = <>{touched?.[fieldName] && errors?.[fieldName]}</>;
-  const helperText = touched?.[fieldName] && errors?.[fieldName] ? (
+  // const helpertext = <>{touched?.[fieldName] && errors?.[fieldName]}</>;
+  const helpertext = touched?.[fieldName] && errors?.[fieldName] ? (
     <Typography variant="body2">{errors[fieldName] as string}</Typography>
   ) : null;
 
-  return { error: error, helperText: helperText, ...getFieldProps(fieldName) };
+  return { error: error, helpertext: helpertext, ...getFieldProps(fieldName) };
 };

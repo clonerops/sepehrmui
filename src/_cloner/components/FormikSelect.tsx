@@ -1,7 +1,6 @@
 import {
   Box,
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -63,12 +62,12 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
           aria-errormessage={"asdfsdf"}
           onChange={handleSelectChange}
         >
-          {options?.map((node) => (
-            <MenuItem value={node.value}>{node.label}</MenuItem>
+          {options?.map((node, index) => (
+            <MenuItem key={index} value={node.value}>{node.label}</MenuItem>
           ))}
         </Select>
         <Typography variant="body2" className={"text-red-600"}>
-          {getFormikFieldValidationProps(formikProps, name).helperText}
+          {getFormikFieldValidationProps(formikProps, name).helpertext}
         </Typography>
       </FormControl>
     </Box>

@@ -27,7 +27,8 @@ const MenuItems = (props: { menuItems: any }) => {
       return (
         <Box
           component="div"
-          key={menuItem.id}
+          key={`${menuItem.id}-${index}`}  
+          // key={menuItem.id}
           className="cursor-pointer pr-4"
         >
           <ListItem className={`hover:bg-white hover:rounded-tr-full hover:rounded-br-full hover:text-[#272862] ${openSubMenu[index] && "text-[#272862] font-bold " } ${openSubMenu[index] && "bg-white rounded-tr-3xl rounded-br-3xl " }`} onClick={() => toggleSubMenu(index)}>
@@ -44,7 +45,8 @@ const MenuItems = (props: { menuItems: any }) => {
             )}
           </ListItem>
           <Collapse
-            key={menuItem.id}
+            // key={menuItem.id}
+            key={`${menuItem.id}-${index}`}  
             in={openSubMenu[index]}
             timeout="auto"
             unmountOnExit
@@ -63,8 +65,14 @@ const MenuItems = (props: { menuItems: any }) => {
       );
     } else {
       return (
-        <Link id="RouterLink" key={menuItem.id} to={`${menuItem.to}`}>
-          <ListItem key={menuItem.id}>
+        <Link id="RouterLink" 
+        // key={menuItem.id}
+          key={`${menuItem.id}-${index}`} 
+          to={`${menuItem.to}`}>
+          <ListItem
+            key={`${menuItem.id}-${index}`} 
+          // key={menuItem.id}
+          >
             <ListItemIcon className="text-white">
               <Box component="div" className="text-white">
                 {/* <IconComponent iconName={menuItem.iconName} /> */}

@@ -1,19 +1,15 @@
-import { Card, Divider, Typography } from "@mui/material";
+import { Card } from "@mui/material";
 
 type Props = {
     children: React.ReactNode;
     cardClassName?: string;
-    title?: string
+    index?: string | number
 };
 
 const ReusableCard = (props: Props) => {
-    const { cardClassName, title, children } = props;
+    const { cardClassName, index, children } = props;
     return (
-        <Card className={`px-4 py-4 shadow-md !rounded-xl ${cardClassName}`} style={{flex: 1}}>
-            {/* <Typography variant="h2" color="primary">
-                {title}
-            </Typography>
-            <Divider /> */}
+        <Card key={index} className={`px-4 py-4 shadow-md !rounded-xl ${cardClassName}`} style={{flex: 1}}>
             {children}
         </Card>
     );
