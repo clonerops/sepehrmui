@@ -48,7 +48,7 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
                     {...field}
                     {...rest}
                     {...validationProps}
-                    value={field.value}
+                    value={field.value || ""}
                     onChange={handleChange}
                     locale={persian_fa}
                     disabled={disabled}

@@ -394,7 +394,6 @@ const ProductSelectedListInModal = (props: {
                         )}
                         rows={selectedProduct}
                         data={selectedProduct}
-                        pagination={false}
                         hideFooter={true}
                         columnHeaderHeight={40}
                     />

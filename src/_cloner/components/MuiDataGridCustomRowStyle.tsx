@@ -60,7 +60,6 @@ export default function MuiDataGridCustomRowStyle(props: Props) {
                 }}
                 rows={rows ? rows : []}
                 columns={columns}
-                pagination={false}
                 columnTypes={columnTypes}
                 localeText={{ noRowsLabel: "داده ای برای نمایش وجود ندارد" }}
                 getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}

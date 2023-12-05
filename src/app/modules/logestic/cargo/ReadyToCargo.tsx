@@ -5,7 +5,7 @@ import { Box, Button, Typography } from "@mui/material";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { cargoColumns } from "../helpers/columns";
+import { readyToCargoColumns } from "../helpers/columns";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 
 import { useRetrievesNotSendedOrder } from "../core/_hooks";
@@ -46,7 +46,7 @@ const ReadyToCargo = () => {
                 />
             </Box>
             <MuiDataGrid
-                columns={cargoColumns(renderAction)}
+                columns={readyToCargoColumns(renderAction)}
                 rows={results}
                 data={cargoNotSended}
             />

@@ -7,7 +7,7 @@ export interface ICargo {
     driverMobile?: string | null | undefined
     approvedUserName?: string | null | undefined
     approvedDate?: string | null | undefined
-    rentAmount?: number | null 
+    fareAmount?: any
     isComplete?: boolean
     vehicleTypeId?: number | null
     deliveryDate?: string | null | undefined

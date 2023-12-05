@@ -61,6 +61,7 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
           {...getFormikFieldValidationProps(formikProps, name)}
           aria-errormessage={"asdfsdf"}
           onChange={handleSelectChange}
+          value={field.value || ""}
         >
           {options?.map((node, index) => (
             <MenuItem key={index} value={node.value}>{node.label}</MenuItem>

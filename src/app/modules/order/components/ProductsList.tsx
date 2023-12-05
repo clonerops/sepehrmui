@@ -35,8 +35,12 @@ const ProductsList = (props: {
     setOrderPayment?: any;
     orders?: any;
     orderService?: IOrderService[];
-    setSelectedProductOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+    setState: React.Dispatch<React.SetStateAction<{
+        isBuy: boolean;
+        orderIndex: number;
+        isUpdate: boolean;
+        isProductChoose: boolean;
+    }>>}) => {
     const { data: productsByBrand } = useRetrieveProductsByBrand();
     // const filterTools = useRetrieveProductsByTypeAndWarehouseFilter();
     const filterTools = useGetProductList();
@@ -319,7 +323,12 @@ const ProductsList = (props: {
                     calculateTotalAmount(updatedOrders, props.orderService)
                 )
             );
-            props.setSelectedProductOpen(false);
+            props.setState((prev) => (
+                {
+                    ...prev, 
+                    isProductChoose: false
+                }
+            )) 
         } else {
             alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
         }
@@ -394,7 +403,6 @@ const ProductsList = (props: {
                         )}
                         rows={selectedProduct}
                         data={selectedProduct}
-                        pagination={false}
                         hideFooter={true}
                         columnHeaderHeight={40}
                     />

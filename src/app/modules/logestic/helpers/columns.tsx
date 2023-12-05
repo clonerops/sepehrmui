@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
 
-export const cargoColumns = (renderAction: any) => {
+export const readyToCargoColumns = (renderAction: any) => {
     const col = [
         {
             field: 'orderCode', renderCell: (params: any) => {

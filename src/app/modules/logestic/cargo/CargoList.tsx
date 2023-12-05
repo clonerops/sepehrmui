@@ -1,39 +1,36 @@
-import { useState, useEffect } from "react";
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import { useEffect } from "react";
 import { Form, Formik } from "formik";
+import { Edit, Search } from "@mui/icons-material";
+import { Box, Button, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import { dropdownCustomer } from "../../generic/_functions";
-import { useGetCustomers } from "../../customer/core/_hooks";
-import { Box, Button, Typography } from "@mui/material";
-import { Edit, Search } from "@mui/icons-material";
-import { readyToLadingColumns } from "../../order/helpers/columns";
-import { Link } from "react-router-dom";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import Pagination from "../../../../_cloner/components/Pagination";
-import { useGetCargosList } from "../core/_hooks";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 
-const pageSize = 20;
+import { readyToLadingColumns } from "../../order/helpers/columns";
+import { useGetCustomers } from "../../customer/core/_hooks";
+import { useGetCargosList } from "../core/_hooks";
+import { dropdownCustomer } from "../../generic/_functions";
+
 
 const CargoList = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const { data: customers } = useGetCustomers();
     const cargoList = useGetCargosList();
 
     useEffect(() => {
         let formData = {
-            PageNumber: currentPage,
-            PageSize: pageSize,
+            PageNumber: 1,
+            PageSize: 20,
         };
         cargoList.mutate(formData);
     }, []);
 
     const handleFilter = (values: any) => {
         let formData = {
-            PageNumber: currentPage,
-            PageSize: pageSize,
             OrderCode: values.orderCode ? values.orderCode : "",
             CustomerId: values.customerId ? values.customerId : "",
         };
@@ -48,10 +45,6 @@ const CargoList = () => {
                 </Button>
             </Link>
         );
-    };
-
-    const handlePageChange = (selectedItem: { selected: number }) => {
-        setCurrentPage(selectedItem.selected + 1);
     };
 
     return (
@@ -95,10 +88,6 @@ const CargoList = () => {
                     rows={cargoList?.data?.data}
                     data={cargoList?.data?.data}
                     isLoading={cargoList?.isLoading}
-                />
-                <Pagination
-                    pageCount={cargoList?.data?.totalCount / pageSize}
-                    onPageChange={handlePageChange}
                 />
             </ReusableCard>
         </>

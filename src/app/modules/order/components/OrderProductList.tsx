@@ -15,18 +15,21 @@ type ProductProps = {
     orderService?: IOrderService[] ;
     setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
     setOrderPayment?: React.Dispatch<React.SetStateAction<IOrderPayment[]>>;
-    setIsBuy?:  React.Dispatch<React.SetStateAction<boolean>>;
     // setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>> | undefined;
     setFieldValue?: any;
-    setIsUpdate?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
     selectedOrderIndex?: number;
-    setSelectedOrderIndex?: React.Dispatch<React.SetStateAction<number>> | undefined;
     products?: IProducts[]
     disabled?: boolean
+    setState?: React.Dispatch<React.SetStateAction<{
+        isBuy: boolean;
+        orderIndex: number;
+        isUpdate: boolean;
+        isProductChoose: boolean;
+    }>>
 }
 
 const OrderProductList = (props: ProductProps) => {
-    const { orders, orderService, setOrders, setOrderPayment, setIsBuy, setFieldValue, setIsUpdate, selectedOrderIndex, products,disabled,setSelectedOrderIndex } = props;
+    const { orders, orderService, setOrders, setOrderPayment, setFieldValue, selectedOrderIndex, products, disabled, setState } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
@@ -60,11 +63,12 @@ const OrderProductList = (props: ProductProps) => {
             const selectedRow: any = orders.find(order => order.id === params.row.id);
             const rowIndex = orders.indexOf(selectedRow);
 
-            if (setSelectedOrderIndex) setSelectedOrderIndex(rowIndex);
-
-            console.log(selectedRow)
-            console.log(params.row)
-            
+            if (setState) setState((prev) => (
+                {
+                    ...prev, 
+                    orderIndex: rowIndex
+                }
+            ))            
             const fieldValue = [
                 {title: "productName", value: params.row.productName},
                 {title: "id", value: params.row.id},
@@ -96,14 +100,30 @@ const OrderProductList = (props: ProductProps) => {
                 ))
             }
             
-            if (setIsBuy) {
+            if (setState) {
                 if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseId)) {
-                    setIsBuy(true)
+                    setState((prev) => (
+                        {
+                            ...prev, 
+                            isBuy: true
+                        }
+                    ))
                 } else {
-                    setIsBuy(false)
+                    setState((prev) => (
+                        {
+                            ...prev, 
+                            isBuy: false
+                        }
+                    ))
                 }
             }
-            if (setIsUpdate) setIsUpdate(true);
+            if (setState) setState((prev) => (
+                {
+                    ...prev, 
+                    isUpdate: true
+                }
+            ))
+
         }
     };
 

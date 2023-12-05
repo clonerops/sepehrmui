@@ -45,7 +45,8 @@ export const orderColumns = (renderAction: any) => {
             },
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        { headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+        {
+            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
 }
@@ -94,7 +95,7 @@ export const readyToLadingColumns = (renderAction: any) => {
             },
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        { headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+        {field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
 }
@@ -137,7 +138,7 @@ export const ladingColumns = (renderAction: any) => {
             },
             headerName: 'شماره پلاک خودروبر', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        { headerName: 'ویرایش', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+        { field: "Action", headerName: 'ویرایش', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
 }
@@ -192,17 +193,6 @@ export const columnsModalProduct = () => {
             headerClassName: "headerClassName",
             flex: 1,
         },
-        // {
-        //     field: "productMainUnitDesc",
-        //     width: 80,
-        //     headerName: "واحد",
-        //     renderCell: (params: any) => {
-        //      return <Typography variant="h5">{params.value}</Typography>;
-        //     },
-
-        //     headerClassName: "headerClassName",
-        //     flex: 1,
-        // },
         {
             field: "price",
             minWidth: 60,

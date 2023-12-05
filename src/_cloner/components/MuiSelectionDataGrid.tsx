@@ -1,5 +1,4 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { StringDecoder } from "string_decoder";
 
 type Props = {
     columns: any;
@@ -8,7 +7,6 @@ type Props = {
     selectionModel: any;
     setSelectionModel: any;
     onRowDoubleClick?: any;
-    pagination?: any;
     hideFooter?: boolean;
     className?: string
     columnHeaderHeight?: number;
@@ -16,7 +14,7 @@ type Props = {
 };
 
 export default function MuiSelectionDataGrid(props: Props) {
-    const { rows, columns, onRowDoubleClick, pagination, getRowId, hideFooter, className, columnHeaderHeight } = props;
+    const { rows, columns, onRowDoubleClick, getRowId, hideFooter, className, columnHeaderHeight } = props;
     return (
         <div style={{ height: 400, width: "100%" }}>
             <DataGrid
@@ -43,7 +41,6 @@ export default function MuiSelectionDataGrid(props: Props) {
                 columns={columns}
                 getRowId={getRowId}
                 onRowDoubleClick={onRowDoubleClick}
-                pagination={pagination}
                 hideFooter={hideFooter}
                 localeText={{ noRowsLabel: "داده ای برای نمایش وجود ندارد" }}
             />
