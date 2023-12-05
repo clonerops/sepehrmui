@@ -2,17 +2,17 @@ import React, { Suspense } from 'react'
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import Backdrop from '../../_cloner/components/Backdrop';
-import ReadyToExit from '../modules/cargo/ReadyToExit';
+import ReadyToExit from '../modules/logestic/exit/ReadyToExit';
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
 const Products = React.lazy(() => import("../modules/product/Products"));
 const Suppliers = React.lazy(() => import("../modules/product/Suppliers"));
 const ProductPrice = React.lazy(() => import("../modules/product/ProductPrice"));
-const Cargo = React.lazy(() => import("../modules/cargo/Cargo"));
-const CargoList = React.lazy(() => import("../modules/cargo/CargoList"));
-const CargoForm = React.lazy(() => import("../modules/cargo/components/CargoForm"));
-const CargoEditForm = React.lazy(() => import("../modules/cargo/components/CargoEditForm"));
+const ReadyToCargo = React.lazy(() => import("../modules/logestic/cargo/ReadyToCargo"));
+const CargoList = React.lazy(() => import("../modules/logestic/cargo/CargoList"));
+const CargoForm = React.lazy(() => import("../modules/logestic/cargo/CargoForm"));
+const CargoEditForm = React.lazy(() => import("../modules/logestic/cargo/CargoEditForm"));
 const RecievePayment = React.lazy(() => import("../modules/payment/RecievePayment"));
 const PaymentAccounting = React.lazy(() => import("../modules/payment/PaymentAccounting"));
 const Detail = React.lazy(() => import("../modules/payment/components/Detail"));
@@ -35,14 +35,14 @@ const OrderDetail = React.lazy(() => import("../modules/order/OrderDetail"));
 const ProductForm = React.lazy(() => import("../modules/product/components/ProductForm"));
 const ProductService = React.lazy(() => import("../modules/generic/productService/ProductService"));
 const OrderConfirmList = React.lazy(() => import("../modules/order/OrderConfirmList"));
-const CargoPaper = React.lazy(() => import("../modules/cargo/components/CargoPaper"));
+const CargoPaper = React.lazy(() => import("../modules/logestic/cargo/CargoPaper"));
 const CustomerCompanies = React.lazy(() => import("../modules/generic/customerCompany/CustomerCompany"));
-const LadingLicence = React.lazy(() => import("../modules/cargo/LadingLicence"));
-const LadingList = React.lazy(() => import("../modules/cargo/LadingList"));
-const ReadyToLading = React.lazy(() => import("../modules/cargo/ReadyToLading"));
+const LadingLicence = React.lazy(() => import("../modules/logestic/lading/LadingLicence"));
+const LadingList = React.lazy(() => import("../modules/logestic/lading/LadingList"));
+const ReadyToLading = React.lazy(() => import("../modules/logestic/lading/ReadyToLading"));
 const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
-const ExitRemittance = React.lazy(() => import("../modules/cargo/ExitRemittance"));
-const ExitRemittanceList = React.lazy(() => import("../modules/cargo/ReadyToExit"));
+const ExitRemittance = React.lazy(() => import("../modules/logestic/exit/ExitRemittance"));
+const ExitRemittanceList = React.lazy(() => import("../modules/logestic/exit/ReadyToExit"));
 
 const PrivateRoutes = () => {
 
@@ -71,7 +71,7 @@ const PrivateRoutes = () => {
               <Route path="dashboard/productPrices" element={<ProductPrice />} />
               <Route path='dashboard/cargoList' element={<CargoList />} />
               <Route path='dashboard/cargoList/:id' element={<CargoEditForm />} />
-              <Route path='dashboard/order_ready_cargo' element={<Cargo />} />
+              <Route path='dashboard/order_ready_cargo' element={<ReadyToCargo />} />
               <Route path='dashboard/order_ready_cargo/:id' element={<CargoForm />} />
               <Route path='dashboard/cargoList/paper' element={<CargoPaper />} />
               <Route path='dashboard/lading/:id' element={<LadingLicence />} />

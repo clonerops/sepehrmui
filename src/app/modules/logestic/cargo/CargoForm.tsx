@@ -1,24 +1,21 @@
 import { useParams } from "react-router-dom"
 import { Form, Formik } from "formik"
-import { useCreateCargo, useRetrieveCargos } from "../core/_hooks"
 import moment from "moment-jalaali"
-import Backdrop from "../../../../_cloner/components/Backdrop"
-import { Box, Button, Card, Container, Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
+import { enqueueSnackbar } from "notistack"
+import Swal from 'sweetalert2'
+
+import { useCreateCargo, useRetrieveCargos } from "../core/_hooks"
+import { useGetVehicleTypes } from "../../generic/_hooks"
+
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker"
 import FormikSelect from "../../../../_cloner/components/FormikSelect"
-import { confirmValidation } from "../validations/confirm"
 import OrderDetail from "../../order/OrderDetail"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import { FieldType } from "../../../../_cloner/components/globalTypes"
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox"
-import { enqueueSnackbar } from "notistack"
-import MuiTable from "../../../../_cloner/components/MuiTable"
-import { useGetVehicleTypes } from "../../generic/_hooks"
 import { dropdownVehicleType } from "../helpers/dropdowns"
-import { ICargo } from "../core/_models"
-import Swal from 'sweetalert2'
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
 import FormikPrice from "../../product/components/FormikPrice"
 
 const initialValues = {
@@ -94,7 +91,7 @@ const Confirm = () => {
             <OrderDetail isCargo />
             <ReusableCard cardClassName="mt-8">
                 <Typography variant="h2" color="primary">مشخصات حمل</Typography>
-                <Formik initialValues={initialValues} validationSchema={confirmValidation} onSubmit={
+                <Formik initialValues={initialValues} onSubmit={
                     async (values, { setStatus, setSubmitting }) => {
                         try {
                             const formData: any = {
@@ -102,7 +99,7 @@ const Confirm = () => {
                                 orderId: id,
                                 fareAmount: +values.fareAmount.replace(/,/g, "")
                             }
-                            console.log("formData", JSON.stringify(formData))
+
                             mutate(formData, {
                                 onSuccess: (message) => {
                                     if (message.succeeded) {

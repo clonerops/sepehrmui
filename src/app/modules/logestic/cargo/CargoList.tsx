@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { Form, Formik } from "formik";
-import FormikInput from "../../../_cloner/components/FormikInput";
-import FormikSelect from "../../../_cloner/components/FormikSelect";
-import { dropdownCustomer } from "../generic/_functions";
-import { useGetCustomers } from "../customer/core/_hooks";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import FormikSelect from "../../../../_cloner/components/FormikSelect";
+import { dropdownCustomer } from "../../generic/_functions";
+import { useGetCustomers } from "../../customer/core/_hooks";
 import { Box, Button, Typography } from "@mui/material";
-import { Search } from "@mui/icons-material";
-import { ladingColumns, orderColumns, readyToLadingColumns } from "../order/helpers/columns";
+import { Edit, Search } from "@mui/icons-material";
+import { readyToLadingColumns } from "../../order/helpers/columns";
 import { Link } from "react-router-dom";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import Pagination from "../../../_cloner/components/Pagination";
-import { useGetCargosList } from "./core/_hooks";
-import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import Pagination from "../../../../_cloner/components/Pagination";
+import { useGetCargosList } from "../core/_hooks";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 
 const pageSize = 20;
 
-const ReadyToLading = () => {
+const CargoList = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const { data: customers } = useGetCustomers();
@@ -42,9 +42,9 @@ const ReadyToLading = () => {
     
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/lading/${item?.row?.id}`}>
+            <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
                 <Button variant="contained" color="secondary">
-                    <Typography>صدور مجوز بارگیری</Typography>
+                    <Edit />
                 </Button>
             </Link>
         );
@@ -105,4 +105,4 @@ const ReadyToLading = () => {
     );
 };
 
-export default ReadyToLading;
+export default CargoList;

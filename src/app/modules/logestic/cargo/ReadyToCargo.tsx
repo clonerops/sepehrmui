@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
-import {Recommend} from '@mui/icons-material';
+import { Box, Button, Typography } from "@mui/material";
 
-import { useRetrievesNotSendedOrder } from "./core/_hooks";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import { ICargo } from "./core/_models";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { cargoColumns } from "./helpers/columns";
-import Backdrop from "../../../_cloner/components/Backdrop";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import { cargoColumns } from "../helpers/columns";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
-const Cargo = () => {
+import { useRetrievesNotSendedOrder } from "../core/_hooks";
+import { ICargo } from "../core/_models";
+
+
+const ReadyToCargo = () => {
     const { data: cargoNotSended, isLoading } = useRetrievesNotSendedOrder();
 
     const [results, setResults] = useState<ICargo[]>([]);
@@ -23,9 +24,9 @@ const Cargo = () => {
     const renderAction = (item: any) => {
         return (
             <Link to={`/dashboard/order_ready_cargo/${item?.row?.id}`}>
-                <Typography variant="h3">
-                    <Recommend color="secondary" />
-                </Typography>
+                <Button variant="contained" color="secondary">
+                    <Typography variant="h5">صدور اعلام بار</Typography>
+                </Button>
             </Link>
         );
     };
@@ -38,14 +39,7 @@ const Cargo = () => {
         <ReusableCard>
             <Box component="div" className="w-auto md:w-[40%] mb-4">
                 <FuzzySearch
-                    keys={[
-                        "orderCode",
-                        "registerDate",
-                        "customerFirstName",
-                        "customerLastName",
-                        "fareAmount",
-                        "description",
-                    ]}
+                    keys={[ "orderCode", "registerDate", "customerFirstName", "customerLastName", "fareAmount", "description"]}
                     data={cargoNotSended}
                     threshold={0.5}
                     setResults={setResults}
@@ -60,4 +54,4 @@ const Cargo = () => {
     );
 };
 
-export default Cargo;
+export default ReadyToCargo;

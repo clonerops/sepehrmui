@@ -1,32 +1,33 @@
 import { useState, useRef, useEffect } from "react";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import FormikInput from "../../../_cloner/components/FormikInput";
-import FormikSelect from "../../../_cloner/components/FormikSelect";
-import { dropdownCustomer } from "../generic/_functions";
-import { useGetCustomers } from "../customer/core/_hooks";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import FormikSelect from "../../../../_cloner/components/FormikSelect";
+import { dropdownCustomer } from "../../generic/_functions";
+import { useGetCustomers } from "../../customer/core/_hooks";
 import { Box, Button, OutlinedInput, Typography } from "@mui/material";
 import { Delete, Person, Search, Add } from "@mui/icons-material";
-import OrderDetail from "../order/OrderDetail";
-import TransitionsModal from "../../../_cloner/components/ReusableModal";
+import OrderDetail from "../../order/OrderDetail";
+import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import { useParams } from "react-router-dom";
-import { useRetrieveOrder } from "../order/core/_hooks";
+import { useRetrieveOrder } from "../../order/core/_hooks";
 import { Formik, Form } from "formik";
-import { dropdownProductLading } from "./helpers/dropdowns";
-import MuiTable from "../../../_cloner/components/MuiTable";
+import { dropdownProductLading } from "../helpers/dropdowns";
+import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
     useCargoById,
     useGetLadingLicenceById,
+    usePostExitRemiitance,
     usePostLadingLicence,
-} from "./core/_hooks";
-import FormikMaskInput from "../../../_cloner/components/FormikMaskInput";
-import CardTitleValue from "../../../_cloner/components/CardTitleValue";
-import { ILadingLicence } from "./core/_models";
+} from "../core/_hooks";
+import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
+import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
+import { IExitRemittance, ILadingLicence } from "../core/_models";
 import { enqueueSnackbar } from "notistack";
-import FormikComboBox from "../../../_cloner/components/FormikComboBox";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import FormikDescription from "../../../_cloner/components/FormikDescription";
-import FileUpload from "../payment/components/FileUpload";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import FormikComboBox from "../../../../_cloner/components/FormikComboBox";
+import Backdrop from "../../../../_cloner/components/Backdrop";
+import FormikDescription from "../../../../_cloner/components/FormikDescription";
+import FileUpload from "../../payment/components/FileUpload";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 
 interface ILadingList {
     id?: number;
@@ -55,7 +56,7 @@ const initialValues: ILadingList = {
 const ExitRemiitance = () => {
     const { id }: any = useParams();
     const { data, isLoading } = useGetLadingLicenceById(id);
-    const postLadingLicence = usePostLadingLicence();
+    const postExitRemittance = usePostExitRemiitance();
 
     let formikRef: any = useRef();
     let realAmount = useRef<HTMLInputElement>(null);
@@ -76,7 +77,7 @@ const ExitRemiitance = () => {
                 flex: 1,
                 headerClassName: "headerClassName",
                 render: (params: any) => {
-                    return <Typography>{params.productName}</Typography>;
+                    return <Typography sx={{minWidth:140}}>{params.productName}</Typography>;
                 },
             },
             {
@@ -116,12 +117,12 @@ const ExitRemiitance = () => {
                 flex: 1,
                 headerClassName: "headerClassName",
                 render: (params: any) => {
-                    console.log("params", params)
                     return (
                         <OutlinedInput
+                            sx={{minWidth: 140}}
                             onChange={(e) => {
                                 handleRealAmountChange(
-                                    params.api.getRowIndex,
+                                    params,
                                     e.target.value
                                 );
                             }}
@@ -141,9 +142,10 @@ const ExitRemiitance = () => {
                     return (
                         <OutlinedInput
                             inputRef={productSubUnitAmount}
+                            sx={{minWidth: 140}}
                             onChange={(e) => {
                                 handleProductSubUnitAmountChange(
-                                    params.rowIndex,
+                                    params,
                                     e.target.value
                                 );
                             }}
@@ -170,15 +172,15 @@ const ExitRemiitance = () => {
             const destructureData = data?.data?.ladingLicenseDetails.map(
                 (item: any) => {
                     return {
-
+                        id: item.id,
                         productName: item?.orderDetail?.productName,
                         ladingAmount: item?.ladingAmount,
                         exchangeRate: item?.orderDetail?.product?.exchangeRate,
-                        proximateAmount:
-                            +item?.ladingAmount /
-                            +item.orderDetail?.product?.exchangeRate,
+                        proximateAmount: Math.ceil(+item?.ladingAmount /+item.orderDetail?.product?.exchangeRate),
                         productSubUnitDesc:
                             item?.orderDetail?.productSubUnitDesc,
+                        productSubUnitId:
+                            item?.orderDetail?.productSubUnitId,
                         productSubUnitAmount: 0,
                         realAmount: 0,
                     };
@@ -190,50 +192,62 @@ const ExitRemiitance = () => {
         }
     }, [data?.data?.ladingLicenseDetails]);
 
-    const handleRealAmountChange = (index: number, value: string) => {
-        const updatedLadingList: any = [...ladingList];
-        console.log("index", index)
-        // updatedLadingList[index].realAmount = value;
-        // setLadingList(updatedLadingList);
+    const handleRealAmountChange = (params: any, value: string) => {
+        const updatedLadingList = ladingList.map((item) => {
+            if(params.id === item.id) {
+                return {...item, realAmount: +value}
+            } else {
+                return item
+            }
+        }) 
+        setLadingList(updatedLadingList);
     };
 
-    const handleProductSubUnitAmountChange = (index: number, value: string) => {
-        const updatedLadingList = [...ladingList];
-        updatedLadingList[index].productSubUnitAmount = value;
+    const handleProductSubUnitAmountChange = (params: any, value: string) => {
+        const updatedLadingList = ladingList.map((item) => {
+            if(params.id === item.id) {
+                return {...item, productSubUnitAmount: +value}
+            } else {
+                return item
+            }
+        }) 
         setLadingList(updatedLadingList);
     };
 
     const onSubmit = async (values: any) => {
+        const formData: IExitRemittance = {
+            ladingLicenseId: +id,
+            bankAccountNo: values.bankAccountNo,
+            bankAccountOwnerName: "",
+            creditCardNo: values.creditCardNo,
+            fareAmount: values.fareAmount,
+            otherAmount: values.otherAmount,
+            description: values.description,
+            cargoExitPermitDetails: ladingList.map((item: any) => ({
+                ladingLicenseDetailId: +item?.id,
+                realAmount: +item.realAmount,
+                productSubUnitId: +item.productSubUnitId,
+                productSubUnitAmount: +item.productSubUnitAmount,
+            })),
+        };
         console.log("ladingList", ladingList);
-        // const formData: any = {
-        //     ladingLicenseId: id,
-        //     bankAccountNo: values.bankAccountNo,
-        //     creditCardNo: values.creditCardNo,
-        //     fareAmount: values.fareAmount,
-        //     otherAmount: values.otherAmount,
-        //     description: values.description,
-        //     cargoExitPermitDetails: ladingList.map((item: any) => ({
-        //         ladingLicenseDetailId: item?.ladingLicenseDetailId,
-        //         realAmount: item.realAmount,
-        //         productSubUnitId: item.productSubUnitId,
-        //         productSubUnitAmount: item.productSubUnitAmount,
-        //     })),
-        // };
-        // postLadingLicence.mutate(formData, {
-        //     onSuccess: (res) => {
-        //         if (res.succeeded) {
-        //             enqueueSnackbar(res.message, {
-        //                 variant: "success",
-        //                 anchorOrigin: { vertical: "top", horizontal: "center" },
-        //             });
-        //         } else {
-        //             enqueueSnackbar(res.data.Message, {
-        //                 variant: "error",
-        //                 anchorOrigin: { vertical: "top", horizontal: "center" },
-        //             });
-        //         }
-        //     },
-        // });
+        console.log("formData", formData);
+
+        postExitRemittance.mutate(formData, {
+            onSuccess: (res) => {
+                if (res.succeeded) {
+                    enqueueSnackbar(res.message, {
+                        variant: "success",
+                        anchorOrigin: { vertical: "top", horizontal: "center" },
+                    });
+                } else {
+                    enqueueSnackbar(res.data.Message, {
+                        variant: "error",
+                        anchorOrigin: { vertical: "top", horizontal: "center" },
+                    });
+                }
+            },
+        });
     };
 
     if (isLoading) {
@@ -242,7 +256,7 @@ const ExitRemiitance = () => {
 
     return (
         <>
-            <Box component="div" className="grid grid-cols-4 gap-x-4 gap-y-4">
+            <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-4">
                 <CardTitleValue
                     icon={<Person color="secondary" />}
                     title="شماره مجوز"
@@ -278,6 +292,11 @@ const ExitRemiitance = () => {
                     title="شماره همراه راننده"
                     value={data?.data?.cargoAnnounce.driverMobile}
                 />
+                <CardTitleValue
+                    icon={<Person color="secondary" />}
+                    title="تاریخ تحویل"
+                    value={data?.data?.cargoAnnounce.deliveryDate}
+                />
             </Box>
             <ReusableCard cardClassName="mt-4">
                 <Typography variant="h2" color="primary" className="pb-4">
@@ -299,14 +318,6 @@ const ExitRemiitance = () => {
                     data={ladingList}
                     columns={orderOrderColumnMain(realAmount, productSubUnitAmount)}
                 />
-                {/* <MuiDataGrid
-                    rows={ladingList}
-                    data={ladingList}
-                    columns={orderOrderColumnMain(
-                        realAmount,
-                        productSubUnitAmount
-                    )}
-                /> */}
             </ReusableCard>
             <ReusableCard cardClassName="mt-4">
                 <Formik
@@ -319,33 +330,35 @@ const ExitRemiitance = () => {
                             <Form className="mt-8">
                                 <Box
                                     component="div"
-                                    className="flex items-center justify-center gap-x-4 mb-4"
+                                    // className="flex items-center justify-center gap-x-4 mb-4"
+                                    className="grid grid-cols-1 md:grid-cols-4 gap-x-4 mb-4 md:space-y-0 space-y-4"
                                 >
                                     <FormikInput
-                                        name="asdha"
+                                        name="bankAccountNo"
                                         label="شماره حساب راننده"
                                     />
                                     <FormikInput
-                                        name="asdha"
+                                        name="creditCardNo"
                                         label="شماره کارت راننده"
                                     />
                                     <FormikMaskInput
                                         thousandsSeparator=","
                                         mask={Number}
-                                        name="ladingAmount"
+                                        name="otherAmount"
                                         label={"مقدار سایر هزینه ها"}
                                     />
                                     <FormikMaskInput
                                         thousandsSeparator=","
                                         mask={Number}
-                                        name="ladingAmount"
+                                        name="fareAmount"
                                         label={"مقدار کرایه"}
                                     />
                                 </Box>
 
                                 <Box
                                     component="div"
-                                    className="flex flex-row gap-x-4"
+                                    // className="flex flex-row gap-x-4"
+                                    className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:space-y-0 space-y-4"
                                 >
                                     <FormikDescription
                                         name="description"

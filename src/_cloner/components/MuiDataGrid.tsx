@@ -40,16 +40,6 @@ const MuiDataGrid = (props: Props) => {
         return className;
     }, [])
 
-    // const getRowClassName = (params: any) => {
-    //     let className = params.indexRelativeToCurrentPage % 2 === 0 ? "bg-[#ECF5FF]" : "bg-white";
-
-    //     if (customRowStyle) {
-    //         className = "custom-row-style";
-    //     }
-
-    //     return className;
-    // };
-
     if(isLoading) {
         return <Backdrop loading={isLoading} />
     }
@@ -72,7 +62,6 @@ const MuiDataGrid = (props: Props) => {
                 }}
                 rows={rows ? rows : []}
                 columns={columns}
-                pagination={false}
                 getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}
                 rowHeight={42}
                 autoPageSize={false}
@@ -81,7 +70,6 @@ const MuiDataGrid = (props: Props) => {
                 hideFooter={true}
                 columnHeaderHeight={32}
                 onCellEditCommit={onCellEditCommit}
-                // disableVirtualization={true}
                 disableVirtualization={false}
                 style={{ height: gridHeight, maxHeight: gridHeight, overflow: "auto" }} // Set a max height and allow scrolling
             />

@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { ICargo, ILadingLicence } from "./_models";
+import { ICargo, IExitRemittance, ILadingLicence } from "./_models";
 
 const getCargosList = async (formData: {
     PageNumber?: number,
@@ -124,6 +124,19 @@ const deleteLadingLicenceById = async (id: string) => {
     }
 };
 
+// exit remittance
+const postExitRemittance = async (formdata: IExitRemittance) => {
+    try {
+        const { data } = await http.put(
+            `/v1/LadingLicense/LadingExitPermit/${formdata.ladingLicenseId}`,
+            JSON.stringify(formdata)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
 export {
     getCargosList,
     retrievesNotSendedOrder,
@@ -136,4 +149,5 @@ export {
     getLadingLicenceById,
     editLadingLicence,
     deleteLadingLicenceById,
+    postExitRemittance
 };

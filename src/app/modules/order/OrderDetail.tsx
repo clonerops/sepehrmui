@@ -10,7 +10,7 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import moment from "moment-jalaali";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import ImagePreview from "../../../_cloner/components/ImagePreview";
-import { useRetrieveCargos } from "../cargo/core/_hooks";
+import { useRetrieveCargos } from "../logestic/core/_hooks";
 
 type Props = {
     isCargo?: boolean

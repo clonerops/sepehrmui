@@ -12,7 +12,6 @@ import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import { confirmValidation } from "../validations/confirm";
 import OrderDetail from "../../order/OrderDetail";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { FieldType } from "../../../../_cloner/components/globalTypes";

@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 
 import {Button, Typography} from '@mui/material'
 
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { ladingColumns } from "../order/helpers/columns";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import { ladingColumns } from "../../order/helpers/columns";
 import { Link } from "react-router-dom";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import Pagination from "../../../_cloner/components/Pagination";
-import { useGetLadingLicenceList } from "./core/_hooks";
-import EditGridButton from "../../../_cloner/components/EditGridButton";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import Pagination from "../../../../_cloner/components/Pagination";
+import { useGetLadingLicenceList } from "../core/_hooks";
+import EditGridButton from "../../../../_cloner/components/EditGridButton";
 
 const pageSize = 20;
 
