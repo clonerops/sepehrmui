@@ -99,7 +99,7 @@ const OrderProductDetail = (props: Props) => {
             purchasePrice: formikRef?.current?.values?.purchasePrice,
             purchaseSettlementDate: formikRef?.current?.values.purchaseSettlementDate,
             purchaseInvoiceTypeId: formikRef?.current?.values?.purchaseInvoiceTypeId ,
-            // purchaseInvoiceTypeDesc: purchaseInvoiceTypeDesc?.desc,
+            // purchaseInvoiceTypeDesc: purchaseInvoiceType?.find((i: any) => i.id === Number(formikRef?.current?.values?.purchaseInvoiceTypeId)),
             sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
             proximateAmount: formikRef?.current?.values.proximateAmount,
             proximateSubUnit: formikRef?.current?.values.proximateSubUnit,

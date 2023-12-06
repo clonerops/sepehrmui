@@ -93,7 +93,7 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
         {
             label: "قیمت خرید",
             name: "purchasePrice",
-            type: "input",
+            type: "price",
         },
         {
             label: "نوع فاکتور خرید",

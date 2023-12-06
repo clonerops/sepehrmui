@@ -385,7 +385,6 @@ const ProductSelectedListInModal = (props: {
                 <Box component="div">
                     <MuiSelectionDataGrid
                         selectionModel={selectionModel}
-                        setSelectionModel={setSelectionModel}
                         columns={columnsSelectProduct(
                             renderAction,
                             renderInput,

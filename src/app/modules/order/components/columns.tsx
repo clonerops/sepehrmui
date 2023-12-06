@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 
 export const orderListColumns = (renderActions: any) => {
     const col = [
@@ -37,14 +38,14 @@ export const orderListColumns = (renderActions: any) => {
         {
             headerName: "قیمت(ریال)", field: "price",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },
 
         {
             headerName: "قیمت خرید", field: "purchasePrice",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },
         {

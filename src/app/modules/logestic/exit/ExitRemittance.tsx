@@ -28,6 +28,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../../_cloner/components/FormikDescription";
 import FileUpload from "../../payment/components/FileUpload";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 
 interface ILadingList {
     id?: number;
@@ -64,6 +65,14 @@ const ExitRemiitance = () => {
 
     const [ladingList, setLadingList] = useState<any[]>([]);
     const [files, setFiles] = useState<File[]>([]);
+    const [base64Attachments, setBase64Attachments] = useState<string[]>([])
+
+    useEffect(() => {
+        if (files.length > 0) {
+            convertFilesToBase64(files, setBase64Attachments);
+        }
+    }, [files]);
+
 
     const orderOrderColumnMain = (
         realAmount: React.RefObject<HTMLInputElement>,
@@ -215,6 +224,12 @@ const ExitRemiitance = () => {
     };
 
     const onSubmit = async (values: any) => {
+        let attachments = base64Attachments.map((i) => {
+            let convert = {
+                fileData: i,
+            }
+            return convert
+        })
         const formData: IExitRemittance = {
             ladingLicenseId: +id,
             bankAccountNo: values.bankAccountNo,
@@ -223,6 +238,7 @@ const ExitRemiitance = () => {
             fareAmount: values.fareAmount,
             otherAmount: values.otherAmount,
             description: values.description,
+            attachments: attachments,
             cargoExitPermitDetails: ladingList.map((item: any) => ({
                 ladingLicenseDetailId: +item?.id,
                 realAmount: +item.realAmount,
@@ -230,8 +246,6 @@ const ExitRemiitance = () => {
                 productSubUnitAmount: +item.productSubUnitAmount,
             })),
         };
-        console.log("ladingList", ladingList);
-        console.log("formData", formData);
 
         postExitRemittance.mutate(formData, {
             onSuccess: (res) => {

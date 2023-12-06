@@ -34,6 +34,7 @@ export interface IExitRemittance {
   fareAmount?: number | null | undefined
   otherAmount?: number | null | undefined
   description?: string | null | undefined
+  attachments: any
   cargoExitPermitDetails?: {
     ladingLicenseDetailId?: number | null | undefined
     realAmount?: number | null | undefined

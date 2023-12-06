@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { IProducts } from "../../product/core/_models";
-import {
-    Box,
-    Button,
-    OutlinedInput,
-    Typography,
-    FormControl,
-    MenuItem,
-    TextField,
-} from "@mui/material";
-import Select from "@mui/material/Select";
+import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, TextField, Select } from "@mui/material";
+
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
+import TabProducts from "../../../../_cloner/components/TabProducts";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+
+import { IProducts } from "../../product/core/_models";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
-import {
-    useGetProductList,
-    useRetrieveProductsByBrand,
-    useRetrieveProductsByTypeAndWarehouseFilter,
-} from "../../product/core/_hooks";
+import {useGetProductList} from "../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../helpers/functions";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
 import { IOrderService } from "../core/_models";
-import TabProducts from "../../../../_cloner/components/TabProducts";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 
 const ProductsList = (props: {
     products: IProducts[];
@@ -41,46 +30,50 @@ const ProductsList = (props: {
         isUpdate: boolean;
         isProductChoose: boolean;
     }>>}) => {
-    const { data: productsByBrand } = useRetrieveProductsByBrand();
-    // const filterTools = useRetrieveProductsByTypeAndWarehouseFilter();
     const filterTools = useGetProductList();
 
     const { data: units } = useGetUnits();
 
     const [results, setResults] = useState<IProducts[]>([]);
-    const [filteredTabs, setFilteredTabs] = useState<any>([]);
-    const [selectedTab, setSelectedTab] = useState<number>(-1);
-    const [tabResult, setTabResult] = useState<any>([]);
-    const [subUnit, setSubUnit] = useState<{ [key: string]: string }>({});
-    const [selectionModel, setSelectionModel] = useState<any>({});
-    const [selectedProduct, setSelectedProduct] = useState<any[]>([]);
-    const [proximateAmounts, setProximateAmounts] = useState<{
-        [key: string]: string;
-    }>({});
-    const [proximateSubAmounts, setProximateSubAmounts] = useState<{
-        [key: string]: string;
-    }>({});
-    const [price, setPrice] = useState<{ [key: string]: string }>(
-        {}
-    );
 
-    useEffect(() => {
-        const filter = {
-            ByBrand: true
-        }
-        filterTools.mutate(filter);
-    }, []);
+    const [productData, setProductData] = useState<{
+        subUnit: { [key: string]: string };
+        proximateAmounts: { [key: string]: string };
+        proximateSubAmounts: { [key: string]: string };
+        price: { [key: string]: string };
+
+        selectedProduct: any[];
+        selectionModel: any;
+        tabResult: any[];
+        selectedTab: number;
+        filteredTabs: any[]
+      }>({
+        subUnit: {},
+        proximateAmounts: {},
+        proximateSubAmounts: {},
+        price: {},
+
+        selectedProduct: [],
+        selectionModel: {},
+        tabResult: [],
+        selectedTab: -1,
+        filteredTabs: []
+      });
 
     const renderAction = (indexToDelete: any) => {
         return (
             <>
                 <DeleteGridButton
                     onClick={() => {
-                        if (selectedProduct) {
-                            const updatedOrders = selectedProduct.filter(
+                        if (productData.selectedProduct) {
+                            const updatedOrders = productData.selectedProduct.filter(
                                 (item: any) => item.id !== indexToDelete.id
                             );
-                            setSelectedProduct(updatedOrders);
+                            setProductData((prevState) => ({
+                                ...prevState, 
+                                selectedProduct: updatedOrders,
+                            }))
+                    
                         }
                     }}
                 />
@@ -95,7 +88,7 @@ const ProductsList = (props: {
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
-                    value={proximateAmounts[productId] || ""}
+                    value={productData.proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
                         handleInputValueChange(
                             productId,
@@ -122,9 +115,9 @@ const ProductsList = (props: {
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     defaultValue={separateAmountWithCommas(
-                        Number(price)
+                        Number(productData.price)
                     )}
-                    value={price[productId]}
+                    value={productData.price[productId] || ""}
                     onChange={(e: any) =>
                         handleInputPriceChange(productId, e.target.value)
                     }
@@ -140,10 +133,10 @@ const ProductsList = (props: {
     };
 
     const handleSubUnitChange = (productId: string, value: string) => {
-        setSubUnit({
-            ...subUnit,
-            [productId]: value,
-        });
+        setProductData((prevState) => ({
+            ...prevState, 
+            subUnit: { ...prevState.subUnit, [productId]: value },
+        }))
     };
 
     const renderSubUnit = (params: any) => {
@@ -153,7 +146,7 @@ const ProductsList = (props: {
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
-                    value={proximateSubAmounts[productId] || ""}
+                    value={productData.proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
                         handleInputSubUnitChange(productId, e.target.value)
                     }
@@ -169,7 +162,7 @@ const ProductsList = (props: {
                     <Select
                         labelId={`demo-simple-select-label-${productId}`}
                         id={`demo-simple-select-label-${productId}`}
-                        value={subUnit[productId] || ""}
+                        value={productData.subUnit[productId] || ""}
                         onChange={(e: any) =>
                             handleSubUnitChange(productId, e.target.value)
                         }
@@ -195,23 +188,18 @@ const ProductsList = (props: {
         value: string,
         exchangeRate: string
     ) => {
-        setProximateAmounts({
-            ...proximateAmounts,
-            [productId]: value,
-        });
-        setProximateSubAmounts({
-            ...proximateSubAmounts,
-            [productId]: Math.ceil(
-                Number(value) / Number(exchangeRate)
-            ).toString(),
-        });
+        setProductData((prevState) => ({
+            ...prevState, 
+            proximateAmounts: { ...prevState.proximateAmounts, [productId]: value },
+            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(value) / Number(exchangeRate)).toString() },
+        }))
     };
 
     const handleInputSubUnitChange = (productId: string, value: string) => {
-        setProximateSubAmounts({
-            ...proximateSubAmounts,
-            [productId]: value,
-        });
+        setProductData((prevState) => ({
+            ...prevState, 
+            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: value},
+        }))
     };
 
     const handleInputPriceChange = (productId: string, value: string) => {
@@ -219,19 +207,19 @@ const ProductsList = (props: {
         const numericValue = parseFloat(sanitizedValue);
         if (!isNaN(numericValue)) {
             const formattedValue = numericValue.toLocaleString("en-US");
-            setPrice({
-                ...price,
-                [productId]: formattedValue,
-            });
+            setProductData((prevState) => ({
+                ...prevState, 
+                price: { ...prevState.price, [productId]: formattedValue },
+            }))
         } else {
-            setPrice({
-                ...price,
-                [productId]: "",
-            });
+            setProductData((prevState) => ({
+                ...prevState, 
+                price: { ...prevState.price, [productId]: "" },
+            }))
         }
     };
 
-    const handleSelectionChange: any = (newSelectionModel: any) => {
+    const handleSelectionChange = (newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
         const selectedRowData = {
             ...newSelectionModel.row,
@@ -242,25 +230,28 @@ const ProductsList = (props: {
                 (i: IProducts) => i.id === selectedRow.id
             )?.productSubUnitDesc,
         };
-        setPrice(newSelectionModel.row.productPrice);
-        setSubUnit({
-            ...subUnit,
-            [selectedRow.id]: newSelectionModel.row.productSubUnitId,
-        });
+        setProductData((prevState) => ({
+            ...prevState, 
+            subUnit: { ...prevState.subUnit, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
+        }))
 
-        const isDuplicate = selectedProduct.some((item) => {
+        const isDuplicate = productData.selectedProduct.some((item) => {
             return item.id === selectedRow.id;
         });
         if (!isDuplicate) {
-            setSelectionModel(newSelectionModel);
-            setSelectedProduct([...selectedProduct, selectedRowData]);
+            setProductData((prevState) => ({
+                ...prevState, 
+                selectedProduct: [...productData.selectedProduct, selectedRowData],
+                selectionModel: newSelectionModel 
+            }))
+    
         } else {
             alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
         }
     };
 
     const handleSubmitSelectedProduct = () => {
-        const selectedProductWithAmounts = selectedProduct.map((product) => ({
+        const selectedProductWithAmounts = productData.selectedProduct.map((product) => ({
             id: product.id,
             productId: product.id,
             warehouseId: product.warehouseId,
@@ -283,22 +274,22 @@ const ProductsList = (props: {
             purchaserCustomerId: "",
             purchaserCustomerName: "",
             mainUnit: product.mainUnit,
-            subUnit: subUnit[product.id]
-                ? units.find((i: any) => i.id === subUnit[product.id]).unitName
+            subUnit: productData.subUnit[product.id]
+                ? units.find((i: any) => i.id === productData.subUnit[product.id]).unitName
                 : product.subUnit,
-            productSubUnitId: subUnit[product.id]
-                ? units.find((i: any) => i.id === subUnit[product.id]).id
+            productSubUnitId: productData.subUnit[product.id]
+                ? units.find((i: any) => i.id === productData.subUnit[product.id]).id
                 : product.subUnit,
             rowId: product?.rowId ? product?.rowId : 0,
-            proximateAmount: proximateAmounts[product.id] || "",
+            proximateAmount: productData.proximateAmounts[product.id] || "",
             warehouseTypeId: 0,
-            price: price[product.id]
-                ? price[product.id]
+            price: productData.price[product.id]
+                ? productData.price[product.id]
                 : separateAmountWithCommas(product.productPrice),
             proximateSubUnit:
-                proximateSubAmounts[product.id] === undefined
+            productData.proximateSubAmounts[product.id] === undefined
                     ? 0
-                    : proximateSubAmounts[product.id],
+                    : productData.proximateSubAmounts[product.id],
         }));
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
@@ -334,21 +325,21 @@ const ProductsList = (props: {
         }
     };
 
-    useEffect(() => {
-        const filtered = productsByBrand?.data.filter(
-            (item: any) => item.productTypeId === selectedTab
-        );
-        setFilteredTabs(selectedTab === -1 ? productsByBrand?.data : filtered);
-        setResults(selectedTab === -1 ? productsByBrand?.data : filtered);
-    }, [selectedTab]);
 
-    const onSelectTab = (id: any) => setSelectedTab(id);
+    const onSelectTab = (id: number) => setProductData((prevState) => ({
+        ...prevState, 
+        selectedTab: id 
+    }))
 
 
     const onFilterProductByWarehouse = (value: any) => {
         if (value === "-1") {
-            setResults(filteredTabs)
-            setTabResult(filteredTabs)
+            setProductData((prevState) => ({
+                ...prevState, 
+                tabResult: productData.filteredTabs 
+            }))
+
+            setResults(productData.filteredTabs)
         } else {
             const filter = {
                 ByBrand: true,
@@ -357,11 +348,32 @@ const ProductsList = (props: {
             filterTools.mutate(filter, {
                 onSuccess: (res) => {
                     setResults(res?.data)
-                    setTabResult(res?.data)
+                    setProductData((prevState) => ({
+                        ...prevState, 
+                        tabResult: res?.data 
+                    }))        
                 }
             });
         }
     };
+
+
+    // useEffects
+    useEffect(() => {
+        const filter = { ByBrand: true }
+        filterTools.mutate(filter);
+    }, []);
+
+    useEffect(() => {
+        const filtered = filterTools?.data?.data.filter((item: {productTypeId: number}) => item.productTypeId === productData.selectedTab);
+        setProductData((prevState) => ({
+            ...prevState, 
+            filteredTabs: productData.selectedTab === -1 ? filterTools?.data?.data : filtered 
+        }))        
+
+        setResults(productData.selectedTab === -1 ? filterTools?.data?.data : filtered);
+    }, [productData.selectedTab]);
+
 
     if (props.productLoading) {
         return <Typography>Loading ...</Typography>;
@@ -373,13 +385,13 @@ const ProductsList = (props: {
             <Box component="div" className="w-full">
                 <TabProducts
                     handleSelectionChange={handleSelectionChange}
-                    productsByBrand={productsByBrand}
+                    productsByBrand={filterTools?.data?.data}
                     onSelectTab={onSelectTab}
                     onFilterProductByWarehouse={onFilterProductByWarehouse}
                     results={results}
                     setResults={setResults}
-                    selectedTab={selectedTab}
-                    tabResult={tabResult}
+                    selectedTab={productData.selectedTab}
+                    tabResult={productData.tabResult}
                 />
             </Box>
             <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
@@ -388,21 +400,20 @@ const ProductsList = (props: {
                         onDoubleClick={handleSelectionChange}
                         columns={columnsModalProduct()}
                         rows={results}
-                        data={filteredTabs}
+                        data={productData.filteredTabs}
                     />
                 </Box>
                 <Box component="div">
                     <MuiSelectionDataGrid
-                        selectionModel={selectionModel}
-                        setSelectionModel={setSelectionModel}
+                        selectionModel={productData.selectionModel}
                         columns={columnsSelectProduct(
                             renderAction,
                             renderInput,
                             renderSubUnit,
                             renderPrice
                         )}
-                        rows={selectedProduct}
-                        data={selectedProduct}
+                        rows={productData.selectedProduct}
+                        data={productData.selectedProduct}
                         hideFooter={true}
                         columnHeaderHeight={40}
                     />

@@ -135,6 +135,7 @@ const OrderProductList = (props: ProductProps) => {
         column.field !== "purchaserCustomerId" &&
         column.field !== "purchaserCustomerName" &&
         column.field !== "purchaseInvoiceTypeId" &&
+        column.field !== "purchaseInvoiceTypeDesc" &&
         column.field !== "rowId" &&
         column.field !== "productDesc");
 
@@ -146,11 +147,12 @@ const OrderProductList = (props: ProductProps) => {
                 rows={orders}
                 data={orders}
                 getRowClassName={(params: any) => {
+                    console.log(params.row)
                     if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseId) && (
                         params.row.purchaseSettlementDate === "" ||
                         params.row.purchasePrice === "" ||
                         params.row.proximateAmount === "" ||
-                        params.row.purchaseInvoiceTypeId === 0 ||
+                        params.row.purchaseInvoiceTypeId === ""  ||
                         !params.row.purchaserCustomerName
                     )) {
                         return 'custom-row-style'

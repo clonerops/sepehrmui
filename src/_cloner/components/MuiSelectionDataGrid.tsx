@@ -5,7 +5,6 @@ type Props = {
     rows: any;
     data: any;
     selectionModel: any;
-    setSelectionModel: any;
     onRowDoubleClick?: any;
     hideFooter?: boolean;
     className?: string
