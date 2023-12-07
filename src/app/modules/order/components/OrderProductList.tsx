@@ -12,7 +12,7 @@ import { BUY_WAREHOUSE_TYPES } from "../helpers/constants";
 
 type ProductProps = {
     orders?: IOrderItems[] ;
-    orderService?: IOrderService[] ;
+    orderServices?: IOrderService[] ;
     setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
     setOrderPayment?: React.Dispatch<React.SetStateAction<IOrderPayment[]>>;
     // setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>> | undefined;
@@ -29,7 +29,7 @@ type ProductProps = {
 }
 
 const OrderProductList = (props: ProductProps) => {
-    const { orders, orderService, setOrders, setOrderPayment, setFieldValue, selectedOrderIndex, products, disabled, setState } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, setFieldValue, selectedOrderIndex, products, disabled, setState } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
@@ -38,7 +38,7 @@ const OrderProductList = (props: ProductProps) => {
             );
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
-            if (setFieldValue) setFieldValue('amount', calculateTotalAmount(updatedOrders, orderService).toString())
+            if (setFieldValue) setFieldValue('amount', calculateTotalAmount(updatedOrders, orderServices).toString())
         }
     };
 

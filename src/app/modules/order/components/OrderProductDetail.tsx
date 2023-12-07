@@ -20,8 +20,8 @@ type Props = {
     setOrders: React.Dispatch<React.SetStateAction<IOrderItems[]>>,
     orderPayment: IOrderPayment[],
     setOrderPayment: React.Dispatch<React.SetStateAction<IOrderPayment[]>>,
-    orderService: IOrderService[],
-    setOrderService: React.Dispatch<React.SetStateAction<IOrderService[]>>,
+    orderServices: IOrderService[],
+    setOrderServices: React.Dispatch<React.SetStateAction<IOrderService[]>>,
     formikRef: React.RefObject<FormikProps<any>>
 }
 
@@ -35,8 +35,8 @@ const OrderProductDetail = (props: Props) => {
         setOrders,
         orderPayment,
         setOrderPayment,
-        orderService,
-        setOrderService,
+        orderServices,
+        setOrderServices,
         formikRef
     } = props;
 
@@ -193,8 +193,8 @@ const OrderProductDetail = (props: Props) => {
                                     setOrders,
                                     orderPayment,
                                     setOrderPayment,
-                                    orderService,
-                                    setOrderService,
+                                    orderServices,
+                                    setOrderServices,
                                 )
                             )}
                         </Box>
@@ -207,7 +207,7 @@ const OrderProductDetail = (props: Props) => {
                     setOrders={setOrders}
                     disabled={postSaleOrder?.data?.succeeded}
                     products={products}
-                    orderService={orderService}
+                    orderServices={orderServices}
                     setState={setState}
                 />
             </Form>

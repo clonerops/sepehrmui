@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 
 import { Box, Typography, Card } from '@mui/material'
-import { Formik, Form, FormikProps } from "formik"
+import { Formik, FormikProps } from "formik"
 
 import { saleOrderInitialValues } from "./initialValues"
 import { saleOrderValidation } from "./validation"
@@ -19,6 +19,7 @@ import { useGetProductList } from '../../product/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import OrderProductDetail from '../components/OrderProductDetail'
 import OrderFeature from '../components/OrderFearure'
+import OrderService from '../components/OrderService'
 
 const SalesOrder = () => {
 
@@ -27,7 +28,7 @@ const SalesOrder = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
     const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
-    const [orderService, setOrderService] = useState<IOrderService[]>([]); //OK
+    const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
 
     const postSaleOrder = useCreateOrder();
     const detailCustomer = useGetCustomer();
@@ -101,14 +102,15 @@ const SalesOrder = () => {
                                     setOrders={setOrders}
                                     orderPayment={orderPayment}
                                     setOrderPayment={setOrderPayment}
-                                    orderService={orderService}
-                                    setOrderService={setOrderService}
+                                    orderServices={orderServices}
+                                    setOrderServices={setOrderServices}
                                     formikRef={formikRef}
                                 />
                             </ReusableCard>
                         </Box>
                         <Box component="div" className="md:grid md:grid-cols-3 gap-x-4 mt-4">
                             <OrderFeature postSaleOrder={postSaleOrder} />
+                            <OrderService orderService={orderServices} setOrderService={setOrderServices} values={values} setFieldValue={setFieldValue} />
                         </Box>
                     </>
                 }}
