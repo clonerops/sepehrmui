@@ -14,6 +14,9 @@ import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPri
 import { calculateTotalAmount } from "../helpers/functions";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
 import { IOrderService } from "../core/_models";
+import MaskInput from "../../../../_cloner/components/MaskInput";
+import { AnyCnameRecord } from "dns";
+import { validateAndEnqueueSnackbar } from "../sales-order/functions";
 
 const ProductsList = (props: {
     products: IProducts[];
@@ -37,7 +40,7 @@ const ProductsList = (props: {
     const [results, setResults] = useState<IProducts[]>([]);
 
     const [productData, setProductData] = useState<{
-        subUnit: { [key: string]: string };
+        productSubUnitDesc: { [key: string]: string };
         proximateAmounts: { [key: string]: string };
         proximateSubAmounts: { [key: string]: string };
         price: { [key: string]: string };
@@ -48,7 +51,7 @@ const ProductsList = (props: {
         selectedTab: number;
         filteredTabs: any[]
       }>({
-        subUnit: {},
+        productSubUnitDesc: {},
         proximateAmounts: {},
         proximateSubAmounts: {},
         price: {},
@@ -111,16 +114,13 @@ const ProductsList = (props: {
         const productId = params.row.id;
         return (
             <>
-                <TextField
+                <MaskInput
+                    label=""
+                    mask={Number}
+                    onAccept={(value: any) => handleInputPrice(value, productId)}
+                    thousandsSeparator=","
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
-                    defaultValue={separateAmountWithCommas(
-                        Number(productData.price)
-                    )}
-                    value={productData.price[productId] || ""}
-                    onChange={(e: any) =>
-                        handleInputPriceChange(productId, e.target.value)
-                    }
                     inputProps={{
                         "aria-label": "weight",
                         style: {
@@ -135,7 +135,7 @@ const ProductsList = (props: {
     const handleSubUnitChange = (productId: string, value: string) => {
         setProductData((prevState) => ({
             ...prevState, 
-            subUnit: { ...prevState.subUnit, [productId]: value },
+            productSubUnitDesc: { ...prevState.productSubUnitDesc, [productId]: value },
         }))
     };
 
@@ -162,7 +162,7 @@ const ProductsList = (props: {
                     <Select
                         labelId={`demo-simple-select-label-${productId}`}
                         id={`demo-simple-select-label-${productId}`}
-                        value={productData.subUnit[productId] || ""}
+                        value={productData.productSubUnitDesc[productId] || ""}
                         onChange={(e: any) =>
                             handleSubUnitChange(productId, e.target.value)
                         }
@@ -202,37 +202,19 @@ const ProductsList = (props: {
         }))
     };
 
-    const handleInputPriceChange = (productId: string, value: string) => {
-        const sanitizedValue = value.replace(/,/g, "");
-        const numericValue = parseFloat(sanitizedValue);
-        if (!isNaN(numericValue)) {
-            const formattedValue = numericValue.toLocaleString("en-US");
-            setProductData((prevState) => ({
-                ...prevState, 
-                price: { ...prevState.price, [productId]: formattedValue },
-            }))
-        } else {
-            setProductData((prevState) => ({
-                ...prevState, 
-                price: { ...prevState.price, [productId]: "" },
-            }))
-        }
-    };
+    const handleInputPrice = (value: any, productId: string, ) => {
+        setProductData((prevState) => ({
+            ...prevState, 
+            price: { ...prevState.price, [productId]: value },
+        }))
+    }
 
     const handleSelectionChange = (newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
-        const selectedRowData = {
-            ...newSelectionModel.row,
-            mainUnit: props.products?.find(
-                (i: IProducts) => i.id === selectedRow.id
-            )?.productMainUnitDesc,
-            subUnit: props.products?.find(
-                (i: IProducts) => i.id === selectedRow.id
-            )?.productSubUnitDesc,
-        };
         setProductData((prevState) => ({
             ...prevState, 
-            subUnit: { ...prevState.subUnit, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
+            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
+            price: productData.price
         }))
 
         const isDuplicate = productData.selectedProduct.some((item) => {
@@ -241,9 +223,10 @@ const ProductsList = (props: {
         if (!isDuplicate) {
             setProductData((prevState) => ({
                 ...prevState, 
-                selectedProduct: [...productData.selectedProduct, selectedRowData],
+                selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
                 selectionModel: newSelectionModel 
             }))
+
     
         } else {
             alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
@@ -251,80 +234,97 @@ const ProductsList = (props: {
     };
 
     const handleSubmitSelectedProduct = () => {
-        const selectedProductWithAmounts = productData.selectedProduct.map((product) => ({
-            id: product.id,
-            productId: product.id,
-            warehouseId: product.warehouseId,
-            productBrandId: product.productBrandId,
-            productName: product.productName,
-            productBrandName: product.productBrandName,
-            warehouseName: product.warehouseName,
-            productDesc: product?.productDesc ? product?.productDesc : "",
-            purchasePrice: product?.purchasePrice ? product?.purchasePrice : "",
-            purchaseSettlementDate: product.purchaseSettlementDate
-                ? product.purchaseSettlementDate
-                : "",
-            purchaseInvoiceTypeId: product?.purchaseInvoiceTypeId
-                ? Number(product?.purchaseInvoiceTypeId)
-                : 0,
+        console.log("productData.selectedProduct", productData.selectedProduct)
+        const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
+          const {
+            id,
+            warehouseId,
+            productBrandId,
+            productName,
+            exchangeRate,
+            productBrandName,
+            warehouseName,
+            productDesc = "",
+            purchasePrice = "",
+            purchaseSettlementDate = "",
+            purchaseInvoiceTypeId = 0,
+            sellerCompanyRow = "string",
+            productMainUnitDesc,
+            productSubUnitDesc: productSubUnitId = product.subUnit,
+            rowId = 0,
+            proximateAmount = productData.proximateAmounts[product.id] || "",
+            warehouseTypeId = 0,
+          } = product;
+      
+          const productSubUnitDesc = productData.productSubUnitDesc[product.id]
+            ? units.find((i: any) => i.id === productData.productSubUnitDesc[product.id]).unitName
+            : product.productSubUnitDesc;
+      
+          const price = productData.price[product.id] ? productData.price[product.id].replace(/,/g, "") : ""
+      
+          const proximateSubUnit =
+            productData.proximateSubAmounts[product.id] === undefined
+              ? 0
+              : productData.proximateSubAmounts[product.id];
+      
+          return {
+            id,
+            productId: id,
+            warehouseId,
+            productBrandId,
+            productName,
+            productBrandName,
+            warehouseName,
+            productDesc,
+            purchasePrice,
+            exchangeRate,
+            purchaseSettlementDate,
+            purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId),
             purchaseInvoiceTypeDesc: "",
-            sellerCompanyRow: product.sellerCompanyRow
-                ? product.sellerCompanyRow
-                : "string",
+            sellerCompanyRow,
             purchaserCustomerId: "",
             purchaserCustomerName: "",
-            mainUnit: product.mainUnit,
-            subUnit: productData.subUnit[product.id]
-                ? units.find((i: any) => i.id === productData.subUnit[product.id]).unitName
-                : product.subUnit,
-            productSubUnitId: productData.subUnit[product.id]
-                ? units.find((i: any) => i.id === productData.subUnit[product.id]).id
-                : product.subUnit,
-            rowId: product?.rowId ? product?.rowId : 0,
-            proximateAmount: productData.proximateAmounts[product.id] || "",
-            warehouseTypeId: 0,
-            price: productData.price[product.id]
-                ? productData.price[product.id]
-                : separateAmountWithCommas(product.productPrice),
-            proximateSubUnit:
-            productData.proximateSubAmounts[product.id] === undefined
-                    ? 0
-                    : productData.proximateSubAmounts[product.id],
-        }));
-
+            productMainUnitDesc,
+            productSubUnitDesc,
+            productSubUnitId,
+            rowId,
+            proximateAmount,
+            warehouseTypeId,
+            price,
+            proximateSubUnit,
+          };
+        });
+      
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
-            props.orders.some(
-                (existingProduct: any) =>
-                    existingProduct.id === newProduct.id &&
-                    existingProduct.warehouseId === newProduct.warehouseId &&
-                    existingProduct.productBrandId === newProduct.productBrandId
-            )
+          props.orders.some(
+            (existingProduct: any) =>
+              existingProduct.id === newProduct.id &&
+              existingProduct.warehouseId === newProduct.warehouseId &&
+              existingProduct.productBrandId === newProduct.productBrandId
+          )
         );
+        
+
         if (!duplicatesExist) {
-            const updatedOrders = [
-                ...props.orders,
-                ...selectedProductWithAmounts,
-            ];
-
-            props.setOrders(updatedOrders);
-            props.setOrderPayment([])
-            props.setFieldValue(
-                "amount",
-                sliceNumberPriceRial(
-                    calculateTotalAmount(updatedOrders, props.orderService)
-                )
-            );
-            props.setState((prev) => (
-                {
-                    ...prev, 
-                    isProductChoose: false
-                }
-            )) 
+          const updatedOrders = [...props.orders, ...selectedProductWithAmounts];
+      
+          props.setOrders(updatedOrders);
+          props.setOrderPayment([]);
+          props.setFieldValue(
+            "amount",
+            sliceNumberPriceRial(
+              calculateTotalAmount(updatedOrders, props.orderService)
+            )
+          );
+          props.setState((prev) => ({
+            ...prev,
+            isProductChoose: false,
+          }));
         } else {
-            alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
+          alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
         }
-    };
-
+      };
+      
 
     const onSelectTab = (id: number) => setProductData((prevState) => ({
         ...prevState, 
@@ -333,7 +333,7 @@ const ProductsList = (props: {
 
 
     const onFilterProductByWarehouse = (value: any) => {
-        if (value === "-1") {
+        if (value === -1) {
             setProductData((prevState) => ({
                 ...prevState, 
                 tabResult: productData.filteredTabs 
@@ -361,8 +361,13 @@ const ProductsList = (props: {
     // useEffects
     useEffect(() => {
         const filter = { ByBrand: true }
-        filterTools.mutate(filter);
+        filterTools.mutate(filter, {
+            onSuccess: (res) => {
+                setResults(res?.data)
+            }
+        });
     }, []);
+
 
     useEffect(() => {
         const filtered = filterTools?.data?.data.filter((item: {productTypeId: number}) => item.productTypeId === productData.selectedTab);
@@ -370,10 +375,12 @@ const ProductsList = (props: {
             ...prevState, 
             filteredTabs: productData.selectedTab === -1 ? filterTools?.data?.data : filtered 
         }))        
-
         setResults(productData.selectedTab === -1 ? filterTools?.data?.data : filtered);
+
     }, [productData.selectedTab]);
 
+
+    console.log(productData.price)
 
     if (props.productLoading) {
         return <Typography>Loading ...</Typography>;
@@ -414,6 +421,7 @@ const ProductsList = (props: {
                         )}
                         rows={productData.selectedProduct}
                         data={productData.selectedProduct}
+                        getRowId={(row:{id: string}) => row.id.toString()}
                         hideFooter={true}
                         columnHeaderHeight={40}
                     />

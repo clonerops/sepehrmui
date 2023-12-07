@@ -75,8 +75,8 @@ const OrderProductDetail = (props: Props) => {
         const fieldValue = [
             { title: "productBrandName", value: value?.productBrandName },
             { title: "warehouseName", value: value?.warehouseName },
-            { title: "mainUnit", value: value?.productMainUnitDesc },
-            { title: "subUnit", value: value?.productSubUnitDesc },
+            { title: "productMainUnitDesc", value: value?.productMainUnitDesc },
+            { title: "productSubUnitDesc", value: value?.productSubUnitDesc },
             { title: "productSubUnitId", value: value?.productSubUnitId },
         ]
         fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
@@ -85,7 +85,7 @@ const OrderProductDetail = (props: Props) => {
     }
 
     const handleOrder = () => {
-        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "mainUnit", "subUnit"];
+        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
 
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
@@ -105,8 +105,8 @@ const OrderProductDetail = (props: Props) => {
             proximateSubUnit: formikRef?.current?.values.proximateSubUnit,
             purchaserCustomerId: formikRef?.current?.values.purchaserCustomerId?.value ? formikRef?.current?.values.purchaserCustomerId?.value : formikRef?.current?.values.purchaserCustomerId,
             purchaserCustomerName: formikRef?.current?.values.purchaserCustomerId?.label ? formikRef?.current?.values.purchaserCustomerId?.label : formikRef?.current?.values.purchaserCustomerName,
-            mainUnit: formikRef?.current?.values.mainUnit,
-            subUnit: formikRef?.current?.values.subUnit,
+            productMainUnitDesc: formikRef?.current?.values.productMainUnitDesc,
+            productSubUnitDesc: formikRef?.current?.values.productSubUnitDesc,
             productSubUnitId: formikRef?.current?.values.productSubUnitId,
             price: formikRef?.current?.values?.price,
             description: formikRef?.current?.values.productDesc,

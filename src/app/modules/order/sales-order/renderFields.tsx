@@ -169,7 +169,7 @@ const orderDetailParseFields = (
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="start">
-                                {values.mainUnit}
+                                {values.productMainUnitDesc}
                             </InputAdornment>
                         ),
                     }}
@@ -184,7 +184,7 @@ const orderDetailParseFields = (
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="start">
-                                {values.subUnit}
+                                {values.productSubUnitDesc}
                             </InputAdornment>
                         ),
                     }}

@@ -79,7 +79,7 @@ const OrderProductList = (props: ProductProps) => {
                 {title: "warehouseId", value: params.row.warehouseId},
                 {title: "proximateAmount", value: params.row.proximateAmount},
                 {title: "warehouseName", value: params.row.warehouseName},
-                {title: "proximateSubUnit", value: +params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate},
+                {title: "proximateSubUnit", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
                 {title: "purchasePrice", value: params.row.purchasePrice},
                 {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
                 {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
@@ -89,8 +89,8 @@ const OrderProductList = (props: ProductProps) => {
                 {title: "purchaserCustomerName", value: params.row.purchaserCustomerName},
                 {title: "rowId", value: params.row.rowId},
                 {title: "productDesc", value: params.row.productDesc},
-                {title: "mainUnit", value: params.row.mainUnit},
-                {title: "subUnit", value: params.row.subUnit},
+                {title: "productMainUnitDesc", value: params.row.productMainUnitDesc},
+                {title: "productSubUnitDesc", value: params.row.productSubUnitDesc},
                 {title: "exchangeRate", value: params.row.exchangeRate},
             ];
 
@@ -147,7 +147,6 @@ const OrderProductList = (props: ProductProps) => {
                 rows={orders}
                 data={orders}
                 getRowClassName={(params: any) => {
-                    console.log(params.row)
                     if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseId) && (
                         params.row.purchaseSettlementDate === "" ||
                         params.row.purchasePrice === "" ||

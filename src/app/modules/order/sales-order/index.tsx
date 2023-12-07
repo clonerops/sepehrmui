@@ -54,7 +54,7 @@ const SalesOrder = () => {
         <>
             <Formik enableReinitialize innerRef={formikRef} initialValues={saleOrderInitialValues} onSubmit={() => { }} validationSchema={saleOrderValidation}>
                 {({ values, setFieldValue }) => {
-                    return <Form>
+                    return <>
                         {/*The design of the header section of the order module includes order information and customer information */}
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -105,7 +105,7 @@ const SalesOrder = () => {
                             </ReusableCard>
                         </Box>
 
-                    </Form>
+                    </>
                 }}
             </Formik>
             {isOpen &&

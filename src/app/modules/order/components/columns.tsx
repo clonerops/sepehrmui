@@ -24,14 +24,14 @@ export const orderListColumns = (renderActions: any) => {
         {
             headerName: "مقدار", field: "proximateAmount",
             renderCell: (params: any) => {
-                const combinedValue = `${params.row.proximateAmount} ${params.row.mainUnit} `;
+                const combinedValue = `${params.row.proximateAmount} ${params.row.productMainUnitDesc} `;
                 return <Typography variant="h4">{combinedValue}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },
         {
             headerName: "مقدار(فرعی)", field: "proximateSubUnit",
             renderCell: (params: any) => {
-                const combinedValue = `${params.row.proximateSubUnit} ${params.row.subUnit}`;
+                const combinedValue = `${params.row.proximateSubUnit} ${params.row.productSubUnitDesc}`;
                 return <Typography variant="h4">{combinedValue}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },
