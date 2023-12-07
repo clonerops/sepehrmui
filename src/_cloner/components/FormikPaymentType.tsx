@@ -6,7 +6,11 @@ import FormikSelect from './FormikSelect'
 
 
 const FormikPaymentType = (props: any) => {
-    const { data: payment } = useGetPaymentTypes();
+    const { data: payment, isLoading } = useGetPaymentTypes();
+
+    if(isLoading) {
+        return <span>درحال بارگزاری ....</span>
+    }
 
     return (
         <FormikSelect

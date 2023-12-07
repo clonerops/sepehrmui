@@ -206,8 +206,34 @@ const orderDetailParseFields = (
     }
 };
 
+const orderFeatureRenderFields = (
+    index: number | string,
+    postSaleOrder: UseMutationResult<any, unknown, ICreateOrder, unknown>,
+    fields: FieldType) => {
+    const { type, ...rest } = fields;
+    switch (type) {
+        case "settlementDate":
+            return <FormikDatepicker key={index} {...rest} />;
+        case "orderSendTypeId":
+            return <FormikOrderSend key={index} disabled={postSaleOrder?.data?.succeeded} {...rest} />
+        case "invoiceTypeId":
+            return <FormikInvoiceType key={index} disabled={postSaleOrder?.data?.succeeded} {...rest} />
+        case "paymentTypeId":
+            return <FormikPaymentType key={index} disabled={postSaleOrder?.data?.succeeded} {...rest} />
+        case "exitType":
+            return <FormikExitType key={index} disabled={postSaleOrder?.data?.succeeded} {...rest} />
+        case "temporary":
+            return <FormikTemporary key={index} disabled={postSaleOrder?.data?.succeeded} {...rest} />
+        case "description":
+            return <FormikDescription key={index} disabled={postSaleOrder?.data?.succeeded} {...rest} />
+        default:
+            return <FormikInput key={index} {...rest} />;
+    }
+};
+
 
 export {
     saleOrderParseFields,
-    orderDetailParseFields
+    orderDetailParseFields,
+    orderFeatureRenderFields
 }

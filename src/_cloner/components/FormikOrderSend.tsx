@@ -5,7 +5,11 @@ import { dropdownOrderSendType } from '../../app/modules/order/helpers/dropdowns
 import { useGetSendTypes } from '../../app/modules/generic/_hooks';
 
 const FormikOrderSend = (props: any) => {
-    const { data: orderSendType } = useGetSendTypes();
+    const { data: orderSendType, isLoading } = useGetSendTypes();
+
+    if(isLoading) {
+        return <span>درحال بارگزاری ....</span>
+    }
 
     return (
         <FormikSelect

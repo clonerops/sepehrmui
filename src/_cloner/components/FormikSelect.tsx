@@ -30,6 +30,7 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
     name,
     label,
     disabeld,
+    defaultValue,
     value,
     options,
     onChange,

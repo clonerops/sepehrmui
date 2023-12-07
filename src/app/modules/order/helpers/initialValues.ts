@@ -19,9 +19,9 @@ export const orderInitialValues = {
     customerID: "",
     
     settlementDate: "",
-    exitType: "1",
-    orderSendTypeId: "1",
-    paymentTypeId: "2",
+    exitType: 1,
+    orderSendTypeId: 1,
+    paymentTypeId: 2,
     // isTemporary: "0",
     isTemporary: false,
     invoiceTypeId: "",

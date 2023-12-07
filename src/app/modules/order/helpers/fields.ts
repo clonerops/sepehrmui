@@ -1,4 +1,63 @@
 import { FieldType } from "../../../../_cloner/components/globalTypes";
+// Fields Global
+export const orderFeatureFields: FieldType[][] = [
+    [
+        {
+            label: "نوع ارسال",
+            name: "orderSendTypeId",
+            type: "orderSendTypeId",
+        },
+        {
+            label: "نوع فاکتور",
+            name: "invoiceTypeId",
+            type: "invoiceTypeId",
+        },
+    ],
+    [
+        {
+            label: "نوع کرایه",
+            name: "paymentTypeId",
+            type: "paymentTypeId",
+        },
+        { label: "نوع خروج", name: "exitType", type: "exitType" },
+    ],
+    [
+        { label: "نوع ثبت", name: "isTemporary", type: "temporary" },
+    ],
+    [
+        { label: "توضیحات", name: "description", type: "description" },
+    ]
+];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const customerFields: FieldType[][] = [
     [{ label: "مشتری", name: "customerId", type: "customer" }],

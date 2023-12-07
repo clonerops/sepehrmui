@@ -18,6 +18,7 @@ import { useGetProductList } from '../../product/core/_hooks'
 
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import OrderProductDetail from '../components/OrderProductDetail'
+import OrderFeature from '../components/OrderFearure'
 
 const SalesOrder = () => {
 
@@ -49,6 +50,8 @@ const SalesOrder = () => {
             detailCustomer.data.data = {}
         }
     };
+
+    // فیلد نوع ثبت اگر یک بود باید فالس در غیر این صورت باید ترو باشداین را موقع ثبت سفارش باید چک کنیم
 
     return (
         <>
@@ -104,7 +107,9 @@ const SalesOrder = () => {
                                 />
                             </ReusableCard>
                         </Box>
-
+                        <Box component="div" className="md:grid md:grid-cols-3 gap-x-4 mt-4">
+                            <OrderFeature postSaleOrder={postSaleOrder} />
+                        </Box>
                     </>
                 }}
             </Formik>
