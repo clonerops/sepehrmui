@@ -20,6 +20,8 @@ const Order = React.lazy(() => import("../modules/order/Order"));
 const SalesOrder = React.lazy(() => import("../modules/order/sales-order"));
 const SalesOrderList = React.lazy(() => import("../modules/order/sales-order/Lists"));
 const SalesOrderDetail = React.lazy(() => import("../modules/order/sales-order/Details"));
+const SalesOrderConfirm = React.lazy(() => import("../modules/order/sales-order/Confirm"));
+const ReadyToSalesOrderConfirm = React.lazy(() => import("../modules/order/sales-order/ReadyToConfirm"));
 const OrderList = React.lazy(() => import("../modules/order/OrderList"));
 const OrderConfirm = React.lazy(() => import("../modules/order/OrderConfirm"));
 const Dashboard = React.lazy(() => import("../modules/Dashboard"));
@@ -58,9 +60,12 @@ const PrivateRoutes = () => {
               <Route path="auth/*" element={<Navigate to="/dashboard" />} />
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='dashboard/order' element={<Order />} />
+              
               <Route path='dashboard/sales-order' element={<SalesOrder />} />
               <Route path='dashboard/sales-order/lists' element={<SalesOrderList />} />
               <Route path='dashboard/sales-order/lists/:id' element={<SalesOrderDetail />} />
+              <Route path='dashboard/sales-order/ready-to-confirm/:id' element={<SalesOrderConfirm />} />
+              <Route path='dashboard/sales-order/ready-to-confirm' element={<ReadyToSalesOrderConfirm />} />
               {/* <Route path='dashboard/order/:id' element={<Order />} /> */}
               <Route path='dashboard/orderUpdate' element={<OrderUpdate />} />
               <Route path='dashboard/orderList' element={<OrderList />} />

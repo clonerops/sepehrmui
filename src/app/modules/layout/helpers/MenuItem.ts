@@ -53,8 +53,8 @@ const menuItem = [
             {
                 id: 1321,
                 iconName: "RocketTwoTone",
-                title: "تایید سفارش",
-                to: "dashboard/approveOrderList",
+                title: "تایید سفارش فروش" ,
+                to: "dashboard/sales-order/ready-to-confirm",
             },
             {
                 id: 1321,
