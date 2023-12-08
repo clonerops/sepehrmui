@@ -91,6 +91,7 @@ const OrderProductList = (props: ProductProps) => {
                 {title: "productDesc", value: params.row.productDesc},
                 {title: "productMainUnitDesc", value: params.row.productMainUnitDesc},
                 {title: "productSubUnitDesc", value: params.row.productSubUnitDesc},
+                {title: "productSubUnitId", value: params.row.productSubUnitId},
                 {title: "exchangeRate", value: params.row.exchangeRate},
             ];
 

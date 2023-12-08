@@ -1,8 +1,8 @@
-import { Box, Typography, Button, IconButton } from '@mui/material'
+import { Box, Typography, IconButton } from '@mui/material'
 
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import {  IOrderService } from '../core/_models'
+import {  IOrderItems, IOrderService } from '../core/_models'
 
 import FormikService from '../../../../_cloner/components/FormikService'
 import FormikPrice from '../../product/components/FormikPrice'
@@ -11,18 +11,21 @@ import { AddCircle, DeleteOutlineRounded } from '@mui/icons-material'
 import MuiTable from '../../../../_cloner/components/MuiTable'
 import { FormikErrors } from 'formik'
 import { useGetServices } from '../../generic/_hooks'
+import { calculateProximateAmount, calculateTotalAmount } from '../helpers/functions'
+import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
 
 type Props = {
     orderService: IOrderService[],
     setOrderService:  (value: React.SetStateAction<IOrderService[]>) => void
     values: any
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
+    orders: IOrderItems[]
 }
 
 
 
 const OrderService = (props: Props) => {
-    const {orderService, setOrderService, values, setFieldValue} = props;
+    const {orderService, setOrderService, values, setFieldValue, orders} = props;
     const { data: productService } = useGetServices();
 
 
@@ -42,7 +45,7 @@ const OrderService = (props: Props) => {
         }
         else {
             setOrderService([...orderServices, orderServicetData])
-            // setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
+            setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
             setFieldValue('serviceId', "")
             setFieldValue('serviceAmount', "")
         }
@@ -52,8 +55,7 @@ const OrderService = (props: Props) => {
     const handleDeleteService = (params: {id: number}) => {
         const filterServices = orderService.filter((item: IOrderService) => item.id !== params.id)
         setOrderService(filterServices)
-        // setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
-        // setOrderPayment([])
+        setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
 
     }
 
@@ -74,40 +76,11 @@ const OrderService = (props: Props) => {
         <Box component="div" className="flex flex-wrap md:flex-nowrap  gap-4 my-4">
             <FormikService label="نوع خدمت" name="serviceId" />
             <FormikPrice name="serviceAmount" label="هزینه" />
-            <Button color="secondary" onClick={handleSetServices}>
-                <AddCircle />
-            </Button>
+            <IconButton onClick={handleSetServices}>
+                <AddCircle color='secondary' />
+            </IconButton>
         </Box>
     <MuiTable onDoubleClick={() => {}} columns={serviceColumns} data={orderService} />
-    {/* <Table>
-        <TableHead>
-            <TableRow>
-                <TableCell className="!font-bold">نوع خدمت</TableCell>
-                <TableCell className="!font-bold">هزینه</TableCell>
-                <TableCell className="!font-bold">حذف</TableCell>
-            </TableRow>
-        </TableHead>
-        <TableBody>
-            {orderService?.map((i) => (
-                <TableRow>
-                    <TableCell>{i?.serviceName}</TableCell>
-                    <TableCell>{i?.description} ریال</TableCell>
-                    <TableCell>
-                        <Box component="div" onClick={
-                            () => {
-                                const filterServices = orderService.filter((item: IOrderService) => item.id !== i.id)
-                                setOrderService(filterServices)
-                                setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
-                                setOrderPayment([])
-                            }
-                        }>
-                            <Delete className="text-red-500 cursor-pointer" />
-                        </Box>
-                    </TableCell>
-                </TableRow>
-            ))}
-        </TableBody>
-    </Table> */}
 </ReusableCard>
 
   )

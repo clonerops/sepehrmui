@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, TextField, Select } from "@mui/material";
+import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
@@ -7,7 +7,6 @@ import TabProducts from "../../../../_cloner/components/TabProducts";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 
 import { IProducts } from "../../product/core/_models";
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import {useGetProductList} from "../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
@@ -15,8 +14,6 @@ import { calculateTotalAmount } from "../helpers/functions";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
 import { IOrderService } from "../core/_models";
 import MaskInput from "../../../../_cloner/components/MaskInput";
-import { AnyCnameRecord } from "dns";
-import { validateAndEnqueueSnackbar } from "../sales-order/functions";
 
 const ProductsList = (props: {
     products: IProducts[];
@@ -41,6 +38,7 @@ const ProductsList = (props: {
 
     const [productData, setProductData] = useState<{
         productSubUnitDesc: { [key: string]: string };
+        productSubUnitId: { [key: string]: string };
         proximateAmounts: { [key: string]: string };
         proximateSubAmounts: { [key: string]: string };
         price: { [key: string]: string };
@@ -52,6 +50,7 @@ const ProductsList = (props: {
         filteredTabs: any[]
       }>({
         productSubUnitDesc: {},
+        productSubUnitId: {},
         proximateAmounts: {},
         proximateSubAmounts: {},
         price: {},
@@ -234,7 +233,6 @@ const ProductsList = (props: {
     };
 
     const handleSubmitSelectedProduct = () => {
-        console.log("productData.selectedProduct", productData.selectedProduct)
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
           const {
             id,
@@ -250,7 +248,8 @@ const ProductsList = (props: {
             purchaseInvoiceTypeId = 0,
             sellerCompanyRow = "string",
             productMainUnitDesc,
-            productSubUnitDesc: productSubUnitId = product.subUnit,
+            // productSubUnitId,
+            // productSubUnitDesc: productSubUnitId = product.subUnit,
             rowId = 0,
             proximateAmount = productData.proximateAmounts[product.id] || "",
             warehouseTypeId = 0,
@@ -259,6 +258,10 @@ const ProductsList = (props: {
           const productSubUnitDesc = productData.productSubUnitDesc[product.id]
             ? units.find((i: any) => i.id === productData.productSubUnitDesc[product.id]).unitName
             : product.productSubUnitDesc;
+
+          const productSubUnitId = productData.productSubUnitId[product.id]
+            ? units.find((i: any) => i.id === productData.productSubUnitId[product.id]).unitName
+            : product.productSubUnitId;
       
           const price = productData.price[product.id] ? productData.price[product.id].replace(/,/g, "") : ""
       

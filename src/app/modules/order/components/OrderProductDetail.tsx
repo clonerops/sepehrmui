@@ -10,6 +10,8 @@ import { BUY_WAREHOUSE_TYPES, FIELD_VALUE } from "../helpers/constants";
 import { IOrderDetail, IOrderItems, IOrderPayment, IOrderService } from "../core/_models";
 import { validateAndEnqueueSnackbar } from '../sales-order/functions';
 import OrderProductList from './OrderProductList';
+import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice';
+import { calculateTotalAmount } from '../helpers/functions';
 
 type Props = {
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
@@ -99,7 +101,6 @@ const OrderProductDetail = (props: Props) => {
             purchasePrice: formikRef?.current?.values?.purchasePrice,
             purchaseSettlementDate: formikRef?.current?.values.purchaseSettlementDate,
             purchaseInvoiceTypeId: formikRef?.current?.values?.purchaseInvoiceTypeId ,
-            // purchaseInvoiceTypeDesc: purchaseInvoiceType?.find((i: any) => i.id === Number(formikRef?.current?.values?.purchaseInvoiceTypeId)),
             sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
             proximateAmount: formikRef?.current?.values.proximateAmount,
             proximateSubUnit: formikRef?.current?.values.proximateSubUnit,
@@ -133,7 +134,7 @@ const OrderProductDetail = (props: Props) => {
                 validateAndEnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error")
             } else {
                 setOrders([...orders, productOrder]);
-                // setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderService)))
+                setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderServices)))
             }
             fields.forEach((element) => {
                 formikRef?.current?.setFieldValue(element, "");
@@ -143,6 +144,7 @@ const OrderProductDetail = (props: Props) => {
             const updatedOrder = {
                 ...productOrder,
             };
+            console.log("productOrder", productOrder)
             const updatedOrders: IOrderItems[] = [...orders];
             updatedOrders[state.orderIndex ? state.orderIndex : 0] = updatedOrder;
             if (formikRef?.current?.values.productName === "" || formikRef?.current?.values.productName.label === "") {
@@ -153,7 +155,7 @@ const OrderProductDetail = (props: Props) => {
                 validateAndEnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
             } else {
                 setOrders(updatedOrders);
-                // setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderService)))
+                setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
             }
             setState((prev) => ({...prev, orderIndex: 0}))
             fields.forEach((element) => {
