@@ -19,6 +19,7 @@ const Detail = React.lazy(() => import("../modules/payment/components/Detail"));
 const Order = React.lazy(() => import("../modules/order/Order"));
 const SalesOrder = React.lazy(() => import("../modules/order/sales-order"));
 const SalesOrderList = React.lazy(() => import("../modules/order/sales-order/Lists"));
+const SalesOrderDetail = React.lazy(() => import("../modules/order/sales-order/Details"));
 const OrderList = React.lazy(() => import("../modules/order/OrderList"));
 const OrderConfirm = React.lazy(() => import("../modules/order/OrderConfirm"));
 const Dashboard = React.lazy(() => import("../modules/Dashboard"));
@@ -59,6 +60,7 @@ const PrivateRoutes = () => {
               <Route path='dashboard/order' element={<Order />} />
               <Route path='dashboard/sales-order' element={<SalesOrder />} />
               <Route path='dashboard/sales-order/lists' element={<SalesOrderList />} />
+              <Route path='dashboard/sales-order/lists/:id' element={<SalesOrderDetail />} />
               {/* <Route path='dashboard/order/:id' element={<Order />} /> */}
               <Route path='dashboard/orderUpdate' element={<OrderUpdate />} />
               <Route path='dashboard/orderList' element={<OrderList />} />
