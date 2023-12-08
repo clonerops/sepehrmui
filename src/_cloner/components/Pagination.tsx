@@ -8,7 +8,7 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
     return (
         <ReactPaginate
-            pageCount={pageCount}
+            pageCount={Math.ceil(pageCount)}
             pageRangeDisplayed={5}
             marginPagesDisplayed={2}
             onPageChange={onPageChange}
