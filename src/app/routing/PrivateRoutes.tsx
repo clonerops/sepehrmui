@@ -48,6 +48,8 @@ const ReadyToLading = React.lazy(() => import("../modules/logestic/lading/ReadyT
 const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
 const ExitRemittance = React.lazy(() => import("../modules/logestic/exit/ExitRemittance"));
 const ExitRemittanceList = React.lazy(() => import("../modules/logestic/exit/ReadyToExit"));
+const Roles = React.lazy(() => import("../modules/role/Roles"));
+const RoleMenu = React.lazy(() => import("../modules/role/RoleMenu"));
 
 const PrivateRoutes = () => {
 
@@ -106,6 +108,10 @@ const PrivateRoutes = () => {
               <Route path='dashboard/users' element={<Users />} />
               <Route path="dashboard/user/create" element={<CreateUser />} />
               <Route path="dashboard/user/role/:id" element={<RoleUser />} />
+
+            {/* Roles */}
+            <Route path="dashboard/roles" element={<Roles />} />
+            <Route path="dashboard/roles/menu" element={<RoleMenu />} />
 
 
               {/* Lazy (M => import(""))odules */}

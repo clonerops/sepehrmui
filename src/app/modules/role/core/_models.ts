@@ -1,26 +1,29 @@
 export interface IRole {
-  id: string;
-  name: string;
-  concurrencyStamp: string | null;
+  id?: string | undefined;
+  name: string | undefined;
+  description?: string | undefined;
+  concurrencyStamp?: string | null;
 }
 
 export interface IRoleMenu {
-  roleId: string;
-  applicationMenuId: string;
+  roleId: string | undefined;
+  // applicationMenuId: string[] | null;
+  applicationMenuId: any;
 }
 
 export interface IUserRole {
-  roleName: string;
+  roleName : string | undefined;
   roleDesc: string | undefined;
-  roleId: string;
-  userId: string;
+  roleId: string | undefined;
+  userId: string | undefined;
 }
 
 export type IUpdateRole = Pick<IUserRole, "roleId" | "userId">;
 export interface IApplicationMenu {
-  id: string;
-  accessUrl: string;
-  description: string;
-  menuIcon: string;
+  id: string | undefined;
+  accessUrl: string | undefined;
+  description: string | undefined;
+  menuIcon: string | undefined;
   // applicationMenuNames: []
 }
+
