@@ -8,6 +8,8 @@ import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 
 const UserForm = () => {
+    // const { id }: any = useParams();
+
     const loginSchema = Yup.object().shape({
         firstName: Yup.string().required("نام الزامی است"),
         lastName: Yup.string().required("نام خانوادگی الزامی است"),
@@ -33,6 +35,10 @@ const UserForm = () => {
     };
 
     const { mutate, data } = useRegisterUser();
+    // const detailTools = useGetUserDetail();
+    // const updateTools = useUpdateUser();
+    // const navigate = useNavigate();
+
     const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
     return (
         <>
