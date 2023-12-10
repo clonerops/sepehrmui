@@ -6,14 +6,14 @@ interface IProps {
     loading: boolean
 }
 
-const Backdrop:FC<IProps> = () => {
+const LazyLoad:FC<IProps> = () => {
     return (
         <Box component="section" className='flex justify-center items-center fixed w-full h-full top-0 right-0 bg-white transition z-[9999] ease-out bg-opacity-70'>
             <Box component="div" className='flex flex-col justify-center items-center'>
-                <Box component="img" alt='saipa-logo' className='mb-20 animate-ping' src={toAbsoulteUrl('/media/logos/load.gif')} width={80} height={80} />
+                <Box component="img" alt='saipa-logo' className='mb-20 animate-ping' src={toAbsoulteUrl('/media/logos/preload.gif')} width={150} height={150} />
             </Box>
         </Box>
     )
 }
 
-export default React.memo(Backdrop)
+export default React.memo(LazyLoad)

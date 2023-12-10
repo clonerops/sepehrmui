@@ -1,26 +1,18 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  Modal,
-  Switch,
-  Typography,
-} from "@mui/material";
-
+import { Box, Button, Modal, Switch, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ShieldIcon from "@mui/icons-material/Shield";
 import { Link } from "react-router-dom";
+
 import { useUsers } from "./core/_hooks";
 import { IUser } from "./core/_models";
+import { userListColumns } from "./helpers/columns";
+
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import ReusableTable from "../../../_cloner/components/Tables";
 import CreateUser from "./components/CreateUser";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import { columns } from "./helpers/userColumns";
-import React from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import UserForm from "./components/UserForm";
 
 const Users = () => {
   const usersTools = useUsers();
@@ -55,56 +47,49 @@ const Users = () => {
 
   return (
     <ReusableCard>
-      <Container>
-        <Typography variant="h2" color="primary">
-          کاربران
-        </Typography>
+      <>
         <Box
           component="div"
           className="flex justify-center items-center gap-x-8 py-4"
         >
           <FuzzySearch<IUser>
-            keys={[
-              "email",
-              "userName",
-              "firstName",
-              "lastName",
-              "phoneNumber",
-              "description",
-            ]}
+            keys={[ "email", "userName", "firstName", "lastName", "phoneNumber", "description"]}
             data={usersTools?.data}
             setResults={setResults}
             threshold={0.3}
           />
-          <Link to={"/dashboard/user/create"}>
+          {/* <Link to={"/dashboard/user/create"}> */}
             <Button
+              onClick={() => setCreateUserOpen(true)}
               variant="contained"
               className="w-[240px] bg-primary text-black font-bold font-boldpx-8 py-2"
             >
               <Typography variant="body1">ایجاد کاربر جدید</Typography>
             </Button>
-          </Link>
+          {/* </Link> */}
         </Box>
         <Box component="div">
           <MuiDataGrid
-            columns={columns(renderActions)}
+            columns={userListColumns(renderActions)}
             rows={results}
             data={usersTools?.data}
           />
         </Box>
-      </Container>
+      </>
       {/* Create User Modal */}
-      <Modal
-        open={createUserOpen}
-        onClose={() => setCreateUserOpen(false)}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <CreateUser />
-      </Modal>
+      {createUserOpen &&
+        <Modal
+          open={createUserOpen}
+          onClose={() => setCreateUserOpen(false)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <UserForm />
+        </Modal>
+      }
     </ReusableCard>
   );
 };

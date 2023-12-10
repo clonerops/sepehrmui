@@ -7,7 +7,7 @@ import FormikInput from "../../../../_cloner/components/FormikInput";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 
-const CreateUser = () => {
+const UserForm = () => {
     const loginSchema = Yup.object().shape({
         firstName: Yup.string().required("نام الزامی است"),
         lastName: Yup.string().required("نام خانوادگی الزامی است"),
@@ -89,4 +89,4 @@ const CreateUser = () => {
     );
 };
 
-export default CreateUser;
+export default UserForm;
