@@ -16,6 +16,7 @@ import Menus from "./Menus";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 interface Item {
     uniqueRole: string;
@@ -42,10 +43,16 @@ const RoleMenu = () => {
 
     const columns = (renderActions: any) => {
         const col = [
-            { field: "name", headerName: "نام نقش کاربری", flex: 1 },
+            {
+                field: "name",
+                headerName: "نقش کاربری",
+                headerClassName: "headerClassName",
+                flex: 1,
+            },
             {
                 field: "Action",
                 headerName: "عملیات",
+                headerClassName: "headerClassName",
                 renderCell: renderActions,
                 flex: 1,
             },
@@ -83,32 +90,38 @@ const RoleMenu = () => {
 
     return (
         <>
-            <Box component="div" className="grid grid-cols-2">
-                <Card className="glassmorphism-card p-4">
-                    <Container>
-                        <FuzzySearch
-                            keys={["applicationMenuId", "roleId"]}
-                            data={roleTools?.data || []}
-                            setResults={setResults}
-                            threshold={0.4}
-                        />
-                        <Box component="div" className="my-4">
-                            <MuiDataGrid
-                                columns={columns(renderActions)}
-                                rows={results}
-                                data={roleTools?.data}
+            <ReusableCard>
+                <Box component="div" className="grid grid-cols-2">
+                    <Box>
+                        <Container>
+                            <FuzzySearch
+                                keys={["applicationMenuId", "roleId"]}
+                                data={roleTools?.data || []}
+                                setResults={setResults}
+                                threshold={0.4}
                             />
-                        </Box>
-                    </Container>
-                </Card>
-                <Box component="div" className="flex justify-center items-center">
-                    <img
-                        src={toAbsoulteUrl(
-                            "/media/logos/business-person-analyzing-data-3317127-2761620.png"
-                        )}
-                    />
+                            <Box component="div" className="my-4">
+                                <MuiDataGrid
+                                    columns={columns(renderActions)}
+                                    rows={results}
+                                    data={roleTools?.data}
+                                />
+                            </Box>
+                        </Container>
+                    </Box>
+                    <Box
+                        component="div"
+                        className="flex justify-center items-center"
+                    >
+                        <img
+                            src={toAbsoulteUrl(
+                                "/media/logos/4380747.jpg"
+                            )}
+                            width={400}
+                        />
+                    </Box>
                 </Box>
-            </Box>
+            </ReusableCard>
             <Modal
                 open={visible}
                 onClose={() => setVisible(false)}
