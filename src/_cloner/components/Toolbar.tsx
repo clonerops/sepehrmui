@@ -9,15 +9,20 @@ import {
     Assessment,
     Announcement,
     Notifications,
-    Settings
+    Settings,
+    Person
 } from "@mui/icons-material";
 
 import { useNavigate } from "react-router-dom";
 import ProductPriceLanding from "../../app/modules/landing/ProductPriceLanding";
 import TransitionsModal from "./ReusableModal";
+import useUserInformation from "../helpers/useUserInformation";
 
 const ToolbarComponent = () => {
     const navigate = useNavigate();
+    
+    const userInfo = useUserInformation()
+    
     const [anchorEl, setAnchorEl] = useState(null);
     const [isPriceOpen, setIsPriceOpen] = useState<boolean>(false)
     const handleClick = (event: any) => {
@@ -39,9 +44,8 @@ const ToolbarComponent = () => {
     const onChangePassword = () => {
         navigate("dashboard/change-pass");
     };
-    const onCreateUser = () => {
-        navigate("dashboard/user/create");
-    };
+
+    console.log("userInfo", userInfo)
 
     return (
         <>
@@ -93,12 +97,11 @@ const ToolbarComponent = () => {
                                 }}
                             >
                                 <Box
-                                    onClick={onCreateUser}
                                     component="div"
                                     className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
                                 >
-                                    <VerifiedUser />
-                                    <Typography>ایجاد کاربر جدید</Typography>
+                                    <Person />
+                                    <Typography>کاربر: {userInfo.userName}</Typography>
                                 </Box>
                                 <Box
                                     onClick={onChangePassword}
