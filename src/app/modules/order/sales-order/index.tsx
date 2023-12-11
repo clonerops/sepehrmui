@@ -15,6 +15,8 @@ import OrderProductDetail from '../components/OrderProductDetail'
 import OrderFeature from '../components/OrderFearure'
 import OrderService from '../components/OrderService'
 import OrderPayment from '../components/OrderPayment'
+import Backdrop from '../../../../_cloner/components/Backdrop'
+import CustomButton from '../../../../_cloner/components/CustomButton'
 
 import { customerFields } from './fields'
 import { useCreateOrder } from '../core/_hooks'
@@ -23,9 +25,8 @@ import { useGetCustomer } from '../../customer/core/_hooks'
 import { useGetProductList } from '../../product/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
-import Backdrop from '../../../../_cloner/components/Backdrop'
-import CustomButton from '../../../../_cloner/components/CustomButton'
 import { validateAndEnqueueSnackbar } from './functions'
+import moment from 'moment-jalaali'
 
 
 const SalesOrder = () => {
@@ -43,11 +44,11 @@ const SalesOrder = () => {
 
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
         if (item?.value) {
-            detailCustomer.mutate(item?.value, {
+            detailCustomer?.mutate(item?.value, {
                 onSuccess: (result) => {
                     formikRef.current?.setFieldValue("customerID", result.data.id)
                     formikRef.current?.setFieldValue("number", result.data.settlementDay)
-                    formikRef.current?.setFieldValue("settlement", result.data.settlement)
+                    formikRef.current?.setFieldValue("settlement", moment(Date.now()).add(+result.data.settlementDay, "days").format('jYYYY/jMM/jDD'))
                     if (!result?.data) {
                         formikRef.current?.setFieldValue("number", "")
                         formikRef.current?.setFieldValue("settlement", "")
@@ -55,7 +56,8 @@ const SalesOrder = () => {
                 }
             })
         } else {
-            detailCustomer.data.data = {}
+            if(detailCustomer?.data?.data)
+                detailCustomer.data.data = {}
         }
     };
 
@@ -118,7 +120,6 @@ const SalesOrder = () => {
                         }
                     })
                 };
-                console.log("formData", formData)
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         

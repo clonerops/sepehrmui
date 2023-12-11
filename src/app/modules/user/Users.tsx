@@ -1,26 +1,17 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  Modal,
-  Switch,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Modal, Switch, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 import EditIcon from "@mui/icons-material/Edit";
 import ShieldIcon from "@mui/icons-material/Shield";
-import { Link } from "react-router-dom";
-import { useUsers } from "./core/_hooks";
-import { IUser } from "./core/_models";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import ReusableTable from "../../../_cloner/components/Tables";
 import CreateUser from "./components/CreateUser";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import { columns } from "./helpers/userColumns";
-import React from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+
+import { useUsers } from "./core/_hooks";
+import { userListColumns } from "./helpers/columns";
+import { IUser } from "./core/_models";
 
 const Users = () => {
   const usersTools = useUsers();
@@ -55,7 +46,7 @@ const Users = () => {
 
   return (
     <ReusableCard>
-      <Container>
+      <>
         <Typography variant="h2" color="primary">
           کاربران
         </Typography>
@@ -87,12 +78,12 @@ const Users = () => {
         </Box>
         <Box component="div">
           <MuiDataGrid
-            columns={columns(renderActions)}
+            columns={userListColumns(renderActions)}
             rows={results}
             data={usersTools?.data}
           />
         </Box>
-      </Container>
+      </>
       {/* Create User Modal */}
       <Modal
         open={createUserOpen}

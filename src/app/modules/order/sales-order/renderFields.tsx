@@ -52,7 +52,7 @@ const saleOrderParseFields = (
             return (
                 <Box key={index} component="div" className="flex flex-col w-full">
                     <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
-                        <FormikCustomer disabled={postSaleOrder.data?.succeeded} onChange={(value: any) => changeCustomerFunction(value, setFieldValue)} {...rest} />
+                        <FormikCustomer disabled={postSaleOrder?.data?.succeeded} onChange={(value: any) => changeCustomerFunction(value, setFieldValue)} {...rest} />
                         <IconButton onClick={() => setOpenState(true)} className="flex justify-center items-center cursor-pointer text-xl">
                             <AddCircle color="secondary" />
                         </IconButton>

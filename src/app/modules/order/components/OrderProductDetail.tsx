@@ -210,6 +210,7 @@ const OrderProductDetail = (props: Props) => {
                     disabled={postSaleOrder?.data?.succeeded}
                     products={products}
                     orderServices={orderServices}
+                    setOrderPayment={setOrderPayment}
                     setState={setState}
                 />
             </Form>
