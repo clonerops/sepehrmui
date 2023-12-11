@@ -52,7 +52,7 @@ const CreateUser = () => {
             )}
             <Container>
                 <ReusableCard>
-                    <Typography color="secondary" variant="h1" className="pb-8">ایجاد کاربر جدید</Typography>
+                    <Typography color="primary" variant="h2" className="pb-8">ایجاد کاربر جدید</Typography>
                     <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={async (values, { setStatus, setSubmitting }) => {
                         try {
                             mutate(values, {
@@ -70,16 +70,16 @@ const CreateUser = () => {
                                 <Box component="div" className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
                                     <FormikInput boxClassName="m-2" name="firstName" label="نام" />
                                     <FormikInput boxClassName="m-2" name="lastName" label="نام خانوادگی" />
-                                </Box>
-                                <FormikInput boxClassName="m-2" name="email" label="ایمیل" />
-                                <FormikInput boxClassName="m-2" name="userName" label="نام کاربری" />
-                                <Box component="div" className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                                    <FormikInput boxClassName="m-2" name="email" label="ایمیل" />
+                                    <FormikInput boxClassName="m-2" name="userName" label="نام کاربری" />
                                     <FormikInput boxClassName="m-2" name="password" label="کلمه عبور" type="password" />
                                     <FormikInput boxClassName="m-2" name="confirmPassword" label="تکرار کلمه عبور" type="password" />
                                 </Box>
-                                <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                    <Typography variant="h3" className="px-8 py-2">ثبت کاربر</Typography>
-                                </Button>
+                                <Box component="div" className="flex justify-end items-end">
+                                    <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
+                                        <Typography variant="h3" className="px-8 py-1">ثبت کاربر</Typography>
+                                    </Button>
+                                </Box>
                             </Form>
                         }}
                     </Formik>

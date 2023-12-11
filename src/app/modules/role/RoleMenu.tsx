@@ -1,173 +1,140 @@
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Box, Button, Card, Container, Modal, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
-  useDeleteRoleMenu,
-  useGetApplicationMenus,
-  useGetRoleMenus,
-  useGetRoles,
-  usePostRoleMenus,
+    useDeleteRoleMenu,
+    useGetApplicationMenus,
+    useGetRoleMenus,
+    useGetRoles,
+    usePostRoleMenus,
 } from "./core/_hooks";
 import { appMenuConvert, roleConvert } from "./helpers/roleConvert";
 import { IRoleMenu } from "./core/_models";
-import PositionedSnackbar from "../../../_cloner/components/Snackbar";
-import Backdrop from "../../../_cloner/components/Backdrop";
 import { postRoleMenusValidation } from "./validation/validation";
-import FormikSelect from "../../../_cloner/components/FormikSelect";
+import Menus from "./Menus";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import ReusableTable from "../../../_cloner/components/Tables";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 interface Item {
-  uniqueRole: string;
-  roleName: string;
+    uniqueRole: string;
+    roleName: string;
 }
 
 const initialValues: IRoleMenu = {
-  roleId: "",
-  applicationMenuId: "",
+    roleId: "",
+    applicationMenuId: [],
 };
 
 const RoleMenu = () => {
-  // Fetching
-  const { data: roles } = useGetRoles();
-  const { data: roleMenus } = useGetRoleMenus();
-  const { data: appMenu } = useGetApplicationMenus();
-  const { mutate, isLoading, data: postResponse } = usePostRoleMenus();
-  const { mutate: deleteMutate, data: delereResponse } = useDeleteRoleMenu();
-  // State
-  const [results, setResults] = useState<Item[]>(roleMenus?.data);
-  const [hasError, setHasError] = useState<boolean>(false);
+    // Fetching
+    const roleTools = useGetRoles();
+    // State
+    const [results, setResults] = useState<Item[]>([]);
+    const [visible, setVisible] = useState<boolean>(false);
 
-  useEffect(() => {
-    setResults(roleMenus?.data);
-  }, [roleMenus?.data]);
+    const [items, setItems] = useState<any>({});
 
-  const columns = [
-    { key: "roleId", title: "نقش" },
-    { key: "applicationMenuId", title: "منو" },
-  ];
+    useEffect(() => {
+        setResults(roleTools?.data);
+    }, [roleTools?.data]);
 
-  const onSubmit = (values: IRoleMenu) => {
-    try {
-      mutate(values, {
-        onSuccess: (res) => {
-          if (res?.succeeded) window.location.reload();
-          else setHasError(true);
-        },
-      });
-    } catch (e) {
-      setHasError(true);
-    }
-  };
+    const columns = (renderActions: any) => {
+        const col = [
+            {
+                field: "name",
+                headerName: "نقش کاربری",
+                headerClassName: "headerClassName",
+                flex: 1,
+            },
+            {
+                field: "Action",
+                headerName: "عملیات",
+                headerClassName: "headerClassName",
+                renderCell: renderActions,
+                flex: 1,
+            },
+        ];
+        return col;
+    };
 
-  const onDelete = (values: IRoleMenu) => {
-    try {
-      deleteMutate(values?.roleId, {
-        onSuccess: (res) => {
-          if (res?.succeeded) window.location.reload();
-          else setHasError(true);
-        },
-      });
-    } catch (e) {
-      setHasError(true);
-    }
-  };
-
-  const renderActions = (item: IRoleMenu) => {
-    return (
-      <Box component="div" className="tw-flex tw-gap-4">
-        <Box
-          component="div"
-          className="tw-bg-yellow-500 tw-px-4 tw-py-2 tw-cursor-pointer tw-rounded-md"
-        >
-          <Box
-            component="div"
-            className="flex items-center gap-x-3  tw-text-black font-bold"
-          >
-            {/* <EditIcon
-                            className={"cursor-pointer text-primary"}
-                            // onClick={() => handleEdit(item)}
-                        /> */}
-            <DeleteIcon
-              className={"cursor-pointer text-primary"}
-              onClick={() => onDelete(item)}
-            />
-          </Box>
-        </Box>
-      </Box>
-    );
-  };
-
-  return (
-    <Container>
-      {isLoading && <Backdrop loading={isLoading} />}
-      {hasError && (
-        <PositionedSnackbar
-          open={hasError}
-          setState={setHasError}
-          title={postResponse?.data?.Message || delereResponse?.data?.Message}
-        />
-      )}
-      <ReusableCard>
-        <Typography variant="h2" color="primary">
-          مدیریت نقش - منو
-        </Typography>
-        <Box component="div" className="my-8">
-          <Formik<IRoleMenu>
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            validationSchema={postRoleMenusValidation}
-          >
-            {({ handleSubmit }) => {
-              return (
-                <Form onSubmit={handleSubmit}>
-                  <Box component="div" className="flex gap-x-8">
-                    <FormikSelect
-                      name="roleId"
-                      label="Role"
-                      boxClassName={"w-2/5"}
-                      options={roleConvert(roles)}
-                    />
-                    <FormikSelect
-                      name="applicationMenuId"
-                      label="Menu"
-                      options={appMenuConvert(appMenu?.data)}
-                      boxClassName={"w-2/5"}
-                    />
-                    <Button
-                      type={"submit"}
-                      variant="contained"
-                      color="secondary"
+    const renderActions = (item: IRoleMenu) => {
+        return (
+            <Box component="div" className="tw-flex tw-gap-4">
+                <Box
+                    component="div"
+                    className="tw-bg-yellow-500 tw-px-4 tw-py-2 tw-cursor-pointer tw-rounded-md"
+                >
+                    <Box
+                        component="div"
+                        className="flex items-center gap-x-3  tw-text-white"
                     >
-                      ایجاد نقش - منو جدید
-                    </Button>
-                  </Box>
-                </Form>
-              );
-            }}
-          </Formik>
-        </Box>
-        <FuzzySearch
-          keys={["applicationMenuId", "roleId"]}
-          data={roleMenus?.data || []}
-          setResults={setResults}
-          threshold={0.4}
-        />
-        <Box component="div" className="my-4">
-          <ReusableTable
-            columns={columns}
-            data={results}
-            isLoading={false}
-            isError={false}
-            renderActions={renderActions}
-          />
-        </Box>
-      </ReusableCard>
-    </Container>
-  );
+                        <Button
+                            onClick={() => {
+                                setVisible(true);
+                                setItems(item);
+                            }}
+                            className="bg-yellow-500"
+                        >
+                            <Typography variant="h4" className="text-black">
+                                {"اعمال نقش-منو"}
+                            </Typography>
+                        </Button>
+                    </Box>
+                </Box>
+            </Box>
+        );
+    };
+
+    return (
+        <>
+            <ReusableCard>
+                <Box component="div" className="grid grid-cols-2">
+                    <Box>
+                        <Container>
+                            <FuzzySearch
+                                keys={["applicationMenuId", "roleId"]}
+                                data={roleTools?.data || []}
+                                setResults={setResults}
+                                threshold={0.4}
+                            />
+                            <Box component="div" className="my-4">
+                                <MuiDataGrid
+                                    columns={columns(renderActions)}
+                                    rows={results}
+                                    data={roleTools?.data}
+                                />
+                            </Box>
+                        </Container>
+                    </Box>
+                    <Box
+                        component="div"
+                        className="flex justify-center items-center"
+                    >
+                        <img
+                            src={toAbsoulteUrl(
+                                "/media/logos/4380747.jpg"
+                            )}
+                            width={400}
+                        />
+                    </Box>
+                </Box>
+            </ReusableCard>
+            <Modal
+                open={visible}
+                onClose={() => setVisible(false)}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <Menus items={items} />
+            </Modal>
+        </>
+    );
 };
 
 export default RoleMenu;

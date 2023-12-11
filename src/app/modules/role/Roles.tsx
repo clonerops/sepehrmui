@@ -1,106 +1,223 @@
-import React from "react";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useState } from "react";
-import { roles } from "./helpers/roleList";
+import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {
+    useDeleteApplicationRoles,
+    useGetApplicationRoles,
+    usePostApplicationRoles,
+} from "./core/_hooks";
+import { enqueueSnackbar } from "notistack";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import ReusableTable from "../../../_cloner/components/Tables";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import { AddCircleOutline } from "@mui/icons-material";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 
 interface Item {
-  uniqueRole: string;
-  roleName: string;
+    name: string;
+    description: string;
 }
 
 const initialValues = {
-  uniqueRole: "",
-  roleName: "",
+    name: "",
+    description: "",
 };
 
+// const validation = Yup.object({
+//   desc: Yup.string().required("فیلد الزامی می باشد")
+// })
+
 const Roles = () => {
-  // State
-  const [results, setResults] = useState<Item[]>(roles);
+    const [results, setResults] = useState<Item[]>([]);
+    const postApplicationRoles = usePostApplicationRoles();
+    const deleteApplicationRoles = useDeleteApplicationRoles();
+    const applicationRoles = useGetApplicationRoles();
+    useEffect(() => {
+        setResults(applicationRoles?.data);
+    }, [applicationRoles?.data]);
 
-  const columns = [
-    { key: "uniqueRole", title: "نقش منحصر به فرد" },
-    { key: "roleName", title: "نام نقش" },
-  ];
+    const columns = (renderAction: any) => {
+        const col = [
+            {
+                field: "name",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "نقش کاربری",
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1,
+            },
+            {
+                field: "description",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "توضیحات",
+                headerClassName: "headerClassName",
+                minWidth: 160,
+                flex: 1,
+            },
+        ];
+        return col;
+    };
 
-  const renderActions = (item: any) => {
-    return (
-      <Box component="div" className="tw-flex tw-gap-4">
-        <Box
-          component="div"
-          className="tw-bg-yellow-500 tw-px-4 tw-py-2 tw-cursor-pointer tw-rounded-md"
-        >
-          <Box
-            component="div"
-            className="flex items-center gap-x-3  tw-text-black font-bold"
-          >
-            {/* <EditIcon
+    const handlePost = (values: any) => {
+        postApplicationRoles.mutate(values, {
+            onSuccess: (message: any) => {
+                if (message.succeeded) {
+                    enqueueSnackbar("Role is successfully created", {
+                        variant: "success",
+                        anchorOrigin: { vertical: "top", horizontal: "center" },
+                    });
+                    applicationRoles.refetch();
+                } else {
+                    enqueueSnackbar(message?.data?.Message, {
+                        variant: "error",
+                        anchorOrigin: { vertical: "top", horizontal: "center" },
+                    });
+                }
+            },
+        });
+    };
+
+    const handleDelete = (id: number) => {
+        deleteApplicationRoles.mutate(id, {
+            onSuccess: (message: any) => {
+                if (message.succeeded) {
+                    enqueueSnackbar("Role is successfully deleted", {
+                        variant: "success",
+                        anchorOrigin: { vertical: "top", horizontal: "center" },
+                    });
+                    applicationRoles.refetch();
+                } else {
+                    enqueueSnackbar(message?.data?.Message, {
+                        variant: "error",
+                        anchorOrigin: { vertical: "top", horizontal: "center" },
+                    });
+                }
+            },
+        });
+    };
+
+    const renderActions = (item: any) => {
+        return (
+            <Box component="div" className="tw-flex tw-gap-4">
+                <Box
+                    component="div"
+                    className="tw-bg-yellow-500 tw-px-4 tw-py-2 tw-cursor-pointer tw-rounded-md"
+                >
+                    <Box
+                        component="div"
+                        className="flex items-center gap-x-3  tw-text-white"
+                    >
+                        <DeleteIcon
                             className={"cursor-pointer text-primary"}
-                            // onClick={() => handleEdit(item)}
-                        /> */}
-            <DeleteIcon
-              className={"cursor-pointer text-primary"}
-              // onClick={() => handleDelete(item?.id)}
-            />
-          </Box>
-        </Box>
-      </Box>
-    );
-  };
+                            onClick={() => handleDelete(item?.id)}
+                            titleAccess={"حذف"}
+                        />
+                    </Box>
+                </Box>
+            </Box>
+        );
+    };
 
-  return (
-    <Container>
-      <ReusableCard>
-        <Typography variant="h2" color="primary">
-          نقش ها
-        </Typography>
-        <Box component="div" className="my-8">
-          <Formik
-            initialValues={initialValues}
-            onSubmit={(values) => console.log(values)}
-          >
-            {() => {
-              return (
-                <Form>
-                  <Box component="div" className="flex flex-row gap-x-8">
-                    <FormikInput name="uniqueRole" label="Unique_Role" />
-                    <FormikInput name="roleName" label="Role_Name" />
-                  </Box>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    className="w-[240px] text-black font-bold font-boldpx-8 py-2"
-                  >
-                    ایجاد نقش جدید
-                  </Button>
-                </Form>
-              );
-            }}
-          </Formik>
-        </Box>
-        <FuzzySearch<Item>
-          keys={["uniqueRole", "roleName"]}
-          data={roles}
-          setResults={setResults}
-          threshold={0.3}
-        />
-        <Box component="div" className="my-4">
-          <ReusableTable
-            columns={columns}
-            data={results}
-            isLoading={false}
-            isError={false}
-            renderActions={renderActions}
-          />
-        </Box>
-      </ReusableCard>
-    </Container>
-  );
+    const renderAction = (item: any) => {
+        return (
+            <Box component="div" className="flex gap-4">
+                <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
+            </Box>
+        );
+    };
+
+    return (
+        <>
+            <ReusableCard>
+                <Box
+                    component="div"
+                    className="md:grid md:grid-cols-2 md:gap-x-4"
+                >
+                    <Box component="div">
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handlePost}
+                        >
+                            {({ handleSubmit }) => {
+                                return (
+                                    <Form
+                                        onSubmit={handleSubmit}
+                                        className="mb-4"
+                                    >
+                                        <Box
+                                            component="div"
+                                            className="md:flex md:justify-start md:items-start gap-x-4 "
+                                        >
+                                            <FormikInput
+                                                name="name"
+                                                label="نقش کاربری"
+                                                autoFocus={true}
+                                                boxClassName=" mt-2 md:mt-0"
+                                            />
+                                            <FormikInput
+                                                name="description"
+                                                label="توضیحات"
+                                                boxClassName=" mt-2 md:mt-0"
+                                            />
+                                            <Box
+                                                component="div"
+                                                className="mt-2 md:mt-0"
+                                            >
+                                                <IconButton
+                                                    onClick={() =>
+                                                        handleSubmit()
+                                                    }
+                                                    className="!bg-[#fcc615]"
+                                                >
+                                                    <AddCircleOutline color="primary" />
+                                                </IconButton>
+                                            </Box>
+                                        </Box>
+                                    </Form>
+                                );
+                            }}
+                        </Formik>
+                        <FuzzySearch<Item>
+                            keys={["name", "description"]}
+                            data={applicationRoles?.data || []}
+                            setResults={setResults}
+                            threshold={0.3}
+                        />
+                        <Box component="div" className="my-4">
+                            <MuiDataGrid
+                                columns={columns(renderActions)}
+                                rows={results}
+                                data={applicationRoles?.data}
+                            />
+                        </Box>
+
+                    </Box>
+                    <Box component="div">
+                            <Box
+                                component="div"
+                                className="hidden md:flex md:justify-center md:items-center"
+                            >
+                                <Box
+                                    component="img"
+                                    src={toAbsoulteUrl(
+                                        "/media/logos/roles.png"
+                                    )}
+                                    width={400}
+                                />
+                            </Box>
+                        </Box>
+
+                </Box>
+            </ReusableCard>
+        </>
+    );
 };
 
 export default Roles;

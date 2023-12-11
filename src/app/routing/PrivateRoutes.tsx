@@ -3,6 +3,7 @@ import React, { Suspense } from 'react'
 import { Navigate, Route, Routes } from "react-router-dom";
 import Backdrop from '../../_cloner/components/Backdrop';
 import ReadyToExit from '../modules/logestic/exit/ReadyToExit';
+import LazyLoad from '../../_cloner/components/LazyLoad';
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -33,7 +34,7 @@ const ProductState = React.lazy(() => import("../modules/generic/productState/Pr
 const ProductStandards = React.lazy(() => import("../modules/generic/productStandard/ProductStandard"));
 const ProductBrands = React.lazy(() => import("../modules/generic/productBrands/ProductBrands"));
 const Users = React.lazy(() => import("../modules/user/Users"));
-const CreateUser = React.lazy(() => import("../modules/user/components/CreateUser"));
+const UserForm = React.lazy(() => import("../modules/user/components/UserForm"));
 const RoleUser = React.lazy(() => import("../modules/user/components/RoleUser"));
 const ProductInventories = React.lazy(() => import("../modules/product/ProductInventories"));
 const OrderDetail = React.lazy(() => import("../modules/order/OrderDetail"));
@@ -48,11 +49,15 @@ const ReadyToLading = React.lazy(() => import("../modules/logestic/lading/ReadyT
 const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
 const ExitRemittance = React.lazy(() => import("../modules/logestic/exit/ExitRemittance"));
 const ExitRemittanceList = React.lazy(() => import("../modules/logestic/exit/ReadyToExit"));
+const Roles = React.lazy(() => import("../modules/role/Roles"));
+const RoleMenu = React.lazy(() => import("../modules/role/RoleMenu"));
+const RoleGroups = React.lazy(() => import("../modules/role/Groups"));
+const GroupForm = React.lazy(() => import("../modules/role/GroupForm"));
 
 const PrivateRoutes = () => {
 
   return (
-    <Suspense fallback={<Backdrop loading={true} />}>
+    <Suspense fallback={<LazyLoad loading={true} />}>
       <Routes>
         <Route element={<MasterLayout />}>
           <Route>
@@ -99,13 +104,19 @@ const PrivateRoutes = () => {
               <Route path='dashboard/productTypes' element={<ProductTypes />} />
               <Route path='dashboard/productState' element={<ProductState />} />
               <Route path='dashboard/productStandard' element={<ProductStandards />} />
-              <Route path='dashboard/productInventories' element={<ProductInventories />} />
+              <Route path='dashboard/productInventories' element={< ProductInventories />} />
               <Route path='dashboard/productBrand' element={<ProductBrands />} />
               <Route path='dashboard/productService' element={<ProductService />} />
 
               <Route path='dashboard/users' element={<Users />} />
-              <Route path="dashboard/user/create" element={<CreateUser />} />
+              <Route path="dashboard/user/create" element={<UserForm />} />
               <Route path="dashboard/user/role/:id" element={<RoleUser />} />
+
+            {/* Roles */}
+            <Route path="dashboard/roles" element={<Roles />} />
+            <Route path="dashboard/roles/menu" element={<RoleMenu />} />
+            <Route path="dashboard/roles/groups" element={<RoleGroups />} />
+            <Route path="dashboard/roles/groups/form" element={<GroupForm />} />
 
 
               {/* Lazy (M => import(""))odules */}

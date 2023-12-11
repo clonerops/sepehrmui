@@ -2,22 +2,22 @@ import { Typography } from '@mui/material'
 
 export const userListColumns = (renderAction: any) => {
     const col = [
-        { field: 'firstName', headerName: 'کد نام', headerClassName: "headerClassName", width: 80, renderCell: (params: any) => {
+        { field: 'firstName', flex: 1, headerName: 'کد نام', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        } },
-        { field: 'lastName', headerName: 'نام خانوادگی', headerClassName: "headerClassName", width: 120, renderCell: (params: any) => {
+        }, minWidth: 80 },
+        { field: 'lastName', flex: 1, headerName: 'نام خانوادگی', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        } },
-        { field: 'userName', headerName: 'نام کاربری', headerClassName: "headerClassName", width: 120, renderCell: (params: any) => {
+        }, minWidth: 120 },
+        { field: 'userName', flex: 1, headerName: 'نام کاربری', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        } },
-        { field: 'phoneNumber', headerName: 'موبایل', headerClassName: "headerClassName", width: 120, renderCell: (params: any) => {
+        }, minWidth: 120 },
+        { field: 'phoneNumber', flex: 1, headerName: 'موبایل', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        } },
-        { field: 'email', flex: 1, headerName: 'ایمیل', headerClassName: "headerClassName", width: 120, renderCell: (params: any) => {
+        }, minWidth: 120 },
+        { field: 'email', flex: 1, headerName: 'ایمیل', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        } },
-        { field: "Action", headerName: 'عملیات',  renderCell: renderAction, headerClassName: "headerClassName", width: 360 }
+        }, minWidth: 120 },
+        { headerName: 'عملیات', flex: 1,  renderCell: renderAction, headerClassName: "headerClassName", minWidth: 360 }
     ]
     return col
 }

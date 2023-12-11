@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import FormikInput from '../../../../_cloner/components/FormikInput'
 import FormikSelect from '../../../../_cloner/components/FormikSelect'
@@ -20,6 +20,7 @@ import { ILadingLicence } from '../core/_models'
 import { enqueueSnackbar } from 'notistack'
 import FormikComboBox from '../../../../_cloner/components/FormikComboBox'
 import Backdrop from '../../../../_cloner/components/Backdrop'
+import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
 
 interface ILadingList {
     id?: number
@@ -61,6 +62,16 @@ const LadingLicence = () => {
     let formikRef: any = useRef()
 
     const [ladingList, setLadingList] = useState<ILadingList[]>([])
+    useEffect(() => {
+        if(data?.data?.order.details.length > 0) {
+            const renameOrderDetails: any = data?.data?.order.details.map((item: any) => ({
+                orderDetailId: item.id,
+                orderDetailName: item.productName,
+                ladingAmount: item.proximateAmount
+              })) || [];
+              setLadingList(renameOrderDetails)
+        }
+        }, [data?.data?.order.details])
 
     const [open, setOpen] = useState<boolean>(false)
     const lastCargoList: any = [
@@ -81,11 +92,19 @@ const LadingLicence = () => {
             orderDetailId: values?.orderDetailId?.value,
             ladingAmount: +values.ladingAmount
         }
-        setLadingList(prev => [...prev, newList])
+
+        const isHasOrderDetail = ladingList.some((item) => {
+                return item.orderDetailId === values?.orderDetailId?.value
+        }) 
+        if(isHasOrderDetail) {
+            validateAndEnqueueSnackbar("این کالا قبلا در لیست بارگیری ها اضافه شده است", "error")
+        } else {
+            setLadingList(prev => [...prev, newList])
+        }
     }
 
     const handleDeleteProductInList = (rowData: any) => {
-        const filtered = ladingList.filter((item) => item.orderDetailId !== rowData.orderDetailId.value)
+        const filtered = ladingList.filter((item) => item.orderDetailId !== rowData.orderDetailId)
         setLadingList(filtered)
     }
 
@@ -160,10 +179,10 @@ const LadingLicence = () => {
                                     </Typography>
                                 </Button>
                             </Box>
-                            <FormikInput multiline minRows={3} name="description" label="توضیحات" />
-                            <Box component="div" className='mt-8 mx-auto'>
+                            <Box component="div" className='my-8 mx-auto'>
                                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862] !text-center" headCellTextColor="!text-white" data={ladingList} columns={lastCargoList} />
                             </Box>
+                            <FormikInput multiline minRows={3} name="description" label="توضیحات" />
                             <Box component="div" className='mt-8'>
                                 <Button onClick={() => onSubmit(values)} className='!bg-green-500 !text-white'>
                                     <Typography className='py-1'>ثبت مجوز</Typography>
