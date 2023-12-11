@@ -51,6 +51,7 @@ const ExitRemittance = React.lazy(() => import("../modules/logestic/exit/ExitRem
 const ExitRemittanceList = React.lazy(() => import("../modules/logestic/exit/ReadyToExit"));
 const Roles = React.lazy(() => import("../modules/role/Roles"));
 const RoleMenu = React.lazy(() => import("../modules/role/RoleMenu"));
+const RoleGroups = React.lazy(() => import("../modules/role/Groups"));
 
 const PrivateRoutes = () => {
 
@@ -113,6 +114,7 @@ const PrivateRoutes = () => {
             {/* Roles */}
             <Route path="dashboard/roles" element={<Roles />} />
             <Route path="dashboard/roles/menu" element={<RoleMenu />} />
+            <Route path="dashboard/roles/groups" element={<RoleGroups />} />
 
 
               {/* Lazy (M => import(""))odules */}
