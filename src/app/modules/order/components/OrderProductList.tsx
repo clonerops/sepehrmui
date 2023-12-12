@@ -36,6 +36,7 @@ const OrderProductList = (props: ProductProps) => {
             const updatedOrders = orders.filter((order) =>
                     order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
             );
+            console.log("setOrderPayment", setOrderPayment)
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
             if (setFieldValue) setFieldValue('amount', calculateTotalAmount(updatedOrders, orderServices).toString())

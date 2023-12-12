@@ -92,7 +92,8 @@ const SalesOrderEdit = () => {
         }
     }, [detailTools?.data?.data])
 
-    console.log(detailTools?.data?.data?.orderPayments)
+    console.log(detailTools?.data?.data?.details)
+    console.log(orders)
 
     const onGetOrderDetailByCode = (orderCode: number) => {
         detailTools.mutate(orderCode, {
@@ -101,9 +102,6 @@ const SalesOrderEdit = () => {
             }
         })
     }
-
-    console.log(orderPayment)
-
 
     const onSubmit = (values: any) => {
         if (orders?.length === 0) {
@@ -135,6 +133,8 @@ const SalesOrderEdit = () => {
                         warehouseId: item.warehouseId ? Number(item.warehouseId) : null, //ok
                         productBrandId: item.productBrandId ? Number(item.productBrandId) : 25, //ok
                         proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0, //ok
+                        productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                        productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
                         numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
                         price: item.price ? Number(item.price?.replace(/,/g, "")) : null, //ok
                         cargoSendDate: "1402/01/01",
@@ -210,6 +210,8 @@ const SalesOrderEdit = () => {
     if (postSaleOrder.isLoading) {
         return <Backdrop loading={postSaleOrder.isLoading} />
     }
+
+    console.log("detailTools?.data?.data", detailTools?.data?.data)
 
     return (
         <>

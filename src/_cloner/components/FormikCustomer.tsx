@@ -21,7 +21,7 @@ const FormikCustomer = (props: any) => {
 
                     </Box> <Typography className="pr-4" style={{
                         width: "100%"
-                    }}>{option.label}</Typography>
+                    }}>{option?.label}</Typography>
                 </li>
 
             }

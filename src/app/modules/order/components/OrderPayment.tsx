@@ -54,6 +54,8 @@ const OrderPayment = (props: Props) => {
         else {
             setOrderPayment([...orderPaymentCP, orderPaymentData])
             setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, [...orderPaymentCP, orderPaymentData], orderService)))
+            // setFieldValue("number", values.number)
+            // setFieldValue("settlement", moment(Date.now()).add(+values.number, "days").format('jYYYY/jMM/jDD'))
             setFieldValue("number", "")
             setFieldValue("settlement", "")
         }
@@ -63,7 +65,6 @@ const OrderPayment = (props: Props) => {
         const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== params.id)
         setOrderPayment(orderPaymentFilter)
         setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, orderPaymentFilter, orderService)))
-
     }
 
     const paymentColumns = [

@@ -4,15 +4,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import ShieldIcon from "@mui/icons-material/Shield";
 import { Link } from "react-router-dom";
 
-import { useUsers } from "./core/_hooks";
-import { IUser } from "./core/_models";
-import { userListColumns } from "./helpers/columns";
-
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import CreateUser from "./components/CreateUser";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import UserForm from "./components/UserForm";
+
+import { useUsers } from "./core/_hooks";
+import { userListColumns } from "./helpers/columns";
+import { IUser } from "./core/_models";
 
 const Users = () => {
   const usersTools = useUsers();
