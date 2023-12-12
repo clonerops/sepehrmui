@@ -4,8 +4,6 @@ import { DeleteOutline, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-ma
 
 const Accordion = () => {
     const [show, setShow] = useState<boolean>(false)
-
-    console.log("show", show)
   return (
     <>
         <Box component="div" className='accordion flex justify-between items-center w-full bg-white rounded-md'>
