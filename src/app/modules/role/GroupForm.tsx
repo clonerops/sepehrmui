@@ -5,6 +5,7 @@ import { Box, Button, Typography } from "@mui/material"
 import CustomButton from "../../../_cloner/components/CustomButton"
 import FormikCheckbox from "../../../_cloner/components/FormikCheckbox"
 import CheckboxGroup from "../../../_cloner/components/CheckboxGroup"
+import { Link } from "react-router-dom"
 
 const initialValues = {
     groupName: "",
@@ -44,9 +45,11 @@ const GroupForm = () => {
                         <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white">
                             <Typography>ثبت</Typography>
                         </Button>
-                        <Button variant="outlined" className="!border-2 !border-red-500 !text-red-500">
-                            <Typography>انصراف و بازگشت</Typography>
-                        </Button>
+                        <Link to="/dashboard/roles/groups">
+                            <Button variant="outlined" className="!border-2 !border-red-500 !text-red-500">
+                                <Typography>انصراف و بازگشت</Typography>
+                            </Button>
+                        </Link>
                     </Box>
                 </ReusableCard>
                 </>
