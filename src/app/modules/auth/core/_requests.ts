@@ -6,7 +6,7 @@ import {
 
 const loginUser = async (formData: ILoginUser) => {
     try {
-        const { data } = await http.post("/Account/authenticate",JSON.stringify(formData));
+        const { data } = await http.post("/Auth",JSON.stringify(formData));
         return data;
         
     } catch (error: any) {

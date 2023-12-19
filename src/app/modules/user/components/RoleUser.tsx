@@ -1,22 +1,24 @@
 import {
-  Box,
-  Card,
-  Container,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+    Box,
+    Card,
+    Chip,
+    Container,
+    IconButton,
+    Switch,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
 } from "@mui/material";
 
 import {
-  useDeleteUserRole,
-  useGetRoles,
-  useGetUserRole,
-  usePostUserRole,
+    useDeleteUserRole,
+    useGetRoles,
+    useGetUserRole,
+    usePostUserRole,
 } from "../../role/core/_hooks";
 import { IRole, IUpdateRole, IUserRole } from "../../role/core/_models";
 import { useState } from "react";
@@ -26,112 +28,93 @@ import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import { Add, Close, Done } from "@mui/icons-material";
 
 const RoleUser = () => {
-  const queryClient = useQueryClient();
-  const { id } = useParams();
-  const [searchParams] = useSearchParams();
-  const { data, refetch } = useGetUserRole();
-  const rolesListTools = useGetRoles();
-  const {
-    mutateAsync: postMutate,
-    data: postResponse,
-    isLoading: postLoading,
-  } = usePostUserRole();
-  const {
-    mutateAsync: deleteMutate,
-    data: deleteResponse,
-    isLoading: deleteLoading,
-  } = useDeleteUserRole();
+    const queryClient = useQueryClient();
+    const { id } = useParams();
+    const [searchParams] = useSearchParams();
+    const { data, refetch } = useGetUserRole();
+    const rolesListTools = useGetRoles();
+    const {
+        mutateAsync: postMutate,
+        data: postResponse,
+        isLoading: postLoading,
+    } = usePostUserRole();
+    const {
+        mutateAsync: deleteMutate,
+        data: deleteResponse,
+        isLoading: deleteLoading,
+    } = useDeleteUserRole();
 
-  const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
-  const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
+    const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
+    const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
 
-  const onUpdateStatus = (rowData: IRole, checked: boolean) => {
-    const query: IUpdateRole = {
-      userId: id || "",
-      roleId: rowData.id,
+    const onUpdateStatus = (rowData: IRole, checked: boolean) => {
+        const query: IUpdateRole = {
+            userId: id || "",
+            roleId: rowData.id,
+        };
+        try {
+            if (checked) {
+                postMutate(query, {
+                    onSuccess: () => {
+                        setSnackePostOpen(true);
+                        rolesListTools.refetch();
+                        window.location.reload();
+                    },
+                });
+            } else {
+                deleteMutate(query, {
+                    onSuccess: () => {
+                        rolesListTools.refetch();
+                        setSnackeDeleteOpen(true);
+                        window.location.reload();
+                    },
+                });
+            }
+            queryClient.invalidateQueries(["roles"]);
+        } catch (e) {
+            return e;
+        }
     };
-    try {
-      if (checked) {
-        postMutate(query, {
-          onSuccess: () => {
-            setSnackePostOpen(true)
-            rolesListTools.refetch()
-            window.location.reload()
-          }
-        })
-      } else {
-        deleteMutate(query, {
-          onSuccess: () => {
-            rolesListTools.refetch()
-            setSnackeDeleteOpen(true)
-            window.location.reload()
-          }
-        })
-      }
-      queryClient.invalidateQueries(['roles']);
-    } catch (e) {
-      return e;
-    }
-  };
-  
-  return (
-    <>
-      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postResponse?.data?.Message || postResponse?.message} />)}
-      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteResponse?.data?.Message || deleteResponse?.data?.message || deleteResponse?.message} />)}
-      <Container>
-        <ReusableCard>
-          <Typography variant="h2" color="primary">
-            {"نقش"}: {new URLSearchParams(searchParams).get("name")}
-          </Typography>
-          <Box component="div" className="pt-8">
-            <TableContainer>
-              <Table>
-                <TableHead className="bg-slate-200">
-                  <TableRow>
-                    <TableCell className="font-poppins_bold">
-                      عملیات
-                    </TableCell>
-                    <TableCell className="font-poppins_bold">
-                      نقش
-                    </TableCell>
-                    <TableCell className="font-poppins_bold">
-                      توضیحات
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rolesListTools?.data?.map((item: IRole) => {
-                    return (
-                      <TableRow>
-                        <TableCell>
-                          <Switch
-                            onChange={(_, checked) =>
-                              onUpdateStatus(item, checked)
-                            }
-                            checked={data?.data?.find((node: IUserRole) => (node.roleId === item?.id) && (node.userId === id))}
-                          />
-                        </TableCell>
-                        <TableCell>{item.name}</TableCell>
-                        <TableCell>
-                          {
-                            data?.data?.find(
-                              (node: IUserRole) => node.roleName === item?.name,
-                            )?.roleDesc
-                          }
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
-        </ReusableCard>
-      </Container>
-    </>
-  );
+
+    return (
+        <>
+            {snackePostOpen && (
+                <PositionedSnackbar
+                    open={snackePostOpen}
+                    setState={setSnackePostOpen}
+                    title={postResponse?.data?.Message || postResponse?.message}
+                />
+            )}
+            {snackeDeleteOpen && (
+                <PositionedSnackbar
+                    open={snackeDeleteOpen}
+                    setState={setSnackeDeleteOpen}
+                    title={
+                        deleteResponse?.data?.Message ||
+                        deleteResponse?.data?.message ||
+                        deleteResponse?.message
+                    }
+                />
+            )}
+            <ReusableCard>
+                <Typography variant="h1" color="primary">
+                    {new URLSearchParams(searchParams).get("name")}
+                </Typography>
+                <Box className="pt-8">
+                    <Typography variant="h2" className="pb-8">گروه ها</Typography>
+                        <Chip
+                            label={<Typography>فروشندگان نبشی</Typography>}
+                            onClick={() => {}}
+                            onDelete={() => {}}
+                            deleteIcon={<Add className="!text-cyan-600" />}
+                        />
+                </Box>
+            </ReusableCard>
+        </>
+    );
 };
 
 export default RoleUser;

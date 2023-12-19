@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import { enqueueSnackbar } from "notistack";
@@ -7,11 +7,12 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import Captcha from "./components/Captcha";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
+import { Autorenew } from "@mui/icons-material";
 
 const Login = () => {
   // Api
   const { mutate, isLoading } = useLoginUser();
-  const { data: captcha } = useGetCaptcha()
+  const { data: captcha, refetch } = useGetCaptcha()
 
 
   const initialValues = {
@@ -35,17 +36,18 @@ const Login = () => {
         mutate(userData, {
           onSuccess: (loginData) => {
             if (loginData.succeeded) {
+              enqueueSnackbar(loginData.message, {
+                variant: "success",
+                anchorOrigin: {vertical: "top", horizontal: "center"}
+              })
               localStorage.setItem("auth", JSON.stringify(loginData?.data));
               Cookies.set("token", `${loginData?.data?.jwToken}`);
               window.location.reload();
-              enqueueSnackbar(loginData.message, {
-                variant: "success",
-                anchorOrigin: { vertical: "top", horizontal: "center" }
-              })
             } else {
-              enqueueSnackbar(loginData.data.Message, {
+              refetch()
+              enqueueSnackbar(loginData.response.data.Message, {
                 variant: "error",
-                anchorOrigin: { vertical: "top", horizontal: "center" }
+                anchorOrigin: {vertical: "top", horizontal: "center"}
               })
             }
           }
@@ -120,7 +122,10 @@ const Login = () => {
                 {...formik.getFieldProps("password")}
               />
             </Box>
-            <Captcha captcha={captcha?.data?.cImage} />
+            <Box component="div" className="flex flex-row gap-x-4">
+                <Captcha captcha={captcha?.data?.cImage} />
+                <IconButton onClick={() => refetch()}><Autorenew /></IconButton>
+            </Box>
             <Box component="div" className="w-[60%] md:w-[40%] my-4 mb-8">
               <TextField
                 fullWidth
