@@ -1,12 +1,15 @@
 import { Formik } from "formik"
-import ReusableCard from "../../../_cloner/components/ReusableCard"
-import FormikInput from "../../../_cloner/components/FormikInput"
+import ReusableCard from "../../../../_cloner/components/ReusableCard"
+import FormikInput from "../../../../_cloner/components/FormikInput"
 import { Box, Button, Typography } from "@mui/material"
-import CheckboxGroup from "../../../_cloner/components/CheckboxGroup"
+import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
 import { Link } from "react-router-dom"
+import { usePostApplicationRoles } from "./_hooks"
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
 
 const initialValues = {
-    groupName: "",
+    name: "",
+    description: "",
     permissions: []
 }
 
@@ -18,10 +21,20 @@ const options = [
     {label: "TransAdms", value: "JHHDDHGDPODIPDHGHGEGEJ"},
 ]
 
-const GroupForm = () => {
+const GroupEditForm = () => {
+    const postApplicationRoles = usePostApplicationRoles();
+    
 
     const onSubmit = (values: any) => {
-        console.log(values)
+        postApplicationRoles.mutate(values, {
+            onSuccess: (message: any) => {
+                if (message.succeeded) {
+                    validateAndEnqueueSnackbar("Group is successfully created", "success")
+                } else {
+                    validateAndEnqueueSnackbar(message?.data?.Message, "error")
+                }
+            },
+        });
     }
 
     return (
@@ -41,15 +54,9 @@ const GroupForm = () => {
                         <CheckboxGroup options={options} label="" name="permissions"  />
                     </Box>
                     <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
-                        <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white">
-                            <Typography>ثبت</Typography>
+                        <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white">
+                            <Typography>ویرایش گروه</Typography>
                         </Button>
-                        <Link to="/dashboard/roles/groups">
-                            <Button variant="outlined" className="!border-2 !border-red-500 !text-red-500">
-                                <Typography>انصراف و بازگشت</Typography>
-                            </Button>
-                        </Link>
-                        
                     </Box>
                 </ReusableCard>
                 </>
@@ -59,4 +66,4 @@ const GroupForm = () => {
   )
 }
 
-export default GroupForm
+export default GroupEditForm

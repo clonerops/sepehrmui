@@ -19,8 +19,8 @@ import {
     useGetRoles,
     useGetUserRole,
     usePostUserRole,
-} from "../../role/core/_hooks";
-import { IRole, IUpdateRole, IUserRole } from "../../role/core/_models";
+} from "../../access/roles/core/_hooks";
+import { IRole, IUpdateRole, IUserRole } from "../../access/roles/core/_models";
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import Backdrop from "../../../../_cloner/components/Backdrop";

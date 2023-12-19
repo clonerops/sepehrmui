@@ -8,13 +8,16 @@ import {
     usePostApplicationRoles,
 } from "./core/_hooks";
 import { enqueueSnackbar } from "notistack";
-import FormikInput from "../../../_cloner/components/FormikInput";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { AddCircleOutline } from "@mui/icons-material";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import { roleCreateValidation } from "./helpers/validations";
+import EditGridButton from "../../../../_cloner/components/EditGridButton";
+import { IRole } from "./core/_models";
 
 interface Item {
     name: string;
@@ -32,12 +35,15 @@ const initialValues = {
 
 const Roles = () => {
     const [results, setResults] = useState<Item[]>([]);
+    const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+    const [itemForEdit, setItemForEdit] = useState<IRole>();
+
     const postApplicationRoles = usePostApplicationRoles();
     const deleteApplicationRoles = useDeleteApplicationRoles();
     const applicationRoles = useGetApplicationRoles();
     useEffect(() => {
-        setResults(applicationRoles?.data);
-    }, [applicationRoles?.data]);
+        setResults(applicationRoles?.data?.data);
+    }, [applicationRoles?.data?.data]);
 
     const columns = (renderAction: any) => {
         const col = [
@@ -57,6 +63,14 @@ const Roles = () => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "توضیحات",
+                headerClassName: "headerClassName",
+                minWidth: 160,
+                flex: 1,
+            },
+            {
+                field: "action",
+                renderCell: renderAction,
+                headerName: "عملیات",
                 headerClassName: "headerClassName",
                 minWidth: 160,
                 flex: 1,
@@ -84,12 +98,17 @@ const Roles = () => {
         });
     };
 
+    const handleEdit = (item: IRole) => {
+        setItemForEdit(item);
+        setIsEditOpen(true);
+    };
+
     const handleDelete = (id: number) => {
         deleteApplicationRoles.mutate(id, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
                     enqueueSnackbar("Role is successfully deleted", {
-                        variant: "success",
+                        variant: "info",
                         anchorOrigin: { vertical: "top", horizontal: "center" },
                     });
                     applicationRoles.refetch();
@@ -103,35 +122,15 @@ const Roles = () => {
         });
     };
 
-    const renderActions = (item: any) => {
+    const renderAction = (item: any) => {
         return (
-            <Box component="div" className="tw-flex tw-gap-4">
-                <Box
-                    component="div"
-                    className="tw-bg-yellow-500 tw-px-4 tw-py-2 tw-cursor-pointer tw-rounded-md"
-                >
-                    <Box
-                        component="div"
-                        className="flex items-center gap-x-3  tw-text-white"
-                    >
-                        <DeleteIcon
-                            className={"cursor-pointer text-primary"}
-                            onClick={() => handleDelete(item?.id)}
-                            titleAccess={"حذف"}
-                        />
-                    </Box>
-                </Box>
+            <Box component="div" className="flex gap-4">
+                <EditGridButton onClick={() => handleEdit(item?.row)} />
+                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
             </Box>
         );
     };
 
-    const renderAction = (item: any) => {
-        return (
-            <Box component="div" className="flex gap-4">
-                <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
-            </Box>
-        );
-    };
 
     return (
         <>
@@ -144,6 +143,7 @@ const Roles = () => {
                         <Formik
                             initialValues={initialValues}
                             onSubmit={handlePost}
+                            validationSchema={roleCreateValidation}
                         >
                             {({ handleSubmit }) => {
                                 return (
@@ -186,15 +186,15 @@ const Roles = () => {
                         </Formik>
                         <FuzzySearch<Item>
                             keys={["name", "description"]}
-                            data={applicationRoles?.data || []}
+                            data={applicationRoles?.data?.data || []}
                             setResults={setResults}
                             threshold={0.3}
                         />
                         <Box component="div" className="my-4">
                             <MuiDataGrid
-                                columns={columns(renderActions)}
+                                columns={columns(renderAction)}
                                 rows={results}
-                                data={applicationRoles?.data}
+                                data={applicationRoles?.data?.data}
                             />
                         </Box>
 

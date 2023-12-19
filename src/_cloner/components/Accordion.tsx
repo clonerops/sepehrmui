@@ -4,10 +4,12 @@ import { DeleteOutline, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-ma
 
 type Props = {
     content: ReactNode
+    title: string
+    deleteOnClick: () => void
 }
 
 const Accordion = (props: Props) => {
-    const { content } = props;
+    const { content, title, deleteOnClick } = props;
 
     const [state, setState] = useState<{show: boolean, showDelete: boolean}>({
         show: false,
@@ -17,7 +19,7 @@ const Accordion = (props: Props) => {
     return (
     <>
         <Box component="div" className='accordion flex justify-between items-center w-full bg-white rounded-md my-1'>
-            <Typography className="p-4">گروه فروشندگان نبشی</Typography>
+            <Typography className="p-4">{title}</Typography>
             <Box component="div" className='flex flex-row gap-x-4'>
                 <IconButton onClick={() => setState({show: false, showDelete: !state.showDelete})}>
                     <DeleteOutline className='text-red-500' />
@@ -32,7 +34,7 @@ const Accordion = (props: Props) => {
                 <Typography className="p-4">
                     آیا از حذف این گروه اطمینان دارید؟
                 </Typography>
-                <Button className='!bg-red-500 !text-white'><Typography>حذف</Typography></Button>
+                <Button onClick={deleteOnClick} className='!bg-red-500 !text-white'><Typography>حذف</Typography></Button>
                 <Button onClick={() => setState({show: false, showDelete: false})} className='!border-2 !border-blue-500 !text-blue-500'><Typography>انصراف</Typography></Button>
             </Box>
         }

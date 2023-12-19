@@ -49,10 +49,10 @@ const ReadyToLading = React.lazy(() => import("../modules/logestic/lading/ReadyT
 const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
 const ExitRemittance = React.lazy(() => import("../modules/logestic/exit/ExitRemittance"));
 const ExitRemittanceList = React.lazy(() => import("../modules/logestic/exit/ReadyToExit"));
-const Roles = React.lazy(() => import("../modules/role/Roles"));
-const RoleMenu = React.lazy(() => import("../modules/role/RoleMenu"));
-const RoleGroups = React.lazy(() => import("../modules/role/Groups"));
-const GroupForm = React.lazy(() => import("../modules/role/GroupForm"));
+const Roles = React.lazy(() => import("../modules/access/roles/Roles"));
+const RoleMenu = React.lazy(() => import("../modules/access/roles/RoleMenu"));
+const RoleGroups = React.lazy(() => import("../modules/access/groups/Groups"));
+const GroupForm = React.lazy(() => import("../modules/access/groups/GroupForm"));
 
 const PrivateRoutes = () => {
 
