@@ -18,11 +18,11 @@ const Users = () => {
   const usersTools = useUsers();
   const [createUserOpen, setCreateUserOpen] = useState<boolean>(false);
 
-  const [results, setResults] = useState<IUser[]>(usersTools?.data);
+  const [results, setResults] = useState<IUser[]>(usersTools?.data?.data);
 
   useEffect(() => {
-    setResults(usersTools?.data);
-  }, [usersTools?.data]);
+    setResults(usersTools?.data?.data);
+  }, [usersTools?.data?.data]);
 
   const renderActions = (item: any) => {
     console.log(item)
@@ -40,7 +40,7 @@ const Users = () => {
             <ShieldIcon color="info" />
           </Button>
         </Link>
-        <Switch />
+        {/* <Switch /> */}
       </Box>
     );
   };
@@ -50,15 +50,14 @@ const Users = () => {
       <>
         <Box
           component="div"
-          className="flex justify-center items-center gap-x-8 py-4"
+          className="flex flex-col md:flex-row justify-center items-center gap-x-8 py-4 md:space-y-0 space-y-4 "
         >
           <FuzzySearch<IUser>
             keys={[ "email", "userName", "firstName", "lastName", "phoneNumber", "description"]}
-            data={usersTools?.data}
+            data={usersTools?.data?.data}
             setResults={setResults}
             threshold={0.3}
           />
-          {/* <Link to={"/dashboard/user/create"}> */}
             <Button
               onClick={() => setCreateUserOpen(true)}
               variant="contained"
@@ -66,13 +65,12 @@ const Users = () => {
             >
               <Typography variant="body1">ایجاد کاربر جدید</Typography>
             </Button>
-          {/* </Link> */}
         </Box>
         <Box component="div">
           <MuiDataGrid
             columns={userListColumns(renderActions)}
             rows={results}
-            data={usersTools?.data}
+            data={usersTools?.data?.data}
           />
         </Box>
       </>
@@ -87,7 +85,7 @@ const Users = () => {
             justifyContent: "center",
           }}
         >
-          <UserForm />
+          <UserForm onClose={() => setCreateUserOpen(false)} refetchUser={usersTools.refetch} />
         </Modal>
       }
     </ReusableCard>

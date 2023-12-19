@@ -1,4 +1,4 @@
-import { http } from "../../../../_cloner/helpers/axiosConfig";
+import { http } from "../../../../../_cloner/helpers/axiosConfig";
 import { IRole, IRoleMenu, IUpdateRole } from "./_models";
 
 const getRoles = async () => {

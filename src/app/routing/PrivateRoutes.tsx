@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Backdrop from '../../_cloner/components/Backdrop';
 import ReadyToExit from '../modules/logestic/exit/ReadyToExit';
 import LazyLoad from '../../_cloner/components/LazyLoad';
+import Permissions from '../modules/access/permissions/Permissions';
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -49,10 +50,10 @@ const ReadyToLading = React.lazy(() => import("../modules/logestic/lading/ReadyT
 const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
 const ExitRemittance = React.lazy(() => import("../modules/logestic/exit/ExitRemittance"));
 const ExitRemittanceList = React.lazy(() => import("../modules/logestic/exit/ReadyToExit"));
-const Roles = React.lazy(() => import("../modules/role/Roles"));
-const RoleMenu = React.lazy(() => import("../modules/role/RoleMenu"));
-const RoleGroups = React.lazy(() => import("../modules/role/Groups"));
-const GroupForm = React.lazy(() => import("../modules/role/GroupForm"));
+const Roles = React.lazy(() => import("../modules/access/roles/Roles"));
+const RoleMenu = React.lazy(() => import("../modules/access/roles/RoleMenu"));
+const RoleGroups = React.lazy(() => import("../modules/access/groups/Groups"));
+const GroupForm = React.lazy(() => import("../modules/access/groups/GroupForm"));
 
 const PrivateRoutes = () => {
 
@@ -117,6 +118,9 @@ const PrivateRoutes = () => {
             <Route path="dashboard/roles/menu" element={<RoleMenu />} />
             <Route path="dashboard/roles/groups" element={<RoleGroups />} />
             <Route path="dashboard/roles/groups/form" element={<GroupForm />} />
+            <Route path="dashboard/permissions" element={<Permissions />} />
+            <Route path="dashboard/roles/menu" element={<RoleMenu />} />
+
 
 
               {/* Lazy (M => import(""))odules */}

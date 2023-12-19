@@ -1,28 +1,27 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import {
-    useDeleteApplicationRoles,
-    useGetApplicationRoles,
-    usePostApplicationRoles,
-} from "./core/_hooks";
 import { enqueueSnackbar } from "notistack";
-import FormikInput from "../../../_cloner/components/FormikInput";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { AddCircleOutline } from "@mui/icons-material";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import EditGridButton from "../../../../_cloner/components/EditGridButton";
+import { useDeletePermissions, useGetPermissions, usePostPermissions } from "./_hooks";
+import { IPermission } from "./_models";
+import { createPermissionValidation } from "./_validation";
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 
 interface Item {
-    name: string;
+    title: string;
     description: string;
 }
 
 const initialValues = {
-    name: "",
+    title: "",
     description: "",
 };
 
@@ -30,23 +29,26 @@ const initialValues = {
 //   desc: Yup.string().required("فیلد الزامی می باشد")
 // })
 
-const Roles = () => {
+const Permissions = () => {
     const [results, setResults] = useState<Item[]>([]);
-    const postApplicationRoles = usePostApplicationRoles();
-    const deleteApplicationRoles = useDeleteApplicationRoles();
-    const applicationRoles = useGetApplicationRoles();
+    const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+    const [itemForEdit, setItemForEdit] = useState<IPermission>();
+
+    const postPermissions = usePostPermissions();
+    const deletePermissions = useDeletePermissions();
+    const Permissions = useGetPermissions();
     useEffect(() => {
-        setResults(applicationRoles?.data);
-    }, [applicationRoles?.data]);
+        setResults(Permissions?.data?.data);
+    }, [Permissions?.data?.data]);
 
     const columns = (renderAction: any) => {
         const col = [
             {
-                field: "name",
+                field: "title",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
-                headerName: "نقش کاربری",
+                headerName: "عنوان مجوز",
                 headerClassName: "headerClassName",
                 minWidth: 120,
                 flex: 1,
@@ -61,77 +63,58 @@ const Roles = () => {
                 minWidth: 160,
                 flex: 1,
             },
+            {
+                field: "action",
+                renderCell: renderAction,
+                headerName: "عملیات",
+                headerClassName: "headerClassName",
+                minWidth: 160,
+                flex: 1,
+            },
         ];
         return col;
     };
 
     const handlePost = (values: any) => {
-        postApplicationRoles.mutate(values, {
+        postPermissions.mutate(values, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
-                    enqueueSnackbar("Role is successfully created", {
-                        variant: "success",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
-                    applicationRoles.refetch();
+                    validateAndEnqueueSnackbar(message?.message, "success")
+                    Permissions.refetch();
                 } else {
-                    enqueueSnackbar(message?.data?.Message, {
-                        variant: "error",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
+                    validateAndEnqueueSnackbar(message?.data?.Message, "error")
                 }
             },
         });
     };
 
-    const handleDelete = (id: number) => {
-        deleteApplicationRoles.mutate(id, {
+    const handleEdit = (item: IPermission) => {
+        setItemForEdit(item);
+        setIsEditOpen(true);
+    };
+
+    const handleDelete = (id: string) => {
+        deletePermissions.mutate(id, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
-                    enqueueSnackbar("Role is successfully deleted", {
-                        variant: "success",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
-                    applicationRoles.refetch();
+                    validateAndEnqueueSnackbar("مجوز با موفقیت حذف گردید.", "success")
+                    Permissions.refetch();
                 } else {
-                    enqueueSnackbar(message?.data?.Message, {
-                        variant: "error",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
+                    validateAndEnqueueSnackbar(message?.data?.Message, "error")
                 }
             },
         });
-    };
-
-    const renderActions = (item: any) => {
-        return (
-            <Box component="div" className="tw-flex tw-gap-4">
-                <Box
-                    component="div"
-                    className="tw-bg-yellow-500 tw-px-4 tw-py-2 tw-cursor-pointer tw-rounded-md"
-                >
-                    <Box
-                        component="div"
-                        className="flex items-center gap-x-3  tw-text-white"
-                    >
-                        <DeleteIcon
-                            className={"cursor-pointer text-primary"}
-                            onClick={() => handleDelete(item?.id)}
-                            titleAccess={"حذف"}
-                        />
-                    </Box>
-                </Box>
-            </Box>
-        );
     };
 
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
-                <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
+                <EditGridButton onClick={() => handleEdit(item?.row)} />
+                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
             </Box>
         );
     };
+
 
     return (
         <>
@@ -144,6 +127,7 @@ const Roles = () => {
                         <Formik
                             initialValues={initialValues}
                             onSubmit={handlePost}
+                            validationSchema={createPermissionValidation}
                         >
                             {({ handleSubmit }) => {
                                 return (
@@ -156,8 +140,8 @@ const Roles = () => {
                                             className="md:flex md:justify-start md:items-start gap-x-4 "
                                         >
                                             <FormikInput
-                                                name="name"
-                                                label="نقش کاربری"
+                                                name="title"
+                                                label="عنوان مجوز"
                                                 autoFocus={true}
                                                 boxClassName=" mt-2 md:mt-0"
                                             />
@@ -186,15 +170,15 @@ const Roles = () => {
                         </Formik>
                         <FuzzySearch<Item>
                             keys={["name", "description"]}
-                            data={applicationRoles?.data || []}
+                            data={Permissions?.data?.data || []}
                             setResults={setResults}
                             threshold={0.3}
                         />
                         <Box component="div" className="my-4">
                             <MuiDataGrid
-                                columns={columns(renderActions)}
+                                columns={columns(renderAction)}
                                 rows={results}
-                                data={applicationRoles?.data}
+                                data={Permissions?.data?.data}
                             />
                         </Box>
 
@@ -207,7 +191,7 @@ const Roles = () => {
                                 <Box
                                     component="img"
                                     src={toAbsoulteUrl(
-                                        "/media/logos/roles.png"
+                                        "/media/logos/34313.jpg"
                                     )}
                                     width={400}
                                 />
@@ -220,4 +204,4 @@ const Roles = () => {
     );
 };
 
-export default Roles;
+export default Permissions;

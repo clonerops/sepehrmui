@@ -1,0 +1,75 @@
+import { Formik } from "formik"
+import ReusableCard from "../../../../_cloner/components/ReusableCard"
+import FormikInput from "../../../../_cloner/components/FormikInput"
+import { Box, Button, Typography } from "@mui/material"
+import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
+import { Link } from "react-router-dom"
+import { usePostApplicationRoles } from "./_hooks"
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+
+const initialValues = {
+    name: "",
+    description: "",
+    permissions: []
+}
+
+const options = [
+    {label: "TransAdmsCo", value: "JHHDDHGDHGHGEGEJ"},
+    {label: "TransCo", value: "JHHDJKDJKDDHGDHGHGEGEJ"},
+    {label: "TransAdms", value: "JHHDDHGDPODIPDHGHGEGEJ"},
+    {label: "TransAdms", value: "JHHDDHGDPODIPDHGHGEGEJ"},
+    {label: "TransAdms", value: "JHHDDHGDPODIPDHGHGEGEJ"},
+]
+
+const GroupForm = () => {
+    const postApplicationRoles = usePostApplicationRoles();
+    
+
+    const onSubmit = (values: any) => {
+        postApplicationRoles.mutate(values, {
+            onSuccess: (message: any) => {
+                if (message.succeeded) {
+                    validateAndEnqueueSnackbar("Group is successfully created", "success")
+                } else {
+                    validateAndEnqueueSnackbar(message?.data?.Message, "error")
+                }
+            },
+        });
+    }
+
+    return (
+    <>
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            {({ handleSubmit }) => {
+                return <>
+                <ReusableCard>
+                    <Box component="div" className="w-[50%]">
+                        <FormikInput name="groupName" label="اسم گروه" />
+                    </Box>
+                    <Box component="div" className="py-8">
+                        <Typography variant="h2" color="primary">دسترسی ها</Typography>
+                        <Typography variant="body1" color="primary">انتخاب دسترسی ها برای این گروه</Typography>
+                    </Box>
+                    <Box component="div">
+                        <CheckboxGroup options={options} label="" name="permissions"  />
+                    </Box>
+                    <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
+                        <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white">
+                            <Typography>ثبت</Typography>
+                        </Button>
+                        <Link to="/dashboard/roles/groups">
+                            <Button variant="outlined" className="!border-2 !border-red-500 !text-red-500">
+                                <Typography>انصراف و بازگشت</Typography>
+                            </Button>
+                        </Link>
+                        
+                    </Box>
+                </ReusableCard>
+                </>
+            }}
+        </Formik>
+    </>
+  )
+}
+
+export default GroupForm
