@@ -6,6 +6,8 @@ import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
 import { Link } from "react-router-dom"
 import { usePostApplicationRoles } from "./_hooks"
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+import { useGetPermissions } from "../permissions/_hooks"
+import { dropdownPermissions } from "../permissions/_functions"
 
 const initialValues = {
     name: "",
@@ -13,17 +15,10 @@ const initialValues = {
     permissions: []
 }
 
-const options = [
-    {label: "TransAdmsCo", value: "JHHDDHGDHGHGEGEJ"},
-    {label: "TransCo", value: "JHHDJKDJKDDHGDHGHGEGEJ"},
-    {label: "TransAdms", value: "JHHDDHGDPODIPDHGHGEGEJ"},
-    {label: "TransAdms", value: "JHHDDHGDPODIPDHGHGEGEJ"},
-    {label: "TransAdms", value: "JHHDDHGDPODIPDHGHGEGEJ"},
-]
-
 const GroupEditForm = () => {
     const postApplicationRoles = usePostApplicationRoles();
-    
+    const permissions = useGetPermissions()
+
 
     const onSubmit = (values: any) => {
         postApplicationRoles.mutate(values, {
@@ -47,11 +42,11 @@ const GroupEditForm = () => {
                         <FormikInput name="groupName" label="اسم گروه" />
                     </Box>
                     <Box component="div" className="py-8">
-                        <Typography variant="h2" color="primary">دسترسی ها</Typography>
-                        <Typography variant="body1" color="primary">انتخاب دسترسی ها برای این گروه</Typography>
+                        <Typography variant="h2" color="primary">لیست مجوزها</Typography>
+                        {/* <Typography variant="body1" color="primary">انتخاب دسترسی ها برای این گروه</Typography> */}
                     </Box>
                     <Box component="div">
-                        <CheckboxGroup options={options} label="" name="permissions"  />
+                        <CheckboxGroup options={dropdownPermissions(permissions?.data?.data)} label="" name="permissions"  />
                     </Box>
                     <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
                         <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white">

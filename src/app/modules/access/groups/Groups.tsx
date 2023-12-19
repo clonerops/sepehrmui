@@ -1,7 +1,6 @@
 import { Box, Button, Typography } from "@mui/material"
 import CustomizedAccordions from "../../../../_cloner/components/Accordion"
 import { Link } from "react-router-dom"
-import GroupForm from "./GroupForm"
 import { useDeleteApplicationRoles, useGetApplicationRoles } from "./_hooks"
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
 import GroupEditForm from "./GroupEditForm"
@@ -17,7 +16,7 @@ const RoleGroups = () => {
               validateAndEnqueueSnackbar("Role is successfully deleted", "info")
               groups.refetch();
             } else {
-              validateAndEnqueueSnackbar(message?.data?.Message, "info")
+              validateAndEnqueueSnackbar(message?.data?.Message, "warning")
             }
         },
     });
