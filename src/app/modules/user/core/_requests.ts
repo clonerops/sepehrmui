@@ -3,7 +3,7 @@ import { IUser } from "./_models";
 
 const registerUser = async (formData: IUser) => {
     try {
-        const { data } = await http.post("/Account/register",JSON.stringify(formData));
+        const { data } = await http.post("/v1/ApplicationUser",JSON.stringify(formData));
         return data
     } catch (error: any) {
         return error.response
@@ -12,7 +12,7 @@ const registerUser = async (formData: IUser) => {
 
 
 const fetchUsers = async () => {
-  return await http.get("/Account").then((res) => res?.data);
+  return await http.get("/v1/ApplicationUser").then((res) => res?.data);
 };
 
 

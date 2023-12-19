@@ -2,7 +2,7 @@ import { Typography } from '@mui/material'
 
 export const userListColumns = (renderAction: any) => {
     const col = [
-        { field: 'firstName', flex: 1, headerName: 'کد نام', headerClassName: "headerClassName", renderCell: (params: any) => {
+        { field: 'firstName', flex: 1, headerName: 'نام', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
         }, minWidth: 80 },
         { field: 'lastName', flex: 1, headerName: 'نام خانوادگی', headerClassName: "headerClassName", renderCell: (params: any) => {
