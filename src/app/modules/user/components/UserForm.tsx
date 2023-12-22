@@ -87,8 +87,12 @@ const UserForm = (props: Props) => {
 
 
     const onAdd = (values: IUser) => {
+        const formData = {
+            ...values,
+            userRoles: []
+        }
         try {
-            mutate(values, {
+            mutate(formData, {
                 onSuccess: (message) => {
                     if(message?.succeeded) {
                         validateAndEnqueueSnackbar(message?.message, "success")

@@ -35,7 +35,6 @@ const Login = () => {
       try {
         mutate(userData, {
           onSuccess: (loginData) => {
-            console.log("loginData?.data", loginData?.data)
             if (loginData.succeeded) {
               enqueueSnackbar(loginData.message, {
                 variant: "success",
@@ -46,7 +45,7 @@ const Login = () => {
               window.location.reload();
             } else {
               refetch()
-              enqueueSnackbar(loginData.response.data.Message, {
+              enqueueSnackbar(loginData.data.Message, {
                 variant: "error",
                 anchorOrigin: {vertical: "top", horizontal: "center"}
               })
