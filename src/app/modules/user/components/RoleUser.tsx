@@ -1,18 +1,4 @@
-import {
-    Box,
-    Card,
-    Chip,
-    Container,
-    IconButton,
-    Switch,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-} from "@mui/material";
+import { Box, Chip, Stack, Typography } from "@mui/material";
 
 import {
     useDeleteUserRole,
@@ -23,18 +9,17 @@ import {
 import { IRole, IUpdateRole, IUserRole } from "../../access/roles/core/_models";
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import Backdrop from "../../../../_cloner/components/Backdrop";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import { useQueryClient } from "@tanstack/react-query";
-import React from "react";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { Add, Close, Done } from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
+import { useGetApplicationRoles } from "../../access/groups/_hooks";
 
 const RoleUser = () => {
     const queryClient = useQueryClient();
     const { id } = useParams();
     const [searchParams] = useSearchParams();
-    const { data, refetch } = useGetUserRole();
+    const groups = useGetApplicationRoles();
     const rolesListTools = useGetRoles();
     const {
         mutateAsync: postMutate,
@@ -101,16 +86,27 @@ const RoleUser = () => {
             )}
             <ReusableCard>
                 <Typography variant="h1" color="primary">
-                    {new URLSearchParams(searchParams).get("name")}
+                    نام کاربری: {new URLSearchParams(searchParams).get("name")}
                 </Typography>
                 <Box className="pt-8">
-                    <Typography variant="h2" className="pb-8">گروه ها</Typography>
-                        <Chip
-                            label={<Typography>فروشندگان نبشی</Typography>}
-                            onClick={() => {}}
-                            onDelete={() => {}}
-                            deleteIcon={<Add className="!text-cyan-600" />}
-                        />
+                    <Typography variant="h2" className="pb-8">
+                        گروه ها
+                    </Typography>
+                    <Stack direction="row" spacing={2}>
+                        {groups?.data?.data.map(
+                            (item: { id: string; name: string }) => (
+                                <Chip
+                                    label={<Typography>{item.name}</Typography>}
+                                    onClick={() => {}}
+                                    onDelete={() => {}}
+                                    className="m-2"
+                                    deleteIcon={
+                                        <Add className="!text-cyan-600" />
+                                    }
+                                />
+                            )
+                        )}
+                    </Stack>
                 </Box>
             </ReusableCard>
         </>

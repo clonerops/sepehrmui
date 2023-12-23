@@ -24,14 +24,13 @@ const Users = () => {
   }, [usersTools?.data?.data]);
 
   const renderActions = (item: any) => {
-    console.log(item)
     return (
       <Box component="div">
         <Button>
           <EditIcon color="warning" />
         </Button>
         <Link
-          to={`/dashboard/user/role/${item.id}?name=${
+          to={`/dashboard/user/role/${item.row.id}?name=${
             item?.row.firstName + "  " + item?.row.lastName
           }`}
         >
