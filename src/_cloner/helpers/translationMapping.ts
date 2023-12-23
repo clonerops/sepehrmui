@@ -19,7 +19,7 @@ export const translationMapping: any = {
     productStandard: 'استانداردها',
     productState: 'حالت ها',
     productTypes: 'نوع کالا ها',
-    user: 'کاربران',
+    users: 'کاربران',
     role: 'نقش',
     productInventories: 'موجودی قابل فروش',
     productBrand: 'کالا برند',
@@ -32,6 +32,9 @@ export const translationMapping: any = {
     ready_to_exit: 'سفارشات بارگیری شده جهت صدور مجوز خروج',
     lading_list: 'لیست مجوز های بارگیری',
     orderUpdate: 'ویرایش سفارش',
+    roles: "نقش ها",
+    permissions: "مجوزها",
+    groups: "گروه ها",
     // Add more translations as needed
   };
   

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Modal, Switch, Typography } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ShieldIcon from "@mui/icons-material/Shield";
 import { Link } from "react-router-dom";
 
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import CreateUser from "./components/CreateUser";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import UserForm from "./components/UserForm";

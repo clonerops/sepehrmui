@@ -102,6 +102,18 @@ const menuItem = [
                 title: "کاربران",
                 to: "dashboard/users",
             },
+            {
+                id: 1321,
+                iconName: "SelectAll",
+                title: "گروه ها",
+                to: "dashboard/roles/groups",
+            },
+            {
+                id: 1321,
+                iconName: "SelectAll",
+                title: "مجوز ها",
+                to: "dashboard/permissions",
+            },
         ],
     },
     {
