@@ -92,14 +92,14 @@ const menuItem = [
     },
     {
         id: 2,
-        title: "کاربران",
+        title: "مدیریت کاربران",
         to: "",
         iconName: "PriceChange",
         submenu: [
             {
                 id: 1321,
                 iconName: "SelectAll",
-                title: "کاربران و دسترسی ها",
+                title: "کاربران",
                 to: "dashboard/users",
             },
         ],
