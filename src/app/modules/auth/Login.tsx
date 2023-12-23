@@ -154,6 +154,7 @@ const Login = () => {
                 variant="contained"
                 type="submit"
                 color="secondary"
+                disabled={!formik.values.captchaCode || !formik.values.password || !formik.values.userName}
               >
                 <Typography variant="h4" className="py-2">
                   {isLoading ? "درحال پردارش ..." : "ورود به حساب کاربری"}
