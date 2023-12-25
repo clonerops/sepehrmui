@@ -7,7 +7,7 @@ import {
     usePostUserRole,
 } from "../../access/roles/core/_hooks";
 import { IRole, IUpdateRole, IUserRole } from "../../access/roles/core/_models";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,6 +16,7 @@ import { Add, Close } from "@mui/icons-material";
 import { useGetApplicationRoles } from "../../access/groups/_hooks";
 import { usePostUserRoles } from "../../access/user-roles/_hooks";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { useGetUserDetail } from "../core/_hooks";
 
 const RoleUser = () => {
     const queryClient = useQueryClient();
@@ -24,6 +25,11 @@ const RoleUser = () => {
     const groups = useGetApplicationRoles();
     const postUserRole  = usePostUserRoles()
     const rolesListTools = useGetRoles();
+    const detailTools = useGetUserDetail();
+    useEffect(() => {
+        detailTools.mutate(id)
+    }, [id])
+
     const {
         mutateAsync: postMutate,
         data: postResponse,
@@ -34,9 +40,6 @@ const RoleUser = () => {
         data: deleteResponse,
         isLoading: deleteLoading,
     } = useDeleteUserRole();
-
-    const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
-    const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
 
     // const onUpdateStatus = (rowData: IRole, checked: boolean) => {
     //     const query: IUpdateRole = {
@@ -82,26 +85,10 @@ const RoleUser = () => {
             }
         })
     }
+
+    
     return (
         <>
-            {snackePostOpen && (
-                <PositionedSnackbar
-                    open={snackePostOpen}
-                    setState={setSnackePostOpen}
-                    title={postResponse?.data?.Message || postResponse?.message}
-                />
-            )}
-            {snackeDeleteOpen && (
-                <PositionedSnackbar
-                    open={snackeDeleteOpen}
-                    setState={setSnackeDeleteOpen}
-                    title={
-                        deleteResponse?.data?.Message ||
-                        deleteResponse?.data?.message ||
-                        deleteResponse?.message
-                    }
-                />
-            )}
             <ReusableCard>
                 <Typography variant="h1" color="primary">
                     نام کاربری: {new URLSearchParams(searchParams).get("name")}
@@ -111,19 +98,18 @@ const RoleUser = () => {
                         گروه ها
                     </Typography>
                     <Stack direction="row" spacing={2}>
-                        {groups?.data?.data.map(
-                            (item: { id: string; name: string }) => (
+                    {groups?.data?.data.map((item: { id: string; name: string }) => {
+                        const hasRole = detailTools?.data?.data?.userRoles.some((node: IUserRole) => node.roleId === item?.id && node.userId === id);
+                        return (
                                 <Chip
+                                    key={item.id}
                                     label={<Typography>{item.name}</Typography>}
-                                    // onClick={() => onPostUserRole(item.id)}
                                     onDelete={() => onPostUserRole(item.id)}
                                     className="m-2"
-                                    deleteIcon={
-                                        <Add className="!text-cyan-600" />
-                                    }
+                                    deleteIcon={hasRole ? <Close className="!text-red-600" /> : <Add className="!text-cyan-600" />}
                                 />
-                            )
-                        )}
+                            );
+                        })}               
                     </Stack>
                 </Box>
             </ReusableCard>

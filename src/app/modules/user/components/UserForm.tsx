@@ -136,7 +136,6 @@ const UserForm = (props: Props) => {
                 }
             ))
         }
-        console.log(formData)
         try {
             updateTools.mutate(formData, {
                 onSuccess: (message) => {
@@ -176,7 +175,7 @@ const UserForm = (props: Props) => {
                             <Formik
                                 enableReinitialize
                                 initialValues={isNew ? initialValues : {...initialValues, ...detailTools?.data?.data, 
-                                    // roleId:  detailTools?.data?.data.userRoles.map((item: {roleId: string}) => item.roleId) || [] 
+                                    roleId:  detailTools?.data?.data.userRoles.map((item: {roleId: string}) => item.roleId) || [] 
                                 }}
                                 validationSchema={isNew && registerValidation}
                                 onSubmit={handleSubmit}
