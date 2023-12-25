@@ -14,9 +14,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { Add, Close } from "@mui/icons-material";
 import { useGetApplicationRoles } from "../../access/groups/_hooks";
-import { usePostUserRoles } from "../../access/user-roles/_hooks";
+import { useDeleteUserRoles, useGetUserRoles, usePostUserRoles } from "../../access/user-roles/_hooks";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 import { useGetUserDetail } from "../core/_hooks";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const RoleUser = () => {
     const queryClient = useQueryClient();
@@ -24,11 +25,9 @@ const RoleUser = () => {
     const [searchParams] = useSearchParams();
     const groups = useGetApplicationRoles();
     const postUserRole  = usePostUserRoles()
+    const deleteUserRole  = useDeleteUserRoles()
     const rolesListTools = useGetRoles();
-    const detailTools = useGetUserDetail();
-    useEffect(() => {
-        detailTools.mutate(id)
-    }, [id])
+    const userRoles = useGetUserRoles(id);
 
     const {
         mutateAsync: postMutate,
@@ -78,14 +77,34 @@ const RoleUser = () => {
         postUserRole.mutate(formData, {
             onSuccess: (response) => {
                 if(response.succeeded) {
-                    validateAndEnqueueSnackbar(response.message, "info")
+                    validateAndEnqueueSnackbar(response.message, "success")
+                    userRoles.refetch()
                 } else {
-                    validateAndEnqueueSnackbar(response.response.Message, "error")
+                    validateAndEnqueueSnackbar(response.data.Message, "error")
+                }
+            }
+        })
+    }
+    const onDeleteUserRole = (roleId: string) => {
+        const formData = {
+            userId: id,
+            roleId: roleId
+        }
+        deleteUserRole.mutate(formData, {
+            onSuccess: (response) => {
+                if(response.succeeded) {
+                    validateAndEnqueueSnackbar("دسترسی با موفقیت از کاربر حذف گردید.", "info")
+                    userRoles.refetch()
+                } else {
+                    validateAndEnqueueSnackbar(response.data.Message, "error")
                 }
             }
         })
     }
 
+    if(postUserRole.isLoading || deleteUserRole.isLoading) {
+        return <Backdrop loading={postUserRole.isLoading || deleteUserRole.isLoading} />
+    }
     
     return (
         <>
@@ -99,12 +118,12 @@ const RoleUser = () => {
                     </Typography>
                     <Stack direction="row" spacing={2}>
                     {groups?.data?.data.map((item: { id: string; name: string }) => {
-                        const hasRole = detailTools?.data?.data?.userRoles.some((node: IUserRole) => node.roleId === item?.id && node.userId === id);
+                        const hasRole = userRoles?.data?.data.some((node: IUserRole) => node.roleId === item?.id && node.userId === id);
                         return (
                                 <Chip
                                     key={item.id}
                                     label={<Typography>{item.name}</Typography>}
-                                    onDelete={() => onPostUserRole(item.id)}
+                                    onDelete={hasRole ? () => onDeleteUserRole(item.id) : () => onPostUserRole(item.id)}
                                     className="m-2"
                                     deleteIcon={hasRole ? <Close className="!text-red-600" /> : <Add className="!text-cyan-600" />}
                                 />

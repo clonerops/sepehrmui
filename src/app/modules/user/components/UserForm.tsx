@@ -8,10 +8,7 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { IUser } from "../core/_models";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import FormikRole from "../../../../_cloner/components/FormikRole";
-import FormikMultiRole from "../../../../_cloner/components/FormikMultiRole";
 
 const registerValidation = Yup.object().shape({
     firstName: Yup.string().required("نام الزامی است"),
@@ -44,7 +41,7 @@ const initialValues = {
     userName: "",
     password: "",
     confirmPassword: "",
-    roleId: []
+    // roleId: []
 };
 
 type Props = {
@@ -82,9 +79,7 @@ const UserForm = (props: Props) => {
                 name: "confirmPassword",
                 type: "password",
             },
-            { label: "نقش کاربری", name: "roleId", type: "role" },
-        ],
-        
+        ], 
     ];
 
     const parseFields = (fields: FieldType) => {
@@ -92,8 +87,8 @@ const UserForm = (props: Props) => {
         switch (type) {
             case "password":
                 return <FormikInput type="password" disabled={!isNew} {...rest} />;
-            case "role":
-                return <FormikMultiRole {...rest} />;
+            // case "role":
+            //     return <FormikMultiRole {...rest} />;
             default:
                 return <FormikInput {...rest} />;
         }
@@ -156,12 +151,7 @@ const UserForm = (props: Props) => {
     const handleSubmit = (values: IUser) => {
         if (id) onUpdate(values);
         else onAdd(values);
-        // onAdd(values);
     };
-
-
-    console.log("initialValues", {...initialValues, ...detailTools?.data?.data, 
-        roleId: detailTools?.data?.data.userRoles.map((item: {roleId: string}) => item.roleId)})
 
     return (
         <>

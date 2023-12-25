@@ -2,8 +2,8 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
 import { IUserRole } from "./_models"
 
-const useGetUserRoles = () => {
-    return useQuery(['userRoles'], () => api.getUserRoles())
+const useGetUserRoles = (id: string) => {
+    return useQuery(['userRoles', id], () => api.getUserRoles(id))
 }
 
 const usePostUserRoles= () => {
@@ -13,8 +13,8 @@ const usePostUserRoles= () => {
 }
 
 const useDeleteUserRoles = () => {
-    return useMutation((id: string) => {
-        return api.deleteUserRoles(id)
+    return useMutation((formData: IUserRole) => {
+        return api.deleteUserRoles(formData)
     })
 }
 

@@ -1,40 +1,8 @@
 const menuItem = [
-    // { id: 1, title: "صفحه نخست", to: "/dashboard", iconName: "Home" },
-    // {
-    //     id: 2,
-    //     title: "سفارشات",
-    //     to: "",
-    //     iconName: "Redeem",
-    //     submenu: [
-    //         {
-    //             id: 1321,
-    //             iconName: "Report",
-    //             title: "ثبت سفارش",
-    //             to: "dashboard/order",
-    //         },
-    //         {
-    //             id: 1321,
-    //             iconName: "RestorePage",
-    //             title: "لیست سفارش",
-    //             to: "dashboard/orderList",
-    //         },
-    //         {
-    //             id: 1321,
-    //             iconName: "RocketTwoTone",
-    //             title: "تایید سفارش",
-    //             to: "dashboard/approveOrderList",
-    //         },
-    //         {
-    //             id: 1321,
-    //             iconName: "RocketTwoTone",
-    //             title: "ویرایش سفارش",
-    //             to: "dashboard/orderUpdate",
-    //         },
-    //     ],
-    // },
+ 
     {
         id: 2,
-        title: "شفارش فروش",
+        title: "سفارش فروش",
         to: "",
         iconName: "Redeem",
         submenu: [
