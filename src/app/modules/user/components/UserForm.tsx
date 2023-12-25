@@ -10,6 +10,8 @@ import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import FormikRole from "../../../../_cloner/components/FormikRole";
+import FormikMultiRole from "../../../../_cloner/components/FormikMultiRole";
 
 const registerValidation = Yup.object().shape({
     firstName: Yup.string().required("نام الزامی است"),
@@ -42,6 +44,7 @@ const initialValues = {
     userName: "",
     password: "",
     confirmPassword: "",
+    roleId: []
 };
 
 type Props = {
@@ -79,14 +82,18 @@ const UserForm = (props: Props) => {
                 name: "confirmPassword",
                 type: "password",
             },
+            { label: "نقش کاربری", name: "roleId", type: "role" },
         ],
+        
     ];
 
     const parseFields = (fields: FieldType) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "password":
-                return <FormikInput type="password" {...rest} />;
+                return <FormikInput type="password" disabled={!isNew} {...rest} />;
+            case "role":
+                return <FormikMultiRole {...rest} />;
             default:
                 return <FormikInput {...rest} />;
         }
@@ -96,7 +103,10 @@ const UserForm = (props: Props) => {
     const onAdd = (values: IUser) => {
         const formData = {
             ...values,
-            userRoles: []
+            userRoles: values?.roleId?.map((item: string) => (
+                {roleId: item}
+            ))
+            
         }
         try {
             mutate(formData, {
@@ -118,13 +128,20 @@ const UserForm = (props: Props) => {
     const onUpdate = (values: IUser) => {
         const formData = {
             ...values,
-            userRoles: []
+            userRoles: values?.roleId?.map((item: string) => (
+                
+                {
+                    roleId: item,
+                    userId: id 
+                }
+            ))
         }
+        console.log(formData)
         try {
             updateTools.mutate(formData, {
                 onSuccess: (message) => {
                     if(message?.succeeded) {
-                        validateAndEnqueueSnackbar(message?.message, "success")
+                        validateAndEnqueueSnackbar("ویرایش با موفقیت انجام شد.", "success")
                        if(refetchUser) refetchUser()
                         onClose()
                     } else {
@@ -144,6 +161,9 @@ const UserForm = (props: Props) => {
     };
 
 
+    console.log("initialValues", {...initialValues, ...detailTools?.data?.data, 
+        roleId: detailTools?.data?.data.userRoles.map((item: {roleId: string}) => item.roleId)})
+
     return (
         <>
             <Container>
@@ -155,8 +175,10 @@ const UserForm = (props: Props) => {
                             </Typography>
                             <Formik
                                 enableReinitialize
-                                initialValues={isNew ? initialValues : {...initialValues, ...detailTools?.data?.data}}
-                                validationSchema={registerValidation}
+                                initialValues={isNew ? initialValues : {...initialValues, ...detailTools?.data?.data, 
+                                    // roleId:  detailTools?.data?.data.userRoles.map((item: {roleId: string}) => item.roleId) || [] 
+                                }}
+                                validationSchema={isNew && registerValidation}
                                 onSubmit={handleSubmit}
                             >
                                 {({ handleSubmit }) => {

@@ -9,4 +9,5 @@ export interface IUser {
     userRoles?: {
         roleId: string
     }[]
+    roleId?: string[]
 }
