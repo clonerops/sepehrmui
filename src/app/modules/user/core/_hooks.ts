@@ -10,4 +10,22 @@ const useRegisterUser = () => {
 
 const useUsers = () => useQuery(["users"], () => api.fetchUsers());
 
-export { useRegisterUser, useUsers };
+const useGetUserDetail = () => {
+    return useMutation((id: string) => {
+        return api.getUserDetail(id)
+    })
+}
+
+const useGetUpdateUser = () => {
+    return useMutation((formData: IUser) => {
+        return api.updateUser(formData)
+    })
+}
+
+const useGetDeleteUser = () => {
+    return useMutation((id: string) => {
+        return api.deleteUser(id)
+    })
+}
+
+export { useRegisterUser, useUsers, useGetUserDetail, useGetUpdateUser, useGetDeleteUser };

@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import {  Formik } from "formik";
-import { useRegisterUser } from "../core/_hooks";
+import { useGetUpdateUser, useGetUserDetail, useRegisterUser } from "../core/_hooks";
 import { Box, Button, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -8,6 +8,8 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { IUser } from "../core/_models";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const registerValidation = Yup.object().shape({
     firstName: Yup.string().required("نام الزامی است"),
@@ -43,17 +45,22 @@ const initialValues = {
 };
 
 type Props = {
+    id?: any
     onClose?: React.Dispatch<React.SetStateAction<boolean>> | any
     refetchUser?:  <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>> | any
 }
 
 const UserForm = (props: Props) => {
-    const {onClose, refetchUser} = props;
-    // const { id }: any = useParams();
+    const {id, onClose, refetchUser} = props;
     const { mutate } = useRegisterUser();
-    // const detailTools = useGetUserDetail();
-    // const updateTools = useUpdateUser();
-    // const navigate = useNavigate();
+    const detailTools = useGetUserDetail();
+    const updateTools = useGetUpdateUser();
+
+    const isNew = !id;
+
+    useEffect(() => {
+        detailTools.mutate(id)
+    }, [id])
 
     const fields: FieldType[][] = [
         [
@@ -108,60 +115,86 @@ const UserForm = (props: Props) => {
         }
     };
 
-    const handleSubmit = (values: IUser) => {
-        // if (id) onUpdate(values);
-        // else onAdd(values);
-        onAdd(values);
+    const onUpdate = (values: IUser) => {
+        const formData = {
+            ...values,
+            userRoles: []
+        }
+        try {
+            updateTools.mutate(formData, {
+                onSuccess: (message) => {
+                    if(message?.succeeded) {
+                        validateAndEnqueueSnackbar(message?.message, "success")
+                       if(refetchUser) refetchUser()
+                        onClose()
+                    } else {
+                        validateAndEnqueueSnackbar(message?.data.Message, "error")
+                    }
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
+    const handleSubmit = (values: IUser) => {
+        if (id) onUpdate(values);
+        else onAdd(values);
+        // onAdd(values);
+    };
 
 
     return (
         <>
             <Container>
                 <ReusableCard>
-                    <Typography color="primary" variant="h2" className="pb-8">
-                        ایجاد کاربر جدید
-                    </Typography>
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={registerValidation}
-                        onSubmit={handleSubmit}
-                    >
-                        {({ handleSubmit }) => {
-                            return (
-                                <>
-                                    {fields.map((rowFields) => (
-                                        <Box
-                                            component="div"
-                                            className="flex items-start gap-x-4 my-4 justify-between"
-                                        >
-                                            {rowFields.map((field) =>
-                                                parseFields(field)
-                                            )}
-                                        </Box>
-                                    ))}
-                                    <Box
-                                        component="div"
-                                        className="flex justify-end items-end"
-                                    >
-                                        <Button
-                                            onClick={() => handleSubmit()}
-                                            variant="contained"
-                                            color="secondary"
-                                        >
-                                            <Typography
-                                                variant="h3"
-                                                className="px-8 py-1"
+                    {detailTools.isLoading ? (<Typography>درحال بارگزاری ....</Typography>) : (
+                        <>
+                            <Typography color="primary" variant="h2" className="pb-8">
+                                {isNew ? "ثبت کاربر جدید" : "ویرایش کاربر"}
+                            </Typography>
+                            <Formik
+                                enableReinitialize
+                                initialValues={isNew ? initialValues : {...initialValues, ...detailTools?.data?.data}}
+                                validationSchema={registerValidation}
+                                onSubmit={handleSubmit}
+                            >
+                                {({ handleSubmit }) => {
+                                    return (
+                                        <>
+                                            {fields.map((rowFields) => (
+                                                <Box
+                                                    component="div"
+                                                    className="flex items-start gap-x-4 my-4 justify-between"
+                                                >
+                                                    {rowFields.map((field) =>
+                                                        parseFields(field)
+                                                    )}
+                                                </Box>
+                                            ))}
+                                            <Box
+                                                component="div"
+                                                className="flex justify-end items-end"
                                             >
-                                                ثبت کاربر
-                                            </Typography>
-                                        </Button>
-                                    </Box>
-                                </>
-                            );
-                        }}
-                    </Formik>
+                                                <Button
+                                                    onClick={() => handleSubmit()}
+                                                    variant="contained"
+                                                    color="secondary"
+                                                >
+                                                    <Typography
+                                                        variant="h3"
+                                                        className="px-8 py-1"
+                                                    >
+                                                        {isNew ? "ثبت کاربر جدید" : "ویرایش کاربر"}
+                                                    </Typography>
+                                                </Button>
+                                            </Box>
+                                        </>
+                                    );
+                                }}
+                            </Formik>
+                        </>
+                    )}
                 </ReusableCard>
             </Container>
         </>

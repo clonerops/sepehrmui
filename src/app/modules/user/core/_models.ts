@@ -6,4 +6,7 @@ export interface IUser {
     userName: string
     password: string
     confirmPassword: string
+    userRoles?: {
+        roleId: string
+    }[]
 }

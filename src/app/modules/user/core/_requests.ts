@@ -16,4 +16,33 @@ const fetchUsers = async () => {
 };
 
 
-export { registerUser, fetchUsers }
+const getUserDetail = async (id: string) => {
+    try {
+        const {data} = await http.get(`/v1/ApplicationUser/${id}`)
+        return data
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
+const updateUser = async (formData: IUser) => {
+    try {
+        const {data} = await http.put(`/v1/ApplicationUser/${formData.id}`, JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response;
+    }
+
+}
+
+const deleteUser = async (id: string) => {
+    try {
+        const {data} = await http.delete(`/v1/ApplicationUser/${id}`)
+        return data
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
+
+export { registerUser, fetchUsers, getUserDetail, updateUser, deleteUser }

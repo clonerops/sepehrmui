@@ -16,6 +16,8 @@ import { IUser } from "./core/_models";
 const Users = () => {
   const usersTools = useUsers();
   const [createUserOpen, setCreateUserOpen] = useState<boolean>(false);
+  const [updateUserOpen, setUpdateUserOpen] = useState<boolean>(false);
+  const [rowId, setRowId] = useState<string>("")
 
   const [results, setResults] = useState<IUser[]>(usersTools?.data?.data);
 
@@ -23,10 +25,16 @@ const Users = () => {
     setResults(usersTools?.data?.data);
   }, [usersTools?.data?.data]);
 
-  const renderActions = (item: any) => {
+
+  const onHandleUpdateModal = (rowId: string) => {
+    setUpdateUserOpen(true)
+    setRowId(rowId)
+  }
+
+  const renderActions = (item: {row: {id: string, firstName: string, lastName: string}}) => {
     return (
       <Box component="div">
-        <Button>
+        <Button onClick={() => onHandleUpdateModal(item.row.id)}>
           <EditIcon color="warning" />
         </Button>
         <Link
@@ -84,6 +92,19 @@ const Users = () => {
           }}
         >
           <UserForm onClose={() => setCreateUserOpen(false)} refetchUser={usersTools.refetch} />
+        </Modal>
+      }
+      {updateUserOpen &&
+        <Modal
+          open={updateUserOpen}
+          onClose={() => setUpdateUserOpen(false)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <UserForm onClose={() => setUpdateUserOpen(false)} refetchUser={usersTools.refetch} id={rowId} />
         </Modal>
       }
     </ReusableCard>
