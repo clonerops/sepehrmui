@@ -44,7 +44,7 @@ const RoleGroups = () => {
         </Link>
       </Box>
       {groups?.data?.data.map((item: { id: string, name: string }) => {
-        return <CustomizedAccordions deleteOnClick={() => handleOpenApprove(item.id)} title={item.name} content={<GroupEditForm />} />
+        return <CustomizedAccordions deleteOnClick={() => handleOpenApprove(item.id)} title={item.name} content={<GroupEditForm itemData={item} />} />
       })}
       <ConfirmDialog
         open={approve}

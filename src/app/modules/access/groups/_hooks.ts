@@ -10,6 +10,11 @@ const usePostApplicationRoles = () => {
         return api.postApplicationRoles(formData);
     });
 };
+const useGetApplicationRole = () => {
+    return useMutation((id: string) => {
+        return api.getApplicationRole(id);
+    });
+};
 
 const useDeleteApplicationRoles = () => {
     return useMutation((id: string) => {
@@ -19,6 +24,7 @@ const useDeleteApplicationRoles = () => {
 
 export {
     useGetApplicationRoles,
+    useGetApplicationRole,
     usePostApplicationRoles,
     useDeleteApplicationRoles
 }

@@ -12,16 +12,24 @@ import { dropdownPermissions } from "../permissions/_functions"
 const initialValues = {
     name: "",
     description: "",
-    permissions: []
+    rolePermissions: []
 }
 
 const GroupForm = () => {
     const postApplicationRoles = usePostApplicationRoles();
     const permissions = useGetPermissions()
-    
 
     const onSubmit = (values: any) => {
-        postApplicationRoles.mutate(values, {
+        const formData = {
+            name: values.name, 
+            description: values.description,
+            rolePermissions: values.rolePermissions.map((item: string) => (
+                {
+                    permissionId: item
+                }
+            ))
+        }
+        postApplicationRoles.mutate(formData, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
                     validateAndEnqueueSnackbar("Group is successfully created", "success")
@@ -38,15 +46,15 @@ const GroupForm = () => {
             {({ handleSubmit }) => {
                 return <>
                 <ReusableCard>
-                    <Box component="div" className="w-[50%]">
-                        <FormikInput name="groupName" label="اسم گروه" />
+                    <Box component="div" className="flex flex-row gap-x-4">
+                        <FormikInput name="name" label="اسم گروه" />
+                        <FormikInput name="description" label="توضیحات" />
                     </Box>
                     <Box component="div" className="py-8">
                         <Typography variant="h2" color="primary">لیست مجوزها</Typography>
-                        {/* <Typography variant="body1" color="primary">انتخاب دسترسی ها برای این گروه</Typography> */}
                     </Box>
                     <Box component="div">
-                        <CheckboxGroup options={dropdownPermissions(permissions?.data?.data)} label="" name="permissions"  />
+                        <CheckboxGroup options={dropdownPermissions(permissions?.data?.data)} label="" name="rolePermissions"  />
                     </Box>
                     <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
                         <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white">

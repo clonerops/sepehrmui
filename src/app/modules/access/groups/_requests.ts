@@ -20,6 +20,15 @@ const getApplicationRoles = async () => {
     }
 };
 
+const getApplicationRole = async (id: string) => {
+    try {
+        const { data } = await http.get(`/v1/ApplicationRole/${id}`);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
 const deleteApplicationRoles = async (id: string) => {
     try {
         const { data } = await http.delete(`/v1/ApplicationRole/${id}`);
@@ -33,5 +42,6 @@ const deleteApplicationRoles = async (id: string) => {
 export {
     postApplicationRoles,
     getApplicationRoles,
+    getApplicationRole,
     deleteApplicationRoles
 }

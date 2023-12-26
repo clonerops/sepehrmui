@@ -1,5 +1,5 @@
 interface IRoleGroup {
     name: string
     description: string
-    permissions: {name: string}[]
+    rolePermissions: {permissionId: string, roleId?: string}[]
 }
