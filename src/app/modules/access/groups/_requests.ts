@@ -11,6 +11,17 @@ const postApplicationRoles = async (formdata: IRoleGroup) => {
         return error.response;
     }
 };
+const putApplicationRoles = async (formdata: IRoleGroup) => {
+    try {
+        const { data } = await http.put(
+            `/v1/ApplicationRole/${formdata.id}`,
+            JSON.stringify(formdata)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
 const getApplicationRoles = async () => {
     try {
         const { data } = await http.get("/v1/ApplicationRole");
@@ -43,5 +54,6 @@ export {
     postApplicationRoles,
     getApplicationRoles,
     getApplicationRole,
-    deleteApplicationRoles
+    deleteApplicationRoles,
+    putApplicationRoles
 }

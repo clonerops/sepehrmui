@@ -57,7 +57,9 @@ const Login = () => {
         setSubmitting(false);
       }
     },
-  }); return (
+  }); 
+  
+  return (
     <>
       {isLoading && <Backdrop loading={isLoading} />}
       <Box component="div" className="md:grid md:grid-cols-2 h-screen">

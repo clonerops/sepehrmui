@@ -20,54 +20,12 @@ import { useGetUserDetail } from "../core/_hooks";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const RoleUser = () => {
-    const queryClient = useQueryClient();
     const { id }: any = useParams();
     const [searchParams] = useSearchParams();
     const groups = useGetApplicationRoles();
     const postUserRole  = usePostUserRoles()
     const deleteUserRole  = useDeleteUserRoles()
-    const rolesListTools = useGetRoles();
     const userRoles = useGetUserRoles(id);
-
-    const {
-        mutateAsync: postMutate,
-        data: postResponse,
-        isLoading: postLoading,
-    } = usePostUserRole();
-    const {
-        mutateAsync: deleteMutate,
-        data: deleteResponse,
-        isLoading: deleteLoading,
-    } = useDeleteUserRole();
-
-    // const onUpdateStatus = (rowData: IRole, checked: boolean) => {
-    //     const query: IUpdateRole = {
-    //         userId: id || "",
-    //         roleId: rowData.id,
-    //     };
-    //     try {
-    //         if (checked) {
-    //             postMutate(query, {
-    //                 onSuccess: () => {
-    //                     setSnackePostOpen(true);
-    //                     rolesListTools.refetch();
-    //                     window.location.reload();
-    //                 },
-    //             });
-    //         } else {
-    //             deleteMutate(query, {
-    //                 onSuccess: () => {
-    //                     rolesListTools.refetch();
-    //                     setSnackeDeleteOpen(true);
-    //                     window.location.reload();
-    //                 },
-    //             });
-    //         }
-    //         queryClient.invalidateQueries(["roles"]);
-    //     } catch (e) {
-    //         return e;
-    //     }
-    // };
 
     const onPostUserRole = (roleId: string) => {
         const formData = {
