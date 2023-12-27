@@ -1,9 +1,9 @@
 export const dropdownPermissions = (data: any) => {
     return (
         data &&
-        data?.map((obj: { id: number, title:string }): any => {
-            const { title, id } = obj;
-            return { value: id, label: title };
+        data?.map((obj: { id: number, description:string }): any => {
+            const { description, id } = obj;
+            return { value: id, label: description };
         })
     );
 };
