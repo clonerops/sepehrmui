@@ -89,6 +89,8 @@ const OrderProductDetail = (props: Props) => {
     const handleOrder = () => {
         const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
 
+
+
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
             productName: formikRef?.current?.values?.productName?.productName ? formikRef?.current?.values?.productName?.productName : formikRef?.current?.values?.productName,
@@ -144,7 +146,6 @@ const OrderProductDetail = (props: Props) => {
             const updatedOrder = {
                 ...productOrder,
             };
-            console.log("productOrder", productOrder)
             const updatedOrders: IOrderItems[] = [...orders];
             updatedOrders[state.orderIndex ? state.orderIndex : 0] = updatedOrder;
             if (formikRef?.current?.values.productName === "" || formikRef?.current?.values.productName.label === "") {
@@ -154,6 +155,7 @@ const OrderProductDetail = (props: Props) => {
             } else if (formikRef?.current?.values?.proximateAmount === "") {
                 validateAndEnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
             } else {
+                console.log("updatedOrder", updatedOrder)
                 setOrders(updatedOrders);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
             }
@@ -166,6 +168,8 @@ const OrderProductDetail = (props: Props) => {
     };
 
     const fieldsToMap = state.isBuy ? orderFieldWhenNotWarehouseMain : orderFieldWhenWarehouseIsMain;
+
+    console.log("orders", orders)
 
     return (
         <>

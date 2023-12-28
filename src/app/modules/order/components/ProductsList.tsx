@@ -383,8 +383,6 @@ const ProductsList = (props: {
     }, [productData.selectedTab]);
 
 
-    console.log(productData.price)
-
     if (props.productLoading) {
         return <Typography>Loading ...</Typography>;
     }

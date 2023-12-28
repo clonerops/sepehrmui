@@ -424,13 +424,15 @@ const Order = () => {
         return <Typography>در حال بارگزاری ......</Typography>
     }
 
+    console.log("detailTools?.data?.data.id", detailTools?.data?.data.id)
+
     return (
         <>
 
             <Formik
                 enableReinitialize
                 innerRef={formikRef}
-                initialValues={{ ...orderUpdateInitialValues, ...orderPaymentValues, ...orderServiceValues, ...detailTools?.data?.data }}
+                initialValues={{ ...orderUpdateInitialValues, ...orderPaymentValues, ...orderServiceValues, ...detailTools?.data?.data, paymentTypeId: detailTools?.data?.data.farePaymentTypeId }}
                 onSubmit={async (values: any) => {
                     if (orders?.length === 0) {
                         enqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", {
@@ -517,8 +519,6 @@ const Order = () => {
                                 }
                             }) //ok
                         };
-                        console.log("formData", JSON.stringify(formData))
-
                         try {
                             mutate(formData, {
                                 onSuccess: (response) => {
