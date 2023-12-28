@@ -138,7 +138,7 @@ const SalesOrderEdit = () => {
                         description: item.description,
                         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                        purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
+                        purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
                         purchaseSettlementDate: item.purchaseSettlementDate,
                         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                     };
@@ -167,6 +167,9 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
+
+            console.log("formData", formData)
+            console.log("detailTools?.data?.data?.details", detailTools?.data?.data?.details)
 
             try {
                 postSaleOrder.mutate(formData, {
