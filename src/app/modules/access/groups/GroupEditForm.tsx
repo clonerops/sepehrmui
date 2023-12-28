@@ -51,11 +51,11 @@ const GroupEditForm = (props: Props) => {
             id: values.id,
             rolePermissions: values.rolePermissions.map((item: string) => (
                 {
-                    permissionId: item
+                    permissionId: item,
+                    roleId: itemData.id
                 }
             ))
         }
-
         putApplicationRoles.mutate(formData, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {

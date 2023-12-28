@@ -18,7 +18,7 @@ const RoleGroups = () => {
     deleteGroup.mutate(id, {
       onSuccess: (message: any) => {
         if (message.succeeded) {
-          validateAndEnqueueSnackbar("Role is successfully deleted", "info")
+          validateAndEnqueueSnackbar("گروه با موفقیت حذف گردید.", "info")
           groups.refetch();
           setApprove(false)
         } else {
