@@ -80,7 +80,7 @@ const SalesOrderEdit = () => {
                     exchangeRate: +i.product.exchangeRate,
                     purchasePrice: +i.purchasePrice,
                     warehouseId: warehouse.find((item: any) => item.name === i.warehouseName).id,
-                    price: separateAmountWithCommas(i.price),
+                    price: ~~i.price,
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
                     productBrandName: i.brandName,
                     purchaserCustomerId: i.purchaserCustomerId,
@@ -91,9 +91,6 @@ const SalesOrderEdit = () => {
 
         }
     }, [detailTools?.data?.data])
-
-    console.log(detailTools?.data?.data?.details)
-    console.log(orders)
 
     const onGetOrderDetailByCode = (orderCode: number) => {
         detailTools.mutate(orderCode, {
@@ -136,7 +133,7 @@ const SalesOrderEdit = () => {
                         productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
                         productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
                         numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
-                        price: item.price ? Number(item.price?.replace(/,/g, "")) : null, //ok
+                        price: item.price ? Number(item.price) : null, //ok
                         cargoSendDate: "1402/01/01",
                         description: item.description,
                         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
@@ -211,8 +208,6 @@ const SalesOrderEdit = () => {
         return <Backdrop loading={postSaleOrder.isLoading} />
     }
 
-    console.log("detailTools?.data?.data", detailTools?.data?.data)
-
     return (
         <>
             <Formik enableReinitialize innerRef={formikRef} initialValues={{ 
@@ -220,6 +215,7 @@ const SalesOrderEdit = () => {
                 ...orderPaymentValues, 
                 ...orderServiceValues, 
                 ...detailTools?.data?.data,
+                paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
                 isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2  }} onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>

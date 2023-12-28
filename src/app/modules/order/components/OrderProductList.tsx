@@ -9,6 +9,7 @@ import { IProducts } from "../../product/core/_models";
 
 import MuiDataGridCustomRowStyle from "../../../../_cloner/components/MuiDataGridCustomRowStyle";
 import { BUY_WAREHOUSE_TYPES } from "../helpers/constants";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 
 type ProductProps = {
     orders?: IOrderItems[] ;
@@ -69,19 +70,19 @@ const OrderProductList = (props: ProductProps) => {
                     ...prev, 
                     orderIndex: rowIndex
                 }
-            ))            
+            ))    
             const fieldValue = [
                 {title: "productName", value: params.row.productName},
                 {title: "id", value: params.row.id},
                 {title: "productId", value: params.row.productId},
-                {title: "price", value: params.row.price},
+                {title: "price", value: params.row.price.toString()},
                 {title: "productBrandId", value: params.row.productBrandId},
                 {title: "productBrandName", value: params.row.productBrandName},
                 {title: "warehouseId", value: params.row.warehouseId},
                 {title: "proximateAmount", value: params.row.proximateAmount},
                 {title: "warehouseName", value: params.row.warehouseName},
                 {title: "proximateSubUnit", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
-                {title: "purchasePrice", value: params.row.purchasePrice},
+                {title: "purchasePrice", value: separateAmountWithCommas(params.row.purchasePrice)},
                 {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
                 {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
                 {title: "purchaseInvoiceTypeId", value: params.row.purchaseInvoiceTypeId},
