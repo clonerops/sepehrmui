@@ -223,9 +223,7 @@ const EditProduct = (props: {
     if (getProductLoading) {
         return <Typography variant="h2">در حال بارگزاری ...</Typography>;
     }
-
-    console.log("isActive", product?.data.isActive)
-
+    
     return (
         <>
             {snackeUpdateOpen && (

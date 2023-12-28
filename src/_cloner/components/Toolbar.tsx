@@ -45,8 +45,6 @@ const ToolbarComponent = () => {
         navigate("dashboard/change-pass");
     };
 
-    console.log("userInfo", userInfo)
-
     return (
         <>
             <Box component="div" className="flex justify-between items-center">

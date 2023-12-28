@@ -423,9 +423,6 @@ const Order = () => {
     if (detailTools.isLoading) {
         return <Typography>در حال بارگزاری ......</Typography>
     }
-
-    console.log("detailTools?.data?.data.id", detailTools?.data?.data.id)
-
     return (
         <>
 

@@ -115,7 +115,6 @@ export const ladingColumns = (renderAction: any) => {
         },
         {
             field: 'cargoAnnounceNo', renderCell: (params: any) => {
-                console.log("params", params)
                 return <Typography variant="h4">{params.row.cargoAnnounce.cargoAnnounceNo}</Typography>;
             },
             headerName: 'شماره اعلام بار', headerClassName: "headerClassName", minWidth: 160, flex: 1

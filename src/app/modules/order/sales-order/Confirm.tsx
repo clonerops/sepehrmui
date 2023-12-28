@@ -132,7 +132,6 @@ const SalesOrderConfirm = () => {
     }
 
     const handleDoubleClick = (params: any, setFieldValue: any, rowIndex: number) => {
-        console.log("params", params)
         setFieldValue("productName", params.productName)
         setFieldValue("proximateAmount", params.proximateAmount)
         setFieldValue("productPrice", params.price)
@@ -143,7 +142,6 @@ const SalesOrderConfirm = () => {
     }
 
     const handleReplace = (values: any, setFieldValue: any, resetForm: any) => {
-        console.log(values)
         if (selectedRow !== null) {
             const updatedData = [...cpData];
             updatedData[selectedRow] = {
@@ -154,7 +152,6 @@ const SalesOrderConfirm = () => {
                 alternativeProductAmount: +values.proximateAmountReplace,
                 alternativeProductPrice: +values.productPriceReplace.replace(/,/g, ""),
             };
-            console.log("updatedData", updatedData)
             setCpData(updatedData);
             resetForm()
             setFieldValue("productNameReplace", "")
@@ -188,7 +185,6 @@ const SalesOrderConfirm = () => {
         }
         approveTools.mutate(formData, {
             onSuccess: (message) => {
-                console.log(message)
                 if (message.succeeded) {
                     setApprove(false)
                     validateAndEnqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", "info")
@@ -201,8 +197,6 @@ const SalesOrderConfirm = () => {
 
         })
     }
-
-    console.log("cpData", cpData)
 
     if (isLoading) {
         return <Backdrop loading={isLoading} />

@@ -45,7 +45,6 @@ const CreateProductInventories = (props: Props) => {
 
             <Formik initialValues={initialValues} validationSchema={createProductPriceValidations} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
-                    console.log(values)
                     try {
                         const formData = {
                             price: Number(values.price?.replace(/,/g, "")),

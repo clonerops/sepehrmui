@@ -11,9 +11,7 @@ const FormikMultiRole = (props: any) => {
     if(isLoading) {
         return <span>درحال بارگزاری ....</span>
     }
-
-    console.log("roles", roles)
-
+    
     return (
         <FormikSelect
             options={dropdownRole(roles?.data || [])}

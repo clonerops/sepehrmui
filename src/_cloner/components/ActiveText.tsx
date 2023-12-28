@@ -8,7 +8,6 @@ type Props = {
 
 const ActiveText = (props: Props) => {
     const { params, successTitle, dangerTitle } = props;
-    console.log(params)
         return (
             params?.value === true ? (
                 <Typography

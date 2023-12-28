@@ -184,7 +184,6 @@ const OrderConfirm = () => {
         }
         approveTools.mutate(formData, {
             onSuccess: (message) => {
-                console.log(message)
                 if (message.succeeded) {
                     setApprove(false)
                     enqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", {

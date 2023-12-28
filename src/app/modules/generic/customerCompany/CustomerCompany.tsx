@@ -72,7 +72,6 @@ const CustomerCompanies = () => {
             {
                 field: "customerFullName",
                 renderCell: (params: any) => {
-                    console.log("params", params);
                     return (
                         <Typography variant="h4">
                             {params.row.customer.firstName +

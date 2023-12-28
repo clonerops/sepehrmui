@@ -155,7 +155,6 @@ const OrderProductDetail = (props: Props) => {
             } else if (formikRef?.current?.values?.proximateAmount === "") {
                 validateAndEnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
             } else {
-                console.log("updatedOrder", updatedOrder)
                 setOrders(updatedOrders);
                 setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
             }
@@ -168,8 +167,6 @@ const OrderProductDetail = (props: Props) => {
     };
 
     const fieldsToMap = state.isBuy ? orderFieldWhenNotWarehouseMain : orderFieldWhenWarehouseIsMain;
-
-    console.log("orders", orders)
 
     return (
         <>

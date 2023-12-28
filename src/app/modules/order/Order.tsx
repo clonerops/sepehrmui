@@ -309,8 +309,6 @@ const Order = () => {
             rowId: values?.rowId,
         };
 
-        console.log("productOrder", productOrder)
-
         if (!isUpdate) {
             const isDuplicate = orders.some(
                 (order: any) =>
