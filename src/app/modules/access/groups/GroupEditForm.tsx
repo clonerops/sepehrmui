@@ -12,6 +12,8 @@ import FormikInput from "../../../../_cloner/components/FormikInput"
 import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
+import { TreeView } from "@mui/x-tree-view"
+import FileSystemNavigator from "../../../../_cloner/components/TreeView"
 
 interface Item {
     description: string;
@@ -96,9 +98,10 @@ const GroupEditForm = (props: Props) => {
                                     threshold={0.3}
                                 />
                             </Box>
-                            <Box component="div">
+                            
+                            <FileSystemNavigator content={<Box component="div">
                                 <CheckboxGroup  options={dropdownPermissions(results)} label="" name="rolePermissions" />
-                            </Box>
+                            </Box>} />
                             <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
                                 <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white">
                                     <Typography>ویرایش گروه</Typography>
