@@ -115,7 +115,7 @@ const GroupEditForm = (props: Props) => {
                                 </Box>} />
                                 <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
                                     <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white">
-                                        <Typography>ویرایش گروه</Typography>
+                                        <Typography>ثبت مجوز</Typography>
                                     </Button>
                                 </Box> 
                             </>
