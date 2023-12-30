@@ -8,7 +8,6 @@ import { useGetPermissions } from "../permissions/_hooks"
 import { dropdownPermissions } from "../permissions/_functions"
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import FormikInput from "../../../../_cloner/components/FormikInput"
 import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"

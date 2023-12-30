@@ -5,6 +5,7 @@ import Backdrop from '../../_cloner/components/Backdrop';
 import ReadyToExit from '../modules/logestic/exit/ReadyToExit';
 import LazyLoad from '../../_cloner/components/LazyLoad';
 import Permissions from '../modules/access/permissions/Permissions';
+import NotAcceess from '../../_cloner/components/NotAcceess';
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -120,6 +121,8 @@ const PrivateRoutes = () => {
             <Route path="dashboard/roles/groups/form" element={<GroupForm />} />
             <Route path="dashboard/permissions" element={<Permissions />} />
             <Route path="dashboard/roles/menu" element={<RoleMenu />} />
+            
+            <Route path="dashboard/403" element={<NotAcceess />} />
 
 
 
