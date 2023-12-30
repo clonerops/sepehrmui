@@ -1,7 +1,6 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { enqueueSnackbar } from "notistack";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
@@ -16,12 +15,12 @@ import { createPermissionValidation } from "./_validation";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 
 interface Item {
-    title: string;
+    name: string;
     description: string;
 }
 
 const initialValues = {
-    title: "",
+    name: "",
     description: "",
 };
 
@@ -44,7 +43,7 @@ const Permissions = () => {
     const columns = (renderAction: any) => {
         const col = [
             {
-                field: "title",
+                field: "name",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
@@ -140,7 +139,7 @@ const Permissions = () => {
                                             className="md:flex md:justify-start md:items-start gap-x-4 "
                                         >
                                             <FormikInput
-                                                name="title"
+                                                name="name"
                                                 label="عنوان مجوز"
                                                 autoFocus={true}
                                                 boxClassName=" mt-2 md:mt-0"

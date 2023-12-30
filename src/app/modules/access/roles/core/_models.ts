@@ -7,7 +7,6 @@ export interface IRole {
 
 export interface IRoleMenu {
   roleId: string | undefined;
-  // applicationMenuId: string[] | null;
   applicationMenuId: any;
 }
 
