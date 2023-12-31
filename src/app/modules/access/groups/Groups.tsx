@@ -37,7 +37,7 @@ const RoleGroups = () => {
   return (
     <>
       <Box component="div" className="flex justify-end mb-4">
-        <Link to={"/dashboard/roles/groups/form"}>
+        <Link to={"/dashboard/groups/form"}>
           <Button color="secondary" variant="contained">
             <Typography>ایجاد گروه جدید</Typography>
           </Button>

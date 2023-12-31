@@ -49,7 +49,7 @@ const GroupForm = () => {
         postApplicationRoles.mutate(formData, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
-                    validateAndEnqueueSnackbar("Group is successfully created", "success")
+                    validateAndEnqueueSnackbar("گروه با موفقیت ایجاد شد", "success")
                 } else {
                     validateAndEnqueueSnackbar(message?.data?.Message, "error")
                 }

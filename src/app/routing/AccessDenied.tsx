@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import { toAbsoulteUrl } from "../../_cloner/helpers/AssetsHelper";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import Cookies from "js-cookie";
+
+const handleLogout = () => {
+  Cookies.remove("token");
+  window.location.reload();
+}
 
 const AccessDenied = () => {
   return (
@@ -13,16 +19,31 @@ const AccessDenied = () => {
         className={"w-[400px]"}
       />
 
-      <Link to={"/dashboard"}>
-        <button
-          type={"button"}
-          className={
-            "rounded-[12px] bg-purple-900 !text-white leading-9 !px-5 !py-1 mt-5"
-          }
-        >
-          برگشت به صفحه اصلی
-        </button>
-      </Link>
+      <Box component='div' className="flex flex-row gap-x-8">
+        <Box component="div">
+          <Link to={"/dashboard"}>
+            <button
+              type={"button"}
+              className={
+                "rounded-[12px] bg-purple-900 !text-white leading-9 !px-5 !py-1 mt-5"
+              }
+            >
+              برگشت به صفحه اصلی
+            </button>
+          </Link>
+        </Box>
+        <Box component="div">
+            <button
+              type={"button"}
+              onClick={() => handleLogout()}
+              className={
+                "rounded-[12px] bg-indigo-900 !text-white leading-9 !px-5 !py-1 mt-5"
+              }
+            >
+              خروج از برنامه
+            </button>
+        </Box>
+      </Box>
     </div>
   );
 };

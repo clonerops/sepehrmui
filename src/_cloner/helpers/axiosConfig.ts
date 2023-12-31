@@ -17,7 +17,8 @@ export const httpFormData = axios.create({
 });
 
 http.interceptors.response.use(undefined, error => {
-  if(!error.response) {
+  if(!error.response && error.code === "ERR_NETWORK") {
+    console.log(error)
     window.location.href = "/dashboard/accessDenied"
     // navigate('/dashboard')
   }

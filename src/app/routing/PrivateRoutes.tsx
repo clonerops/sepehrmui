@@ -175,7 +175,6 @@ export const routes: RouteProps[] = [
     { path: "dashboard/groups/form", element: <GroupForm /> },
     { path: "dashboard/permissions", element: <Permissions /> },
     { path: "dashboard/roles/menu", element: <RoleMenu /> },
-    { path: "dashboard/accessDenied", element: <AccessDenied /> },
     { path: "*", element: <Navigate to="/error/404" /> },
 
 ];

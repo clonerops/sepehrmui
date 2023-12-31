@@ -7,6 +7,7 @@ import App from "../App";
 import Login from "../modules/auth/Login";
 import CheckRoute from "./CheckRoute";
 import ErrorsPage from "./ErrorsPage";
+import AccessDenied from "./AccessDenied";
 
 const { PUBLIC_URL } = process.env;
 
@@ -19,6 +20,8 @@ const AppRoutes: FC = () => {
         <Route path="error/*" element={<ErrorsPage />} />
           {Cookies.get("token") ? (
             <>
+            
+              <Route path="/dashboard/accessDenied" element={<AccessDenied />} />
               <Route path="/*" element={<CheckRoute />} />
               <Route index element={<Navigate to="/dashboard" />} />
             </>
