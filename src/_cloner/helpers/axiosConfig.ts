@@ -24,23 +24,16 @@ export const httpFormData = axios.create({
     },
 });
 
-dashboardHttp.interceptors.response.use(
-    (response) => {
-      // Check the status code and handle it accordingly
-      return response;
-    },
-    (error) => {
-      const { response } = error;
-        console.log(response)
-      if (response && response.status === 403) {
-        // Redirect to /403 or any other route you want
-        console.log("yes")
-      }
-  
-      return Promise.reject(error);
-    }
-  );
-// http.interceptors.response.use(
+http.interceptors.response.use(
+  (response) => {
+    // Check the status code and handle it accordingly
+    return response;
+  },
+  (error) => {
+    console.log("error", error)
+    return Promise.reject(error);
+  }
+);// http.interceptors.response.use(
 //     (response) => response,
 //     async (error) => {
 //         const originalRequest = error.config;

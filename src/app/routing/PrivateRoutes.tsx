@@ -58,6 +58,8 @@ const GroupForm = React.lazy(() => import("../modules/access/groups/GroupForm"))
 
 const PrivateRoutes = () => {
 
+  
+
   return (
     <Suspense fallback={<LazyLoad loading={true} />}>
       <Routes>

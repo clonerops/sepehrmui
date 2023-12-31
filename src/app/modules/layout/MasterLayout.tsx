@@ -81,13 +81,13 @@ const Drawer = styled(MuiDrawer, {
 const MasterLayout = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
   const theme = useTheme();
-  // const { data } = useMenuItems();
+  const { data } = useMenuItems();
   const [open, setOpen] = React.useState(false);
-  // const [menuItemsData, setMenuItemsData] = useState<IMenuItem[]>([]);
+  const [menuItemsData, setMenuItemsData] = useState<IMenuItem[]>([]);
 
-  // useEffect(() => {
-  //   setMenuItemsData(parseMenuItems(data?.data));
-  // }, [data?.data]);
+  useEffect(() => {
+    setMenuItemsData(parseMenuItems(data?.data));
+  }, [data?.data]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -116,7 +116,7 @@ const MasterLayout = () => {
             }}
           >
             <List>
-              <MenuItems menuItems={menuItem} />
+              <MenuItems menuItems={menuItemsData} />
             </List>
           </SwipeableDrawer>
       ) : (
@@ -144,7 +144,7 @@ const MasterLayout = () => {
           </DrawerHeader>
           <Divider />
           <List>
-            <MenuItems menuItems={menuItem} />
+            <MenuItems menuItems={menuItemsData} />
           </List>
         </Drawer>
       )}
