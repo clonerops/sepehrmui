@@ -11,15 +11,27 @@ const usePostPermissions = () => {
         return api.postPermissions(formData);
     });
 };
+const useUpdatePermissions = () => {
+    return useMutation((formData: IPermission) => {
+        return api.updatePermissions(formData);
+    });
+};
 
 const useDeletePermissions = () => {
     return useMutation((id: string) => {
         return api.deletePermissions(id);
     });
 };
+const useGetPermission = () => {
+    return useMutation((id: string) => {
+        return api.getPermission(id);
+    });
+};
 
 export {
     useGetPermissions,
     usePostPermissions,
-    useDeletePermissions
+    useDeletePermissions,
+    useUpdatePermissions,
+    useGetPermission
 }

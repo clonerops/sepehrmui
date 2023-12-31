@@ -13,6 +13,8 @@ import { useDeletePermissions, useGetPermissions, usePostPermissions } from "./_
 import { IPermission } from "./_models";
 import { createPermissionValidation } from "./_validation";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import PermissionForm from "./PermissionForm";
 
 interface Item {
     name: string;
@@ -123,7 +125,8 @@ const Permissions = () => {
                     className="md:grid md:grid-cols-2 md:gap-x-4"
                 >
                     <Box component="div">
-                        <Formik
+                        <PermissionForm refetch={Permissions.refetch}  />
+                        {/* <Formik
                             initialValues={initialValues}
                             onSubmit={handlePost}
                             validationSchema={createPermissionValidation}
@@ -166,7 +169,7 @@ const Permissions = () => {
                                     </Form>
                                 );
                             }}
-                        </Formik>
+                        </Formik> */}
                         <FuzzySearch<Item>
                             keys={["name", "description"]}
                             data={Permissions?.data?.data || []}
@@ -199,6 +202,22 @@ const Permissions = () => {
 
                 </Box>
             </ReusableCard>
+            <TransitionsModal
+                open={isEditOpen}
+                isClose={() => setIsEditOpen(false)}
+                width="50%"
+                title="ویرایش"
+                description="درصورتی که مغایرتی در ویرایش مجوز وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
+            >
+                <PermissionForm 
+                    id={itemForEdit?.id}
+                    refetch={Permissions.refetch}
+                    onClose={() => setIsEditOpen(false)}
+                />
+
+                {/* <EditCustomer refetch={refetch} item={itemForEdit} /> */}
+            </TransitionsModal>
+
         </>
     );
 };
