@@ -1,15 +1,5 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
-import { NavigateToDashboard } from "./navigate";
-
-export const dashboardHttp = axios.create({
-    baseURL: "https://iraniansepehr.com/api/",
-    headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("token")}`,
-    },
-});
 
 export const http = axios.create({
     baseURL: "https://iraniansepehr.com/api/",
@@ -25,6 +15,13 @@ export const httpFormData = axios.create({
         Authorization: `Bearer ${Cookies.get("token")}`,
     },
 });
+
+http.interceptors.response.use(undefined, error => {
+  if(!error.response) {
+    window.location.href = "/dashboard/accessDenied"
+    // navigate('/dashboard')
+  }
+})
 
 // http.interceptors.response.use(
 //     (response) => response,

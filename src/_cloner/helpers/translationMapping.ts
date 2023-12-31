@@ -35,6 +35,7 @@ export const translationMapping: any = {
     roles: "نقش ها",
     permissions: "مجوزها",
     groups: "گروه ها",
+    accessDenied: "دسترسی غیرمجاز"
     // Add more translations as needed
   };
   

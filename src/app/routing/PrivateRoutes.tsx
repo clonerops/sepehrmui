@@ -6,6 +6,7 @@ import ReadyToExit from "../modules/logestic/exit/ReadyToExit";
 import LazyLoad from "../../_cloner/components/LazyLoad";
 import Permissions from "../modules/access/permissions/Permissions";
 import NotAcceess from "../../_cloner/components/NotAcceess";
+import AccessDenied from "./AccessDenied";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -170,10 +171,11 @@ export const routes: RouteProps[] = [
     { path: "dashboard/user/role/:id", element: <RoleUser /> },
     { path: "dashboard/roles", element: <Roles /> },
     { path: "dashboard/roles/menu", element: <RoleMenu /> },
-    { path: "dashboard/roles/groups", element: <RoleGroups /> },
-    { path: "dashboard/roles/groups/form", element: <GroupForm /> },
+    { path: "dashboard/groups", element: <RoleGroups /> },
+    { path: "dashboard/groups/form", element: <GroupForm /> },
     { path: "dashboard/permissions", element: <Permissions /> },
     { path: "dashboard/roles/menu", element: <RoleMenu /> },
+    { path: "dashboard/accessDenied", element: <AccessDenied /> },
     { path: "*", element: <Navigate to="/error/404" /> },
 
 ];
