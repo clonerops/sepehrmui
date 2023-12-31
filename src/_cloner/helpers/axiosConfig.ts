@@ -1,5 +1,7 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { NavigateToDashboard } from "./navigate";
 
 export const dashboardHttp = axios.create({
     baseURL: "https://iraniansepehr.com/api/",
@@ -24,16 +26,7 @@ export const httpFormData = axios.create({
     },
 });
 
-http.interceptors.response.use(
-  (response) => {
-    // Check the status code and handle it accordingly
-    return response;
-  },
-  (error) => {
-    console.log("error", error)
-    return Promise.reject(error);
-  }
-);// http.interceptors.response.use(
+// http.interceptors.response.use(
 //     (response) => response,
 //     async (error) => {
 //         const originalRequest = error.config;

@@ -5,17 +5,21 @@ import { PrivateRoutes } from "./PrivateRoutes";
 import Cookies from "js-cookie";
 import App from "../App";
 import Login from "../modules/auth/Login";
+import CheckRoute from "./CheckRoute";
+import ErrorsPage from "./ErrorsPage";
 
 const { PUBLIC_URL } = process.env;
 
 const AppRoutes: FC = () => {
+
   return (
     <BrowserRouter basename={PUBLIC_URL}>
       <Routes>
         <Route element={<App />}>
+        <Route path="error/*" element={<ErrorsPage />} />
           {Cookies.get("token") ? (
             <>
-              <Route path="/*" element={<PrivateRoutes />} />
+              <Route path="/*" element={<CheckRoute />} />
               <Route index element={<Navigate to="/dashboard" />} />
             </>
           ) : (

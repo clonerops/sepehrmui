@@ -30,16 +30,28 @@ const retrieveProducts = async (
     PageNumber: number | null | string = "",
     PageSize: number | null | string = ""
 ) => {
-    let url: string = ``;
+    // try {
+    //     let url: string = ``;
 
-    if (PageNumber || PageSize === "") {
-        url = `/v${1}/Product`;
-    } else {
-        url = `/v${1}/Product?PageNumber=${PageNumber}&PageSize=${PageSize}`;
+    //     if (PageNumber || PageSize === "") {
+    //         url = `/v${1}/Product`;
+    //     } else {
+    //         url = `/v${1}/Product?PageNumber=${PageNumber}&PageSize=${PageSize}`;
+    //     }
+
+    //     const { data } = await http.get(url);
+    //     return data;
+    // } catch (error: any) {
+    //     console.log(error)
+    //     return error
+    // }
+    try {
+        const { data } = await http.get('/v1/Product');
+        return data;
+
+    } catch (error) {
+        return error
     }
-
-    const { data } = await http.get(url);
-    return data;
 };
 const retrieveProductsByWarehouse = async (warehouseId: number) => {
     const { data } = await http.get(`/v1/Product?ByBrand=true&WarehouseId=${warehouseId}`);

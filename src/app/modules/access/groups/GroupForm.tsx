@@ -12,6 +12,7 @@ import { usePostApplicationRoles } from "./_hooks"
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
 import { useGetPermissions } from "../permissions/_hooks"
 import { dropdownPermissions } from "../permissions/_functions"
+import FileSystemNavigator from "../../../../_cloner/components/TreeView"
 
 interface Item {
     description: string;
@@ -77,9 +78,13 @@ const GroupForm = () => {
                                 threshold={0.3}
                         />
                     </Box>
-                    <Box component="div">
+                    <FileSystemNavigator content={<Box component="div">
+                        <CheckboxGroup  options={dropdownPermissions(results)} label="" name="rolePermissions" boxClassName="grid grid-cols-3 md:grid-cols-4 gap-x-4"/>
+                    </Box>} />
+
+                    {/* <Box component="div">
                         <CheckboxGroup options={dropdownPermissions(results)} label="" name="rolePermissions"  />
-                    </Box>
+                    </Box> */}
                     <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
                         <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white">
                             <Typography>ثبت</Typography>
