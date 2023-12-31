@@ -5,6 +5,9 @@ import { IPermission } from "./_models";
 const useGetPermissions = () => {
     return useQuery(["Permissions"], () => api.getPermissions());
 };
+const useGetPermissionsFilter = (formData: any) => {
+    return useQuery(["PermissionsByFilter", formData], () => api.getPermissionsMutate(formData));
+};
 
 const usePostPermissions = () => {
     return useMutation((formData: IPermission) => {
@@ -33,5 +36,6 @@ export {
     usePostPermissions,
     useDeletePermissions,
     useUpdatePermissions,
-    useGetPermission
+    useGetPermission,
+    useGetPermissionsFilter
 }

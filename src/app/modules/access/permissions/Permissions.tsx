@@ -9,12 +9,13 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { AddCircleOutline } from "@mui/icons-material";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
-import { useDeletePermissions, useGetPermissions, usePostPermissions } from "./_hooks";
+import { useDeletePermissions, useGetPermissions, useGetPermissionsFilter, usePostPermissions } from "./_hooks";
 import { IPermission } from "./_models";
 import { createPermissionValidation } from "./_validation";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import PermissionForm from "./PermissionForm";
+import Pagination from "../../../../_cloner/components/Pagination";
 
 interface Item {
     name: string;
@@ -30,14 +31,25 @@ const initialValues = {
 //   desc: Yup.string().required("فیلد الزامی می باشد")
 // })
 
+const pageSize = 120
+
 const Permissions = () => {
     const [results, setResults] = useState<Item[]>([]);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<IPermission>();
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
+    let formData = {
+        pageNumber: currentPage,
+        pageSize: pageSize,    
+    }
+
 
     const postPermissions = usePostPermissions();
     const deletePermissions = useDeletePermissions();
-    const Permissions = useGetPermissions();
+    // const permissionTools = useGetPermissions();
+    const Permissions = useGetPermissionsFilter(formData);
+    
     useEffect(() => {
         setResults(Permissions?.data?.data);
     }, [Permissions?.data?.data]);
@@ -116,6 +128,14 @@ const Permissions = () => {
         );
     };
 
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
+
+    if(Permissions.isLoading) {
+        return <Typography>Loading ...</Typography>
+    }
+    console.log(results)
 
     return (
         <>
@@ -126,50 +146,7 @@ const Permissions = () => {
                 >
                     <Box component="div">
                         <PermissionForm refetch={Permissions.refetch}  />
-                        {/* <Formik
-                            initialValues={initialValues}
-                            onSubmit={handlePost}
-                            validationSchema={createPermissionValidation}
-                        >
-                            {({ handleSubmit }) => {
-                                return (
-                                    <Form
-                                        onSubmit={handleSubmit}
-                                        className="mb-4"
-                                    >
-                                        <Box
-                                            component="div"
-                                            className="md:flex md:justify-start md:items-start gap-x-4 "
-                                        >
-                                            <FormikInput
-                                                name="name"
-                                                label="عنوان مجوز"
-                                                autoFocus={true}
-                                                boxClassName=" mt-2 md:mt-0"
-                                            />
-                                            <FormikInput
-                                                name="description"
-                                                label="توضیحات"
-                                                boxClassName=" mt-2 md:mt-0"
-                                            />
-                                            <Box
-                                                component="div"
-                                                className="mt-2 md:mt-0"
-                                            >
-                                                <IconButton
-                                                    onClick={() =>
-                                                        handleSubmit()
-                                                    }
-                                                    className="!bg-[#fcc615]"
-                                                >
-                                                    <AddCircleOutline color="primary" />
-                                                </IconButton>
-                                            </Box>
-                                        </Box>
-                                    </Form>
-                                );
-                            }}
-                        </Formik> */}
+                       
                         <FuzzySearch<Item>
                             keys={["name", "description"]}
                             data={Permissions?.data?.data || []}
@@ -182,6 +159,7 @@ const Permissions = () => {
                                 rows={results}
                                 data={Permissions?.data?.data}
                             />
+                            {/* <Pagination pageCount={+Permissions?.data?.data.length / +pageSize || 200} onPageChange={handlePageChange} /> */}
                         </Box>
 
                     </Box>

@@ -1,4 +1,5 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
 import { IPermission } from "./_models";
 
 const postPermissions = async (formdata: IPermission) => {
@@ -31,6 +32,18 @@ const getPermissions = async () => {
         return error.response;
     }
 };
+const getPermissionsMutate = async (formData: any) => {
+    const filter = {
+        PageNumber: formData.PageNumber,
+        PageSize: formData.PageSize
+    }
+    try {
+        const { data } = await http.get(`${generateURLQueryParam('/v1/Permission', filter)}`);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
 const getPermission = async (id: string) => {
     try {
         const { data } = await http.get(`/v1/Permission/${id}`);
@@ -55,5 +68,6 @@ export {
     getPermissions,
     deletePermissions,
     updatePermissions,
-    getPermission
+    getPermission,
+    getPermissionsMutate
 }
