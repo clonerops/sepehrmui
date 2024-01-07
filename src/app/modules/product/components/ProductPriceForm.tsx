@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, Switch, Typography } from "@mui/material"
 
 import { useCreateProductPrice, useRetrieveProductPriceById, useRetrieveProducts, useUpdateProductPrice } from "../core/_hooks"
 import { dropdownProduct } from "../../generic/_functions"
@@ -11,9 +11,10 @@ import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
 import FormikBrandPriceSelect from "./FormikBrandPriceSelect"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { IProductPrice } from "../core/_models"
 import FormikAmount from "./FormikAmount"
+import SwitchComponent from "../../../../_cloner/components/Switch"
 
 const initialValues = {
     price: "",
@@ -34,6 +35,8 @@ const ProductPriceForm = (props: Props) => {
 
     const updateTools = useUpdateProductPrice();
     const detailTools = useRetrieveProductPriceById()
+
+    const [checked, setChecked] = useState<boolean>(props?.items?.isActive)
 
     const isNew = !props.id
 
@@ -126,7 +129,7 @@ const ProductPriceForm = (props: Props) => {
         const formData: any = {
             id: props.id,
             price: Number(values.price),
-            isActive : true,
+            isActive : checked,
         }
         
         if (props.id) onUpdate(formData);
@@ -137,6 +140,8 @@ const ProductPriceForm = (props: Props) => {
     if (props.id && detailTools?.isLoading) {
         return <Typography>Loading ...</Typography>
     }
+
+    console.log("checked", checked)
 
     return (
         <>
@@ -159,9 +164,22 @@ const ProductPriceForm = (props: Props) => {
                                 )}
                             </Box>
                         ))}
+                        <Box component="div" className="flex flex-col">
+                        {!isNew &&
+                        <Box component="div" className="flex flex-row items-center">
+
+                                <SwitchComponent
+                                    checked={checked}
+                                    onChange={(e) => setChecked(e.target.checked)}
+                                    />
+                                    <Typography variant="h3">{checked ? "فعال" : "غیرفعال"}</Typography>
+                        </Box>
+                        }
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">
                             <Typography variant="h3" className="px-8 py-2">{isNew ? "ثبت قیمت" : "ویرایش قیمت"}</Typography>
                         </Button>
+
+                        </Box>
                     </Form>
                 }}
             </Formik>
