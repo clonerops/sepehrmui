@@ -8,6 +8,8 @@ const FormikBrandPriceSelect = (props: any) => {
     let data: any = []
     if(props.productId) data = productBrandTools?.data?.data
     
+    console.log("dropdownBrandName(data)", data)
+
   return (
     <FormikSelect options={dropdownBrandName(data)}  {...props} />
   )

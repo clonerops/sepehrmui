@@ -229,7 +229,7 @@ const createProductPrice = async (formData: IProductPrice) => {
     }
 };
 
-const retrieveProductPriceById = async (id: number) => {
+const retrieveProductPriceById = async (id: string) => {
     try {
         const { data } = await http.get(`/v${1}/ProductPrice/${id}`);
         return data;

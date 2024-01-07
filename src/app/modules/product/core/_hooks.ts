@@ -119,7 +119,7 @@ const useCreateProductPrice = () => {
 };
 
 const useRetrieveProductPriceById = () => {
-    return useMutation((id: number) => {
+    return useMutation((id: string) => {
         return api.retrieveProductPriceById(id);
     });
 };

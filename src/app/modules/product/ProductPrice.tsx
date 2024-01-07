@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 
-import EditProductPrice from "./components/EditProductPrice";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import Backdrop from "../../../_cloner/components/Backdrop";
@@ -12,7 +11,6 @@ import FileUploadButton from "../../../_cloner/components/UploadFileButton";
 import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import CreateProductPrice from "./components/CreateProductPrice";
 
 import {useDeleteProductPrice,useRetrieveProductPrice } from "./core/_hooks";
 import { IProductPrice } from "./core/_models";
@@ -20,6 +18,8 @@ import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles"
 import { exportProductPrices } from "./core/_requests";
 import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
 import { columnsProductPrice } from "./helpers/columns";
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import ProductPriceForm from "./components/ProductPriceForm";
 
 const radioOption: {
     label: string;
@@ -40,6 +40,8 @@ const ProductPrice = () => {
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [results, setResults] = useState<IProductPrice[]>([]);
+    const [approve, setApprove] = useState<boolean>(false);
+    const [deletedId, setDeletedId] = useState<string>("")
     const [isActiveValue, setIsActiveValue] = useState<
         boolean | number | null | string
     >("");
@@ -66,6 +68,7 @@ const ProductPrice = () => {
                 onSuccess: (response) => {
                     if(response.succeeded) {
                         validateAndEnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
+                        setApprove(false)
                         refetch();
                       } else {
                         validateAndEnqueueSnackbar(response.data.Message, "error")
@@ -78,10 +81,15 @@ const ProductPrice = () => {
         return (
             <Box component="div" className="flex gap-4">
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
-                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                <DeleteGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
             </Box>
         );
     };
+
+    const handleOpenApprove = (id: string) => {
+        setApprove(true)
+        setDeletedId(id)
+      }    
 
     const handleDownloadExcel = async () => {
         try {
@@ -171,7 +179,10 @@ const ProductPrice = () => {
                     width="30%"
                     title="ایجاد قیمت محصول"
                 >
-                    <CreateProductPrice refetch={refetch} />
+                    {/* <CreateProductPrice refetch={refetch} /> */}
+                    <ProductPriceForm refetch={refetch}
+                    setIsCreateOpen={setIsCreateOpen}
+ />
                 </TransitionsModal>
                 <TransitionsModal
                     open={isOpen}
@@ -179,9 +190,25 @@ const ProductPrice = () => {
                     width="30%"
                     title="ویرایش قیمت محصول"
                 >
-                    <EditProductPrice refetch={refetch} item={itemForEdit} />
+                    {/* <EditProductPrice refetch={refetch} item={itemForEdit} /> */}
+                    <ProductPriceForm 
+                        id={itemForEdit?.id}
+                        items={itemForEdit}
+                        refetch={refetch}
+                        setIsCreateOpen={setIsCreateOpen}
+                    />
                 </TransitionsModal>
             </ReusableCard>
+            <ConfirmDialog
+                open={approve}
+                hintTitle="آیا از حذف مطمئن هستید؟"
+                notConfirmText="لغو"
+                confirmText={deleteLoading ? "درحال پردازش ..." : "تایید"}
+                onCancel={() => setApprove(false)}
+                onConfirm={() => handleDelete(deletedId)}
+
+            />
+
         </>
     );
 };

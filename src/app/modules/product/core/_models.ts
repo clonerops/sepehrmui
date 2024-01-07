@@ -95,4 +95,5 @@ export interface IProductPrice {
     productBrandId: number | undefined
     brandName?: number | undefined
     product?: IProducts | undefined
+    isActive?: boolean | undefined
 }
