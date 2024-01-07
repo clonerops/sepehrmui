@@ -70,7 +70,7 @@ const CustomerCompanyForm = (props: Props) => {
             { label: "شناسه ملی", name: "nationalId", type: "input" },
         ],
         [
-            { label: "کدپستی", name: "postalCode", type: "input" },
+            { label: "کدپستی", name: "postalCode", type: "postal" },
             { label: "نوع شرکت", name: "customerType", type: "customerType" },
         ],
         [
@@ -104,6 +104,10 @@ const CustomerCompanyForm = (props: Props) => {
                 return <FormikInput disabled={!isNew} {...rest} />;
             case "economicId":
                 return <FormikMaskInput mask={Number} {...rest} />;
+            case "postal":
+                return <FormikMaskInput onInput={(e: any) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 10);
+                }} mask={Number} {...rest} />;
             default:
                 return <FormikMaskInput mask={Number} {...rest} />;
         }
@@ -137,7 +141,8 @@ const CustomerCompanyForm = (props: Props) => {
                             variant: "success",
                             anchorOrigin: { vertical: "top", horizontal: "center" }
                         })
-                    } 
+                    }
+                    
                     props.refetch();
                 },
             });

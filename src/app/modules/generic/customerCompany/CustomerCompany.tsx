@@ -19,11 +19,10 @@ import { enqueueSnackbar } from "notistack";
 const CustomerCompanies = () => {
     const { data: customerCompanies, refetch, isLoading: CustomerCompanyLoading, } = useGetCustomerCompanies("");
     const updateTools = useUpdateCustomerCompanies()
-    const { mutate: deleteCustomerCompany, data: deleteData } = useDeleteCustomerCompanies();
     const [open, setIsOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ICustomerCompany>();
-    
+
 
     const [results, setResults] = useState<ICustomerCompany[]>([]);
 
@@ -40,10 +39,10 @@ const CustomerCompanies = () => {
             };
             updateTools.mutate(formData, {
                 onSuccess: () => {
-                  enqueueSnackbar("تغییر وضعیت با موفقیت انجام شد", {
-                    variant: "success",
-                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                })
+                    enqueueSnackbar("تغییر وضعیت با موفقیت انجام شد", {
+                        variant: "success",
+                        anchorOrigin: { vertical: "top", horizontal: "center" }
+                    })
                     refetch();
                 },
             });
@@ -133,11 +132,11 @@ const CustomerCompanies = () => {
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
-              <SwitchComponent
-                  checked={item?.row.isActive}
-                  onChange={(_) => onUpdateStatus(item)}
-              />
-                <EditGridButton onClick={() => handleEdit(item?.row)}  />
+                <SwitchComponent
+                    checked={item?.row.isActive}
+                    onChange={(_) => onUpdateStatus(item)}
+                />
+                <EditGridButton onClick={() => handleEdit(item?.row)} />
             </Box>
         );
     };
@@ -160,8 +159,15 @@ const CustomerCompanies = () => {
                                 className="w-auto md:w-[40%] mb-2"
                             >
                                 <FuzzySearch
-                                    keys={["firstName", "lastName"]}
-                                    data={[]}
+                                    keys={[
+                                        "companyName",
+                                        "customerFullName",
+                                        "economicId",
+                                        "nationalId",
+                                        "tel1",
+                                        "tel2",
+                                    ]}
+                                    data={customerCompanies?.data}
                                     threshold={0.5}
                                     setResults={setResults}
                                 />
@@ -180,10 +186,10 @@ const CustomerCompanies = () => {
                             data={customerCompanies?.data}
                         />
                     </Box>
-                </Box>  
+                </Box>
             </ReusableCard>
             <TransitionsModal title="تعریف شرکت رسمی مشتری" open={open} isClose={() => setIsOpen(false)} width="50%">
-               <CustomerCompanyForm refetch={refetch} />
+                <CustomerCompanyForm refetch={refetch} />
             </TransitionsModal>
             <TransitionsModal open={isEditOpen} isClose={() => setIsEditOpen(false)} title="ویرایش" width="50%">
                 <CustomerCompanyForm id={itemForEdit?.id} refetch={refetch} />
