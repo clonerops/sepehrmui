@@ -30,19 +30,19 @@ const initialValues = {
     tel2: "",
     address2: "",
     representative: "",
-    settlementDay: "",
+    settlementDay: "0",
     settlementType: 0,
 };
 
 const CustomerForm = (props: {
-    id?: string;
+    id?: string | undefined;
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
     // refetch?: <TPageData>(
     //     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
     // ) => Promise<QueryObserverResult<any, unknown>>;
     refetch?: any;
 }) => {
-    const { mutate, data } = useCreateCustomer();
+    const { mutate } = useCreateCustomer();
     const updateTools = useUpdateCustomer();
     const detailTools = useGetCustomer();
     const { data: customerValidityData } = useGetCustomerValidities();
@@ -58,8 +58,8 @@ const CustomerForm = (props: {
         ],
         [
             // { label: "اسم رسمی مشتری", name: "officialName", type: "input" },
-            { label: "شناسه ملی", name: "nationalId2", type: "input" },
-            { label: "کدملی", name: "nationalId", type: "input" },
+            { label: "شناسه ملی", name: "nationalId2", type: "number" },
+            { label: "کدملی", name: "nationalId", type: "number" },
         ],
         [
             { label: "معرف", name: "representative", type: "input" },
@@ -123,6 +123,10 @@ const CustomerForm = (props: {
                             </Typography>
                             <FormikInput
                                 {...rest}
+                                onInput={(e: any) => {
+                                    e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 10);
+                                }}
+                                type="number"
                                 boxClassName=""
                                 InputProps={{
                                     inputProps: {
@@ -154,6 +158,11 @@ const CustomerForm = (props: {
                 return <FormikInput multiline rows={3} {...rest} />;
             case "firstName":
                 return <FormikInput  {...rest} />;
+            case "number":
+                return <FormikInput onInput={(e: any) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 10);
+                }}
+                    type="number" {...rest} />;
 
             default:
                 return <FormikInput {...rest} />;
@@ -163,19 +172,7 @@ const CustomerForm = (props: {
     const getDetail = () => {
         if (props.id)
             try {
-                detailTools.mutate(props.id, {
-                    onSuccess: (response) => {
-                        setIsChecked(
-                            response.data.settlementType !== 0
-                        );
-                        if(response.succeeded) {
-                            validateAndEnqueueSnackbar(response.message, "success")
-                            props.refetch()
-                          } else {
-                            validateAndEnqueueSnackbar(response.data.Message, "warning")
-                          }
-            },
-                });
+                detailTools.mutate(props.id);
             } catch (error: any) {
                 return error?.response;
             }
@@ -185,20 +182,37 @@ const CustomerForm = (props: {
         getDetail();
     }, [props.id]);
 
+    // useEffect(() => {
+    //     detailTools.mutate(props?.id || "", {
+    //         onSuccess: (response) => {
+    //             setIsChecked(response.data.settlementType !== 0);
+    //             if (response.succeeded) {
+    //                 validateAndEnqueueSnackbar(response.message, "success")
+    //                 props.refetch()
+    //             } else {
+    //                 validateAndEnqueueSnackbar(response.data.Message, "warning")
+    //             }
+    //         },
+    //     });
+
+    // }, [props.id]);
+
     const onUpdate = (values: ICustomer) => {
         const formData = {
             ...values,
+            nationalId: values.nationalId?.toString(),
+            customerType: +values.customerType,
             settlementType: isChecked ? 1 : 0,
         };
         try {
             return updateTools.mutate(formData, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
-                      } else {
+                    } else {
                         validateAndEnqueueSnackbar(response.data.Message, "warning")
-                      }
+                    }
                 },
             });
         } catch (error: any) {
@@ -209,17 +223,20 @@ const CustomerForm = (props: {
     const onAdd = (values: ICustomer) => {
         const formData = {
             ...values,
+            nationalId: values.nationalId?.toString(),
+            customerType: +values.customerType,
             settlementType: isChecked ? 1 : 0,
         };
         try {
             return mutate(formData, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         validateAndEnqueueSnackbar(response.message, "success")
+                        props.setIsCreateOpen(false)
                         props.refetch()
-                      } else {
+                    } else {
                         validateAndEnqueueSnackbar(response.data.Message, "warning")
-                      }
+                    }
                 },
             });
         } catch (error: any) {
@@ -237,12 +254,15 @@ const CustomerForm = (props: {
         return <Typography>Loading ...</Typography>;
     }
 
+    console.log("detailTools?.data?.data", detailTools?.data?.data)
+
     return (
         <>
             {updateTools.isLoading && (
                 <Backdrop loading={updateTools.isLoading} />
             )}
             <Formik
+                enableReinitialize
                 initialValues={
                     isNew
                         ? initialValues

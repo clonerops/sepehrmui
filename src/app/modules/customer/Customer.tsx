@@ -12,6 +12,7 @@ import CustomerForm from "./components/CustomerForm";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 
 const Customer = () => {
     const {
@@ -33,7 +34,8 @@ const Customer = () => {
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ICustomer>();
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+    const [approve, setApprove] = useState<boolean>(false);
+    const [deletedId, setDeletedId] = useState<string>("")
 
     const columns = (renderAction: any) => {
         const col = [
@@ -164,19 +166,27 @@ const Customer = () => {
                 onSuccess: (response) => {
                     if(response.succeeded) {
                         validateAndEnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
+                        setApprove(false)
                         refetch();
-                      } else {
+                    } else {
                         validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        setApprove(false)
                       }
                 },
             });
     };
 
+    const handleOpenApprove = (id: string) => {
+        setApprove(true)
+        setDeletedId(id)
+      }    
+
+
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
                 <DeleteGridButton onClick={() => handleEdit(item?.row)} />
-                <EditGridButton onClick={() => handleDelete(item?.row?.id)} />
+                <EditGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
             </Box>
         );
     };
@@ -255,6 +265,16 @@ const Customer = () => {
 
                 {/* <EditCustomer refetch={refetch} item={itemForEdit} /> */}
             </TransitionsModal>
+            <ConfirmDialog
+                open={approve}
+                hintTitle="آیا از حذف مطمئن هستید؟"
+                notConfirmText="لغو"
+                confirmText={deleteLoading ? "درحال پردازش ..." : "تایید"}
+                onCancel={() => setApprove(false)}
+                onConfirm={() => handleDelete(deletedId)}
+
+            />
+
         </>
     );
 };
