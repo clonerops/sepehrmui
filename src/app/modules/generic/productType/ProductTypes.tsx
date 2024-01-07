@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react'
-import { Box, Card, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
+import { AddCircleOutline } from '@mui/icons-material'
+import * as Yup from 'yup'
+
+import { IType } from "./_models"
+import { useDeleteTypes, useGetTypes, usePostTypes, useUpdateTypes } from './_hooks'
+import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
-import { IType } from "./_models"
-import { useDeleteTypes, useGetTypes, usePostTypes, useUpdateTypes } from './_hooks'
 import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
-import PositionedSnackbar from '../../../../_cloner/components/Snackbar'
-import * as Yup from 'yup'
-import { AddCircleOutline } from '@mui/icons-material'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import SwitchComponent from '../../../../_cloner/components/Switch'
-import CustomButton from '../../../../_cloner/components/CustomButton'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
@@ -27,14 +28,11 @@ const validation = Yup.object({
 
 const ProductTypes = () => {
   const { data: types, refetch, isLoading: TypeLoading } = useGetTypes()
-  const { mutate: postType, data: postData } = usePostTypes()
-  const { mutate: updateType, data: updateData } = useUpdateTypes()
-  const { mutate: deleteType, data: deleteData } = useDeleteTypes()
+  const { mutate: postType } = usePostTypes()
+  const { mutate: updateType } = useUpdateTypes()
+  const { mutate: deleteType } = useDeleteTypes()
 
   const [results, setResults] = useState<IType[]>([]);
-  const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
-  const [snackeUpdateOpen, setSnackeUpdateOpen] = useState<boolean>(false);
-  const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setResults(types?.data);
@@ -44,8 +42,12 @@ const ProductTypes = () => {
   const handleDelete = (id: number) => {
     if (id)
       deleteType(id, {
-        onSuccess: (message) => {
-          setSnackeDeleteOpen(true);
+        onSuccess: (response) => {
+          if(response.succeeded) {
+            validateAndEnqueueSnackbar(response.message, "success")
+          } else {
+            validateAndEnqueueSnackbar(response.data.Message, "error")
+          }
           refetch();
         },
       });
@@ -59,18 +61,21 @@ const ProductTypes = () => {
         isActive: !rowData.row.isActive
       }
       updateType(formData, {
-        onSuccess: () => {
-          setSnackeUpdateOpen(true)
+        onSuccess: (response) => {
+          if(response.succeeded) {
+            validateAndEnqueueSnackbar(response.message, "success")
+          } else {
+            validateAndEnqueueSnackbar(response.data.Message, "error")
+          }
           refetch()
         }
       })
     } catch (e) {
-      setSnackeUpdateOpen(true);
       return e;
     }
   };
 
-  const columns = (renderAction: any, renderSwitch: any) => {
+  const columns = (renderSwitch: any) => {
     const col = [
       {
         field: 'id',
@@ -93,7 +98,6 @@ const ProductTypes = () => {
         headerClassName: "headerClassName",
         minWidth: 160,
       },
-      // { headerName: 'حذف', flex:1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
   }
@@ -110,7 +114,6 @@ const ProductTypes = () => {
   const renderAction = (item: any) => {
     return (
       <Box component="div" className="flex gap-4">
-        {/* <Switch checked={item?.row.isActive} onChange={(_) => onUpdateStatus(item)} /> */}
         <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
       </Box>
     );
@@ -122,9 +125,6 @@ const ProductTypes = () => {
 
   return (
     <>
-      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postData?.data?.Message || postData?.message} />)}
-      {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
-      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteData?.data?.Message || deleteData?.message} />)}
       <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
           <Box component="div">
@@ -135,10 +135,14 @@ const ProductTypes = () => {
                     desc: values.desc
                   }
                   postType(formData, {
-                    onSuccess: (message: any) => {
-                      setFieldValue('id', message.data.id)
-                      refetch();
-                      setSnackePostOpen(true)
+                    onSuccess: (response) => {
+                      if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message, "success")
+                        setFieldValue('id', response.data.id)
+                        refetch();
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                      }
                     }
                   })
                 } catch (error) {
@@ -175,7 +179,7 @@ const ProductTypes = () => {
               />
             </Box>
             <MuiDataGrid
-              columns={columns(renderAction, renderSwitch)}
+              columns={columns(renderSwitch)}
               rows={results}
               data={types?.data}
             />

@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react'
-import { Box, Button, Card, Switch, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
+import { AddCircleOutline } from '@mui/icons-material'
+import * as Yup from 'yup'
+
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
-import { IState } from "./_models"
-import { useDeleteState, useGetStates, usePostState, useUpdateState } from './_hooks'
-import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
-import { columns } from './_columns'
-import PositionedSnackbar from '../../../../_cloner/components/Snackbar'
-import React from 'react'
-import { AddCircleOutline } from '@mui/icons-material'
-import * as Yup from 'yup'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
+
+import { IState } from "./_models"
+import { useGetStates, usePostState, useUpdateState } from './_hooks'
+import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 
 const initialValues = {
   id: 0,
@@ -29,29 +28,16 @@ const validation = Yup.object({
 
 const ProductState = () => {
   const { data: state, refetch, isLoading: StateLoading } = useGetStates()
-  const { mutate: postState, data: postData } = usePostState()
-  const { mutate: updateState, data: updateData } = useUpdateState()
-  const { mutate: deleteState, data: deleteData } = useDeleteState()
+  const { mutate: postState } = usePostState()
+  const { mutate: updateState } = useUpdateState()
 
   const [results, setResults] = useState<IState[]>([]);
-  const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
-  const [snackeUpdateOpen, setSnackeUpdateOpen] = useState<boolean>(false);
-  const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setResults(state?.data);
   }, [state?.data]);
 
 
-  const handleDelete = (id: number) => {
-    if (id)
-      deleteState(id, {
-        onSuccess: (message: any) => {
-          setSnackeDeleteOpen(true);
-          refetch();
-        },
-      });
-  }
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -61,18 +47,21 @@ const ProductState = () => {
         isActive: !rowData.row.isActive
       }
       updateState(formData, {
-        onSuccess: () => {
-          setSnackeUpdateOpen(true)
+        onSuccess: (response) => {
+          if(response.succeeded) {
+            validateAndEnqueueSnackbar(response.message, "success")
+          } else {
+            validateAndEnqueueSnackbar(response.data.Message, "error")
+          }
           refetch()
         }
       })
     } catch (e) {
-      setSnackeUpdateOpen(true);
       return e;
     }
   };
 
-  const columns = (renderAction: any, renderSwitch: any) => {
+  const columns = (renderSwitch: any) => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
@@ -96,7 +85,6 @@ const ProductState = () => {
         minWidth: 160,
         flex: 1,
       },
-      // { headerName: 'حذف', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
   }
@@ -111,13 +99,6 @@ const ProductState = () => {
     );
   };
 
-  const renderAction = (item: any) => {
-    return (
-      <Box component="div" className="flex gap-4">
-        <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
-      </Box>
-    );
-  };
 
   if (StateLoading) {
     return <p>Loading...</p>;
@@ -125,9 +106,6 @@ const ProductState = () => {
 
   return (
     <>
-      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postData?.data?.Message || postData?.message} />)}
-      {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
-      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteData?.data?.Message || deleteData?.message} />)}
       <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
           <Box component="div">
@@ -138,10 +116,14 @@ const ProductState = () => {
                     desc: values.desc
                   }
                   postState(formData, {
-                    onSuccess: (message: any) => {
-                      setFieldValue('id', message.data.id)
-                      refetch();
-                      setSnackePostOpen(true)
+                    onSuccess: (response: any) => {
+                      if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message, "success")
+                        setFieldValue('id', response.data.id)
+                        refetch();
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                      }                        
                     }
                   })
                 } catch (error) {
@@ -178,7 +160,7 @@ const ProductState = () => {
               />
             </Box>
             <MuiDataGrid
-              columns={columns(renderAction, renderSwitch)}
+              columns={columns(renderSwitch)}
               rows={results}
               data={state?.data}
             />

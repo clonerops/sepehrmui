@@ -1,28 +1,25 @@
 import { Form, Formik } from "formik";
-import { useCreateSupplier, useRetrieveProducts } from "../core/_hooks";
+import { Box, Button, Typography } from "@mui/material";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
+
+import { useCreateSupplier, useRetrieveProducts } from "../core/_hooks";
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { createSupplierValidations } from "../validations/createSupplier";
-import { Box, Button, Typography } from "@mui/material";
+import { dropdownCustomer, dropdownProduct } from "../../generic/_functions";
+
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
-import { dropdownCustomer, dropdownProduct } from "../../generic/_functions";
-import { useState } from "react";
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
-import React from "react";
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 
 const CreateSupplier = (props: {
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>,
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }) => {
     // fetching Data
-    const { mutate, data } = useCreateSupplier();
+    const { mutate } = useCreateSupplier();
     const { data: customers } = useGetCustomers()
     const { data: products } = useRetrieveProducts()
-
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-
 
     const initialValues = {
         price: "",
@@ -35,16 +32,6 @@ const CreateSupplier = (props: {
     };
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message || "ایجاد با موفقیت انجام شد"
-                    }
-                />
-            )}
 
             <Formik validationSchema={createSupplierValidations} initialValues={initialValues} onSubmit={
                 async (values, { setStatus, setSubmitting }) => {
@@ -60,10 +47,13 @@ const CreateSupplier = (props: {
                         }
 
                         mutate(formData, {
-                            onSuccess: (message) => {
-                                setSnackeOpen(true)
-                                props.refetch()
-                                props.setIsCreateOpen(false)
+                            onSuccess: (response) => {
+                                if(response.succeeded) {
+                                    validateAndEnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
+                                    props.refetch()
+                                  } else {
+                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                  }
                             }
                         });
                     } catch (error) {

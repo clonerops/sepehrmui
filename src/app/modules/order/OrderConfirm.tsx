@@ -2,8 +2,7 @@ import { useParams } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import PositionedSnackbar from "../../../_cloner/components/Snackbar";
-import { useApproveInvoiceType, useConfirmOrder, useRetrieveOrder } from "./core/_hooks";
+import { useApproveInvoiceType, useRetrieveOrder } from "./core/_hooks";
 import { Description, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 import MuiTable from "../../../_cloner/components/MuiTable";
@@ -15,7 +14,7 @@ import { dropdownCustomerCompanies, dropdownInvoiceType } from "./helpers/dropdo
 import FormikProductComboSelect from "./components/FormikProductComboSelect";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import { FieldType } from "../../../_cloner/components/globalTypes";
-import { useRetrieveProductsByBrand, useRetrieveProductsByWarehouse } from "../product/core/_hooks";
+import { useRetrieveProductsByBrand } from "../product/core/_hooks";
 import { Form, Formik } from "formik";
 import FileUpload from "../payment/components/FileUpload";
 import FormikCheckbox from "../../../_cloner/components/FormikCheckbox";
@@ -112,11 +111,6 @@ const OrderConfirm = () => {
                     <PublishedWithChanges />
                 </Button>
             case "add":
-                // disabled={
-                //     !values.productNameReplace ||
-                //     !values.proximateAmountReplace ||
-                //     !values.productPriceReplace
-                // } 
                 return <Button onClick={() => handleReplace(values, setFieldValue, resetForm)} className="!bg-[#fcc615]">
                     <PublishedWithChanges />
                 </Button>

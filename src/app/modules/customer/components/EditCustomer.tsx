@@ -1,26 +1,26 @@
 import { Form, Formik } from "formik";
+import { useState } from "react";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
+import { Box, Button, Typography } from "@mui/material";
+
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
+import FormikSelect from "../../../../_cloner/components/FormikSelect";
+
 import { ICustomer } from "../core/_models";
 import { useUpdateCustomer } from "../core/_hooks";
 import { convertValueLabelCustomerValidaty } from "../helpers/convertValueLabel";
 import { customerType } from "../helpers/customerType";
-import FormikInput from "../../../../_cloner/components/FormikInput";
-import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { useGetCustomerValidities } from "../../generic/_hooks";
-import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
-import { Box, Button, Typography } from "@mui/material";
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
-import { useState } from "react";
-import React from "react";
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 
 const EditCustomer = (props: {
     item: ICustomer | undefined,
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 
 }) => {
-    const { mutate, data } = useUpdateCustomer();
+    const { mutate} = useUpdateCustomer();
     const { data: customerValidityData } = useGetCustomerValidities()
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
     const initialValues = {
         id: props.item?.id,
@@ -42,28 +42,21 @@ const EditCustomer = (props: {
     };
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message || "ویرایش با موفقیت انجام شد"
-                    }
-                />
-            )}
 
             <Formik initialValues={initialValues} onSubmit={
                 async (values, { setStatus, setSubmitting }) => {
                     try {
                         mutate(values, {
-                            onSuccess: () => {
-                                setSnackeOpen(true);
-                                props.refetch()
+                            onSuccess: (response) => {
+                                if(response.succeeded) {
+                                    validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                                    props.refetch()
+                                  } else {
+                                    validateAndEnqueueSnackbar(response.data.Message, "warning")
+                                  }
                             }
                         });
                     } catch (error) {
-                        setSnackeOpen(true);
                         setStatus("اطلاعات ثبت مشتری نادرست می باشد");
                         setSubmitting(false);
                     }

@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDeleteCustomer, useGetCustomers } from "./core/_hooks";
 import { ICustomer } from "./core/_models";
-import CreateCustomer from "./components/CreateCustomer";
-import EditCustomer from "./components/EditCustomer";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import { columns } from "./helpers/customerColumn";
-import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import EditGridButton from "../../../_cloner/components/DeleteGridButton";
 import DeleteGridButton from "../../../_cloner/components/EditGridButton";
 import ActiveText from "../../../_cloner/components/ActiveText";
 import CustomerForm from "./components/CustomerForm";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
+import TransitionsModal from "../../../_cloner/components/ReusableModal";
 
 const Customer = () => {
     const {
@@ -164,9 +161,13 @@ const Customer = () => {
     const handleDelete = (id: string | undefined) => {
         if (id)
             mutate(id, {
-                onSuccess: (message) => {
-                    setSnackeOpen(true);
-                    refetch();
+                onSuccess: (response) => {
+                    if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
+                        refetch();
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                      }
                 },
             });
     };
@@ -186,18 +187,6 @@ const Customer = () => {
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        deleteData?.data?.Message ||
-                        deleteData?.message ||
-                        "حذف با موفقیت انجام شد"
-                    }
-                />
-            )}
-
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {customersLoading && <Backdrop loading={customersLoading} />}
             <ReusableCard>

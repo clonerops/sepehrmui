@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react'
-import { Box, Button, Card, Switch, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
-import FormikInput from "../../../../_cloner/components/FormikInput"
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
-import FuzzySearch from "../../../../_cloner/helpers/Fuse"
-import { IService } from "./_models"
-import { useDeleteServices, useGetServices, usePostServices, useUpdateServices } from './_hooks'
-import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
-import { columns } from './_columns'
-import PositionedSnackbar from '../../../../_cloner/components/Snackbar'
-import React from 'react'
 import { AddCircleOutline } from '@mui/icons-material'
 import * as Yup from 'yup'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+
+import FormikInput from "../../../../_cloner/components/FormikInput"
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
+import FuzzySearch from "../../../../_cloner/helpers/Fuse"
+
+import { IService } from "./_models"
+import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
+import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
 
 const initialValues = {
   id: 0,
@@ -28,29 +27,15 @@ const validation = Yup.object({
 
 const ProductService = () => {
   const { data: Services, refetch, isLoading: ServiceLoading } = useGetServices()
-  const { mutate: postService, data: postData } = usePostServices()
-  const { mutate: updateService, data: updateData } = useUpdateServices()
-  const { mutate: deleteService, data: deleteData } = useDeleteServices()
+  const { mutate: postService } = usePostServices()
+  const { mutate: updateService } = useUpdateServices()
 
   const [results, setResults] = useState<IService[]>([]);
-  const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
-  const [snackeUpdateOpen, setSnackeUpdateOpen] = useState<boolean>(false);
-  const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setResults(Services?.data);
   }, [Services?.data]);
 
-
-  const handleDelete = (id: number) => {
-    if (id)
-      deleteService(id, {
-        onSuccess: (message: any) => {
-          setSnackeDeleteOpen(true);
-          refetch();
-        },
-      });
-  }
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -60,18 +45,21 @@ const ProductService = () => {
         isActive: !rowData.row.isActive
       }
       updateService(formData, {
-        onSuccess: () => {
-          setSnackeUpdateOpen(true)
+        onSuccess: (response) => {
+          if(response.succeeded) {
+            validateAndEnqueueSnackbar(response.message, "success")
+          } else {
+            validateAndEnqueueSnackbar(response.data.Message, "error")
+          }
           refetch()
         }
       })
     } catch (e) {
-      setSnackeUpdateOpen(true);
       return e;
     }
   };
 
-  const columns = (renderAction: any, renderSwitch: any) => {
+  const columns = (renderSwitch: any) => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
@@ -95,7 +83,6 @@ const ProductService = () => {
         minWidth: 160,
         flex: 1,
       },
-      // { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
   }
@@ -110,13 +97,6 @@ const ProductService = () => {
     );
   };
 
-  const renderAction = (item: any) => {
-    return (
-      <Box component="div" className="flex gap-4">
-        <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
-      </Box>
-    );
-  };
 
   if (ServiceLoading) {
     return <p>Loading...</p>;
@@ -124,9 +104,6 @@ const ProductService = () => {
 
   return (
     <>
-      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postData?.data?.Message || postData?.message} />)}
-      {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateData?.data?.Message || updateData?.message} />)}
-      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteData?.data?.Message || deleteData?.message} />)}
       <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
           <Box component="div">
@@ -137,10 +114,14 @@ const ProductService = () => {
                     description: values.desc
                   }
                   postService(formData, {
-                    onSuccess: (message: any) => {
-                      setFieldValue('id', message.data.id)
-                      refetch();
-                      setSnackePostOpen(true)
+                    onSuccess: (response: any) => {
+                      if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message, "success")
+                        setFieldValue('id', response.data.id)
+                        refetch();
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                      }                        
                     }
                   })
                 } catch (error) {
@@ -175,7 +156,7 @@ const ProductService = () => {
               />
             </Box>
             <MuiDataGrid
-              columns={columns(renderAction, renderSwitch)}
+              columns={columns(renderSwitch)}
               rows={results}
               data={Services?.data}
             />

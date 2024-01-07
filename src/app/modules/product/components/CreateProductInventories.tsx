@@ -1,16 +1,14 @@
 import { Form, Formik } from "formik"
-import { useCreateProductPrice, useRetrieveBrands, useRetrieveProducts } from "../core/_hooks"
-import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-import FormikSelect from "../../../../_cloner/components/FormikSelect"
-import FormikInput from "../../../../_cloner/components/FormikInput"
-import { dropdownBrand, dropdownProduct } from "../../generic/_functions"
 import { Box, Button, Typography } from "@mui/material"
-import { useState } from "react"
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
+
+import { useCreateProductPrice, useRetrieveProducts } from "../core/_hooks"
+import {  dropdownProduct } from "../../generic/_functions"
 import { createProductPriceValidations } from "../validations/createProductPrice"
-import React from "react"
+
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
 import FormikPrice from "./FormikPrice"
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
 
 const initialValues = {
     price: "",
@@ -24,25 +22,10 @@ type Props = {
 
 const CreateProductInventories = (props: Props) => {
     const { data: products } = useRetrieveProducts();
-    const { data: brands } = useRetrieveBrands();
-    const { mutate, data } = useCreateProductPrice()
-
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-
+    const { mutate } = useCreateProductPrice()
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message || "ایجاد با موفقیت انجام شد"
-                    }
-                />
-            )}
-
             <Formik initialValues={initialValues} validationSchema={createProductPriceValidations} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
                     try {
@@ -52,9 +35,14 @@ const CreateProductInventories = (props: Props) => {
                             productBrandId: Number(values.productBrandId)
                         }
                         mutate(formData, {
-                            onSuccess: () => {
-                                setSnackeOpen(true)
-                                props.refetch()
+                            onSuccess: (response) => {
+                                if(response.succeeded) {
+                                    validateAndEnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
+                                    props.refetch()
+                                  } else {
+                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                  }
+                        
                             }
                         })
                     } catch (error) {

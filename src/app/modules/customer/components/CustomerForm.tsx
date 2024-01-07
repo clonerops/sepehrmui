@@ -1,29 +1,19 @@
 import { useState, useEffect } from "react";
 import { Form, Formik } from "formik";
-import {
-    QueryObserverResult,
-    RefetchOptions,
-    RefetchQueryFilters,
-} from "@tanstack/react-query";
-import {
-    useCreateCustomer,
-    useGetCustomer,
-    useUpdateCustomer,
-} from "../core/_hooks";
+import { useCreateCustomer, useGetCustomer, useUpdateCustomer } from "../core/_hooks";
 import { customerType } from "../helpers/customerType";
 import { convertValueLabelCustomerValidaty } from "../helpers/convertValueLabel";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { useGetCustomerValidities } from "../../generic/_hooks";
-import { Box, Button, Card, Checkbox, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Typography } from "@mui/material";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import React from "react";
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { ICustomer } from "../core/_models";
 import Backdrop from "../../../../_cloner/components/Backdrop";
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { createValiadtion } from "../validation/validation";
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -56,8 +46,6 @@ const CustomerForm = (props: {
     const updateTools = useUpdateCustomer();
     const detailTools = useGetCustomer();
     const { data: customerValidityData } = useGetCustomerValidities();
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-    const [snackeEditOpen, setSnackeEditOpen] = useState<boolean>(false);
     const [isChecked, setIsChecked] = useState<boolean>(false);
 
     const isNew = !props.id;
@@ -180,10 +168,13 @@ const CustomerForm = (props: {
                         setIsChecked(
                             response.data.settlementType !== 0
                         );
-                        if (!response.succeeded) {
-                            setSnackeOpen(true);
-                        }
-                    },
+                        if(response.succeeded) {
+                            validateAndEnqueueSnackbar(response.message, "success")
+                            props.refetch()
+                          } else {
+                            validateAndEnqueueSnackbar(response.data.Message, "warning")
+                          }
+            },
                 });
             } catch (error: any) {
                 return error?.response;
@@ -202,12 +193,15 @@ const CustomerForm = (props: {
         try {
             return updateTools.mutate(formData, {
                 onSuccess: (response) => {
-                    setSnackeEditOpen(true);
-                    props?.refetch();
+                    if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                        props.refetch()
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                      }
                 },
             });
         } catch (error: any) {
-            setSnackeEditOpen(true);
             return error?.response;
         }
     };
@@ -220,12 +214,15 @@ const CustomerForm = (props: {
         try {
             return mutate(formData, {
                 onSuccess: (response) => {
-                    setSnackeOpen(true);
-                    props?.refetch();
+                    if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message, "success")
+                        props.refetch()
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                      }
                 },
             });
         } catch (error: any) {
-            setSnackeOpen(false);
             return error?.response;
         }
     };
@@ -244,24 +241,6 @@ const CustomerForm = (props: {
         <>
             {updateTools.isLoading && (
                 <Backdrop loading={updateTools.isLoading} />
-            )}
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={data?.data?.Message || data?.message}
-                />
-            )}
-            {snackeEditOpen && (
-                <PositionedSnackbar
-                    open={snackeEditOpen}
-                    setState={setSnackeEditOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message ||
-                        "ویرایش با موفقیت انجام شد"
-                    }
-                />
             )}
             <Formik
                 initialValues={

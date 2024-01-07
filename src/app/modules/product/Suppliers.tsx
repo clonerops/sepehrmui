@@ -1,21 +1,21 @@
-import React from "react";
 import { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+
 import { ISuppliers } from "./core/_models";
 import { useDeleteSupplier, useRetrieveSuppliers } from "./core/_hooks";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+
 import CreateSupplier from "./components/CreateSupplier";
 import EditSupplier from "./components/EditSupplier";
-import { columns } from "./helpers/supplierColumns";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
-import PositionedSnackbar from "../../../_cloner/components/Snackbar";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
 
 const Suppliers = () => {
     const {
@@ -46,9 +46,13 @@ const Suppliers = () => {
     const handleDelete = (id: string | undefined) => {
         if (id)
             mutate(id, {
-                onSuccess: (message) => {
-                    setSnackeOpen(true);
-                    refetch();
+                onSuccess: (response) => {
+                    if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
+                        refetch();
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                      }
                 },
             });
     };
@@ -171,17 +175,6 @@ const Suppliers = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {suppliersLoading && <Backdrop loading={suppliersLoading} />}
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        deleteData?.data?.Message ||
-                        deleteData?.message ||
-                        "حذف با موفقیت انجام شد"
-                    }
-                />
-            )}
             <ReusableCard>
                 <Box
                     component="div"

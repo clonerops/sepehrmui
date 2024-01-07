@@ -1,17 +1,17 @@
 import { Box, Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useUploadFileProductPrice } from '../../app/modules/product/core/_hooks';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query';
+
+import { useUploadFileProductPrice } from '../../app/modules/product/core/_hooks';
+import { validateAndEnqueueSnackbar } from '../../app/modules/order/sales-order/functions';
 
 interface FileUploadProps {
     acceptedFileTypes?: string;
-    setSnackeOpen: any;
-    requestMessage: any;
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }
 
-const FileUploadButton: React.FC<FileUploadProps> = ({ setSnackeOpen, requestMessage, refetch }) => {
+const FileUploadButton: React.FC<FileUploadProps> = ({ refetch }) => {
     const acceptedFileTypes: any =
         '.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     const [files, setFiles] = useState<File[]>([]);
@@ -25,10 +25,13 @@ const FileUploadButton: React.FC<FileUploadProps> = ({ setSnackeOpen, requestMes
         });
 
         uploadFile.mutate(formData, {
-            onSuccess: (data: any) => {
-                requestMessage(data?.data?.Message || data?.message)
-                setSnackeOpen(true)
-                refetch()
+            onSuccess: (response: any) => {
+                if(response.succeeded) {
+                    validateAndEnqueueSnackbar(response.message, "success")
+                    refetch()
+                  } else {
+                    validateAndEnqueueSnackbar(response.data.Message, "error")
+                  }
             },
         });
 

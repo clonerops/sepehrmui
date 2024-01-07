@@ -1,12 +1,13 @@
 import { Form, Formik } from "formik"
-import { useRetrieveBrands, useRetrieveProducts, useUpdateProductPrice } from "../core/_hooks"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-import { IProductPrice } from "../core/_models"
-import FormikSelect from "../../../../_cloner/components/FormikSelect"
-import { dropdownBrand, dropdownProduct } from "../../generic/_functions"
 import { Box, Button, Typography } from "@mui/material"
-import { useState } from "react"
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
+
+import { useRetrieveBrands, useRetrieveProducts, useUpdateProductPrice } from "../core/_hooks"
+import { IProductPrice } from "../core/_models"
+import { dropdownBrand, dropdownProduct } from "../../generic/_functions"
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+
+import FormikSelect from "../../../../_cloner/components/FormikSelect"
 import FormikPrice from "./FormikPrice"
 import FormikBrand from "../../../../_cloner/components/FormikBrand"
 
@@ -18,8 +19,7 @@ type Props = {
 const EditProductPrice = (props: Props) => {
     const { data: products } = useRetrieveProducts();
     const { data: brands } = useRetrieveBrands();
-    const { mutate, data } = useUpdateProductPrice()
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+    const { mutate } = useUpdateProductPrice()
 
     const initialValues = {
         price: props.item?.price,
@@ -29,18 +29,6 @@ const EditProductPrice = (props: Props) => {
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message || "ویرایش با موفقیت انجام شد"
-                    }
-                />
-            )}
-
-
             <Formik initialValues={initialValues} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
                     try {
@@ -51,9 +39,13 @@ const EditProductPrice = (props: Props) => {
                             productBrandId: values.productBrandId
                         }
                         mutate(formData, {
-                            onSuccess: () => {
-                                setSnackeOpen(true)
-                                props.refetch()
+                            onSuccess: (response) => {
+                                if(response.succeeded) {
+                                    validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                                    props.refetch()
+                                  } else {
+                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                  }
                             }
                         })
                     } catch (error) {

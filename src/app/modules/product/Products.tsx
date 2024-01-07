@@ -1,19 +1,14 @@
-import React from "react";
 import { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+
 import { IProducts } from "./core/_models";
 import { useDisableProduct, useRetrieveProducts } from "./core/_hooks";
-import CreateProduct from "./components/CreateProduct";
-import EditProduct from "./components/EditProduct";
-import { columns } from "./helpers/productColumns";
+
 import EditGridButton from "../../../_cloner/components/EditGridButton";
-// import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
-import { Box, Button, Card, Typography } from "@mui/material";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import PositionedSnackbar from "../../../_cloner/components/Snackbar";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import ActiveText from "../../../_cloner/components/ActiveText";
 import ProductForm from "./components/ProductForm";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
@@ -39,7 +34,6 @@ const Products = () => {
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<IProducts>();
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
     const columns = (renderAction: any) => {
         const col = [
@@ -253,17 +247,6 @@ const Products = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productsLoading && <Backdrop loading={productsLoading} />}
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        deleteData?.data?.Message ||
-                        deleteData?.message ||
-                        "حذف با موفقیت انجام شد"
-                    }
-                />
-            )}
             <ReusableCard>
                 <Box
                     component="div"

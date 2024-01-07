@@ -1,18 +1,16 @@
-import { useState } from 'react'
 import { useParams } from "react-router-dom"
+import { Box, Button, Container, Typography } from "@mui/material"
 import { useGetRecievePaymentById, useUpdatePaymentApproved } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
+import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+
 import Backdrop from "../../../../_cloner/components/Backdrop"
-import { Box, Button, Card, Container, Typography } from "@mui/material"
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
-import React from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
 const Detail = () => {
     const { id }: any = useParams()
-    const { data, isLoading: fetchingLaoding, refetch } = useGetRecievePaymentById(id)
+    const { data, isLoading: fetchingLaoding } = useGetRecievePaymentById(id)
     const { mutate, isLoading } = useUpdatePaymentApproved()
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
     const fieldsValue = [
         { title: "دریافت از", value: data?.data?.receivePaymentSourceFromDesc + " " + (data?.data?.receiveFromCustomerName === null ? "" : data?.data?.receiveFromCustomerName) },
@@ -71,25 +69,19 @@ const Detail = () => {
     const handleConfirm = () => {
         if (id)
             mutate(id, {
-                onSuccess: (message) => {
-                    setSnackeOpen(true)
-                }
+                onSuccess: (response) => {
+                    if (response?.succeeded) {
+                        validateAndEnqueueSnackbar(response.message, "success")
+                    }else {
+                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                      } 
+}
             })
 
     }
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message || "ثبت تایید حسابداری دریافت و پرداخت با موفقیت انجام شد"
-                    }
-                />
-            )}
             {fetchingLaoding && <Backdrop loading={fetchingLaoding} />}
             <Container>
                 <ReusableCard>

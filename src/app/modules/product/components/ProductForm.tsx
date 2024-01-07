@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Form, Formik } from "formik";
 import { createProductValidations } from "../validations/createProduct";
-import { useCreateProduct, useRetrieveProduct, useRetrieveProductById, useUpdateProduct } from "../core/_hooks";
+import { useCreateProduct, useRetrieveProduct, useUpdateProduct } from "../core/_hooks";
 import {
     QueryObserverResult,
     RefetchOptions,
@@ -10,25 +10,15 @@ import {
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
-import FormikComboBox from "../../../../_cloner/components/FormikComboBox";
-import { useGetTypes } from "../../generic/productType/_hooks";
-import {
-    dropdownStandard,
-    dropdownState,
-    dropdownTypes,
-    dropdownUnit,
-} from "../helpers/convertDropdowns";
-import { useGetStandards } from "../../generic/productStandard/_hooks";
-import { useGetStates } from "../../generic/productState/_hooks";
+import {dropdownUnit} from "../helpers/convertDropdowns";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { IProducts } from "../core/_models";
-import { IType } from "../../generic/productType/_models";
 import FormikType from "../../../../_cloner/components/FormikType";
 import FormikStandard from "../../../../_cloner/components/FormikStandard";
 import FormikState from "../../../../_cloner/components/FormikState";
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 
 const initialValues = {
     productName: "",
@@ -56,17 +46,10 @@ const ProductForm = (props: {
     ) => Promise<QueryObserverResult<any, unknown>>;
 }) => {
     // Fetchig
-    const { mutate, data } = useCreateProduct();
-    const { data: productType } = useGetTypes();
-    const { data: productStandard } = useGetStandards();
-    const { data: productState } = useGetStates();
+    const { mutate } = useCreateProduct();
     const { data: productUnit } = useGetUnits();
     const updateTools = useUpdateProduct();
     const detailTools = useRetrieveProduct()
-
-    // States
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-    const [snackeEditOpen, setSnackeEditOpen] = useState<boolean>(false);
 
     const isNew = !props.id
 
@@ -130,7 +113,7 @@ const ProductForm = (props: {
         switch (type) {
             case "productType":
                 return (
-                    <FormikType {...rest} />
+                    <FormikType disabeld={!isNew} {...rest} />
                 );
             case "productStandard":
                 return (
@@ -157,7 +140,7 @@ const ProductForm = (props: {
             case "description":
                 return <FormikInput {...rest} multiline rows={3} />;
             case "productName":
-                return <FormikInput {...rest} />;
+                return <FormikInput disabled={!isNew} {...rest} />;
 
             default:
                 return <FormikInput {...rest} />;
@@ -167,11 +150,7 @@ const ProductForm = (props: {
     const getDetail = () => {
         if (props.id)
             try {
-                detailTools.mutate(props.id, {
-                    onSuccess: (response) => {
-                        if (!response.succeeded) setSnackeOpen(true);
-                    },
-                });
+                detailTools.mutate(props.id);
             } catch (error: any) {
                 return error?.response;
             }
@@ -186,13 +165,18 @@ const ProductForm = (props: {
         try {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
-                    setSnackeEditOpen(true);
-                    props.refetch()
-                    props.setIsCreateOpen(false)
+                    if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                        props.refetch()
+                        props.setIsCreateOpen(false)
+                    } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                    }
+    
                 },
             });
+
         } catch (error: any) {
-            setSnackeEditOpen(true);
             return error?.response;
         }
     };
@@ -201,13 +185,18 @@ const ProductForm = (props: {
         try {
             return mutate(values, {
                 onSuccess: (response) => {
-                    setSnackeOpen(true)
-                    props.refetch()
-                    props.setIsCreateOpen(false)
+                    if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                        props.refetch()
+                        props.setIsCreateOpen(false)
+
+                    } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                    }
+
                 },
             });
         } catch (error: any) {
-            setSnackeOpen(false);
             return error?.response;
         }
     };
@@ -229,27 +218,6 @@ const ProductForm = (props: {
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message ||
-                        "ایجاد با موفقیت انجام شد"
-                    }
-                />
-            )}
-            {snackeEditOpen && (
-                <PositionedSnackbar
-                    open={snackeEditOpen}
-                    setState={setSnackeEditOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message || "ویرایش با موفقیت انجام شد"
-                    }
-                />
-            )}
             <Formik
                 initialValues={
                     isNew

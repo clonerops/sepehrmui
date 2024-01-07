@@ -1,27 +1,23 @@
 import { useState, useEffect } from 'react'
-import { Box, Button, Card, Switch, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
-import FormikInput from "../../../../_cloner/components/FormikInput"
+import { AddCircleOutline } from '@mui/icons-material'
+
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
-import { IProductBrand } from "./_models"
-import { useDeleteProductBrands, useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
-import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
-import { columns } from './_columns'
-import PositionedSnackbar from '../../../../_cloner/components/Snackbar'
-import { useRetrieveProducts } from '../../product/core/_hooks'
 import FormikComboBox from '../../../../_cloner/components/FormikComboBox'
-import { dropdownBrand, dropdownProduct } from '../_functions'
-import CheckboxGroup from '../../../../_cloner/components/CheckboxGroup'
-import { useGetBrands } from '../brands/_hooks'
-import React from 'react'
-import FormikSelect from '../../../../_cloner/components/FormikSelect'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
-import { AddCircleOutline } from '@mui/icons-material'
 import FormikBrand from '../../../../_cloner/components/FormikBrand'
 import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
+
+import { IProductBrand } from "./_models"
+import { useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
+import { useRetrieveProducts } from '../../product/core/_hooks'
+import { dropdownBrand, dropdownProduct } from '../_functions'
+import { useGetBrands } from '../brands/_hooks'
+import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
 
 const initialValues: any = {
   id: 0,
@@ -33,29 +29,15 @@ const ProductBrands = () => {
   const { data: products } = useRetrieveProducts()
   const { data: brands } = useGetBrands()
   const { data: productBrands, refetch, isLoading: productBrandLoading } = useGetProductBrands();
-  const { mutate: postProductBrand, data: postProductBrandData } = usePostProductBrands();
-  const { mutate: updateProductBrand, data: updateProductBrandData } = useUpdateProductBrands();
-  const { mutate: deleteProductBrand, data: deleteProductBrandData } = useDeleteProductBrands();
+  const { mutate: postProductBrand } = usePostProductBrands();
+  const { mutate: updateProductBrand } = useUpdateProductBrands();
 
   const [results, setResults] = useState<IProductBrand[]>([]);
-  const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
-  const [snackeUpdateOpen, setSnackeUpdateOpen] = useState<boolean>(false);
-  const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setResults(productBrands?.data);
   }, [productBrands?.data]);
 
-
-  const handleDelete = (id: number) => {
-    if (id)
-      deleteProductBrand(id, {
-        onSuccess: (message) => {
-          setSnackeDeleteOpen(true);
-          refetch()
-        },
-      });
-  }
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -66,13 +48,16 @@ const ProductBrands = () => {
         isActive: !rowData.row.isActive
       }
       updateProductBrand(formData, {
-        onSuccess: () => {
-          setSnackeUpdateOpen(true)
-          refetch()
+        onSuccess: (response) => {
+          if(response.succeeded) {
+            validateAndEnqueueSnackbar(response.message, "success")
+          } else {
+            validateAndEnqueueSnackbar(response.data.Message, "error")
+          }
+        refetch()
         }
       })
     } catch (e) {
-      setSnackeUpdateOpen(true);
       return e;
     }
   };
@@ -85,15 +70,8 @@ const ProductBrands = () => {
       />
     );
   };
-  const renderAction = (item: any) => {
-    return (
-      <Box component="div" className="flex gap-4">
-        <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
-      </Box>
-    );
-  };
 
-  const columns = (renderAction: any, renderSwitch: any) => {
+  const columns = (renderSwitch: any) => {
     const col = [
       {
         field: "productName",
@@ -141,26 +119,26 @@ const ProductBrands = () => {
 
   return (
     <>
-      {snackePostOpen && (<PositionedSnackbar open={snackePostOpen} setState={setSnackePostOpen} title={postProductBrandData?.data?.Message || postProductBrandData?.message} />)}
-      {snackeUpdateOpen && (<PositionedSnackbar open={snackeUpdateOpen} setState={setSnackeUpdateOpen} title={updateProductBrandData?.data?.Message || updateProductBrandData?.message} />)}
-      {snackeDeleteOpen && (<PositionedSnackbar open={snackeDeleteOpen} setState={setSnackeDeleteOpen} title={deleteProductBrandData?.data?.Message || deleteProductBrandData?.message} />)}
       <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
           <Box component="div">
             <Formik initialValues={initialValues} onSubmit={
-              async (values, { setStatus, setSubmitting, setFieldValue, resetForm }) => {
+              async (values, { setStatus, setSubmitting, setFieldValue }) => {
                 try {
                   const formData = {
                     productId: values.productId?.value,
                     brandId: Number(values.brandId)
                   }
                   postProductBrand(formData, {
-                    onSuccess: (message: any) => {
-                      setFieldValue('id', message.data.id)
-                      setSnackePostOpen(true)
-                      refetch()
-                      resetForm()
-                    }
+                    onSuccess: (response: any) => {
+                      if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message, "success")
+                        setFieldValue('id', response.data.id)
+                        refetch();
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                      }                        
+}
                   })
                 } catch (error) {
                   setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
@@ -200,7 +178,7 @@ const ProductBrands = () => {
               />
             </Box>
             <MuiDataGrid
-              columns={columns(renderAction, renderSwitch)}
+              columns={columns(renderSwitch)}
               rows={results}
               data={productBrands?.data}
             />

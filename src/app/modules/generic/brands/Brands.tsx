@@ -1,24 +1,20 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Card, Switch, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Formik, Form } from "formik";
+import { AddCircleOutline } from "@mui/icons-material";
+import * as Yup from "yup";
+
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
-import { IBrand } from "./_models";
-import {
-    useDeleteBrands,
-    useGetBrands,
-    usePostBrands,
-    useUpdateBrands,
-} from "./_hooks";
-import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
-import { AddCircleOutline } from "@mui/icons-material";
-import * as Yup from "yup";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import SwitchComponent from "../../../../_cloner/components/Switch";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
+
+import { IBrand } from "./_models";
+import { useGetBrands, usePostBrands, useUpdateBrands } from "./_hooks";
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 
 const initialValues = {
     id: 0,
@@ -31,28 +27,29 @@ const validation = Yup.object({
 
 const Brands = () => {
     const { data: brands, refetch, isLoading: brandLoading } = useGetBrands();
-    const { mutate: postBrand, data: postData } = usePostBrands();
-    const { mutate: updateBrand, data: updateData } = useUpdateBrands();
-    const { mutate: deleteBrand, data: deleteData } = useDeleteBrands();
+    const { mutate: postBrand } = usePostBrands();
+    const { mutate: updateBrand } = useUpdateBrands();
+    // const { mutate: deleteBrand } = useDeleteBrands();
 
     const [results, setResults] = useState<IBrand[]>([]);
-    const [snackePostOpen, setSnackePostOpen] = useState<boolean>(false);
-    const [snackeUpdateOpen, setSnackeUpdateOpen] = useState<boolean>(false);
-    const [snackeDeleteOpen, setSnackeDeleteOpen] = useState<boolean>(false);
 
     useEffect(() => {
         setResults(brands?.data);
     }, [brands?.data]);
 
-    const handleDelete = (id: number) => {
-        if (id)
-            deleteBrand(id, {
-                onSuccess: (message) => {
-                    setSnackeDeleteOpen(true);
-                    refetch();
-                },
-            });
-    };
+    // const handleDelete = (id: number) => {
+    //     if (id)
+    //         deleteBrand(id, {
+    //             onSuccess: (response) => {
+    //                 if(response.succeeded) {
+    //                     validateAndEnqueueSnackbar(response.message, "success")
+    //                   } else {
+    //                     validateAndEnqueueSnackbar(response.data.Message, "error")
+    //                   }
+    //                   refetch();
+    //                         },
+    //         });
+    // };
 
     const onUpdateStatus = (rowData: any) => {
         try {
@@ -62,18 +59,21 @@ const Brands = () => {
                 isActive: !rowData.row.isActive,
             };
             updateBrand(formData, {
-                onSuccess: () => {
-                    setSnackeUpdateOpen(true);
-                    refetch();
+                onSuccess: (response) => {
+                    if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message, "success")
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                      }
+                    refetch()
                 },
             });
         } catch (e) {
-            setSnackeUpdateOpen(true);
             return e;
         }
     };
 
-    const columns = (renderAction: any, renderSwitch: any) => {
+    const columns = ( renderSwitch: any) => {
         const col = [
             {
                 field: "id",
@@ -104,13 +104,6 @@ const Brands = () => {
                 flex: 1,
                 minWidth: 160,
             },
-            // {
-            //     headerName: "حذف",
-            //     flex: 1,
-            //     renderCell: renderAction,
-            //     headerClassName: "headerClassName",
-            //     minWidth: 120,
-            // },
         ];
         return col;
     };
@@ -123,13 +116,13 @@ const Brands = () => {
             />
         );
     };
-    const renderAction = (item: any) => {
-        return (
-            <Box component="div" className="flex gap-4">
-                <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
-            </Box>
-        );
-    };
+    // const renderAction = (item: any) => {
+    //     return (
+    //         <Box component="div" className="flex gap-4">
+    //             <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
+    //         </Box>
+    //     );
+    // };
 
     if (brandLoading) {
         return <p>Loading...</p>;
@@ -137,27 +130,6 @@ const Brands = () => {
 
     return (
         <>
-            {snackePostOpen && (
-                <PositionedSnackbar
-                    open={snackePostOpen}
-                    setState={setSnackePostOpen}
-                    title={postData?.data?.Message || postData?.message}
-                />
-            )}
-            {snackeUpdateOpen && (
-                <PositionedSnackbar
-                    open={snackeUpdateOpen}
-                    setState={setSnackeUpdateOpen}
-                    title={updateData?.data?.Message || updateData?.message}
-                />
-            )}
-            {snackeDeleteOpen && (
-                <PositionedSnackbar
-                    open={snackeDeleteOpen}
-                    setState={setSnackeDeleteOpen}
-                    title={deleteData?.data?.Message || deleteData?.message}
-                />
-            )}
             <ReusableCard>
                 <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
                     <Box component="div">
@@ -173,10 +145,14 @@ const Brands = () => {
                                         name: values.name,
                                     };
                                     postBrand(formData, {
-                                        onSuccess: (message: any) => {
-                                            setFieldValue("id", message.data.id);
-                                            refetch();
-                                            setSnackePostOpen(true);
+                                        onSuccess: (response) => {
+                                            if(response.succeeded) {
+                                                validateAndEnqueueSnackbar(response.message, "success")
+                                                setFieldValue('id', response.data.id)
+                                                refetch();
+                                              } else {
+                                                validateAndEnqueueSnackbar(response.data.Message, "warning")
+                                              }                        
                                         },
                                     });
                                 } catch (error) {
@@ -230,7 +206,7 @@ const Brands = () => {
                             />
                         </Box>
                         <MuiDataGrid
-                            columns={columns(renderAction, renderSwitch)}
+                            columns={columns(renderSwitch)}
                             rows={results}
                             data={brands?.data}
                         />

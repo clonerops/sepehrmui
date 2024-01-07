@@ -4,8 +4,8 @@ import { Form, Formik } from "formik";
 import { useRegisterUser } from "../core/_hooks";
 import { Box, Button, Card, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 
 const CreateUser = () => {
     const loginSchema = Yup.object().shape({
@@ -33,32 +33,27 @@ const CreateUser = () => {
     };
 
     const { mutate, data } = useRegisterUser();
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.errors?.ConfirmPassword[0] || 
-                        data?.data?.errors?.Password[0] ||
-                        data?.data?.errors?.Email[0] ||
-                        data?.data?.errors?.UserName[0] ||
-                        data?.data?.Message ||
-                        data?.message || "ایجاد کاربر با موفقیت انجام شد"
-                    }
-                />
-            )}
             <Container>
                 <ReusableCard>
                     <Typography color="primary" variant="h2" className="pb-8">ایجاد کاربر جدید</Typography>
                     <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={async (values, { setStatus, setSubmitting }) => {
                         try {
                             mutate(values, {
-                                onSuccess: (message) => {
-                                    setSnackeOpen(true)
-                                },
+                                onSuccess: (response) => {
+                                    if(response.succeeded) {
+                                        validateAndEnqueueSnackbar(
+                                            response?.data?.errors?.ConfirmPassword[0] || 
+                                            response?.data?.errors?.Password[0] ||
+                                            response?.data?.errors?.Email[0] ||
+                                            response?.data?.errors?.UserName[0] ||
+                                            response?.data?.Message ||
+                                            response?.message || "ایجاد کاربر با موفقیت انجام شد", "success")
+                                      } else {
+                                        validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                      }
+                                    },
                             });
                         } catch (error) {
                             setStatus("اطلاعات ورود نادرست می باشد");

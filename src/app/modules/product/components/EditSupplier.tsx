@@ -1,16 +1,16 @@
-import React from "react";
 import { Form, Formik } from "formik";
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
+import { Box, Button, Typography } from "@mui/material";
+
 import { useRetrieveProducts, useUpdateSupplier } from "../core/_hooks";
 import { ISuppliers } from "../core/_models";
-import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 import { useGetCustomers } from "../../customer/core/_hooks";
+import { dropdownCustomer, dropdownProduct } from "../../generic/_functions";
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
-import { dropdownCustomer, dropdownProduct } from "../../generic/_functions";
-import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar";
 
 const EditSupplier = (props: {
     item: ISuppliers | undefined,
@@ -20,7 +20,6 @@ const EditSupplier = (props: {
     const { mutate, data } = useUpdateSupplier();
     const { data: customers } = useGetCustomers()
     const { data: products } = useRetrieveProducts()
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
     // States
     const initialValues = {
@@ -35,23 +34,17 @@ const EditSupplier = (props: {
     };
     return (
         <>
-              {snackeOpen && (
-                <PositionedSnackbar
-                  open={snackeOpen}
-                  setState={setSnackeOpen}
-                  title={
-                    data?.data?.Message ||
-                    data?.message || "ویرایش با موفقیت انجام شد"
-                  }
-                />
-              )}
             <Formik initialValues={initialValues} onSubmit={
                 async (values, { setStatus, setSubmitting }) => {
                     try {
                         mutate(values, {
-                            onSuccess: () => {
-                                setSnackeOpen(true)
-                                props.refetch()
+                            onSuccess: (response) => {
+                                if(response.succeeded) {
+                                    validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                                    props.refetch()
+                                  } else {
+                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                  }
                             }
                         });
                     } catch (error) {

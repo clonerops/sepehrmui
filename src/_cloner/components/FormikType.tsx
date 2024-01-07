@@ -8,6 +8,7 @@ const FormikType = (props: any) => {
 
     return (
         <FormikSelect
+            disabeld={props.disabled}
             options={dropdownTypes(productType?.data.filter((i: IType) => i.isActive))}
             {...props} />
     )

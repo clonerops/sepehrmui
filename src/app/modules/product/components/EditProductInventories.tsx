@@ -1,13 +1,14 @@
 import { Form, Formik } from "formik"
-import { useRetrieveBrands, useRetrieveProducts, useUpdateProductPrice } from "../core/_hooks"
-import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-import { IProductPrice } from "../core/_models"
-import FormikSelect from "../../../../_cloner/components/FormikSelect"
-import { dropdownBrand, dropdownProduct } from "../../generic/_functions"
 import { Box, Button, Typography } from "@mui/material"
-import { useState } from "react"
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
+
+import { useRetrieveProducts, useUpdateProductPrice } from "../core/_hooks"
+import { IProductPrice } from "../core/_models"
+import { dropdownProduct } from "../../generic/_functions"
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+
 import FormikPrice from "./FormikPrice"
+import FormikSelect from "../../../../_cloner/components/FormikSelect"
 
 type Props = {
     refetch: (options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined) => Promise<QueryObserverResult<any, unknown>>
@@ -16,8 +17,7 @@ type Props = {
 
 const EditProductInventories = (props: Props) => {
     const { data: products } = useRetrieveProducts();
-    const { mutate, data } = useUpdateProductPrice()
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+    const { mutate } = useUpdateProductPrice()
 
     const initialValues = {
         price: props.item?.price,
@@ -27,17 +27,6 @@ const EditProductInventories = (props: Props) => {
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message || "ویرایش با موفقیت انجام شد"
-                    }
-                />
-            )}
-
 
             <Formik initialValues={initialValues} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
@@ -49,9 +38,13 @@ const EditProductInventories = (props: Props) => {
                             productBrandId: values.productBrandId
                         }
                         mutate(formData, {
-                            onSuccess: () => {
-                                setSnackeOpen(true)
-                                props.refetch()
+                            onSuccess: (response) => {
+                                if(response.succeeded) {
+                                    validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                                    props.refetch()
+                                  } else {
+                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                  }
                             }
                         })
                     } catch (error) {
@@ -63,9 +56,7 @@ const EditProductInventories = (props: Props) => {
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit}>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {/* <FormikComboBox  label="کالا" name="productId" options={dropdownProduct(products?.data)} /> */}
                             <FormikSelect defaultValue={{ value: props.item?.product?.id, label: props.item?.product?.productName }} name="productId" options={dropdownProduct(products?.data)} label="کالا" />
-                            {/* <FormikInput name="price" type="text" label="قیمت" /> */}
                             <FormikPrice label="موجودی قابل فروش" name="price" />
                         </Box>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary">

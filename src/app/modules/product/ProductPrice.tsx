@@ -1,30 +1,24 @@
-import {
-    useDeleteProductPrice,
-    useExportProductPrice,
-    useRetrieveProductPrice,
-} from "./core/_hooks";
-import { columns } from "./helpers/productPriceColumns";
-import { IProductPrice } from "./core/_models";
 import { useState, useEffect } from "react";
-import CreateProductPrice from "./components/CreateProductPrice";
+import { Box, Button, Typography } from "@mui/material";
+
 import EditProductPrice from "./components/EditProductPrice";
-import { Box, Button, Card, Typography } from "@mui/material";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import PositionedSnackbar from "../../../_cloner/components/Snackbar";
 import FileUploadButton from "../../../_cloner/components/UploadFileButton";
-import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
-import { exportProductPrices } from "./core/_requests";
-import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
 import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
-import ActiveText from "../../../_cloner/components/ActiveText";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import CreateProductPrice from "./components/CreateProductPrice";
+
+import {useDeleteProductPrice,useRetrieveProductPrice } from "./core/_hooks";
+import { IProductPrice } from "./core/_models";
+import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
+import { exportProductPrices } from "./core/_requests";
+import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
 import { columnsProductPrice } from "./helpers/columns";
 
 const radioOption: {
@@ -37,14 +31,8 @@ const radioOption: {
 ];
 
 const ProductPrice = () => {
-    // const {
-    //     mutate,
-    //     data: productPrice,
-    //     isLoading: productPriceLoading,
-    // } = useRetrieveProductPrice();
     const {
         mutate: deleteMutate,
-        data: deleteData,
         isLoading: deleteLoading,
     } = useDeleteProductPrice();
     // State
@@ -52,13 +40,10 @@ const ProductPrice = () => {
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [results, setResults] = useState<IProductPrice[]>([]);
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
-    const [snackeUploadOpen, setSnackeUploadOpen] = useState<boolean>(false);
-    const [excelLoading, setExcelLoading] = useState<boolean>(false);
-    const [requestMessage, setRequestMessage] = useState<string>("");
     const [isActiveValue, setIsActiveValue] = useState<
         boolean | number | null | string
     >("");
+
     const {
         refetch,
         data: productPrice,
@@ -78,9 +63,13 @@ const ProductPrice = () => {
     const handleDelete = (id: string | undefined) => {
         if (id)
             deleteMutate(id, {
-                onSuccess: (message) => {
-                    setSnackeOpen(true);
-                    // refetch();
+                onSuccess: (response) => {
+                    if(response.succeeded) {
+                        validateAndEnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
+                        refetch();
+                      } else {
+                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                      }
                 },
             });
     };
@@ -95,15 +84,12 @@ const ProductPrice = () => {
     };
 
     const handleDownloadExcel = async () => {
-        setExcelLoading(true);
         try {
             const response: any = await exportProductPrices();
             const outputFilename = `ProductPrices${Date.now()}.csv`;
             DownloadExcelBase64File(response?.data, outputFilename);
-            setExcelLoading(false);
         } catch (error) {
             console.log(error);
-            setExcelLoading(false);
         }
     };
 
@@ -115,24 +101,6 @@ const ProductPrice = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        deleteData?.data?.Message ||
-                        deleteData?.message ||
-                        "حذف با موفقیت انجام شد"
-                    }
-                />
-            )}
-            {snackeUploadOpen && (
-                <PositionedSnackbar
-                    open={snackeUploadOpen}
-                    setState={setSnackeUploadOpen}
-                    title={requestMessage}
-                />
-            )}
             <ReusableCard>
                 <Box
                     component="div"
@@ -167,8 +135,6 @@ const ProductPrice = () => {
                     <Box component="div" className="flex flex-wrap gap-x-4">
                         <FileUploadButton
                             refetch={refetch}
-                            setSnackeOpen={setSnackeUploadOpen}
-                            requestMessage={setRequestMessage}
                         />
                         <Button
                             onClick={handleDownloadExcel}

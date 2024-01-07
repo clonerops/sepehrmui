@@ -1,18 +1,20 @@
 import { useState } from 'react'
 import { Form, Formik } from 'formik'
-import FileUpload from './components/FileUpload'
+import { Box, Button, Typography } from '@mui/material'
 import moment from 'moment-jalaali'
+
 import { usePostRecievePayment } from './core/_hooks'
 import { dropdownReceivePaymentResource } from './helpers/dropdownConvert'
 import { useGetCustomers } from '../customer/core/_hooks'
 import { dropdownCustomer } from '../order/helpers/dropdowns'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
-import Backdrop from '../../../_cloner/components/Backdrop'
-import { Box, Button, Card, Typography } from '@mui/material'
+import { validateAndEnqueueSnackbar } from '../order/sales-order/functions'
+import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
+
+import FileUpload from './components/FileUpload'
 import FormikSelect from '../../../_cloner/components/FormikSelect'
 import FormikInput from '../../../_cloner/components/FormikInput'
-import PositionedSnackbar from '../../../_cloner/components/Snackbar'
-import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
+import Backdrop from '../../../_cloner/components/Backdrop'
 import FormikPrice from '../product/components/FormikPrice'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 
@@ -34,9 +36,8 @@ const initialValues = {
 
 const RecievePayment = () => {
     const [trachingCode, setTrachingCode] = useState<any>(0)
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
-    const { mutate, isLoading, data } = usePostRecievePayment()
+    const { mutate, isLoading } = usePostRecievePayment()
     const { data: paymentResource } = useGetReceivePaymentSources()
     const { data: customers } = useGetCustomers()
 
@@ -44,16 +45,6 @@ const RecievePayment = () => {
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message
-                    }
-                />
-            )}
             {isLoading && <Backdrop loading={isLoading} />}
             <ReusableCard>
                 <Box component="div" className='md:flex md:justify-between md:first-letter:items-center'>
@@ -78,11 +69,13 @@ const RecievePayment = () => {
                                 formData.append('Attachments', file);
                             });
                             mutate(formData, {
-                                onSuccess: (message) => {
-                                    if (message?.succeeded) {
-                                        setTrachingCode(message?.data?.receivePayCode)
-                                    }
-                                    setSnackeOpen(true)
+                                onSuccess: (response) => {
+                                    if (response?.succeeded) {
+                                        setTrachingCode(response?.data?.receivePayCode)
+                                        validateAndEnqueueSnackbar(response.message, "success")
+                                    }else {
+                                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                                      } 
                                 }
                             })
                         }

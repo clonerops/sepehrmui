@@ -1,19 +1,15 @@
 import { Form, Formik } from "formik"
-import { useCreateProductPrice, useRetrieveBrands, useRetrieveProducts } from "../core/_hooks"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-import FormikSelect from "../../../../_cloner/components/FormikSelect"
-import FormikInput from "../../../../_cloner/components/FormikInput"
-import { dropdownBrand, dropdownProduct, dropdownProductBrandName } from "../../generic/_functions"
 import { Box, Button, Typography } from "@mui/material"
-import { useState } from "react"
-import PositionedSnackbar from "../../../../_cloner/components/Snackbar"
+
+import { useCreateProductPrice, useRetrieveProducts } from "../core/_hooks"
+import { dropdownProduct } from "../../generic/_functions"
 import { createProductPriceValidations } from "../validations/createProductPrice"
-import React from "react"
-import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
-import FormikPrice from "./FormikPrice"
-import { useGetBrands } from "../../generic/brands/_hooks"
-import { useGetProductBrands, useGetProductBrandsByProductId } from "../../generic/productBrands/_hooks"
 import { FieldType } from "../../../../_cloner/components/globalTypes"
+import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+
+import FormikInput from "../../../../_cloner/components/FormikInput"
+import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
 import FormikBrandPriceSelect from "./FormikBrandPriceSelect"
 
 const initialValues = {
@@ -27,14 +23,8 @@ type Props = {
 }
 
 const CreateProductPrice = (props: Props) => {
-    const [productId, setProductId] = useState<string>("")
     const { data: products } = useRetrieveProducts()
-    const { mutate, data } = useCreateProductPrice()
-
-    const productBrandListTools = useGetProductBrands()
-    const productBrandTools = useGetProductBrandsByProductId(productId)
-
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
+    const { mutate } = useCreateProductPrice()
 
     const fields: FieldType[][] = [
         [
@@ -52,7 +42,6 @@ const CreateProductPrice = (props: Props) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "productId":
-                // return <FormikComboBox options={dropdownProductBrandName(productBrandListTools?.data?.data)} {...rest} />;
                 return <FormikComboBox options={dropdownProduct(products?.data)} {...rest} />;
             case "productBrandId":
                 return <FormikBrandPriceSelect productId={values.productId.value} {...rest} />
@@ -63,17 +52,6 @@ const CreateProductPrice = (props: Props) => {
 
     return (
         <>
-            {snackeOpen && (
-                <PositionedSnackbar
-                    open={snackeOpen}
-                    setState={setSnackeOpen}
-                    title={
-                        data?.data?.Message ||
-                        data?.message || "ایجاد با موفقیت انجام شد"
-                    }
-                />
-            )}
-
             <Formik initialValues={initialValues} validationSchema={createProductPriceValidations} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
                     try {
@@ -83,9 +61,14 @@ const CreateProductPrice = (props: Props) => {
                             productBrandId: Number(values.productBrandId)
                         }
                         mutate(formData, {
-                            onSuccess: () => {
-                                setSnackeOpen(true)
-                                props.refetch()
+                            onSuccess: (response) => {
+                                if(response.succeeded) {
+                                    validateAndEnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
+                                    props.refetch()
+                                  } else {
+                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                  }
+
                             }
                         })
                     } catch (error) {
