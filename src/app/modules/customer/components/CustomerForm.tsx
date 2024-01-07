@@ -57,7 +57,7 @@ const CustomerForm = (props: {
             { label: "نام پدر", name: "fatherName", type: "input" },
         ],
         [
-            { label: "اسم رسمی مشتری", name: "officialName", type: "input" },
+            // { label: "اسم رسمی مشتری", name: "officialName", type: "input" },
             { label: "شناسه ملی", name: "nationalId2", type: "input" },
             { label: "کدملی", name: "nationalId", type: "input" },
         ],
