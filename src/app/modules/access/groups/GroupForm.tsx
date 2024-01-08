@@ -1,22 +1,27 @@
 import { Formik } from "formik"
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+// import { useEffect, useState } from "react"
+// import { Link } from "react-router-dom"
 import { Box, Button, Typography } from "@mui/material"
 
-import ReusableCard from "../../../../_cloner/components/ReusableCard"
+// import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import FormikInput from "../../../../_cloner/components/FormikInput"
-import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
-import FuzzySearch from "../../../../_cloner/helpers/Fuse"
+// import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
+// import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 
 import { usePostApplicationRoles } from "./_hooks"
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
-import { useGetPermissions } from "../permissions/_hooks"
-import { dropdownPermissions } from "../permissions/_functions"
-import FileSystemNavigator from "../../../../_cloner/components/TreeView"
+// import { useGetPermissions } from "../permissions/_hooks"
+// import { dropdownPermissions } from "../permissions/_functions"
+// import FileSystemNavigator from "../../../../_cloner/components/TreeView"
 
-interface Item {
-    description: string;
+interface IProps {
+    refetch: any
+    setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+// interface Item {
+//     description: string;
+// }
 
 
 const initialValues = {
@@ -25,15 +30,9 @@ const initialValues = {
     rolePermissions: []
 }
 
-const GroupForm = () => {
+const GroupForm = (props: IProps) => {
     const postApplicationRoles = usePostApplicationRoles();
-    const permissions = useGetPermissions()
-
-    const [results, setResults] = useState<Item[]>([]);
-
-    useEffect(() => {
-        setResults(permissions?.data?.data);
-    }, [permissions?.data?.data]);
+    // const permissions = useGetPermissions()
 
 
     const onSubmit = (values: any) => {
@@ -50,6 +49,8 @@ const GroupForm = () => {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
                     validateAndEnqueueSnackbar("گروه با موفقیت ایجاد شد", "success")
+                    props.refetch()
+                    props.setIsCreateOpen(false)
                 } else {
                     validateAndEnqueueSnackbar(message?.data?.Message, "error")
                 }
@@ -62,12 +63,17 @@ const GroupForm = () => {
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({ handleSubmit }) => {
                 return <>
-                <ReusableCard>
-                    <Box component="div" className="flex flex-row gap-x-4">
+                    <Box component="div" className="flex flex-col gap-4 mt-4">
                         <FormikInput name="name" label="اسم گروه" />
-                        <FormikInput name="description" label="توضیحات" />
+                        <FormikInput minRows={3} multiline name="description" label="توضیحات" />
+                        <Box className="flex justify-end items-end">
+                            <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white w-[200px]">
+                                <Typography>ثبت گروه</Typography>
+                            </Button>
+                        </Box>
+
                     </Box>
-                    <Box component="div" className="py-8">
+                    {/* <Box component="div" className="py-8">
                         <Typography variant="h2" color="primary">لیست مجوزها</Typography>
                     </Box>
                     <Box component="div" className="w-[50%] mb-8">
@@ -81,10 +87,6 @@ const GroupForm = () => {
                     <FileSystemNavigator content={<Box component="div">
                         <CheckboxGroup  options={dropdownPermissions(results)} label="" name="rolePermissions" boxClassName="grid grid-cols-3 md:grid-cols-4 gap-x-4"/>
                     </Box>} />
-
-                    {/* <Box component="div">
-                        <CheckboxGroup options={dropdownPermissions(results)} label="" name="rolePermissions"  />
-                    </Box> */}
                     <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
                         <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white">
                             <Typography>ثبت</Typography>
@@ -95,8 +97,7 @@ const GroupForm = () => {
                             </Button>
                         </Link>
                         
-                    </Box>
-                </ReusableCard>
+                    </Box> */}
                 </>
             }}
         </Formik>

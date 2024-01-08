@@ -115,9 +115,9 @@ const ExitRemittanceList = React.lazy(
 const Roles = React.lazy(() => import("../modules/access/roles/Roles"));
 const RoleMenu = React.lazy(() => import("../modules/access/roles/RoleMenu"));
 const RoleGroups = React.lazy(() => import("../modules/access/groups/Groups"));
-const GroupForm = React.lazy(
-    () => import("../modules/access/groups/GroupForm")
-);
+// const GroupForm = React.lazy(
+//     () => import("../modules/access/groups/GroupForm")
+// );
 
 export const routes: RouteProps[] = [
     { path: "auth/*", element: <Navigate to="/dashboard" /> },
@@ -172,7 +172,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/roles", element: <Roles /> },
     { path: "dashboard/roles/menu", element: <RoleMenu /> },
     { path: "dashboard/groups", element: <RoleGroups /> },
-    { path: "dashboard/groups/form", element: <GroupForm /> },
+    // { path: "dashboard/groups/form", element: <GroupForm /> },
     { path: "dashboard/permissions", element: <Permissions /> },
     { path: "dashboard/roles/menu", element: <RoleMenu /> },
     { path: "*", element: <Navigate to="/error/404" /> },
