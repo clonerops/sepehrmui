@@ -67,7 +67,7 @@ const ProductPrice = () => {
             deleteMutate(id, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
+                        validateAndEnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
                         setApprove(false)
                         refetch();
                       } else {

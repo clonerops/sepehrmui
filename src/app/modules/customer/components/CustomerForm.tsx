@@ -14,6 +14,7 @@ import { ICustomer } from "../core/_models";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import { createValiadtion } from "../validation/validation";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -59,11 +60,11 @@ const CustomerForm = (props: {
         [
             // { label: "اسم رسمی مشتری", name: "officialName", type: "input" },
             { label: "شناسه ملی", name: "nationalId2", type: "number" },
-            { label: "کدملی", name: "nationalId", type: "number" },
+            { label: "کدملی", name: "nationalId", type: "nationalId" },
         ],
         [
             { label: "معرف", name: "representative", type: "input" },
-            { label: "موبایل", name: "mobile", type: "input" },
+            { label: "موبایل", name: "mobile", type: "mobile" },
             { label: "تلفن", name: "tel1", type: "input" },
             { label: "تلفن", name: "tel2", type: "input" },
         ],
@@ -158,11 +159,10 @@ const CustomerForm = (props: {
                 return <FormikInput multiline rows={3} {...rest} />;
             case "firstName":
                 return <FormikInput  {...rest} />;
-            case "number":
-                return <FormikInput onInput={(e: any) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 10);
-                }}
-                    type="number" {...rest} />;
+            case "nationalId":
+                return <FormikInput placeholder="0079999999" {...rest} />;
+            case "mobile":
+                return <FormikInput placeholder="09129999999" {...rest} />;
 
             default:
                 return <FormikInput {...rest} />;
@@ -182,20 +182,6 @@ const CustomerForm = (props: {
         getDetail();
     }, [props.id]);
 
-    // useEffect(() => {
-    //     detailTools.mutate(props?.id || "", {
-    //         onSuccess: (response) => {
-    //             setIsChecked(response.data.settlementType !== 0);
-    //             if (response.succeeded) {
-    //                 validateAndEnqueueSnackbar(response.message, "success")
-    //                 props.refetch()
-    //             } else {
-    //                 validateAndEnqueueSnackbar(response.data.Message, "warning")
-    //             }
-    //         },
-    //     });
-
-    // }, [props.id]);
 
     const onUpdate = (values: ICustomer) => {
         const formData = {
