@@ -81,7 +81,7 @@ const Users = () => {
               data={usersTools?.data?.data}
             />
           </Box>
-          <Box component="div" className="flex justify-center items-center"> 
+          <Box component="div" className="md:flex md:justify-center md:items-center hidden"> 
             <img src={toAbsoulteUrl('/media/images/566.jpg')} width={400} height={400} />
           </Box>
         </Box>

@@ -1,4 +1,4 @@
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
@@ -27,11 +27,13 @@ const FormikInput = (props: Props) => {
   const [field] = useField({ name, value });
   const formikProps = useFormikContext();
 
+  console.log(getFormikFieldValidationProps(formikProps, name))
+
   return (
     <Box component={"div"} className={cx("w-full", boxClassName)}>
       <TextField
-        {...getFormikFieldValidationProps(formikProps, name)}
         {...field}
+        {...getFormikFieldValidationProps(formikProps, name)}
         {...rest}
         fullWidth
         size="small"
@@ -42,6 +44,12 @@ const FormikInput = (props: Props) => {
         id={name}
         value={field.value || ""}
       />
+      {getFormikFieldValidationProps(formikProps, name).helpertext?.props.children &&
+        <Typography className="text-red-500">
+          {getFormikFieldValidationProps(formikProps, name).helpertext?.props.children}
+        </Typography>
+      }
+
     </Box>
   );
 };
