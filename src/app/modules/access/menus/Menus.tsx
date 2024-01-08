@@ -22,7 +22,6 @@ type Props = {
 const Menus = (props: Props) => {
     const {id} = props;
     const { data: appAllMenu, isLoading: allMenuLoading } = useGetAllApplicationMenus();
-    const [searchParams] = useSearchParams();
     
     const postMenu = usePostRoleMenus();
     const deleteMenu = useDeleteRoleMenu();
@@ -37,10 +36,6 @@ const Menus = (props: Props) => {
         })
         setRoleIds(roleId);
     }, [id, roleMenuTools?.data]);
-    
-
-    console.log(roleMenuTools?.data?.data)
-
 
     const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean) => {
         if (checked) {
@@ -49,8 +44,7 @@ const Menus = (props: Props) => {
                 roleId: id,
                 applicationMenuId: [...roleIds, subId],
             };
-            console.log("formData", JSON.stringify(formData));
-            
+
             postMenu.mutate(formData, {
                 onSuccess: (res) => {
                     if(res.succeeded) {
@@ -77,6 +71,8 @@ const Menus = (props: Props) => {
         }
     };
 
+    console.log("appAllMenu?.data", appAllMenu?.data)
+
   return (
     <>
         <Box sx={{ minHeight: 180, flexGrow: 1}}>
@@ -86,7 +82,8 @@ const Menus = (props: Props) => {
             defaultExpandIcon={<ChevronRightIcon />}
         >
             {appAllMenu?.data?.map((item: {id: string, description: string, children: any[]}) => (
-                <TreeItem className="my-4" nodeId={item.id} label={item.description}>
+                // <TreeItem className="my-4" nodeId={item.id} label={`${item.description} ---- ${roleIds.length} منو از ${item?.children?.length} منوی موجود دسترسی داده  شده است`}>
+                <TreeItem className="my-4" nodeId={item.id} label={`${item.description}`}>
                     <Box>
                     <Formik initialValues={initialValues} onSubmit={() => {}}>
                 {({ handleSubmit }) => {
@@ -124,9 +121,6 @@ const Menus = (props: Props) => {
                             })}
 
                                 
-                                {/* {allMenuLoading || roleMenuTools?.isLoading ? <Typography>درحال بارگزاری ...</Typography> : appAllMenu?.data.map((i: any) => {
-                                    return 
-                                })} */}
                             </Box>
               </Form>
             );
