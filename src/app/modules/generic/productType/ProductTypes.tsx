@@ -75,7 +75,7 @@ const ProductTypes = () => {
     }
   };
 
-  const columns = (renderSwitch: any) => {
+  const columns = (renderAction: any, renderSwitch: any) => {
     const col = [
       {
         field: 'id',
@@ -95,6 +95,13 @@ const ProductTypes = () => {
         field: "isActive",
         headerName: "وضعیت", flex:1,
         renderCell: renderSwitch,
+        headerClassName: "headerClassName",
+        minWidth: 160,
+      },
+      {
+        field: "Delete",
+        headerName: "حذف", flex:1,
+        renderCell: renderAction,
         headerClassName: "headerClassName",
         minWidth: 160,
       },
@@ -179,7 +186,7 @@ const ProductTypes = () => {
               />
             </Box>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={columns(renderAction, renderSwitch)}
               rows={results}
               data={types?.data}
             />

@@ -68,10 +68,10 @@ const UserForm = (props: Props) => {
             { label: "نام خانوادگی", name: "lastName", type: "input" },
         ],
         [
-            { label: "ایمیل", name: "email", type: "input" },
-            { label: "موبایل", name: "mobileNo", type: "input" },
+            { label: "ایمیل", name: "email", type: "email" },
+            { label: "موبایل", name: "mobileNo", type: "mobile" },
+            { label: "نام کاربری", name: "userName", type: "username" }
         ],
-        [{ label: "نام کاربری", name: "userName", type: "username" }],
         [
             { label: "رمز عبور", name: "password", type: "password" },
             {
@@ -87,8 +87,10 @@ const UserForm = (props: Props) => {
         switch (type) {
             case "password":
                 return <FormikInput type="password" disabled={!isNew} {...rest} />;
-            // case "role":
-            //     return <FormikMultiRole {...rest} />;
+            case "email":
+                return <FormikInput placeholder="example@gmail.com" {...rest} />;
+            case "mobile":
+                return <FormikInput placeholder="091299999999" {...rest} />;
             default:
                 return <FormikInput {...rest} />;
         }

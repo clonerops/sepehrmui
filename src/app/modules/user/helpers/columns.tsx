@@ -17,7 +17,7 @@ export const userListColumns = (renderAction: any) => {
         { field: 'email', flex: 1, headerName: 'ایمیل', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
         }, minWidth: 120 },
-        { headerName: 'عملیات', flex: 1,  renderCell: renderAction, headerClassName: "headerClassName", minWidth: 360 }
+        { headerName: 'عملیات', flex: 1,  renderCell: renderAction, headerClassName: "headerClassName", minWidth: 80 }
     ]
     return col
 }

@@ -12,6 +12,7 @@ import UserForm from "./components/UserForm";
 import { useUsers } from "./core/_hooks";
 import { userListColumns } from "./helpers/columns";
 import { IUser } from "./core/_models";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 
 const Users = () => {
   const usersTools = useUsers();
@@ -72,12 +73,17 @@ const Users = () => {
               <Typography variant="body1">ایجاد کاربر جدید</Typography>
             </Button>
         </Box>
-        <Box component="div">
-          <MuiDataGrid
-            columns={userListColumns(renderActions)}
-            rows={results}
-            data={usersTools?.data?.data}
-          />
+        <Box component="div" className="md:grid grid-cols-1 md:grid-cols-3 gap-x-4">
+          <Box component="div" className="md:col-span-2"> 
+            <MuiDataGrid
+              columns={userListColumns(renderActions)}
+              rows={results}
+              data={usersTools?.data?.data}
+            />
+          </Box>
+          <Box component="div" className="flex justify-center items-center"> 
+            <img src={toAbsoulteUrl('/media/images/566.jpg')} width={400} height={400} />
+          </Box>
         </Box>
       </>
       {/* Create User Modal */}
