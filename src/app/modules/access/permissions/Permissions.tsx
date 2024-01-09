@@ -45,7 +45,6 @@ const Permissions = () => {
     }
 
 
-    const postPermissions = usePostPermissions();
     const deletePermissions = useDeletePermissions();
     // const permissionTools = useGetPermissions();
     const Permissions = useGetPermissionsFilter(formData);
@@ -56,22 +55,32 @@ const Permissions = () => {
 
     const columns = (renderAction: any) => {
         const col = [
+            // {
+            //     field: "name",
+            //     renderCell: (params: any) => {
+            //         return <Typography variant="h4">{params.value}</Typography>;
+            //     },
+            //     headerName: "عنوان مجوز",
+            //     headerClassName: "headerClassName",
+            //     minWidth: 120,
+            //     flex: 1,
+            // },
             {
-                field: "name",
+                field: "permissionName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
                 headerName: "عنوان مجوز",
                 headerClassName: "headerClassName",
-                minWidth: 120,
+                minWidth: 160,
                 flex: 1,
             },
             {
-                field: "description",
+                field: "applicationMenuName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
-                headerName: "توضیحات",
+                headerName: "عنوان منو",
                 headerClassName: "headerClassName",
                 minWidth: 160,
                 flex: 1,
@@ -86,19 +95,6 @@ const Permissions = () => {
             },
         ];
         return col;
-    };
-
-    const handlePost = (values: any) => {
-        postPermissions.mutate(values, {
-            onSuccess: (message: any) => {
-                if (message.succeeded) {
-                    validateAndEnqueueSnackbar(message?.message, "success")
-                    Permissions.refetch();
-                } else {
-                    validateAndEnqueueSnackbar(message?.data?.Message, "error")
-                }
-            },
-        });
     };
 
     const handleEdit = (item: IPermission) => {

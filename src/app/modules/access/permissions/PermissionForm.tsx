@@ -106,7 +106,7 @@ const PermissionForm = (props: {
                         ? initialValues
                         : { ...initialValues, ...detailTools?.data?.data }
                 }
-                validationSchema={createPermissionValidation}
+                // validationSchema={createPermissionValidation}
                 onSubmit={handleSubmit}
             >
                 {({ handleSubmit }) => {
@@ -119,9 +119,16 @@ const PermissionForm = (props: {
                                             component="div"
                                             className={`${isNew ? "md:flex md:justify-start md:items-start gap-x-4 " : "md:flex md:flex-col mt-8 gap-8"}`}
                                         >
-                                            <FormikInput
+                                            {/* <FormikInput
                                                 name="name"
                                                 label="عنوان مجوز"
+                                                autoFocus={true}
+                                                disabled={!isNew}
+                                                boxClassName=" mt-2 md:mt-0"
+                                            /> */}
+                                            <FormikInput
+                                                name="description"
+                                                label="توضیحات"
                                                 autoFocus={true}
                                                 disabled={!isNew}
                                                 boxClassName=" mt-2 md:mt-0"
@@ -131,11 +138,11 @@ const PermissionForm = (props: {
                                                 label="منو"
                                                 boxClassName=" mt-2 md:mt-0"
                                             />
-                                            <FormikInput
+                                            {/* <FormikInput
                                                 name="description"
                                                 label="توضیحات"
                                                 boxClassName=" mt-2 md:mt-0"
-                                            />
+                                            /> */}
                                             <Box
                                                 component="div"
                                                 className="mt-2 md:mt-0"
