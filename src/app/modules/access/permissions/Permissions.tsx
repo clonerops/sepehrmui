@@ -192,8 +192,6 @@ const Permissions = () => {
                     refetch={Permissions.refetch}
                     onClose={() => setIsEditOpen(false)}
                 />
-
-                {/* <EditCustomer refetch={refetch} item={itemForEdit} /> */}
             </TransitionsModal>
 
         </>

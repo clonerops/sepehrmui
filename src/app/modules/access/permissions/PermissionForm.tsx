@@ -13,10 +13,12 @@ import { useGetPermission, usePostPermissions, useUpdatePermissions } from "./_h
 import { IPermission } from "./_models";
 import { createPermissionValidation } from "./_validation";
 import { AddCircleOutline, Edit } from "@mui/icons-material";
+import FormikApplicationMenu from "../../../../_cloner/components/FormikApplicarionMenu";
 
 const initialValues = {
     name: "",
     description: "",
+    applicationMenuId: ""
 };
 
 const PermissionForm = (props: {
@@ -53,8 +55,13 @@ const PermissionForm = (props: {
         try {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
-                    props.refetch()
-                    props.onClose()
+                    if (response.succeeded) {
+                        validateAndEnqueueSnackbar(response?.message || "ویرایش با موفقیت انجام شد", "success")
+                        props.refetch()
+                        props.onClose()
+                    } else {
+                        validateAndEnqueueSnackbar(response?.data?.Message, "error")
+                    }
                 },
             });
         } catch (error: any) {
@@ -117,6 +124,11 @@ const PermissionForm = (props: {
                                                 label="عنوان مجوز"
                                                 autoFocus={true}
                                                 disabled={!isNew}
+                                                boxClassName=" mt-2 md:mt-0"
+                                            />
+                                            <FormikApplicationMenu
+                                                name="applicationMenuId"
+                                                label="منو"
                                                 boxClassName=" mt-2 md:mt-0"
                                             />
                                             <FormikInput
