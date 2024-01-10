@@ -31,10 +31,10 @@ http.interceptors.response.use(
             Cookies.remove("token");
             window.location.reload();
         }
-        if(!error.response && error.code === "ERR_NETWORK") {
-          console.log(error)
-          window.location.href = "/dashboard/accessDenied"
-        }
+        // if(!error.response && error.code === "ERR_NETWORK") {
+        //   console.log(error)
+        //   window.location.href = "/dashboard/accessDenied"
+        // }
       
         return Promise.reject(error);
     }

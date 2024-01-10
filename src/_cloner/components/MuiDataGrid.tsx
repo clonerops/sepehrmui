@@ -62,7 +62,7 @@ const MuiDataGrid = (props: Props) => {
                 }}
                 rows={rows ? rows : []}
                 columns={columns}
-                getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}
+                getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}_${row.applicationMenuId}`}
                 rowHeight={42}
                 autoPageSize={false}
                 onRowDoubleClick={onDoubleClick}

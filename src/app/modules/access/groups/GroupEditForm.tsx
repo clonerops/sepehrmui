@@ -4,8 +4,8 @@ import { Box, Button, Typography } from "@mui/material"
 
 import { useGetApplicationRole, usePutApplicationRoles } from "./_hooks"
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
-import { useGetPermissions } from "../permissions/_hooks"
-import { dropdownPermissions } from "../permissions/_functions"
+import { useGetAllPermissionByMenus, useGetPermissions } from "../permissions/_hooks"
+import { dropdownPermissions, dropdownPermissionsByMenu } from "../permissions/_functions"
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
@@ -14,6 +14,8 @@ import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 import FileSystemNavigator from "../../../../_cloner/components/TreeView"
 import Menus from "../menus/Menus"
 import MenusWithPermissions from "../menus/MenusWithPermissions"
+import { TreeItem, TreeView } from "@mui/x-tree-view"
+import { ChevronRight, ExpandMore } from "@mui/icons-material"
 
 interface Item {
     description: string;
@@ -34,6 +36,7 @@ const GroupEditForm = (props: Props) => {
     const putApplicationRoles = usePutApplicationRoles();
     const detailApplicationRole = useGetApplicationRole()
     const permissions = useGetPermissions()
+    const { data: appAllMenu, isLoading: allMenuLoading } = useGetAllPermissionByMenus();
 
     const [results, setResults] = useState<Item[]>([]);
     const [mode, setMode] = useState<boolean>(false)
@@ -59,6 +62,7 @@ const GroupEditForm = (props: Props) => {
                 }
             ))
         }
+        console.log(values.rolePermissions)
         putApplicationRoles.mutate(formData, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
@@ -73,6 +77,8 @@ const GroupEditForm = (props: Props) => {
     if (detailApplicationRole?.isLoading) {
         return <Backdrop loading={detailApplicationRole.isLoading} />
     }
+
+    console.log("appAllMenu?.data", appAllMenu?.data)
 
     return (
         <>
@@ -110,7 +116,35 @@ const GroupEditForm = (props: Props) => {
 
                            {!mode ? (
                                <>
-                               <MenusWithPermissions id={itemData.id} />
+                                       <TreeView
+            aria-label="file system navigator"
+            defaultCollapseIcon={<ExpandMore />}
+            defaultExpandIcon={<ChevronRight />}
+        >
+            {appAllMenu?.data?.map((item: {applicationMenuId: string, applicationMenuName: string, description: string, permissions: any[]}) => (
+                <TreeItem className="!my-4  !bg-gray-100 !rounded-lg" nodeId={item.applicationMenuId} label={`${item.applicationMenuName}`}>
+                    <Box>
+                    <Box
+                                component="div"
+                                className="w-full"
+                            >
+                                            <Box
+                                                component="div"
+                                                className="flex items-center"
+                                            >
+                                                <FileSystemNavigator content={<Box component="div">
+                                                    <CheckboxGroup  options={dropdownPermissionsByMenu(item?.permissions)} label="" name="rolePermissions" boxClassName="grid grid-cols-3 md:grid-cols-4 gap-x-4"/>
+                                                </Box>
+                                            } />
+                                            </Box>
+                            </Box>
+
+                    </Box>
+                </TreeItem>
+            ))}
+        </TreeView>
+
+                               {/* <MenusWithPermissions id={itemData.id} /> */}
                                 {/* <FileSystemNavigator content={<Box component="div">
                                     <CheckboxGroup  options={dropdownPermissions(results)} label="" name="rolePermissions" boxClassName="grid grid-cols-3 md:grid-cols-4 gap-x-4"/>
                                 </Box>} /> */}

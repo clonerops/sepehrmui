@@ -104,7 +104,7 @@ const PermissionForm = (props: {
                 initialValues={
                     isNew
                         ? initialValues
-                        : { ...initialValues, ...detailTools?.data?.data }
+                        : { ...initialValues, ...detailTools?.data?.data, name: detailTools?.data?.data.permissionName }
                 }
                 // validationSchema={createPermissionValidation}
                 onSubmit={handleSubmit}
@@ -119,18 +119,16 @@ const PermissionForm = (props: {
                                             component="div"
                                             className={`${isNew ? "md:flex md:justify-start md:items-start gap-x-4 " : "md:flex md:flex-col mt-8 gap-8"}`}
                                         >
-                                            {/* <FormikInput
+                                            <FormikInput
                                                 name="name"
                                                 label="عنوان مجوز"
                                                 autoFocus={true}
                                                 disabled={!isNew}
                                                 boxClassName=" mt-2 md:mt-0"
-                                            /> */}
+                                            />
                                             <FormikInput
                                                 name="description"
                                                 label="توضیحات"
-                                                autoFocus={true}
-                                                disabled={!isNew}
                                                 boxClassName=" mt-2 md:mt-0"
                                             />
                                             <FormikApplicationMenu
@@ -147,14 +145,16 @@ const PermissionForm = (props: {
                                                 component="div"
                                                 className="mt-2 md:mt-0"
                                             >
-                                                <IconButton
-                                                    onClick={() =>
-                                                        handleSubmit()
-                                                    }
-                                                    className="!bg-[#fcc615]"
-                                                >
-                                                    {isNew ? <AddCircleOutline color="primary" /> : <Edit color="primary" />}
-                                                </IconButton>
+                                                {updateTools.isLoading || postPermissions.isLoading ? "درحال پردازش ..." :
+                                                    <IconButton
+                                                        onClick={() =>
+                                                            handleSubmit()
+                                                        }
+                                                        className="!bg-[#fcc615]"
+                                                    >
+                                                        {isNew ? <AddCircleOutline color="primary" /> : <Edit color="primary" />}
+                                                    </IconButton>
+                                                }
                                             </Box>
                                         </Box>
                                     </Form>

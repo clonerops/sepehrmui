@@ -31,7 +31,7 @@ const initialValues = {
 //   desc: Yup.string().required("فیلد الزامی می باشد")
 // })
 
-const pageSize = 120
+const pageSize = 200
 
 const Permissions = () => {
     const [results, setResults] = useState<Item[]>([]);
@@ -70,7 +70,17 @@ const Permissions = () => {
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
-                headerName: "عنوان مجوز",
+                headerName: "عنوان لاتین مجوز",
+                headerClassName: "headerClassName",
+                minWidth: 160,
+                flex: 1,
+            },
+            {
+                field: "description",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "عنوان فارسی مجوز",
                 headerClassName: "headerClassName",
                 minWidth: 160,
                 flex: 1,
@@ -131,8 +141,7 @@ const Permissions = () => {
     if(Permissions.isLoading) {
         return <Typography>Loading ...</Typography>
     }
-    console.log(results)
-
+    
     return (
         <>
             <ReusableCard>
@@ -142,9 +151,8 @@ const Permissions = () => {
                 >
                     <Box component="div">
                         <PermissionForm refetch={Permissions.refetch}  />
-                       
                         <FuzzySearch<Item>
-                            keys={["name", "description"]}
+                            keys={["permissionName", "description"]}
                             data={Permissions?.data?.data || []}
                             setResults={setResults}
                             threshold={0.3}
