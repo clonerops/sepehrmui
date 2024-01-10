@@ -20,20 +20,23 @@ http.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (!error.response && error.request) {
+        if(!error.response && error.code === "ERR_NETWORK") {
+            window.location.href = "/dashboard/accessDenied"
+        } else if(!error.response && error.request) {
             Cookies.remove("token");
             window.location.reload();
-            return Promise.reject(error);
-        }
 
-        if (error.respons && !originalRequest._retry) {
-            originalRequest._retry = true;
-            Cookies.remove("token");
-            window.location.reload();
-        }
-        // if(!error.response && error.code === "ERR_NETWORK") {
-        //   console.log(error)
-        //   window.location.href = "/dashboard/accessDenied"
+        } 
+        
+        // if (!error.response && error.request) {
+            //     Cookies.remove("token");
+        //     window.location.reload();
+        // }
+
+        // if (error.respons && !originalRequest._retry) {
+        //     originalRequest._retry = true;
+        //     Cookies.remove("token");
+        //     window.location.reload();
         // }
       
         return Promise.reject(error);
