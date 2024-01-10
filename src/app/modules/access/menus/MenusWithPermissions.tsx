@@ -9,6 +9,10 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 import { IRoleMenu } from "./_models";
+import { useGetAllPermissionByMenus } from "../permissions/_hooks";
+import FileSystemNavigator from "../../../../_cloner/components/TreeView";
+import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup";
+import { dropdownPermissions, dropdownPermissionsByMenu } from "../permissions/_functions";
 
 const initialValues: IRoleMenu = {
     roleId: "",
@@ -19,9 +23,9 @@ type Props = {
     id: string
 }
 
-const Menus = (props: Props) => {
+const MenusWithPermissions = (props: Props) => {
     const {id} = props;
-    const { data: appAllMenu, isLoading: allMenuLoading } = useGetAllApplicationMenus();
+    const { data: appAllMenu, isLoading: allMenuLoading } = useGetAllPermissionByMenus();
     
     const postMenu = usePostRoleMenus();
     const deleteMenu = useDeleteRoleMenu();
@@ -70,6 +74,12 @@ const Menus = (props: Props) => {
             })
         }
     };
+
+    if(allMenuLoading) {
+        return <Typography>درحال بارگزاری ...</Typography>
+    }
+
+
   return (
     <>
         <Box sx={{ minHeight: 180, flexGrow: 1}}>
@@ -78,9 +88,9 @@ const Menus = (props: Props) => {
             defaultCollapseIcon={<ExpandMoreIcon />}
             defaultExpandIcon={<ChevronRightIcon />}
         >
-            {appAllMenu?.data?.map((item: {id: string, description: string, children: any[]}) => (
+            {appAllMenu?.data?.map((item: {applicationMenuId: string, applicationMenuName: string, permissions: any[]}) => (
                 // <TreeItem className="my-4" nodeId={item.id} label={`${item.description} ---- ${roleIds.length} منو از ${item?.children?.length} منوی موجود دسترسی داده  شده است`}>
-                <TreeItem className="my-4" nodeId={item.id} label={`${item.description}`}>
+                <TreeItem className="my-4" nodeId={item.applicationMenuId} label={`${item.applicationMenuName}`}>
                     <Box>
                     <Formik initialValues={initialValues} onSubmit={() => {}}>
                 {({ handleSubmit }) => {
@@ -88,36 +98,17 @@ const Menus = (props: Props) => {
                         <Form>
                             <Box
                                 component="div"
-                                className="grid grid-cols-2 md:grid-cols-4 p-8"
+                                className="w-full"
                             >
-                            {item?.children?.map((sub: any) => {
-                                        return (
                                             <Box
                                                 component="div"
                                                 className="flex items-center"
                                             >
-                                                <FormControlLabel
-                                                    control={
-                                                        <Switch
-                                                            name="applicationMenuId"
-                                                            onChange={(event) => {
-                                                                const checked = event.target.checked;
-                                                                handleCheckboxChange(item.id, sub.id, checked);
-                                                            }}
-                                                            checked={roleIds.includes(sub.id)}
-                                                        />
-                                                    }
-                                                    label={
-                                                        <Typography>
-                                                            {sub.description}
-                                                        </Typography>
-                                                    }
-                                                />
+                                                <FileSystemNavigator content={<Box component="div">
+                                                    <CheckboxGroup  options={dropdownPermissionsByMenu(item?.permissions)} label="" name="rolePermissions" boxClassName="grid grid-cols-3 md:grid-cols-4 gap-x-4"/>
+                                                </Box>
+                                            } />
                                             </Box>
-                                        );
-                            })}
-
-                                
                             </Box>
               </Form>
             );
@@ -133,4 +124,4 @@ const Menus = (props: Props) => {
   )
 }
 
-export default Menus
+export default MenusWithPermissions

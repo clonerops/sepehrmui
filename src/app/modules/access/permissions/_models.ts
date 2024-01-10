@@ -5,3 +5,20 @@ export interface IPermission {
     description?: string;
 }
 
+
+
+export interface IPermissionMenu {
+    applicationMenuId: string
+    applicationMenuName: string
+    permissionId: string
+    permissionName: string
+    permissions: {
+      id: string
+      permissionName: string
+      applicationMenuId: string
+      applicationMenuName: string
+      description: string
+  
+    }[]
+  
+  }

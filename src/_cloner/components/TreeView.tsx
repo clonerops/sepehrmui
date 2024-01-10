@@ -18,7 +18,7 @@ export default function FileSystemNavigator(props: Props) {
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        <TreeItem nodeId="1" label="فاقد منو">
+        <TreeItem nodeId="1" label="مجوزها">
             {content}
         </TreeItem>
       </TreeView>

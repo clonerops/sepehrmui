@@ -13,6 +13,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 import FileSystemNavigator from "../../../../_cloner/components/TreeView"
 import Menus from "../menus/Menus"
+import MenusWithPermissions from "../menus/MenusWithPermissions"
 
 interface Item {
     description: string;
@@ -89,14 +90,14 @@ const GroupEditForm = (props: Props) => {
                             </Box> */}
                                 <Box component="div" className="py-4 flex flex-row justify-between items-center">
                                     {/* <Typography className="w-full" variant="h2" color="primary">لیست مجوزها</Typography> */}
-                                    {!mode &&
+                                    {/* {!mode &&
                                         <FuzzySearch<Item>
                                             keys={["description"]}
                                             data={permissions?.data?.data || []}
                                             setResults={setResults}
                                             threshold={0.3}
                                         />
-                                    }
+                                    } */}
                                     <Box component="div" className="flex justify-end items-center gap-x-4 mt-4 w-full">
                                         <Button onClick={() => setMode(false)} variant="contained" color="primary">
                                             <Typography>دسترسی مجوزها</Typography>
@@ -108,10 +109,11 @@ const GroupEditForm = (props: Props) => {
                                 </Box>                              
 
                            {!mode ? (
-                            <>
-                                <FileSystemNavigator content={<Box component="div">
+                               <>
+                               <MenusWithPermissions id={itemData.id} />
+                                {/* <FileSystemNavigator content={<Box component="div">
                                     <CheckboxGroup  options={dropdownPermissions(results)} label="" name="rolePermissions" boxClassName="grid grid-cols-3 md:grid-cols-4 gap-x-4"/>
-                                </Box>} />
+                                </Box>} /> */}
                                 <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
                                     <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white">
                                         <Typography>ثبت مجوز</Typography>

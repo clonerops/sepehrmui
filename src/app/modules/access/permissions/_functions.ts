@@ -18,3 +18,13 @@ export const dropdownApplicationMenu = (data: any) => {
         })
     );
 };
+
+export const dropdownPermissionsByMenu = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, permissionName:string }): any => {
+            const { permissionName, id } = obj;
+            return { value: id, label: permissionName };
+        })
+    );
+};

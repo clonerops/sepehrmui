@@ -62,6 +62,11 @@ const deletePermissions = async (id: string) => {
     }
 };
 
+const getAllPermissionByMenus = async () => {
+    const { data } = await http.get("/v1/Permission/GetAllPermissionsByMenu");
+    return data;
+};
+
 
 export {
     postPermissions,
@@ -69,5 +74,6 @@ export {
     deletePermissions,
     updatePermissions,
     getPermission,
-    getPermissionsMutate
+    getPermissionsMutate,
+    getAllPermissionByMenus,
 }
