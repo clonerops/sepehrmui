@@ -122,11 +122,11 @@ const GroupEditForm = (props: Props) => {
             defaultExpandIcon={<ChevronRight />}
         >
             {appAllMenu?.data?.map((item: {applicationMenuId: string, applicationMenuName: string, description: string, permissions: any[]}) => (
-                <TreeItem className="!my-4  !bg-gray-100 !rounded-lg" nodeId={item.applicationMenuId} label={`${item.applicationMenuName}`}>
+                <TreeItem className="!my-4 !p-4 !bg-gray-100 !rounded-lg" nodeId={item.applicationMenuId} label={`${item.applicationMenuName}`}>
                     <Box>
                     <Box
                                 component="div"
-                                className="w-full"
+                                className="w-full !p-4"
                             >
                                             <Box
                                                 component="div"

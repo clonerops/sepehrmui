@@ -16,6 +16,9 @@ import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
 import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
+import EditGridButton from '../../../../_cloner/components/EditGridButton'
+import TransitionsModal from '../../../../_cloner/components/ReusableModal'
+import EditProductTypes from './EditProductType'
 
 const initialValues = {
   id: 0,
@@ -33,6 +36,8 @@ const ProductTypes = () => {
   const { mutate: deleteType } = useDeleteTypes()
 
   const [results, setResults] = useState<IType[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [itemForEdit, setItemForEdit] = useState<IType | undefined>();
 
   useEffect(() => {
     setResults(types?.data);
@@ -43,7 +48,7 @@ const ProductTypes = () => {
     if (id)
       deleteType(id, {
         onSuccess: (response) => {
-          if(response.succeeded) {
+          if (response.succeeded) {
             validateAndEnqueueSnackbar(response.message, "success")
           } else {
             validateAndEnqueueSnackbar(response.data.Message, "error")
@@ -52,6 +57,11 @@ const ProductTypes = () => {
         },
       });
   }
+
+  const handleEdit = (item: IType | undefined) => {
+    setIsOpen(true);
+    setItemForEdit(item);
+  };
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -62,7 +72,7 @@ const ProductTypes = () => {
       }
       updateType(formData, {
         onSuccess: (response) => {
-          if(response.succeeded) {
+          if (response.succeeded) {
             validateAndEnqueueSnackbar(response.message, "success")
           } else {
             validateAndEnqueueSnackbar(response.data.Message, "error")
@@ -82,25 +92,25 @@ const ProductTypes = () => {
         renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'کد نوع کالا', flex:1, headerClassName: "headerClassName", minWidth: 120
+        headerName: 'کد نوع کالا', flex: 1, headerClassName: "headerClassName", minWidth: 120
       },
       {
         field: 'desc',
         renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'نوع کالا', flex:1, headerClassName: "headerClassName", minWidth: 160
+        headerName: 'نوع کالا', flex: 1, headerClassName: "headerClassName", minWidth: 160
       },
       {
         field: "isActive",
-        headerName: "وضعیت", flex:1,
+        headerName: "وضعیت", flex: 1,
         renderCell: renderSwitch,
         headerClassName: "headerClassName",
         minWidth: 160,
       },
       {
         field: "Delete",
-        headerName: "حذف", flex:1,
+        headerName: "حذف", flex: 1,
         renderCell: renderAction,
         headerClassName: "headerClassName",
         minWidth: 160,
@@ -121,6 +131,7 @@ const ProductTypes = () => {
   const renderAction = (item: any) => {
     return (
       <Box component="div" className="flex gap-4">
+        <EditGridButton onClick={() => handleEdit(item?.row)} />
         <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
       </Box>
     );
@@ -143,7 +154,7 @@ const ProductTypes = () => {
                   }
                   postType(formData, {
                     onSuccess: (response) => {
-                      if(response.succeeded) {
+                      if (response.succeeded) {
                         validateAndEnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
                         refetch();
@@ -204,6 +215,14 @@ const ProductTypes = () => {
           </Box>
         </Box>
       </ReusableCard>
+      <TransitionsModal
+        open={isOpen}
+        isClose={() => setIsOpen(false)}
+        width="30%"
+        title="ویرایش نوع کالا"
+      >
+        <EditProductTypes id={itemForEdit?.id} />
+      </TransitionsModal>
     </>
   )
 }
