@@ -10,7 +10,8 @@ const Backdrop:FC<IProps> = () => {
     return (
         <Box component="section" className='flex justify-center items-center fixed w-full h-full top-0 right-0 bg-white transition z-[9999] ease-out bg-opacity-70'>
             <Box component="div" className='flex flex-col justify-center items-center'>
-                <Box component="img" alt='saipa-logo' className='mb-20 animate-ping' src={toAbsoulteUrl('/media/logos/load.gif')} width={80} height={80} />
+                {/* <Box component="img" alt='saipa-logo' className='mb-20 animate-ping' src={toAbsoulteUrl('/media/logos/load.gif')} width={80} height={80} /> */}
+                <Box component="img" alt='saipa-logo' className='mb-20 animate-ping' src={toAbsoulteUrl('/media/logos/follad.png')} width={80} height={80} />
             </Box>
         </Box>
     )

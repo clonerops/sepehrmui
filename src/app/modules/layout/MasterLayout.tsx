@@ -146,6 +146,9 @@ const MasterLayout = () => {
           <List>
             <MenuItems menuItems={menuItemsData} />
           </List>
+          <Box className="md:flex md:justify-center md:items-center md:absolute md:right-0 md:left-0 md:bottom-20 hidden">
+            <img src={toAbsoulteUrl('/media/logos/folladlogowhite.png')} width={128} height={128} />
+          </Box>
         </Drawer>
       )}
       <Box

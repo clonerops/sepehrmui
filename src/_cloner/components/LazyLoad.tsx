@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { toAbsoulteUrl } from '../helpers/AssetsHelper';
 
 interface IProps {
@@ -10,7 +10,9 @@ const LazyLoad:FC<IProps> = () => {
     return (
         <Box component="section" className='flex justify-center items-center fixed w-full h-full top-0 right-0 bg-white transition z-[9999] ease-out bg-opacity-70'>
             <Box component="div" className='flex flex-col justify-center items-center'>
-                <Box component="img" alt='saipa-logo' className='mb-20 animate-ping' src={toAbsoulteUrl('/media/logos/preload.gif')} width={150} height={150} />
+                <CircularProgress color="secondary" className='!w-[160px]' />
+
+                {/* <Box component="img" alt='saipa-logo' className='mb-20 animate-bounce' src={toAbsoulteUrl('/media/logos/spinner.gif')} /> */}
             </Box>
         </Box>
     )

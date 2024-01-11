@@ -7,6 +7,7 @@ import RoleUser from "../modules/user/components/RoleUser";
 import UserForm from "../modules/user/components/UserForm";
 import AccessDenied from "./AccessDenied";
 import Backdrop from "../../_cloner/components/Backdrop";
+import LazyLoad from "../../_cloner/components/LazyLoad";
 
 const CheckRoute = () => {
   const { data, isLoading } = useMenuItems();
@@ -105,7 +106,7 @@ const CheckRoute = () => {
   }
 
   return (
-    <Suspense fallback={<Backdrop loading={true} />}>{checkRoute()}</Suspense>
+    <Suspense fallback={<LazyLoad loading={true} />}>{checkRoute()}</Suspense>
   );
 };
 
