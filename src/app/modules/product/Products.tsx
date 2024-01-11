@@ -45,7 +45,8 @@ const Products = () => {
                 headerName: "کد کالا",
                 cellClassName: "font-bold",
                 headerClassName: "headerClassName",
-                minWidth: 80,
+                minWidth: 60,
+                maxWidth: 80,
                 flex: 1,
             },
             {
@@ -66,8 +67,7 @@ const Products = () => {
                 },
                 headerName: "نوع کالا",
                 headerClassName: "headerClassName",
-                maxWidth: 60,
-                minWidth: 60,
+                minWidth: 120,
                 flex: 1,
             },
             {
@@ -83,7 +83,6 @@ const Products = () => {
                 },
                 headerName: "وضعیت",
                 headerClassName: "headerClassName",
-                maxWidth: 60,
                 minWidth: 60,
                 flex: 1,
             },
@@ -94,7 +93,6 @@ const Products = () => {
                 },
                 headerName: "سایز",
                 headerClassName: "headerClassName",
-                maxWidth: 60,
                 minWidth: 60,
                 flex: 1,
             },
@@ -105,7 +103,6 @@ const Products = () => {
                 },
                 headerName: "ضخامت",
                 headerClassName: "headerClassName",
-                maxWidth: 60,
                 minWidth: 60,
                 flex: 1,
             },
@@ -116,7 +113,6 @@ const Products = () => {
                 },
                 headerName: "وزن",
                 headerClassName: "headerClassName",
-                maxWidth: 60,
                 minWidth: 60,
                 flex: 1,
             },
@@ -243,6 +239,8 @@ const Products = () => {
         );
     };
 
+    console.log(results?.length)
+
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
@@ -278,6 +276,7 @@ const Products = () => {
                 </Box>
                 <MuiDataGrid
                     columns={columns(renderAction)}
+                    getRowId={(row: {id: string}) => row.id}
                     rows={results}
                     data={products?.data}
                 />

@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Backdrop from "./Backdrop";
 
 type Props = {
@@ -13,10 +13,11 @@ type Props = {
     maxVisibleRows?: number;
     customRowStyle?: boolean;
     isLoading?: boolean;
+    getRowId?: any
 };
 
 const MuiDataGrid = (props: Props) => {
-    const { columns, rows, isLoading, data, width, maxVisibleRows = 12, customRowStyle, onDoubleClick, onCellEditCommit  } = props;
+    const { columns, rows, getRowId, isLoading, data, width, maxVisibleRows = 12, customRowStyle, onDoubleClick, onCellEditCommit  } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
@@ -40,6 +41,20 @@ const MuiDataGrid = (props: Props) => {
         return className;
     }, [])
 
+
+    // const CustomPagination = () => (
+    //     <GridToolbar>
+    //       <Box>
+    //         <span>Your Custom Rows Per Page Label: </span>
+    //         <select>
+    //           <option value={10}>10</option>
+    //           <option value={20}>20</option>
+    //           <option value={30}>30</option>
+    //         </select>
+    //       </Box>
+    //     </GridToolbar>
+    //   );
+
     if(isLoading) {
         return <Backdrop loading={isLoading} />
     }
@@ -62,16 +77,23 @@ const MuiDataGrid = (props: Props) => {
                 }}
                 rows={rows ? rows : []}
                 columns={columns}
-                getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}_${row.applicationMenuId}`}
+                // getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}_${row.applicationMenuId}`}
+                getRowId={getRowId}
                 rowHeight={42}
-                autoPageSize={false}
+                pageSize={data?.length} // Set pageSize to the total number of rows
+                hideFooter={false} // Hide the footer
+                // autoPageSize={false}
                 onRowDoubleClick={onDoubleClick}
                 getRowClassName={getRowClassName}
-                hideFooter={true}
+                // hideFooter={true}
                 columnHeaderHeight={32}
                 onCellEditCommit={onCellEditCommit}
-                disableVirtualization={false}
-                style={{ height: gridHeight, maxHeight: gridHeight, overflow: "auto" }} // Set a max height and allow scrolling
+                labelRowsPerPage={"Your text"}
+                // components={{
+                //     Pagination: CustomPagination,
+                //   }}
+                // disableVirtualization={false}
+                style={{ height: gridHeight, maxHeight: gridHeight, overflow: "hidden" }} // Set a max height and allow scrolling
             />
         </Box>
     );
