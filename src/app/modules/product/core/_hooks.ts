@@ -22,7 +22,11 @@ const useRetrieveProductsByWarehouse = () => {
     });
 };
 const useRetrieveProductsByType = () => {
-    return useQuery(["productsByType"], () => api.retrieveProductsByType());
+    return useQuery(["productsByType"], () => api.retrieveProductsByType(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 const useRetrieveProductsByTypeAndWarehouseFilter = () => {
     return useMutation((warehouseId: string) => {
@@ -31,7 +35,10 @@ const useRetrieveProductsByTypeAndWarehouseFilter = () => {
 };
 const useRetrieveProductsByBrand = (isProductChoose?: boolean) => {
     return useQuery(["productsByBrand"], () => api.retrieveProductsByBrand(), {
-        enabled: isProductChoose
+        enabled: isProductChoose,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
     });
 };
 
@@ -42,7 +49,11 @@ const useCreateProduct = () => {
 };
 
 const useRetrieveProductById = (id: string) => {
-    return useQuery(['products', id], () => api.retrieveProductById(id))
+    return useQuery(['products', id], () => api.retrieveProductById(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
     // return useMutation((id: number) => {
     //     return api.retrieveProductById(id);
     // });
@@ -72,12 +83,20 @@ const useEnableProduct = () => {
 
 // Brands
 const useRetrieveBrands = () => {
-    return useQuery(["brands"], () => api.retrieveBrands());
+    return useQuery(["brands"], () => api.retrieveBrands()), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    };
 };
 
 // Suppliers
 const useRetrieveSuppliers = () => {
-    return useQuery(["suppliers"], () => api.retrieveSuppliers());
+    return useQuery(["suppliers"], () => api.retrieveSuppliers(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const useCreateSupplier = () => {
@@ -105,7 +124,11 @@ const useDeleteSupplier = () => {
 };
 // Product Price
 const useRetrieveProductPrice = (isActive: boolean | number | null | string) => {
-    return useQuery(["productPrice", isActive], () => api.retrieveProductPrice(isActive));
+    return useQuery(["productPrice", isActive], () => api.retrieveProductPrice(isActive), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 // const useRetrieveProductPrice = () => {
 //     return useQuery(["productPrice"], () => api.retrieveProductPrice());

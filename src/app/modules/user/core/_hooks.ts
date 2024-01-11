@@ -8,7 +8,11 @@ const useRegisterUser = () => {
     });
 };
 
-const useUsers = () => useQuery(["users"], () => api.fetchUsers());
+const useUsers = () => useQuery(["users"], () => api.fetchUsers(), {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchIntervalInBackground: false
+});
 
 const useGetUserDetail = () => {
     return useMutation((id: string) => {
