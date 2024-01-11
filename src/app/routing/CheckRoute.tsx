@@ -101,9 +101,9 @@ const CheckRoute = () => {
     }
   }, [routes]);
 
-  if (isLoading) {
-    return <Backdrop loading={isLoading} />;
-  }
+  // if (isLoading) {
+  //   return <LazyLoad loading={isLoading} />;
+  // }
 
   return (
     <Suspense fallback={<LazyLoad loading={true} />}>{checkRoute()}</Suspense>
