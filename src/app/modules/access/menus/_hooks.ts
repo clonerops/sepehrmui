@@ -3,11 +3,20 @@ import { IRoleMenu } from "./_models";
 import * as api from './_requests'
 
 const useGetRoleMenus = () => {
-    return useQuery(["roleMenus"], () => api.getRoleMenus());
+    return useQuery(["roleMenus"], () => api.getRoleMenus(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 const useGetRoleMenusById = (roleId: string) => {
     return useQuery(["roleMenusById", roleId], () =>
-        api.getRoleMenusById(roleId)
+        api.getRoleMenusById(roleId),
+        {
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            refetchIntervalInBackground: false    
+        }
     );
 };
 
@@ -18,10 +27,18 @@ const usePostRoleMenus = () => {
 };
 
 const useGetApplicationMenus = () => {
-    return useQuery(["roleAppMenu"], () => api.getApplicationMenus());
+    return useQuery(["roleAppMenu"], () => api.getApplicationMenus(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 const useGetAllApplicationMenus = () => {
-    return useQuery(["roleAllAppMenu"], () => api.getAllApplicationMenus());
+    return useQuery(["roleAllAppMenu"], () => api.getAllApplicationMenus(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const useDeleteRoleMenu = () => {

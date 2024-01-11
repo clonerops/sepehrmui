@@ -13,7 +13,11 @@ const useLoginUser = () => {
 
 
 const useGetCaptcha = () => {
-    return useQuery(['captcha'], () => api.getCaptcha())
+    return useQuery(['captcha'], () => api.getCaptcha(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 export {

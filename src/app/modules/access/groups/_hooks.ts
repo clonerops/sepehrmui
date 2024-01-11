@@ -2,7 +2,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import * as api from './_requests'
 
 const useGetApplicationRoles = () => {
-    return useQuery(["applicationRoles"], () => api.getApplicationRoles());
+    return useQuery(["applicationRoles"], () => api.getApplicationRoles(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const usePostApplicationRoles = () => {

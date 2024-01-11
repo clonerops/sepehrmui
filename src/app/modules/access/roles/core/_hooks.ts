@@ -4,12 +4,20 @@ import { IRole, IRoleMenu, IUpdateRole } from "./_models";
 import { AxiosError } from "axios";
 
 const useGetRoles = () => {
-    return useQuery(["roles"], () => api.getRoles());
+    return useQuery(["roles"], () => api.getRoles(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 // Role menu
 const useGetRoleMenus = () => {
-    return useQuery(["roleMenus"], () => api.getRoleMenus());
+    return useQuery(["roleMenus"], () => api.getRoleMenus(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 const useGetRoleMenusById = (roleId: string) => {
     return useQuery(["roleMenusById", roleId], () =>
@@ -35,7 +43,11 @@ const useDeleteRoleMenu = () => {
 
 // User Role
 const useGetUserRole = () => {
-    return useQuery(["userRole"], () => api.getUserRole());
+    return useQuery(["userRole"], () => api.getUserRole(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const usePostUserRole = () => {

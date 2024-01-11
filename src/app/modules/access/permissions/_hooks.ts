@@ -3,13 +3,25 @@ import * as api from './_requests'
 import { IPermission } from "./_models";
 
 const useGetPermissions = () => {
-    return useQuery(["Permissions"], () => api.getPermissions());
+    return useQuery(["Permissions"], () => api.getPermissions(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 const useGetAllPermissionByMenus = () => {
-    return useQuery(["PermissionsByMenu"], () => api.getAllPermissionByMenus());
+    return useQuery(["PermissionsByMenu"], () => api.getAllPermissionByMenus(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 const useGetPermissionsFilter = (formData: any) => {
-    return useQuery(["PermissionsByFilter", formData], () => api.getPermissionsMutate(formData));
+    return useQuery(["PermissionsByFilter", formData], () => api.getPermissionsMutate(formData), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const usePostPermissions = () => {

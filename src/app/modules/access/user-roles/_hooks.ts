@@ -3,7 +3,11 @@ import * as api from './_requests'
 import { IUserRole } from "./_models"
 
 const useGetUserRoles = (id: string) => {
-    return useQuery(['userRoles', id], () => api.getUserRoles(id))
+    return useQuery(['userRoles', id], () => api.getUserRoles(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 const usePostUserRoles= () => {
