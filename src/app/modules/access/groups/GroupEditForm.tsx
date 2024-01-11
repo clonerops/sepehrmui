@@ -126,7 +126,7 @@ const GroupEditForm = (props: Props) => {
                     <Box>
                     <Box
                                 component="div"
-                                className="w-full !p-4 !mt-4"
+                                className="w-full !p-4"
                             >
                                             <Box
                                                 component="div"

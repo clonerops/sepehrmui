@@ -139,18 +139,18 @@ const orderDetailParseFields = (
                         <Grading />
                     </Button>
                     {isProductChoose &&
-                        <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='80%' isClose={() => setState((prev) => ({...prev, isProductChoose: false}))}>
-                            <ProductsList
-                                products={products?.data?.data}
-                                productLoading={products.isLoading}
-                                productError={products.isError}
-                                setState={setState}
-                                setFieldValue={setFieldValue}
-                                orders={orders}
-                                setOrders={setOrders}
-                                setOrderPayment={setOrderPayment}
-                                orderService={orderService}
-                            />
+                        <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='99%' isClose={() => setState((prev) => ({...prev, isProductChoose: false}))}>
+                                <ProductsList
+                                    products={products?.data?.data}
+                                    productLoading={products.isLoading}
+                                    productError={products.isError}
+                                    setState={setState}
+                                    setFieldValue={setFieldValue}
+                                    orders={orders}
+                                    setOrders={setOrders}
+                                    setOrderPayment={setOrderPayment}
+                                    orderService={orderService}
+                                />
                         </TransitionsModal>
                     }
                 </Box>

@@ -12,6 +12,7 @@ type Props = {
   title: string
   width?: string;
   description?: string;
+  overflow?: string
   isClose: any
 }
 
@@ -63,7 +64,7 @@ export default function TransitionsModal(props: Props) {
             </Typography>
             <Box component="div" style={{
               maxHeight: "80vh",
-              overflow: "auto"
+              overflow: props.overflow ? props.overflow : "auto"
             }}>
               {props.children}
             </Box>

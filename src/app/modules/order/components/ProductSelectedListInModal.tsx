@@ -355,7 +355,7 @@ const ProductSelectedListInModal = (props: {
     };
 
     if (props.productLoading) {
-        return <Typography>Loading ...</Typography>;
+        return <Typography>درحال بارگزاری ...</Typography>;
     }
 
     return (
