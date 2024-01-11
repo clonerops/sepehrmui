@@ -10,7 +10,11 @@ const useGetProductList = () => {
 };
 
 const useRetrieveProducts = () => {
-    return useQuery(["products"], () => api.retrieveProducts());
+    return useQuery(["products"], () => api.retrieveProducts(), {
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            refetchIntervalInBackground: false
+    });
 };
 const useRetrieveProductsByWarehouse = () => {
     return useMutation((warehouseId: number) => {
