@@ -18,10 +18,12 @@ import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import EditGridButton from '../../../../_cloner/components/EditGridButton'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
+import FileUpload from '../../payment/components/FileUpload'
 
 const initialValues = {
   id: 0,
-  desc: ""
+  desc: "",
+  image: ""
 }
 
 const validation = Yup.object({
@@ -35,6 +37,8 @@ type Props = {
 const EditProductTypes = (props: Props) => {
   const { mutate: updateType } = useUpdateTypes()
   const detailTools = useGetType(props.id)
+  
+  const [files, setFiles] = useState<File[]>([]);
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -71,6 +75,7 @@ const EditProductTypes = (props: Props) => {
                   <Box component="div" className="md:flex md:flex-col md:justify-start md:items-start gap-4 ">
                     <FormikInput name="id" label="کد نوع کالا " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="نوع کالا " boxClassName=" mt-2 md:mt-0" />
+                    <FileUpload files={files} setFiles={setFiles} />
                     <Box component="div" className="mt-2 md:mt-0">
                       <ButtonComponent onClick={() => handleSubmit()}>
                         <Typography className="px-2">
