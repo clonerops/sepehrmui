@@ -3,7 +3,11 @@ import * as api from './_requests'
 import { IStandard } from "./_models"
 
 const useGetStandards = () => {
-    return useQuery(['Standards'], () => api.getStandards())
+    return useQuery(['Standards'], () => api.getStandards(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 const usePostStandards = () => {

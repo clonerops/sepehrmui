@@ -3,7 +3,11 @@ import * as api from './_requests'
 import { IState } from "./_models"
 
 const useGetStates = () => {
-    return useQuery(['state'], () => api.getStates())
+    return useQuery(['state'], () => api.getStates(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 const usePostState = () => {

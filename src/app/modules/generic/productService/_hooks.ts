@@ -3,7 +3,11 @@ import * as api from './_requests'
 import { IService } from "./_models"
 
 const useGetServices = () => {
-    return useQuery(['Services'], () => api.getServices())
+    return useQuery(['Services'], () => api.getServices(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 const usePostServices = () => {

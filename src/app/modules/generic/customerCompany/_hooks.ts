@@ -3,7 +3,11 @@ import * as api from './_requests'
 import { ICustomerCompany } from "./_models"
 
 const useGetCustomerCompanies = (CustomerId: string) => {
-    return useQuery(['CustomerCompanies', CustomerId], () => api.getCustomerCompanies(CustomerId))
+    return useQuery(['CustomerCompanies', CustomerId], () => api.getCustomerCompanies(CustomerId), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
 }
 
 const useGetCustomerCompaniesMutate = () => {
