@@ -15,6 +15,7 @@ import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import SwitchComponent from "../../../../_cloner/components/Switch";
 import { enqueueSnackbar } from "notistack";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const CustomerCompanies = () => {
     const { data: customerCompanies, refetch, isLoading: CustomerCompanyLoading, } = useGetCustomerCompanies("");
@@ -142,7 +143,7 @@ const CustomerCompanies = () => {
     };
 
     if (CustomerCompanyLoading) {
-        return <p>Loading...</p>;
+        return <Backdrop loading={CustomerCompanyLoading} />;
     }
 
     return (

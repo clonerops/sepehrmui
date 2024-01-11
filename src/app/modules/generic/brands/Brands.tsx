@@ -15,6 +15,7 @@ import { IBrand } from "./_models";
 import { useGetBrands, usePostBrands, useUpdateBrands } from "./_hooks";
 import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const initialValues = {
     id: 0,
@@ -125,7 +126,7 @@ const Brands = () => {
     // };
 
     if (brandLoading) {
-        return <p>Loading...</p>;
+        return <Backdrop loading={brandLoading} />;
     }
 
     return (

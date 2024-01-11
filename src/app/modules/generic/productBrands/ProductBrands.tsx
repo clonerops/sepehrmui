@@ -18,6 +18,7 @@ import { dropdownBrand, dropdownProduct } from '../_functions'
 import { useGetBrands } from '../brands/_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues: any = {
   id: 0,
@@ -114,7 +115,7 @@ const ProductBrands = () => {
   };
 
   if (productBrandLoading) {
-    return <Typography>Loading...</Typography>;
+    return <Backdrop loading={productBrandLoading} />;
   }
 
   return (

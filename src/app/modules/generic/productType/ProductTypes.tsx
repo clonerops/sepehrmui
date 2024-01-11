@@ -19,6 +19,7 @@ import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import EditGridButton from '../../../../_cloner/components/EditGridButton'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
 import EditProductTypes from './EditProductType'
+import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
   id: 0,
@@ -138,7 +139,7 @@ const ProductTypes = () => {
   };
 
   if (TypeLoading) {
-    return <p>Loading...</p>;
+    return <Backdrop loading={TypeLoading} />;
   }
 
   return (

@@ -15,6 +15,7 @@ import { IState } from "./_models"
 import { useGetStates, usePostState, useUpdateState } from './_hooks'
 import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
   id: 0,
@@ -101,7 +102,7 @@ const ProductState = () => {
 
 
   if (StateLoading) {
-    return <p>Loading...</p>;
+    return <Backdrop loading={StateLoading} />;
   }
 
   return (

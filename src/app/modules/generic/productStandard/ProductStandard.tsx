@@ -15,6 +15,7 @@ import { IStandard } from "./_models"
 import { useGetStandards, usePostStandards, useUpdateStandards } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
   id: 0,
@@ -98,7 +99,7 @@ const ProductStandards = () => {
 
 
   if (StandardLoading) {
-    return <p>Loading...</p>;
+    return <Backdrop loading={StandardLoading} />;
   }
 
   return (

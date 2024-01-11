@@ -15,6 +15,7 @@ import { IService } from "./_models"
 import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
   id: 0,
@@ -99,7 +100,7 @@ const ProductService = () => {
 
 
   if (ServiceLoading) {
-    return <p>Loading...</p>;
+    return <Backdrop loading={ServiceLoading} />;
   }
 
   return (
