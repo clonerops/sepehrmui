@@ -3,7 +3,11 @@ import { ICargo, IExitRemittance, ILadingLicence } from "./_models";
 import * as api from "./_requests";
 
 const useRetrievesNotSendedOrder = () => {
-    return useQuery(["ordersNotSend"], () => api.retrievesNotSendedOrder());
+    return useQuery(["ordersNotSend"], () => api.retrievesNotSendedOrder(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 const useGetCargosList = () => {
     // return useQuery(["cargosList"], () => api.getCargosList());
@@ -27,11 +31,19 @@ const useCreateCargo = () => {
 };
 
 const useRetrieveCargos = (orderId?: string) => {
-    return useQuery(["cargos", orderId], () => api.retrievesCargos(orderId));
+    return useQuery(["cargos", orderId], () => api.retrievesCargos(orderId), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const useCargoById = (cargoId: string) => {
-    return useQuery(["cargosById", cargoId], () => api.getCargoById(cargoId));
+    return useQuery(["cargosById", cargoId], () => api.getCargoById(cargoId), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const useEditCargo = () => {
@@ -44,7 +56,11 @@ const useEditCargo = () => {
 // Lading Licence
 
 const useGetLadingLicenceList = () => {
-    return useQuery(["ladingLicence"], () => api.getLadingLicenceList());
+    return useQuery(["ladingLicence"], () => api.getLadingLicenceList(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const usePostLadingLicence = () => {
@@ -54,7 +70,11 @@ const usePostLadingLicence = () => {
 };
 
 const useGetLadingLicenceById = (id: string) => {
-    return useQuery(["ladingLicenceById", id], () => api.getLadingLicenceById(id));
+    return useQuery(["ladingLicenceById", id], () => api.getLadingLicenceById(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const useEditLadingLicence = () => {

@@ -9,7 +9,11 @@ const useCreateCustomer = () => {
 };
 
 const useGetCustomers = () => {
-    return useQuery(["customers"], () => api.getCustomers());
+    return useQuery(["customers"], () => api.getCustomers(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 
 const useGetCustomer = () => {
