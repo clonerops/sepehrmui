@@ -239,9 +239,7 @@ const CustomerForm = (props: {
     if (props.id && detailTools?.isLoading) {
         return <Typography>Loading ...</Typography>;
     }
-
-    console.log("detailTools?.data?.data", detailTools?.data?.data)
-
+    
     return (
         <>
             {updateTools.isLoading && (

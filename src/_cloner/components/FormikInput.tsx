@@ -27,8 +27,6 @@ const FormikInput = (props: Props) => {
   const [field] = useField({ name, value });
   const formikProps = useFormikContext();
 
-  console.log(getFormikFieldValidationProps(formikProps, name))
-
   return (
     <Box component={"div"} className={cx("w-full", boxClassName)}>
       <TextField

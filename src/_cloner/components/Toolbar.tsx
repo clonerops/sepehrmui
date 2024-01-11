@@ -97,7 +97,7 @@ const ToolbarComponent = () => {
                                     className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
                                 >
                                     <Person />
-                                    <Typography>کاربر: {userInfo.data.userName}</Typography>
+                                    <Typography>کاربر: {userInfo?.data?.userName}</Typography>
                                 </Box>
                                 <Box
                                     onClick={onChangePassword}

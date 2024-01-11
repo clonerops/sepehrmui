@@ -5,7 +5,6 @@ import FormikSelect from './FormikSelect'
 
 const FormikBrand = (props: any) => {
     const { data: productBrand } = useGetBrands();
-    console.log(productBrand)
 
     return (
         <FormikSelect

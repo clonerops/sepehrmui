@@ -46,7 +46,6 @@ const CheckRoute = () => {
     let finded: boolean = false;
 
     const newRoutes = [...routes, ...overRoutes];
-    console.log("newRoutes", newRoutes)
     if (!finded) {
       newRoutes?.forEach((r: any) => {
         if (

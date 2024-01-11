@@ -14,8 +14,6 @@ const FormikApplicationMenu = (props: any) => {
 
     const combinedArray = [].concat(...menus.data.map((item: any) => item.children));
 
-    console.log(combinedArray)
-
     return (
         <FormikSelect
             options={dropdownApplicationMenu(combinedArray)}

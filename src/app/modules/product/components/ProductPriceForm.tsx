@@ -141,8 +141,6 @@ const ProductPriceForm = (props: Props) => {
         return <Typography>Loading ...</Typography>
     }
 
-    console.log("checked", checked)
-
     return (
         <>
             <Formik 

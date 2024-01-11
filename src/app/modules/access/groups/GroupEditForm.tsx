@@ -62,7 +62,6 @@ const GroupEditForm = (props: Props) => {
                 }
             ))
         }
-        console.log(values.rolePermissions)
         putApplicationRoles.mutate(formData, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
@@ -77,8 +76,6 @@ const GroupEditForm = (props: Props) => {
     if (detailApplicationRole?.isLoading) {
         return <Backdrop loading={detailApplicationRole.isLoading} />
     }
-
-    console.log("appAllMenu?.data", appAllMenu?.data)
 
     return (
         <>

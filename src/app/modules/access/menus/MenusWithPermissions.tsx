@@ -59,7 +59,6 @@ const MenusWithPermissions = (props: Props) => {
         } else {
             setRoleIds((prevIds) => prevIds.filter((id) => id !== subId));
             const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId)
-            console.log(filterRoleMenuId)
             deleteMenu.mutate(filterRoleMenuId?.id, {
                 onSuccess: (message) => {
                     if(message.succeeded) {
