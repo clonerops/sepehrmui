@@ -14,6 +14,9 @@ const registerUser = async (formData: IUser) => {
 const fetchUsers = async () => {
   return await http.get("/v1/ApplicationUser").then((res) => res?.data);
 };
+const fetchUserInfo = async () => {
+  return await http.get("/v1/ApplicationUser/GetUserInfo").then((res) => res?.data);
+};
 
 
 const getUserDetail = async (id: string) => {
@@ -45,4 +48,4 @@ const deleteUser = async (id: string) => {
 }
 
 
-export { registerUser, fetchUsers, getUserDetail, updateUser, deleteUser }
+export { registerUser, fetchUsers, getUserDetail, updateUser, deleteUser, fetchUserInfo }

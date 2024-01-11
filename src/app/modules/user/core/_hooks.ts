@@ -13,6 +13,11 @@ const useUsers = () => useQuery(["users"], () => api.fetchUsers(), {
     refetchOnWindowFocus: false,
     refetchIntervalInBackground: false
 });
+const useUserInfo = () => useQuery(["userInfo"], () => api.fetchUserInfo(), {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchIntervalInBackground: false
+});
 
 const useGetUserDetail = () => {
     return useMutation((id: string) => {
@@ -32,4 +37,4 @@ const useGetDeleteUser = () => {
     })
 }
 
-export { useRegisterUser, useUsers, useGetUserDetail, useGetUpdateUser, useGetDeleteUser };
+export { useRegisterUser, useUsers, useGetUserDetail, useGetUpdateUser, useGetDeleteUser, useUserInfo };

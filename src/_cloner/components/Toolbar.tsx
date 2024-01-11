@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Avatar, Box, Button, Popover, TextField, Typography, Modal } from "@mui/material";
+import { Avatar, Box, Button, Popover, Typography } from "@mui/material";
 import { toAbsoulteUrl } from "../helpers/AssetsHelper";
 import Cookies from "js-cookie";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import {
     LockReset,
-    VerifiedUser,
     Assessment,
     Announcement,
-    Notifications,
     Settings,
     Person
 } from "@mui/icons-material";
@@ -16,12 +14,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import ProductPriceLanding from "../../app/modules/landing/ProductPriceLanding";
 import TransitionsModal from "./ReusableModal";
-import useUserInformation from "../helpers/useUserInformation";
+import { useUserInfo } from "../../app/modules/user/core/_hooks";
 
 const ToolbarComponent = () => {
     const navigate = useNavigate();
     
-    const userInfo = useUserInformation()
+    const {data: userInfo} = useUserInfo()
     
     const [anchorEl, setAnchorEl] = useState(null);
     const [isPriceOpen, setIsPriceOpen] = useState<boolean>(false)
@@ -99,7 +97,7 @@ const ToolbarComponent = () => {
                                     className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
                                 >
                                     <Person />
-                                    <Typography>کاربر: {userInfo.userName}</Typography>
+                                    <Typography>کاربر: {userInfo.data.userName}</Typography>
                                 </Box>
                                 <Box
                                     onClick={onChangePassword}
