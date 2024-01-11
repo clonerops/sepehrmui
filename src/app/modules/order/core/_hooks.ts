@@ -20,7 +20,11 @@ const useRetrieveOrders = (formData: {
     OrderStatusId?: number;
 }) => {
     // return useQuery(["orders"], () => api.retrieveOrders());
-    return useQuery(["orders", formData], () => api.retrieveOrders(formData));
+    return useQuery(["orders", formData], () => api.retrieveOrders(formData), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
     // return useMutation((formData: {
     //     pageNumber?: number;
     //     pageSize?: number;
@@ -44,7 +48,11 @@ const useRetrieveOrdersByMutation = () => {
 };
 
 const useRetrieveOrder = (id: string | undefined) => {
-    return useQuery(["order", id], () => api.retrieveOrder(id));
+    return useQuery(["order", id], () => api.retrieveOrder(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
 };
 const useConfirmOrder = () => {
     return useMutation((id: string) => {
