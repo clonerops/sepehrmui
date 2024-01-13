@@ -16,8 +16,8 @@ const usePostWarehouses = () => {
 }
 
 
-const useGetStandard = (id: string) => {
-    return useQuery(['Warehouses', id], () => api.getStandard(id))
+const useGetWarehouse = (id: number) => {
+    return useQuery(['Warehouses', id], () => api.getWarehouse(id))
 }
 
 const useUpdateWarehouses = () => {
@@ -35,7 +35,7 @@ const useDeleteWarehouses = () => {
 export {
     useGetWarehouses,
     usePostWarehouses,
-    useGetStandard,
+    useGetWarehouse,
     useUpdateWarehouses,
     useDeleteWarehouses,
 }

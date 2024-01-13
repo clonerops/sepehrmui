@@ -23,7 +23,7 @@ const postWarehouses = async (formData: IWarehouse) => {
     }
 }
 
-const getStandard = async (id: string) => {
+const getWarehouse = async (id: number) => {
     try {
 
         const { data } = await http.get(`/v1/Warehouse/${id}`)
@@ -59,7 +59,7 @@ const deleteWarehouse = async (id: number) => {
 export {
     getWarehouses,
     postWarehouses,
-    getStandard,
+    getWarehouse,
     updateWarehouses,
     deleteWarehouse,
 }

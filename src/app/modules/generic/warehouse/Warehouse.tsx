@@ -12,11 +12,16 @@ import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
 import { IWarehouse } from "./_models"
-import { useGetWarehouses, usePostWarehouses, useUpdateWarehouses } from './_hooks'
+import { useDeleteWarehouses, useGetWarehouses, usePostWarehouses, useUpdateWarehouses } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import FormikWarehouseType from '../../../../_cloner/components/FormikWarehouseType'
+import EditGridButton from '../../../../_cloner/components/EditGridButton'
+import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
+import TransitionsModal from '../../../../_cloner/components/ReusableModal'
+import EditProductTypes from '../productType/EditProductType'
+import EditWarehouse from './EditWarehouse'
 
 const initialValues = {
   id: 0,
@@ -32,12 +37,36 @@ const Warehouse = () => {
   const { data: Warehouses, refetch, isLoading: WarehouseLoading } = useGetWarehouses()
   const { mutate: postWarehouse } = usePostWarehouses()
   const { mutate: updateWarehouse } = useUpdateWarehouses()
+  const { mutate: deleteWarehouse } = useDeleteWarehouses()
 
   const [results, setResults] = useState<IWarehouse[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [itemForEdit, setItemForEdit] = useState<IWarehouse | undefined>();
 
   useEffect(() => {
     setResults(Warehouses?.data);
   }, [Warehouses?.data]);
+
+  const handleDelete = (id: number) => {
+    if (id)
+      deleteWarehouse(id, {
+        onSuccess: (response) => {
+          if (response.succeeded) {
+            validateAndEnqueueSnackbar(response.message, "success")
+          } else {
+            validateAndEnqueueSnackbar(response.data.Message, "error")
+          }
+          refetch();
+        },
+      });
+  }
+
+  const handleEdit = (item: IWarehouse | undefined) => {
+    setIsOpen(true);
+    setItemForEdit(item);
+  };
+
+
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -61,7 +90,7 @@ const Warehouse = () => {
     }
   };
 
-  const columns = (renderSwitch: any) => {
+  const columns = (renderAction: any, renderSwitch: any) => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
@@ -92,6 +121,13 @@ const Warehouse = () => {
       //   minWidth: 160,
       //   flex: 1,
       // },
+      {
+        field: "Action",
+        headerName: "عملیات", flex: 1,
+        renderCell: renderAction,
+        headerClassName: "headerClassName",
+        minWidth: 160,
+      },
     ]
     return col
   }
@@ -103,6 +139,15 @@ const Warehouse = () => {
         checked={item?.row.isActive}
         onChange={(_) => onUpdateStatus(item)}
       />
+    );
+  };
+
+  const renderAction = (item: any) => {
+    return (
+      <Box component="div" className="flex gap-4">
+        <EditGridButton onClick={() => handleEdit(item?.row)} />
+        <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
+      </Box>
     );
   };
 
@@ -167,7 +212,7 @@ const Warehouse = () => {
               />
             </Box>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={columns(renderAction, renderSwitch)}
               rows={results}
               data={Warehouses?.data}
             />
@@ -186,6 +231,15 @@ const Warehouse = () => {
           </Box>
         </Box>
       </ReusableCard>
+      <TransitionsModal
+        open={isOpen}
+        isClose={() => setIsOpen(false)}
+        width="30%"
+        title="ویرایش نوع کالا"
+      >
+        <EditWarehouse id={itemForEdit?.id} />
+      </TransitionsModal>
+
     </>
   )
 }
