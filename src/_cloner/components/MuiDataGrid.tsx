@@ -58,7 +58,6 @@ const MuiDataGrid = (props: Props) => {
     const uniqueData = rows?.map((row: any, index: number) => ({ ...row, uniqueId: `${row.id}${index}` }));
     const getRowIdFunc = (row: any) => row.uniqueId;
 
-    console.log(data)
 
     if(isLoading) {
         return <Backdrop loading={isLoading} />
@@ -96,7 +95,14 @@ const MuiDataGrid = (props: Props) => {
                 // hideFooter={true}
                 columnHeaderHeight={32}
                 onCellEditCommit={onCellEditCommit}
-                labelRowsPerPage={"Your text"}
+                localeText={{
+                    MuiTablePagination: {
+                      labelDisplayedRows: ({ from, to, count }) =>`${from} - ${to} تعداد کل: ${count}`,
+                      labelRowsPerPage: "تعداد سطر قابل نمایش"
+                        
+                    },
+                  }}
+                
                 // components={{
                 //     Pagination: CustomPagination,
                 //   }}

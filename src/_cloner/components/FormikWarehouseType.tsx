@@ -9,7 +9,7 @@ const FormikWarehouseType = (props: any) => {
 
     return (
         <FormikSelect
-            options={dropdownWarehouseType(productWarehouseType?.data.filter((i: IWarehouseTypes) => i.isActive))}
+            options={dropdownWarehouseType(productWarehouseType?.filter((i: IWarehouseTypes) => i.isActive))}
             {...props} />
     )
 }

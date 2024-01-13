@@ -71,10 +71,17 @@ const Warehouse = () => {
         flex: 1,
       },
       {
-        field: 'desc', renderCell: (params: any) => {
+        field: 'name', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'نام انبار', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'warehouseTypeDesc', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'نوع انبار', headerClassName: "headerClassName", minWidth: 120,
         flex: 1,
       },
       // {
