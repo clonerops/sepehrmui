@@ -67,6 +67,9 @@ const ProductState = React.lazy(
 const ProductStandards = React.lazy(
     () => import("../modules/generic/productStandard/ProductStandard")
 );
+const Warehouse = React.lazy(
+    () => import("../modules/generic/warehouse/Warehouse")
+);
 const ProductBrands = React.lazy(
     () => import("../modules/generic/productBrands/ProductBrands")
 );
@@ -163,6 +166,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productTypes", element: <ProductTypes /> },
     { path: "dashboard/productState", element: <ProductState /> },
     { path: "dashboard/productStandard", element: <ProductStandards /> },
+    { path: "dashboard/warehouses", element: <Warehouse /> },
     { path: "dashboard/productInventories", element: <ProductInventories /> },
     { path: "dashboard/productBrand", element: <ProductBrands /> },
     { path: "dashboard/productService", element: <ProductService /> },

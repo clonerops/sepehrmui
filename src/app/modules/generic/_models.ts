@@ -21,6 +21,7 @@ export interface ICustomerValidities {
 export interface IWarehouseTypes {
     validityDesc: string
     id: number
+    isActive: boolean
 }
 export interface IWarehouse {
     name: string | null,
