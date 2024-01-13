@@ -354,6 +354,8 @@ const ProductSelectedListInModal = (props: {
         }
     };
 
+    console.log("filteredTabs", filteredTabs)
+
     if (props.productLoading) {
         return <Typography>درحال بارگزاری ...</Typography>;
     }
@@ -378,6 +380,7 @@ const ProductSelectedListInModal = (props: {
                     <MuiDataGrid
                         onDoubleClick={handleSelectionChange}
                         columns={columnsModalProduct()}
+                        // getRowId={(row: {id: string, productBrandName: string, warehouseName: string}) => row.id+row.productBrandName+row.warehouseName}
                         rows={results}
                         data={filteredTabs}
                     />

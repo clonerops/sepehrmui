@@ -55,6 +55,11 @@ const MuiDataGrid = (props: Props) => {
     //     </GridToolbar>
     //   );
 
+    const uniqueData = rows?.map((row: any, index: number) => ({ ...row, uniqueId: `${row.id}${index}` }));
+    const getRowIdFunc = (row: any) => row.uniqueId;
+
+    console.log(data)
+
     if(isLoading) {
         return <Backdrop loading={isLoading} />
     }
@@ -75,10 +80,13 @@ const MuiDataGrid = (props: Props) => {
                     },
                     overflowX: "scroll",
                 }}
-                rows={rows ? rows : []}
+                // rows={rows ? rows : []}
+                rows={uniqueData ? uniqueData : []}
                 columns={columns}
                 // getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}_${row.applicationMenuId}`}
-                getRowId={getRowId}
+                // getRowId={getRowId}
+                // getRowId={(row) => `${row.id}${row.warehouseId}${row.productBrandId}`}
+                getRowId={getRowIdFunc}
                 rowHeight={42}
                 pageSize={data?.length} // Set pageSize to the total number of rows
                 hideFooter={false} // Hide the footer

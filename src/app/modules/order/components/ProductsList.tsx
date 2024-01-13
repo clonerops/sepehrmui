@@ -382,6 +382,8 @@ const ProductsList = (props: {
 
     }, [productData.selectedTab]);
 
+    console.log("productData.filteredTabs", productData.filteredTabs)
+    console.log("results", results)
 
     if (props.productLoading) {
         return <Typography>Loading ...</Typography>;
