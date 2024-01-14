@@ -7,12 +7,11 @@ import * as Yup from 'yup'
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
-import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
 import { IWarehouse } from "./_models"
-import { useDeleteWarehouses, useGetWarehouses, usePostWarehouses, useUpdateWarehouses } from './_hooks'
+import { useDeleteWarehouses, useGetWarehouses, usePostWarehouses } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
 import Backdrop from '../../../../_cloner/components/Backdrop'
@@ -20,8 +19,8 @@ import FormikWarehouseType from '../../../../_cloner/components/FormikWarehouseT
 import EditGridButton from '../../../../_cloner/components/EditGridButton'
 import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
-import EditProductTypes from '../productType/EditProductType'
 import EditWarehouse from './EditWarehouse'
+import ConfirmDialog from '../../../../_cloner/components/ConfirmDialog'
 
 const initialValues = {
   id: 0,
@@ -30,18 +29,20 @@ const initialValues = {
 }
 
 const validation = Yup.object({
-  desc: Yup.string().required("فیلد الزامی می باشد")
+  name: Yup.string().required("فیلد الزامی می باشد"),
+  warehouseTypeId: Yup.mixed().required("فیلد الزامی می باشد")
 })
 
 const Warehouse = () => {
   const { data: Warehouses, refetch, isLoading: WarehouseLoading } = useGetWarehouses()
   const { mutate: postWarehouse } = usePostWarehouses()
-  const { mutate: updateWarehouse } = useUpdateWarehouses()
-  const { mutate: deleteWarehouse } = useDeleteWarehouses()
+  const { mutate: deleteWarehouse, isLoading: deleteLoading } = useDeleteWarehouses()
 
   const [results, setResults] = useState<IWarehouse[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [itemForEdit, setItemForEdit] = useState<IWarehouse | undefined>();
+  const [approve, setApprove] = useState<boolean>(false);
+  const [deletedId, setDeletedId] = useState<number>(0)
 
   useEffect(() => {
     setResults(Warehouses?.data);
@@ -53,6 +54,7 @@ const Warehouse = () => {
         onSuccess: (response) => {
           if (response.succeeded) {
             validateAndEnqueueSnackbar(response.message, "success")
+            setApprove(false)
           } else {
             validateAndEnqueueSnackbar(response.data.Message, "error")
           }
@@ -66,31 +68,13 @@ const Warehouse = () => {
     setItemForEdit(item);
   };
 
+  const handleOpenApprove = (id: number) => {
+    setApprove(true)
+    setDeletedId(id)
+  }
 
 
-  const onUpdateStatus = (rowData: any) => {
-    try {
-      const formData = {
-        id: rowData.row.id,
-        name: rowData.row.name,
-        warehouseTypeId: rowData.row.warehouseTypeId
-      }
-      updateWarehouse(formData, {
-        onSuccess: (response) => {
-          if(response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
-          } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
-          }
-          refetch()
-        }
-      })
-    } catch (e) {
-      return e;
-    }
-  };
-
-  const columns = (renderAction: any, renderSwitch: any) => {
+  const columns = (renderAction: any) => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
@@ -113,14 +97,6 @@ const Warehouse = () => {
         headerName: 'نوع انبار', headerClassName: "headerClassName", minWidth: 120,
         flex: 1,
       },
-      // {
-      //   field: "isActive",
-      //   headerName: "وضعیت",
-      //   renderCell: renderSwitch,
-      //   headerClassName: "headerClassName",
-      //   minWidth: 160,
-      //   flex: 1,
-      // },
       {
         field: "Action",
         headerName: "عملیات", flex: 1,
@@ -132,21 +108,11 @@ const Warehouse = () => {
     return col
   }
 
-
-  const renderSwitch = (item: any) => {
-    return (
-      <SwitchComponent
-        checked={item?.row.isActive}
-        onChange={(_) => onUpdateStatus(item)}
-      />
-    );
-  };
-
   const renderAction = (item: any) => {
     return (
       <Box component="div" className="flex gap-4">
         <EditGridButton onClick={() => handleEdit(item?.row)} />
-        <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
+        <DeleteGridButton onClick={() => handleOpenApprove(item?.row.id)} />
       </Box>
     );
   };
@@ -212,7 +178,7 @@ const Warehouse = () => {
               />
             </Box>
             <MuiDataGrid
-              columns={columns(renderAction, renderSwitch)}
+              columns={columns(renderAction)}
               rows={results}
               data={Warehouses?.data}
             />
@@ -223,7 +189,7 @@ const Warehouse = () => {
               className="hidden md:flex md:justify-center md:items-center"
             >
               <Box component="img"
-                src={toAbsoulteUrl("/media/logos/11089.jpg")}
+                src={toAbsoulteUrl("/media/logos/9085059.jpg")}
                 width={400}
               />
             </Box>
@@ -237,8 +203,17 @@ const Warehouse = () => {
         width="30%"
         title="ویرایش نوع کالا"
       >
-        <EditWarehouse id={itemForEdit?.id} />
+        <EditWarehouse id={itemForEdit?.id} refetch={refetch} setIsClose={setIsOpen} />
       </TransitionsModal>
+      <ConfirmDialog
+        open={approve}
+        hintTitle="آیا از حذف مطمئن هستید؟"
+        notConfirmText="لغو"
+        confirmText={deleteLoading ? "درحال پردازش ..." : "تایید"}
+        onCancel={() => setApprove(false)}
+        onConfirm={() => handleDelete(deletedId)}
+
+      />
 
     </>
   )

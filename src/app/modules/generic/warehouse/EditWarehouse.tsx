@@ -19,6 +19,7 @@ import EditGridButton from '../../../../_cloner/components/EditGridButton'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
 import FileUpload from '../../payment/components/FileUpload'
 import FormikWarehouseType from '../../../../_cloner/components/FormikWarehouseType'
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query'
 
 const initialValues = {
   id: 0,
@@ -29,14 +30,14 @@ const initialValues = {
 
 type Props = {
     id: any
-}
+    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
+    setIsClose: React.Dispatch<React.SetStateAction<boolean>>
+  }
 
 const EditWarehouse = (props: Props) => {
   const { mutate: updateWarehouse } = useUpdateWarehouses()
   const detailTools = useGetWarehouse(props.id)
   
-  const [files, setFiles] = useState<File[]>([]);
-
   const onUpdate = (values: any) => {
     try {
       const formData = {
@@ -49,17 +50,17 @@ const EditWarehouse = (props: Props) => {
         onSuccess: (response) => {
           if (response.succeeded) {
             validateAndEnqueueSnackbar(response.message, "success")
+            props.refetch()
+            props.setIsClose(false)
           } else {
             validateAndEnqueueSnackbar(response.data.Message, "error")
           }
         }
       })
     } catch (e) {
-      return e;
+      console.log(e)
     }
   };
-
-  console.log(detailTools?.data?.data)
 
   if (detailTools?.isLoading) {
     return <p>درحال بارگزاری...</p>;
@@ -72,7 +73,7 @@ const EditWarehouse = (props: Props) => {
             <Formik enableReinitialize initialValues={{
               ...initialValues,
               ...detailTools?.data?.data
-            }} onSubmit={() => {}}>
+            }} onSubmit={onUpdate}>
               {({ handleSubmit }) => {
                 return <Form onSubmit={handleSubmit} className='mb-4'>
                   <Box component="div" className="md:flex md:flex-col md:justify-start md:items-start gap-4 ">

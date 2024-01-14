@@ -1,39 +1,87 @@
-import { useQuery } from "@tanstack/react-query"
-import * as api from './_requests'
+import { useQuery } from "@tanstack/react-query";
+import * as api from "./_requests";
 
 const useGetSendTypes = () => {
-    return useQuery(['sendTypes'], () => api.getSendTypes())
-}
+    return useQuery(["sendTypes"], () => api.getSendTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetPaymentTypes = () => {
-    return useQuery(['paymentTypes'], () => api.getPaymentTypes())
-}
+    return useQuery(["paymentTypes"], () => api.getPaymentTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetPurchaseInvoice = () => {
-    return useQuery(['purchaseInvoice'], () => api.getPurchaseInvoice())
-}
+    return useQuery(["purchaseInvoice"], () => api.getPurchaseInvoice(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetInvoiceType = () => {
-    return useQuery(['invoiceType'], () => api.getInvoiceType())
-}
+    return useQuery(["invoiceType"], () => api.getInvoiceType(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetCustomerValidities = () => {
-    return useQuery(['customerValidities'], () => api.getCustomerValidities())
-}
+    return useQuery(["customerValidities"], () => api.getCustomerValidities(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetWarehouseTypes = () => {
-    return useQuery(['warehouseTypes'], () => api.getWarehouseTypes())
-}
+    return useQuery(["warehouseTypes"], () => api.getWarehouseTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetWarehouses = () => {
-    return useQuery(['warehouses'], () => api.getWarehouses())
-}
+    return useQuery(["warehouses"], () => api.getWarehouses(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetReceivePaymentSources = () => {
-    return useQuery(['receivePaymentSources'], () => api.getReceivePaymentSources())
-}
+    return useQuery(
+        ["receivePaymentSources"],
+        () => api.getReceivePaymentSources(),
+        {
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            refetchIntervalInBackground: false,
+        }
+    );
+};
 const useGetServices = () => {
-    return useQuery(['services'], () => api.getServices())
-}
+    return useQuery(["services"], () => api.getServices(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetProductTypes = () => {
-    return useQuery(['productTypes'], () => api.getProductTypes())
-}
+    return useQuery(["productTypes"], () => api.getProductTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetVehicleTypes = () => {
-    return useQuery(['vehicleTypes'], () => api.getVehicleTypes())
-}
+    return useQuery(["vehicleTypes"], () => api.getVehicleTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 
 export {
     useGetSendTypes,
@@ -46,5 +94,5 @@ export {
     useGetReceivePaymentSources,
     useGetServices,
     useGetProductTypes,
-    useGetVehicleTypes
-}
+    useGetVehicleTypes,
+};
