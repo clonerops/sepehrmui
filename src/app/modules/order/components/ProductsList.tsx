@@ -14,6 +14,7 @@ import { calculateTotalAmount } from "../helpers/functions";
 import { useGetUnits } from "../../generic/productUnit/_hooks";
 import { IOrderService } from "../core/_models";
 import MaskInput from "../../../../_cloner/components/MaskInput";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const ProductsList = (props: {
     products: IProducts[];
@@ -382,11 +383,10 @@ const ProductsList = (props: {
 
     }, [productData.selectedTab]);
 
-    console.log("productData.filteredTabs", productData.filteredTabs)
-    console.log("results", results)
+
 
     if (props.productLoading) {
-        return <Typography>Loading ...</Typography>;
+        return <Backdrop loading={props.productLoading} />;
     }
 
     return (
@@ -409,6 +409,7 @@ const ProductsList = (props: {
                     <MuiDataGrid
                         onDoubleClick={handleSelectionChange}
                         columns={columnsModalProduct()}
+                        isLoading={filterTools.isLoading}
                         rows={results}
                         data={productData.filteredTabs}
                     />

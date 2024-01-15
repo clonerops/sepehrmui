@@ -17,7 +17,7 @@ type Props = {
 };
 
 const MuiDataGrid = (props: Props) => {
-    const { columns, rows, getRowId, isLoading, data, width, maxVisibleRows = 12, customRowStyle, onDoubleClick, onCellEditCommit  } = props;
+    const { columns, rows, isLoading, data, width, maxVisibleRows = 12, customRowStyle, onDoubleClick, onCellEditCommit  } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
@@ -42,26 +42,12 @@ const MuiDataGrid = (props: Props) => {
     }, [])
 
 
-    // const CustomPagination = () => (
-    //     <GridToolbar>
-    //       <Box>
-    //         <span>Your Custom Rows Per Page Label: </span>
-    //         <select>
-    //           <option value={10}>10</option>
-    //           <option value={20}>20</option>
-    //           <option value={30}>30</option>
-    //         </select>
-    //       </Box>
-    //     </GridToolbar>
-    //   );
-
     const uniqueData = rows?.map((row: any, index: number) => ({ ...row, uniqueId: `${row.id}${index}` }));
     const getRowIdFunc = (row: any) => row.uniqueId;
 
-
-    if(isLoading) {
-        return <Backdrop loading={isLoading} />
-    }
+    // if(isLoading) {
+    //     return <Backdrop loading={isLoading} />
+    // }
 
     return (
         <Box sx={{ width: width }}>
@@ -79,20 +65,15 @@ const MuiDataGrid = (props: Props) => {
                     },
                     overflowX: "scroll",
                 }}
-                // rows={rows ? rows : []}
                 rows={uniqueData ? uniqueData : []}
                 columns={columns}
-                // getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}_${row.applicationMenuId}`}
-                // getRowId={getRowId}
-                // getRowId={(row) => `${row.id}${row.warehouseId}${row.productBrandId}`}
                 getRowId={getRowIdFunc}
                 rowHeight={42}
-                pageSize={data?.length} // Set pageSize to the total number of rows
-                hideFooter={false} // Hide the footer
-                // autoPageSize={false}
+                pageSize={data?.length}
+                hideFooter={false} 
                 onRowDoubleClick={onDoubleClick}
                 getRowClassName={getRowClassName}
-                // hideFooter={true}
+                loading={isLoading}
                 columnHeaderHeight={32}
                 onCellEditCommit={onCellEditCommit}
                 localeText={{
@@ -102,12 +83,7 @@ const MuiDataGrid = (props: Props) => {
                         
                     },
                   }}
-                
-                // components={{
-                //     Pagination: CustomPagination,
-                //   }}
-                // disableVirtualization={false}
-                style={{ height: gridHeight, maxHeight: gridHeight, overflow: "hidden" }} // Set a max height and allow scrolling
+                style={{ height: gridHeight, maxHeight: gridHeight, overflow: "hidden" }}
             />
         </Box>
     );
