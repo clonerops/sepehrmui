@@ -38,7 +38,7 @@ export const DownloadFilePNG = (base64Data: string, outputFilename: string) => {
 export const DownloadFileJPG = (base64Data: string, outputFilename: string) => {
   try {
     // Convert base64 data to a Blob
-    const byteCharacters = atob(base64Data);
+    const byteCharacters: any = atob(base64Data);
     const byteArrays = [];
     for (let i = 0; i < byteCharacters.length; i++) {
       byteArrays.push(byteCharacters.charCodeAt(i));

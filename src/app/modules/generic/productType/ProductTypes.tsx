@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
 import * as Yup from 'yup'
@@ -18,8 +18,8 @@ import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import EditGridButton from '../../../../_cloner/components/EditGridButton'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
-import EditProductTypes from './EditProductType'
 import Backdrop from '../../../../_cloner/components/Backdrop'
+import ProductTypeForm from './ProductTypeForm'
 
 const initialValues = {
   id: 0,
@@ -38,7 +38,9 @@ const ProductTypes = () => {
 
   const [results, setResults] = useState<IType[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
   const [itemForEdit, setItemForEdit] = useState<IType | undefined>();
+
 
   useEffect(() => {
     setResults(types?.data);
@@ -69,6 +71,7 @@ const ProductTypes = () => {
       const formData = {
         id: rowData.row.id,
         desc: rowData.row.desc,
+        image: rowData.row.image,
         isActive: !rowData.row.isActive
       }
       updateType(formData, {
@@ -146,28 +149,9 @@ const ProductTypes = () => {
     <>
       <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
-          <Box component="div">
-            <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
+          <Box component="div" className=''>
+            {/* <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
-                try {
-                  const formData = {
-                    desc: values.desc
-                  }
-                  postType(formData, {
-                    onSuccess: (response) => {
-                      if (response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message, "success")
-                        setFieldValue('id', response.data.id)
-                        refetch();
-                      } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
-                      }
-                    }
-                  })
-                } catch (error) {
-                  setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
-                  setSubmitting(false);
-                }
               }
             }>
               {({ handleSubmit }) => {
@@ -185,17 +169,22 @@ const ProductTypes = () => {
                   </Box>
                 </Form>
               }}
-            </Formik>
-            <Box component="div" className='mb-4'>
-              <FuzzySearch
-                keys={[
-                  "id",
-                  "desc",
-                ]}
-                data={types?.data}
-                threshold={0.5}
-                setResults={setResults}
-              />
+            </Formik> */}
+            <Box className="md:flex md:justify-between md:items-center gap-x-4 space-y-2 mb-4">
+              <Box component="div" className=''>
+                <FuzzySearch
+                  keys={[
+                    "id",
+                    "desc",
+                  ]}
+                  data={types?.data}
+                  threshold={0.5}
+                  setResults={setResults}
+                />
+              </Box>
+              <Button onClick={() => setIsCreateOpen(true)} variant="contained" color="secondary">
+                  <Typography variant="h4">ایجاد نوع کالا</Typography >
+              </Button>
             </Box>
             <MuiDataGrid
               columns={columns(renderAction, renderSwitch)}
@@ -217,12 +206,24 @@ const ProductTypes = () => {
         </Box>
       </ReusableCard>
       <TransitionsModal
+                open={isCreateOpen}
+                isClose={() => setIsCreateOpen(false)}
+                title="ایجاد نوع کالا جدید"
+                width="50%"
+                description="برای ایجاد نوع کالا جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
+            >
+                <ProductTypeForm
+                    refetch={refetch}
+                    setIsCreateOpen={setIsCreateOpen}
+                />
+            </TransitionsModal>
+      <TransitionsModal
         open={isOpen}
         isClose={() => setIsOpen(false)}
-        width="30%"
+        width="50%"
         title="ویرایش نوع کالا"
       >
-        <EditProductTypes id={itemForEdit?.id} />
+        <ProductTypeForm id={itemForEdit?.id} refetch={refetch} />
       </TransitionsModal>
     </>
   )

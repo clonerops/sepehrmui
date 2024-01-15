@@ -17,8 +17,11 @@ const usePostTypes = () => {
 }
 
 
-const useGetType = (id: string) => {
-    return useQuery(['types', id], () => api.getType(id))
+const useGetType = () => {
+    // return useQuery(['types', id], () => api.getType(id))
+    return useMutation((id: string) => {
+        return api.getType(id)
+    })
 }
 
 const useUpdateTypes = () => {
