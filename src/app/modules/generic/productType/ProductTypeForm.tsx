@@ -64,12 +64,13 @@ const ProductTypeForm = (props: Props) => {
 
 
   const onUpdate = (rowData: any) => {
+    console.log(rowData)
     try {
       const formData = {
-        id: rowData.row.id,
-        desc: rowData.row.desc,
-        image: rowData.row.image,
-        isActive: !rowData.row.isActive
+        id: rowData.id,
+        desc: rowData.desc,
+        image: rowData.image,
+        isActive: !rowData.isActive
       }
       updateType(formData, {
         onSuccess: (response) => {

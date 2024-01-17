@@ -17,7 +17,7 @@ const FormikCompany = (props: any) => {
 
     return (
         <FormikSelect
-            options={dropdownCustomerCompanies(customerCompanies?.data?.length > 0 ? customerCompanies?.data : [])}
+            options={dropdownCustomerCompanies(customerCompanies?.data?.length > 0 ? customerCompanies?.data.filter((item: {isActive: boolean}) => item.isActive) : [])}
             {...props} />
     )
 }

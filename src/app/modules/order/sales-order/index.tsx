@@ -204,7 +204,6 @@ const SalesOrder = () => {
                                     values={values}
                                     postSaleOrder={postSaleOrder}
                                     products={products}
-                                    productLoading={products.isLoading}
                                     orders={orders}
                                     setOrders={setOrders}
                                     orderPayment={orderPayment}

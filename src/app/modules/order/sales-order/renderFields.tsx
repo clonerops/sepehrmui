@@ -115,7 +115,6 @@ const orderDetailParseFields = (
         isProductChoose: boolean;
     }>>,    
     products: any,
-    productLoading: boolean,
     changeWarehouseFunction: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
     changeProductFunction: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
     handleOrder: (values: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => void,
@@ -143,7 +142,7 @@ const orderDetailParseFields = (
                         <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='99%' isClose={() => setState((prev) => ({...prev, isProductChoose: false}))}>
                                 <ProductsList
                                     products={products?.data?.data}
-                                    productLoading={productLoading}
+                                    productLoading={products.isLoading}
                                     productError={products.isError}
                                     setState={setState}
                                     setFieldValue={setFieldValue}

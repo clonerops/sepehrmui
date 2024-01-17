@@ -354,7 +354,6 @@ const ProductSelectedListInModal = (props: {
         }
     };
 
-    console.log("filteredTabs", filteredTabs)
 
     if (props.productLoading) {
         return <Typography>درحال بارگزاری ...</Typography>;
