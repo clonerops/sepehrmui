@@ -412,6 +412,7 @@ const ProductsList = (props: {
                         isLoading={filterTools.isLoading}
                         rows={results}
                         data={productData.filteredTabs}
+                        height={400}
                     />
                 </Box>
                 <Box component="div">

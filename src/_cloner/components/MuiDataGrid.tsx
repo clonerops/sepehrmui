@@ -10,6 +10,7 @@ type Props = {
     onCellEditCommit?: any;
     data: any;
     width?: number;
+    height?: number;
     maxVisibleRows?: number;
     customRowStyle?: boolean;
     isLoading?: boolean;
@@ -17,7 +18,7 @@ type Props = {
 };
 
 const MuiDataGrid = (props: Props) => {
-    const { columns, rows, isLoading, data, width, maxVisibleRows = 12, customRowStyle, onDoubleClick, onCellEditCommit  } = props;
+    const { columns, rows, isLoading, data, width, height, maxVisibleRows = 12, customRowStyle, onDoubleClick, onCellEditCommit  } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
@@ -83,7 +84,7 @@ const MuiDataGrid = (props: Props) => {
                         
                     },
                   }}
-                style={{ height: gridHeight, maxHeight: gridHeight, overflow: "hidden" }}
+                style={{ height: height ? height : gridHeight, maxHeight: gridHeight, overflow: "hidden" }}
             />
         </Box>
     );
