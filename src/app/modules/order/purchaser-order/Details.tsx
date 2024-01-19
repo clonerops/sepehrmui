@@ -1,16 +1,18 @@
 import { useParams } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { useRetrieveOrder } from "./core/_hooks";
 import { AttachMoney, CheckBox, ConfirmationNumber, Description, ExitToApp, LocalShipping, Newspaper, Person } from "@mui/icons-material";
-import CardTitleValue from "../../../_cloner/components/CardTitleValue";
-import MuiTable from "../../../_cloner/components/MuiTable";
-import { Form, Formik } from "formik";
-import Backdrop from "../../../_cloner/components/Backdrop";
+import { Formik } from "formik";
 import moment from "moment-jalaali";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
-import ImagePreview from "../../../_cloner/components/ImagePreview";
-import { useRetrieveCargos } from "../logestic/core/_hooks";
+
+import Backdrop from "../../../../_cloner/components/Backdrop";
+import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
+import MuiTable from "../../../../_cloner/components/MuiTable";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import ImagePreview from "../../../../_cloner/components/ImagePreview";
+
+import { useRetrieveOrder } from "../core/_hooks";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+
 
 type Props = {
     isCargo?: boolean
@@ -28,10 +30,10 @@ const initialValues = {
     invoiceTypeCheck: false
 }
 
-const OrderDetail = (props: Props) => {
+const SalesOrderDetail = (props: Props) => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
-    const cargosList = useRetrieveCargos(id)
+    // const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
@@ -102,17 +104,17 @@ const OrderDetail = (props: Props) => {
             {/* <ReusableTab /> */}
             <Formik initialValues={initialValues} onSubmit={() => { }}>
                 {({ }) => {
-                    return <Form>
+                    return <>
                         <Box component="div" className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-4"} gap-4 my-4`}>
                             {renderOrderInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
                                 value: any
-                            }) => {
-                                return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
+                            }, index) => {
+                                return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                             })}
                             {!props.isCargo &&
-                                <CardTitleValue className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                                <CardTitleValue key={renderOrderInfo.length + 1} className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                             }
                         </Box>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
@@ -144,11 +146,11 @@ const OrderDetail = (props: Props) => {
                             <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
                             <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
                         </ReusableCard> */}
-                    </Form>
+                    </>
                 }}
             </Formik>
         </>
     )
 }
 
-export default OrderDetail
+export default SalesOrderDetail

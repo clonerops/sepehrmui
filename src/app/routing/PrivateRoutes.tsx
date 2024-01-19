@@ -1,12 +1,8 @@
 import React, { Suspense } from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
-import Backdrop from "../../_cloner/components/Backdrop";
 import ReadyToExit from "../modules/logestic/exit/ReadyToExit";
-import LazyLoad from "../../_cloner/components/LazyLoad";
 import Permissions from "../modules/access/permissions/Permissions";
-import NotAcceess from "../../_cloner/components/NotAcceess";
-import AccessDenied from "./AccessDenied";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -34,8 +30,8 @@ const PaymentAccounting = React.lazy(
     () => import("../modules/payment/PaymentAccounting")
 );
 const Detail = React.lazy(() => import("../modules/payment/components/Detail"));
-const Order = React.lazy(() => import("../modules/order/Order"));
 const SalesOrder = React.lazy(() => import("../modules/order/sales-order"));
+const PurchaserOrder = React.lazy(() => import("../modules/order/purchaser-order"));
 const SalesOrderList = React.lazy(
     () => import("../modules/order/sales-order/Lists")
 );
@@ -51,8 +47,6 @@ const SalesOrderConfirm = React.lazy(
 const ReadyToSalesOrderConfirm = React.lazy(
     () => import("../modules/order/sales-order/ReadyToConfirm")
 );
-const OrderList = React.lazy(() => import("../modules/order/OrderList"));
-const OrderConfirm = React.lazy(() => import("../modules/order/OrderConfirm"));
 const Dashboard = React.lazy(() => import("../modules/Dashboard"));
 const DynamicBreadcrumbs = React.lazy(
     () => import("../../_cloner/components/Breadcumbs")
@@ -83,15 +77,11 @@ const RoleUser = React.lazy(
 const ProductInventories = React.lazy(
     () => import("../modules/product/ProductInventories")
 );
-const OrderDetail = React.lazy(() => import("../modules/order/OrderDetail"));
 const ProductForm = React.lazy(
     () => import("../modules/product/components/ProductForm")
 );
 const ProductService = React.lazy(
     () => import("../modules/generic/productService/ProductService")
-);
-const OrderConfirmList = React.lazy(
-    () => import("../modules/order/OrderConfirmList")
 );
 const CargoPaper = React.lazy(
     () => import("../modules/logestic/cargo/CargoPaper")
@@ -108,7 +98,6 @@ const LadingList = React.lazy(
 const ReadyToLading = React.lazy(
     () => import("../modules/logestic/lading/ReadyToLading")
 );
-const OrderUpdate = React.lazy(() => import("../modules/order/OrderUpdate"));
 const ExitRemittance = React.lazy(
     () => import("../modules/logestic/exit/ExitRemittance")
 );
@@ -125,8 +114,8 @@ const RoleGroups = React.lazy(() => import("../modules/access/groups/Groups"));
 export const routes: RouteProps[] = [
     { path: "auth/*", element: <Navigate to="/dashboard" /> },
     { path: "dashboard", element: <Dashboard /> },
-    { path: "dashboard/order", element: <Order /> },
     { path: "dashboard/sales-order", element: <SalesOrder /> },
+    { path: "dashboard/purchaser-order", element: <PurchaserOrder /> },
     { path: "dashboard/sales-order/lists", element: <SalesOrderList /> },
     { path: "dashboard/sales-order/lists/:id", element: <SalesOrderDetail /> },
     {
@@ -138,11 +127,6 @@ export const routes: RouteProps[] = [
         element: <ReadyToSalesOrderConfirm />,
     },
     { path: "dashboard/sales-order/edit", element: <SalesOrderEdit /> },
-    { path: "dashboard/orderUpdate", element: <OrderUpdate /> },
-    { path: "dashboard/orderList", element: <OrderList /> },
-    { path: "dashboard/approveOrderList", element: <OrderConfirmList /> },
-    { path: "dashboard/orderList/:id", element: <OrderDetail /> },
-    { path: "dashboard/approveOrderList/:id", element: <OrderConfirm /> },
     { path: "dashboard/customers", element: <Customer /> },
     { path: "dashboard/products", element: <Products /> },
     { path: "dashboard/suppliers", element: <Suppliers /> },

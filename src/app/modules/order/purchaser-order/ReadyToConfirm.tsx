@@ -1,26 +1,20 @@
 import { useState, useEffect } from "react";
-import { useRetrieveOrders, useRetrieveOrdersByMutation } from "./core/_hooks";
 import { Link } from "react-router-dom";
-import { IOrder } from "./core/_models";
-import { Box, Button, Typography } from "@mui/material";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { orderColumns } from "./helpers/columns";
-import { Form, Formik } from "formik";
-import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
+import { Formik } from "formik";
+import {Button, Typography, Box} from '@mui/material'
 
-const OrderConfirmList = () => {
+import { IOrder } from "../core/_models";
+import { useRetrieveOrdersByMutation } from "../core/_hooks";
+import {  salesOrderConfirmColumns } from "../components/columns";
 
-    const [filterData, setFilterData] = useState<{
-        pageNumber?: number;
-        pageSize?: number;
-        InvoiceTypeId: number[];
-        OrderStatusId?: number    
-    }>({
-        InvoiceTypeId: [1, 2],   
-    })
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 
+
+const ReadyToSalesOrderConfirm = () => {
+    
     const { mutate, data: orders, isLoading } = useRetrieveOrdersByMutation();
     const [results, setResults] = useState<IOrder[]>([]);
 
@@ -40,7 +34,7 @@ const OrderConfirmList = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`${item.row.orderStatusId !== 2 ? `/dashboard/approveOrderList/${item?.row?.id}` : ""}`}
+                to={`${item.row.orderStatusId !== 2 ? `/dashboard/sales-order/ready-to-confirm/${item?.row?.id}` : ""}`}
                 state={{ isConfirmed: true }}
             >
                 <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId === 2}> 
@@ -101,15 +95,15 @@ const OrderConfirmList = () => {
                     />
                 </Box>
                 <Formik initialValues={{ statusId: -1 }} onSubmit={() => { }}>
-                    {({ values }) => {
-                        return <Form>
+                    {({ }) => {
+                        return <>
                             <FormikRadioGroup onChange={handleFilterBasedofStatus} radioData={allOption} name="statusId" />
-                        </Form>
+                        </>
                     }}
                 </Formik>
             </Box>
             <MuiDataGrid
-                columns={orderColumns(renderAction)}
+                columns={salesOrderConfirmColumns(renderAction)}
                 rows={results}
                 data={orders?.data}
                 isLoading={isLoading}
@@ -118,4 +112,4 @@ const OrderConfirmList = () => {
     );
 };
 
-export default OrderConfirmList;
+export default ReadyToSalesOrderConfirm;

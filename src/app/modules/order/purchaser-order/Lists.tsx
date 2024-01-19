@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
-import { useRetrieveOrders } from "./core/_hooks";
+import { Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { IOrder } from "./core/_models";
-import { Box, Typography } from "@mui/material";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import {
-    Visibility,
-} from "@mui/icons-material";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { orderColumns } from "./helpers/columns";
-import Pagination from "../../../_cloner/components/Pagination";
-import Backdrop from "../../../_cloner/components/Backdrop";
+import {Box} from '@mui/material'
+
+import { useRetrieveOrders } from "../core/_hooks";
+import { IOrder } from "../core/_models";
+import { orderColumns } from "../helpers/columns";
+
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import Pagination from "../../../../_cloner/components/Pagination";
 
 const pageSize = 20
 
-const OrderList = () => {
+const SalesOrderList = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     let formData = {
@@ -35,7 +34,7 @@ const OrderList = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/orderList/${item?.row?.id}`}
+                to={`/dashboard/sales-order/lists/${item?.row?.id}`}
                 state={{ isConfirmed: false }}
             >
                 <Visibility color="secondary" />
@@ -74,9 +73,9 @@ const OrderList = () => {
                 data={orders?.data}
                 isLoading={isLoading}
             />
-            <Pagination pageCount={orders?.totalCount / pageSize} onPageChange={handlePageChange} />
+            <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
         </ReusableCard>
     );
 };
 
-export default OrderList;
+export default SalesOrderList;

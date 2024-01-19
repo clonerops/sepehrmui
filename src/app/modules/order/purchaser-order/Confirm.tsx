@@ -1,29 +1,30 @@
 import { useParams } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { useApproveInvoiceType, useRetrieveOrder } from "./core/_hooks";
+import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
+import FormikSelect from "../../../../_cloner/components/FormikSelect";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import { dropdownCustomerCompanies, dropdownInvoiceType } from "../helpers/dropdowns";
+import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import { Description, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
-import CardTitleValue from "../../../_cloner/components/CardTitleValue";
-import MuiTable from "../../../_cloner/components/MuiTable";
-import { orderFieldsConfirm } from "./helpers/fields";
-import FormikPrice from "../product/components/FormikPrice";
-import FormikInput from "../../../_cloner/components/FormikInput";
-import { dropdownProductByInventory } from "../generic/_functions";
-import { dropdownCustomerCompanies, dropdownInvoiceType } from "./helpers/dropdowns";
-import FormikProductComboSelect from "./components/FormikProductComboSelect";
-import FormikSelect from "../../../_cloner/components/FormikSelect";
-import { FieldType } from "../../../_cloner/components/globalTypes";
-import { useRetrieveProductsByBrand } from "../product/core/_hooks";
-import { Form, Formik } from "formik";
-import FileUpload from "../payment/components/FileUpload";
-import FormikCheckbox from "../../../_cloner/components/FormikCheckbox";
-import { useGetInvoiceType } from "../generic/_hooks";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64";
-import { enqueueSnackbar } from "notistack";
-import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
-import { useGetCustomerCompaniesMutate } from "../generic/customerCompany/_hooks";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import FileUpload from "../../payment/components/FileUpload";
+import MuiTable from "../../../../_cloner/components/MuiTable";
+import { Formik } from "formik";
+import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
+import { orderFieldsConfirm } from "../helpers/fields";
+import Backdrop from "../../../../_cloner/components/Backdrop";
+import FormikPrice from "../../product/components/FormikPrice";
+import { dropdownProductByInventory } from "../../generic/_functions";
+import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
+import { useApproveInvoiceType, useRetrieveOrder } from "../core/_hooks";
+import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
+import { useGetInvoiceType } from "../../generic/_hooks";
+import { useGetCustomerCompaniesMutate } from "../../generic/customerCompany/_hooks";
+import { FieldType } from "../../../../_cloner/components/globalTypes";
+import { validateAndEnqueueSnackbar } from "./functions";
+import FormikProduct from "../components/FormikProductComboSelect";
+import { saleOrderFieldConfirm } from "./fields";
 
 const initialValues = {
     productName: "",
@@ -37,7 +38,7 @@ const initialValues = {
     customerCompanyCheck: false
 }
 
-const OrderConfirm = () => {
+const SalesOrderConfirm = () => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
     const { data: productsByBrand, } = useRetrieveProductsByBrand();
@@ -81,18 +82,22 @@ const OrderConfirm = () => {
 
     const orderOrderColumnReplace = [
         { id: 5, header: "کالا رسمی", accessor: "productName" },
-        { id: 6, header: "مقدار", accessor: "proximateAmount" },
-        { id: 7, header: "قیمت", accessor: "price" }
+        { id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
+           return params.alternativeProductAmount === 0 ? params.proximateAmount : params.alternativeProductAmount
+        }},
+        { id: 7, header: "قیمت", accessor: "price", render: (params: any) => {
+          return params.alternativeProductPrice === 0 ? params.price : params.alternativeProductPrice
+        } }
 
     ]
 
-    const orderParseFields = (fields: FieldType, values: any, setFieldValue: any, resetForm: any) => {
+    const orderParseFields = (fields: FieldType, values: any, setFieldValue: any, resetForm: any, index: number) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "product":
                 return (
-                    <Box component="div" className="flex gap-x-2 w-full">
-                        <FormikProductComboSelect
+                    <Box key={index} component="div" className="flex gap-x-2 w-full">
+                        <FormikProduct
                             disabled={!values.productName}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
                             options={dropdownProductByInventory(productsByBrand?.data)}
@@ -101,21 +106,21 @@ const OrderConfirm = () => {
                     </Box>
                 );
             case "price":
-                return <FormikPrice disabled={!values.productName} {...rest} />;
+                return <FormikPrice key={index} disabled={!values.productName} {...rest} />;
             case "input":
-                return <FormikInput disabled={!values.productName} {...rest} />;
+                return <FormikInput key={index} disabled={!values.productName} {...rest} />;
             case "disabled":
-                return <FormikInput disabled={true}  {...rest} />;
+                return <FormikInput key={index} disabled={true}  {...rest} />;
             case "hidden":
-                return <Button className="!invisible">
+                return <Button key={index} className="!invisible">
                     <PublishedWithChanges />
                 </Button>
             case "add":
-                return <Button onClick={() => handleReplace(values, setFieldValue, resetForm)} className="!bg-[#fcc615]">
+                return <Button key={index}  onClick={() => handleReplace(values, setFieldValue, resetForm)} className="!bg-[#fcc615]">
                     <PublishedWithChanges />
                 </Button>
             default:
-                return <FormikInput {...rest} />;
+                return <FormikInput key={index} {...rest} />;
         }
     };
 
@@ -130,6 +135,7 @@ const OrderConfirm = () => {
         setFieldValue("productName", params.productName)
         setFieldValue("proximateAmount", params.proximateAmount)
         setFieldValue("productPrice", params.price)
+        // setFieldValue("productPrice", params.price)
 
         setSelectedRow(rowIndex)
 
@@ -141,6 +147,7 @@ const OrderConfirm = () => {
             updatedData[selectedRow] = {
                 ...updatedData[selectedRow],
                 productName: values.productNameReplace.label,
+                alternativeProductName: values.productNameReplace.label,
                 alternativeProductId: values.productNameReplace.value,
                 alternativeProductAmount: +values.proximateAmountReplace,
                 alternativeProductPrice: +values.productPriceReplace.replace(/,/g, ""),
@@ -180,17 +187,11 @@ const OrderConfirm = () => {
             onSuccess: (message) => {
                 if (message.succeeded) {
                     setApprove(false)
-                    enqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", {
-                        variant: `${statusId === 2 ? "success" : "warning"}`,
-                        anchorOrigin: { vertical: "top", horizontal: "center" }
-                    })
+                    validateAndEnqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", "info")
+                    
                 }
                 if (!message?.data?.Succeeded) {
-                    enqueueSnackbar(message.data.Message, {
-                        variant: `error`,
-                        anchorOrigin: { vertical: "top", horizontal: "center" }
-                    })
-
+                    validateAndEnqueueSnackbar( message.data.Message , "error")
                 }
             },
 
@@ -209,29 +210,31 @@ const OrderConfirm = () => {
             }
             } onSubmit={(_) => handleConfirmOrder(_, 0)}>
                 {({ values, setFieldValue, resetForm }) => {
-                    return <Form>
+                    return <>
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
                             {orderAndAmountInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
                                 value: any
-                            }) => {
-                                return <CardTitleValue title={item.title} value={item.value} icon={item.icon} />
+                            }, index) => {
+                                return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                             })}
-                            <CardTitleValue className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                            <CardTitleValue key={orderAndAmountInfo.length + 1} className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                         </Box>
                         <ReusableCard cardClassName="my-4">
-                            {orderFieldsConfirm.map((rowFields) => (
+                            {saleOrderFieldConfirm.map((rowFields, index) => (
                                 <Box
+                                    key={index}
                                     component="div"
                                     className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                                 >
-                                    {rowFields.map((field) =>
+                                    {rowFields.map((field, index) =>
                                         orderParseFields(
                                             field,
                                             values,
                                             setFieldValue,
-                                            resetForm
+                                            resetForm,
+                                            index
                                         )
                                     )}
                                 </Box>
@@ -307,11 +310,11 @@ const OrderConfirm = () => {
                             onCancel={() => setApprove(false)}
                             onConfirm={() => handleConfirmOrder(values, 2)}
                         />
-                    </Form>
+                    </>
                 }}
             </Formik>
         </>
     )
 }
 
-export default OrderConfirm
+export default SalesOrderConfirm
