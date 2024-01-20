@@ -14,7 +14,7 @@ import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import { IStandard } from "./_models"
 import { useGetStandards, usePostStandards, useUpdateStandards } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
@@ -47,9 +47,9 @@ const ProductStandards = () => {
       updateStandard(formData, {
         onSuccess: (response) => {
           if(response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
+            EnqueueSnackbar(response.message, "success")
           } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
+            EnqueueSnackbar(response.data.Message, "error")
           }
           refetch()
         }
@@ -116,11 +116,11 @@ const ProductStandards = () => {
                   postStandard(formData, {
                     onSuccess: (response: any) => {
                       if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message, "success")
+                        EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
                         refetch();
                       } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        EnqueueSnackbar(response.data.Message, "warning")
                       }                        
                     }
                   })

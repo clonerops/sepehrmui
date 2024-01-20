@@ -6,7 +6,7 @@ import FormikInput from "../../../../_cloner/components/FormikInput";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { IUser } from "../core/_models";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 import { useEffect } from "react";
 
@@ -109,11 +109,11 @@ const UserForm = (props: Props) => {
             mutate(formData, {
                 onSuccess: (message) => {
                     if(message?.succeeded) {
-                        validateAndEnqueueSnackbar(message?.message, "success")
+                        EnqueueSnackbar(message?.message, "success")
                        if(refetchUser) refetchUser()
                         onClose()
                     } else {
-                        validateAndEnqueueSnackbar(message?.data.Message, "error")
+                        EnqueueSnackbar(message?.data.Message, "error")
                     }
                 },
             });
@@ -137,11 +137,11 @@ const UserForm = (props: Props) => {
             updateTools.mutate(formData, {
                 onSuccess: (message) => {
                     if(message?.succeeded) {
-                        validateAndEnqueueSnackbar("ویرایش با موفقیت انجام شد.", "success")
+                        EnqueueSnackbar("ویرایش با موفقیت انجام شد.", "success")
                        if(refetchUser) refetchUser()
                         onClose()
                     } else {
-                        validateAndEnqueueSnackbar(message?.data.Message, "error")
+                        EnqueueSnackbar(message?.data.Message, "error")
                     }
                 },
             });

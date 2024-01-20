@@ -12,7 +12,7 @@ import { customerType } from "../helpers/customerType";
 import { convertValueLabelCustomerValidaty } from "../helpers/convertValueLabel";
 import { useGetCustomerValidities } from "../../generic/_hooks";
 import { createValiadtion } from '../validation/validation';
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions';
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar';
 
 const initialValues = {
     firstName: "",
@@ -47,10 +47,10 @@ const CreateCustomer = (props: {
                         mutate(values, {
                             onSuccess: (response) => {
                                 if(response.succeeded) {
-                                    validateAndEnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
+                                    EnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
                                     props.refetch()
                                   } else {
-                                    validateAndEnqueueSnackbar(response.data.Message, "warning")
+                                    EnqueueSnackbar(response.data.Message, "warning")
                                   }
                             }
                         });

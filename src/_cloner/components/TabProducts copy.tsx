@@ -11,7 +11,7 @@ import { useRetrieveProductsByBrand } from "../../app/modules/product/core/_hook
 import { IProducts } from "../../app/modules/product/core/_models";
 import FuzzySearch from "../helpers/Fuse";
 import MuiDataGrid from "./MuiDataGrid";
-import { columnsModalProduct } from "../../app/modules/order/helpers/columns";
+import { columnsModalProduct } from "../../app/modules/managment-order/helpers/columns";
 
 interface TabPanelProps {
     children?: ReactNode;

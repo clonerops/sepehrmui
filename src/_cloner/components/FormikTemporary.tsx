@@ -1,8 +1,8 @@
 import FormikSelect from './FormikSelect'
 
-import { dropdownTemporaryType } from '../../app/modules/order/helpers/dropdowns';
+import { dropdownTemporaryType } from '../../app/modules/managment-order/helpers/dropdowns';
 
-import { temporary } from '../../app/modules/order/helpers/fakeData';
+import { temporary } from '../../app/modules/managment-order/helpers/fakeData';
 
 const FormikTemporary = (props: any) => {
 

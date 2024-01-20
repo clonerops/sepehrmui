@@ -2,7 +2,7 @@ import { Box, Button, Typography } from "@mui/material"
 import CustomizedAccordions from "../../../../_cloner/components/Accordion"
 import { Link } from "react-router-dom"
 import { useDeleteApplicationRoles, useGetApplicationRoles } from "./_hooks"
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 import GroupEditForm from "./GroupEditForm"
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog"
 import { useState } from "react"
@@ -22,11 +22,11 @@ const RoleGroups = () => {
     deleteGroup.mutate(id, {
       onSuccess: (message: any) => {
         if (message.succeeded) {
-          validateAndEnqueueSnackbar("گروه با موفقیت حذف گردید.", "info")
+          EnqueueSnackbar("گروه با موفقیت حذف گردید.", "info")
           groups.refetch();
           setApprove(false)
         } else {
-          validateAndEnqueueSnackbar(message?.data?.Message, "warning")
+          EnqueueSnackbar(message?.data?.Message, "warning")
           setApprove(false)
         }
       },

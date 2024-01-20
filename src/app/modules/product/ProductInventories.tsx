@@ -17,7 +17,7 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
 import { exportProductPrices } from "./core/_requests";
-import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
 const ProductInventories = () => {
     const { refetch, data: productPrice, isLoading: productPriceLoading } = useRetrieveProductPrice(null);
@@ -41,10 +41,10 @@ const ProductInventories = () => {
             deleteMutate(id, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
                         refetch();
                       } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                        EnqueueSnackbar(response.data.Message, "error")
                       }
                 },
             });

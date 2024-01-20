@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import { IType } from "./_models"
 import { useDeleteTypes, useGetTypes, usePostTypes, useUpdateTypes } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
@@ -52,9 +52,9 @@ const ProductTypes = () => {
       deleteType(id, {
         onSuccess: (response) => {
           if (response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
+            EnqueueSnackbar(response.message, "success")
           } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
+            EnqueueSnackbar(response.data.Message, "error")
           }
           refetch();
         },
@@ -77,9 +77,9 @@ const ProductTypes = () => {
       updateType(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
+            EnqueueSnackbar(response.message, "success")
           } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
+            EnqueueSnackbar(response.data.Message, "error")
           }
           refetch()
         }

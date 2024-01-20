@@ -6,9 +6,7 @@ import moment from 'moment-jalaali'
 import { usePostRecievePayment } from './core/_hooks'
 import { dropdownReceivePaymentResource } from './helpers/dropdownConvert'
 import { useGetCustomers } from '../customer/core/_hooks'
-import { dropdownCustomer } from '../order/helpers/dropdowns'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
-import { validateAndEnqueueSnackbar } from '../order/sales-order/functions'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 
 import FileUpload from './components/FileUpload'
@@ -17,6 +15,8 @@ import FormikInput from '../../../_cloner/components/FormikInput'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import FormikPrice from '../product/components/FormikPrice'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { dropdownCustomer } from '../generic/_functions'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -72,9 +72,9 @@ const RecievePayment = () => {
                                 onSuccess: (response) => {
                                     if (response?.succeeded) {
                                         setTrachingCode(response?.data?.receivePayCode)
-                                        validateAndEnqueueSnackbar(response.message, "success")
+                                        EnqueueSnackbar(response.message, "success")
                                     }else {
-                                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                                        EnqueueSnackbar(response.data.Message, "warning")
                                       } 
                                 }
                             })

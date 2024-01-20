@@ -8,7 +8,7 @@ import { createProductPriceValidations } from "../validations/createProductPrice
 
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
 import FormikPrice from "./FormikPrice"
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 
 const initialValues = {
     price: "",
@@ -37,10 +37,10 @@ const CreateProductInventories = (props: Props) => {
                         mutate(formData, {
                             onSuccess: (response) => {
                                 if(response.succeeded) {
-                                    validateAndEnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
+                                    EnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
                                     props.refetch()
                                   } else {
-                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                    EnqueueSnackbar(response.data.Message, "error",)
                                   }
                         
                             }

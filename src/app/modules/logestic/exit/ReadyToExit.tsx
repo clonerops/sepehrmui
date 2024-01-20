@@ -2,27 +2,19 @@ import { useState } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import { Form, Formik } from 'formik'
 import FormikInput from '../../../../_cloner/components/FormikInput'
-import FormikSelect from '../../../../_cloner/components/FormikSelect'
-import { dropdownCustomer } from '../../generic/_functions'
-import { useGetCustomers } from '../../customer/core/_hooks'
 import { Box, Button, Typography } from '@mui/material'
 import { Search } from '@mui/icons-material'
-import { ladingColumns } from '../../order/helpers/columns'
-import { useRetrieveOrders } from '../../order/core/_hooks'
 import { Link } from 'react-router-dom'
 import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../../_cloner/components/Pagination'
 import { useGetLadingLicenceList } from '../core/_hooks'
+import { ladingColumns } from '../../managment-order/helpers/columns'
 
 const pageSize = 20
 
 const ReadyToExit = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    let formData = {
-        pageNumber: currentPage,
-        pageSize: pageSize,    
-    }
     const ladingList = useGetLadingLicenceList();
 
 

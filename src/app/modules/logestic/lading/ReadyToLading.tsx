@@ -7,12 +7,12 @@ import { dropdownCustomer } from "../../generic/_functions";
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { Box, Button, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
-import { ladingColumns, orderColumns, readyToLadingColumns } from "../../order/helpers/columns";
 import { Link } from "react-router-dom";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
 import { useGetCargosList } from "../core/_hooks";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 
 const pageSize = 20;
 

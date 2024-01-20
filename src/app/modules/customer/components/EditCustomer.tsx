@@ -12,7 +12,7 @@ import { useUpdateCustomer } from "../core/_hooks";
 import { convertValueLabelCustomerValidaty } from "../helpers/convertValueLabel";
 import { customerType } from "../helpers/customerType";
 import { useGetCustomerValidities } from "../../generic/_hooks";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 const EditCustomer = (props: {
     item: ICustomer | undefined,
@@ -49,10 +49,10 @@ const EditCustomer = (props: {
                         mutate(values, {
                             onSuccess: (response) => {
                                 if(response.succeeded) {
-                                    validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                                    EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                                     props.refetch()
                                   } else {
-                                    validateAndEnqueueSnackbar(response.data.Message, "warning")
+                                    EnqueueSnackbar(response.data.Message, "warning")
                                   }
                             }
                         });

@@ -10,9 +10,9 @@ import DeleteGridButton from "../../../_cloner/components/EditGridButton";
 import ActiveText from "../../../_cloner/components/ActiveText";
 import CustomerForm from "./components/CustomerForm";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
 const Customer = () => {
     const {
@@ -165,11 +165,11 @@ const Customer = () => {
             mutate(id, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
                         setApprove(false)
                         refetch();
                     } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        EnqueueSnackbar(response.data.Message, "warning")
                         setApprove(false)
                       }
                 },

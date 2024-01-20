@@ -1,5 +1,5 @@
 import FormikSelect from './FormikSelect'
-import { dropdownWarehouseType } from '../../app/modules/order/helpers/dropdowns';
+import { dropdownWarehouseType } from '../../app/modules/managment-order/helpers/dropdowns';
 import { useGetWarehouseTypes } from '../../app/modules/generic/_hooks';
 import { IWarehouseTypes } from '../../app/modules/generic/_models';
 

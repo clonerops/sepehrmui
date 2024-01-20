@@ -13,7 +13,7 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 
 import { IBrand } from "./_models";
 import { useGetBrands, usePostBrands, useUpdateBrands } from "./_hooks";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 
@@ -43,9 +43,9 @@ const Brands = () => {
     //         deleteBrand(id, {
     //             onSuccess: (response) => {
     //                 if(response.succeeded) {
-    //                     validateAndEnqueueSnackbar(response.message, "success")
+    //                     EnqueueSnackbar(response.message, "success")
     //                   } else {
-    //                     validateAndEnqueueSnackbar(response.data.Message, "error")
+    //                     EnqueueSnackbar(response.data.Message, "error")
     //                   }
     //                   refetch();
     //                         },
@@ -62,9 +62,9 @@ const Brands = () => {
             updateBrand(formData, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message, "success")
+                        EnqueueSnackbar(response.message, "success")
                       } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                        EnqueueSnackbar(response.data.Message, "error")
                       }
                     refetch()
                 },
@@ -148,11 +148,11 @@ const Brands = () => {
                                     postBrand(formData, {
                                         onSuccess: (response) => {
                                             if(response.succeeded) {
-                                                validateAndEnqueueSnackbar(response.message, "success")
+                                                EnqueueSnackbar(response.message, "success")
                                                 setFieldValue('id', response.data.id)
                                                 refetch();
                                               } else {
-                                                validateAndEnqueueSnackbar(response.data.Message, "warning")
+                                                EnqueueSnackbar(response.data.Message, "warning")
                                               }                        
                                         },
                                     });

@@ -14,7 +14,7 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { Add, Close } from "@mui/icons-material";
 import { useGetApplicationRoles } from "../../access/groups/_hooks";
 import { useDeleteUserRoles, useGetUserRoles, usePostUserRoles } from "../../access/user-roles/_hooks";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 // import { useGetUserDetail } from "../core/_hooks";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 
@@ -34,10 +34,10 @@ const RoleUser = () => {
         postUserRole.mutate(formData, {
             onSuccess: (response) => {
                 if(response.succeeded) {
-                    validateAndEnqueueSnackbar(response.message, "success")
+                    EnqueueSnackbar(response.message, "success")
                     userRoles.refetch()
                 } else {
-                    validateAndEnqueueSnackbar(response.data.Message, "error")
+                    EnqueueSnackbar(response.data.Message, "error")
                 }
             }
         })
@@ -50,10 +50,10 @@ const RoleUser = () => {
         deleteUserRole.mutate(formData, {
             onSuccess: (response) => {
                 if(response.succeeded) {
-                    validateAndEnqueueSnackbar("دسترسی با موفقیت از کاربر حذف گردید.", "info")
+                    EnqueueSnackbar("دسترسی با موفقیت از کاربر حذف گردید.", "info")
                     userRoles.refetch()
                 } else {
-                    validateAndEnqueueSnackbar(response.data.Message, "error")
+                    EnqueueSnackbar(response.data.Message, "error")
                 }
             }
         })

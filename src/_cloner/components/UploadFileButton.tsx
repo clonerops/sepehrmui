@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query';
 
 import { useUploadFileProductPrice } from '../../app/modules/product/core/_hooks';
-import { validateAndEnqueueSnackbar } from '../../app/modules/order/sales-order/functions';
+import { EnqueueSnackbar } from '../helpers/Snackebar';
 
 interface FileUploadProps {
     acceptedFileTypes?: string;
@@ -27,10 +27,10 @@ const FileUploadButton: React.FC<FileUploadProps> = ({ refetch }) => {
         uploadFile.mutate(formData, {
             onSuccess: (response: any) => {
                 if(response.succeeded) {
-                    validateAndEnqueueSnackbar(response.message, "success")
+                    EnqueueSnackbar(response.message, "success")
                     refetch()
                   } else {
-                    validateAndEnqueueSnackbar(response.data.Message, "error")
+                    EnqueueSnackbar(response.data.Message, "error")
                   }
             },
         });

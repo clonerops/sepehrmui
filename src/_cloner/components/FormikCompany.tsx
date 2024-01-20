@@ -1,5 +1,5 @@
 import FormikSelect from './FormikSelect'
-import { dropdownCustomerCompanies } from '../../app/modules/order/helpers/dropdowns';
+import { dropdownCustomerCompanies } from '../../app/modules/managment-order/helpers/dropdowns';
 import { useGetCustomerCompaniesMutate } from '../../app/modules/generic/customerCompany/_hooks';
 import { useEffect } from 'react';
 

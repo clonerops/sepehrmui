@@ -1,6 +1,6 @@
 import FormikSelect from './FormikSelect'
 
-import { dropdownOrderSendType } from '../../app/modules/order/helpers/dropdowns';
+import { dropdownOrderSendType } from '../../app/modules/managment-order/helpers/dropdowns';
 
 import { useGetSendTypes } from '../../app/modules/generic/_hooks';
 

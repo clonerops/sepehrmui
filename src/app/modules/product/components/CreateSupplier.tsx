@@ -10,7 +10,7 @@ import { dropdownCustomer, dropdownProduct } from "../../generic/_functions";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 const CreateSupplier = (props: {
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -49,10 +49,10 @@ const CreateSupplier = (props: {
                         mutate(formData, {
                             onSuccess: (response) => {
                                 if(response.succeeded) {
-                                    validateAndEnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
+                                    EnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
                                     props.refetch()
                                   } else {
-                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                    EnqueueSnackbar(response.data.Message, "error",)
                                   }
                             }
                         });

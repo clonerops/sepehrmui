@@ -30,22 +30,22 @@ const PaymentAccounting = React.lazy(
     () => import("../modules/payment/PaymentAccounting")
 );
 const Detail = React.lazy(() => import("../modules/payment/components/Detail"));
-const SalesOrder = React.lazy(() => import("../modules/order/sales-order"));
-const PurchaserOrder = React.lazy(() => import("../modules/order/purchaser-order"));
+const SalesOrder = React.lazy(() => import("../modules/managment-order/sales-order"));
+// const PurchaserOrder = React.lazy(() => import("../modules/managment-order/purchaser-order"));
 const SalesOrderList = React.lazy(
-    () => import("../modules/order/sales-order/Lists")
+    () => import("../modules/managment-order/sales-order/Lists")
 );
 const SalesOrderEdit = React.lazy(
-    () => import("../modules/order/sales-order/Edit")
+    () => import("../modules/managment-order/sales-order/Edit")
 );
 const SalesOrderDetail = React.lazy(
-    () => import("../modules/order/sales-order/Details")
+    () => import("../modules/managment-order/sales-order/Details")
 );
 const SalesOrderConfirm = React.lazy(
-    () => import("../modules/order/sales-order/Confirm")
+    () => import("../modules/managment-order/sales-order/Confirm")
 );
 const ReadyToSalesOrderConfirm = React.lazy(
-    () => import("../modules/order/sales-order/ReadyToConfirm")
+    () => import("../modules/managment-order/sales-order/ReadyToConfirm")
 );
 const Dashboard = React.lazy(() => import("../modules/Dashboard"));
 const DynamicBreadcrumbs = React.lazy(
@@ -115,7 +115,7 @@ export const routes: RouteProps[] = [
     { path: "auth/*", element: <Navigate to="/dashboard" /> },
     { path: "dashboard", element: <Dashboard /> },
     { path: "dashboard/sales-order", element: <SalesOrder /> },
-    { path: "dashboard/purchaser-order", element: <PurchaserOrder /> },
+    // { path: "dashboard/purchaser-order", element: <PurchaserOrder /> },
     { path: "dashboard/sales-order/lists", element: <SalesOrderList /> },
     { path: "dashboard/sales-order/lists/:id", element: <SalesOrderDetail /> },
     {

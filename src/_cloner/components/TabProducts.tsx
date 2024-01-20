@@ -4,19 +4,19 @@ import { Form, Formik } from "formik";
 import FuzzySearch from "../helpers/Fuse";
 import FormikRadioGroup from "./FormikRadioGroup";
 
-import { toAbsoulteUrl } from "../helpers/AssetsHelper";
+// import { toAbsoulteUrl } from "../helpers/AssetsHelper";
 import { useGetProductTypes, useGetWarehouses } from "../../app/modules/generic/_hooks";
-import { dropdownWarehouses } from "../../app/modules/order/helpers/dropdowns";
+import { dropdownWarehouses } from "../../app/modules/managment-order/helpers/dropdowns";
 
-const imageUrl: Image[] = [
-    { id: 0, url: "/media/product/border-design.png" },
-    { id: 1, url: "/media/product/tubes.png" },
-    { id: 2, url: "/media/product/beam.png" },
-    { id: 3, url: "/media/product/steel.png" },
-    { id: 4, url: "/media/product/tissue-roll.png" },
-    { id: 5, url: "/media/product/conveyor-belt.png" },
-    { id: 6, url: "/media/product/can.png" },
-];
+// const imageUrl: Image[] = [
+//     { id: 0, url: "/media/product/border-design.png" },
+//     { id: 1, url: "/media/product/tubes.png" },
+//     { id: 2, url: "/media/product/beam.png" },
+//     { id: 3, url: "/media/product/steel.png" },
+//     { id: 4, url: "/media/product/tissue-roll.png" },
+//     { id: 5, url: "/media/product/conveyor-belt.png" },
+//     { id: 6, url: "/media/product/can.png" },
+// ];
 
 type Props = {
     handleSelectionChange: (parameter: any) => void;
@@ -40,10 +40,10 @@ const TabProducts = (props: Props) => {
     const { data: warehouses } = useGetWarehouses();
 
 
-    const renderImageIcon = (index: number) => {
-        const findImageBasedOfIndex: any = imageUrl.find((item: Image) => item.id === index)
-        return findImageBasedOfIndex?.url
-    }
+    // const renderImageIcon = (index: number) => {
+    //     const findImageBasedOfIndex: any = imageUrl.find((item: Image) => item.id === index)
+    //     return findImageBasedOfIndex?.url
+    // }
 
 
     const allOption = [{ value: "-1", label: "همه" }];
@@ -70,11 +70,11 @@ const TabProducts = (props: Props) => {
 
                         onClick={() => onSelectTab(item.id)}
                     >
-                        <Box
+                        {/* <Box
                             component="img"
                             src={toAbsoulteUrl(renderImageIcon(index))}
                             width={20}
-                        />
+                        /> */}
                         <Typography className="px-2">{item.desc}</Typography>
                     </Button>
                 );

@@ -13,7 +13,7 @@ import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import { IWarehouse } from "./_models"
 import { useDeleteWarehouses, useGetWarehouses, usePostWarehouses } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import FormikWarehouseType from '../../../../_cloner/components/FormikWarehouseType'
 import EditGridButton from '../../../../_cloner/components/EditGridButton'
@@ -53,10 +53,10 @@ const Warehouse = () => {
       deleteWarehouse(id, {
         onSuccess: (response) => {
           if (response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
+            EnqueueSnackbar(response.message, "success")
             setApprove(false)
           } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
+            EnqueueSnackbar(response.data.Message, "error")
           }
           refetch();
         },
@@ -137,11 +137,11 @@ const Warehouse = () => {
                   postWarehouse(formData, {
                     onSuccess: (response: any) => {
                       if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message, "success")
+                        EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
                         refetch();
                       } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        EnqueueSnackbar(response.data.Message, "warning")
                       }                        
                     }
                   })

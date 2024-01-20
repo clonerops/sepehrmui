@@ -18,7 +18,7 @@ import { IProducts } from "../core/_models";
 import FormikType from "../../../../_cloner/components/FormikType";
 import FormikStandard from "../../../../_cloner/components/FormikStandard";
 import FormikState from "../../../../_cloner/components/FormikState";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 const initialValues = {
     productName: "",
@@ -166,11 +166,11 @@ const ProductForm = (props: {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
                     } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                        EnqueueSnackbar(response.data.Message, "error")
                     }
     
                 },
@@ -186,12 +186,12 @@ const ProductForm = (props: {
             return mutate(values, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
 
                     } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                        EnqueueSnackbar(response.data.Message, "error")
                     }
 
                 },

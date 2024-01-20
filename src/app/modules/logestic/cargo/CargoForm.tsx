@@ -22,9 +22,9 @@ import { FieldType } from "../../../../_cloner/components/globalTypes"
 import { dropdownVehicleType } from "../helpers/dropdowns"
 import { ICargo } from "../core/_models"
 import { renderSwal } from "../../../../_cloner/helpers/swal"
-import { useRetrieveOrder } from "../../order/core/_hooks"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
 import { submitCargoValidation } from "./validations"
+import { useRetrieveOrder } from "../../managment-order/core/_hooks"
 
 const initialValues = {
     driverName: "",

@@ -6,7 +6,7 @@ import { useCreateProductPrice, useRetrieveProductPriceById, useRetrieveProducts
 import { dropdownProduct } from "../../generic/_functions"
 import { createProductPriceValidations } from "../validations/createProductPrice"
 import { FieldType } from "../../../../_cloner/components/globalTypes"
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
@@ -88,11 +88,11 @@ const ProductPriceForm = (props: Props) => {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
                     } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                        EnqueueSnackbar(response.data.Message, "error")
                     }
     
                 },
@@ -109,12 +109,12 @@ const ProductPriceForm = (props: Props) => {
             return mutate(values, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
 
                     } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                        EnqueueSnackbar(response.data.Message, "error")
                     }
 
                 },

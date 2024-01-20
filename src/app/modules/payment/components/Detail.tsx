@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { Box, Button, Container, Typography } from "@mui/material"
 import { useGetRecievePaymentById, useUpdatePaymentApproved } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
@@ -71,9 +71,9 @@ const Detail = () => {
             mutate(id, {
                 onSuccess: (response) => {
                     if (response?.succeeded) {
-                        validateAndEnqueueSnackbar(response.message, "success")
+                        EnqueueSnackbar(response.message, "success")
                     }else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        EnqueueSnackbar(response.data.Message, "warning")
                       } 
 }
             })

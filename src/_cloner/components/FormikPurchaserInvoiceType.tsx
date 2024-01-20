@@ -1,6 +1,6 @@
 import FormikSelect from './FormikSelect'
 
-import { dropdownPurchaseInvoice } from '../../app/modules/order/helpers/dropdowns';
+import { dropdownPurchaseInvoice } from '../../app/modules/managment-order/helpers/dropdowns';
 
 import { useGetPurchaseInvoice } from '../../app/modules/generic/_hooks';
 

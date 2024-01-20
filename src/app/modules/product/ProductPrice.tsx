@@ -16,7 +16,7 @@ import {useDeleteProductPrice,useRetrieveProductPrice } from "./core/_hooks";
 import { IProductPrice } from "./core/_models";
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
 import { exportProductPrices } from "./core/_requests";
-import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { columnsProductPrice } from "./helpers/columns";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import ProductPriceForm from "./components/ProductPriceForm";
@@ -67,11 +67,11 @@ const ProductPrice = () => {
             deleteMutate(id, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
                         setApprove(false)
                         refetch();
                       } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                        EnqueueSnackbar(response.data.Message, "error")
                       }
                 },
             });

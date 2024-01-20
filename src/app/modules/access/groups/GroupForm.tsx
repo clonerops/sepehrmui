@@ -9,7 +9,8 @@ import FormikInput from "../../../../_cloner/components/FormikInput"
 // import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 
 import { usePostApplicationRoles } from "./_hooks"
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
+// import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 // import { useGetPermissions } from "../permissions/_hooks"
 // import { dropdownPermissions } from "../permissions/_functions"
 // import FileSystemNavigator from "../../../../_cloner/components/TreeView"
@@ -48,11 +49,11 @@ const GroupForm = (props: IProps) => {
         postApplicationRoles.mutate(formData, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
-                    validateAndEnqueueSnackbar("گروه با موفقیت ایجاد شد", "success")
+                    EnqueueSnackbar("گروه با موفقیت ایجاد شد", "success")
                     props.refetch()
                     props.setIsCreateOpen(false)
                 } else {
-                    validateAndEnqueueSnackbar(message?.data?.Message, "error")
+                    EnqueueSnackbar(message?.data?.Message, "error")
                 }
             },
         });

@@ -10,10 +10,10 @@ import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 
-import { readyToLadingColumns } from "../../order/helpers/columns";
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { useGetCargosList } from "../core/_hooks";
 import { dropdownCustomer } from "../../generic/_functions";
+import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 
 
 const CargoList = () => {

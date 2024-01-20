@@ -13,7 +13,7 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { ICustomer } from "../core/_models";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import { createValiadtion } from "../validation/validation";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
 const initialValues = {
     firstName: "",
@@ -194,10 +194,10 @@ const CustomerForm = (props: {
             return updateTools.mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                     } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        EnqueueSnackbar(response.data.Message, "warning")
                     }
                 },
             });
@@ -217,11 +217,11 @@ const CustomerForm = (props: {
             return mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message, "success")
+                        EnqueueSnackbar(response.message, "success")
                         props.setIsCreateOpen(false)
                         props.refetch()
                     } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        EnqueueSnackbar(response.data.Message, "warning")
                     }
                 },
             });

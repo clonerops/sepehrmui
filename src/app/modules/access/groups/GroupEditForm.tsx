@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { Box, Button, Typography } from "@mui/material"
 
 import { useGetApplicationRole, usePutApplicationRoles } from "./_hooks"
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
 import { useGetAllPermissionByMenus, useGetPermissions } from "../permissions/_hooks"
 import { dropdownPermissions, dropdownPermissionsByMenu } from "../permissions/_functions"
 
@@ -16,6 +15,7 @@ import Menus from "../menus/Menus"
 import MenusWithPermissions from "../menus/MenusWithPermissions"
 import { TreeItem, TreeView } from "@mui/x-tree-view"
 import { ChevronRight, ExpandMore } from "@mui/icons-material"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 
 interface Item {
     description: string;
@@ -65,9 +65,9 @@ const GroupEditForm = (props: Props) => {
         putApplicationRoles.mutate(formData, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
-                    validateAndEnqueueSnackbar("ویرایش گروه با موفقیت انجام شد", "info")
+                    EnqueueSnackbar("ویرایش گروه با موفقیت انجام شد", "info")
                 } else {
-                    validateAndEnqueueSnackbar(message?.data?.Message, "error")
+                    EnqueueSnackbar(message?.data?.Message, "error")
                 }
             },
         });

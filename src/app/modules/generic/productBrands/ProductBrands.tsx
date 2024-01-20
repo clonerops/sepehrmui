@@ -17,8 +17,8 @@ import { useRetrieveProducts } from '../../product/core/_hooks'
 import { dropdownBrand, dropdownProduct } from '../_functions'
 import { useGetBrands } from '../brands/_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
 import Backdrop from '../../../../_cloner/components/Backdrop'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 const initialValues: any = {
   id: 0,
@@ -51,9 +51,9 @@ const ProductBrands = () => {
       updateProductBrand(formData, {
         onSuccess: (response) => {
           if(response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
+            EnqueueSnackbar(response.message, "success")
           } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
+            EnqueueSnackbar(response.data.Message, "error")
           }
         refetch()
         }
@@ -133,11 +133,11 @@ const ProductBrands = () => {
                   postProductBrand(formData, {
                     onSuccess: (response: any) => {
                       if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message, "success")
+                        EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
                         refetch();
                       } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        EnqueueSnackbar(response.data.Message, "warning")
                       }                        
 }
                   })

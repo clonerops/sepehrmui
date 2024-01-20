@@ -5,7 +5,7 @@ import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanst
 import { useRetrieveProducts, useUpdateProductPrice } from "../core/_hooks"
 import { IProductPrice } from "../core/_models"
 import { dropdownProduct } from "../../generic/_functions"
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 
 import FormikPrice from "./FormikPrice"
 import FormikSelect from "../../../../_cloner/components/FormikSelect"
@@ -40,10 +40,10 @@ const EditProductInventories = (props: Props) => {
                         mutate(formData, {
                             onSuccess: (response) => {
                                 if(response.succeeded) {
-                                    validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                                    EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                                     props.refetch()
                                   } else {
-                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                    EnqueueSnackbar(response.data.Message, "error",)
                                   }
                             }
                         })

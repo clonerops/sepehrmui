@@ -15,7 +15,7 @@ import EditGridButton from "../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { validateAndEnqueueSnackbar } from "../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
 const Suppliers = () => {
     const {
@@ -48,10 +48,10 @@ const Suppliers = () => {
             mutate(id, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
                         refetch();
                       } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "error")
+                        EnqueueSnackbar(response.data.Message, "error")
                       }
                 },
             });

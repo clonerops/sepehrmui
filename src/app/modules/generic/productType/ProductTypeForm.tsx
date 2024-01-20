@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import { IType } from "./_models"
 import { useDeleteTypes, useGetType, useGetTypes, usePostTypes, useUpdateTypes } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
@@ -75,9 +75,9 @@ const ProductTypeForm = (props: Props) => {
       updateType(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
+            EnqueueSnackbar(response.message, "success")
           } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
+            EnqueueSnackbar(response.data.Message, "error")
           }
         }
       })
@@ -95,11 +95,11 @@ const ProductTypeForm = (props: Props) => {
         postType(formData, {
           onSuccess: (response) => {
             if (response.succeeded) {
-              validateAndEnqueueSnackbar(response.message, "success")
+              EnqueueSnackbar(response.message, "success")
             //   setFieldValue('id', response.data.id)
               props.refetch();
             } else {
-              validateAndEnqueueSnackbar(response.data.Message, "warning")
+              EnqueueSnackbar(response.data.Message, "warning")
             }
           }
         })

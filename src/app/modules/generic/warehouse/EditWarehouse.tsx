@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 
 import {  useGetWarehouse, useGetWarehouses, useUpdateWarehouses } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
@@ -49,11 +49,11 @@ const EditWarehouse = (props: Props) => {
       updateWarehouse(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
+            EnqueueSnackbar(response.message, "success")
             props.refetch()
             props.setIsClose(false)
           } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
+            EnqueueSnackbar(response.data.Message, "error")
           }
         }
       })

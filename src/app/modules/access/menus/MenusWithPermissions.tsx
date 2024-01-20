@@ -5,7 +5,7 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import { ExpandMore, ChevronRight } from '@mui/icons-material' 
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { IRoleMenu } from "./_models";
 import { useGetAllPermissionByMenus } from "../permissions/_hooks";
 import FileSystemNavigator from "../../../../_cloner/components/TreeView";
@@ -50,9 +50,9 @@ const MenusWithPermissions = (props: Props) => {
             postMenu.mutate(formData, {
                 onSuccess: (res) => {
                     if(res.succeeded) {
-                        validateAndEnqueueSnackbar("دسترسی منو با موفقیت انجام شد", "success")
+                        EnqueueSnackbar("دسترسی منو با موفقیت انجام شد", "success")
                     } else {
-                        validateAndEnqueueSnackbar(res?.data.Message, "error")
+                        EnqueueSnackbar(res?.data.Message, "error")
                     }
                 }
             })
@@ -62,10 +62,10 @@ const MenusWithPermissions = (props: Props) => {
             deleteMenu.mutate(filterRoleMenuId?.id, {
                 onSuccess: (message) => {
                     if(message.succeeded) {
-                        validateAndEnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info")
+                        EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info")
                         
                     } else {
-                        validateAndEnqueueSnackbar(message?.data.Message, "error")
+                        EnqueueSnackbar(message?.data.Message, "error")
                     }
                 }
             })

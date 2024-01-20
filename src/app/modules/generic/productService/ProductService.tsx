@@ -14,7 +14,7 @@ import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 import { IService } from "./_models"
 import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
@@ -48,9 +48,9 @@ const ProductService = () => {
       updateService(formData, {
         onSuccess: (response) => {
           if(response.succeeded) {
-            validateAndEnqueueSnackbar(response.message, "success")
+            EnqueueSnackbar(response.message, "success")
           } else {
-            validateAndEnqueueSnackbar(response.data.Message, "error")
+            EnqueueSnackbar(response.data.Message, "error")
           }
           refetch()
         }
@@ -117,11 +117,11 @@ const ProductService = () => {
                   postService(formData, {
                     onSuccess: (response: any) => {
                       if(response.succeeded) {
-                        validateAndEnqueueSnackbar(response.message, "success")
+                        EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
                         refetch();
                       } else {
-                        validateAndEnqueueSnackbar(response.data.Message, "warning")
+                        EnqueueSnackbar(response.data.Message, "warning")
                       }                        
                     }
                   })

@@ -8,7 +8,6 @@ import { Box, Button, Typography } from '@mui/material'
 import { Delete, Person, Search, Add } from '@mui/icons-material'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
 import { useParams } from 'react-router-dom'
-import { useRetrieveOrder } from '../../order/core/_hooks'
 import { Formik, Form } from 'formik'
 import { dropdownProductLading } from '../helpers/dropdowns'
 import MuiTable from '../../../../_cloner/components/MuiTable'
@@ -19,7 +18,7 @@ import { ILadingLicence } from '../core/_models'
 import { enqueueSnackbar } from 'notistack'
 import FormikComboBox from '../../../../_cloner/components/FormikComboBox'
 import Backdrop from '../../../../_cloner/components/Backdrop'
-import { validateAndEnqueueSnackbar } from '../../order/sales-order/functions'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 interface ILadingList {
     id?: number
@@ -96,7 +95,7 @@ const LadingLicence = () => {
                 return item.orderDetailId === values?.orderDetailId?.value
         }) 
         if(isHasOrderDetail) {
-            validateAndEnqueueSnackbar("این کالا قبلا در لیست بارگیری ها اضافه شده است", "error")
+            EnqueueSnackbar("این کالا قبلا در لیست بارگیری ها اضافه شده است", "error")
         } else {
             setLadingList(prev => [...prev, newList])
         }

@@ -12,7 +12,7 @@ import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import { useDeletePermissions, useGetPermissions, useGetPermissionsFilter, usePostPermissions } from "./_hooks";
 import { IPermission } from "./_models";
 import { createPermissionValidation } from "./_validation";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import PermissionForm from "./PermissionForm";
 import Pagination from "../../../../_cloner/components/Pagination";
@@ -116,10 +116,10 @@ const Permissions = () => {
         deletePermissions.mutate(id, {
             onSuccess: (message: any) => {
                 if (message.succeeded) {
-                    validateAndEnqueueSnackbar("مجوز با موفقیت حذف گردید.", "success")
+                    EnqueueSnackbar("مجوز با موفقیت حذف گردید.", "success")
                     Permissions.refetch();
                 } else {
-                    validateAndEnqueueSnackbar(message?.data?.Message, "error")
+                    EnqueueSnackbar(message?.data?.Message, "error")
                 }
             },
         });

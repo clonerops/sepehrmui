@@ -8,7 +8,7 @@ import {
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { useGetPermission, usePostPermissions, useUpdatePermissions } from "./_hooks";
 import { IPermission } from "./_models";
 import { createPermissionValidation } from "./_validation";
@@ -56,11 +56,11 @@ const PermissionForm = (props: {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
-                        validateAndEnqueueSnackbar(response?.message || "ویرایش با موفقیت انجام شد", "success")
+                        EnqueueSnackbar(response?.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.onClose()
                     } else {
-                        validateAndEnqueueSnackbar(response?.data?.Message, "error")
+                        EnqueueSnackbar(response?.data?.Message, "error")
                     }
                 },
             });
@@ -74,10 +74,10 @@ const PermissionForm = (props: {
             return postPermissions.mutate(values, {
                 onSuccess: (message: any) => {
                     if (message.succeeded) {
-                        validateAndEnqueueSnackbar(message?.message, "success")
+                        EnqueueSnackbar(message?.message, "success")
                         props.refetch();
                     } else {
-                        validateAndEnqueueSnackbar(message?.data?.Message, "error")
+                        EnqueueSnackbar(message?.data?.Message, "error")
                     }
                 },
             });

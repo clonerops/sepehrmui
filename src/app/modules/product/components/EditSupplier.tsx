@@ -6,7 +6,7 @@ import { useRetrieveProducts, useUpdateSupplier } from "../core/_hooks";
 import { ISuppliers } from "../core/_models";
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { dropdownCustomer, dropdownProduct } from "../../generic/_functions";
-import { validateAndEnqueueSnackbar } from "../../order/sales-order/functions";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../../_cloner/components/FormikInput";
@@ -40,10 +40,10 @@ const EditSupplier = (props: {
                         mutate(values, {
                             onSuccess: (response) => {
                                 if(response.succeeded) {
-                                    validateAndEnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                                    EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                                     props.refetch()
                                   } else {
-                                    validateAndEnqueueSnackbar(response.data.Message, "error",)
+                                    EnqueueSnackbar(response.data.Message, "error",)
                                   }
                             }
                         });
