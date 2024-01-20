@@ -1,5 +1,3 @@
-import { IProducts } from "../../product/core/_models";
-
 
 export interface IOrderPayment {
     id?: any,
@@ -122,56 +120,41 @@ export interface ISaleOrderDetail extends IOrder {
 }
 
 
-// export interface IProduct {
-//     id: number;
-//     product: string;
-//     count: string;
-//     price: number;
-// }
+// Purchaser Models
 
-// export interface IProductOrder {
-//     productName: string
-//     count: string
-//     price: string
-// }
+export interface IPurchaserOrderDetails {
+    id?: string | undefined
+    rowId: number | undefined | null
+    productId: string | undefined | null
+    warehouseId: number | undefined | null
+    proximateAmount: number | undefined | null
+    numberInPackage: number | undefined | null
+    price: number | undefined | null
+    cargoSendDate: string | undefined | null
+    purchasePrice?: number | undefined | null
+    productBrandId?: number | undefined | null
+    productSubUnitId?: number | undefined | null
+    productSubUnitAmount?: number | undefined | null
+    purchaseInvoiceTypeId: number | undefined | null
+    purchaserCustomerId: string  | undefined | null
+    purchaseSettlementDate: string | undefined | null
+    description: string | undefined | null
+    sellerCompanyRow: string | undefined | null
+}
 
 
-// export interface IOrder extends ICreateOrder {
-//     id: string | undefined
-// }
-
-
-
-
-
-// export type ProductProps = {
-//     orders?: IOrderItems[] ;
-//     orderService?: IOrderService[] ;
-//     setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
-//     setOrderPayment?: React.Dispatch<React.SetStateAction<IOrderPayment[]>>;
-//     setIsBuy?:  React.Dispatch<React.SetStateAction<boolean>>;
-//     // setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>> | undefined;
-//     setFieldValue?: any;
-//     setIsUpdate?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
-//     selectedOrderIndex?: number;
-//     setSelectedOrderIndex?: React.Dispatch<React.SetStateAction<number>> | undefined;
-//     products?: IProducts[]
-//     disabled?: boolean
-// }
-
-// export interface IApproveInvoice {
-//     orderId?: string | undefined | null,
-//     invoiceTypeId?: number | null | undefined,
-//     invoiceApproveDescription?: string | undefined | null,
-//     orderDetails?: [
-//       {
-//         productId: string | undefined | null,
-//         alternativeProductId: string | undefined | null,
-//         alternativeProductAmount: number | null | undefined,
-//         alternativeProductPrice: number | null | undefined
-//       }
-//     ],
-//     attachments?: any,
-//     orderStatusId?: number | null | undefined
-  
-// }
+export interface IPurchaserOrder {
+    id?: string
+    customerId: string | undefined | null
+    totalAmount: number | undefined | null
+    description: string | undefined | null
+    exitType: number | undefined | null
+    purchaseOrderSendTypeId: number | undefined | null 
+    paymentTypeId: number | undefined | null
+    customerOfficialCompanyId: number | undefined | null
+    invoiceTypeId: number | undefined | null
+    isTemporary: boolean | undefined | null
+    details: IPurchaserOrderDetails[] | undefined | null
+    purchaseOrderPayments?: IOrderPayment[] | undefined | null
+    purchaseOrderServices?: IOrderService[] | undefined | null
+}
