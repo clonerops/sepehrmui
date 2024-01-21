@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { IApproveInvoice, ISalesOrder } from "./_models";
+import { IApproveInvoice, IPurchaserOrder, ISalesOrder } from "./_models";
 
 // Sales Order
 const createOrder = async (formData: ISalesOrder) => {
@@ -88,6 +88,15 @@ const getOrderDetailByCode = async(orderCode: number) => {
 }
 
 // Purchaser Order
+const createPurchaserOrder = async (formData: IPurchaserOrder) => {
+    try {
+        const { data } = await http.post(`/v1/PurchaseOrder`, JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
 
 
 export {
@@ -100,5 +109,6 @@ export {
     approveInvoiceType,
     retrieveOrdersMutation,
     getOrderDetailByCode,
-    // Purchaser Order 
+    // Purchaser Order
+    createPurchaserOrder 
 }

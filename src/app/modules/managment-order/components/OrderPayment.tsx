@@ -16,7 +16,8 @@ import { FormikErrors } from "formik";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 type Props = {
-    postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
+    // postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
+    postSaleOrder: any,
     orderPayment: IOrderPayment[],
     setOrderPayment: (value: React.SetStateAction<IOrderPayment[]>) => void
     values: any

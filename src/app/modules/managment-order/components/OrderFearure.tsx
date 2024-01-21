@@ -8,7 +8,8 @@ import { UseMutationResult } from '@tanstack/react-query'
 import { ISalesOrder } from '../core/_models'
 
 type Props = {
-    postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
+    // postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
+    postSaleOrder: any,
 }
 
 const OrderFeature = (props: Props) => {

@@ -133,13 +133,13 @@ const OrderProductList = (props: ProductProps) => {
         column.field !== "warehouseId" &&
         column.field !== "productBrandId" &&
         column.field !== "rowId" &&
-        column.field !== "purchaseSettlementDate" &&
+        column.field !== "purchasePrice" &&
         column.field !== "purchaserCustomerId" &&
         column.field !== "purchaserCustomerName" &&
         column.field !== "purchaseInvoiceTypeId" &&
         column.field !== "purchaseInvoiceTypeDesc" &&
         column.field !== "rowId" &&
-        column.field !== "productDesc");
+        column.field !== "productDesc" );
 
     return (
         <>
@@ -149,18 +149,7 @@ const OrderProductList = (props: ProductProps) => {
                 rows={orders}
                 data={orders}
                 getRowClassName={(params: any) => {
-                    if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseId) && (
-                        params.row.purchaseSettlementDate === "" ||
-                        params.row.purchasePrice === "" ||
-                        params.row.proximateAmount === "" ||
-                        params.row.purchaseInvoiceTypeId === ""  ||
-                        !params.row.purchaserCustomerName
-                    )) {
-                        return 'custom-row-style'
-                    } else if ([2, 6].includes(params.row.warehouseId) && (
-                        params.row.proximateAmount === "" ||
-                        params.row.price === "0"
-                    )) {
+                    if (params.row.purchaseSettlementDate === "") {
                         return 'custom-row-style'
                     } else {
                         return ""

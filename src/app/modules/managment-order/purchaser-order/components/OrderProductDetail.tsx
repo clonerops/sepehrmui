@@ -108,7 +108,7 @@ const OrderProductDetail = (props: Props) => {
             warehouseName: formikRef?.current?.values?.productName.warehouseName ? formikRef?.current?.values?.productName.warehouseName : formikRef?.current?.values?.warehouseName,
             productDesc: formikRef?.current?.values?.productDesc,
             purchasePrice: formikRef?.current?.values?.purchasePrice,
-            purchaseSettlementDate: formikRef?.current?.values.purchaseSettlementDate,
+            purchaseSettlementDate: formikRef?.current?.values.settlementDate,
             purchaseInvoiceTypeId: formikRef?.current?.values?.purchaseInvoiceTypeId ,
             sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
             proximateAmount: formikRef?.current?.values.proximateAmount,
@@ -208,7 +208,7 @@ const OrderProductDetail = (props: Props) => {
                         </Box>
                     ))}
                 </Box>
-                {/* <OrderProductList
+                <OrderProductList
                     selectedOrderIndex={state.orderIndex}
                     setFieldValue={setFieldValue}
                     orders={orders}
@@ -218,7 +218,7 @@ const OrderProductDetail = (props: Props) => {
                     orderServices={orderServices}
                     setOrderPayment={setOrderPayment}
                     setState={setState}
-                /> */}
+                />
             </Form>
         </>
     )

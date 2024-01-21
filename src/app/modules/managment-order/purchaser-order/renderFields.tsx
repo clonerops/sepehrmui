@@ -24,7 +24,7 @@ import FormikProximateAmount from '../../product/components/FormikProximateAmoun
 import FormikPrice from '../../product/components/FormikPrice';
 import FormikAmount from '../../product/components/FormikAmount';
 
-import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService } from '../core/_models';
+import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService, IPurchaserOrder } from '../core/_models';
 import { ICustomer } from '../../customer/core/_models';
 import TransitionsModal from '../../../../_cloner/components/ReusableModal';
 import FormikProduct from '../../../../_cloner/components/FormikProductComboSelect';
@@ -35,7 +35,7 @@ import ProductsList from './components/ProductsList';
 
 const saleOrderParseFields = (
     index: number | string,
-    postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
+    postSaleOrder: UseMutationResult<any, unknown, IPurchaserOrder, unknown>,
     fields: FieldType,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>,
     values: any,
@@ -130,6 +130,8 @@ const orderDetailParseFields = (
             );
         case "purchaserCustomer":
             return <FormikCustomer key={index} disabled={postSaleOrder.data?.succeeded} {...rest} />
+            case "settlementDate":
+                return <FormikDatepicker {...rest} />;    
         case "purchaseInvoiceType":
             return <FormikPurchaserInvoiceType key={index} {...rest} />
         case "date":

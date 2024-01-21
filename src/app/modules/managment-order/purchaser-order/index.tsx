@@ -19,7 +19,7 @@ import Backdrop from '../../../../_cloner/components/Backdrop'
 import CustomButton from '../../../../_cloner/components/CustomButton'
 
 import { sellerFields } from './fields'
-import { useCreateOrder } from '../core/_hooks'
+import { useCreatePurchaserOrder } from '../core/_hooks'
 import { saleOrderParseFields } from './renderFields'
 import { useGetCustomer } from '../../customer/core/_hooks'
 import { useGetProductList } from '../../product/core/_hooks'
@@ -38,7 +38,7 @@ const PurchaserOrder = () => {
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
 
-    const postSaleOrder = useCreateOrder();
+    const postSaleOrder = useCreatePurchaserOrder();
     const detailCustomer = useGetCustomer();
     const products = useGetProductList();
 
@@ -74,17 +74,11 @@ const PurchaserOrder = () => {
                     totalAmount: calculateTotalAmount(orders, orderServices),
                     description: values.description,
                     exitType: Number(values.exitType),
-                    orderSendTypeId: Number(values.orderSendTypeId),
+                    purchaseOrderSendTypeId: Number(values.orderSendTypeId),
                     paymentTypeId: Number(values.paymentTypeId),
-                    customerOfficialName: "string",
                     customerOfficialCompanyId: +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
                     invoiceTypeId: Number(values.invoiceTypeId),
                     isTemporary: +values.isTemporary === 1 ? false : true,
-                    freightName: "string",
-                    settlementDate: "1402/02/02",
-                    dischargePlaceAddress: "string",
-                    freightDriverName: "string",
-                    carPlaque: "string",
                     details: orders?.map((item: any) => {
                         return {
                             rowId: item.rowId ? +item.rowId : 0,
@@ -105,7 +99,7 @@ const PurchaserOrder = () => {
                             sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                         };
                     }),
-                    orderPayments: orderPayment?.map((item: IOrderPayment) => {
+                    purchaseOrderPayments: orderPayment?.map((item: IOrderPayment) => {
                         return {
                             amount: Number(item.amount?.replace(/,/g, "")),
                             paymentDate: item.paymentDate,
@@ -113,7 +107,7 @@ const PurchaserOrder = () => {
                             paymentType: item.paymentType
                         }
                     }),
-                    orderServices: orderServices.map((item: IOrderService) => {
+                    purchaseOrderServices: orderServices.map((item: IOrderService) => {
                         return {
                             serviceId: item.serviceId,
                             description: item.description

@@ -70,9 +70,9 @@ export const orderField: FieldType[][] = [
             type: "input",
         },
         {
-            label: "ردیف فروش",
-            name: "rowId",
-            type: "input",
+            label: "تاریخ تحویل",
+            name: "settlementDate",
+            type: "settlementDate",
         },
         {
             label: "",

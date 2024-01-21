@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IApproveInvoice, ISalesOrder } from "./_models";
+import { IApproveInvoice, IPurchaserOrder, ISalesOrder } from "./_models";
 import * as api from "./_requests";
 
 // Sales Order
@@ -31,6 +31,10 @@ const useApproveInvoiceType = () =>  useMutation((formData: IApproveInvoice) => 
 
 const useGetOrderDetailByCode = () => useMutation((orderCode: number) => api.getOrderDetailByCode(orderCode))
 
+// Purchase Order
+const useCreatePurchaserOrder = () => useMutation((formData: IPurchaserOrder) => api.createPurchaserOrder(formData))
+
+
 export {
     useCreateOrder,
     useUpdateOrder,
@@ -40,4 +44,6 @@ export {
     useApproveInvoiceType,
     useRetrieveOrdersByMutation,
     useGetOrderDetailByCode,
+    // purchaser order
+    useCreatePurchaserOrder
 };
