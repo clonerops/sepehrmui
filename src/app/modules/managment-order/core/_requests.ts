@@ -112,6 +112,15 @@ const retrievePurchaserOrders = async (formData: { pageNumber?: number; pageSize
     }
 }
 
+const retrievePurchaserOrder = async (id: string | undefined) => {
+    try {
+        const { data } = await http.get(`/v1/PurchaseOrder/${id}`)
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
 
 
 
@@ -127,5 +136,6 @@ export {
     getOrderDetailByCode,
     // Purchaser Order
     createPurchaserOrder,
-    retrievePurchaserOrders
+    retrievePurchaserOrders,
+    retrievePurchaserOrder
 }

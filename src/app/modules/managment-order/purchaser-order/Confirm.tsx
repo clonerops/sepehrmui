@@ -16,7 +16,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikPrice from "../../product/components/FormikPrice";
 import { dropdownProductByInventory } from "../../generic/_functions";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
-import { useApproveInvoiceType, useRetrieveOrder } from "../core/_hooks";
+import { useApproveInvoiceType, useRetrieveOrder, useRetrievePurchaserOrder } from "../core/_hooks";
 import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
 import { useGetInvoiceType } from "../../generic/_hooks";
 import { useGetCustomerCompaniesMutate } from "../../generic/customerCompany/_hooks";
@@ -37,9 +37,9 @@ const initialValues = {
     customerCompanyCheck: false
 }
 
-const SalesOrderConfirm = () => {
+const PurchaserOrderConfirm = () => {
     const { id } = useParams()
-    const { data, isLoading } = useRetrieveOrder(id)
+    const { data, isLoading } = useRetrievePurchaserOrder(id)
     const { data: productsByBrand, } = useRetrieveProductsByBrand();
     const { data: factor } = useGetInvoiceType();
     const customerCompaniesTools = useGetCustomerCompaniesMutate();
@@ -67,14 +67,12 @@ const SalesOrderConfirm = () => {
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
-        { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 1, title: "اسم رسمی شرکت مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName },
+        { id: 1, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
     ]
 
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName" },
-        { id: 2, header: "انبار", accessor: "warehouseName" },
         { id: 3, header: "مقدار", accessor: "proximateAmount" },
         { id: 4, header: "قیمت", accessor: "price" },
     ]
@@ -316,4 +314,4 @@ const SalesOrderConfirm = () => {
     )
 }
 
-export default SalesOrderConfirm
+export default PurchaserOrderConfirm

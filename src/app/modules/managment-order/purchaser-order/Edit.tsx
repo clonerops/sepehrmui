@@ -26,7 +26,7 @@ import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
-const SalesOrderEdit = () => {
+const PurchaserOrderEdit = () => {
 
     let formikRef = useRef<FormikProps<any>>(null);
 
@@ -295,4 +295,4 @@ const SalesOrderEdit = () => {
     )
 }
 
-export default SalesOrderEdit
+export default PurchaserOrderEdit

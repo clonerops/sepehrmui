@@ -10,7 +10,7 @@ import MuiTable from "../../../../_cloner/components/MuiTable";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import ImagePreview from "../../../../_cloner/components/ImagePreview";
 
-import { useRetrieveOrder } from "../core/_hooks";
+import { useRetrieveOrder, useRetrievePurchaserOrder } from "../core/_hooks";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 
 
@@ -30,14 +30,14 @@ const initialValues = {
     invoiceTypeCheck: false
 }
 
-const SalesOrderDetail = (props: Props) => {
+const PurchaserOrderDetail = (props: Props) => {
     const { id } = useParams()
-    const { data, isLoading } = useRetrieveOrder(id)
+    const { data, isLoading } = useRetrievePurchaserOrder(id)
     // const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
-        { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 1, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
         { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 1, title: "اسم رسمی شرکت مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName },
@@ -47,7 +47,7 @@ const SalesOrderDetail = (props: Props) => {
     ]
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
-        { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
@@ -142,10 +142,6 @@ const SalesOrderDetail = (props: Props) => {
                                 </ReusableCard>
                             </Box>
                         }
-                        {/* <ReusableCard cardClassName="p-4 mt-4">
-                            <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
-                            <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
-                        </ReusableCard> */}
                     </>
                 }}
             </Formik>
@@ -153,4 +149,4 @@ const SalesOrderDetail = (props: Props) => {
     )
 }
 
-export default SalesOrderDetail
+export default PurchaserOrderDetail

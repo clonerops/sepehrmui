@@ -40,6 +40,13 @@ const useRetrievePurchaserOrders = (formData: { pageNumber?: number; pageSize?: 
         refetchIntervalInBackground: false
     });
 };
+const useRetrievePurchaserOrder = (id: string | undefined) => {
+    return useQuery(["order", id], () => api.retrievePurchaserOrder(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
+};
 
 
 export {
@@ -53,5 +60,6 @@ export {
     useGetOrderDetailByCode,
     // purchaser order
     useCreatePurchaserOrder,
-    useRetrievePurchaserOrders
+    useRetrievePurchaserOrders,
+    useRetrievePurchaserOrder
 };
