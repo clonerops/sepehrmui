@@ -27,8 +27,8 @@ import FormikAmount from '../../product/components/FormikAmount';
 import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService, IPurchaserOrder } from '../core/_models';
 import { ICustomer } from '../../customer/core/_models';
 import TransitionsModal from '../../../../_cloner/components/ReusableModal';
-import FormikProduct from '../../../../_cloner/components/FormikProductComboSelect';
 import ProductsList from './components/ProductsList';
+import FormikProductBrand from '../../../../_cloner/components/FormikProductBrandComboSelect';
 
 
 
@@ -107,7 +107,7 @@ const orderDetailParseFields = (
         case "product":
             return (
                 <Box key={index} component="div" className="flex gap-x-2 w-full">
-                    <FormikProduct disabled={isUpdate || postSaleOrder.data?.succeeded} onChange={(value: any) => changeProductFunction(value, setFieldValue)} options={dropdownProductByBrandName(products?.data?.data)} {...rest} />
+                    <FormikProductBrand disabled={isUpdate || postSaleOrder.data?.succeeded} onChange={(value: any) => changeProductFunction(value, setFieldValue)} {...rest} />
                     {/* <Button onClick={() => setState((prev) => ({...prev, isProductChoose: true}))} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded}>
                         <Grading />
                     </Button>

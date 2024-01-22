@@ -82,3 +82,12 @@ export const dropdownProductBrandName = (data: any) => {
         })
     );
 };
+export const dropdownProductBrand = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { productId: any; productName: any, brandName: string }): any => {
+            const { productId, productName, brandName } = obj;
+            return { value: productId, label: `${productName}-(${brandName})` };
+        })
+    );
+};
