@@ -35,6 +35,9 @@ const PurchaserOrder = React.lazy(() => import("../modules/managment-order/purch
 const SalesOrderList = React.lazy(
     () => import("../modules/managment-order/sales-order/Lists")
 );
+const PurchaserOrderList = React.lazy(
+    () => import("../modules/managment-order/purchaser-order/Lists")
+);
 const SalesOrderEdit = React.lazy(
     () => import("../modules/managment-order/sales-order/Edit")
 );
@@ -115,8 +118,9 @@ export const routes: RouteProps[] = [
     { path: "auth/*", element: <Navigate to="/dashboard" /> },
     { path: "dashboard", element: <Dashboard /> },
     { path: "dashboard/sales-order", element: <SalesOrder /> },
-    { path: "dashboard/purchaser-order", element: <PurchaserOrder /> },
+    { path: "dashboard/purchaser_order", element: <PurchaserOrder /> },
     { path: "dashboard/sales-order/lists", element: <SalesOrderList /> },
+    { path: "dashboard/purchaser_order/lists", element: <PurchaserOrderList /> },
     { path: "dashboard/sales-order/lists/:id", element: <SalesOrderDetail /> },
     {
         path: "dashboard/sales-order/ready-to-confirm/:id",

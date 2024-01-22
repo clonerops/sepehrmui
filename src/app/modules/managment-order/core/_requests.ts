@@ -97,6 +97,22 @@ const createPurchaserOrder = async (formData: IPurchaserOrder) => {
     }
 }
 
+const retrievePurchaserOrders = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[] }) => {
+    const filter = {
+        pageNumber: formData.pageNumber,
+        pageSize: formData.pageSize,
+        InvoiceTypeId: formData.InvoiceTypeId
+      };
+    
+    try {
+        const { data } = await http.get(`${generateURLQueryParam("/v1/PurchaseOrder", filter)}`)
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 
 
 export {
@@ -110,5 +126,6 @@ export {
     retrieveOrdersMutation,
     getOrderDetailByCode,
     // Purchaser Order
-    createPurchaserOrder 
+    createPurchaserOrder,
+    retrievePurchaserOrders
 }

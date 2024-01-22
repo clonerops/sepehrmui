@@ -108,24 +108,6 @@ const orderDetailParseFields = (
             return (
                 <Box key={index} component="div" className="flex gap-x-2 w-full">
                     <FormikProductBrand disabled={isUpdate || postSaleOrder.data?.succeeded} onChange={(value: any) => changeProductFunction(value, setFieldValue)} {...rest} />
-                    {/* <Button onClick={() => setState((prev) => ({...prev, isProductChoose: true}))} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded}>
-                        <Grading />
-                    </Button>
-                    {isProductChoose &&
-                        <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='99%' isClose={() => setState((prev) => ({...prev, isProductChoose: false}))}>
-                                <ProductsList
-                                    products={products?.data?.data}
-                                    productLoading={products.isLoading}
-                                    productError={products.isError}
-                                    setState={setState}
-                                    setFieldValue={setFieldValue}
-                                    orders={orders}
-                                    setOrders={setOrders}
-                                    setOrderPayment={setOrderPayment}
-                                    orderService={orderService}
-                                />
-                        </TransitionsModal>
-                    } */}
                 </Box>
             );
         case "purchaserCustomer":

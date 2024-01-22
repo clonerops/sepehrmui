@@ -36,7 +36,10 @@ export const translationMapping: any = {
     permissions: "مجوزها",
     groups: "گروه ها",
     accessDenied: "دسترسی غیرمجاز",
-    warehouses: "مدیریت انبارها"
+    warehouses: "مدیریت انبارها",
+    purchaser_order: "سفارش خرید",
+    sales_order: "سفارش فروش",
+
     // Add more translations as needed
   };
   

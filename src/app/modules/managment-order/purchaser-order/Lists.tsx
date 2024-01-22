@@ -3,7 +3,7 @@ import { Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {Box} from '@mui/material'
 
-import { useRetrieveOrders } from "../core/_hooks";
+import { useRetrievePurchaserOrders } from "../core/_hooks";
 import { IOrder } from "../core/_models";
 import { orderColumns } from "../helpers/columns";
 
@@ -14,7 +14,7 @@ import Pagination from "../../../../_cloner/components/Pagination";
 
 const pageSize = 20
 
-const SalesOrderList = () => {
+const PurchaserOrderList = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     let formData = {
@@ -22,7 +22,7 @@ const SalesOrderList = () => {
         pageSize: pageSize,    
     }
 
-    const { data: orders, isLoading } = useRetrieveOrders(formData);
+    const { data: orders, isLoading } = useRetrievePurchaserOrders(formData);
 
     const [results, setResults] = useState<IOrder[]>([]);
 
@@ -34,7 +34,7 @@ const SalesOrderList = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/sales-order/lists/${item?.row?.id}`}
+                to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
                 state={{ isConfirmed: false }}
             >
                 <Visibility color="secondary" />
@@ -69,8 +69,8 @@ const SalesOrderList = () => {
             </Box>
             <MuiDataGrid
                 columns={orderColumns(renderAction)}
-                rows={results}
-                data={orders?.data}
+                rows={results || [{}]}
+                data={orders?.data || [{}]}
                 isLoading={isLoading}
             />
             <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
@@ -78,4 +78,4 @@ const SalesOrderList = () => {
     );
 };
 
-export default SalesOrderList;
+export default PurchaserOrderList;
