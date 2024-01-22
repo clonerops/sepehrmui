@@ -81,18 +81,14 @@ const OrderProductDetail = (props: Props) => {
     // }
 
     const changeProductFunction = (value: any) => { 
-        console.log("value", value)
-        // setFieldValue()
-        // const fieldValue = [
-        //     { title: "productBrandName", value: value?.productBrandName },
-        //     { title: "warehouseName", value: value?.warehouseName },
-        //     { title: "productMainUnitDesc", value: value?.productMainUnitDesc },
-        //     { title: "productSubUnitDesc", value: value?.productSubUnitDesc },
-        //     { title: "productSubUnitId", value: value?.productSubUnitId },
-        // ]
-        // fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
-        // if (BUY_WAREHOUSE_TYPES.includes(value?.warehouseId)) setState((prev) => ({...prev, isBuy: true}))
-        // else setState((prev) => ({...prev, isBuy: false}))
+        const fieldValue = [
+            { title: "productBrandName", value: value?.productBrandName },
+            { title: "warehouseName", value: value?.warehouseName },
+            { title: "productMainUnitDesc", value: value?.productMainUnitDesc },
+            { title: "productSubUnitDesc", value: value?.productSubUnitDesc },
+            { title: "productSubUnitId", value: value?.productSubUnitId },
+        ]
+        fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
     }
 
     const handleOrder = () => {
@@ -102,7 +98,7 @@ const OrderProductDetail = (props: Props) => {
 
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
-            productName: formikRef?.current?.values?.productName?.label,
+            productName: formikRef?.current?.values?.productName?.label ? formikRef?.current?.values?.productName?.label : formikRef?.current?.values?.productName,
             exchangeRate: formikRef?.current?.values?.productName?.exchangeRate ? formikRef?.current?.values?.productName?.exchangeRate : formikRef?.current?.values?.exchangeRate,
             warehouseId: formikRef?.current?.values?.productName?.warehouseId ? formikRef?.current?.values?.productName?.warehouseId : formikRef?.current?.values.warehouseId,
             productBrandName: formikRef?.current?.values?.productName?.productBrandName ? formikRef?.current?.values?.productName?.productBrandName : formikRef?.current?.values.productBrandName,
@@ -174,7 +170,7 @@ const OrderProductDetail = (props: Props) => {
             fields.forEach((element) => {
                 formikRef?.current?.setFieldValue(element, "");
             });
-            setState((prev) => ({...prev, isBuy: false, isUpdate: false}))
+            setState((prev) => ({...prev,  isUpdate: false}))
         }
     };
 
