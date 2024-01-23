@@ -126,20 +126,20 @@ export interface IPurchaserOrderDetails {
     id?: string | undefined
     rowId: number | undefined | null
     productId: string | undefined | null
-    warehouseId: number | undefined | null
+    // warehouseId: number | undefined | null
     proximateAmount: number | undefined | null
     numberInPackage: number | undefined | null
     price: number | undefined | null
-    cargoSendDate: string | undefined | null
-    purchasePrice?: number | undefined | null
+    // cargoSendDate: string | undefined | null
+    // purchasePrice?: number | undefined | null
     productBrandId?: number | undefined | null
     productSubUnitId?: number | undefined | null
     productSubUnitAmount?: number | undefined | null
-    purchaseInvoiceTypeId: number | undefined | null
-    purchaserCustomerId: string  | undefined | null
-    purchaseSettlementDate: string | undefined | null
+    // purchaseInvoiceTypeId: number | undefined | null
+    // purchaserCustomerId: string  | undefined | null
+    // purchaseSettlementDate: string | undefined | null
     description: string | undefined | null
-    sellerCompanyRow: string | undefined | null
+    // sellerCompanyRow: string | undefined | null
 }
 
 

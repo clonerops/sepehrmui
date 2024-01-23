@@ -54,7 +54,6 @@ const ProductTypeForm = (props: Props) => {
 
 
   const onUpdate = (rowData: any) => {
-    console.log(rowData)
     try {
       const formData = {
         id: rowData.id,
