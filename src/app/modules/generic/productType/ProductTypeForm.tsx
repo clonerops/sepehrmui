@@ -46,16 +46,6 @@ const ProductTypeForm = (props: Props) => {
 
   const isNew = !props.id
   
-  const [files, setFiles] = useState<File[]>([]);
-  const [base64Attachments, setBase64Attachments] = useState<string>("")
-
-
-  useEffect(() => {
-    if (files.length > 0) {
-        convertFilesToBase64(files, setBase64Attachments);
-    }
-}, [files]);
-
   useEffect(() => {
     if (!isNew) {
         detailTools.mutate(props.id)
@@ -69,7 +59,6 @@ const ProductTypeForm = (props: Props) => {
       const formData = {
         id: rowData.id,
         desc: rowData.desc,
-        image: rowData.image,
         isActive: !rowData.isActive
       }
       updateType(formData, {
@@ -90,7 +79,6 @@ const ProductTypeForm = (props: Props) => {
     try {
         const formData = {
           desc: values.desc,
-          image: base64Attachments[0]
         }
         postType(formData, {
           onSuccess: (response) => {
@@ -128,7 +116,6 @@ const ProductTypeForm = (props: Props) => {
                   <Box component="div" className="md:flex md:flex-col md:justify-start md:items-start gap-4 ">
                     <FormikInput name="id" label="کد نوع کالا " disabled={true} boxClassName=" mt-2 md:mt-4" />
                     <FormikInput name="desc" label="نوع کالا " boxClassName=" mt-2 md:mt-0" />
-                    <FileUpload files={files} setFiles={setFiles} />
                     {/* {!isNew && <ImagePreview base64Strings={detailTools?.data?.data?.image || ""} />} */}
                     <Box component="div" className="mt-2 md:mt-0">
                       <ButtonComponent onClick={() => handleSubmit()}>
