@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material";
 import { AttachMoney, CheckBox, ConfirmationNumber, Description, ExitToApp, LocalShipping, Newspaper, Person } from "@mui/icons-material";
 import { Formik } from "formik";
-import moment from "moment-jalaali";
 
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
@@ -10,7 +9,7 @@ import MuiTable from "../../../../_cloner/components/MuiTable";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import ImagePreview from "../../../../_cloner/components/ImagePreview";
 
-import { useRetrieveOrder, useRetrievePurchaserOrder } from "../core/_hooks";
+import { useRetrievePurchaserOrder } from "../core/_hooks";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 
 
@@ -59,13 +58,13 @@ const PurchaserOrderDetail = (props: Props) => {
         { id: 3, header: "قیمت", accessor: "price" },
     ]
     const orderServicesColumn = [
-        { id: 1, header: "نوع خدمت", accessor: "service", render: (params: any) => <Typography>{params.description}</Typography> },
-        { id: 2, header: "هزینه", accessor: "description" },
+        { id: 1, header: "نوع خدمت", accessor: "serviceDesc", render: (params: any) => <Typography>{params.serviceDesc}</Typography> },
+        { id: 2, header: "هزینه", accessor: "description", render: (params: any) => <Typography>{params.description}</Typography> },
     ]
     const orderPaymentsColumn = [
         { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },
         { id: 2, header: "روز", accessor: "daysAfterExit" },
-        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate", render: (params: any) => moment(params.paymentDate).format('jYYYYjMM/jDD') },
+        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate", render: (params: any) => params.paymentDate },
     ]
 
 
@@ -120,7 +119,7 @@ const PurchaserOrderDetail = (props: Props) => {
                             {!props.isCargo &&
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
-                                    <MuiTable data={data?.data?.purchaseOrderServices} columns={orderServicesColumn} onDoubleClick={() => { }} />
+                                    <MuiTable data={data?.data?.orderServices} columns={orderServicesColumn} onDoubleClick={() => { }} />
                                 </ReusableCard>
                             }
                             <ReusableCard cardClassName={!props.isCargo ? "col-span-2" : "col-span-3"}>
@@ -132,7 +131,7 @@ const PurchaserOrderDetail = (props: Props) => {
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
-                                    <MuiTable data={data?.data?.purchaseOrderPayments} columns={orderPaymentsColumn} onDoubleClick={() => { }} />
+                                    <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => { }} />
                                 </ReusableCard>
 
                                 <ReusableCard cardClassName="col-span-2">
