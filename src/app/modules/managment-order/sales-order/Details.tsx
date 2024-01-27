@@ -60,8 +60,8 @@ const SalesOrderDetail = (props: Props) => {
         { id: 4, header: "قیمت", accessor: "price" },
     ]
     const orderServicesColumn = [
-        { id: 1, header: "نوع خدمت", accessor: "service", render: (params: any) => <Typography>{params.description}</Typography> },
-        { id: 2, header: "هزینه", accessor: "description" },
+        { id: 1, header: "نوع خدمت", accessor: "serviceDesc", render: (params: any) => <Typography>{params.serviceDesc}</Typography> },
+        { id: 2, header: "هزینه", accessor: "description", render: (params: any) => <Typography>{params.description}</Typography> },
     ]
     const orderPaymentsColumn = [
         { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },

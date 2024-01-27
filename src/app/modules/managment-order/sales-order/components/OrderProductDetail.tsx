@@ -89,6 +89,7 @@ const OrderProductDetail = (props: Props) => {
         const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
 
 
+        console.log("formikRef?.current?.values", formikRef?.current?.values)
 
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
@@ -105,8 +106,8 @@ const OrderProductDetail = (props: Props) => {
             sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
             proximateAmount: formikRef?.current?.values.proximateAmount,
             proximateSubUnit: formikRef?.current?.values.proximateSubUnit,
-            purchaserCustomerId: formikRef?.current?.values.purchaserCustomerId?.value ? formikRef?.current?.values.purchaserCustomerId?.value : formikRef?.current?.values.purchaserCustomerId,
-            purchaserCustomerName: formikRef?.current?.values.purchaserCustomerId?.label ? formikRef?.current?.values.purchaserCustomerId?.label : formikRef?.current?.values.purchaserCustomerName,
+            purchaserCustomerId: formikRef?.current?.values.purchaserCustomerName?.value ? formikRef?.current?.values.purchaserCustomerName?.value : formikRef?.current?.values.purchaserCustomerName.value,
+            purchaserCustomerName: formikRef?.current?.values.purchaserCustomerName?.label ? formikRef?.current?.values.purchaserCustomerName?.label : formikRef?.current?.values.purchaserCustomerName.label,
             productMainUnitDesc: formikRef?.current?.values.productMainUnitDesc,
             productSubUnitDesc: formikRef?.current?.values.productSubUnitDesc,
             productSubUnitId: formikRef?.current?.values.productSubUnitId,
