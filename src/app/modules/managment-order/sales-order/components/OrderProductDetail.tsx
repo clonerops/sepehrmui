@@ -65,7 +65,7 @@ const OrderProductDetail = (props: Props) => {
             FIELD_VALUE.forEach((field) => setFieldValue(field.title, field.value));
 
             if (BUY_WAREHOUSE_TYPES.includes(warehouseType)) setState((prev) => ({...prev, isBuy: true}));
-            else setState((prev) => ({...prev, isProductChoose: false}))
+            else setState((prev) => ({...prev, isProductChoose: false, isBuy: false}))
         } catch (error) {
             console.error("Error handling warehouse change:", error);
         }
@@ -166,6 +166,7 @@ const OrderProductDetail = (props: Props) => {
     };
 
     const fieldsToMap = state.isBuy ? orderFieldWhenNotWarehouseMain : orderFieldWhenWarehouseIsMain;
+    console.log("state.isBuy", state.isBuy)
 
     return (
         <>

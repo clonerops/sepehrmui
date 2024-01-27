@@ -4,18 +4,18 @@ import { Formik } from "formik";
 import {Button, Typography, Box} from '@mui/material'
 
 import { IOrder } from "../core/_models";
-import { useRetrieveOrdersByMutation } from "../core/_hooks";
+import { useRetrieveOrdersByMutation, useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import { salesOrderConfirm } from "../helpers/columns";
+import { purchaserOrderConfirm, salesOrderConfirm } from "../helpers/columns";
 
 
-const ReadyToSalesOrderConfirm = () => {
+const ReadyToPurchaserOrderConfirm = () => {
     
-    const { mutate, data: orders, isLoading } = useRetrieveOrdersByMutation();
+    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
@@ -32,9 +32,10 @@ const ReadyToSalesOrderConfirm = () => {
 
 
     const renderAction = (item: any) => {
+        console.log("item?.row", item?.row)
         return (
             <Link
-                to={`${item.row.orderStatusId !== 2 ? `/dashboard/sales-order/ready-to-confirm/${item?.row?.id}` : ""}`}
+                to={`${item.row.orderStatusId !== 2 ? `/dashboard/purchaser_order/ready-to-confirm/${item?.row?.id}` : ""}`}
                 state={{ isConfirmed: true }}
             >
                 <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId === 2}> 
@@ -103,7 +104,7 @@ const ReadyToSalesOrderConfirm = () => {
                 </Formik>
             </Box>
             <MuiDataGrid
-                columns={salesOrderConfirm(renderAction)}
+                columns={purchaserOrderConfirm(renderAction)}
                 rows={results}
                 data={orders?.data}
                 isLoading={isLoading}
@@ -112,4 +113,4 @@ const ReadyToSalesOrderConfirm = () => {
     );
 };
 
-export default ReadyToSalesOrderConfirm;
+export default ReadyToPurchaserOrderConfirm;

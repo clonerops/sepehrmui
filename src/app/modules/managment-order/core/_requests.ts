@@ -121,6 +121,22 @@ const retrievePurchaserOrder = async (id: string | undefined) => {
     }
 }
 
+const retrievePurchaserOrdersMutation = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number }) => {
+    const filter = {
+        pageNumber: formData.pageNumber,
+        pageSize: formData.pageSize,
+        InvoiceTypeId: formData.InvoiceTypeId,
+        OrderStatusId: formData.OrderStatusId,
+      };
+
+    try {
+        const { data } = await http.get(`${generateURLQueryParam("/v1/PurchaseOrder", filter)}`)
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
 
 
 
@@ -137,5 +153,6 @@ export {
     // Purchaser Order
     createPurchaserOrder,
     retrievePurchaserOrders,
-    retrievePurchaserOrder
+    retrievePurchaserOrder,
+    retrievePurchaserOrdersMutation
 }

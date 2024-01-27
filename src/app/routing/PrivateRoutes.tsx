@@ -50,8 +50,14 @@ const PurchaserOrderDetail = React.lazy(
 const SalesOrderConfirm = React.lazy(
     () => import("../modules/managment-order/sales-order/Confirm")
 );
+const PurchaserOrderConfirm = React.lazy(
+    () => import("../modules/managment-order/purchaser-order/Confirm")
+);
 const ReadyToSalesOrderConfirm = React.lazy(
     () => import("../modules/managment-order/sales-order/ReadyToConfirm")
+);
+const ReadyToPurchaserOrderConfirm = React.lazy(
+    () => import("../modules/managment-order/purchaser-order/ReadyToConfirm")
 );
 const Dashboard = React.lazy(() => import("../modules/Dashboard"));
 const DynamicBreadcrumbs = React.lazy(
@@ -131,8 +137,16 @@ export const routes: RouteProps[] = [
         element: <SalesOrderConfirm />,
     },
     {
+        path: "dashboard/purchaser_order/ready-to-confirm/:id",
+        element: <PurchaserOrderConfirm />,
+    },
+    {
         path: "dashboard/sales-order/ready-to-confirm",
         element: <ReadyToSalesOrderConfirm />,
+    },
+    {
+        path: "dashboard/purchaser_order/ready-to-confirm",
+        element: <ReadyToPurchaserOrderConfirm />,
     },
     { path: "dashboard/sales-order/edit", element: <SalesOrderEdit /> },
     { path: "dashboard/customers", element: <Customer /> },

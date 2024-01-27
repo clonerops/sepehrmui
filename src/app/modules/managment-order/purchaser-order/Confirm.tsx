@@ -66,9 +66,10 @@ const PurchaserOrderConfirm = () => {
     }, [data?.data?.customer.id])
 
     const orderAndAmountInfo = [
-        { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
-        { id: 1, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
+        { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.purchaseOrderCode },
+        { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 3, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderSendTypeDesc },
+        { id: 3, title: "وضعیت", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderStatusDesc },
     ]
 
     const orderOrderColumnMain = [
@@ -218,7 +219,7 @@ const PurchaserOrderConfirm = () => {
                             })}
                             <CardTitleValue key={orderAndAmountInfo.length + 1} className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                         </Box>
-                        <ReusableCard cardClassName="my-4">
+                        {/* <ReusableCard cardClassName="my-4">
                             {saleOrderFieldConfirm.map((rowFields, index) => (
                                 <Box
                                     key={index}
@@ -236,16 +237,16 @@ const PurchaserOrderConfirm = () => {
                                     )}
                                 </Box>
                             ))}
-                        </ReusableCard>
+                        </ReusableCard> */}
                         <ReusableCard cardClassName="my-4">
                             <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                             <Box component="div" className="flex flex-col md:flex-row gap-x-4">
                                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
-                                <MuiTable onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} />
+                                {/* <MuiTable onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} /> */}
                             </Box>
                         </ReusableCard>
 
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Box component="div" className="flex flex-col">
                                 <ReusableCard >
                                     <Typography variant="h2" color="primary" className="pb-4">افزودن پیوست</Typography>
@@ -270,7 +271,7 @@ const PurchaserOrderConfirm = () => {
                                     />
                                 </ReusableCard>
                             </Box>
-                            <Box component="div" className="flex flex-col">
+                            {/* <Box component="div" className="flex flex-col">
                                 <ReusableCard>
                                     <Box component="div" className="flex justify-between items-center">
                                         <Typography variant="h2" color="primary" className="pb-4">شرکت رسمی و توضیحات</Typography>
@@ -292,7 +293,7 @@ const PurchaserOrderConfirm = () => {
                                         label="" name="description"
                                     />
                                 </ReusableCard>
-                            </Box>
+                            </Box> */}
                         </Box>
                         <Box component="div" className="flex justify-end items-end gap-x-4 my-4 ">
                             <Button onClick={() => setApprove(true)} className="!bg-[#fcc615] !text-black">
