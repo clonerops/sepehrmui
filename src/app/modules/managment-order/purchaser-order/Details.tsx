@@ -36,28 +36,27 @@ const PurchaserOrderDetail = (props: Props) => {
     // const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
-        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
-        { id: 1, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
-        { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
-        { id: 1, title: "اسم رسمی شرکت مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName },
-        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc },
-        { id: 5, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc },
-        { id: 4, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
-    ]
-    const orderAndAmountInfoInCargo = [
-        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.purchaseOrderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
-        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderSendTypeDesc },
+        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.purchaseOrderStatusDesc },
+        { id: 6, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc },
+        { id: 7, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
+        { id: 8, title: "وضعیت تایید حسابداری", icon: <CheckBox color="secondary" />, value: data?.data?.confirmedStatus === false ? "تایید نشده" : "تایید شده" },
+    ]
+    const orderAndAmountInfoInCargo = [
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.purchaseOrderCode },
+        { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderSendTypeDesc },
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
     ]
 
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName" },
-        { id: 2, header: "انبار", accessor: "warehouseName" },
-        { id: 3, header: "مقدار", accessor: "proximateAmount", },
-        { id: 4, header: "قیمت", accessor: "price" },
+        { id: 2, header: "مقدار", accessor: "proximateAmount", },
+        { id: 3, header: "قیمت", accessor: "price" },
     ]
     const orderServicesColumn = [
         { id: 1, header: "نوع خدمت", accessor: "service", render: (params: any) => <Typography>{params.description}</Typography> },
@@ -121,7 +120,7 @@ const PurchaserOrderDetail = (props: Props) => {
                             {!props.isCargo &&
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
-                                    <MuiTable data={data?.data?.orderServices} columns={orderServicesColumn} onDoubleClick={() => { }} />
+                                    <MuiTable data={data?.data?.purchaseOrderServices} columns={orderServicesColumn} onDoubleClick={() => { }} />
                                 </ReusableCard>
                             }
                             <ReusableCard cardClassName={!props.isCargo ? "col-span-2" : "col-span-3"}>
@@ -133,7 +132,7 @@ const PurchaserOrderDetail = (props: Props) => {
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
-                                    <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => { }} />
+                                    <MuiTable data={data?.data?.purchaseOrderPayments} columns={orderPaymentsColumn} onDoubleClick={() => { }} />
                                 </ReusableCard>
 
                                 <ReusableCard cardClassName="col-span-2">

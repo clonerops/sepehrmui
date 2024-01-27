@@ -5,7 +5,7 @@ import {Box} from '@mui/material'
 
 import { useRetrievePurchaserOrders } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { orderColumns } from "../helpers/columns";
+import { orderColumns, purchaserOrderColumns } from "../helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
@@ -68,7 +68,7 @@ const PurchaserOrderList = () => {
                 />
             </Box>
             <MuiDataGrid
-                columns={orderColumns(renderAction)}
+                columns={purchaserOrderColumns(renderAction)}
                 rows={results || [{}]}
                 data={orders?.data || [{}]}
                 isLoading={isLoading}

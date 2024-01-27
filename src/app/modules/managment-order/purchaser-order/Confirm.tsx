@@ -16,7 +16,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikPrice from "../../product/components/FormikPrice";
 import { dropdownProductByInventory } from "../../generic/_functions";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
-import { useApproveInvoiceType, useRetrieveOrder, useRetrievePurchaserOrder } from "../core/_hooks";
+import { useApproveInvoiceType, useRetrievePurchaserOrder } from "../core/_hooks";
 import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
 import { useGetInvoiceType } from "../../generic/_hooks";
 import { useGetCustomerCompaniesMutate } from "../../generic/customerCompany/_hooks";

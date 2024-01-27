@@ -4,7 +4,6 @@ import { Form, FormikErrors, FormikProps } from "formik"
 import {Box} from '@mui/material'
 import OrderProductList from './OrderProductList'
 import { ISaleOrderDetail, IOrderItems, IOrderPayment, IOrderService } from '../../core/_models'
-import { BUY_WAREHOUSE_TYPES, FIELD_VALUE } from '../../helpers/constants'
 import { calculateTotalAmount } from '../../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../../_cloner/helpers/sliceNumberPrice'
 import { orderField } from '../fields'
@@ -61,25 +60,6 @@ const OrderProductDetail = (props: Props) => {
         products.mutate(filter)
     }, [])
 
-
-    // const changeWarehouseFunction = (warehouseType: number, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
-    //     try {
-    //         const filter = {
-    //             ByBrand: true,
-    //             WarehouseId: warehouseType
-    //         }
-    //         products.mutate(filter)
-
-    //         FIELD_VALUE.forEach((field) => setFieldValue(field.title, field.value));
-
-    //         if (BUY_WAREHOUSE_TYPES.includes(warehouseType)) setState((prev) => ({...prev, isBuy: true}));
-    //         else setState((prev) => ({...prev, isProductChoose: false}))
-    //     } catch (error) {
-    //         console.error("Error handling warehouse change:", error);
-    //     }
-
-    // }
-
     const changeProductFunction = (value: any) => { 
         const fieldValue = [
             { title: "productBrandName", value: value?.productBrandName },
@@ -95,6 +75,7 @@ const OrderProductDetail = (props: Props) => {
         const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
 
 
+        console.log('formikRef?.current?.values', formikRef?.current?.values)
 
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
@@ -120,10 +101,6 @@ const OrderProductDetail = (props: Props) => {
             description: formikRef?.current?.values.productDesc,
             rowId: formikRef?.current?.values?.rowId,
         };
-
-        console.log("formikRef?.current?.values", formikRef?.current?.values)
-        console.log("productOrder", productOrder)
-
 
         if (!state.isUpdate) {
             const isDuplicate = orders.some(
