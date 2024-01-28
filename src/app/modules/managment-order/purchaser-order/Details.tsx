@@ -35,7 +35,7 @@ const PurchaserOrderDetail = (props: Props) => {
     // const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
-        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.purchaseOrderCode },
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderSendTypeDesc },
@@ -45,7 +45,7 @@ const PurchaserOrderDetail = (props: Props) => {
         { id: 8, title: "وضعیت تایید حسابداری", icon: <CheckBox color="secondary" />, value: data?.data?.confirmedStatus === false ? "تایید نشده" : "تایید شده" },
     ]
     const orderAndAmountInfoInCargo = [
-        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.purchaseOrderCode },
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderSendTypeDesc },
@@ -53,7 +53,7 @@ const PurchaserOrderDetail = (props: Props) => {
     ]
 
     const orderOrderColumnMain = [
-        { id: 1, header: "نام کالا", accessor: "productName" },
+        { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => <Typography>{params.productBrand.productName}</Typography> },
         { id: 2, header: "مقدار", accessor: "proximateAmount", },
         { id: 3, header: "قیمت", accessor: "price" },
     ]

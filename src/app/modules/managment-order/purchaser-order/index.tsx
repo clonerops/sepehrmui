@@ -150,98 +150,10 @@ const PurchaserOrder = () => {
             }
         }
     }
-    // useCallback((values: any) => {
-    //     if (orders?.length === 0) {
-    //         EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", "error")
-    //     } else {
-    //         try {
-    //             const formData = {
-    //                 customerId: values.customerId.value,
-    //                 totalAmount: calculateTotalAmount(orders, orderServices),
-    //                 description: values.description,
-    //                 exitType: Number(values.exitType),
-    //                 purchaseOrderSendTypeId: Number(values.orderSendTypeId),
-    //                 paymentTypeId: Number(values.paymentTypeId),
-    //                 customerOfficialCompanyId: +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
-    //                 invoiceTypeId: Number(values.invoiceTypeId),
-    //                 isTemporary: +values.isTemporary === 1 ? false : true,
-    //                 details: orders?.map((item: any) => {
-    //                     return {
-    //                         rowId: item.rowId ? +item.rowId : 0,
-    //                         productId: item.id,
-    //                         // warehouseId: item.warehouseId ? +item.warehouseId : null,
-    //                         productBrandId: item.productBrandId ? +item.productBrandId : 25,
-    //                         proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
-    //                         productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
-    //                         productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
-    //                         numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
-    //                         price: item.price ? +item.price?.replace(/,/g, "") : null,
-    //                         // cargoSendDate: "1402/01/01",
-    //                         description: item.description,
-    //                         // purchasePrice: item.purchasePrice ? +item.purchasePrice : 0,
-    //                         // purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-    //                         // purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
-    //                         deliverDate: item.purchaseSettlementDate,
-    //                         // sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
-    //                     };
-    //                 }),
-    //                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
-    //                     return {
-    //                         amount: Number(item.amount?.replace(/,/g, "")),
-    //                         paymentDate: item.paymentDate,
-    //                         daysAfterExit: Number(item.daysAfterExit),
-    //                         paymentType: item.paymentType
-    //                     }
-    //                 }),
-    //                 orderServices: orderServices.map((item: IOrderService) => {
-    //                     return {
-    //                         serviceId: item.serviceId,
-    //                         description: item.description
-    //                     }
-    //                 })
-    //             };
-    //             console.log(JSON.stringify(formData))
-    //             postSaleOrder.mutate(formData, {
-    //                 onSuccess: (response) => {
-                        
-    //                     if (response.data.Errors && response.data.Errors.length > 0) {
-    //                         response.data.Errors.forEach((item: any) => {
-    //                             EnqueueSnackbar(item, "error")
-    //                         })
-    //                     } else {
-    //                         if (response.succeeded) {
-    //                             Swal.fire({
-    //                                 title: `سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`,
-    //                                 confirmButtonColor: "#fcc615",
-    //                                 showClass: {
-    //                                     popup: 'animate__animated animate__fadeInDown'
-    //                                 },
-    //                                 hideClass: {
-    //                                     popup: 'animate__animated animate__fadeOutUp'
-    //                                 },
-    //                                 confirmButtonText: "بستن",
-    //                                 icon: "success",
-    //                                 customClass: {
-    //                                     title: "text-lg"
-    //                                 }
-    //                             })
-    //                         } else {
-    //                             EnqueueSnackbar(response?.data.Message, "error")
-    //                         }
-    //                     }
-    //                 }
-    //             });
-    //         } catch (error) {
-    //             EnqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید.", "error")
-    //         }
-    //     }
-    // }, [])
 
     if(postSaleOrder.isLoading) {
         return<Backdrop loading={postSaleOrder.isLoading} />
     }
-
-    console.log("dksaldkdadldla")
 
     return (
         <>
