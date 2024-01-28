@@ -204,6 +204,7 @@ const SalesOrderEdit = () => {
 
     return (
         <>
+        {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             <Formik enableReinitialize innerRef={formikRef} initialValues={{ 
                 ...saleOrderEditInitialValues, 
                 ...orderPaymentValues, 

@@ -284,6 +284,17 @@ export const ladingColumns = (renderAction: any) => {
 export const columnsModalProduct = () => {
     const col = [
         {
+            field: "productCode",
+            headerName: "کدکالا",
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+
+            maxWidth: 80,
+            flex: 1,
+        },
+        {
             field: "productName",
             headerName: "کالا",
             headerClassName: "headerClassName",
@@ -322,7 +333,7 @@ export const columnsModalProduct = () => {
             field: "inventory",
             minWidth: 90,
             maxWidth: 90,
-            headerName: "موجودی",
+            headerName: "موجودی واقعی",
             renderCell: (params: any) => {
                 return <Typography variant="h5">{separateAmountWithCommas(params.value)}</Typography>;
             },
@@ -333,7 +344,7 @@ export const columnsModalProduct = () => {
         {
             field: "price",
             minWidth: 60,
-            headerName: "قیمت",
+            headerName: "موجودی مجازی",
             flex: 1,
             renderCell: (value: any) =>
                 <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,

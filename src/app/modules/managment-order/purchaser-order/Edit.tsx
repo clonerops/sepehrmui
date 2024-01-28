@@ -38,7 +38,6 @@ const PurchaserOrderEdit = () => {
 
     const products = useGetProductList();
     const detailTools = useGetPurchaserOrderDetailByCode()
-    const { data: warehouse } = useGetWarehouses();
 
 
     useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
@@ -67,16 +66,19 @@ const PurchaserOrderEdit = () => {
             setOrders([
                 ...detailTools?.data?.data?.details?.map((i: any) => ({
                     ...i,
-                    mainUnit: i.productBrand.productMainUnitDesc,
-                    productMainUnitDesc: i.productBrand.productMainUnitDesc,
-                    subUnit: i.productBrand.productSubUnitDesc,
-                    exchangeRate: +i.productBrand.exchangeRate,
+                    productId: i.productBrand.productId,
+                    productName: i.productBrand.product.productName,
+                    mainUnit: i.productBrand.product.productMainUnitDesc,
+                    productMainUnitDesc: i.productBrand.product.productMainUnitDesc,
+                    subUnit: i.productBrand.product.productSubUnitDesc,
+                    exchangeRate: +i.productBrand.product.exchangeRate,
+                    purchaseSettlementDate: i.deliverDate,
                     purchasePrice: +i.purchasePrice,
-                    price: ~~i.price,
+                    price: i.price,
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
                     productBrandName: i.productBrand.brandName,
                     purchaserCustomerId: i.purchaserCustomerId,
-                    proximateSubUnit: Math.ceil(+i.proximateAmount / +i.productBrand.exchangeRate)
+                    proximateSubUnit: Math.ceil(+i.proximateAmount / +i.productBrand.product.exchangeRate)
                 })) || []
             ]);
 
@@ -115,9 +117,9 @@ const PurchaserOrderEdit = () => {
                             productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
                             productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
                             numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
-                            price: item.price ? +item.price?.replace(/,/g, "") : null,
+                            price: typeof item.price === "number" ? item.price :  +item.price?.replace(/,/g, ""),
                             description: item.description,
-                            deliverDate: item.purchaseSettlementDate,
+                            deliverDate: item.deliverDate,
                     };
                 
                     // Conditionally include id if it exists
@@ -180,12 +182,15 @@ const PurchaserOrderEdit = () => {
         }
     }
 
+    console.log("orders", orders)
+
     if (postSaleOrder.isLoading) {
         return <Backdrop loading={postSaleOrder.isLoading} />
     }
 
     return (
         <>
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             <Formik enableReinitialize innerRef={formikRef} initialValues={{ 
                 ...saleOrderEditInitialValues, 
                 ...orderPaymentValues, 

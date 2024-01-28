@@ -21,14 +21,16 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { columnsModalProduct } from "../managment-order/helpers/columns";
 import { Form, Formik } from "formik";
 import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
-import { dropdownWarehouses } from "../managment-order/helpers/dropdowns";
+import { dropdownWarehouseType, dropdownWarehouses } from "../managment-order/helpers/dropdowns";
 import { useGetWarehouses } from "../generic/warehouse/_hooks";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { useGetWarehouseTypes } from "../generic/_hooks";
 
 const ProductInventories = () => {
     const { refetch, data: productPrice, isLoading: productPriceLoading } = useRetrieveProductPrice(null);
     const { mutate: deleteMutate, isLoading: deleteLoading, } = useDeleteProductPrice();
     const filterTools = useGetProductList();
-    const warehouseTools = useGetWarehouses();
+    const warehouseTypeTools = useGetWarehouseTypes();
 
     // State
     const [itemForEdit, setItemForEdit] = useState<IProductPrice | undefined>();
@@ -54,12 +56,12 @@ const ProductInventories = () => {
         if (id)
             deleteMutate(id, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
                         refetch();
-                      } else {
+                    } else {
                         EnqueueSnackbar(response.data.Message, "error")
-                      }
+                    }
                 },
             });
     };
@@ -93,20 +95,14 @@ const ProductInventories = () => {
                 setResults(res?.data)
             }
         });
-};
-
-
-// const allOption = [{ value: "-1", label: "همه", warehouseTypeId: -1 }];
-// const radioData = [...allOption, ...dropdownWarehouses(warehouseTools?.data?.data)] || [];
-
-console.log("dropdownWarehouses(warehouseTools?.data?.data)", dropdownWarehouses(warehouseTools?.data?.data))
+    };
 
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
             <ReusableCard>
-                    <Box
+                <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
@@ -130,20 +126,21 @@ console.log("dropdownWarehouses(warehouseTools?.data?.data)", dropdownWarehouses
                         <Button
                             onClick={() => setIsCreateOpen(true)}
                             variant="contained"
+                            disabled={true}
                             color="secondary"
                         >
                             <Typography>موجودی قابل فروش</Typography>
                         </Button>
                     </Box>
                 </Box>
-                    <Formik initialValues={{warehouseId: "-1"}} onSubmit={() => {}}>
-                            {({}) => {
-                                return <Form>
-                                    <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={warehouseTools?.data !== undefined ? [{value: "-1", label: "همه"}, ...dropdownWarehouses(warehouseTools?.data?.data)] : [{value: "-1", label: "همه"}]} name="warehouseId" />
-                                </Form>
-                            }}
-                        </Formik>
-
+                <Formik initialValues={{ warehouseId: "-1" }} onSubmit={() => { }}>
+                    {({ }) => {
+                        return <Form>
+                            <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseId" />
+                        </Form>
+                    }}
+                </Formik>
+                <Box className="grid grid-cols-2 mt-4">
                     <MuiDataGrid
                         columns={columnsModalProduct()}
                         isLoading={filterTools.isLoading}
@@ -151,6 +148,20 @@ console.log("dropdownWarehouses(warehouseTools?.data?.data)", dropdownWarehouses
                         data={filterTools?.data?.data}
                         height={400}
                     />
+                    <Box component="div">
+                        <Box
+                            component="div"
+                            className="hidden md:flex md:justify-center md:items-center"
+                        >
+                            <Box component="img"
+                                src={toAbsoulteUrl("/media/logos/11089.jpg")}
+                                width={400}
+                            />
+                        </Box>
+
+                    </Box>
+
+                </Box>
                 <TransitionsModal
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}

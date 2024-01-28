@@ -165,7 +165,6 @@ const OrderProductDetail = (props: Props) => {
     };
 
     const fieldsToMap = state.isBuy ? orderFieldWhenNotWarehouseMain : orderFieldWhenWarehouseIsMain;
-    console.log("state.isBuy", state.isBuy)
 
     return (
         <>
