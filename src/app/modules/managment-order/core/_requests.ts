@@ -146,6 +146,26 @@ const approvePurchaserInvoiceType = async (formData: IApprovePurchaserInvoice) =
     }
 }
 
+const getPurchaserOrderDetailByCode = async(orderCode: number) => {
+    try {
+        const { data } = await http.get(`/v1/PurchaseOrder/GetPurchaseOrderInfo/${orderCode}`)
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+
+}
+
+const updatePurchaserOrder = async (formData: IPurchaserOrder) => {
+    try {
+        const { data } = await http.put(`/v1/PurchaseOrder/${formData.id}`, JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 
 
 
@@ -165,5 +185,7 @@ export {
     retrievePurchaserOrders,
     retrievePurchaserOrder,
     retrievePurchaserOrdersMutation,
-    approvePurchaserInvoiceType
+    approvePurchaserInvoiceType,
+    getPurchaserOrderDetailByCode,
+    updatePurchaserOrder
 }

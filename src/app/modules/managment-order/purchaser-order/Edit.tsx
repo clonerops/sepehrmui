@@ -11,7 +11,7 @@ import OrderFeature from '../components/OrderFearure'
 import OrderService from '../components/OrderService'
 import OrderPayment from '../components/OrderPayment'
 
-import { useGetOrderDetailByCode, useUpdateOrder } from '../core/_hooks'
+import { useGetOrderDetailByCode, useGetPurchaserOrderDetailByCode, useUpdateOrder, useUpdatePurchaserOrder } from '../core/_hooks'
 import { useGetProductList } from '../../product/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
@@ -34,10 +34,10 @@ const PurchaserOrderEdit = () => {
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
 
-    const postSaleOrder = useUpdateOrder();
+    const postSaleOrder = useUpdatePurchaserOrder();
 
     const products = useGetProductList();
-    const detailTools = useGetOrderDetailByCode()
+    const detailTools = useGetPurchaserOrderDetailByCode()
     const { data: warehouse } = useGetWarehouses();
 
 
@@ -67,18 +67,16 @@ const PurchaserOrderEdit = () => {
             setOrders([
                 ...detailTools?.data?.data?.details?.map((i: any) => ({
                     ...i,
-                    mainUnit: i.product.productMainUnitDesc,
-                    productMainUnitDesc: i.product.productMainUnitDesc,
-                    subUnit: i.product.productSubUnitDesc,
-                    exchangeRate: +i.product.exchangeRate,
+                    mainUnit: i.productBrand.productMainUnitDesc,
+                    productMainUnitDesc: i.productBrand.productMainUnitDesc,
+                    subUnit: i.productBrand.productSubUnitDesc,
+                    exchangeRate: +i.productBrand.exchangeRate,
                     purchasePrice: +i.purchasePrice,
-                    warehouseId: warehouse.find((item: any) => item.name === i.warehouseName).id,
                     price: ~~i.price,
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
-                    productBrandName: i.brandName,
+                    productBrandName: i.productBrand.brandName,
                     purchaserCustomerId: i.purchaserCustomerId,
-                    // purchaserCustomerName: customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.firstName+" "+customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.lastName,
-                    proximateSubUnit: Math.ceil(+i.proximateAmount / +i.product.exchangeRate)
+                    proximateSubUnit: Math.ceil(+i.proximateAmount / +i.productBrand.exchangeRate)
                 })) || []
             ]);
 
@@ -99,41 +97,27 @@ const PurchaserOrderEdit = () => {
         } else {
             const formData = {
                 id: detailTools?.data?.data?.id,
-                productBrandId: 25,
                 customerId: detailTools?.data?.data.customer.id, //ok
-                totalAmount: calculateTotalAmount(orders, orderServices), //ok
+                totalAmount: calculateTotalAmount(orders, orderServices),
                 description: values.description ? values.description : detailTools?.data?.data.description, //ok
                 exitType: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
-                orderSendTypeId: values.orderSendTypeId ? Number(values.orderSendTypeId) : detailTools?.data?.data.orderSendTypeId,//ok
+                purchaseOrderSendTypeId: Number(values.orderSendTypeId),
                 paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
-                customerOfficialName: "string",
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
                 invoiceTypeId: detailTools?.data?.data.invoiceTypeId, //ok
-                // isTemporary: values.isTemporary === ? values.isTemporary : detailTools?.data?.data.isTemporary, //ok
                 isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary ,
-                freightName: "string", //ok
-                settlementDate: "1402/02/02", //ok
-                dischargePlaceAddress: "string", //ok
-                freightDriverName: "string", //ok
-                carPlaque: "string", //ok
                 details: orders?.map((item: any) => {
                     const orderDetails: any = {
-                        rowId: item.rowId ? Number(item.rowId) : 0, //ok
-                        productId: item.productId, //ok
-                        warehouseId: item.warehouseId ? Number(item.warehouseId) : null, //ok
-                        productBrandId: item.productBrandId ? Number(item.productBrandId) : 25, //ok
-                        proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0, //ok
-                        productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
-                        productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
-                        numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
-                        price: item.price ? Number(item.price) : null, //ok
-                        cargoSendDate: "1402/01/01",
-                        description: item.description,
-                        purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
-                        purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                        purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
-                        purchaseSettlementDate: item.purchaseSettlementDate,
-                        sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
+                            rowId: item.rowId ? +item.rowId : 0,
+                            productId: item.id,
+                            productBrandId: item.productBrandId ? +item.productBrandId : 25,
+                            proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
+                            productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                            productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                            numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
+                            price: item.price ? +item.price?.replace(/,/g, "") : null,
+                            description: item.description,
+                            deliverDate: item.purchaseSettlementDate,
                     };
                 
                     // Conditionally include id if it exists

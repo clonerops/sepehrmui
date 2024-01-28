@@ -41,6 +41,9 @@ const PurchaserOrderList = React.lazy(
 const SalesOrderEdit = React.lazy(
     () => import("../modules/managment-order/sales-order/Edit")
 );
+const PurchaserOrderEdit = React.lazy(
+    () => import("../modules/managment-order/purchaser-order/Edit")
+);
 const SalesOrderDetail = React.lazy(
     () => import("../modules/managment-order/sales-order/Details")
 );
@@ -149,6 +152,7 @@ export const routes: RouteProps[] = [
         element: <ReadyToPurchaserOrderConfirm />,
     },
     { path: "dashboard/sales-order/edit", element: <SalesOrderEdit /> },
+    { path: "dashboard/purchaser_order/edit", element: <PurchaserOrderEdit /> },
     { path: "dashboard/customers", element: <Customer /> },
     { path: "dashboard/products", element: <Products /> },
     { path: "dashboard/suppliers", element: <Suppliers /> },
