@@ -1,4 +1,4 @@
-import { useDeleteProductPrice, useRetrieveProductPrice } from "./core/_hooks";
+import { useDeleteProductPrice, useGetProductList, useRetrieveProductPrice } from "./core/_hooks";
 import { columns } from "./helpers/productPriceColumns";
 import { IProductPrice } from "./core/_models";
 import { useState, useEffect } from "react";
@@ -18,18 +18,32 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
 import { exportProductPrices } from "./core/_requests";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { columnsModalProduct } from "../managment-order/helpers/columns";
+import { Form, Formik } from "formik";
+import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
+import { dropdownWarehouses } from "../managment-order/helpers/dropdowns";
+import { useGetWarehouses } from "../generic/warehouse/_hooks";
 
 const ProductInventories = () => {
     const { refetch, data: productPrice, isLoading: productPriceLoading } = useRetrieveProductPrice(null);
     const { mutate: deleteMutate, isLoading: deleteLoading, } = useDeleteProductPrice();
+    const filterTools = useGetProductList();
+    const warehouseTools = useGetWarehouses();
+
     // State
     const [itemForEdit, setItemForEdit] = useState<IProductPrice | undefined>();
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [results, setResults] = useState<IProductPrice[]>([]);
+
     useEffect(() => {
-        setResults(productPrice?.data);
-    }, [productPrice]);
+        const filter = { ByBrand: true }
+        filterTools.mutate(filter, {
+            onSuccess: (res) => {
+                setResults(res?.data)
+            }
+        });
+    }, []);
 
     const handleEdit = (item: IProductPrice | undefined) => {
         setIsOpen(true);
@@ -69,6 +83,24 @@ const ProductInventories = () => {
         }
     };
 
+    const onFilterProductByWarehouse = (value: any) => {
+        const filter = {
+            ByBrand: true,
+            WarehouseId: +value
+        }
+        filterTools.mutate(filter, {
+            onSuccess: (res) => {
+                setResults(res?.data)
+            }
+        });
+};
+
+
+// const allOption = [{ value: "-1", label: "همه", warehouseTypeId: -1 }];
+// const radioData = [...allOption, ...dropdownWarehouses(warehouseTools?.data?.data)] || [];
+
+console.log("dropdownWarehouses(warehouseTools?.data?.data)", dropdownWarehouses(warehouseTools?.data?.data))
+
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
@@ -104,11 +136,21 @@ const ProductInventories = () => {
                         </Button>
                     </Box>
                 </Box>
-                <MuiDataGrid
-                    columns={columns(renderAction)}
-                    rows={results}
-                    data={productPrice?.data}
-                />
+                    <Formik initialValues={{warehouseId: "-1"}} onSubmit={() => {}}>
+                            {({}) => {
+                                return <Form>
+                                    <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={warehouseTools?.data !== undefined ? [{value: "-1", label: "همه"}, ...dropdownWarehouses(warehouseTools?.data?.data)] : [{value: "-1", label: "همه"}]} name="warehouseId" />
+                                </Form>
+                            }}
+                        </Formik>
+
+                    <MuiDataGrid
+                        columns={columnsModalProduct()}
+                        isLoading={filterTools.isLoading}
+                        rows={results}
+                        data={filterTools?.data?.data}
+                        height={400}
+                    />
                 <TransitionsModal
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}

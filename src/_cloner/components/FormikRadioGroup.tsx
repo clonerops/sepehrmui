@@ -47,7 +47,7 @@ const FormikRadioGroup = (props: Props) => {
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                 >
-                    {radioData.map((item) => (
+                    {radioData?.map((item) => (
                         <FormControlLabel
                             key={item.value}
                             value={item.value}
