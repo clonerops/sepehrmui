@@ -83,20 +83,14 @@ const PurchaserOrder = () => {
                         return {
                             rowId: item.rowId ? +item.rowId : 0,
                             productId: item.id,
-                            // warehouseId: item.warehouseId ? +item.warehouseId : null,
                             productBrandId: item.productBrandId ? +item.productBrandId : 25,
                             proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
                             productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
                             productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
                             numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
                             price: item.price ? +item.price?.replace(/,/g, "") : null,
-                            // cargoSendDate: "1402/01/01",
                             description: item.description,
-                            // purchasePrice: item.purchasePrice ? +item.purchasePrice : 0,
-                            // purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                            // purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : null,
                             deliverDate: item.purchaseSettlementDate,
-                            // sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                         };
                     }),
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
@@ -114,7 +108,6 @@ const PurchaserOrder = () => {
                         }
                     })
                 };
-                console.log(JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         

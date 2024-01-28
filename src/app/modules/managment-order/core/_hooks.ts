@@ -49,6 +49,7 @@ const useRetrievePurchaserOrder = (id: string | undefined) => {
 };
 
 const useRetrievePurchaserOrdersByMutation = () => useMutation((formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number;}) => api.retrievePurchaserOrdersMutation(formData));
+const useApprovePurchaserInvoiceType = () =>  useMutation((formData: IApproveInvoice) => api.approvePurchaserInvoiceType(formData))
 
 
 
@@ -65,5 +66,6 @@ export {
     useCreatePurchaserOrder,
     useRetrievePurchaserOrders,
     useRetrievePurchaserOrder,
-    useRetrievePurchaserOrdersByMutation
+    useRetrievePurchaserOrdersByMutation,
+    useApprovePurchaserInvoiceType
 };

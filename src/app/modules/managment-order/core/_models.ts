@@ -158,3 +158,20 @@ export interface IPurchaserOrder {
     purchaseOrderPayments?: IOrderPayment[] | undefined | null
     purchaseOrderServices?: IOrderService[] | undefined | null
 }
+
+export interface IApprovePurchaserInvoice {
+    orderId?: string | undefined | null,
+    invoiceTypeId?: number | null | undefined,
+    invoiceApproveDescription?: string | undefined | null,
+    orderDetails?: [
+      {
+        productId: string | undefined | null,
+        alternativeProductId: string | undefined | null,
+        alternativeProductAmount: number | null | undefined,
+        alternativeProductPrice: number | null | undefined
+      }
+    ],
+    attachments?: any,
+    orderStatusId?: number | null | undefined
+  
+}

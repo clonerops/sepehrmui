@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import { dropdownCustomerCompanies, dropdownInvoiceType } from "../helpers/dropdowns";
+import { dropdownInvoiceType } from "../helpers/dropdowns";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import { Description, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -16,7 +16,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikPrice from "../../product/components/FormikPrice";
 import { dropdownProductByInventory } from "../../generic/_functions";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
-import { useApproveInvoiceType, useRetrievePurchaserOrder } from "../core/_hooks";
+import { useApproveInvoiceType, useApprovePurchaserInvoiceType, useRetrievePurchaserOrder } from "../core/_hooks";
 import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
 import { useGetInvoiceType } from "../../generic/_hooks";
 import { useGetCustomerCompaniesMutate } from "../../generic/customerCompany/_hooks";
@@ -44,7 +44,7 @@ const PurchaserOrderConfirm = () => {
     const { data: factor } = useGetInvoiceType();
     const customerCompaniesTools = useGetCustomerCompaniesMutate();
 
-    const approveTools = useApproveInvoiceType()
+    const approveTools = useApprovePurchaserInvoiceType()
     const [cpData, setCpData] = useState(data?.data?.details)
     const [selectedRow, setSelectedRow] = useState<any>([])
     const [files, setFiles] = useState<File[]>([]);
@@ -66,14 +66,14 @@ const PurchaserOrderConfirm = () => {
     }, [data?.data?.customer.id])
 
     const orderAndAmountInfo = [
-        { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.purchaseOrderCode },
+        { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderSendTypeDesc },
         { id: 3, title: "وضعیت", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderStatusDesc },
     ]
 
     const orderOrderColumnMain = [
-        { id: 1, header: "نام کالا", accessor: "productName" },
+        { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => { return params.productBrand.productName } },
         { id: 3, header: "مقدار", accessor: "proximateAmount" },
         { id: 4, header: "قیمت", accessor: "price" },
     ]
