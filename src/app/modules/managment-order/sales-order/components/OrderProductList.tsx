@@ -19,7 +19,8 @@ type ProductProps = {
     // setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>> | undefined;
     setFieldValue?: any;
     selectedOrderIndex?: number;
-    products?: IProducts[]
+    products?: IProducts[];
+    setOrderValid: React.Dispatch<React.SetStateAction<boolean>>
     disabled?: boolean
     setState?: React.Dispatch<React.SetStateAction<{
         isBuy: boolean;
@@ -30,7 +31,7 @@ type ProductProps = {
 }
 
 const OrderProductList = (props: ProductProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, setFieldValue, selectedOrderIndex, products, disabled, setState } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, setFieldValue, setOrderValid, disabled, setState } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
@@ -137,7 +138,7 @@ const OrderProductList = (props: ProductProps) => {
         column.field !== "purchaserCustomerId" &&
         column.field !== "purchaserCustomerName" &&
         column.field !== "purchaseInvoiceTypeId" &&
-        column.field !== "purchaseInvoiceTypeDesc" &&
+        // column.field !== "purchaseInvoiceTypeDesc" &&
         column.field !== "rowId" &&
         column.field !== "productDesc");
 
@@ -156,13 +157,16 @@ const OrderProductList = (props: ProductProps) => {
                         params.row.purchaseInvoiceTypeId === ""  ||
                         !params.row.purchaserCustomerName
                     )) {
+                        setOrderValid(false)
                         return 'custom-row-style'
                     } else if ([2, 6].includes(params.row.warehouseId) && (
                         params.row.proximateAmount === "" ||
                         params.row.price === "0"
                     )) {
+                        setOrderValid(false)
                         return 'custom-row-style'
                     } else {
+                        setOrderValid(true)
                         return ""
                     }
                 }}

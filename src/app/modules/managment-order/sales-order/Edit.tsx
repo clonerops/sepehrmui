@@ -33,6 +33,7 @@ const SalesOrderEdit = () => {
     const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
+    const [orderValid, setOrderValid] = useState<boolean>(false)
 
     const postSaleOrder = useUpdateOrder();
 
@@ -272,6 +273,7 @@ const SalesOrderEdit = () => {
                                     orderServices={orderServices}
                                     setOrderServices={setOrderServices}
                                     formikRef={formikRef}
+                                    setOrderValid={setOrderValid}
                                 />
                             </ReusableCard>
                         </Box>
@@ -286,6 +288,7 @@ const SalesOrderEdit = () => {
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ویرایش سفارش فروش"}
                                 onClick={() => handleSubmit()}
+                                disabled={!orderValid}
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />

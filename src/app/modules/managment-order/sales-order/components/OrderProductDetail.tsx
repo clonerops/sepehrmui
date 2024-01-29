@@ -10,6 +10,7 @@ import { sliceNumberPriceRial } from '../../../../../_cloner/helpers/sliceNumber
 import { orderFieldWhenNotWarehouseMain, orderFieldWhenWarehouseIsMain } from '../../sales-order/fields'
 import { orderDetailParseFields } from '../../sales-order/renderFields'
 import { EnqueueSnackbar } from '../../../../../_cloner/helpers/Snackebar'
+import Backdrop from '../../../../../_cloner/components/Backdrop'
 
 
 type Props = {
@@ -23,7 +24,8 @@ type Props = {
     setOrderPayment: React.Dispatch<React.SetStateAction<IOrderPayment[]>>,
     orderServices: IOrderService[],
     setOrderServices: React.Dispatch<React.SetStateAction<IOrderService[]>>,
-    formikRef: React.RefObject<FormikProps<any>>
+    formikRef: React.RefObject<FormikProps<any>>,
+    setOrderValid: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const OrderProductDetail = (props: Props) => {
@@ -38,7 +40,8 @@ const OrderProductDetail = (props: Props) => {
         setOrderPayment,
         orderServices,
         setOrderServices,
-        formikRef
+        formikRef,
+        setOrderValid
     } = props;
 
     const [state, setState] = useState<{
@@ -104,8 +107,8 @@ const OrderProductDetail = (props: Props) => {
             sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
             proximateAmount: formikRef?.current?.values.proximateAmount,
             proximateSubUnit: formikRef?.current?.values.proximateSubUnit,
-            purchaserCustomerId: formikRef?.current?.values.purchaserCustomerName?.value ? formikRef?.current?.values.purchaserCustomerName?.value : formikRef?.current?.values.purchaserCustomerName.value,
-            purchaserCustomerName: formikRef?.current?.values.purchaserCustomerName?.label ? formikRef?.current?.values.purchaserCustomerName?.label : formikRef?.current?.values.purchaserCustomerName.label,
+            purchaserCustomerId: formikRef?.current?.values.purchaserCustomerName?.value ? formikRef?.current?.values.purchaserCustomerName?.value : formikRef?.current?.values.purchaserCustomerId,
+            purchaserCustomerName: formikRef?.current?.values.purchaserCustomerName?.label ? formikRef?.current?.values.purchaserCustomerName?.label : formikRef?.current?.values.purchaserCustomerName,
             productMainUnitDesc: formikRef?.current?.values.productMainUnitDesc,
             productSubUnitDesc: formikRef?.current?.values.productSubUnitDesc,
             productSubUnitId: formikRef?.current?.values.productSubUnitId,
@@ -145,6 +148,8 @@ const OrderProductDetail = (props: Props) => {
                 ...productOrder,
             };
             const updatedOrders: IOrderItems[] = [...orders];
+            console.log(updatedOrders)
+            console.log(formikRef?.current?.values)
             updatedOrders[state.orderIndex ? state.orderIndex : 0] = updatedOrder;
             if (formikRef?.current?.values.productName === "" || formikRef?.current?.values.productName.label === "") {
                 EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
@@ -168,6 +173,7 @@ const OrderProductDetail = (props: Props) => {
 
     return (
         <>
+            {products.isLoading && <Backdrop loading={products.isLoading} />}
             <Form>
                 <Box component="div" className="">
                     {fieldsToMap.map((rowFields, index) => (
@@ -211,6 +217,7 @@ const OrderProductDetail = (props: Props) => {
                     orderServices={orderServices}
                     setOrderPayment={setOrderPayment}
                     setState={setState}
+                    setOrderValid={setOrderValid}
                 />
             </Form>
         </>

@@ -34,29 +34,30 @@ const OrderPayment = (props: Props) => {
     const handleSetPayment = () => {
         const orderPaymentCP = [...orderPayment]
         const orderPaymentData: IOrderPayment = {
-            amount: values.amount,
-            daysAfterExit: +values.number,
-            paymentDate: values.settlement,
+            amount: values?.amount,
+            daysAfterExit: +values?.number,
+            paymentDate: values?.settlement,
             paymentType: 0
         }
 
-        const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.amount.replace(/,/g, ""), 10), 0);
+        const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue?.amount.replace(/,/g, ""), 10), 0);
 
-        if (Number(values.amount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
+        if(values?.settlement === undefined || values?.settlement === null) {
+            EnqueueSnackbar("تاریخ نمی تواند خالی باشد.", "error")
+        } else if(values?.amount === undefined || values?.amount === null) {
+            EnqueueSnackbar("مبلغ نمی تواند خالی باشد.", "error")
+        } else if (Number(values?.amount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
             EnqueueSnackbar("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد.", "error")
-
-        } else if (new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(values.settlement)) {
+        } else if (new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(values?.settlement)) {
             EnqueueSnackbar("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد.", "error")
-        } else if (currentTotalPayment + Number(values.amount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
+        } else if (currentTotalPayment + Number(values?.amount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
             EnqueueSnackbar("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد.", "error")
-        } else if (values.amount === "0" || values.amount === "") {
+        } else if (values?.amount === "0" || values?.amount === "") {
             EnqueueSnackbar("مقدار صفر یا مقدار خالی برای مبلغ نامعتبر می باشد .", "error")
         }
         else {
             setOrderPayment([...orderPaymentCP, orderPaymentData])
             setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, [...orderPaymentCP, orderPaymentData], orderService)))
-            // setFieldValue("number", values.number)
-            // setFieldValue("settlement", moment(Date.now()).add(+values.number, "days").format('jYYYY/jMM/jDD'))
             setFieldValue("number", "")
             setFieldValue("settlement", "")
         }
@@ -68,7 +69,7 @@ const OrderPayment = (props: Props) => {
         setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, orderPaymentFilter, orderService)))
     }
 
-    const paymentColumns = [
+    const paymentBeforSubmit = [
         { id: 1, header: "مبلغ", accessor: "amount" },
         { id: 2, header: "تاریخ تسویه", accessor: "paymentDate" },
         {
@@ -79,6 +80,13 @@ const OrderPayment = (props: Props) => {
             }
         },
     ]
+    const paymentAfterSubmit = [
+        { id: 1, header: "مبلغ", accessor: "amount" },
+        { id: 2, header: "تاریخ تسویه", accessor: "paymentDate" },
+    ]
+
+
+    let renderColumns = postSaleOrder?.data?.data?.succeeded ? paymentAfterSubmit : paymentBeforSubmit
 
 
     return (
@@ -111,7 +119,7 @@ const OrderPayment = (props: Props) => {
                         <AddCircle color="secondary" />
                     </IconButton>
                 </Box>
-                <MuiTable onDoubleClick={() => { }} columns={paymentColumns} data={orderPayment} />
+                <MuiTable onDoubleClick={() => { }} columns={renderColumns} data={orderPayment} />
                 <Box component="div" className="flex flex-col justify-between mt-8">
                     <Box component="div" className="flex mt-8">
                         <Typography variant="h4" className="flex items-center text-gray-500">
