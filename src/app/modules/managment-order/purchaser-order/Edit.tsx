@@ -105,6 +105,7 @@ const PurchaserOrderEdit = () => {
                 exitType: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
                 purchaseOrderSendTypeId: Number(values.orderSendTypeId),
                 paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
+                productBrandId: 40,
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
                 invoiceTypeId: detailTools?.data?.data.invoiceTypeId, //ok
                 isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary ,
@@ -112,7 +113,7 @@ const PurchaserOrderEdit = () => {
                     const orderDetails: any = {
                             rowId: item.rowId ? +item.rowId : 0,
                             productId: item.id,
-                            productBrandId: item.productBrandId ? +item.productBrandId : 25,
+                            productBrandId: item.productBrandId ? +item.productBrandId : 40,
                             proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
                             productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
                             productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
