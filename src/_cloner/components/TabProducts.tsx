@@ -5,8 +5,8 @@ import FuzzySearch from "../helpers/Fuse";
 import FormikRadioGroup from "./FormikRadioGroup";
 
 // import { toAbsoulteUrl } from "../helpers/AssetsHelper";
-import { useGetProductTypes, useGetWarehouses } from "../../app/modules/generic/_hooks";
-import { dropdownWarehouses } from "../../app/modules/managment-order/helpers/dropdowns";
+import { useGetProductTypes, useGetWarehouseTypes, useGetWarehouses } from "../../app/modules/generic/_hooks";
+import { dropdownWarehouseType, dropdownWarehouses } from "../../app/modules/managment-order/helpers/dropdowns";
 
 // const imageUrl: Image[] = [
 //     { id: 0, url: "/media/product/border-design.png" },
@@ -37,7 +37,9 @@ type Image = {
 const TabProducts = (props: Props) => {
     const { tabResult, selectedTab, onSelectTab, onFilterProductByWarehouse, setResults, } = props
     const productTypeTools = useGetProductTypes();
-    const { data: warehouses } = useGetWarehouses();
+    // const { data: warehouses } = useGetWarehouses();
+    const warehouseTypeTools = useGetWarehouseTypes();
+
 
 
     // const renderImageIcon = (index: number) => {
@@ -46,8 +48,8 @@ const TabProducts = (props: Props) => {
     // }
 
 
-    const allOption = [{ value: "-1", label: "همه" }];
-    const radioData = [...allOption, ...dropdownWarehouses(warehouses)];
+    // const allOption = [{ value: "-1", label: "همه" }];
+    // const radioData = [...allOption, ...dropdownWarehouses(warehouses)];
 
     return (
         <>
@@ -96,7 +98,8 @@ const TabProducts = (props: Props) => {
                         <Formik initialValues={{warehouseId: "-1"}} onSubmit={() => {}}>
                             {({}) => {
                                 return <Form>
-                                    <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={radioData} name="warehouseId" />
+                                    {/* <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={radioData} name="warehouseId" /> */}
+                                     <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseId" />
                                 </Form>
                             }}
                         </Formik>

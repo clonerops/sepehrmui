@@ -214,6 +214,12 @@ const PurchaserOrder = () => {
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
+                                disabled={
+                                    orders.length <= 0 || 
+                                    orderPayment.length <= 0 || 
+                                    formikRef.current?.values.customerId === "" || 
+                                    formikRef.current?.values.invoiceTypeId === ""
+                                }            
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />

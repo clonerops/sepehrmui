@@ -1,7 +1,6 @@
 import { useMemo, useCallback } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import Backdrop from "./Backdrop";
+import { DataGrid } from "@mui/x-data-grid";
 
 type Props = {
     columns: any;
@@ -22,7 +21,7 @@ const MuiDataGrid = (props: Props) => {
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
-        const defaultRowHeight = 74;
+        const defaultRowHeight = 52;
         const headerHeight = 56;
         const scrollbarHeight = 0;
 
@@ -45,10 +44,6 @@ const MuiDataGrid = (props: Props) => {
 
     const uniqueData = rows?.map((row: any, index: number) => ({ ...row, uniqueId: `${row.id}${index}` }));
     const getRowIdFunc = (row: any) => row.uniqueId;
-
-    // if(isLoading) {
-    //     return <Backdrop loading={isLoading} />
-    // }
 
     return (
         <Box sx={{ width: width }}>
