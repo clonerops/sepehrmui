@@ -34,7 +34,7 @@ const SalesOrderList = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/sales-order/lists/${item?.row?.id}`}
+                to={`/dashboard/sales_order/lists/${item?.row?.id}`}
                 state={{ isConfirmed: false }}
             >
                 <Button variant="contained" color="secondary"> 

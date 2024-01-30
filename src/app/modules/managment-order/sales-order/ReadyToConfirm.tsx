@@ -34,7 +34,7 @@ const ReadyToSalesOrderConfirm = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`${item.row.orderStatusId !== 2 ? `/dashboard/sales-order/ready-to-confirm/${item?.row?.id}` : ""}`}
+                to={`${item.row.orderStatusId !== 2 ? `/dashboard/sales_order/ready-to-confirm/${item?.row?.id}` : ""}`}
                 state={{ isConfirmed: true }}
             >
                 <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId === 2}> 

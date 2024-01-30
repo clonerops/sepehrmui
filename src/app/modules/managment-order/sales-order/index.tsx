@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Box, Typography, Card } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 import Swal from 'sweetalert2'
+import moment from 'moment-jalaali'
 
 import { saleOrderInitialValues } from "./initialValues"
 import { saleOrderValidation } from "./validation"
@@ -25,7 +26,6 @@ import { useGetCustomer } from '../../customer/core/_hooks'
 import { useGetProductList } from '../../product/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
-import moment from 'moment-jalaali'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 
@@ -57,12 +57,14 @@ const SalesOrder = () => {
                 }
             })
         } else {
-            if(detailCustomer?.data?.data)
+            if (detailCustomer?.data?.data)
                 detailCustomer.data.data = {}
         }
     };
 
-    useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
+    useEffect(() => {
+        calculateTotalAmount(orders, orderServices)
+    }, [orders, orderServices]);
 
 
     const onSubmit = (values: any) => {
@@ -121,10 +123,9 @@ const SalesOrder = () => {
                         }
                     })
                 };
-                console.log(JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
-                        
+
                         if (response.data.Errors && response.data.Errors.length > 0) {
                             response.data.Errors.forEach((item: any) => {
                                 EnqueueSnackbar(item, "error")
@@ -158,16 +159,21 @@ const SalesOrder = () => {
         }
     }
 
-    if(postSaleOrder.isLoading) {
-        return<Backdrop loading={postSaleOrder.isLoading} />
+    if (postSaleOrder.isLoading) {
+        return <Backdrop loading={postSaleOrder.isLoading} />
     }
 
     return (
         <>
-            <Formik enableReinitialize innerRef={formikRef} initialValues={saleOrderInitialValues} onSubmit={onSubmit} validationSchema={saleOrderValidation}>
+            <Formik
+                enableReinitialize
+                innerRef={formikRef}
+                initialValues={saleOrderInitialValues}
+                onSubmit={onSubmit}
+                validationSchema={saleOrderValidation}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
-                        {/*The design of the header section of the order module includes order information and customer information */}
+
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {saleBaseOrderInformation(postSaleOrder?.data?.data[0]?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: { title: string, icon: React.ReactNode, value: any }, index) => {
@@ -198,7 +204,7 @@ const SalesOrder = () => {
                                 </ReusableCard>
                             </Box>
                         </Box>
-                        {/*The design of the main section of the order module order */}
+
                         <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
                             <ReusableCard cardClassName="col-span-3">
                                 <OrderProductDetail
@@ -220,7 +226,7 @@ const SalesOrder = () => {
                         <Box component="div" className="md:grid md:grid-cols-3 gap-x-4 mt-4">
                             <OrderService orderService={orderServices} setOrderService={setOrderServices} values={values} setFieldValue={setFieldValue} orders={orders} />
                             <OrderFeature postSaleOrder={postSaleOrder} />
-                            <OrderPayment orderPayment={orderPayment} orderService={orderServices} postSaleOrder={postSaleOrder} orders={orders} setFieldValue={setFieldValue} values={values} setOrderPayment={setOrderPayment}  />
+                            <OrderPayment orderPayment={orderPayment} orderService={orderServices} postSaleOrder={postSaleOrder} orders={orders} setFieldValue={setFieldValue} values={values} setOrderPayment={setOrderPayment} />
                         </Box>
                         <Box
                             component="div"
@@ -230,9 +236,9 @@ const SalesOrder = () => {
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
                                 disabled={
-                                    orders.length <= 0 || 
-                                    orderPayment.length <= 0 || 
-                                    formikRef.current?.values.customerId === "" || 
+                                    orders.length <= 0 ||
+                                    orderPayment.length <= 0 ||
+                                    formikRef.current?.values.customerId === "" ||
                                     formikRef.current?.values.invoiceTypeId === "" ||
                                     !orderValid
                                 }
@@ -242,7 +248,7 @@ const SalesOrder = () => {
                         </Box>
 
                     </>
-                }}  
+                }}
             </Formik>
             {isOpen &&
                 <TransitionsModal

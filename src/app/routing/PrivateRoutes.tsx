@@ -129,14 +129,14 @@ const RoleGroups = React.lazy(() => import("../modules/access/groups/Groups"));
 export const routes: RouteProps[] = [
     { path: "auth/*", element: <Navigate to="/dashboard" /> },
     { path: "dashboard", element: <Dashboard /> },
-    { path: "dashboard/sales-order", element: <SalesOrder /> },
+    { path: "dashboard/sales_order", element: <SalesOrder /> },
     { path: "dashboard/purchaser_order", element: <PurchaserOrder /> },
-    { path: "dashboard/sales-order/lists", element: <SalesOrderList /> },
+    { path: "dashboard/sales_order/lists", element: <SalesOrderList /> },
     { path: "dashboard/purchaser_order/lists", element: <PurchaserOrderList /> },
-    { path: "dashboard/sales-order/lists/:id", element: <SalesOrderDetail /> },
+    { path: "dashboard/sales_order/lists/:id", element: <SalesOrderDetail /> },
     { path: "dashboard/purchaser_order/lists/:id", element: <PurchaserOrderDetail /> },
     {
-        path: "dashboard/sales-order/ready-to-confirm/:id",
+        path: "dashboard/sales_order/ready-to-confirm/:id",
         element: <SalesOrderConfirm />,
     },
     {
@@ -144,14 +144,14 @@ export const routes: RouteProps[] = [
         element: <PurchaserOrderConfirm />,
     },
     {
-        path: "dashboard/sales-order/ready-to-confirm",
+        path: "dashboard/sales_order/ready-to-confirm",
         element: <ReadyToSalesOrderConfirm />,
     },
     {
         path: "dashboard/purchaser_order/ready-to-confirm",
         element: <ReadyToPurchaserOrderConfirm />,
     },
-    { path: "dashboard/sales-order/edit", element: <SalesOrderEdit /> },
+    { path: "dashboard/sales_order/edit", element: <SalesOrderEdit /> },
     { path: "dashboard/purchaser_order/edit", element: <PurchaserOrderEdit /> },
     { path: "dashboard/customers", element: <Customer /> },
     { path: "dashboard/products", element: <Products /> },
