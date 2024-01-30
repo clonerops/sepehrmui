@@ -108,26 +108,26 @@ const PurchaserOrderEdit = () => {
                 productBrandId: 40,
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
                 invoiceTypeId: detailTools?.data?.data.invoiceTypeId, //ok
-                isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary ,
+                isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
                 details: orders?.map((item: any) => {
                     const orderDetails: any = {
-                            rowId: item.rowId ? +item.rowId : 0,
-                            productId: item.id,
-                            productBrandId: item.productBrandId ? +item.productBrandId : 40,
-                            proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
-                            productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
-                            productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
-                            numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
-                            price: typeof item.price === "number" ? item.price :  +item.price?.replace(/,/g, ""),
-                            description: item.description,
-                            deliverDate: item.deliverDate,
+                        rowId: item.rowId ? +item.rowId : 0,
+                        productId: item.id,
+                        productBrandId: item.productBrandId ? +item.productBrandId : 40,
+                        proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
+                        productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                        productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                        numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
+                        price: typeof item.price === "number" ? item.price : +item.price?.replace(/,/g, ""),
+                        description: item.description,
+                        deliverDate: item.deliverDate,
                     };
-                
+
                     // Conditionally include id if it exists
                     if (Number.isInteger(item.id)) {
                         orderDetails.id = item.id;
                     }
-                
+
                     return orderDetails;
                 }),
                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
@@ -150,7 +150,7 @@ const PurchaserOrderEdit = () => {
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
-                        if(response.data.Errors && response.data.Errors.length >0) {
+                        if (response.data.Errors && response.data.Errors.length > 0) {
                             response.data.Errors.forEach((item: any) => {
                                 EnqueueSnackbar(item, "error")
                             })
@@ -192,13 +192,14 @@ const PurchaserOrderEdit = () => {
     return (
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
-            <Formik enableReinitialize innerRef={formikRef} initialValues={{ 
-                ...saleOrderEditInitialValues, 
-                ...orderPaymentValues, 
-                ...orderServiceValues, 
+            <Formik enableReinitialize innerRef={formikRef} initialValues={{
+                ...saleOrderEditInitialValues,
+                ...orderPaymentValues,
+                ...orderServiceValues,
                 ...detailTools?.data?.data,
                 paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
-                isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2  }} onSubmit={onSubmit}>
+                isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
+            }} onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
                         {/*The design of the header section of the order module includes order information and customer information */}
@@ -238,7 +239,7 @@ const PurchaserOrderEdit = () => {
                                 </Box>
                             </ReusableCard>
                             <Box component="div" className='col-span-3'>
-                                <OrderFeature postSaleOrder={postSaleOrder} />
+                                <OrderFeature postOrder={postSaleOrder} />
                             </Box>
                             <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
                                 <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
@@ -263,8 +264,18 @@ const PurchaserOrderEdit = () => {
                             </ReusableCard>
                         </Box>
                         <Box component="div" className="md:grid md:grid-cols-2 gap-x-4 mt-4">
-                            <OrderService orderService={orderServices} setOrderService={setOrderServices} values={values} setFieldValue={setFieldValue} orders={orders} />
-                            <OrderPayment orderPayment={orderPayment} orderService={orderServices} postSaleOrder={postSaleOrder} orders={orders} setFieldValue={setFieldValue} values={values} setOrderPayment={setOrderPayment} />
+                            <OrderService
+                                orderService={orderServices}
+                                setOrderService={setOrderServices}
+                                formikRef={formikRef}
+                                orders={orders} />
+                            <OrderPayment
+                                orderPayment={orderPayment}
+                                orderService={orderServices}
+                                postSaleOrder={postSaleOrder}
+                                orders={orders}
+                                formikRef={formikRef}
+                                setOrderPayment={setOrderPayment} />
                         </Box>
                         <Box
                             component="div"

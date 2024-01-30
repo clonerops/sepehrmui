@@ -111,7 +111,7 @@ const SalesOrderEdit = () => {
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
                 invoiceTypeId: detailTools?.data?.data.invoiceTypeId, //ok
                 // isTemporary: values.isTemporary === ? values.isTemporary : detailTools?.data?.data.isTemporary, //ok
-                isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary ,
+                isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
                 freightName: "string", //ok
                 settlementDate: "1402/02/02", //ok
                 dischargePlaceAddress: "string", //ok
@@ -136,12 +136,12 @@ const SalesOrderEdit = () => {
                         purchaseSettlementDate: item.purchaseSettlementDate,
                         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                     };
-                
+
                     // Conditionally include id if it exists
                     if (Number.isInteger(item.id)) {
                         orderDetails.id = item.id;
                     }
-                
+
                     return orderDetails;
                 }),
                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
@@ -166,7 +166,7 @@ const SalesOrderEdit = () => {
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
-                        if(response.data.Errors && response.data.Errors.length >0) {
+                        if (response.data.Errors && response.data.Errors.length > 0) {
                             response.data.Errors.forEach((item: any) => {
                                 EnqueueSnackbar(item, "error")
                             })
@@ -205,14 +205,15 @@ const SalesOrderEdit = () => {
 
     return (
         <>
-        {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
-            <Formik enableReinitialize innerRef={formikRef} initialValues={{ 
-                ...saleOrderEditInitialValues, 
-                ...orderPaymentValues, 
-                ...orderServiceValues, 
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            <Formik enableReinitialize innerRef={formikRef} initialValues={{
+                ...saleOrderEditInitialValues,
+                ...orderPaymentValues,
+                ...orderServiceValues,
                 ...detailTools?.data?.data,
                 paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
-                isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2  }} onSubmit={onSubmit}>
+                isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
+            }} onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
                         {/*The design of the header section of the order module includes order information and customer information */}
@@ -252,7 +253,7 @@ const SalesOrderEdit = () => {
                                 </Box>
                             </ReusableCard>
                             <Box component="div" className='col-span-3'>
-                                <OrderFeature postSaleOrder={postSaleOrder} />
+                                <OrderFeature postOrder={postSaleOrder} />
                             </Box>
                             <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
                                 <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
@@ -262,8 +263,6 @@ const SalesOrderEdit = () => {
                         <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
                             <ReusableCard cardClassName="col-span-3">
                                 <OrderProductDetail
-                                    setFieldValue={setFieldValue}
-                                    values={values}
                                     postSaleOrder={postSaleOrder}
                                     products={products}
                                     orders={orders}
@@ -278,8 +277,18 @@ const SalesOrderEdit = () => {
                             </ReusableCard>
                         </Box>
                         <Box component="div" className="md:grid md:grid-cols-2 gap-x-4 mt-4">
-                            <OrderService orderService={orderServices} setOrderService={setOrderServices} values={values} setFieldValue={setFieldValue} orders={orders} />
-                            <OrderPayment orderPayment={orderPayment} orderService={orderServices} postSaleOrder={postSaleOrder} orders={orders} setFieldValue={setFieldValue} values={values} setOrderPayment={setOrderPayment} />
+                            <OrderService
+                                orderService={orderServices}
+                                setOrderService={setOrderServices}
+                                formikRef={formikRef}
+                                orders={orders} />
+                            <OrderPayment
+                                orderPayment={orderPayment}
+                                orderService={orderServices}
+                                postSaleOrder={postSaleOrder}
+                                formikRef={formikRef}
+                                orders={orders}
+                                setOrderPayment={setOrderPayment} />
                         </Box>
                         <Box
                             component="div"

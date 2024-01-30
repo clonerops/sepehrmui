@@ -1,12 +1,9 @@
 import { MutationFunction, useMutation, useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
-import { IProductPrice, IProducts, ISuppliers } from "./_models";
+import { IProductFilters, IProductPrice, IProducts, ISuppliers } from "./_models";
 
 const useGetProductList = () => {
-    return useMutation(
-        (formdata: {productSortBase?: number,ByBrand?: boolean,WarehouseId?: number,PageNumber?: number,PageSize?: number}) => {
-        return api.getProductList(formdata)
-    }, );
+    return useMutation((formdata: IProductFilters) => api.getProductList(formdata));
 };
 
 const useRetrieveProducts = () => {

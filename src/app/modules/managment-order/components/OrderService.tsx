@@ -8,46 +8,44 @@ import FormikService from '../../../../_cloner/components/FormikService'
 import FormikPrice from '../../product/components/FormikPrice'
 import { AddCircle, DeleteOutlineRounded } from '@mui/icons-material'
 import MuiTable from '../../../../_cloner/components/MuiTable'
-import { FormikErrors } from 'formik'
+import { FormikErrors, FormikProps } from 'formik'
 import { useGetServices } from '../../generic/_hooks'
 import { calculateProximateAmount, calculateTotalAmount } from '../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { FC } from 'react'
 
-type Props = {
+interface IProps {
     orderService: IOrderService[],
     setOrderService:  (value: React.SetStateAction<IOrderService[]>) => void
-    values: any
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
     orders: IOrderItems[]
+    formikRef: React.RefObject<FormikProps<any>>
 }
 
 
-
-const OrderService = (props: Props) => {
-    const {orderService, setOrderService, values, setFieldValue, orders} = props;
+const OrderService:FC<IProps> = ({orderService, setOrderService, formikRef, orders}) => {
     const { data: productService } = useGetServices();
 
 
     const handleSetServices = () => {
         const orderServices = [...orderService]
         const orderServicetData: IOrderService = {
-            description: values.serviceAmount,
-            serviceId: values.serviceId,
-            serviceName: productService?.find((i: IOrderService) => i.id === values.serviceId)?.description
+            description: formikRef.current?.values.serviceAmount,
+            serviceId: formikRef.current?.values.serviceId,
+            serviceName: productService?.find((i: IOrderService) => i.id === formikRef.current?.values.serviceId)?.description
         }
-        if (orderServices.some(item => item.serviceId === values.serviceId)) {
+        if (orderServices.some(item => item.serviceId === formikRef.current?.values.serviceId)) {
             EnqueueSnackbar("نوع خدمت قبلا به لیست اضافه شده است.", "error")
-        } else if (values.serviceId === "") {
+        } else if (formikRef.current?.values.serviceId === "") {
             EnqueueSnackbar("نوع خدمت نمی تواند خالی باشد.", "error")
-        } else if (values.serviceAmount === "") {
+        } else if (formikRef.current?.values.serviceAmount === "") {
             EnqueueSnackbar("هزینه نوع خدمت نمی تواند خالی باشد.", "error")
         }
         else {
             setOrderService([...orderServices, orderServicetData])
-            setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
-            setFieldValue('serviceId', "")
-            setFieldValue('serviceAmount', "")
+            formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
+            formikRef.current?.setFieldValue('serviceId', "")
+            formikRef.current?.setFieldValue('serviceAmount', "")
         }
 
     }
@@ -55,7 +53,7 @@ const OrderService = (props: Props) => {
     const handleDeleteService = (params: {id: number}) => {
         const filterServices = orderService.filter((item: IOrderService) => item.id !== params.id)
         setOrderService(filterServices)
-        setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
+        formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
 
     }
 

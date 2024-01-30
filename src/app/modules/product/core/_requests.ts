@@ -1,24 +1,10 @@
 import { http, httpFormData } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { IProductPrice, IProducts, ISuppliers } from "./_models";
+import { IProductFilters, IProductPrice, IProducts, ISuppliers } from "./_models";
 
-const getProductList = async (formdata: {
-    productSortBase?: number,
-    ByBrand?: boolean,
-    WarehouseId?: number,
-    PageNumber?: number,
-    PageSize?: number
-}) => {
-    const filter = {
-        productSortBase: formdata.productSortBase,
-        ByBrand: formdata.ByBrand,
-        WarehouseId: formdata.WarehouseId,
-        PageNumber: formdata.PageNumber,
-        PageSize: formdata.PageSize,
-    }
-
+const getProductList = async (formdata: IProductFilters) => {
     try {
-        const { data } = await http.get(`${generateURLQueryParam('/v1/Product', filter)}`)
+        const { data } = await http.get(`${generateURLQueryParam('/v1/Product', formdata)}`)
         return data
     } catch (error: any) {
         return error.response;

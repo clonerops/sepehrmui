@@ -1,5 +1,6 @@
 import { useFormikContext } from "formik";
 import FormikInput from "../../../../_cloner/components/FormikInput";
+import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
 
 
 const FormikProximateAmount = (props: any) => {
@@ -17,7 +18,8 @@ const FormikProximateAmount = (props: any) => {
         }
     };
 
-    return <FormikInput InputProps={props.InputProps} onInput={onInput} {...props} />;
+    // return <FormikInput InputProps={props.InputProps} onInput={onInput} {...props} />;
+    return <FormikMaskInput mask={Number} thousandsSeparator="," InputProps={props.InputProps} onInput={onInput} {...props} />;
 };
 
 export default FormikProximateAmount;

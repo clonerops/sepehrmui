@@ -8,65 +8,61 @@ import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 
-import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService } from "../core/_models";
+import { IOrderItems, IOrderPayment, IOrderService } from "../core/_models";
 import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
-import { UseMutationResult } from "@tanstack/react-query";
 import { calculateProximateAmount, calculateTotalAmount } from "../helpers/functions";
-import { FormikErrors } from "formik";
+import { FormikErrors, FormikProps } from "formik";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { FC } from "react";
 
-type Props = {
-    // postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
+interface IProps {
     postSaleOrder: any,
     orderPayment: IOrderPayment[],
     setOrderPayment: (value: React.SetStateAction<IOrderPayment[]>) => void
-    values: any
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
+    formikRef: React.RefObject<FormikProps<any>>
     orderService: IOrderService[],
     orders: IOrderItems[]
 }
 
 
-const OrderPayment = (props: Props) => {
-
-    const { postSaleOrder, orderPayment, orderService, orders, setOrderPayment, values, setFieldValue } = props;
+const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, formikRef, orders, setOrderPayment }) => {
 
     const handleSetPayment = () => {
         const orderPaymentCP = [...orderPayment]
         const orderPaymentData: IOrderPayment = {
-            amount: values?.amount,
-            daysAfterExit: +values?.number,
-            paymentDate: values?.settlement,
+            amount: formikRef.current?.values.amount,
+            daysAfterExit: +formikRef.current?.values?.number,
+            paymentDate: formikRef.current?.values?.settlement,
             paymentType: 0
         }
 
         const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue?.amount.replace(/,/g, ""), 10), 0);
 
-        if(values?.settlement === undefined || values?.settlement === null) {
+        if(formikRef.current?.values?.settlement === undefined || formikRef.current?.values?.settlement === null) {
             EnqueueSnackbar("تاریخ نمی تواند خالی باشد.", "error")
-        } else if(values?.amount === undefined || values?.amount === null) {
+        } else if(formikRef.current?.values?.amount === undefined || formikRef.current?.values?.amount === null) {
             EnqueueSnackbar("مبلغ نمی تواند خالی باشد.", "error")
-        } else if (Number(values?.amount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
+        } else if (Number(formikRef.current?.values?.amount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
             EnqueueSnackbar("مبلغ تسویه از مبلغ کل نمی تواند بیشتر باشد.", "error")
-        } else if (new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(values?.settlement)) {
+        } else if (new Date(moment(new Date()).format("jYYYY/jMM/jDD")) > new Date(formikRef.current?.values?.settlement)) {
             EnqueueSnackbar("تاریخ تسویه نمی تواند از تاریخ سفارش کمتر باشد.", "error")
-        } else if (currentTotalPayment + Number(values?.amount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
+        } else if (currentTotalPayment + Number(formikRef.current?.values?.amount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
             EnqueueSnackbar("مجموع مبالغ تسویه نمی تواند از مبلغ کل بیشتر باشد.", "error")
-        } else if (values?.amount === "0" || values?.amount === "") {
+        } else if (formikRef.current?.values?.amount === "0" || formikRef.current?.values?.amount === "") {
             EnqueueSnackbar("مقدار صفر یا مقدار خالی برای مبلغ نامعتبر می باشد .", "error")
         }
         else {
             setOrderPayment([...orderPaymentCP, orderPaymentData])
-            setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, [...orderPaymentCP, orderPaymentData], orderService)))
-            setFieldValue("number", "")
-            setFieldValue("settlement", "")
+            formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, [...orderPaymentCP, orderPaymentData], orderService)))
+            formikRef.current?.setFieldValue("number", "")
+            formikRef.current?.setFieldValue("settlement", "")
         }
     }
 
     const handleDeletePayment = (params: { id: number }) => {
         const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== params.id)
         setOrderPayment(orderPaymentFilter)
-        setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, orderPaymentFilter, orderService)))
+        formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, orderPaymentFilter, orderService)))
     }
 
     const paymentBeforSubmit = [

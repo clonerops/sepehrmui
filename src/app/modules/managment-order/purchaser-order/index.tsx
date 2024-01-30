@@ -56,7 +56,7 @@ const PurchaserOrder = () => {
                 }
             })
         } else {
-            if(detailCustomer?.data?.data)
+            if (detailCustomer?.data?.data)
                 detailCustomer.data.data = {}
         }
     };
@@ -110,7 +110,7 @@ const PurchaserOrder = () => {
                 };
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
-                        
+
                         if (response.data.Errors && response.data.Errors.length > 0) {
                             response.data.Errors.forEach((item: any) => {
                                 EnqueueSnackbar(item, "error")
@@ -144,8 +144,8 @@ const PurchaserOrder = () => {
         }
     }
 
-    if(postSaleOrder.isLoading) {
-        return<Backdrop loading={postSaleOrder.isLoading} />
+    if (postSaleOrder.isLoading) {
+        return <Backdrop loading={postSaleOrder.isLoading} />
     }
 
     return (
@@ -203,9 +203,19 @@ const PurchaserOrder = () => {
                             </ReusableCard>
                         </Box>
                         <Box component="div" className="md:grid md:grid-cols-3 gap-x-4 mt-4">
-                            <OrderService orderService={orderServices} setOrderService={setOrderServices} values={values} setFieldValue={setFieldValue} orders={orders} />
-                            <OrderFeature postSaleOrder={postSaleOrder} />
-                            <OrderPayment orderPayment={orderPayment} orderService={orderServices} postSaleOrder={postSaleOrder} orders={orders} setFieldValue={setFieldValue} values={values} setOrderPayment={setOrderPayment}  />
+                            <OrderService
+                                orderService={orderServices}
+                                setOrderService={setOrderServices}
+                                formikRef={formikRef}
+                                orders={orders} />
+                            <OrderFeature postOrder={postSaleOrder} />
+                            <OrderPayment
+                                orderPayment={orderPayment}
+                                orderService={orderServices}
+                                postSaleOrder={postSaleOrder}
+                                formikRef={formikRef}
+                                orders={orders}
+                                setOrderPayment={setOrderPayment} />
                         </Box>
                         <Box
                             component="div"
@@ -215,18 +225,18 @@ const PurchaserOrder = () => {
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
                                 disabled={
-                                    orders.length <= 0 || 
-                                    orderPayment.length <= 0 || 
-                                    formikRef.current?.values.customerId === "" || 
+                                    orders.length <= 0 ||
+                                    orderPayment.length <= 0 ||
+                                    formikRef.current?.values.customerId === "" ||
                                     formikRef.current?.values.invoiceTypeId === ""
-                                }            
+                                }
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />
                         </Box>
 
                     </>
-                }}  
+                }}
             </Formik>
             {isOpen &&
                 <TransitionsModal

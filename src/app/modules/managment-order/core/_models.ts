@@ -33,23 +33,24 @@ export interface ISaleOrderDetails {
 
 export interface ISalesOrder {
     id?: string
-    customerId: string | undefined | null
-    totalAmount: number | undefined | null
+    customerId?: string | undefined | null
+    totalAmount?: number | undefined | null
     orderCode?: number | undefined | null
-    description: string | undefined | null
-    exitType: number | undefined | null
-    orderSendTypeId: number | undefined | null 
-    paymentTypeId: number | undefined | null
-    customerOfficialName: string | undefined | null
-    customerOfficialCompanyId: number | undefined | null
-    invoiceTypeId: number | undefined | null
+    description?: string | undefined | null
+    exitType?: number | undefined | null
+    orderSendTypeId?: number | undefined | null 
+    paymentTypeId?: number | undefined | null
+    customerOfficialName?: string | undefined | null
+    customerOfficialCompanyId?: number | undefined | null
+    invoiceTypeId?: number | undefined | null
     registerDate?: string | undefined | null
-    freightName: string | undefined | null
-    settlementDate: string | undefined | null
-    dischargePlaceAddress: string | undefined | null
-    freightDriverName: string | undefined | null
-    carPlaque: string | undefined | null
-    details: ISaleOrderDetails[] | undefined | null
+    isTemporary?: string | undefined | null
+    freightName?: string | undefined | null
+    settlementDate?: string | undefined | null
+    dischargePlaceAddress?: string | undefined | null
+    freightDriverName?: string | undefined | null
+    carPlaque?: string | undefined | null
+    details?: ISaleOrderDetails[] | undefined | null
     orderPayments?: IOrderPayment[] | undefined | null
     orderPayment?: IOrderPayment[] | undefined | null
     orderServices?: IOrderService[] | undefined | null

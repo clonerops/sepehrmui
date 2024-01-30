@@ -1,8 +1,10 @@
-import {useState} from 'react'
-
-import { Form, FormikErrors, FormikProps } from "formik"
+import {FC, useState} from 'react'
+import { Form, FormikProps } from "formik"
 import {Box} from '@mui/material'
+
 import OrderProductList from './OrderProductList'
+import Backdrop from '../../../../../_cloner/components/Backdrop'
+
 import { ISaleOrderDetail, IOrderItems, IOrderPayment, IOrderService } from '../../core/_models'
 import { BUY_WAREHOUSE_TYPES, FIELD_VALUE } from '../../helpers/constants'
 import { calculateTotalAmount } from '../../helpers/functions'
@@ -10,12 +12,9 @@ import { sliceNumberPriceRial } from '../../../../../_cloner/helpers/sliceNumber
 import { orderFieldWhenNotWarehouseMain, orderFieldWhenWarehouseIsMain } from '../../sales-order/fields'
 import { orderDetailParseFields } from '../../sales-order/renderFields'
 import { EnqueueSnackbar } from '../../../../../_cloner/helpers/Snackebar'
-import Backdrop from '../../../../../_cloner/components/Backdrop'
 
 
-type Props = {
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
-    values: any,
+interface IProps {
     postSaleOrder: any,
     products: any,
     orders: ISaleOrderDetail[] | any,
@@ -28,36 +27,23 @@ type Props = {
     setOrderValid: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const OrderProductDetail = (props: Props) => {
-    const {
-        setFieldValue,
-        values,
-        postSaleOrder,
-        products,
-        orders,
-        setOrders,
-        orderPayment,
-        setOrderPayment,
-        orderServices,
-        setOrderServices,
-        formikRef,
-        setOrderValid
-    } = props;
+interface IState {
+    isBuy: boolean,
+    orderIndex: number,
+    isUpdate: boolean,
+    isProductChoose: boolean
+}
 
-    const [state, setState] = useState<{
-        isBuy: boolean,
-        orderIndex: number,
-        isUpdate: boolean,
-        isProductChoose: boolean
+const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid }) => {
 
-    }>({
+    const [state, setState] = useState<IState>({
         isBuy: false,
         orderIndex: 0,
         isUpdate: false,
         isProductChoose: false
     })
 
-    const changeWarehouseFunction = (warehouseType: number, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
+    const changeWarehouseFunction = (warehouseType: number) => {
         try {
             const filter = {
                 ByBrand: true,
@@ -65,7 +51,7 @@ const OrderProductDetail = (props: Props) => {
             }
             products.mutate(filter)
 
-            FIELD_VALUE.forEach((field) => setFieldValue(field.title, field.value));
+            FIELD_VALUE.forEach((field) => formikRef.current?.setFieldValue(field.title, field.value));
 
             if (BUY_WAREHOUSE_TYPES.includes(warehouseType)) setState((prev) => ({...prev, isBuy: true}));
             else setState((prev) => ({...prev, isProductChoose: false, isBuy: false}))
@@ -83,7 +69,7 @@ const OrderProductDetail = (props: Props) => {
             { title: "productSubUnitDesc", value: value?.productSubUnitDesc },
             { title: "productSubUnitId", value: value?.productSubUnitId },
         ]
-        fieldValue.forEach((i: { title: string, value: any }) => setFieldValue(i.title, i.value))
+        fieldValue.forEach((i: { title: string, value: any }) => formikRef.current?.setFieldValue(i.title, i.value))
         if (BUY_WAREHOUSE_TYPES.includes(value?.warehouseId)) setState((prev) => ({...prev, isBuy: true}))
         else setState((prev) => ({...prev, isBuy: false}))
     }
@@ -137,7 +123,7 @@ const OrderProductDetail = (props: Props) => {
                 EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error")
             } else {
                 setOrders([...orders, productOrder]);
-                setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderServices)))
+                formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderServices)))
             }
             fields.forEach((element) => {
                 formikRef?.current?.setFieldValue(element, "");
@@ -148,8 +134,6 @@ const OrderProductDetail = (props: Props) => {
                 ...productOrder,
             };
             const updatedOrders: IOrderItems[] = [...orders];
-            console.log(updatedOrders)
-            console.log(formikRef?.current?.values)
             updatedOrders[state.orderIndex ? state.orderIndex : 0] = updatedOrder;
             if (formikRef?.current?.values.productName === "" || formikRef?.current?.values.productName.label === "") {
                 EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
@@ -159,7 +143,7 @@ const OrderProductDetail = (props: Props) => {
                 EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
             } else {
                 setOrders(updatedOrders);
-                setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
+                formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
             }
             setState((prev) => ({...prev, orderIndex: 0}))
             fields.forEach((element) => {
@@ -186,10 +170,9 @@ const OrderProductDetail = (props: Props) => {
                                 orderDetailParseFields(
                                     index,
                                     field,
-                                    setFieldValue,
-                                    values,
                                     state.isUpdate ? state.isUpdate : false,
                                     postSaleOrder,
+                                    formikRef,
                                     state.isProductChoose ? state.isProductChoose : false,
                                     setState,
                                     products,
@@ -209,7 +192,6 @@ const OrderProductDetail = (props: Props) => {
                 </Box>
                 <OrderProductList
                     selectedOrderIndex={state.orderIndex}
-                    setFieldValue={setFieldValue}
                     orders={orders}
                     setOrders={setOrders}
                     disabled={postSaleOrder?.data?.succeeded}
