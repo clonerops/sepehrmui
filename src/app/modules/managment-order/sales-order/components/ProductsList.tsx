@@ -1,26 +1,24 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, memo, useEffect, useState } from "react";
 import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
-import TabProducts from "../../../../../_cloner/components/TabProducts";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import MaskInput from "../../../../../_cloner/components/MaskInput";
-import Backdrop from "../../../../../_cloner/components/Backdrop";
 
-import { IProducts } from "../../../product/core/_models";
 import { useGetProductList } from "../../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
 import { useGetUnits } from "../../../generic/productUnit/_hooks";
 import { IOrderService } from "../../core/_models";
-import { FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
+import FormikRadioGroup from "../../../../../_cloner/components/FormikRadioGroup";
+import { dropdownWarehouseType } from "../../helpers/dropdowns";
+import { useGetProductTypes, useGetWarehouseTypes } from "../../../generic/_hooks";
+import Backdrop from "../../../../../_cloner/components/Backdrop";
 
 interface IProps {
-    products: IProducts[]
-    productLoading: boolean
-    productError: boolean
     setOrders?: any
     setOrderPayment?: any
     orders?: any
@@ -34,25 +32,43 @@ interface IProps {
     }>>
 }
 
-const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrders, setOrderPayment, orders, orderService, formikRef, setState}) => {
-    
+interface IProductData {
+    productSubUnitDesc: { [key: string]: string };
+    productSubUnitId: { [key: string]: string };
+    proximateAmounts: { [key: string]: string };
+    proximateSubAmounts: { [key: string]: string };
+    price: { [key: string]: string };
+
+    selectedProduct: any[];
+    selectionModel: any;
+    tabResult: any[];
+    selectedTab: number;
+    filteredTabs: any[]
+}
+
+interface IFilter {
+    ByBrand?: boolean
+    WarehouseId?: number
+    WarehouseTypeId?: number
+    ProductTypeId?: number
+    PageNumber?: number
+    PageSize?: number
+}
+
+const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderService, formikRef, setState}) => {    
     const filterTools = useGetProductList();
+    const warehouseTypeTools = useGetWarehouseTypes();
+    const productTypeTools = useGetProductTypes();
+
     const { data: units } = useGetUnits();
 
-    const [results, setResults] = useState<IProducts[]>([]);
-    const [productData, setProductData] = useState<{
-        productSubUnitDesc: { [key: string]: string };
-        productSubUnitId: { [key: string]: string };
-        proximateAmounts: { [key: string]: string };
-        proximateSubAmounts: { [key: string]: string };
-        price: { [key: string]: string };
+    const [currentFilter, setCurrentFilter] = useState<IFilter>({
+        ByBrand: true,
+        WarehouseTypeId: 1,
+        ProductTypeId: -1
+    })
 
-        selectedProduct: any[];
-        selectionModel: any;
-        tabResult: any[];
-        selectedTab: number;
-        filteredTabs: any[]
-    }>({
+    const [productData, setProductData] = useState<IProductData>({
         productSubUnitDesc: {},
         productSubUnitId: {},
         proximateAmounts: {},
@@ -65,6 +81,40 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
         selectedTab: -1,
         filteredTabs: []
     });
+    // const [results, setResults] = useState<IProducts[]>([]);
+
+
+    const handleFilterProduct = (filter: IFilter) => {
+        filterTools.mutate(filter);
+    }
+
+    useEffect(() => {
+        handleFilterProduct(currentFilter)
+    }, [])
+
+
+    const handleSelectProduct = (newSelectionModel: any) => {
+        const selectedRow = newSelectionModel.row;
+        setProductData((prevState) => ({
+            ...prevState,
+            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
+            price: productData.price,
+        }))
+        const isDuplicate = productData.selectedProduct.some((item) => {
+            return item.id === selectedRow.id;
+        });
+        if (!isDuplicate) {
+            setProductData((prevState) => ({
+                ...prevState,
+                selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
+                selectionModel: newSelectionModel
+            }))
+
+        } else {
+            alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
+        }
+    };
+
 
     const renderAction = (indexToDelete: any) => {
         return (
@@ -96,11 +146,11 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
                     size="small"
                     value={productData.proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
-                        handleInputValueChange(
-                            productId,
-                            e.target.value,
-                            params.row.exchangeRate
-                        )
+                        setProductData((prevState) => ({
+                            ...prevState,
+                            proximateAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
+                            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.row.exchangeRate)).toString() },
+                        }))
                     }
                     autoFocus={true}
                     inputProps={{
@@ -113,34 +163,6 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
             </>
         );
     };
-    const renderPrice = (params: any) => {
-        const productId = params.row.id;
-        return (
-            <>
-                <MaskInput
-                    label=""
-                    mask={Number}
-                    onAccept={(value: any) => handleInputPrice(value, productId)}
-                    thousandsSeparator=","
-                    id={`outlined-adornment-weight-${productId}`}
-                    size="small"
-                    inputProps={{
-                        "aria-label": "weight",
-                        style: {
-                            textAlign: "center",
-                        },
-                    }}
-                />
-            </>
-        );
-    };
-
-    const handleSubUnitChange = (productId: string, value: string) => {
-        setProductData((prevState) => ({
-            ...prevState,
-            productSubUnitDesc: { ...prevState.productSubUnitDesc, [productId]: value },
-        }))
-    };
 
     const renderSubUnit = (params: any) => {
         const productId = params.row.id;
@@ -151,10 +173,12 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
                     size="small"
                     value={productData.proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
-                        handleInputSubUnitChange(productId, e.target.value)
+                        setProductData((prevState) => ({
+                            ...prevState,
+                            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
+                        }))
                     }
                     inputProps={{
-                        "aria-label": "weight",
                         style: {
                             textAlign: "center",
                             width: 28,
@@ -167,7 +191,10 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
                         id={`demo-simple-select-label-${productId}`}
                         value={productData.productSubUnitDesc[productId] || ""}
                         onChange={(e: any) =>
-                            handleSubUnitChange(productId, e.target.value)
+                            setProductData((prevState) => ({
+                                ...prevState,
+                                productSubUnitDesc: { ...prevState.productSubUnitDesc, [productId]: e.target.value },
+                            }))
                         }
                         size="small"
                         inputProps={{
@@ -186,79 +213,36 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
         );
     };
 
-    const handleInputValueChange = (
-        productId: string,
-        value: string,
-        exchangeRate: string
-    ) => {
-        setProductData((prevState) => ({
-            ...prevState,
-            proximateAmounts: { ...prevState.proximateAmounts, [productId]: value },
-            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(value) / Number(exchangeRate)).toString() },
-        }))
-    };
-
-    const handleInputSubUnitChange = (productId: string, value: string) => {
-        setProductData((prevState) => ({
-            ...prevState,
-            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: value },
-        }))
-    };
-
-    const handleInputPrice = (value: any, productId: string,) => {
-        setProductData((prevState) => ({
-            ...prevState,
-            price: { ...prevState.price, [productId]: value },
-        }))
-    }
-
-    const handleSelectionChange = (newSelectionModel: any) => {
-        const selectedRow = newSelectionModel.row;
-        setProductData((prevState) => ({
-            ...prevState,
-            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
-            price: productData.price
-        }))
-
-        const isDuplicate = productData.selectedProduct.some((item) => {
-            return item.id === selectedRow.id;
-        });
-        if (!isDuplicate) {
-            setProductData((prevState) => ({
-                ...prevState,
-                selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
-                selectionModel: newSelectionModel
-            }))
-
-
-        } else {
-            alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
-        }
+    const renderPrice = (params: any) => {
+        const productId = params.row.id;
+        return (
+            <>
+                <MaskInput
+                    label=""
+                    mask={Number}
+                    onAccept={(value: any) => 
+                        setProductData((prevState) => ({
+                            ...prevState,
+                            price: { ...prevState.price, [productId]: value },
+                        }))                
+                    }
+                    thousandsSeparator=","
+                    id={`outlined-adornment-weight-${productId}`}
+                    size="small"
+                    inputProps={{
+                        "aria-label": "weight",
+                        style: {
+                            textAlign: "center",
+                        },
+                    }}
+                />
+            </>
+        );
     };
 
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
-            const {
-                id,
-                warehouseId,
-                productBrandId,
-                productName,
-                exchangeRate,
-                productBrandName,
-                warehouseName,
-                productDesc = "",
-                purchasePrice = "",
-                purchaseSettlementDate = "",
-                purchaseInvoiceTypeId = 0,
-                sellerCompanyRow = "string",
-                productMainUnitDesc,
-                // productSubUnitId,
-                // productSubUnitDesc: productSubUnitId = product.subUnit,
-                rowId = 0,
-                proximateAmount = productData.proximateAmounts[product.id] || "",
-                warehouseTypeId = 0,
-            } = product;
-
+            const { id, warehouseId, productBrandId, productName, exchangeRate, productBrandName, warehouseName, productDesc = "", purchasePrice = "", purchaseSettlementDate = "", purchaseInvoiceTypeId = 0, sellerCompanyRow = "string", productMainUnitDesc, rowId = 0, proximateAmount = productData.proximateAmounts[product.id] || "", warehouseTypeId = 0 } = product;
             const productSubUnitDesc = productData.productSubUnitDesc[product.id]
                 ? units.find((i: any) => i.id === productData.productSubUnitDesc[product.id]).unitName
                 : product.productSubUnitDesc;
@@ -274,32 +258,7 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
                     ? 0
                     : productData.proximateSubAmounts[product.id];
 
-            return {
-                id,
-                productId: id,
-                warehouseId,
-                productBrandId,
-                productName,
-                productBrandName,
-                warehouseName,
-                productDesc,
-                purchasePrice,
-                exchangeRate,
-                purchaseSettlementDate,
-                purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId),
-                purchaseInvoiceTypeDesc: "",
-                sellerCompanyRow,
-                purchaserCustomerId: "",
-                purchaserCustomerName: "",
-                productMainUnitDesc,
-                productSubUnitDesc,
-                productSubUnitId,
-                rowId,
-                proximateAmount,
-                warehouseTypeId,
-                price,
-                proximateSubUnit,
-            };
+            return { id, productId: id, warehouseId, productBrandId, productName, productBrandName, warehouseName, productDesc, purchasePrice, exchangeRate, purchaseSettlementDate, purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId), purchaseInvoiceTypeDesc: "", sellerCompanyRow, purchaserCustomerId: "", purchaserCustomerName: "", productMainUnitDesc, productSubUnitDesc, productSubUnitId, rowId, proximateAmount, warehouseTypeId, price, proximateSubUnit };
         });
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
@@ -332,89 +291,86 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
         }
     };
 
-
-    const onSelectTab = (id: number) => setProductData((prevState) => ({
-        ...prevState,
-        selectedTab: id
-    }))
-
-
-    const onFilterProductByWarehouse = (value: any) => {
-        if (value === -1) {
-            setProductData((prevState) => ({
-                ...prevState,
-                tabResult: productData.filteredTabs
-            }))
-
-            setResults(productData.filteredTabs)
-        } else {
-            const filter = {
-                ByBrand: true,
-                WarehouseId: +value
-            }
-            filterTools.mutate(filter, {
-                onSuccess: (res) => {
-                    setResults(res?.data)
-                    setProductData((prevState) => ({
-                        ...prevState,
-                        tabResult: res?.data
-                    }))
-                }
-            });
-        }
-    };
-
-
-    // useEffects
-    useEffect(() => {
-        const filter = { ByBrand: true }
-        filterTools.mutate(filter, {
-            onSuccess: (res) => {
-                setResults(res?.data)
-            }
-        });
-    }, []);
-
-
-    useEffect(() => {
-        const filtered = filterTools?.data?.data.filter((item: { productTypeId: number }) => item.productTypeId === productData.selectedTab);
-        setProductData((prevState) => ({
-            ...prevState,
-            filteredTabs: productData.selectedTab === -1 ? filterTools?.data?.data : filtered
-        }))
-        setResults(productData.selectedTab === -1 ? filterTools?.data?.data : filtered);
-
-    }, [productData.selectedTab]);
-
-
-
-    if (productLoading) {
-        return <Backdrop loading={productLoading} />;
-    }
+    if(warehouseTypeTools?.isLoading || productTypeTools?.isLoading) {
+        return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
+    } 
 
     return (
         <>
+            <Box className="mx-1">
+                <Button
+                    className={`${currentFilter.ProductTypeId == -1 ? "!bg-[#fcc615] !text-black" : ""
+                        }`}
+                        onClick={() => {
+                            setCurrentFilter({
+                                ...currentFilter,
+                                ProductTypeId: -1
+                            })
+                            handleFilterProduct({
+                                ...currentFilter,
+                                ProductTypeId: -1
+                            })
+                        }} >
+                    <Typography className="px-2">کل محصولات</Typography>
+                </Button>
 
-            <Box component="div" className="w-full">
-                <TabProducts
-                    handleSelectionChange={handleSelectionChange}
-                    productsByBrand={filterTools?.data?.data}
-                    onSelectTab={onSelectTab}
-                    onFilterProductByWarehouse={onFilterProductByWarehouse}
-                    results={results}
-                    setResults={setResults}
-                    selectedTab={productData.selectedTab}
-                    tabResult={productData.tabResult}
-                />
+                    {productTypeTools?.data?.map((item: any, index: number) => {
+                        return (
+                            <Button key={index}
+                                className={`${currentFilter.ProductTypeId == item.id
+                                    ? "!bg-[#fcc615] !text-black"
+                                    : ""
+                                    }`}
+
+                                onClick={() => {
+                                    setCurrentFilter({
+                                        ...currentFilter,
+                                        ProductTypeId: item.id
+                                    })
+                                    handleFilterProduct({
+                                        ...currentFilter,
+                                        ProductTypeId: item.id
+                                    })
+
+                                }}
+                            >
+                                <Typography className="px-2">{item.desc}</Typography>
+                            </Button>
+                        );
+                    })}
+            </Box>
+
+            <Box component="div" className="col-span-2 mx-4 my-2">
+                <Formik initialValues={{warehouseTypeId: "1"}} onSubmit={() => {}}>
+                    {({}) => {
+                        return <Form>
+                             <FormikRadioGroup
+                                onChange={(value: number) => {
+                                    setCurrentFilter({
+                                        ...currentFilter,
+                                        WarehouseTypeId: +value
+                                    })
+                                    handleFilterProduct({
+                                        ...currentFilter,
+                                        WarehouseTypeId: +value
+                                    })
+                                }}
+                                radioData={dropdownWarehouseType(warehouseTypeTools?.data)} 
+                                name="warehouseTypeId" />
+                        </Form>
+                    }}
+                </Formik>
             </Box>
             <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
                 <Box component="div">
                     <MuiDataGrid
-                        onDoubleClick={handleSelectionChange}
+                        onDoubleClick={handleSelectProduct}
                         columns={columnsModalProduct()}
                         isLoading={filterTools.isLoading}
-                        rows={results}
-                        data={productData.filteredTabs}
+                        // rows={results}
+                        // data={productData.filteredTabs}
+                        rows={filterTools?.data?.data}
+                        data={filterTools?.data?.data}
                         height={400}
                     />
                 </Box>
@@ -452,4 +408,4 @@ const ProductsList:FC<IProps> = ({products, productLoading, productError, setOrd
     );
 };
 
-export default ProductsList;
+export default memo(ProductsList);

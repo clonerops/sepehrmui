@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Box } from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
@@ -5,33 +6,33 @@ import { calculateTotalAmount } from "../../helpers/functions";
 
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 import { IProducts } from "../../../product/core/_models";
-
-import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
-import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { orderListColumns } from "../../helpers/columns";
+import { FormikProps } from "formik";
+import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 
-type ProductProps = {
-    orders?: IOrderItems[] ;
-    orderServices?: IOrderService[] ;
-    setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
-    setOrderPayment?: React.Dispatch<React.SetStateAction<IOrderPayment[]>>;
-    // setFieldValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>> | undefined;
-    setFieldValue?: any;
-    selectedOrderIndex?: number;
-    products?: IProducts[];
+import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
+
+interface IProps {
+    orders?: IOrderItems[] 
+    orderServices?: IOrderService[] 
+    setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>
+    setOrderPayment?: React.Dispatch<React.SetStateAction<IOrderPayment[]>>
+    selectedOrderIndex?: number
+    products?: IProducts[]
     setOrderValid: React.Dispatch<React.SetStateAction<boolean>>
     disabled?: boolean
+    formikRef: React.RefObject<FormikProps<any>>
     setState?: React.Dispatch<React.SetStateAction<{
-        isBuy: boolean;
-        orderIndex: number;
-        isUpdate: boolean;
-        isProductChoose: boolean;
+        isBuy: boolean
+        orderIndex: number
+        isUpdate: boolean
+        isProductChoose: boolean
     }>>
 }
 
-const OrderProductList = (props: ProductProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, setFieldValue, setOrderValid, disabled, setState } = props;
+const OrderProductList:FC<IProps> = (props: IProps) => {
+    const { orders, orderServices, setOrders, setOrderPayment, formikRef, setOrderValid, disabled, setState } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
@@ -40,7 +41,7 @@ const OrderProductList = (props: ProductProps) => {
             );
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
-            if (setFieldValue) setFieldValue('amount', calculateTotalAmount(updatedOrders, orderServices).toString())
+            if (formikRef.current?.setFieldValue) formikRef.current?.setFieldValue('amount', calculateTotalAmount(updatedOrders, orderServices).toString())
         }
     };
 
@@ -97,9 +98,9 @@ const OrderProductList = (props: ProductProps) => {
                 {title: "exchangeRate", value: params.row.exchangeRate},
             ];
 
-            if (setFieldValue) {
+            if (formikRef.current?.setFieldValue) {
                 fieldValue.forEach((i: {title: string, value: any}) => (
-                    setFieldValue(i.title, i.value)
+                    formikRef.current?.setFieldValue(i.title, i.value)
                 ))
             }
             
@@ -141,6 +142,8 @@ const OrderProductList = (props: ProductProps) => {
         // column.field !== "purchaseInvoiceTypeDesc" &&
         column.field !== "rowId" &&
         column.field !== "productDesc");
+
+        console.log(orders)
 
     return (
         <>

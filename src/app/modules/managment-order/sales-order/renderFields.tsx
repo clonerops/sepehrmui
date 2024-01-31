@@ -1,6 +1,6 @@
 import { Box, Button, InputAdornment } from '@mui/material'
 import { Edit, Add, Grading } from "@mui/icons-material"
-import { FormikErrors, FormikProps } from 'formik';
+import { FormikProps } from 'formik';
 import { UseMutationResult } from '@tanstack/react-query';
 
 import { FieldType } from "../../../../_cloner/components/globalTypes";
@@ -99,9 +99,6 @@ const orderDetailParseFields = (
                     {isProductChoose &&
                         <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='99%' isClose={() => setState((prev) => ({...prev, isProductChoose: false}))}>
                                 <ProductsList
-                                    products={products?.data?.data}
-                                    productLoading={products.isLoading}
-                                    productError={products.isError}
                                     formikRef={formikRef}
                                     setState={setState}
                                     orders={orders}

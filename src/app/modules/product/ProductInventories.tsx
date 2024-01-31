@@ -1,5 +1,4 @@
 import { useDeleteProductPrice, useGetProductList, useRetrieveProductPrice } from "./core/_hooks";
-import { columns } from "./helpers/productPriceColumns";
 import { IProductPrice } from "./core/_models";
 import { useState, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
@@ -14,15 +13,14 @@ import FileUploadButton from "../../../_cloner/components/UploadFileButton";
 import CreateProductInventories from "./components/CreateProductInventories";
 import EditProductInventories from "./components/EditProductInventories";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
 
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
 import { exportProductPrices } from "./core/_requests";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
-import { columnsModalProduct } from "../managment-order/helpers/columns";
+import { columnsProductInventories } from "../managment-order/helpers/columns";
 import { Form, Formik } from "formik";
-import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
-import { dropdownWarehouseType, dropdownWarehouses } from "../managment-order/helpers/dropdowns";
-import { useGetWarehouses } from "../generic/warehouse/_hooks";
+import { dropdownWarehouseType } from "../managment-order/helpers/dropdowns";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import { useGetWarehouseTypes } from "../generic/_hooks";
 
@@ -66,14 +64,6 @@ const ProductInventories = () => {
             });
     };
 
-    const renderAction = (item: any) => {
-        return (
-            <Box component="div" className="flex gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
-                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
-            </Box>
-        );
-    };
 
     const handleDownloadExcel = async () => {
         try {
@@ -142,7 +132,7 @@ const ProductInventories = () => {
                 </Formik>
                 <Box className="grid grid-cols-2 mt-4">
                     <MuiDataGrid
-                        columns={columnsModalProduct()}
+                        columns={columnsProductInventories()}
                         isLoading={filterTools.isLoading}
                         rows={results}
                         data={filterTools?.data?.data}

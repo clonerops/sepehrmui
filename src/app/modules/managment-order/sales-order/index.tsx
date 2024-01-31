@@ -18,16 +18,16 @@ import CustomerChoose from './components/CustomerChoose'
 
 import { useCreateOrder } from '../core/_hooks'
 import { useGetProductList } from '../../product/core/_hooks'
-import { IOrderItems, IOrderPayment, IOrderService, ISalesOrder } from '../core/_models'
+import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 
 const SalesOrder = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false); // OK
-    const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
-    const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
-    const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [orders, setOrders] = useState<IOrderItems[]>([]);
+    const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
+    const [orderServices, setOrderServices] = useState<IOrderService[]>([]);
     const [orderValid, setOrderValid] = useState<boolean>(false)
 
     const postSaleOrder = useCreateOrder();
@@ -51,7 +51,12 @@ const SalesOrder = () => {
                         ...item,
                         rowId: item.rowId ? Number(item.rowId) : 0,
                         cargoSendDate: "1402/01/01",
-                        proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0, //ok
+                        proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
+                        proximateSubUnit: item.proximateSubUnit ? +item.proximateSubUnit : null,
+                        purchasePrice: item.purchasePrice ? +item.purchasePrice : 0,
+                        purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                        purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
+                        warehouseId: item.warehouseId ? +item.warehouseId : null,
                     })),
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
                         return {

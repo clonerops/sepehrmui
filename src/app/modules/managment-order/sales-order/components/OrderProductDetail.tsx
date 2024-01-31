@@ -199,6 +199,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                     orderServices={orderServices}
                     setOrderPayment={setOrderPayment}
                     setState={setState}
+                    formikRef={formikRef}
                     setOrderValid={setOrderValid}
                 />
             </Form>

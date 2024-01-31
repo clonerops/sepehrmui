@@ -114,12 +114,12 @@ export const orderListColumns = (renderActions: any) => {
         //         return <Typography variant="h4">{params.value}</Typography>
         //     }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         // },
-        // {
-        //     headerName: "انبار", field: "warehouseName",
-        //     renderCell: (params: any) => {
-        //         return <Typography variant="h4">{params.value}</Typography>
-        //     }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
-        // },
+        {
+            headerName: "نام انبار", field: "warehouseName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        },
         {
             headerName: "مقدار", field: "proximateAmount",
             renderCell: (params: any) => {
@@ -153,12 +153,12 @@ export const orderListColumns = (renderActions: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },
-        {
-            headerName: "نوع فاکتور خرید", field: "purchaseInvoiceTypeDesc",
-            renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
-        },
+        // {
+        //     headerName: "نوع فاکتور خرید", field: "purchaseInvoiceTypeDesc",
+        //     renderCell: (params: any) => {
+        //         return <Typography variant="h4">{params.value}</Typography>
+        //     }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        // },
         {
             headerName: "", field: "rowId", hide: true
         },
@@ -282,6 +282,78 @@ export const ladingColumns = (renderAction: any) => {
 }
 
 export const columnsModalProduct = () => {
+    const col = [
+        {
+            field: "productCode",
+            headerName: "کدکالا",
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+
+            maxWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "productName",
+            headerName: "کالا",
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+
+            minWidth: 180,
+            flex: 1,
+        },
+        {
+            field: "productBrandName",
+            minWidth: 80,
+            maxWidth: 80,
+            headerName: "برند",
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            flex: 1,
+        },
+        {
+            field: "warehouseName",
+
+            minWidth: 80,
+            maxWidth: 80,
+            headerName: "انبار",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+
+            headerClassName: "headerClassName",
+            flex: 1,
+        },
+        {
+            field: "inventory",
+            minWidth: 90,
+            maxWidth: 90,
+            headerName: "موجودی",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+
+            headerClassName: "headerClassName",
+            flex: 1,
+        },
+        {
+            field: "price",
+            minWidth: 60,
+            headerName: "قیمت",
+            flex: 1,
+            renderCell: (value: any) =>
+                <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
+            headerClassName: "headerClassName",
+        },
+    ];
+    return col;
+};
+export const columnsProductInventories = () => {
     const col = [
         {
             field: "productCode",
