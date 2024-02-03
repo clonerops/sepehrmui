@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {Box, Button, Typography} from '@mui/material'
 
@@ -10,16 +9,16 @@ import { orderColumns } from "../helpers/columns";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import Pagination from "../../../../_cloner/components/Pagination";
+// import Pagination from "../../../../_cloner/components/Pagination";
 
-const pageSize = 20
+// const pageSize = 20
 
 const SalesOrderList = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    // const [currentPage, setCurrentPage] = useState<number>(1);
 
     let formData = {
-        pageNumber: currentPage,
-        pageSize: pageSize,    
+        pageNumber: 1,
+        pageSize: 100,    
     }
 
     const { data: orders, isLoading } = useRetrieveOrders(formData);
@@ -45,9 +44,9 @@ const SalesOrderList = () => {
         );
     };
 
-    const handlePageChange = (selectedItem: { selected: number }) => {
-        setCurrentPage(selectedItem.selected + 1);
-    };
+    // const handlePageChange = (selectedItem: { selected: number }) => {
+    //     setCurrentPage(selectedItem.selected + 1);
+    // };
     
     return (
         <ReusableCard>
@@ -76,7 +75,7 @@ const SalesOrderList = () => {
                 data={orders?.data}
                 isLoading={isLoading}
             />
-            <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
+            {/* <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} /> */}
         </ReusableCard>
     );
 };

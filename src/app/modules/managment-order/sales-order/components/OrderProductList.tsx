@@ -72,6 +72,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                     orderIndex: rowIndex
                 }
             ))    
+            console.log(params.row)
             const fieldValue = [
                 {title: "productName", value: params.row.productName},
                 {title: "id", value: params.row.id},
@@ -142,8 +143,6 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         // column.field !== "purchaseInvoiceTypeDesc" &&
         column.field !== "rowId" &&
         column.field !== "productDesc");
-
-        console.log(orders)
 
     return (
         <>

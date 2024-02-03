@@ -2,14 +2,16 @@ import MaskInput from "./MaskInput";
 import { ComponentProps, useEffect } from "react";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { Typography } from "@mui/material";
 
 export type FormikMaskProps = ComponentProps<typeof MaskInput> & {
   name: string;
+  label: string;
   value?: string;
 };
 
 const FormikMaskInput = (props: FormikMaskProps) => {
-  const { name, value, ...rest } = props;
+  const { name, value, label, ...rest } = props;
   const [field, , meta] = useField({ name, value: value || "" }); // Set a default value if 'value' is undefined
   const formikProps = useFormikContext();
 
@@ -29,7 +31,8 @@ const FormikMaskInput = (props: FormikMaskProps) => {
         if (rest?.onAccept) rest.onAccept(maskedValue, mask);
         else meta.setValue(mask.unmaskedValue);
       }}
-      value={field.value || ""} // Set a default value if 'field.value' is undefined
+      value={field.value || ""}
+      label={label}
     />
   );
 };
