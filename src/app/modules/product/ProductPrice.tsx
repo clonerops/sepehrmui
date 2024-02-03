@@ -12,7 +12,7 @@ import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 
-import {useDeleteProductPrice,useRetrieveProductPrice } from "./core/_hooks";
+import {useDeleteProductPrice,useRetrieveProductPrice, useUploadFileProductPrice } from "./core/_hooks";
 import { IProductPrice } from "./core/_models";
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
 import { exportProductPrices } from "./core/_requests";
@@ -35,6 +35,8 @@ const ProductPrice = () => {
         mutate: deleteMutate,
         isLoading: deleteLoading,
     } = useDeleteProductPrice();
+    const uploadFileMethode = useUploadFileProductPrice();
+
     // State
     const [itemForEdit, setItemForEdit] = useState<IProductPrice | undefined>();
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
@@ -143,6 +145,7 @@ const ProductPrice = () => {
                     <Box component="div" className="flex flex-wrap gap-x-4">
                         <FileUploadButton
                             refetch={refetch}
+                            uploadFileMethode={uploadFileMethode}
                         />
                         <Button
                             onClick={handleDownloadExcel}

@@ -172,6 +172,14 @@ const useExportProductPrice = () => {
     })
 }
 
+const uploadProductInventories: any = (formData: any, onUploadProgress: any) => {
+    return api.uploadProductInventories(formData, onUploadProgress);
+};
+
+const useUploadFileProductInventories = () => {
+    return useMutation(uploadProductInventories);
+};
+
 
 export {
     useGetProductList,
@@ -198,5 +206,6 @@ export {
     useUpdateProductPrice,
     useDeleteProductPrice,
     useUploadFileProductPrice,
-    useExportProductPrice
+    useExportProductPrice,
+    useUploadFileProductInventories
 };

@@ -1,4 +1,4 @@
-import { useDeleteProductPrice, useGetProductList, useRetrieveProductPrice } from "./core/_hooks";
+import { useDeleteProductPrice, useGetProductList, useRetrieveProductPrice, useUploadFileProductInventories, useUploadFileProductPrice } from "./core/_hooks";
 import { IProductPrice } from "./core/_models";
 import { useState, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
@@ -26,6 +26,7 @@ import { useGetWarehouseTypes } from "../generic/_hooks";
 
 const ProductInventories = () => {
     const { refetch, data: productPrice, isLoading: productPriceLoading } = useRetrieveProductPrice(null);
+    const uploadFileMethode = useUploadFileProductInventories();
     const { mutate: deleteMutate, isLoading: deleteLoading, } = useDeleteProductPrice();
     const filterTools = useGetProductList();
     const warehouseTypeTools = useGetWarehouseTypes();
@@ -37,7 +38,7 @@ const ProductInventories = () => {
     const [results, setResults] = useState<IProductPrice[]>([]);
 
     useEffect(() => {
-        const filter = { ByBrand: true }
+        const filter = { ByBrand: true, warehouseTypeId: 1 }
         filterTools.mutate(filter, {
             onSuccess: (res) => {
                 setResults(res?.data)
@@ -91,21 +92,22 @@ const ProductInventories = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
+            {uploadFileMethode.isLoading && <Backdrop loading={uploadFileMethode.isLoading} />}
             <ReusableCard>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
-                        <FuzzySearch
-                            keys={["productName", "brandName", "price"]}
-                            data={productPrice?.data}
-                            threshold={0.5}
-                            setResults={setResults}
-                        />
+                    <Box>
+                        <Typography variant="h3" color="secondary">جهت آپلود فایل موجودی روزانه، رعایت موارد زیر الزامی باشد</Typography>
+                        <ul>
+                            <li className="pt-2 text-[#272862] text-md">فرمت فایل باید بصورت اکسل (.xlsl) باشد</li>
+                            <li className="py-2 text-[#272862] text-md">ترتیب فیلدها مهم می باشد: کد کالابرند، کدانبار، موجودی تقریبی، موجودی کف، حداکثر موجودی، حداقل موجودی</li>
+                        </ul>
                     </Box>
+
                     <Box component="div" className="flex flex-wrap gap-x-4">
-                        <FileUploadButton refetch={refetch} />
+                        <FileUploadButton refetch={refetch} uploadFileMethode={uploadFileMethode} />
                         <Button
                             onClick={handleDownloadExcel}
                             variant="outlined"
@@ -123,14 +125,24 @@ const ProductInventories = () => {
                         </Button>
                     </Box>
                 </Box>
-                <Formik initialValues={{ warehouseId: "-1" }} onSubmit={() => { }}>
-                    {({ }) => {
-                        return <Form>
-                            <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseId" />
-                        </Form>
-                    }}
-                </Formik>
-                <Box className="grid grid-cols-2 mt-4">
+                <Box component="div" className="w-auto md:w-[40%]">
+                    <FuzzySearch
+                        keys={["productName", "brandName", "price"]}
+                        data={productPrice?.data}
+                        threshold={0.5}
+                        setResults={setResults}
+                    />
+                </Box>
+                <Box className="m-2">
+                    <Formik initialValues={{ warehouseId: "-1" }} onSubmit={() => { }}>
+                        {({ }) => {
+                            return <Form>
+                                <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseId" />
+                            </Form>
+                        }}
+                    </Formik>
+                </Box>
+                {/* <Box className="grid grid-cols-2 mt-4">
                     <MuiDataGrid
                         columns={columnsProductInventories()}
                         isLoading={filterTools.isLoading}
@@ -151,7 +163,7 @@ const ProductInventories = () => {
 
                     </Box>
 
-                </Box>
+                </Box> */}
                 <TransitionsModal
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}

@@ -8,15 +8,15 @@ import { EnqueueSnackbar } from '../helpers/Snackebar';
 
 interface FileUploadProps {
     acceptedFileTypes?: string;
-    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
+    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>;
+    uploadFileMethode: any
 }
 
-const FileUploadButton: React.FC<FileUploadProps> = ({ refetch }) => {
+const FileUploadButton: React.FC<FileUploadProps> = ({ refetch, uploadFileMethode }) => {
     const acceptedFileTypes: any =
         '.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     const [files, setFiles] = useState<File[]>([]);
 
-    const uploadFile: any = useUploadFileProductPrice();
 
     const onDrop = (acceptedFiles: File[]) => {
         const formData = new FormData();
@@ -24,7 +24,7 @@ const FileUploadButton: React.FC<FileUploadProps> = ({ refetch }) => {
             formData.append('PriceFile', file);
         });
 
-        uploadFile.mutate(formData, {
+        uploadFileMethode.mutate(formData, {
             onSuccess: (response: any) => {
                 if(response.succeeded) {
                     EnqueueSnackbar(response.message, "success")
