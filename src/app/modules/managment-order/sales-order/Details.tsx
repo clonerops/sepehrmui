@@ -66,7 +66,8 @@ const SalesOrderDetail = (props: Props) => {
     const orderPaymentsColumn = [
         { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },
         { id: 2, header: "روز", accessor: "daysAfterExit" },
-        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate", render: (params: any) => moment(params.paymentDate).format('jYYYYjMM/jDD') },
+        // { id: 3, header: "تاریخ تسویه", accessor: "paymentDate", render: (params: any) => moment(params.paymentDate).format('jYYYYjMM/jDD') },
+        { id: 3, header: "تاریخ تسویه", accessor: "paymentDate"},
     ]
 
 
