@@ -32,7 +32,6 @@ const ReadyToPurchaserOrderConfirm = () => {
 
 
     const renderAction = (item: any) => {
-        console.log("item?.row", item?.row)
         return (
             <Link
                 to={`${item.row.orderStatusId !== 2 ? `/dashboard/purchaser_order/ready-to-confirm/${item?.row?.id}` : ""}`}

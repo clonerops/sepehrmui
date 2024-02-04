@@ -70,7 +70,6 @@ const OrderProductList = (props: ProductProps) => {
                     orderIndex: rowIndex
                 }
             ))    
-            console.log(params.row)
             const fieldValue = [
                 {title: "productName", value: params.row.productName},
                 {title: "id", value: params.row.id},

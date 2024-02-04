@@ -73,10 +73,6 @@ const OrderProductDetail = (props: Props) => {
 
     const handleOrder = () => {
         const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
-
-
-        console.log('formikRef?.current?.values', formikRef?.current?.values)
-
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
             productName: formikRef?.current?.values?.productName?.label ? formikRef?.current?.values?.productName?.label : formikRef?.current?.values?.productName,

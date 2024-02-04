@@ -183,8 +183,6 @@ const PurchaserOrderEdit = () => {
         }
     }
 
-    console.log("orders", orders)
-
     if (postSaleOrder.isLoading) {
         return <Backdrop loading={postSaleOrder.isLoading} />
     }

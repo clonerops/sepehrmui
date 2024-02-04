@@ -239,8 +239,6 @@ const Products = () => {
         );
     };
 
-    console.log(results?.length)
-
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
