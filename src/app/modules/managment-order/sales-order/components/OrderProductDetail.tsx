@@ -75,7 +75,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
     }
 
     const handleOrder = () => {
-        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "proximateAmount", "price", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
+        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
 
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
@@ -146,6 +146,8 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                 formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
             }
             setState((prev) => ({...prev, orderIndex: 0}))
+            formikRef?.current?.setFieldValue("proximateAmount", "0");
+            formikRef?.current?.setFieldValue("price", "0");
             fields.forEach((element) => {
                 formikRef?.current?.setFieldValue(element, "");
             });
