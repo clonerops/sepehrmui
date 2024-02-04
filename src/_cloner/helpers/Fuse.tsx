@@ -14,7 +14,7 @@ const FuzzySearch = <T extends {}>({
   data,
   keys,
   setResults,
-  threshold = 0.4,
+  threshold = 0,
 }: FuzzySearchProps<T>) => {
 
   const [query, setQuery] = useState("");

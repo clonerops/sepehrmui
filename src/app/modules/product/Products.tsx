@@ -13,6 +13,7 @@ import ActiveText from "../../../_cloner/components/ActiveText";
 import ProductForm from "./components/ProductForm";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import SearchBar from "../../../_cloner/components/SaerchInput";
 
 const Products = () => {
     const {
@@ -262,7 +263,7 @@ const Products = () => {
                                 "description",
                             ]}
                             data={products?.data}
-                            threshold={0.5}
+                            // threshold={0.5}
                             setResults={setResults}
                         />
                     </Box>
