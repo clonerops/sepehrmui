@@ -103,6 +103,7 @@ export interface IProductFilters {
     productSortBase?: number
     ByBrand?: boolean
     WarehouseId?: number
+    WarehouseTypeId?: number
     PageNumber?: number
     PageSize?: number
 }

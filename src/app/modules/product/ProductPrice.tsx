@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
 
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
@@ -111,25 +111,24 @@ const ProductPrice = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
-            <ReusableCard>
-                <Box
-                    component="div"
-                    className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4"
-                >
-                    <Typography variant="h4" className="text-red-500">
-                        نکته:{" "}
-                    </Typography>
+            <Alert className="mb-4">
+                <Box component="div" className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4">
                     <Typography variant="h4" className="text-red-500">
                         برای بارگزاری فایل قیمت ها بایستی این موارد رعایت گردد:
                     </Typography>
-                    <Typography variant="h4">
-                        1) فایل بایستی بصورت اکسل باشد
-                    </Typography>
-                    <Typography variant="h4">
-                        2) ستون های فایل بایستی شامل : کد کالا، کد برند، قیمت
-                        باشد
-                    </Typography>
+                    <Box className="flex flex-col space-y-4">
+                        <Typography variant="h4">
+                            1) فایل بایستی بصورت اکسل باشد
+                        </Typography>
+                        <Typography variant="h4">
+                            2) ستون های فایل بایستی شامل : کد کالا، کد برند، قیمت
+                            باشد
+                        </Typography>
+                    </Box>
                 </Box>
+
+            </Alert>
+            <ReusableCard>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"

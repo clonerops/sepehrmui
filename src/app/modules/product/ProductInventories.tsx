@@ -1,10 +1,8 @@
 import { useDeleteProductPrice, useGetProductList, useRetrieveProductPrice, useUploadFileProductInventories, useUploadFileProductPrice } from "./core/_hooks";
 import { IProductPrice } from "./core/_models";
 import { useState, useEffect } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
 
-import EditGridButton from "../../../_cloner/components/EditGridButton";
-import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
@@ -69,7 +67,7 @@ const ProductInventories = () => {
     const handleDownloadExcel = async () => {
         try {
             const response: any = await exportProductPrices();
-            const outputFilename = `ProductPrices${Date.now()}.csv`;
+            const outputFilename = `ProductInventories${Date.now()}.csv`;
             DownloadExcelBase64File(response?.data, outputFilename);
         } catch (error) {
             console.log(error);
@@ -79,7 +77,7 @@ const ProductInventories = () => {
     const onFilterProductByWarehouse = (value: any) => {
         const filter = {
             ByBrand: true,
-            WarehouseId: +value
+            WarehouseTypeId: +value
         }
         filterTools.mutate(filter, {
             onSuccess: (res) => {
@@ -91,19 +89,28 @@ const ProductInventories = () => {
     return (
         <>
             {uploadFileMethode.isLoading && <Backdrop loading={uploadFileMethode.isLoading} />}
+            <Alert color="info" className="mb-4">
+                <Box>
+                    <Typography variant="h3" color="red" className="pb-4">جهت آپلود فایل موجودی روزانه، رعایت موارد زیر الزامی باشد</Typography>
+                    <ul className="space-y-4">
+                        <Typography variant="h4">فرمت فایل باید بصورت اکسل (xlsx.) باشد</Typography>
+                        <Typography variant="h4">ترتیب فیلدها مهم می باشد: کد کالابرند، کدانبار، موجودی تقریبی، موجودی کف، حداکثر موجودی، حداقل موجودی</Typography>
+                    </ul>
+                </Box>
+            </Alert>
             <ReusableCard>
                 <Box
                     component="div"
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
-                    <Box>
-                        <Typography variant="h3" color="secondary">جهت آپلود فایل موجودی روزانه، رعایت موارد زیر الزامی باشد</Typography>
-                        <ul>
-                            <li className="pt-2 text-[#272862] text-md">فرمت فایل باید بصورت اکسل (.xlsl) باشد</li>
-                            <li className="py-2 text-[#272862] text-md">ترتیب فیلدها مهم می باشد: کد کالابرند، کدانبار، موجودی تقریبی، موجودی کف، حداکثر موجودی، حداقل موجودی</li>
-                        </ul>
+                    <Box component="div" className="w-auto md:w-[40%]">
+                        <FuzzySearch
+                            keys={["productName", "brandName", "price"]}
+                            data={productPrice?.data}
+                            threshold={0.5}
+                            setResults={setResults}
+                        />
                     </Box>
-
                     <Box component="div" className="flex flex-wrap gap-x-4">
                         <FileUploadButton refetch={refetch} uploadFileMethode={uploadFileMethode} />
                         <Button
@@ -123,19 +130,11 @@ const ProductInventories = () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box component="div" className="w-auto md:w-[40%]">
-                    <FuzzySearch
-                        keys={["productName", "brandName", "price"]}
-                        data={productPrice?.data}
-                        threshold={0.5}
-                        setResults={setResults}
-                    />
-                </Box>
                 <Box className="m-2">
-                    <Formik initialValues={{ warehouseId: "-1" }} onSubmit={() => { }}>
+                    <Formik initialValues={{ warehouseTypeId: 1 }} onSubmit={() => { }}>
                         {({ }) => {
                             return <Form>
-                                <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseId" />
+                                <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseTypeId" />
                             </Form>
                         }}
                     </Formik>
