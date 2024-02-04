@@ -60,7 +60,9 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
     }
 
     const handleDeletePayment = (params: { id: number }) => {
-        const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== params.id)
+        const cpOrderPayment = [...orderPayment]
+        let orderPaymentFilter = cpOrderPayment.splice(1)
+        // const orderPaymentFilter = orderPayment.filter((item: IOrderPayment) => item.id !== params.id)
         setOrderPayment(orderPaymentFilter)
         formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, orderPaymentFilter, orderService)))
     }
