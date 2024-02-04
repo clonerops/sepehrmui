@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import { CallMade, CallReceived } from "@mui/icons-material";
 
 export const orderColumns = (renderAction: any) => {
     const col = [
@@ -403,11 +404,13 @@ export const columnsProductInventories = () => {
         },
         {
             field: "inventory",
-            minWidth: 90,
-            maxWidth: 90,
+            minWidth: 140,
+            maxWidth: 180,
             headerName: "موجودی واقعی",
             renderCell: (params: any) => {
-                return <Typography variant="h4" color={params.value < 0 ?  "red" : params.value > 0 ? "green" : "black"}>{separateAmountWithCommas(params.value)}</Typography>;
+                return <Typography variant="h4" color={params.value < 0 ?  "red" : params.value > 0 ? "green" : "black"}>
+                    {separateAmountWithCommas(params.value)} {params.value < 0 ? ( <CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? ( <CallMade className="text-green-500" fontSize="small" />) : null}
+                </Typography>;
             },
 
             headerClassName: "headerClassName",
