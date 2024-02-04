@@ -16,6 +16,7 @@ import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { FC } from 'react'
 
 interface IProps {
+    postSaleOrder: any,
     orderService: IOrderService[],
     setOrderService:  (value: React.SetStateAction<IOrderService[]>) => void
     orders: IOrderItems[]
@@ -23,7 +24,7 @@ interface IProps {
 }
 
 
-const OrderService:FC<IProps> = ({orderService, setOrderService, formikRef, orders}) => {
+const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, formikRef, orders}) => {
     const { data: productService } = useGetServices();
 
 
@@ -58,7 +59,7 @@ const OrderService:FC<IProps> = ({orderService, setOrderService, formikRef, orde
     }
 
 
-    const serviceColumns = [
+    const serviceBeforSubmit = [
         { id: 1, header: "نام بسته خدمت", accessor: "serviceName" },
         { id: 2, header: "هزینه", accessor: "description" },
         { id: 3, header: "حذف", accessor: "", render: (params: any) => {
@@ -68,17 +69,24 @@ const OrderService:FC<IProps> = ({orderService, setOrderService, formikRef, orde
         } },
     ]    
 
+    const serviceAfterSubmit = [
+        { id: 1, header: "نام بسته خدمت", accessor: "serviceName" },
+        { id: 2, header: "هزینه", accessor: "description" },
+    ]    
+
+    let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit
+
   return (
     <ReusableCard cardClassName="mt-4 md:mt-0">
         <Typography variant="h2" color="primary">بسته خدمت</Typography>
         <Box component="div" className="flex flex-wrap md:flex-nowrap  gap-4 my-4">
-            <FormikService label="نوع خدمت" name="serviceId" />
-            <FormikPrice name="serviceAmount" label="هزینه" />
+            <FormikService label="نوع خدمت" name="serviceId" disabled={postSaleOrder?.data?.succeeded} />
+            <FormikPrice name="serviceAmount" label="هزینه" disabled={postSaleOrder?.data?.succeeded} />
             <IconButton onClick={handleSetServices}>
                 <AddCircle color='secondary' />
             </IconButton>
         </Box>
-    <MuiTable onDoubleClick={() => {}} columns={serviceColumns} data={orderService} />
+    <MuiTable onDoubleClick={() => {}} columns={renderColumns} data={orderService} />
 </ReusableCard>
 
   )

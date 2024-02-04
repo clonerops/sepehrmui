@@ -84,7 +84,7 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
     ]
 
 
-    let renderColumns = postSaleOrder?.data?.data?.succeeded ? paymentAfterSubmit : paymentBeforSubmit
+    let renderColumns = postSaleOrder?.data?.succeeded ? paymentAfterSubmit : paymentBeforSubmit
 
 
     return (
@@ -94,7 +94,7 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
             </Typography>
             <Box component="div" className="mt-4">
                 <Box component="div" className="md:flex space-y-4 md:space-y-0 gap-x-2 my-4">
-                    <FormikPrice disabled={postSaleOrder?.data?.data?.succeeded} name="amount" label="مبلغ" InputProps={{
+                    <FormikPrice disabled={postSaleOrder?.data?.succeeded} name="amount" label="مبلغ" InputProps={{
                         inputProps: {
                             style: {
                                 textAlign: "center",
@@ -102,7 +102,7 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
                             },
                         },
                     }} />
-                    <FormikInput disabled={postSaleOrder?.data?.data?.succeeded} name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
+                    <FormikInput disabled={postSaleOrder?.data?.succeeded} name="number" label="روز" boxClassName="md:w-[50%]" InputProps={{
                         inputProps: {
                             style: {
                                 textAlign: "center",
@@ -111,7 +111,7 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
                         },
                     }} />
                     <Box component="div" className="flex w-full">
-                        <FormikDatepicker disabled={postSaleOrder?.data?.data?.succeeded} name="settlement" label="تاریخ" />
+                        <FormikDatepicker disabled={postSaleOrder?.data?.succeeded} name="settlement" label="تاریخ" />
                     </Box>
                     <IconButton onClick={handleSetPayment}>
                         <AddCircle color="secondary" />

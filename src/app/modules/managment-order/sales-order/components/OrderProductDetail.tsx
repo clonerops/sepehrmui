@@ -125,6 +125,8 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                 setOrders([...orders, productOrder]);
                 formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderServices)))
             }
+            formikRef?.current?.setFieldValue("proximateAmount", "0");
+            formikRef?.current?.setFieldValue("price", "0");
             fields.forEach((element) => {
                 formikRef?.current?.setFieldValue(element, "");
             });

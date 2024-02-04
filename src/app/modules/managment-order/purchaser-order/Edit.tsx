@@ -203,12 +203,14 @@ const PurchaserOrderEdit = () => {
                         {/*The design of the header section of the order module includes order information and customer information */}
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <ReusableCard cardClassName="col-span-2">
-                                <Box component="div" className="flex mt-4 gap-4">
-                                    <FormikInput label="شماره سفارش" name="searchOrderCode" />
-                                    <IconButton onClick={() => onGetOrderDetailByCode(values.searchOrderCode)}>
-                                        <SearchRounded color="secondary" />
-                                    </IconButton>
-                                </Box>
+                                {!postSaleOrder?.data?.succeeded &&
+                                    <Box component="div" className="flex mt-4 gap-4">
+                                        <FormikInput label="شماره سفارش" name="searchOrderCode" />
+                                        <IconButton onClick={() => onGetOrderDetailByCode(values.searchOrderCode)}>
+                                            <SearchRounded color="secondary" />
+                                        </IconButton>
+                                    </Box>
+                                }
                                 <Box component="div" className="mt-8 space-y-8">
                                     <Box component="div" className="flex justify-between">
                                         <Typography variant="h4" className="text-gray-500">شماره سفارش</Typography>
@@ -266,6 +268,7 @@ const PurchaserOrderEdit = () => {
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
                                 formikRef={formikRef}
+                                postSaleOrder={postSaleOrder}
                                 orders={orders} />
                             <OrderPayment
                                 orderPayment={orderPayment}

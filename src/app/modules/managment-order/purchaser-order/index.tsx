@@ -207,6 +207,7 @@ const PurchaserOrder = () => {
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
                                 formikRef={formikRef}
+                                postSaleOrder={postSaleOrder}
                                 orders={orders} />
                             <OrderFeature postOrder={postSaleOrder} />
                             <OrderPayment

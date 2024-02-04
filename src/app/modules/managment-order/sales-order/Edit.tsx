@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { Box, Typography, IconButton } from '@mui/material'
+import { Alert, Box, IconButton, Typography } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 import Swal from 'sweetalert2'
 
@@ -18,13 +18,12 @@ import { calculateTotalAmount } from '../helpers/functions'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import CustomButton from '../../../../_cloner/components/CustomButton'
 import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
-import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
-import FormikInput from '../../../../_cloner/components/FormikInput'
-import { SearchRounded } from '@mui/icons-material'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import OrderDetailBaseOrderCode from './components/OrderDetailBaseOrderCode'
+import { Autorenew } from '@mui/icons-material'
 
 const SalesOrderEdit = () => {
 
@@ -59,7 +58,6 @@ const SalesOrderEdit = () => {
                 ...detailTools?.data?.data?.orderPayments?.map((i: any) => ({
                     id: i?.id,
                     amount: separateAmountWithCommas(+i.amount),
-                    // paymentDate: moment(i.paymentDate).format("jYYYY/jMM/jDD"),
                     paymentDate: i.paymentDate,
                     daysAfterExit: i.daysAfterExit
                 })) || []
@@ -85,14 +83,6 @@ const SalesOrderEdit = () => {
 
         }
     }, [detailTools?.data?.data])
-
-    const onGetOrderDetailByCode = (orderCode: number) => {
-        detailTools.mutate(orderCode, {
-            onSuccess: () => {
-                formikRef.current?.setFieldValue("searchOrderCode", 545)
-            }
-        })
-    }
 
     const onSubmit = (values: any) => {
         if (orders?.length === 0) {
@@ -196,14 +186,17 @@ const SalesOrderEdit = () => {
             }
         }
     }
-
-    if (postSaleOrder.isLoading) {
-        return <Backdrop loading={postSaleOrder.isLoading} />
-    }
-
     return (
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
+            {postSaleOrder?.data?.succeeded &&
+                <Alert>
+                    <Typography>
+                        ویرایش سفارش {detailTools?.data?.data.orderCode} با موفقیت انجام گردید
+                    </Typography>
+                </Alert>
+            }
             <Formik enableReinitialize innerRef={formikRef} initialValues={{
                 ...saleOrderEditInitialValues,
                 ...orderPaymentValues,
@@ -212,44 +205,11 @@ const SalesOrderEdit = () => {
                 paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
                 isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
             }} onSubmit={onSubmit}>
-                {({ values, setFieldValue, handleSubmit }) => {
+                {({ values, handleSubmit }) => {
                     return <>
                         {/*The design of the header section of the order module includes order information and customer information */}
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
-                            <ReusableCard cardClassName="col-span-2">
-                                <Box component="div" className="flex mt-4 gap-4">
-                                    <FormikInput label="شماره سفارش" name="searchOrderCode" />
-                                    <IconButton onClick={() => onGetOrderDetailByCode(values.searchOrderCode)}>
-                                        <SearchRounded color="secondary" />
-                                    </IconButton>
-                                </Box>
-                                <Box component="div" className="mt-8 space-y-8">
-                                    <Box component="div" className="flex justify-between">
-                                        <Typography variant="h4" className="text-gray-500">شماره سفارش</Typography>
-                                        <Typography variant="h3">
-                                            {detailTools?.data?.data.orderCode ? detailTools?.data?.data.orderCode : "------------------"}
-                                        </Typography>
-                                    </Box>
-                                    <Box component="div" className="flex justify-between">
-                                        <Typography variant="h4" className="text-gray-500">مشتری</Typography>
-                                        <Typography variant="h3">
-                                            {detailTools?.data?.data.customerName ? detailTools?.data?.data.customerName : "------------------"}
-                                        </Typography>
-                                    </Box>
-                                    <Box component="div" className="flex justify-between">
-                                        <Typography variant="h4" className="text-gray-500">تاریخ سفارش</Typography>
-                                        <Typography variant="h3">
-                                            {detailTools?.data?.data?.registerDate ? detailTools?.data?.data.registerDate : "------------------"}
-                                        </Typography>
-                                    </Box>
-                                    <Box component="div" className="flex justify-between">
-                                        <Typography variant="h4" className="text-gray-500">قیمت کل</Typography>
-                                        <Typography variant="h3" className="text-green-500">
-                                            {sliceNumberPriceRial(calculateTotalAmount(orders, orderServices))} ریال
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            </ReusableCard>
+                            <OrderDetailBaseOrderCode postSaleOrder={postSaleOrder} detailTools={detailTools} formikRef={formikRef} orderCode={values.searchOrderCode} orderServices={orderServices} orders={orders} />
                             <Box component="div" className='col-span-3'>
                                 <OrderFeature postOrder={postSaleOrder} />
                             </Box>
@@ -279,6 +239,7 @@ const SalesOrderEdit = () => {
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
                                 formikRef={formikRef}
+                                postSaleOrder={postSaleOrder}
                                 orders={orders} />
                             <OrderPayment
                                 orderPayment={orderPayment}
@@ -295,7 +256,7 @@ const SalesOrderEdit = () => {
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ویرایش سفارش فروش"}
                                 onClick={() => handleSubmit()}
-                                disabled={!orderValid}
+                                disabled={!orderValid || orderPayment.length <= 0 || orders.length <= 0 || postSaleOrder?.data?.succeeded}
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />
