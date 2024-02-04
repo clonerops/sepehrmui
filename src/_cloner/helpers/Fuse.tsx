@@ -23,6 +23,8 @@ const FuzzySearch = <T extends {}>({
     keys,
     includeScore: true,
     threshold,
+    findAllMatches: true,
+    includeMatches: true
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
