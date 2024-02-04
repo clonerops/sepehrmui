@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query';
 
-import { useUploadFileProductPrice } from '../../app/modules/product/core/_hooks';
 import { EnqueueSnackbar } from '../helpers/Snackebar';
 
 interface FileUploadProps {

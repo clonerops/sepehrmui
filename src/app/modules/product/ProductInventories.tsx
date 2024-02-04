@@ -90,8 +90,6 @@ const ProductInventories = () => {
 
     return (
         <>
-            {deleteLoading && <Backdrop loading={deleteLoading} />}
-            {productPriceLoading && <Backdrop loading={productPriceLoading} />}
             {uploadFileMethode.isLoading && <Backdrop loading={uploadFileMethode.isLoading} />}
             <ReusableCard>
                 <Box
@@ -142,7 +140,7 @@ const ProductInventories = () => {
                         }}
                     </Formik>
                 </Box>
-                {/* <Box className="grid grid-cols-2 mt-4">
+                <Box className="grid grid-cols-2 mt-4">
                     <MuiDataGrid
                         columns={columnsProductInventories()}
                         isLoading={filterTools.isLoading}
@@ -163,7 +161,7 @@ const ProductInventories = () => {
 
                     </Box>
 
-                </Box> */}
+                </Box>
                 <TransitionsModal
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}
