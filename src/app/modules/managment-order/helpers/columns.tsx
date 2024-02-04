@@ -407,7 +407,7 @@ export const columnsProductInventories = () => {
             maxWidth: 90,
             headerName: "موجودی واقعی",
             renderCell: (params: any) => {
-                return <Typography variant="h5">{separateAmountWithCommas(params.value)}</Typography>;
+                return <Typography variant="h4" color={params.value < 0 ?  "red" : params.value > 0 ? "green" : "black"}>{separateAmountWithCommas(params.value)}</Typography>;
             },
 
             headerClassName: "headerClassName",
