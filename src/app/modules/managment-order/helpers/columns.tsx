@@ -54,7 +54,7 @@ export const orderColumns = (renderAction: any) => {
 export const purchaserOrderColumns = (renderAction: any) => {
     const col = [
         {
-            field: 'purchaseOrderCode', renderCell: (params: any) => {
+            field: 'orderCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1

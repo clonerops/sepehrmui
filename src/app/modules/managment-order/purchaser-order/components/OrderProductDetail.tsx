@@ -147,6 +147,8 @@ const OrderProductDetail = (props: Props) => {
         }
     };
 
+    console.log(orders)
+
 
     return (
         <>

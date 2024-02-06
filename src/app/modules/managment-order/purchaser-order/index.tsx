@@ -27,6 +27,7 @@ import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import moment from 'moment-jalaali'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 
 
 const PurchaserOrder = () => {
@@ -117,21 +118,7 @@ const PurchaserOrder = () => {
                             })
                         } else {
                             if (response.succeeded) {
-                                Swal.fire({
-                                    title: `سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`,
-                                    confirmButtonColor: "#fcc615",
-                                    showClass: {
-                                        popup: 'animate__animated animate__fadeInDown'
-                                    },
-                                    hideClass: {
-                                        popup: 'animate__animated animate__fadeOutUp'
-                                    },
-                                    confirmButtonText: "بستن",
-                                    icon: "success",
-                                    customClass: {
-                                        title: "text-lg"
-                                    }
-                                })
+                                renderAlert(response.message)
                             } else {
                                 EnqueueSnackbar(response?.data.Message, "error")
                             }

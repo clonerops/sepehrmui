@@ -25,6 +25,7 @@ import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 
 const PurchaserOrderEdit = () => {
 
@@ -120,7 +121,7 @@ const PurchaserOrderEdit = () => {
                         numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
                         price: typeof item.price === "number" ? item.price : +item.price?.replace(/,/g, ""),
                         description: item.description,
-                        deliverDate: item.deliverDate,
+                        deliverDate: item.purchaseSettlementDate ? item.purchaseSettlementDate : item.deliverDate,
                     };
 
                     // Conditionally include id if it exists
@@ -156,21 +157,7 @@ const PurchaserOrderEdit = () => {
                             })
                         } else {
                             if (response.succeeded) {
-                                Swal.fire({
-                                    title: `سفارش با موفقیت ویرایش گردید`,
-                                    confirmButtonColor: "#fcc615",
-                                    showClass: {
-                                        popup: 'animate__animated animate__fadeInDown'
-                                    },
-                                    hideClass: {
-                                        popup: 'animate__animated animate__fadeOutUp'
-                                    },
-                                    confirmButtonText: "بستن",
-                                    icon: "success",
-                                    customClass: {
-                                        title: "text-lg"
-                                    }
-                                })
+                                renderAlert("سفارش با موفقیت ویرایش گردید")
                             } else {
                                 EnqueueSnackbar(response?.data.Message, "error")
                             }
