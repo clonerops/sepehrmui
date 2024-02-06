@@ -10,6 +10,7 @@ import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
 import cx from "classnames";
+import { memo } from "react";
 
 export type FormikSelectPropsType<Value> = {
   name: string;
@@ -75,4 +76,4 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
     </Box>
   );
 };
-export default FormikSelect;
+export default memo(FormikSelect);

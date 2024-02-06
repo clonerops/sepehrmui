@@ -81,6 +81,7 @@ const orderDetailParseFields = (
     
 
     ) => {
+        console.log("isProductChoose", isProductChoose)
     const { type, ...rest } = fields;
     switch (type) {
         case "warehouse":
@@ -96,7 +97,7 @@ const orderDetailParseFields = (
                     <Button onClick={() => setState((prev) => ({...prev, isProductChoose: true}))} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded}>
                         <Grading />
                     </Button>
-                    {isProductChoose &&
+                    {isProductChoose ?
                         <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='99%' isClose={() => setState((prev) => ({...prev, isProductChoose: false}))}>
                                 <ProductsList
                                     formikRef={formikRef}
@@ -107,6 +108,7 @@ const orderDetailParseFields = (
                                     orderService={orderService}
                                 />
                         </TransitionsModal>
+                        : null
                     }
                 </Box>
             );

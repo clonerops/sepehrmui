@@ -7,6 +7,7 @@ import {
 } from "@mui/material/TextField/TextField";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { memo } from "react";
 
 export type Label = keyof typeof translation;
 
@@ -51,4 +52,4 @@ const FormikInput = (props: Props) => {
     </Box>
   );
 };
-export default FormikInput;
+export default memo(FormikInput);

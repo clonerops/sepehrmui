@@ -13,7 +13,10 @@ import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPri
 import { calculateProximateAmount, calculateTotalAmount } from "../helpers/functions";
 import { FormikErrors, FormikProps } from "formik";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import { FC } from "react";
+import { FC, memo } from "react";
+
+console.log("OrderPayments is rendered")
+
 
 interface IProps {
     postSaleOrder: any,
@@ -141,4 +144,4 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
     )
 }
 
-export default OrderPayment
+export default memo(OrderPayment)

@@ -408,4 +408,9 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
     );
 };
 
-export default memo(ProductsList);
+export default memo(ProductsList, (prevProps: Readonly<IProps>, nextProps: Readonly<IProps>) => {
+    console.log("prevProps === nextProps", prevProps === nextProps)
+    return prevProps === nextProps
+});
+
+console.log("ProductsList is rendered")

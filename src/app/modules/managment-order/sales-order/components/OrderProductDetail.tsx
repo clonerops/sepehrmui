@@ -1,4 +1,4 @@
-import {FC, useState} from 'react'
+import {FC, memo, useState} from 'react'
 import { Form, FormikProps } from "formik"
 import {Box} from '@mui/material'
 
@@ -13,6 +13,7 @@ import { orderFieldWhenNotWarehouseMain, orderFieldWhenWarehouseIsMain } from '.
 import { orderDetailParseFields } from '../../sales-order/renderFields'
 import { EnqueueSnackbar } from '../../../../../_cloner/helpers/Snackebar'
 
+console.log("OrderProductDetail is rendered")
 
 interface IProps {
     postSaleOrder: any,
@@ -123,7 +124,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                 EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error")
             } else {
                 setOrders([...orders, productOrder]);
-                formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderServices)))
+                formikRef.current?.setFieldValue("amount", sliceNumberPriceRial( calculateTotalAmount([...orders, productOrder], orderServices)))
             }
             formikRef?.current?.setFieldValue("proximateAmount", "0");
             formikRef?.current?.setFieldValue("price", "0");
@@ -211,4 +212,4 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
     )
 }
 
-export default OrderProductDetail
+export default memo(OrderProductDetail)

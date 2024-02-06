@@ -13,7 +13,7 @@ import { useGetServices } from '../../generic/_hooks'
 import { calculateProximateAmount, calculateTotalAmount } from '../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 
 interface IProps {
     postSaleOrder: any,
@@ -22,6 +22,8 @@ interface IProps {
     orders: IOrderItems[]
     formikRef: React.RefObject<FormikProps<any>>
 }
+
+console.log("OrderServices is rendered")
 
 
 const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, formikRef, orders}) => {
@@ -92,4 +94,4 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
   )
 }
 
-export default OrderService
+export default memo(OrderService)

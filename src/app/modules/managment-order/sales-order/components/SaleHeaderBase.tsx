@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, memo } from 'react'
 import { Box, Card, Typography } from '@mui/material'
 import { UseMutationResult } from '@tanstack/react-query'
 
@@ -11,6 +11,9 @@ interface IProps {
     orders: IOrderPayment[]
     orderServices: IOrderService[]
 }
+
+console.log("Header component is rendered")
+
 
 const SaleHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => {
     return (
@@ -28,4 +31,11 @@ const SaleHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => 
     )
 }
 
-export default SaleHeaderBase
+export default memo(SaleHeaderBase)
+
+// , (prevProps: Readonly<IProps>, nextProps: Readonly<IProps>) => {
+//     console.log("header order props", prevProps.orders === nextProps.orders)
+//     console.log('"header postSaleOrder props"',prevProps.postSaleOrder === nextProps.postSaleOrder)
+//     console.log('"header orderServices props"',prevProps.orderServices === nextProps.orderServices)
+//     return true
+// }

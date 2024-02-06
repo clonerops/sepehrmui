@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { Box } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 import { saleOrderInitialValues } from "./initialValues"
@@ -94,6 +94,8 @@ const SalesOrder = () => {
     if (postSaleOrder.isLoading) {
         return <Backdrop loading={postSaleOrder.isLoading} />
     }
+
+    console.log("parent component is rendered")
 
     return (
         <>

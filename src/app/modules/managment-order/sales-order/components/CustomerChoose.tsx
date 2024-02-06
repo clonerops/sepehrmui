@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, memo } from 'react'
 import moment from 'moment-jalaali'
 import { FormikProps } from 'formik'
 import { Box, IconButton, Typography } from '@mui/material'
@@ -25,6 +25,9 @@ interface IRenderInfoProps {
     value: any
     valueClassName?: string
 }
+
+console.log("customer choose component is rendered")
+
 
 const RenderInformation: FC<IRenderInfoProps> = ({ title, value, valueClassName }) => {
     return <Box component="div" className="flex flex-row pt-2">
@@ -103,4 +106,4 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
     )
 }
 
-export default CustomerChoose
+export default memo(CustomerChoose)

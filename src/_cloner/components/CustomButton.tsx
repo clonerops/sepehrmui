@@ -1,4 +1,5 @@
 import { Button, Typography, CircularProgress } from "@mui/material"
+import { memo } from "react";
 
 type Props = {
     title: string;
@@ -8,6 +9,7 @@ type Props = {
     isLoading?: boolean
 }
 
+console.log("Button Submit is rendered")
 
 const CustomButton = (props: Props) => {
     const { title, onClick, disabled, color, isLoading } = props
@@ -26,4 +28,4 @@ const CustomButton = (props: Props) => {
     )
 }
 
-export default CustomButton
+export default memo(CustomButton)

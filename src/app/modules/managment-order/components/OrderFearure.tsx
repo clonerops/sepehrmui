@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { Box, Typography } from '@mui/material'
 import { UseMutationResult } from '@tanstack/react-query'
 
@@ -14,6 +14,8 @@ import FormikExitType from '../../../../_cloner/components/FormikExitType'
 import FormikTemporary from '../../../../_cloner/components/FormikTemporary'
 import FormikDescription from '../../../../_cloner/components/FormikDescription'
 import FormikInput from '../../../../_cloner/components/FormikInput'
+
+console.log("OrderFeauture is rendered")
 
 interface IProps {
     postOrder: any,
@@ -69,4 +71,4 @@ const OrderFeature:FC<IProps> = ({postOrder}) => {
   )
 }
 
-export default OrderFeature
+export default memo(OrderFeature)

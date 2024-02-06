@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Box } from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
@@ -179,4 +179,5 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
     );
 };
 
-export default OrderProductList;
+export default memo(OrderProductList);
+console.log("OrderProductList is rendered")
