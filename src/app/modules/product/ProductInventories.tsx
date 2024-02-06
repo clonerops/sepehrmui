@@ -1,6 +1,6 @@
 import { useDeleteProductPrice, useGetProductList, useRetrieveProductPrice, useUploadFileProductInventories, useUploadFileProductPrice } from "./core/_hooks";
 import { IProductPrice } from "./core/_models";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Alert, Box, Button, Typography } from "@mui/material";
 
 import Backdrop from "../../../_cloner/components/Backdrop";
@@ -14,10 +14,10 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
 
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
-import { exportProductPrices } from "./core/_requests";
+import { exportProductInventories, exportProductPrices } from "./core/_requests";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { columnsProductInventories } from "../managment-order/helpers/columns";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import { dropdownWarehouseType } from "../managment-order/helpers/dropdowns";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import { useGetWarehouseTypes } from "../generic/_hooks";
@@ -28,6 +28,7 @@ const ProductInventories = () => {
     const { mutate: deleteMutate, isLoading: deleteLoading, } = useDeleteProductPrice();
     const filterTools = useGetProductList();
     const warehouseTypeTools = useGetWarehouseTypes();
+    let formikRef = useRef<FormikProps<any>>(null);
 
     // State
     const [itemForEdit, setItemForEdit] = useState<IProductPrice | undefined>();
@@ -66,7 +67,7 @@ const ProductInventories = () => {
 
     const handleDownloadExcel = async () => {
         try {
-            const response: any = await exportProductPrices();
+            const response: any = await exportProductInventories(formikRef.current?.values.warehouseTypeId);
             const outputFilename = `ProductInventories${Date.now()}.csv`;
             DownloadExcelBase64File(response?.data, outputFilename);
         } catch (error) {
@@ -131,7 +132,7 @@ const ProductInventories = () => {
                     </Box>
                 </Box>
                 <Box className="m-2">
-                    <Formik initialValues={{ warehouseTypeId: 1 }} onSubmit={() => { }}>
+                    <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1 }} onSubmit={() => { }}>
                         {({ }) => {
                             return <Form>
                                 <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseTypeId" />

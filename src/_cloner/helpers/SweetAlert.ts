@@ -15,8 +15,9 @@ export const renderAlert = (title: string) => {
         customClass: {
             title: "text-lg"
         }
-    }).then(() => {
-        window.location.href = '/dashboard/sales_order/lists'
     })
+    // .then(() => {
+    //     window.location.href = '/dashboard/sales_order/lists'
+    // })
 
 }

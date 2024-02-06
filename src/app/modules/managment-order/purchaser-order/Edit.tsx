@@ -169,14 +169,11 @@ const PurchaserOrderEdit = () => {
             }
         }
     }
-
-    if (postSaleOrder.isLoading) {
-        return <Backdrop loading={postSaleOrder.isLoading} />
-    }
-
+    console.log("orderPayments", orderPayment)
     return (
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
             <Formik enableReinitialize innerRef={formikRef} initialValues={{
                 ...saleOrderEditInitialValues,
                 ...orderPaymentValues,

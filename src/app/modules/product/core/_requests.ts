@@ -276,6 +276,14 @@ const uploadProductInventories = async (formData: any, onUploadProgress: any) =>
     }
 };
 
+const exportProductInventories = async (WarehouseTypeId: number) => {
+    try {
+        const { data } = await http.get(`/v1/ProductInventory/GetProductInventoriesExcelReport?WarehouseTypeId=${WarehouseTypeId}`)
+        return data
+    } catch (error: any) {
+        return error.response;
+    }
+}
 
 
 export {
@@ -305,5 +313,6 @@ export {
     deleteProductPrice,
     uploadProductPrice,
     // ProductInventories
-    uploadProductInventories
+    uploadProductInventories,
+    exportProductInventories
 };
