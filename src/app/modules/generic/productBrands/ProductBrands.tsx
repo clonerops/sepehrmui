@@ -78,11 +78,9 @@ const ProductBrands = () => {
         field: "productCode",
         headerName: "کدکالا",
         renderCell: (params: any) => {
-          console.log(params)
           return <Typography variant="h4">{params?.row?.product?.productCode}</Typography>;
         },
-        headerClassName:
-          "headerClassName",
+        headerClassName:"headerClassName",
         minWidth: 80,
         maxWidth: 80,
         flex: 1,
@@ -186,12 +184,12 @@ const ProductBrands = () => {
             <Box component="div" className="mb-4">
               <FuzzySearch
                 keys={[
-                  "id",
+                  "brand.id",
+                  "product.productCode",
                   "productName",
                   "brandName",
                 ]}
                 data={productBrands?.data}
-                threshold={0.5}
                 setResults={setResults}
               />
             </Box>
