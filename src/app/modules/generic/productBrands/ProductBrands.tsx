@@ -75,6 +75,19 @@ const ProductBrands = () => {
   const columns = (renderSwitch: any) => {
     const col = [
       {
+        field: "productCode",
+        headerName: "کدکالا",
+        renderCell: (params: any) => {
+          console.log(params)
+          return <Typography variant="h4">{params?.row?.product?.productCode}</Typography>;
+        },
+        headerClassName:
+          "headerClassName",
+        minWidth: 80,
+        maxWidth: 80,
+        flex: 1,
+      },
+      {
         field: "productName",
         headerName: "کالا",
         renderCell: (params: any) => {
@@ -84,6 +97,17 @@ const ProductBrands = () => {
           "headerClassName",
         minWidth: 120,
         flex: 1,
+      },
+      {
+        field: "id",
+        headerName: "کدبرند",
+        renderCell: (params: any) => {
+          return <Typography variant="h4">{params?.row?.brand?.id}</Typography>;
+        },
+        headerClassName: "headerClassName",
+        flex: 1,
+        minWidth: 80,
+        maxWidth: 80,
       },
       {
         field: "brandName",

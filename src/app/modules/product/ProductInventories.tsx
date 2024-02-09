@@ -14,8 +14,7 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
 
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
-import { exportProductInventories, exportProductPrices } from "./core/_requests";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { exportProductInventories } from "./core/_requests";
 import { columnsProductInventories } from "../managment-order/helpers/columns";
 import { Form, Formik, FormikProps } from "formik";
 import { dropdownWarehouseType } from "../managment-order/helpers/dropdowns";
@@ -23,9 +22,8 @@ import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import { useGetWarehouseTypes } from "../generic/_hooks";
 
 const ProductInventories = () => {
-    const { refetch, data: productPrice, isLoading: productPriceLoading } = useRetrieveProductPrice(null);
+    const { refetch, data: productPrice } = useRetrieveProductPrice(null);
     const uploadFileMethode = useUploadFileProductInventories();
-    const { mutate: deleteMutate, isLoading: deleteLoading, } = useDeleteProductPrice();
     const filterTools = useGetProductList();
     const warehouseTypeTools = useGetWarehouseTypes();
     let formikRef = useRef<FormikProps<any>>(null);
@@ -44,25 +42,6 @@ const ProductInventories = () => {
             }
         });
     }, []);
-
-    const handleEdit = (item: IProductPrice | undefined) => {
-        setIsOpen(true);
-        setItemForEdit(item);
-    };
-
-    const handleDelete = (id: string | undefined) => {
-        if (id)
-            deleteMutate(id, {
-                onSuccess: (response) => {
-                    if (response.succeeded) {
-                        EnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
-                        refetch();
-                    } else {
-                        EnqueueSnackbar(response.data.Message, "error")
-                    }
-                },
-            });
-    };
 
 
     const handleDownloadExcel = async () => {
