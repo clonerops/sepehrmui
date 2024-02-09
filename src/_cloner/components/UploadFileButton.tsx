@@ -7,7 +7,7 @@ import { EnqueueSnackbar } from '../helpers/Snackebar';
 
 interface FileUploadProps {
     acceptedFileTypes?: string;
-    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>;
+    refetch?: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>;
     uploadFileMethode: any
 }
 
@@ -27,8 +27,8 @@ const FileUploadButton: React.FC<FileUploadProps> = ({ refetch, uploadFileMethod
             onSuccess: (response: any) => {
                 if(response.succeeded) {
                     EnqueueSnackbar(response.message, "success")
-                    refetch()
-                  } else {
+                    if(refetch) refetch()
+                } else {
                     EnqueueSnackbar(response.data.Message, "error")
                   }
             },

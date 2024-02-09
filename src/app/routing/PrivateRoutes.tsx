@@ -90,7 +90,10 @@ const RoleUser = React.lazy(
     () => import("../modules/user/components/RoleUser")
 );
 const ProductInventories = React.lazy(
-    () => import("../modules/product/ProductInventories")
+    () => import("../modules/generic/productInventory/ProductInventories")
+);
+const ProductInventoriesSepehr = React.lazy(
+    () => import("../modules/generic/productInventorySepehr/ProductInventories")
 );
 const ProductForm = React.lazy(
     () => import("../modules/product/components/ProductForm")
@@ -178,6 +181,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productStandard", element: <ProductStandards /> },
     { path: "dashboard/warehouses", element: <Warehouse /> },
     { path: "dashboard/productInventories", element: <ProductInventories /> },
+    { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
     { path: "dashboard/productBrand", element: <ProductBrands /> },
     { path: "dashboard/productService", element: <ProductService /> },
     { path: "dashboard/users", element: <Users /> },

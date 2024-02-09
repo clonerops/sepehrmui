@@ -2,12 +2,12 @@ import { Form, Formik } from "formik"
 import { Box, Button, Typography } from "@mui/material"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
 
-import { useCreateProductPrice, useRetrieveProducts } from "../core/_hooks"
-import {  dropdownProduct } from "../../generic/_functions"
-import { createProductPriceValidations } from "../validations/createProductPrice"
+import { useCreateProductPrice, useRetrieveProducts } from "../../product/core/_hooks"
+import {  dropdownProduct } from "../_functions"
+import { createProductPriceValidations } from "../../product/validations/createProductPrice"
 
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
-import FormikPrice from "./FormikPrice"
+import FormikPrice from "../../product/components/FormikPrice"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 
 const initialValues = {
@@ -17,7 +17,7 @@ const initialValues = {
 }
 
 type Props = {
-    refetch: (options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined) => Promise<QueryObserverResult<any, unknown>>
+    refetch?: (options?: (RefetchOptions & RefetchQueryFilters<unknown>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }
 
 const CreateProductInventories = (props: Props) => {
@@ -38,7 +38,7 @@ const CreateProductInventories = (props: Props) => {
                             onSuccess: (response) => {
                                 if(response.succeeded) {
                                     EnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
-                                    props.refetch()
+                                    if(props.refetch) props?.refetch()
                                   } else {
                                     EnqueueSnackbar(response.data.Message, "error",)
                                   }

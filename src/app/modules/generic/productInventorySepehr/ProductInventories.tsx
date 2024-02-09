@@ -1,41 +1,38 @@
-import { useDeleteProductPrice, useGetProductList, useRetrieveProductPrice, useUploadFileProductInventories, useUploadFileProductPrice } from "./core/_hooks";
-import { IProductPrice } from "./core/_models";
-import { useState, useEffect, useRef } from "react";
-import { Alert, Box, Button, Typography } from "@mui/material";
-
-import Backdrop from "../../../_cloner/components/Backdrop";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import FileUploadButton from "../../../_cloner/components/UploadFileButton";
-import CreateProductInventories from "./components/CreateProductInventories";
-import EditProductInventories from "./components/EditProductInventories";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import FormikRadioGroup from "../../../_cloner/components/FormikRadioGroup";
-
-import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
-import { exportProductInventories } from "./core/_requests";
-import { columnsProductInventories } from "../managment-order/helpers/columns";
 import { Form, Formik, FormikProps } from "formik";
-import { dropdownWarehouseType } from "../managment-order/helpers/dropdowns";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
-import { useGetWarehouseTypes } from "../generic/_hooks";
+import { useGetProductList, useRetrieveProductPrice } from "../../product/core/_hooks";
+import { useGetWarehouseTypes } from "../_hooks";
+import { useUploadFileProductInventories } from "./_hooks";
+import { useEffect, useRef, useState } from "react";
+import { IProductPrice } from "../../product/core/_models";
+import { exportProductInventories } from "./_requests";
+import { DownloadExcelBase64File } from "../../../../_cloner/helpers/DownloadFiles";
+import Backdrop from "../../../../_cloner/components/Backdrop";
+import { Alert, Box, Button, Typography } from "@mui/material";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import FileUploadButton from "../../../../_cloner/components/UploadFileButton";
+import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import { columnsProductInventories } from "./columns";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import CreateProductInventories from "./CreateProductInventories";
+import { dropdownWarehouseType } from "../../managment-order/helpers/dropdowns";
 
-const ProductInventories = () => {
-    const { refetch, data: productPrice } = useRetrieveProductPrice(null);
+const ProductInventoriesSepehr = () => {
+    // const { refetch, data: productPrice } = useRetrieveProductPrice(null);
     const uploadFileMethode = useUploadFileProductInventories();
     const filterTools = useGetProductList();
-    const warehouseTypeTools = useGetWarehouseTypes();
+    // const warehouseTypeTools = useGetWarehouseTypes();
     let formikRef = useRef<FormikProps<any>>(null);
 
     // State
-    const [itemForEdit, setItemForEdit] = useState<IProductPrice | undefined>();
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    // const [isOpen, setIsOpen] = useState<boolean>(false);
     const [results, setResults] = useState<IProductPrice[]>([]);
 
     useEffect(() => {
-        const filter = { ByBrand: true, warehouseTypeId: 1 }
+        const filter = { ByBrand: true, warehouseId: 1 }
         filterTools.mutate(filter, {
             onSuccess: (res) => {
                 setResults(res?.data)
@@ -54,17 +51,17 @@ const ProductInventories = () => {
         }
     };
 
-    const onFilterProductByWarehouse = (value: any) => {
-        const filter = {
-            ByBrand: true,
-            WarehouseTypeId: +value
-        }
-        filterTools.mutate(filter, {
-            onSuccess: (res) => {
-                setResults(res?.data)
-            }
-        });
-    };
+    // const onFilterProductByWarehouse = (value: any) => {
+    //     const filter = {
+    //         ByBrand: true,
+    //         WarehouseTypeId: +value
+    //     }
+    //     filterTools.mutate(filter, {
+    //         onSuccess: (res) => {
+    //             setResults(res?.data)
+    //         }
+    //     });
+    // };
 
     return (
         <>
@@ -85,14 +82,13 @@ const ProductInventories = () => {
                 >
                     <Box component="div" className="w-auto md:w-[40%]">
                         <FuzzySearch
-                            keys={["productName", "brandName", "price"]}
-                            data={productPrice?.data}
-                            threshold={0.5}
+                            keys={["productCode", "productName", "productBrandName", "warehouseName", "inventory"]}
+                            data={filterTools?.data?.data}
                             setResults={setResults}
                         />
                     </Box>
                     <Box component="div" className="flex flex-wrap gap-x-4">
-                        <FileUploadButton refetch={refetch} uploadFileMethode={uploadFileMethode} />
+                        <FileUploadButton uploadFileMethode={uploadFileMethode} />
                         <Button
                             onClick={handleDownloadExcel}
                             variant="outlined"
@@ -110,7 +106,7 @@ const ProductInventories = () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box className="m-2">
+                {/* <Box className="m-2">
                     <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1 }} onSubmit={() => { }}>
                         {({ }) => {
                             return <Form>
@@ -118,7 +114,7 @@ const ProductInventories = () => {
                             </Form>
                         }}
                     </Formik>
-                </Box>
+                </Box> */}
                 <Box className="grid grid-cols-2 mt-4">
                     <MuiDataGrid
                         columns={columnsProductInventories()}
@@ -147,19 +143,11 @@ const ProductInventories = () => {
                     width="50%"
                     title="ایجاد موجودی قابل فروش"
                 >
-                    <CreateProductInventories refetch={refetch} />
-                </TransitionsModal>
-                <TransitionsModal
-                    open={isOpen}
-                    isClose={() => setIsOpen(false)}
-                    width="50%"
-                    title="ویرایش موجودی قابل فروش"
-                >
-                    <EditProductInventories refetch={refetch} item={itemForEdit} />
+                    <CreateProductInventories />
                 </TransitionsModal>
             </ReusableCard>
         </>
     );
 };
 
-export default ProductInventories;
+export default ProductInventoriesSepehr;

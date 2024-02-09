@@ -22,6 +22,7 @@ export const translationMapping: any = {
     users: 'کاربران',
     role: 'نقش',
     productInventories: 'موجودی قابل فروش',
+    productInventoriesSepehr: 'موجودی سپهرایرانیان',
     productBrand: 'کالا برند',
     productService: 'خدمات',
     approveOrderList: 'لیست سفارشات جهت تایید حسابداری',
