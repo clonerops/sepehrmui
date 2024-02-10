@@ -13,13 +13,10 @@ interface IProps {
     orderServices: IOrderService[]
 }
 
-console.log("Header component is rendered")
-
-
 const SaleHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => {
     return (
         <Box component="div" className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4">
-            {saleBaseOrderInformation(postSaleOrder?.data?.data[0]?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: { title: string, icon: React.ReactNode, value: any }, index) => {
+            {saleBaseOrderInformation(postSaleOrder?.data?.data[0]?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: { title: string, icon: React.ReactNode, value: any, cardClassName: string }, index) => {
                 return <ReusableCard key={index} >
                     <Box key={index} component="div" className="flex justify-between items-center space-y-4">
                         <Typography variant="body1">{item.title}</Typography>
