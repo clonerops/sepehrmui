@@ -1,21 +1,20 @@
 import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 
-import { ISuppliers } from "./core/_models";
-import { useDeleteSupplier, useRetrieveSuppliers } from "./core/_hooks";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { ISuppliers } from "./_models";
+import { useDeleteSupplier, useRetrieveSuppliers } from "./_hooks";
 
-import CreateSupplier from "./components/CreateSupplier";
-import EditSupplier from "./components/EditSupplier";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import EditGridButton from "../../../_cloner/components/EditGridButton";
-import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
-import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import Backdrop from "../../../../_cloner/components/Backdrop";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import EditGridButton from "../../../../_cloner/components/EditGridButton";
+import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import SupplierForm from "./SupplierForm";
 
 const Suppliers = () => {
     const {
@@ -37,7 +36,6 @@ const Suppliers = () => {
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ISuppliers>();
-    const [snackeOpen, setSnackeOpen] = useState<boolean>(false);
 
     const handleEdit = (item: ISuppliers) => {
         setIsEditOpen(true);
@@ -214,17 +212,14 @@ const Suppliers = () => {
                 isClose={() => setIsCreateOpen(false)}
                 title="ایجاد تامین کننده جدید"
             >
-                <CreateSupplier
-                    refetch={refetch}
-                    setIsCreateOpen={setIsCreateOpen}
-                />
+                <SupplierForm  refetch={refetch} setIsCreateOpen={setIsCreateOpen} />
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
                 title="ویرایش تامین کننده جدید"
             >
-                <EditSupplier refetch={refetch} item={itemForEdit} />
+                <SupplierForm  refetch={refetch} setIsCreateOpen={setIsCreateOpen} id={itemForEdit?.id} items={itemForEdit} />
             </TransitionsModal>
         </>
     );

@@ -1,4 +1,4 @@
-  export const columns = (renderAction: any) => {
+export const columns = (renderAction: any) => {
     const col = [
       { field: 'customerFirstName', headerName: 'نام', headerClassName: "headerClassName", width: 130 },
       { field: 'customerLastName', headerName: 'نام خانوادگی', headerClassName: "headerClassName", width: 160 },

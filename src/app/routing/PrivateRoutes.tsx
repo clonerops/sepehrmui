@@ -7,7 +7,7 @@ import Permissions from "../modules/access/permissions/Permissions";
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
 const Products = React.lazy(() => import("../modules/product/Products"));
-const Suppliers = React.lazy(() => import("../modules/product/Suppliers"));
+const Suppliers = React.lazy(() => import("../modules/generic/productSuppliers/Suppliers"));
 const ProductPrice = React.lazy(
     () => import("../modules/generic/productPrices/ProductPrice")
 );

@@ -73,19 +73,6 @@ export interface IBrands {
     id: number | undefined
 }
 
-export interface ISuppliers {
-    id?: string | undefined
-    customerId: string | undefined
-    customerFirstName?: string | undefined
-    customerLastName?: string | undefined
-    productName?: string | undefined
-    productId: string | undefined
-    price: number | undefined
-    rentAmount: number | undefined
-    overPrice: number | undefined
-    priceDate: string | undefined
-    rate: number | undefined
-}
 
 export interface IProductFilters {
     productSortBase?: number
