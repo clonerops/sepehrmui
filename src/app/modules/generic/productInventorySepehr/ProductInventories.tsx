@@ -1,6 +1,4 @@
-import { Form, Formik, FormikProps } from "formik";
-import { useGetProductList, useRetrieveProductPrice } from "../../product/core/_hooks";
-import { useGetWarehouseTypes } from "../_hooks";
+import { useGetProductList } from "../../product/core/_hooks";
 import { useUploadFileProductInventories } from "./_hooks";
 import { useEffect, useRef, useState } from "react";
 import { IProductPrice } from "../../product/core/_models";
@@ -11,21 +9,17 @@ import { Alert, Box, Button, Typography } from "@mui/material";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import FileUploadButton from "../../../../_cloner/components/UploadFileButton";
-import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { columnsProductInventories } from "./columns";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import CreateProductInventories from "./CreateProductInventories";
-import { dropdownWarehouseType } from "../../managment-order/helpers/dropdowns";
 
 const ProductInventoriesSepehr = () => {
     // const { refetch, data: productPrice } = useRetrieveProductPrice(null);
     const uploadFileMethode = useUploadFileProductInventories();
     const filterTools = useGetProductList();
     // const warehouseTypeTools = useGetWarehouseTypes();
-    let formikRef = useRef<FormikProps<any>>(null);
-
     // State
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     // const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -42,8 +36,9 @@ const ProductInventoriesSepehr = () => {
 
 
     const handleDownloadExcel = async () => {
+        const filter = { WarehouseId: 1 }
         try {
-            const response: any = await exportProductInventories(formikRef.current?.values.warehouseTypeId);
+            const response: any = await exportProductInventories(filter);
             const outputFilename = `ProductInventories${Date.now()}.csv`;
             DownloadExcelBase64File(response?.data, outputFilename);
         } catch (error) {
@@ -115,7 +110,7 @@ const ProductInventoriesSepehr = () => {
                         }}
                     </Formik>
                 </Box> */}
-                <Box className="grid grid-cols-2 mt-4">
+                <Box className="grid grid-cols-1 lg:grid-cols-2 mt-4">
                     <MuiDataGrid
                         columns={columnsProductInventories()}
                         isLoading={filterTools.isLoading}

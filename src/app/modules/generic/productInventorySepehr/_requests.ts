@@ -1,4 +1,6 @@
 import { http, httpFormData } from "../../../../_cloner/helpers/axiosConfig";
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
+import { IProductFilters } from "../../product/core/_models";
 
 const uploadProductInventories = async (formData: any, onUploadProgress: any) => {
     try {
@@ -11,9 +13,10 @@ const uploadProductInventories = async (formData: any, onUploadProgress: any) =>
     }
 };
 
-const exportProductInventories = async (WarehouseTypeId: number) => {
+const exportProductInventories = async (filter: IProductFilters) => {
     try {
-        const { data } = await http.get(`/v1/ProductInventory/GetProductInventoriesExcelReport?WarehouseTypeId=${WarehouseTypeId}`)
+        const {data} = await http.get(`${generateURLQueryParam('/v1/ProductInventory/GetProductInventoriesExcelReport', filter)}`)
+        // const { data } = await http.get(`/v1/ProductInventory/GetProductInventoriesExcelReport?WarehouseTypeId=${WarehouseTypeId}`)
         return data
     } catch (error: any) {
         return error.response;
