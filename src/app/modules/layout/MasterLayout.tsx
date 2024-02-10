@@ -65,7 +65,8 @@ const Drawer = styled(MuiDrawer, {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": {
       ...openedMixin(theme),
-      backgroundColor: theme.palette.primary.main,
+      // backgroundColor: theme.palette.primary.main,
+      background: `linear-gradient(180deg, #020024, #090979 0%, #000000 100%);`
     }
   }),
   ...(!open && {
@@ -73,8 +74,8 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper":
     {
       ...closedMixin(theme),
-      backgroundColor: theme.palette.primary.main,
-    }
+      background: `linear-gradient(180deg, #020024, #090979 0%, #000000 100%);`
+        }
   }),
 }));
 
@@ -125,7 +126,7 @@ const MasterLayout = () => {
           variant="permanent"
           open={open}
           transitionDuration={10}
-          className="app_bar"
+          className="app_bar !bg-gradient-to-r !from-indigo-500"
         >
           <DrawerHeader>
             <IconButton

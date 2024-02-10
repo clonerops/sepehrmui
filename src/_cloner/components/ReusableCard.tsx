@@ -10,7 +10,7 @@ type Props = {
 const ReusableCard = (props: Props) => {
     const { cardClassName, index, children } = props;
     return (
-        <Card key={index} className={`px-4 py-4 shadow-md !rounded-xl ${cardClassName}`} style={{flex: 1}}>
+        <Card key={index} className={`px-4 py-4 !shadow-md !rounded-xl ${cardClassName}`} style={{flex: 1}}>
             {children}
         </Card>
     );
