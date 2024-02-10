@@ -16,7 +16,6 @@ import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import { dropdownWarehouseType } from "../../managment-order/helpers/dropdowns";
 
 const ProductInventories = () => {
-    const uploadFileMethode = useUploadFileProductInventories();
     const filterTools = useGetProductList();
     const warehouseTypeTools = useGetWarehouseTypes();
     let formikRef = useRef<FormikProps<any>>(null);
