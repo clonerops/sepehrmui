@@ -16,10 +16,10 @@ import ProductPriceForm from "./ProductPriceForm";
 
 import { DownloadExcelBase64File } from "../../../../_cloner/helpers/DownloadFiles";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import { columnsProductPrice } from "../../product/helpers/columns";
 import { useDeleteProductPrice, useRetrieveProductPrice, useUploadFileProductPrice } from "./_hooks";
 import { IProductPrice } from "./_models";
 import { exportProductPrices } from "./_requests";
+import { columnsProductPrice } from "./_columns";
 
 const radioOption: {
     label: string;

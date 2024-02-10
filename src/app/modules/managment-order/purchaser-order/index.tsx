@@ -22,12 +22,12 @@ import { sellerFields } from './fields'
 import { useCreatePurchaserOrder } from '../core/_hooks'
 import { saleOrderParseFields } from './renderFields'
 import { useGetCustomer } from '../../customer/core/_hooks'
-import { useGetProductList } from '../../product/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import moment from 'moment-jalaali'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
+import { useGetProductList } from '../../generic/products/_hooks'
 
 
 const PurchaserOrder = () => {

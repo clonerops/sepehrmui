@@ -6,7 +6,7 @@ import Permissions from "../modules/access/permissions/Permissions";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
-const Products = React.lazy(() => import("../modules/product/Products"));
+const Products = React.lazy(() => import("../modules/generic/products/Products"));
 const Suppliers = React.lazy(() => import("../modules/generic/productSuppliers/Suppliers"));
 const ProductPrice = React.lazy(
     () => import("../modules/generic/productPrices/ProductPrice")
@@ -96,7 +96,7 @@ const ProductInventoriesSepehr = React.lazy(
     () => import("../modules/generic/productInventories/productInventorySepehr/ProductInventories")
 );
 const ProductForm = React.lazy(
-    () => import("../modules/product/components/ProductForm")
+    () => import("../modules/generic/products/ProductForm")
 );
 const ProductService = React.lazy(
     () => import("../modules/generic/productService/ProductService")

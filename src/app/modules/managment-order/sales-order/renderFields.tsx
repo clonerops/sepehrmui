@@ -17,9 +17,9 @@ import FormikDescription from '../../../../_cloner/components/FormikDescription'
 import FormikInput from '../../../../_cloner/components/FormikInput';
 import FormikWarehouse from '../../../../_cloner/components/FormikWarehouse';
 import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType';
-import FormikProximateAmount from '../../product/components/FormikProximateAmount';
-import FormikPrice from '../../product/components/FormikPrice';
-import FormikAmount from '../../product/components/FormikAmount';
+import FormikProximateAmount from '../../../../_cloner/components/FormikProximateAmount';
+import FormikPrice from '../../../../_cloner/components/FormikPrice';
+import FormikAmount from '../../../../_cloner/components/FormikAmount';
 
 import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService } from '../core/_models';
 import TransitionsModal from '../../../../_cloner/components/ReusableModal';

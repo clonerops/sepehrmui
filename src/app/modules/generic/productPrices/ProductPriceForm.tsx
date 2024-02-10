@@ -3,18 +3,18 @@ import { Form, Formik } from "formik"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
 import { Box, Button, Typography } from "@mui/material"
 
-import { useRetrieveProducts } from "../../product/core/_hooks"
 import { dropdownProduct } from "../_functions"
 import { FieldType } from "../../../../_cloner/components/globalTypes"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 import { IProductPrice } from "./_models"
 import { createProductPriceValidations } from "./_validation"
 import { useCreateProductPrice, useRetrieveProductPriceById, useUpdateProductPrice } from "./_hooks"
+import { useRetrieveProducts } from "../products/_hooks"
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
-import FormikBrandPriceSelect from "../../product/components/FormikBrandPriceSelect"
-import FormikAmount from "../../product/components/FormikAmount"
+import FormikBrandPriceSelect from "../../../../_cloner/components/FormikBrandPriceSelect"
+import FormikAmount from "../../../../_cloner/components/FormikAmount"
 import SwitchComponent from "../../../../_cloner/components/Switch"
 
 const initialValues = {

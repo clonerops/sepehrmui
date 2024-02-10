@@ -1,6 +1,6 @@
-import { MutationFunction, useMutation, useQuery } from "@tanstack/react-query";
-import * as api from "./_requests";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { IProductFilters, IProducts } from "./_models";
+import * as api from './_requests'
 
 const useGetProductList = () => {
     return useMutation((formdata: IProductFilters) => api.getProductList(formdata));
@@ -78,16 +78,6 @@ const useEnableProduct = () => {
     });
 };
 
-// Brands
-const useRetrieveBrands = () => {
-    return useQuery(["brands"], () => api.retrieveBrands()), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
-    };
-};
-
-// Suppliers
 
 export {
     useGetProductList,
@@ -102,5 +92,4 @@ export {
     useUpdateProduct,
     useDisableProduct,
     useEnableProduct,
-    useRetrieveBrands,
-};
+}

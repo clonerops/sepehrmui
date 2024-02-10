@@ -6,7 +6,6 @@ import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import MaskInput from "../../../../../_cloner/components/MaskInput";
 
-import { useGetProductList } from "../../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
@@ -17,6 +16,7 @@ import FormikRadioGroup from "../../../../../_cloner/components/FormikRadioGroup
 import { dropdownWarehouseType } from "../../helpers/dropdowns";
 import { useGetProductTypes, useGetWarehouseTypes } from "../../../generic/_hooks";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
+import { useGetProductList } from "../../../generic/products/_hooks";
 
 interface IProps {
     setOrders?: any

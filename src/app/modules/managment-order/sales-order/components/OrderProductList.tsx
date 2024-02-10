@@ -5,13 +5,13 @@ import {Delete} from "@mui/icons-material";
 import { calculateTotalAmount } from "../../helpers/functions";
 
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
-import { IProducts } from "../../../product/core/_models";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { orderListColumns } from "../../helpers/columns";
 import { FormikProps } from "formik";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
+import { IProducts } from "../../../generic/products/_models";
 
 interface IProps {
     orders?: IOrderItems[] 

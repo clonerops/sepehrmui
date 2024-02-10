@@ -1,4 +1,4 @@
-import { IProducts } from "../../product/core/_models"
+import { IProducts } from "../products/_models"
 
 export interface IProductPrice {
     id?: string | undefined

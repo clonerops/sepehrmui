@@ -1,7 +1,7 @@
 import React from "react";
 import FormikComboBox from "./FormikComboBox";
-import { useRetrieveProducts } from "../../app/modules/product/core/_hooks";
 import { dropdownProductIntegrated } from "../../app/modules/generic/_functions";
+import { useRetrieveProducts } from "../../app/modules/generic/products/_hooks";
 
 
 const FormikProduct = (props: any) => {

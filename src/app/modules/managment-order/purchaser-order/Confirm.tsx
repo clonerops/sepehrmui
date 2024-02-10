@@ -13,17 +13,17 @@ import MuiTable from "../../../../_cloner/components/MuiTable";
 import { Formik } from "formik";
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
 import Backdrop from "../../../../_cloner/components/Backdrop";
-import FormikPrice from "../../product/components/FormikPrice";
+import FormikPrice from "../../../../_cloner/components/FormikPrice";
 import { dropdownProductByInventory } from "../../generic/_functions";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 import { useApproveInvoiceType, useApprovePurchaserInvoiceType, useRetrievePurchaserOrder } from "../core/_hooks";
-import { useRetrieveProductsByBrand } from "../../product/core/_hooks";
 import { useGetInvoiceType } from "../../generic/_hooks";
 import { useGetCustomerCompaniesMutate } from "../../generic/customerCompany/_hooks";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
 import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { useRetrieveProductsByBrand } from "../../generic/products/_hooks";
 
 const initialValues = {
     productName: "",

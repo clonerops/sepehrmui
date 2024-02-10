@@ -14,7 +14,7 @@ import FormikSelect from "../../../../_cloner/components/FormikSelect"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox"
-import FormikAmount from "../../product/components/FormikAmount"
+import FormikAmount from "../../../../_cloner/components/FormikAmount"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import MuiTable from "../../../../_cloner/components/MuiTable"
 

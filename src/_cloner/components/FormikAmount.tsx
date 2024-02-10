@@ -1,4 +1,4 @@
-import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
+import FormikMaskInput from "./FormikMaskInput";
 
 
 const FormikAmount = (props: any) => {

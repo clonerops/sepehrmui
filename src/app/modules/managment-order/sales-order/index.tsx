@@ -17,11 +17,11 @@ import SaleHeaderBase from './components/SaleHeaderBase'
 import CustomerChoose from './components/CustomerChoose'
 
 import { useCreateOrder } from '../core/_hooks'
-import { useGetProductList } from '../../product/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
+import { useGetProductList } from '../../generic/products/_hooks'
 
 const SalesOrder = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);

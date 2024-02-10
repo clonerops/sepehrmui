@@ -8,13 +8,13 @@ import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import MaskInput from "../../../../../_cloner/components/MaskInput";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
 
-import { IProducts } from "../../../product/core/_models";
-import {useGetProductList} from "../../../product/core/_hooks";
 import { columnsModalProduct, columnsSelectProduct } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
 import { useGetUnits } from "../../../generic/productUnit/_hooks";
 import { IOrderService } from "../../core/_models";
+import { IProducts } from "../../../generic/products/_models";
+import { useGetProductList } from "../../../generic/products/_hooks";
 
 
 const ProductsList = (props: {

@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import { Form, Formik } from "formik";
-import { createProductValidations } from "../validations/createProduct";
-import { useCreateProduct, useRetrieveProduct, useUpdateProduct } from "../core/_hooks";
 import {
     QueryObserverResult,
     RefetchOptions,
@@ -9,16 +7,17 @@ import {
 } from "@tanstack/react-query";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
-import {dropdownUnit} from "../helpers/convertDropdowns";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
-import { useGetUnits } from "../../generic/productUnit/_hooks";
+import { useGetUnits } from "../productUnit/_hooks";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import { IProducts } from "../core/_models";
 import FormikType from "../../../../_cloner/components/FormikType";
 import FormikStandard from "../../../../_cloner/components/FormikStandard";
 import FormikState from "../../../../_cloner/components/FormikState";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { useCreateProduct, useRetrieveProduct, useUpdateProduct } from "./_hooks";
+import { IProducts } from "./_models";
+import { createProductValidations } from "./_validations";
+import { dropdownUnit } from "../productUnit/convertDropdown";
 
 const initialValues = {
     productName: "",

@@ -10,11 +10,11 @@ import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { useCreateSupplier, useRetrieveSupplierById, useUpdateSupplier } from "./_hooks";
-import { useRetrieveProducts } from "../../product/core/_hooks";
 import { createSupplierValidations } from "./_validations";
 import { useEffect } from "react";
 import { ISuppliers } from "./_models";
 import moment from "moment-jalaali";
+import { useRetrieveProducts } from "../products/_hooks";
 const initialValues = {
     price: "",
     rentAmount: "",
@@ -118,7 +118,7 @@ const SupplierForm = (props: {
     if (props.id && detailTools?.isLoading) {
         return <Typography>Loading ...</Typography>
     }
-    
+
     return (
         <>
 

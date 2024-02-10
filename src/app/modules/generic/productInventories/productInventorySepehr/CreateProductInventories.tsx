@@ -2,12 +2,12 @@ import { Form, Formik } from "formik"
 import { Box, Button, Typography } from "@mui/material"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
 
-import { useRetrieveProducts } from "../../../product/core/_hooks"
 import {  dropdownProduct } from "../../_functions"
 
 import FormikComboBox from "../../../../../_cloner/components/FormikComboBox"
-import FormikPrice from "../../../product/components/FormikPrice"
+import FormikPrice from "../../../../../_cloner/components/FormikPrice"
 import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar"
+import { useRetrieveProducts } from "../../products/_hooks"
 
 const initialValues = {
     price: "",

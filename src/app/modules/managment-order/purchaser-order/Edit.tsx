@@ -12,7 +12,6 @@ import OrderService from '../components/OrderService'
 import OrderPayment from '../components/OrderPayment'
 
 import { useGetOrderDetailByCode, useGetPurchaserOrderDetailByCode, useUpdateOrder, useUpdatePurchaserOrder } from '../core/_hooks'
-import { useGetProductList } from '../../product/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import Backdrop from '../../../../_cloner/components/Backdrop'
@@ -26,6 +25,7 @@ import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
+import { useGetProductList } from '../../generic/products/_hooks'
 
 const PurchaserOrderEdit = () => {
 

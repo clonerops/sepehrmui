@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 
-import { IProducts } from "./core/_models";
-import { useDisableProduct, useRetrieveProducts } from "./core/_hooks";
 
-import EditGridButton from "../../../_cloner/components/EditGridButton";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import ActiveText from "../../../_cloner/components/ActiveText";
-import ProductForm from "./components/ProductForm";
-import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import SearchBar from "../../../_cloner/components/SaerchInput";
+import EditGridButton from "../../../../_cloner/components/EditGridButton";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import Backdrop from "../../../../_cloner/components/Backdrop";
+import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import ActiveText from "../../../../_cloner/components/ActiveText";
+import ProductForm from "./ProductForm";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import { useDisableProduct, useRetrieveProducts } from "./_hooks";
+import { IProducts } from "./_models";
 
 const Products = () => {
     const {

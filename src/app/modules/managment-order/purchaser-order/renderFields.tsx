@@ -6,7 +6,6 @@ import { UseMutationResult } from '@tanstack/react-query';
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount';
 import { dropdownProductByBrandName } from '../../generic/_functions';
-import { useRetrieveProductsByBrand } from '../../product/core/_hooks';
 
 import FormikCustomer from "../../../../_cloner/components/FormikCustomer";
 import FormikCompany from '../../../../_cloner/components/FormikCompany';
@@ -20,9 +19,9 @@ import FormikDescription from '../../../../_cloner/components/FormikDescription'
 import FormikInput from '../../../../_cloner/components/FormikInput';
 import FormikWarehouse from '../../../../_cloner/components/FormikWarehouse';
 import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType';
-import FormikProximateAmount from '../../product/components/FormikProximateAmount';
-import FormikPrice from '../../product/components/FormikPrice';
-import FormikAmount from '../../product/components/FormikAmount';
+import FormikProximateAmount from '../../../../_cloner/components/FormikProximateAmount';
+import FormikPrice from '../../../../_cloner/components/FormikPrice';
+import FormikAmount from '../../../../_cloner/components/FormikAmount';
 
 import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService, IPurchaserOrder } from '../core/_models';
 import { ICustomer } from '../../customer/core/_models';

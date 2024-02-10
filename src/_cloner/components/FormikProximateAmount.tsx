@@ -1,6 +1,6 @@
 import { useFormikContext } from "formik";
-import FormikInput from "../../../../_cloner/components/FormikInput";
-import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
+import FormikInput from "./FormikInput";
+import FormikMaskInput from "./FormikMaskInput";
 
 
 const FormikProximateAmount = (props: any) => {

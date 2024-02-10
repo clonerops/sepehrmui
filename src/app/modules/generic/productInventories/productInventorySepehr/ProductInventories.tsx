@@ -1,4 +1,3 @@
-import { useGetProductList } from "../../../product/core/_hooks";
 import { useEffect, useRef, useState } from "react";
 import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
@@ -13,6 +12,7 @@ import TransitionsModal from "../../../../../_cloner/components/ReusableModal";
 import CreateProductInventories from "./CreateProductInventories";
 import { useUploadFileProductInventories } from "../_hooks";
 import { exportProductInventories } from "../_requests";
+import { useGetProductList } from "../../products/_hooks";
 
 const ProductInventoriesSepehr = () => {
     // const { refetch, data: productPrice } = useRetrieveProductPrice(null);

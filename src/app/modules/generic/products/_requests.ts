@@ -1,4 +1,4 @@
-import { http, httpFormData } from "../../../../_cloner/helpers/axiosConfig";
+import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
 import { IProductFilters, IProducts } from "./_models";
 
@@ -122,18 +122,6 @@ const enableProduct = async (formDate: { id: string, active: boolean }) => {
     }
 };
 
-
-// Brands 
-const retrieveBrands = async () => {
-    try {
-        const { data } = await http.get('/v1/Product/GetProductBrands')
-        return data
-    } catch (error: any) {
-        return error.response
-    }
-}
-
-
 export {
     getProductList,
     retrieveProducts,
@@ -146,5 +134,4 @@ export {
     updateProduct,
     disableProduct,
     enableProduct,
-    retrieveBrands,
-};
+}

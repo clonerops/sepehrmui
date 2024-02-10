@@ -5,7 +5,7 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import {  IOrderItems, IOrderService } from '../core/_models'
 
 import FormikService from '../../../../_cloner/components/FormikService'
-import FormikPrice from '../../product/components/FormikPrice'
+import FormikPrice from '../../../../_cloner/components/FormikPrice'
 import { AddCircle, DeleteOutlineRounded } from '@mui/icons-material'
 import MuiTable from '../../../../_cloner/components/MuiTable'
 import { FormikErrors, FormikProps } from 'formik'

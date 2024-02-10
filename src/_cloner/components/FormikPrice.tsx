@@ -1,5 +1,5 @@
 import { useFormikContext } from "formik";
-import FormikInput from "../../../../_cloner/components/FormikInput";
+import FormikInput from "./FormikInput";
 
 
 const FormikPrice = (props: any) => {

@@ -3,7 +3,7 @@ import { AddCircle, DeleteOutlineRounded } from "@mui/icons-material";
 import moment from "moment-jalaali";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FormikPrice from "../../product/components/FormikPrice";
+import FormikPrice from "../../../../_cloner/components/FormikPrice";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
 import MuiTable from "../../../../_cloner/components/MuiTable";

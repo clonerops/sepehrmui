@@ -1,5 +1,4 @@
 import { Form, Formik, FormikProps } from "formik";
-import { useGetProductList } from "../../../product/core/_hooks";
 import { useGetWarehouseTypes } from "../../_hooks";
 import { useEffect, useRef, useState } from "react";
 import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
@@ -11,6 +10,7 @@ import { columnsProductInventories } from "./columns";
 import { toAbsoulteUrl } from "../../../../../_cloner/helpers/AssetsHelper";
 import { dropdownWarehouseType } from "../../../managment-order/helpers/dropdowns";
 import { exportProductInventories } from "../_requests";
+import { useGetProductList } from "../../products/_hooks";
 
 const ProductInventories = () => {
     const filterTools = useGetProductList();

@@ -1,5 +1,5 @@
-import { IProducts } from "../../product/core/_models"
 import { IBrand } from "../brands/_models"
+import { IProducts } from "../products/_models"
 
 export interface IProductBrand {
     id?: number | null | undefined

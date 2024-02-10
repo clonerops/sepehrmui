@@ -13,12 +13,12 @@ import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
 import { IProductBrand } from "./_models"
 import { useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
-import { useRetrieveProducts } from '../../product/core/_hooks'
 import { dropdownBrand, dropdownProduct } from '../_functions'
 import { useGetBrands } from '../brands/_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { useRetrieveProducts } from '../products/_hooks'
 
 const initialValues: any = {
   id: 0,

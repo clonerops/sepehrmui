@@ -4,12 +4,12 @@ import {Delete} from "@mui/icons-material";
 import { calculateTotalAmount } from "../../helpers/functions";
 
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
-import { IProducts } from "../../../product/core/_models";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { orderListColumns } from "../../helpers/columns";
+import { IProducts } from "../../../generic/products/_models";
 
 type ProductProps = {
     orders?: IOrderItems[] ;

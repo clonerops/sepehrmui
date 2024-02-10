@@ -1,10 +1,8 @@
 import { useFormikContext } from "formik";
-import FormikInput from "../../../../_cloner/components/FormikInput";
+import FormikInput from "./FormikInput";
 
-
-const FormikPriceFloor = (props: any) => {
+const FormikPriceProximate = (props: any) => {
     const formikProps = useFormikContext();
-
 
     const onInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = event.target.value.replace(/[^0-9]/g, "");
@@ -13,7 +11,7 @@ const FormikPriceFloor = (props: any) => {
         formikProps.setFieldValue(props.name, inputValue);
     };
 
-    return <FormikInput InputProps={props.InputProps} onInput={onInput} {...props} />;
+    return <FormikInput disabled={props.disabled} InputProps={props.InputProps} onInput={onInput} {...props} />;
 };
 
-export default FormikPriceFloor;
+export default FormikPriceProximate;

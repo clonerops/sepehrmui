@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import {
-    useRetrieveProductsByType,
-} from "../product/core/_hooks";
-import {
-    columnsProductPriceDashboard,
-} from "../product/helpers/columns";
 import ReusableTabComponent from "../../../_cloner/components/ReusableTab";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import { useRetrieveProductsByType } from "../generic/products/_hooks";
+import { columnsProductPriceDashboard } from "../generic/productPrices/_columns";
 
 const ProductPriceLanding = () => {
     const { data: productsByType } = useRetrieveProductsByType();
