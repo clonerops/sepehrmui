@@ -12,16 +12,6 @@ const ProductPriceLanding = () => {
 
     const [results, setResults] = useState<any>([]);
 
-    const imageUrl = [
-        { id: 1, url: "/media/product/border-design.png" },
-        { id: 2, url: "/media/product/tubes.png" },
-        { id: 3, url: "/media/product/beam.png" },
-        { id: 4, url: "/media/product/steel.png" },
-        { id: 5, url: "/media/product/tissue-roll.png" },
-        { id: 6, url: "/media/product/conveyor-belt.png" },
-        { id: 7, url: "/media/product/can.png" },
-    ];
-
     useEffect(() => {
         if (productsByType && productsByType.data) {
             const initialResults = productsByType.data.map((i: any) => i.products);
@@ -31,35 +21,9 @@ const ProductPriceLanding = () => {
 
     const renderAction = () => { };
     const tabs = productsByType?.data?.map((i: any, index: number) => {
-        const image: any = () => {
-            switch (i.id) {
-                case 1:
-                    return imageUrl[0].url;
-                case 2:
-                    return imageUrl[1].url;
-                case 3:
-                    return imageUrl[2].url;
-                case 4:
-                    return imageUrl[3].url;
-                case 5:
-                    return imageUrl[4].url;
-                case 6:
-                    return imageUrl[5].url;
-                case 7:
-                    return imageUrl[6].url;
-
-                default:
-                    break;
-            }
-        };
         return {
             label: (
                 <Box component="div" className="flex gap-x-2">
-                    <Box
-                        component="img"
-                        src={toAbsoulteUrl(image()?.toString())}
-                        width={16}
-                    />
                     <Typography variant="h5">{i.desc}</Typography>
                 </Box>
             ),

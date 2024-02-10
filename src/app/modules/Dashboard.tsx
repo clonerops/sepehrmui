@@ -6,6 +6,7 @@ import { ColumnChart } from "../../_cloner/components/ColumnChart";
 import ReusableCard from "../../_cloner/components/ReusableCard";
 import { separateAmountWithCommas } from "../../_cloner/helpers/SeprateAmount";
 import { FC } from "react";
+import MonitoringProdcuct from "../../_cloner/components/MonitoringProduct";
 
 interface ICardInformation {
     title: string
@@ -44,11 +45,17 @@ const Dashboard = () => {
             </Box>
             <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
                 <ReusableCard>
-                    <VariableRadiusPieChart data={data} />
+                    <Typography variant="h2" className="pb-8 px-2">مانیتورینگ محصولات</Typography>
+                    <MonitoringProdcuct />
                 </ReusableCard>
-                <ReusableCard>
-                    <ColumnChart data={data} />
-                </ReusableCard>
+                <Box className="flex flex-col gap-y-4">
+                    <ReusableCard>
+                        <ColumnChart data={data} />
+                    </ReusableCard>
+                    <ReusableCard>
+                        <VariableRadiusPieChart data={data} />
+                    </ReusableCard>
+                </Box>
             </Box>
 
         </>
