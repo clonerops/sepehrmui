@@ -1,4 +1,5 @@
 import { Card } from "@mui/material";
+import { memo } from "react";
 
 type Props = {
     children: React.ReactNode;
@@ -15,4 +16,4 @@ const ReusableCard = (props: Props) => {
     );
 };
 
-export default ReusableCard;
+export default memo(ReusableCard);

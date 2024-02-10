@@ -132,7 +132,6 @@ const ProductBrands = () => {
   if (productBrandLoading) {
     return <Backdrop loading={productBrandLoading} />;
   }
-
   return (
     <>
       <ReusableCard>

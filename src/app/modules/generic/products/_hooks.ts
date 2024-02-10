@@ -10,7 +10,8 @@ const useRetrieveProducts = () => {
     return useQuery(["products"], () => api.retrieveProducts(), {
             refetchOnMount: false,
             refetchOnWindowFocus: false,
-            refetchIntervalInBackground: false
+            refetchIntervalInBackground: false,
+            
     });
 };
 const useRetrieveProductsByWarehouse = () => {
