@@ -1,19 +1,16 @@
 import { Form, Formik, FormikProps } from "formik";
-import { useGetProductList } from "../../product/core/_hooks";
-import { useGetWarehouseTypes } from "../_hooks";
-import { useUploadFileProductInventories } from "./_hooks";
+import { useGetProductList } from "../../../product/core/_hooks";
+import { useGetWarehouseTypes } from "../../_hooks";
 import { useEffect, useRef, useState } from "react";
-import { IProductPrice } from "../../product/core/_models";
-import { exportProductInventories } from "./_requests";
-import { DownloadExcelBase64File } from "../../../../_cloner/helpers/DownloadFiles";
-import Backdrop from "../../../../_cloner/components/Backdrop";
-import { Alert, Box, Button, Typography } from "@mui/material";
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
+import { Box, Button, Typography } from "@mui/material";
+import ReusableCard from "../../../../../_cloner/components/ReusableCard";
+import FormikRadioGroup from "../../../../../_cloner/components/FormikRadioGroup";
+import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import { columnsProductInventories } from "./columns";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
-import { dropdownWarehouseType } from "../../managment-order/helpers/dropdowns";
+import { toAbsoulteUrl } from "../../../../../_cloner/helpers/AssetsHelper";
+import { dropdownWarehouseType } from "../../../managment-order/helpers/dropdowns";
+import { exportProductInventories } from "../_requests";
 
 const ProductInventories = () => {
     const filterTools = useGetProductList();
@@ -21,7 +18,7 @@ const ProductInventories = () => {
     let formikRef = useRef<FormikProps<any>>(null);
 
     // State
-    const [results, setResults] = useState<IProductPrice[]>([]);
+    const [results, setResults] = useState<any[]>([]);
 
     useEffect(() => {
         const filter = { ByBrand: true, warehouseTypeId: 1 }
@@ -34,8 +31,10 @@ const ProductInventories = () => {
 
 
     const handleDownloadExcel = async () => {
+        const filter = { WarehouseTypeId: 1 }
+
         try {
-            const response: any = await exportProductInventories(formikRef.current?.values.warehouseTypeId);
+            const response: any = await exportProductInventories(filter);
             const outputFilename = `ProductInventories${Date.now()}.csv`;
             DownloadExcelBase64File(response?.data, outputFilename);
         } catch (error) {

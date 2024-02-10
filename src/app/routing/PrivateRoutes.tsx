@@ -9,7 +9,7 @@ const Customer = React.lazy(() => import("../modules/customer/Customer"));
 const Products = React.lazy(() => import("../modules/product/Products"));
 const Suppliers = React.lazy(() => import("../modules/product/Suppliers"));
 const ProductPrice = React.lazy(
-    () => import("../modules/product/ProductPrice")
+    () => import("../modules/generic/productPrices/ProductPrice")
 );
 const ReadyToCargo = React.lazy(
     () => import("../modules/logestic/cargo/ReadyToCargo")
@@ -90,10 +90,10 @@ const RoleUser = React.lazy(
     () => import("../modules/user/components/RoleUser")
 );
 const ProductInventories = React.lazy(
-    () => import("../modules/generic/productInventory/ProductInventories")
+    () => import("../modules/generic/productInventories/productInventory/ProductInventories")
 );
 const ProductInventoriesSepehr = React.lazy(
-    () => import("../modules/generic/productInventorySepehr/ProductInventories")
+    () => import("../modules/generic/productInventories/productInventorySepehr/ProductInventories")
 );
 const ProductForm = React.lazy(
     () => import("../modules/product/components/ProductForm")

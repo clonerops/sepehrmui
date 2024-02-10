@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
 import { Alert, Box, Button, Typography } from "@mui/material";
 
-import EditGridButton from "../../../_cloner/components/EditGridButton";
-import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import FileUploadButton from "../../../_cloner/components/UploadFileButton";
-import ReusableRadioGroup from "../../../_cloner/components/ReusableRadioGroup";
-import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
+import EditGridButton from "../../../../_cloner/components/EditGridButton";
+import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
+import Backdrop from "../../../../_cloner/components/Backdrop";
+import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import FileUploadButton from "../../../../_cloner/components/UploadFileButton";
+import ReusableRadioGroup from "../../../../_cloner/components/ReusableRadioGroup";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
+import ProductPriceForm from "./ProductPriceForm";
 
-import {useDeleteProductPrice,useRetrieveProductPrice, useUploadFileProductPrice } from "./core/_hooks";
-import { IProductPrice } from "./core/_models";
-import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
-import { exportProductPrices } from "./core/_requests";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
-import { columnsProductPrice } from "./helpers/columns";
-import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
-import ProductPriceForm from "./components/ProductPriceForm";
+import { DownloadExcelBase64File } from "../../../../_cloner/helpers/DownloadFiles";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { columnsProductPrice } from "../../product/helpers/columns";
+import { useDeleteProductPrice, useRetrieveProductPrice, useUploadFileProductPrice } from "./_hooks";
+import { IProductPrice } from "./_models";
+import { exportProductPrices } from "./_requests";
 
 const radioOption: {
     label: string;

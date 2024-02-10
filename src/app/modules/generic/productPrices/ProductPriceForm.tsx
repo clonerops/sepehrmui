@@ -1,19 +1,20 @@
+import { useEffect, useState } from "react"
 import { Form, Formik } from "formik"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-import { Box, Button, Switch, Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 
-import { useCreateProductPrice, useRetrieveProductPriceById, useRetrieveProducts, useUpdateProductPrice } from "../core/_hooks"
-import { dropdownProduct } from "../../generic/_functions"
-import { createProductPriceValidations } from "../validations/createProductPrice"
+import { useRetrieveProducts } from "../../product/core/_hooks"
+import { dropdownProduct } from "../_functions"
 import { FieldType } from "../../../../_cloner/components/globalTypes"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
+import { IProductPrice } from "./_models"
+import { createProductPriceValidations } from "./_validation"
+import { useCreateProductPrice, useRetrieveProductPriceById, useUpdateProductPrice } from "./_hooks"
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
-import FormikBrandPriceSelect from "./FormikBrandPriceSelect"
-import { useEffect, useState } from "react"
-import { IProductPrice } from "../core/_models"
-import FormikAmount from "./FormikAmount"
+import FormikBrandPriceSelect from "../../product/components/FormikBrandPriceSelect"
+import FormikAmount from "../../product/components/FormikAmount"
 import SwitchComponent from "../../../../_cloner/components/Switch"
 
 const initialValues = {

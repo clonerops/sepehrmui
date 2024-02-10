@@ -2,13 +2,12 @@ import { Form, Formik } from "formik"
 import { Box, Button, Typography } from "@mui/material"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
 
-import { useCreateProductPrice, useRetrieveProducts } from "../../product/core/_hooks"
-import {  dropdownProduct } from "../_functions"
-import { createProductPriceValidations } from "../../product/validations/createProductPrice"
+import { useRetrieveProducts } from "../../../product/core/_hooks"
+import {  dropdownProduct } from "../../_functions"
 
-import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
-import FormikPrice from "../../product/components/FormikPrice"
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
+import FormikComboBox from "../../../../../_cloner/components/FormikComboBox"
+import FormikPrice from "../../../product/components/FormikPrice"
+import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar"
 
 const initialValues = {
     price: "",
@@ -22,11 +21,10 @@ type Props = {
 
 const CreateProductInventories = (props: Props) => {
     const { data: products } = useRetrieveProducts();
-    const { mutate } = useCreateProductPrice()
 
     return (
         <>
-            <Formik initialValues={initialValues} validationSchema={createProductPriceValidations} onSubmit={
+            <Formik initialValues={initialValues} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
                     try {
                         const formData = {
@@ -34,17 +32,6 @@ const CreateProductInventories = (props: Props) => {
                             productId: values.productId.value,
                             productBrandId: Number(values.productBrandId)
                         }
-                        mutate(formData, {
-                            onSuccess: (response) => {
-                                if(response.succeeded) {
-                                    EnqueueSnackbar(response.message || "ایجاد با موفقیت انجام شد", "success")
-                                    if(props.refetch) props?.refetch()
-                                  } else {
-                                    EnqueueSnackbar(response.data.Message, "error",)
-                                  }
-                        
-                            }
-                        })
                     } catch (error) {
                         setStatus("اطلاعات ثبت نادرست می باشد");
                         setSubmitting(false);

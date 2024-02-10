@@ -1,19 +1,18 @@
-import { useGetProductList } from "../../product/core/_hooks";
-import { useUploadFileProductInventories } from "./_hooks";
+import { useGetProductList } from "../../../product/core/_hooks";
 import { useEffect, useRef, useState } from "react";
-import { IProductPrice } from "../../product/core/_models";
-import { exportProductInventories } from "./_requests";
-import { DownloadExcelBase64File } from "../../../../_cloner/helpers/DownloadFiles";
-import Backdrop from "../../../../_cloner/components/Backdrop";
+import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
+import Backdrop from "../../../../../_cloner/components/Backdrop";
 import { Alert, Box, Button, Typography } from "@mui/material";
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
-import FileUploadButton from "../../../../_cloner/components/UploadFileButton";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import ReusableCard from "../../../../../_cloner/components/ReusableCard";
+import FuzzySearch from "../../../../../_cloner/helpers/Fuse";
+import FileUploadButton from "../../../../../_cloner/components/UploadFileButton";
+import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import { columnsProductInventories } from "./columns";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
-import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import { toAbsoulteUrl } from "../../../../../_cloner/helpers/AssetsHelper";
+import TransitionsModal from "../../../../../_cloner/components/ReusableModal";
 import CreateProductInventories from "./CreateProductInventories";
+import { useUploadFileProductInventories } from "../_hooks";
+import { exportProductInventories } from "../_requests";
 
 const ProductInventoriesSepehr = () => {
     // const { refetch, data: productPrice } = useRetrieveProductPrice(null);
@@ -23,7 +22,7 @@ const ProductInventoriesSepehr = () => {
     // State
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     // const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [results, setResults] = useState<IProductPrice[]>([]);
+    const [results, setResults] = useState<any[]>([]);
 
     useEffect(() => {
         const filter = { ByBrand: true, warehouseId: 1 }
