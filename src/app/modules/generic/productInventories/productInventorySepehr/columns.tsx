@@ -1,8 +1,9 @@
 import { Typography } from "@mui/material";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { CallMade, CallReceived } from "@mui/icons-material";
+import { IProducts } from "../../products/_models";
 
-export const columnsProductInventories = () => {
+export const columnsProductInventories = (renderIncreaseInventory: (item: {row: IProducts}) => void) => {
     const col = [
         {
             field: "productCode",
@@ -71,6 +72,14 @@ export const columnsProductInventories = () => {
             flex: 1,
             renderCell: (value: any) =>
                 <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
+            headerClassName: "headerClassName",
+        },
+        {
+            field: "increase",
+            minWidth: 140,
+            headerName: "افزایش موجودی",
+            flex: 1,
+            renderCell: renderIncreaseInventory,
             headerClassName: "headerClassName",
         },
     ];

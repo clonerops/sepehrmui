@@ -33,7 +33,7 @@ const FuzzySearch = <T extends {}>({
     if (inputValue === "") {
       setResults(data);
     } else {
-      const fuzzyResults = fuse.search(inputValue);
+      const fuzzyResults = fuse.search(inputValue.replace(/\s/g, ""));
       setResults(fuzzyResults.map((result) => result.item));
     }
   };

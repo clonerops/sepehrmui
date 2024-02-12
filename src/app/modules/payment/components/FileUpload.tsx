@@ -65,9 +65,10 @@ interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')
   files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  title?: string
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل های ضمیمه را انتخاب کنید" }) => {
 
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -112,7 +113,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles }) => {
         className="border-2 border-dashed p-4 border-gray-300"
       >
         <input {...getInputProps()} />
-        <Typography>فایل های ضمیمه را انتخاب کنید</Typography>
+        <Typography>{title}</Typography>
       </Box>
       <Box component="div">
         <Typography className="pt-4">فایل های انتخاب شده:</Typography>

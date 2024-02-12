@@ -13,6 +13,8 @@ import CreateProductInventories from "./CreateProductInventories";
 import { useUploadFileProductInventories } from "../_hooks";
 import { exportProductInventories } from "../_requests";
 import { useGetProductList } from "../../products/_hooks";
+import { IProducts } from "../../products/_models";
+import UploadFileInventorySepehr from "./UploadFileInventorySepehr";
 
 const ProductInventoriesSepehr = () => {
     // const { refetch, data: productPrice } = useRetrieveProductPrice(null);
@@ -21,6 +23,8 @@ const ProductInventoriesSepehr = () => {
     // const warehouseTypeTools = useGetWarehouseTypes();
     // State
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
+    const [isUploadpen, setIsUploadOpen] = useState<boolean>(false);
+    const [productItem, setProductItem] = useState<{row: IProducts}>()
     // const [isOpen, setIsOpen] = useState<boolean>(false);
     const [results, setResults] = useState<any[]>([]);
 
@@ -44,6 +48,17 @@ const ProductInventoriesSepehr = () => {
             console.log(error);
         }
     };
+
+    const renderIncreaseInventory = (item: {row: IProducts}) => {
+        return <Button variant="contained" color="secondary" onClick={() => handleOpenModal(item)}>
+            <Typography>افزایش موجودی</Typography>
+        </Button>
+    }
+
+    const handleOpenModal = (item: {row: IProducts}) => {
+        setProductItem(item)
+        setIsCreateOpen(true)
+    }
 
     // const onFilterProductByWarehouse = (value: any) => {
     //     const filter = {
@@ -82,7 +97,14 @@ const ProductInventoriesSepehr = () => {
                         />
                     </Box>
                     <Box component="div" className="flex flex-wrap gap-x-4">
-                        <FileUploadButton uploadFileMethode={uploadFileMethode} />
+                    {/* <FileUploadButton uploadFileMethode={uploadFileMethode} /> */}
+                        <Button
+                            onClick={() => setIsUploadOpen(true)}
+                            variant="outlined"
+                            color="secondary"
+                        >
+                            <Typography>آپلود فایل</Typography>
+                        </Button>
                         <Button
                             onClick={handleDownloadExcel}
                             variant="outlined"
@@ -90,28 +112,11 @@ const ProductInventoriesSepehr = () => {
                         >
                             <Typography>خروجی اکسل</Typography>
                         </Button>
-                        <Button
-                            onClick={() => setIsCreateOpen(true)}
-                            variant="contained"
-                            disabled={true}
-                            color="secondary"
-                        >
-                            <Typography>موجودی قابل فروش</Typography>
-                        </Button>
                     </Box>
                 </Box>
-                {/* <Box className="m-2">
-                    <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1 }} onSubmit={() => { }}>
-                        {({ }) => {
-                            return <Form>
-                                <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseTypeId" />
-                            </Form>
-                        }}
-                    </Formik>
-                </Box> */}
                 <Box className="grid grid-cols-1 lg:grid-cols-2 mt-4">
                     <MuiDataGrid
-                        columns={columnsProductInventories()}
+                        columns={columnsProductInventories(renderIncreaseInventory)}
                         isLoading={filterTools.isLoading}
                         rows={results}
                         data={filterTools?.data?.data}
@@ -137,7 +142,15 @@ const ProductInventoriesSepehr = () => {
                     width="50%"
                     title="ایجاد موجودی قابل فروش"
                 >
-                    <CreateProductInventories />
+                    <CreateProductInventories productItem={productItem} />
+                </TransitionsModal>
+                <TransitionsModal
+                    open={isUploadpen}
+                    isClose={() => setIsUploadOpen(false)}
+                    width="50%"
+                    title="آپلود فایل موجودی"
+                >
+                    <UploadFileInventorySepehr />
                 </TransitionsModal>
             </ReusableCard>
         </>

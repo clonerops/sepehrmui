@@ -145,36 +145,8 @@ const PurchaserOrder = () => {
                     return <>
                         {/*The design of the header section of the order module includes order information and customer information */}
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
-                            {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {saleBaseOrderInformation(postSaleOrder?.data?.data[0]?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: { title: string, icon: React.ReactNode, value: any }, index) => {
-                                    return <Card key={index} className={`px-4 py-4 shadow-md !rounded-xl`}>
-                                        <Box key={index} component="div" className="flex justify-between items-center space-y-4">
-                                            <Typography variant="body1">{item.title}</Typography>
-                                            {item.icon}
-                                        </Box>
-                                        <Typography variant="h2">{item.value}</Typography>
-                                    </Card>
-                                })}
-                            </Box> */}
                             <PurchaserHeaderBase postSaleOrder={postSaleOrder} orders={orders} orderServices={orderServices} />
                             <PurchaserChoose formikRef={formikRef} openModalState={setIsOpen} postSaleOrder={postSaleOrder} />
-                            {/* <Box component="div" className="grid grid-cols-2 gap-4">
-                                <ReusableCard cardClassName="col-span-2">
-                                    <Box component="div" className="">
-                                        {sellerFields.map((rowFields, rowIndex) => (
-                                            <Box
-                                                key={rowIndex}
-                                                component="div"
-                                                className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-                                            >
-                                                {rowFields.map((field, index) =>
-                                                    saleOrderParseFields(index, postSaleOrder, field, setFieldValue, values, detailCustomer?.data?.data, changeCustomerFunction, setIsOpen, detailCustomer.isLoading)
-                                                )}
-                                            </Box>
-                                        ))}
-                                    </Box>
-                                </ReusableCard>
-                            </Box> */}
                         </Box>
                         {/*The design of the main section of the order module order */}
                         <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">

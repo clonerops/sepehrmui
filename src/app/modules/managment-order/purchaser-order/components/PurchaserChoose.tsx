@@ -18,12 +18,6 @@ interface IProps {
     openModalState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-interface IRenderInfoProps {
-    title: string
-    value: any
-    valueClassName?: string
-}
-
 const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }) => {
 
     const detailCustomer = useGetCustomer();
@@ -61,8 +55,8 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState 
                                 disabled={postSaleOrder?.data?.succeeded}
                                 onChange={(value: any) => changeCustomerFunction(value)}
                                 name="customerId"
-                                label="مشتری" />
-                            <FormikCompany customerid={formikRef.current?.values.customerID} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
+                                label="فروشنده" />
+                            <FormikCompany customerid={formikRef.current?.values.customerID} name="customerOfficialCompanyId" label="اسم رسمی شرکت فروشنده" />
                         </Box>
                     </Box>
                 </ReusableCard>
