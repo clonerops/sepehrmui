@@ -12,7 +12,7 @@ interface FileUploadProps {
   refetch?: any
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل های ضمیمه را انتخاب کنید", uploadFileMethode, refetch }) => {
+const FileUploadWithWebService: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل های ضمیمه را انتخاب کنید", uploadFileMethode, refetch }) => {
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -88,4 +88,4 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
   );
 };
 
-export default FileUpload;
+export default FileUploadWithWebService;
