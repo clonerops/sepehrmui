@@ -1,19 +1,18 @@
 import { Form, Formik, FormikProps } from "formik"
 import { Box, Button, Typography } from "@mui/material"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-
-import {  dropdownProduct } from "../../_functions"
-
 import FormikPrice from "../../../../../_cloner/components/FormikPrice"
-import { useRetrieveProducts } from "../../products/_hooks"
 import { IProducts } from "../../products/_models"
 import { useEffect, useRef } from "react"
-import FormikSelect from "../../../../../_cloner/components/FormikSelect"
+import FormikInput from "../../../../../_cloner/components/FormikInput"
+import FormikAmount from "../../../../../_cloner/components/FormikAmount"
+import { useIncraseInventory } from "../_hooks"
+import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar"
 
 const initialValues = {
-    price: "",
-    productId: "",
-    productBrandId: 30
+    inventory: "",
+    productName: "",
+    productBrandName: 30
 }
 
 type Props = {
@@ -22,22 +21,32 @@ type Props = {
 }
 
 const CreateProductInventories = (props: Props) => {
-    const { data: products } = useRetrieveProducts();
+    const increseInventoryMethode = useIncraseInventory()
     let formikRef = useRef<FormikProps<any>>(null)
     useEffect(() => {
-        formikRef.current?.setFieldValue("productId", props.productItem?.row.id)
-        formikRef.current?.setFieldValue("productBrandId", props.productItem?.row.productBrandId)
+        formikRef.current?.setFieldValue("productName", props.productItem?.row.productName)
+        formikRef.current?.setFieldValue("productBrandName", props.productItem?.row.productBrandName)
     }, [props.productItem?.row])
+
+    
     return (
         <>
             <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
                     try {
                         const formData = {
-                            price: Number(values.price?.replace(/,/g, "")),
-                            productId: values.productId.value,
-                            productBrandId: Number(values.productBrandId)
+                            inventory: +values.inventory?.replace(/,/g, ""),
+                            productBrandId: props.productItem?.row.productBrandId && +props.productItem?.row.productBrandId
                         }
+                        increseInventoryMethode.mutate(formData, {
+                            onSuccess: (response) => {
+                                if(response.succeeded) {
+                                    EnqueueSnackbar(response.message, "success")
+                                } else {
+                                    EnqueueSnackbar(response.data.Message, "error")
+                                }
+                            }
+                        })
                     } catch (error) {
                         setStatus("اطلاعات ثبت نادرست می باشد");
                         setSubmitting(false);
@@ -46,12 +55,18 @@ const CreateProductInventories = (props: Props) => {
             }>
                 {({ handleSubmit }) => {
                     return <Form onSubmit={handleSubmit}>
-                        <Box component="div" className="flex flex-col gap-y-4 mt-8">
+                        <Box component="div" className="flex flex-col gap-y-4 mt-8 mb-4">
+                        <Typography variant="h3" color="red">راهنما:</Typography>
+                            <ul className="flex flex-col gap-y-2">
+                                <li><Typography color="primary" variant="h4">جهت افزایش موجودی کافیست تا مقدار موجودی را وارد نمایید</Typography></li>
+                                <li><Typography color="primary" variant="h4">2. فیلد های نام کالا و برند قابل تغییر نیستند</Typography></li>
+                                <li><Typography color="primary" variant="h4">3. بعد از"ثبت موجودی" موجودی جدید جایگزین موجودی قبلی می شود</Typography></li>
+                            </ul>
                             <Box className="flex flex-row gap-x-4">
-                                <FormikSelect disabled label="کالا" name="productId" options={dropdownProduct(products?.data)} />
-                                {/* <FormikBrand disabled label="برند" name="productBrandId" /> */}
+                                <FormikInput  disabled label="کالا" name="productName" />
+                                <FormikInput disabled label="برند" name="productBrandName" />
                             </Box>
-                            <FormikPrice  label="موجودی قابل فروش" name="price" />
+                            <FormikPrice  label="مقدار موجودی" name="inventory" />
                         </Box>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">
                             <Typography variant="h3" className="px-8 py-2">ثبت موجودی</Typography>
