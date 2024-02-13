@@ -65,15 +65,15 @@ export const columnsProductInventories = (renderIncreaseInventory: (item: {row: 
             headerClassName: "headerClassName",
             flex: 1,
         },
-        {
-            field: "price",
-            minWidth: 60,
-            headerName: "موجودی مجازی",
-            flex: 1,
-            renderCell: (value: any) =>
-                <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
-            headerClassName: "headerClassName",
-        },
+        // {
+        //     field: "price",
+        //     minWidth: 60,
+        //     headerName: "موجودی مجازی",
+        //     flex: 1,
+        //     renderCell: (value: any) =>
+        //         <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
+        //     headerClassName: "headerClassName",
+        // },
         {
             field: "increase",
             minWidth: 140,
