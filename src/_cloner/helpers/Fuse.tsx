@@ -27,16 +27,43 @@ const FuzzySearch = <T extends {}>({
     includeMatches: true
   });
 
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const inputValue = e.target.value;
+  //   setQuery(inputValue);
+  //   if (inputValue === "") {
+  //     setResults(data);
+  //   } else {
+  //     const fuzzyResults = fuse.search(inputValue.replace(/\s/g, ""));
+  //     setResults(fuzzyResults.map((result) => result.item));
+  //   }
+  // };
+    
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setQuery(inputValue);
+  
     if (inputValue === "") {
       setResults(data);
     } else {
-      const fuzzyResults = fuse.search(inputValue.replace(/\s/g, ""));
-      setResults(fuzzyResults.map((result) => result.item));
+      // Split the input value into individual terms
+      const terms = inputValue.split(/\s+/).filter(Boolean); // Remove empty terms
+  
+      // Escape special characters in terms and create a regular expression pattern
+      const pattern = terms.map((term) => term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")).join('.*');
+  
+      // Create a regular expression with the pattern
+      const regex = new RegExp(pattern, 'i');
+  
+      // Filter the data based on the regular expression
+      const filteredResults = data.filter((item: any) => {
+        const itemText = keys.map((key) => String(item[key])).join(" ");
+        return regex.test(itemText);
+      });
+  
+      setResults(filteredResults);
     }
   };
+  
 
   return (
     <>
