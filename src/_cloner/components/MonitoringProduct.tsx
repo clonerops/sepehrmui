@@ -112,7 +112,6 @@ const MonitoringProdcuct = () => {
                         isLoading={filterTools.isLoading}
                         rows={filterTools?.data?.data}
                         data={filterTools?.data?.data}
-                        // height={}
                     />
                 </Box>
             </Box>

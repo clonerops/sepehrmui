@@ -37,6 +37,9 @@ const VerticalCharts: FC<IProps> = ({
         },
         title: {
             text: text,
+            style: {
+                fontFamily: "Yekan_reqular",
+            },
         },
         xAxis: {
             categories: categories,

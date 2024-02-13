@@ -5,7 +5,6 @@ import { AddCircleOutline } from '@mui/icons-material'
 
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
-import FormikComboBox from '../../../../_cloner/components/FormikComboBox'
 import FormikBrand from '../../../../_cloner/components/FormikBrand'
 import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
@@ -13,12 +12,12 @@ import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
 import { IProductBrand } from "./_models"
 import { useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
-import { dropdownBrand, dropdownProduct } from '../_functions'
-import { useGetBrands } from '../brands/_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
-import { useRetrieveProducts } from '../products/_hooks'
+import FormikProduct from '../../../../_cloner/components/FormikProductComboSelect'
+import { VerticalCharts } from '../../../../_cloner/components/VerticalCharts'
+import _ from 'lodash'
 
 const initialValues: any = {
   id: 0,
@@ -27,8 +26,6 @@ const initialValues: any = {
 }
 
 const ProductBrands = () => {
-  const { data: products } = useRetrieveProducts()
-  const { data: brands } = useGetBrands()
   const { data: productBrands, refetch, isLoading: productBrandLoading } = useGetProductBrands();
   const { mutate: postProductBrand } = usePostProductBrands();
   const { mutate: updateProductBrand } = useUpdateProductBrands();
@@ -129,89 +126,121 @@ const ProductBrands = () => {
     return col;
   };
 
+  let groupedProductBrand = _.groupBy(productBrands?.data, "productName")
+  console.log(Object.keys(groupedProductBrand))
+  console.log(Object.values(groupedProductBrand))
+
   if (productBrandLoading) {
     return <Backdrop loading={productBrandLoading} />;
   }
   return (
     <>
-      <ReusableCard>
-        <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
+      <Box className="lg:grid lg:grid-cols-2 lg:gap-4">
+        <ReusableCard>
+          {/* <Box component="div" className="lg:grid lg:grid-cols-2 lg:gap-x-4"> */}
           <Box component="div">
-            <Formik initialValues={initialValues} onSubmit={
-              async (values, { setStatus, setSubmitting, setFieldValue }) => {
-                try {
-                  const formData = {
-                    productId: values.productId?.value,
-                    brandId: Number(values.brandId)
+            <Box component="div">
+              <Formik initialValues={initialValues} onSubmit={
+                async (values, { setStatus, setSubmitting, setFieldValue }) => {
+                  try {
+                    const formData = {
+                      productId: values.productId?.value,
+                      brandId: Number(values.brandId)
+                    }
+                    postProductBrand(formData, {
+                      onSuccess: (response: any) => {
+                        if(response.succeeded) {
+                          EnqueueSnackbar(response.message, "success")
+                          setFieldValue('id', response.data.id)
+                          refetch();
+                        } else {
+                          EnqueueSnackbar(response.data.Message, "warning")
+                        }                        
+  }
+                    })
+                  } catch (error) {
+                    setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
+                    setSubmitting(false);
                   }
-                  postProductBrand(formData, {
-                    onSuccess: (response: any) => {
-                      if(response.succeeded) {
-                        EnqueueSnackbar(response.message, "success")
-                        setFieldValue('id', response.data.id)
-                        refetch();
-                      } else {
-                        EnqueueSnackbar(response.data.Message, "warning")
-                      }                        
-}
-                  })
-                } catch (error) {
-                  setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
-                  setSubmitting(false);
                 }
-              }
-            }>
-              {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className="mb-4">
-                  <Box
-                    component="div"
-                    className="md:flex md:justify-start md:items-start gap-x-4"
-                  >
-                    <FormikComboBox name="productId" label="کالا" options={dropdownProduct(products?.data)} boxClassName="mt-2 md:mt-0" />
-                    <FormikBrand name='brandId' label="برند" options={dropdownBrand(brands?.data)} />
-                    <Box component="div" className="mt-2 md:mt-0">
-                      <ButtonComponent onClick={() => handleSubmit()}>
-                        <Typography className="px-2">
-                          <AddCircleOutline />
-                        </Typography>
-                      </ButtonComponent>
+              }>
+                {({ handleSubmit }) => {
+                  return <Form onSubmit={handleSubmit} className="mb-4">
+                    <Box
+                      component="div"
+                      className="md:flex md:justify-start md:items-start gap-x-4"
+                    >
+                      <FormikProduct name="productId" label="کالا" boxClassName="mt-2 md:mt-0" />
+                      <FormikBrand name='brandId' label="برند" />
+                      <Box component="div" className="mt-2 md:mt-0">
+                        <ButtonComponent onClick={() => handleSubmit()}>
+                          <Typography className="px-2">
+                            <AddCircleOutline className="text-white" />
+                          </Typography>
+                        </ButtonComponent>
+                      </Box>
                     </Box>
-                  </Box>
-                </Form>
-              }}
-            </Formik>
-            <Box component="div" className="mb-4">
-              <FuzzySearch
-                keys={[
-                  "brand.id",
-                  "product.productCode",
-                  "productName",
-                  "brandName",
-                ]}
+                  </Form>
+                }}
+              </Formik>
+              <Box component="div" className="mb-4">
+                <FuzzySearch
+                  keys={[
+                    "brand.id",
+                    "product.productCode",
+                    "productName",
+                    "brandName",
+                  ]}
+                  data={productBrands?.data}
+                  setResults={setResults}
+                />
+              </Box>
+              <MuiDataGrid
+                columns={columns(renderSwitch)}
+                rows={results}
                 data={productBrands?.data}
-                setResults={setResults}
               />
             </Box>
-            <MuiDataGrid
-              columns={columns(renderSwitch)}
-              rows={results}
-              data={productBrands?.data}
+            {/* <Box component="div">
+              <Box
+                component="div"
+                className="hidden md:flex md:justify-center md:items-center"
+              >
+                <Box component="img"
+                  src={toAbsoulteUrl("/media/logos/8595513.jpg")}
+                  width={400}
+                />
+              </Box>
+            </Box> */}
+          </Box>
+        </ReusableCard>
+        <Box className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
+          <ReusableCard>
+            <Box className="flex flex-col flex-wrap gap-4">
+              <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
+              <Typography>کالاهای موجود هرکدام دارای برند های خاصی می باشد</Typography>
+              <Typography>جهت اختصاص یک برند به کالا بایستی پس از انتخاب کالابرند برندی که میخواهید برای آن کالا ثبت نمایید را انتخاب کنید و اقدام به ثبت کالا برند کنید</Typography>
+              <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
+              <Typography>امکان حذف برند محصول وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
+              <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
+              <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
+            </Box>
+          </ReusableCard>
+          <ReusableCard>
+            <Box component="img"
+              src={toAbsoulteUrl("/media/logos/8595513.jpg")}
+              width={400}
             />
-          </Box>
-          <Box component="div">
-            <Box
-              component="div"
-              className="hidden md:flex md:justify-center md:items-center"
-            >
-              <Box component="img"
-                src={toAbsoulteUrl("/media/logos/8595513.jpg")}
-                width={400}
-              />
-            </Box>
-          </Box>
-
+          </ReusableCard>
+          <ReusableCard cardClassName='col-span-2'>
+            <VerticalCharts 
+              text='تعداد برندها برحسب کالا'  
+              categories={Object.keys(groupedProductBrand) || [{}]} 
+              data={Object.values(groupedProductBrand).map((item: any) => item.length)}
+             />
+          </ReusableCard>
         </Box>
-      </ReusableCard>
+      </Box>
     </>
   )
 }
