@@ -1,27 +1,21 @@
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import Cookies from "js-cookie";
-import { enqueueSnackbar } from "notistack";
-
-import Backdrop from "../../../_cloner/components/Backdrop";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
-import Captcha from "./components/Captcha";
+import LoginForm from "./LoginForm";
+import { enqueueSnackbar } from "notistack";
+import Cookies from "js-cookie";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
-import { Autorenew } from "@mui/icons-material";
+import { useFormik } from "formik";
+import Backdrop from "../../../_cloner/components/Backdrop";
+
+const initialValues = {
+  userName: "clonerops",
+  password: "aBo217767345@",
+  captchaCode: ""
+};
 
 const Login = () => {
-  // Api
   const { mutate, isLoading } = useLoginUser();
   const { data: captcha, refetch } = useGetCaptcha()
-
-
-  const initialValues = {
-    userName: "clonerops",
-    password: "aBo217767345@",
-    captchaCode: ""
-  };
-
-
 
   const formik = useFormik({
     initialValues,
@@ -58,118 +52,58 @@ const Login = () => {
       }
     },
   }); 
-  
+
   return (
     <>
-      {isLoading && <Backdrop loading={isLoading} />}
-      <Box component="div" className="md:grid md:grid-cols-2 h-screen">
+      <Box
+        className="h-screen  lg:block hidden "
+        style={{
+          backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "left top ",
+        }}
+      >
         <Box
-          component="div"
-          className="flex h-screen flex-col justify-center items-center"
+          className={
+            "md:w-[70%] xl:w-[50%] mr-auto h-full flex items-center justify-center"
+          }
         >
-          <Box
-            component="div"
-            className="md:absolute md:top-10 md:right-24 ml-44"
+          <div
+            className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] hadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit "
           >
-          </Box>
-          <Box component="div" className="relative flex flex-row">
-            <Box
-              component="img"
-              src={toAbsoulteUrl("/media/mainlogo/2.png")}
-              width={60}
-            />
-          </Box>
-          <Typography variant="h2" className="font-poppins_bold text-center text-2xl text-thirty pt-8 pb-4">
-            {"خوش آمدید"}
-          </Typography>
-          <Typography className="font-poppins_medium text-md text-gray-500">
-            {"نام کاربری و کلمه عبور خود را وارد نمایید"}
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={formik.handleSubmit}
-            className="flex flex-col justify-center items-center w-full"
-          >
-            <Box component="div" className="w-[60%] md:w-[40%] mt-8 mb-4">
-              <TextField
-                fullWidth
-                label={"نام کاربری"}
-                color="primary"
-                id="userName"
-                error={
-                  formik.touched.userName && Boolean(formik.errors.userName)
-                }
-                helperText={formik.touched.userName && formik.errors.userName}
-                InputProps={{
-                  className: "rounded-lg focus:border-indigo-600",
-                }}
-                {...formik.getFieldProps("userName")}
-              />
-            </Box>
-            <Box component="div" className="w-[60%] md:w-[40%] my-4 mb-8">
-              <TextField
-                fullWidth
-                label={"کلمه عبور"}
-                color="primary"
-                type="password"
-                id="password"
-                autoComplete="off"
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-                InputProps={{
-                  className: "rounded-lg focus:border-indigo-600",
-                }}
-                {...formik.getFieldProps("password")}
-              />
-            </Box>
-            <Box component="div" className="flex flex-row gap-x-4">
-                <Captcha captcha={captcha?.data?.cImage} />
-                <IconButton onClick={() => refetch()}><Autorenew /></IconButton>
-            </Box>
-            <Box component="div" className="w-[60%] md:w-[40%] my-4 mb-8">
-              <TextField
-                fullWidth
-                label={"کد امنیتی"}
-                color="primary"
-                type="captchaCode"
-                id="captchaCode"
-                error={
-                  formik.touched.captchaCode && Boolean(formik.errors.captchaCode)
-                }
-                helperText={formik.touched.captchaCode && formik.errors.captchaCode}
-                InputProps={{
-                  className: "rounded-lg focus:border-indigo-600",
-                }}
-                {...formik.getFieldProps("captchaCode")}
-              />
-            </Box>
-
-            <Typography className="w-[60%] md:w-[40%] cursor-pointer text-indigo-500">
-              {"کلمه عبور خود را فراموش کرده ام."}
-            </Typography>
-
-            <Box component="div" className="w-[60%] md:w-[40%] my-4 mb-8">
-              <Button
-                fullWidth
-                variant="contained"
-                type="submit"
-                color="secondary"
-                disabled={!formik.values.captchaCode || !formik.values.password || !formik.values.userName}
-              >
-                <Typography variant="h4" className="py-2">
-                  {isLoading ? "درحال پردارش ..." : "ورود به حساب کاربری"}
-                </Typography>
-              </Button>
-            </Box>
-          </Box>
-          <Typography className="cursor-pointer font-poppins_bold text-xs">
-            @copyright-2023
-          </Typography>
+            <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
+          </div>
         </Box>
-        <Box component="div" className="hidden md:block">
-          <Box component="div"
+      </Box>
+
+      <Box
+        className={"lg:hidden h-screen"}
+        style={{
+          backgroundImage: `url(${toAbsoulteUrl(
+            "/media/logos/mobile-login-bg.png"
+          )})`,
+          backgroundRepeat: "repeat-y",
+          backgroundSize: "cover",
+          backgroundPosition: "center center ",
+        }}
+      >
+        <Box
+          className={"w-full h-full mr-auto flex items-center justify-center"}
+        >
+          <div
+            className="bg-white flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] hadow-[#4E68C2] w-[80%] shrink-0  py-8 h-fit"
+          >
+            <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
+          </div>
+        </Box>
+      </Box>
+
+      {/* {isLoading && <Backdrop loading={isLoading} />}
+      <Box component="Box" className="md:grid md:grid-cols-2 h-screen">
+
+        <Box component="Box" className="hidden md:block">
+          <Box component="Box"
             className="h-screen w-full flex flex-col bg-cover"
             style={{
               backgroundImage: `url(${toAbsoulteUrl(
@@ -177,10 +111,10 @@ const Login = () => {
               )})`,
             }}
           >
-            <div className="mt-auto" />
+            <Box className="mt-auto" />
           </Box>
         </Box>
-      </Box>
+      </Box> */}
     </>
   );
 };

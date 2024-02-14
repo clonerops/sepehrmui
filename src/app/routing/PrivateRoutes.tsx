@@ -23,6 +23,9 @@ const CargoForm = React.lazy(
 const TransferBetweenWarehouse = React.lazy(
     () => import("../modules/generic/warehouse/TransferBetweenWarehouse")
 );
+const TransferBetweenWarehouseAction = React.lazy(
+    () => import("../modules/generic/warehouse/TransferBetweenWarehouseAction")
+);
 const CargoEditForm = React.lazy(
     () => import("../modules/logestic/cargo/CargoEditForm")
 );
@@ -188,6 +191,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productBrand", element: <ProductBrands /> },
     { path: "dashboard/productService", element: <ProductService /> },
     { path: "dashboard/transferBetweenWarehouse", element: <TransferBetweenWarehouse /> },
+    { path: "dashboard/transferBetweenWarehouse/:id", element: <TransferBetweenWarehouseAction /> },
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },
     { path: "dashboard/user/role/:id", element: <RoleUser /> },

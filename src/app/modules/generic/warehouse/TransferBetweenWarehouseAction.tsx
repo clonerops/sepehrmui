@@ -11,14 +11,14 @@ import {
 } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
 import { Formik } from "formik";
-import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
-import { dropdownProduct } from "../_functions";
+import { useParams } from "react-router-dom";
 interface IProps {
-    rowSelected: any;
 }
 
-const TransferBetweenWarehouseAction: FC<IProps> = ({ rowSelected }) => {
-    const { data, isLoading } = useRetrievePurchaserOrder(rowSelected.id);
+const TransferBetweenWarehouseAction: FC<IProps> = () => {
+    const { id } = useParams()
+
+    const { data, isLoading } = useRetrievePurchaserOrder(id);
     const orderAndAmountInfo = [
         {
             id: 1,
@@ -79,8 +79,6 @@ const TransferBetweenWarehouseAction: FC<IProps> = ({ rowSelected }) => {
     if (isLoading) {
         return <Typography>در حال بارگزاری</Typography>;
     }
-
-    console.log(data)
 
     return (
         <>
