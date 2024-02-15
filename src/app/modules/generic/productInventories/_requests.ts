@@ -30,9 +30,19 @@ const increaseInventory = async (formData: IIncreaseInventory) => {
     }
 };
 
+const exportProductInventoriesHistory = async (filter: IProductFilters) => {
+    try {
+        const {data} = await http.get(`${generateURLQueryParam('/v1/ProductInventory/GetInventoryUploadInstanceByHistory', filter)}`)
+        return data
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
 
 export {
     uploadProductInventories,
     exportProductInventories,
-    increaseInventory
+    increaseInventory,
+    exportProductInventoriesHistory
 }
