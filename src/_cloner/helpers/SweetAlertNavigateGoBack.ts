@@ -1,6 +1,7 @@
 import Swal from "sweetalert2"
 
-export const renderAlert = (title: string) => {
+export const renderAlertGoBack = (title: string) => {
+
     Swal.fire({
         title: title,
         confirmButtonColor: "#fcc615",
@@ -17,7 +18,7 @@ export const renderAlert = (title: string) => {
         }
     })
     .then(() => {
-        window.location.href = '/dashboard/sales_order/lists'
+        window.history.back()
     })
 
 }

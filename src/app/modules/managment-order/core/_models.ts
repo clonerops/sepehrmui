@@ -176,3 +176,18 @@ export interface IApprovePurchaserInvoice {
     orderStatusId?: number | null | undefined
   
 }
+
+
+export interface IPurchaserTransferBetweenWarehouse {
+    orderId: string,
+    warehouseId: number,
+    transferDetails: [
+      {
+        purchaseOrderDetailId: number,
+        productBrandName: string,
+        transferedAmount: number
+      }
+    ][]
+  }
+  
+

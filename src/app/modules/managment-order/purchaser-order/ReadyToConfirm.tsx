@@ -4,13 +4,13 @@ import { Formik } from "formik";
 import {Button, Typography, Box} from '@mui/material'
 
 import { IOrder } from "../core/_models";
-import { useRetrieveOrdersByMutation, useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
+import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import { purchaserOrderConfirm, salesOrderConfirm } from "../helpers/columns";
+import { purchaserOrderConfirm } from "../helpers/columns";
 
 
 const ReadyToPurchaserOrderConfirm = () => {
