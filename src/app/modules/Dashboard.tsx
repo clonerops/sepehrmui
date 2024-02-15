@@ -1,41 +1,10 @@
 import { Box, Typography } from "@mui/material";
-import { MonetizationOn } from '@mui/icons-material';
-import { counterValue } from "../../_cloner/helpers/counterValue";
 import { ColumnChart } from "../../_cloner/components/ColumnChart";
-import { separateAmountWithCommas } from "../../_cloner/helpers/SeprateAmount";
-import { FC, useEffect, useState } from "react";
 import { VariableRadiusPieChart3D } from "../../_cloner/components/VariableRadiusPieChart3D";
 
 import ReusableCard from "../../_cloner/components/ReusableCard";
 import MonitoringProdcuct from "../../_cloner/components/MonitoringProduct";
-
-interface ICardInformation {
-    title: string
-    cardClassName: string
-    value: any
-}
-
-const CardInformation: FC<ICardInformation> = ({ title, value, cardClassName }) => {
-    const [counter, setCounter] = useState<number>(0);
-
-    useEffect(() => {
-        counterValue(value, setCounter)
-    }, [value]);
-    
-    return (
-        <ReusableCard cardClassName={cardClassName}>
-            <Box component="div" className="flex justify-between items-center space-y-4">
-                <Typography variant="body1" className="text-white">{title}</Typography>
-                <MonetizationOn className="!text-white" />
-            </Box>
-            <Typography variant="h2" data-target={value} className="text-white">
-            {separateAmountWithCommas(counter)}
-            </Typography>
-        </ReusableCard>
-
-    )
-}
-
+import CardInformation from "../../_cloner/components/CardInformation";
 
 const Dashboard = () => {
 
