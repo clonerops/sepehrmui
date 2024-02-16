@@ -278,7 +278,7 @@ const Products = () => {
                     <ButtonComponent
                         onClick={() => setIsCreateOpen(true)}
                     >
-                        <Typography variant="h4" className="px-4 py-1">ایجاد کالا</Typography>
+                        <Typography variant="h4" className="px-4 py-1 text-white">ایجاد کالا</Typography>
                     </ButtonComponent>
                 </Box>
                 <MuiDataGrid
