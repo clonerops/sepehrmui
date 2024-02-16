@@ -49,6 +49,9 @@ const VerticalCharts: FC<IProps> = ({
                 },
             },
         },
+        accessibility: {
+            enabled: false
+        },
         yAxis: {
             title: {
                 text: "",

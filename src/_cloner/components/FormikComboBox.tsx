@@ -64,8 +64,15 @@ const FormikComboBox = (props: Props) => {
                 options={options || []}
                 value={field?.value}
                 disabled={disabled}
-                renderOption={renderOption}
-                isOptionEqualToValue={(option: any, value) =>
+                // renderOption={renderOption}
+                renderOption={(props, option: any) => {
+                    return (
+                      <li {...props} key={option.value}>
+                        {option.label}
+                      </li>
+                    );
+                  }}                
+                isOptionEqualToValue={(option: any, value) => 
                     option.id === value.id
                 }
                 defaultValue={defaultValue}
@@ -93,7 +100,7 @@ const FormikComboBox = (props: Props) => {
                         size="small"
                     />
                 )}
-                id={name}
+                // id={name}
             />
             <Typography variant="body2" className={"text-red-600"}>
                 {getFormikFieldValidationProps(formikProps, name).helpertext}

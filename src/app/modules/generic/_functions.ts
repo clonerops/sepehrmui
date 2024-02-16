@@ -27,7 +27,7 @@ export const dropdownBrandName = (data: any) => {
         })
     );
 };
-export const dropdownProduct = (data: any) => {
+export const    dropdownProduct = (data: any) => {
     return (
         data &&
         data?.map((obj: { id: any; productName: any }): any => {

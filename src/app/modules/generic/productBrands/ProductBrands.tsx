@@ -127,8 +127,6 @@ const ProductBrands = () => {
   };
 
   let groupedProductBrand = _.groupBy(productBrands?.data, "productName")
-  console.log(Object.keys(groupedProductBrand))
-  console.log(Object.values(groupedProductBrand))
 
   if (productBrandLoading) {
     return <Backdrop loading={productBrandLoading} />;
@@ -137,7 +135,6 @@ const ProductBrands = () => {
     <>
       <Box className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
-          {/* <Box component="div" className="lg:grid lg:grid-cols-2 lg:gap-x-4"> */}
           <Box component="div">
             <Box component="div">
               <Formik initialValues={initialValues} onSubmit={
@@ -168,8 +165,8 @@ const ProductBrands = () => {
                   return <Form onSubmit={handleSubmit} className="mb-4">
                     <Box
                       component="div"
-                      className="md:flex md:justify-start md:items-start gap-x-4"
-                    >
+                      className="md:flex md:justify-start md:items-start gap-4 space-y-4 lg:space-y-0"
+                    > 
                       <FormikProduct name="productId" label="کالا" boxClassName="mt-2 md:mt-0" />
                       <FormikBrand name='brandId' label="برند" />
                       <Box component="div" className="mt-2 md:mt-0">
@@ -201,17 +198,6 @@ const ProductBrands = () => {
                 data={productBrands?.data}
               />
             </Box>
-            {/* <Box component="div">
-              <Box
-                component="div"
-                className="hidden md:flex md:justify-center md:items-center"
-              >
-                <Box component="img"
-                  src={toAbsoulteUrl("/media/logos/8595513.jpg")}
-                  width={400}
-                />
-              </Box>
-            </Box> */}
           </Box>
         </ReusableCard>
         <Box className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
