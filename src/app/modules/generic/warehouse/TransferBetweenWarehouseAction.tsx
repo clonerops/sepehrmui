@@ -174,7 +174,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 {({ handleSubmit }) => (
                     <>
-                        <Box className="flex flex-row gap-4 mb-4">
+                        <Box className="flex flex-col lg:flex-row gap-4 mb-4">
                             <ReusableCard cardClassName="flex flex-col gap-y-2">
                                 <Typography variant="h3" className="text-yellow-500">از طریق لیست زیر می توانید انبار موردنظر خود را انتخاب کنید</Typography>
                                 <Typography variant="h3" className="text-red-500">نکته:</Typography>
@@ -194,9 +194,9 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                             data={data?.data?.details}
                             columns={orderOrderColumnMain}
                         />
-                        <Box className="flex flex-end mt-4">
+                        <Box className="mt-4">
                             <ButtonComponent onClick={() => handleSubmit()}>
-                                <Typography>ثبت انتقال</Typography>
+                                <Typography className="text-white">ثبت انتقال</Typography>
                             </ButtonComponent>
                         </Box>
                     </>
