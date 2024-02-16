@@ -104,77 +104,93 @@ const ProductStandards = () => {
 
   return (
     <>
-      <ReusableCard>
-        <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
+      <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <ReusableCard>
           <Box component="div">
-            <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
-              async (values, { setStatus, setSubmitting, setFieldValue }) => {
-                try {
-                  const formData = {
-                    desc: values.desc
-                  }
-                  postStandard(formData, {
-                    onSuccess: (response: any) => {
-                      if(response.succeeded) {
-                        EnqueueSnackbar(response.message, "success")
-                        setFieldValue('id', response.data.id)
-                        refetch();
-                      } else {
-                        EnqueueSnackbar(response.data.Message, "warning")
-                      }                        
+            
+              <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
+                async (values, { setStatus, setSubmitting, setFieldValue }) => {
+                  try {
+                    const formData = {
+                      desc: values.desc
                     }
-                  })
-                } catch (error) {
-                  setStatus("اطلاعات ثبت استاندارد نادرست می باشد");
-                  setSubmitting(false);
+                    postStandard(formData, {
+                      onSuccess: (response: any) => {
+                        if(response.succeeded) {
+                          EnqueueSnackbar(response.message, "success")
+                          setFieldValue('id', response.data.id)
+                          refetch();
+                        } else {
+                          EnqueueSnackbar(response.data.Message, "warning")
+                        }                        
+                      }
+                    })
+                  } catch (error) {
+                    setStatus("اطلاعات ثبت استاندارد نادرست می باشد");
+                    setSubmitting(false);
+                  }
                 }
-              }
-            }>
-              {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className="mb-4">
-                  <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
-                    <FormikInput name="id" label="کد استاندارد " disabled={true} boxClassName=" mt-2 md:mt-0" />
-                    <FormikInput name="desc" label="استاندارد " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
-                    <ButtonComponent onClick={() => handleSubmit()}>
-                      <Typography className="px-2">
-                        <AddCircleOutline />
-                      </Typography>
-                    </ButtonComponent>
-                  </Box>
-                </Form>
-              }}
-            </Formik>
-            <Box component="div" className="mb-4">
-              <FuzzySearch
-                keys={[
-                  "id",
-                  "desc",
-                ]}
+              }>
+                {({ handleSubmit }) => {
+                  return <Form onSubmit={handleSubmit} className="mb-4">
+                    <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
+                      <FormikInput name="id" label="کد استاندارد " disabled={true} boxClassName=" mt-2 md:mt-0" />
+                      <FormikInput name="desc" label="استاندارد " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
+                      <ButtonComponent onClick={() => handleSubmit()}>
+                        <Typography className="px-2">
+                          <AddCircleOutline />
+                        </Typography>
+                      </ButtonComponent>
+                    </Box>
+                  </Form>
+                }}
+              </Formik>
+              <Box component="div" className="mb-4">
+                <FuzzySearch
+                  keys={[
+                    "id",
+                    "desc",
+                  ]}
+                  data={standards?.data}
+                  threshold={0.5}
+                  setResults={setResults}
+                />
+              </Box>
+              <MuiDataGrid
+                columns={columns(renderSwitch)}
+                rows={results}
                 data={standards?.data}
-                threshold={0.5}
-                setResults={setResults}
               />
-            </Box>
-            <MuiDataGrid
-              columns={columns(renderSwitch)}
-              rows={results}
-              data={standards?.data}
-            />
           </Box>
+        </ReusableCard>
+        <ReusableCard cardClassName='flex gap-4'>
           <Box component="div">
-            <Box
-              component="div"
-              className="hidden md:flex md:justify-center md:items-center"
-            >
-              <Box component="img"
-                src={toAbsoulteUrl("/media/logos/11089.jpg")}
-                width={400}
-              />
+              <Box component="div" className="hidden md:flex md:justify-center md:items-center">
+                <Box className="flex flex-col flex-wrap gap-4">
+                  <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
+                  <Typography>کالاهای موجود هرکدام دارای برند های خاصی می باشد</Typography>
+                  <Typography>جهت اختصاص یک برند به کالا بایستی پس از انتخاب کالابرند برندی که میخواهید برای آن کالا ثبت نمایید را انتخاب کنید و اقدام به ثبت کالا برند کنید</Typography>
+                  <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
+                  <Typography>امکان حذف برند محصول وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
+                  <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
+                  <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
+                </Box>
+              </Box>
             </Box>
+          <Box component="div">
+              <Box
+                component="div"
+                className="hidden md:flex md:justify-center md:items-center"
+              >
+                <Box component="img"
+                  src={toAbsoulteUrl("/media/logos/11089.jpg")}
+                  width={400}
+                />
+              </Box>
 
-          </Box>
-        </Box>
-      </ReusableCard>
+            </Box>
+        </ReusableCard>
+      </Box>
     </>
   )
 }

@@ -13,6 +13,8 @@ import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { useDisableProduct, useRetrieveProducts } from "./_hooks";
 import { IProducts } from "./_models";
+import CardInformation from "../../../../_cloner/components/CardInformation";
+import _ from 'lodash'
 
 const Products = () => {
     const {
@@ -243,6 +245,13 @@ const Products = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productsLoading && <Backdrop loading={productsLoading} />}
+            <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
+                <CardInformation cardClassName="!bg-[#3322D8]" title="تعداد محصولات" value={products?.data && +products?.data?.length} />
+                <CardInformation cardClassName="!bg-[#369BFD]" title="میانگین حداقل موجودی" value={+_.sumBy(products?.data, 'minInventory') / +products?.data?.length} />
+                <CardInformation cardClassName="!bg-[#F8B30E]" title="میانگین حداکثر موجودی" value={+_.sumBy(products?.data, 'maxInventory') / +products?.data?.length} />
+                <CardInformation cardClassName="!bg-[#EB5553]" title="میانگین نقطه بحرانی" value={+_.sumBy(products?.data, 'inventotyCriticalPoint') / +products?.data?.length} />
+            </Box>
+
             <ReusableCard>
                 <Box
                     component="div"
@@ -303,8 +312,6 @@ const Products = () => {
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
-
-                {/* <EditProduct refetch={refetch} item={itemForEdit} /> */}
             </TransitionsModal>
         </>
     );
