@@ -11,13 +11,13 @@ type InputProps = {
   disabled?: boolean;
   value?: string;
   variant?: TextFieldVariants;
-  boxClassName?: string;
+  className?: string;
 } & Omit<TextFieldProps, "variant">;
 
 export type MaskInputProps = ReactMaskProps & InputProps;
 
 const MaskInput = IMaskMixin((props: MaskInputProps) => {
-  const { label, disabled, inputRef, value, ...rest } = props;
+  const { label, disabled, inputRef, className, value, ...rest } = props;
   return (
     <TextField
       fullWidth
@@ -26,6 +26,7 @@ const MaskInput = IMaskMixin((props: MaskInputProps) => {
       disabled={disabled}
       variant={"outlined"}
       inputMode={"text"}
+      className={className}
       type={"text"}
       inputProps={{ ...props.inputProps }}
       inputRef={inputRef}

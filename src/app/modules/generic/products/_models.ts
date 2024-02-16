@@ -37,6 +37,7 @@ export interface IProducts {
 
 export interface IProductFilters {
     productSortBase?: number
+    uploadedDate?: string
     ByBrand?: boolean
     WarehouseId?: number
     WarehouseTypeId?: number

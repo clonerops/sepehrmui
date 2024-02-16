@@ -21,21 +21,22 @@ const TransferBetweenWarehouse = () => {
         pageSize: pageSize,
     };
 
-    const { data: orders, isLoading } = useRetrievePurchaserOrders(formData);
+    const { data: orders, isLoading, refetch } = useRetrievePurchaserOrders(formData);
 
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
         setResults(orders?.data);
+        refetch()
     }, [orders?.data]);
 
     const renderAction = (item: any) => {
         return (
             <Link
-            to={`/dashboard/transferBetweenWarehouse/${item?.row?.id}`}
+            to={ item.row.purchaseOrderStatusId === 4 ? '' : `/dashboard/transferBetweenWarehouse/${item?.row?.id}`}
         >
 
-            <ButtonComponent onClick={() => {}}>
+            <ButtonComponent disabled={item.row.purchaseOrderStatusId === 4} onClick={() => {}}>
                 <Typography className="px-2 text-white">
                     اقدام به نقل و انتقال
                 </Typography>

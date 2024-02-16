@@ -4,7 +4,6 @@ import Backdrop from "../../../../../_cloner/components/Backdrop";
 import { Alert, Box, Button, Typography } from "@mui/material";
 import ReusableCard from "../../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../../_cloner/helpers/Fuse";
-import FileUploadButton from "../../../../../_cloner/components/UploadFileButton";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import { columnsProductInventories } from "./columns";
 import { toAbsoulteUrl } from "../../../../../_cloner/helpers/AssetsHelper";
@@ -15,17 +14,16 @@ import { exportProductInventories } from "../_requests";
 import { useGetProductList } from "../../products/_hooks";
 import { IProducts } from "../../products/_models";
 import UploadFileInventorySepehr from "./UploadFileInventorySepehr";
+import DownloadInventory from "./DownloadInventory";
 
 const ProductInventoriesSepehr = () => {
-    // const { refetch, data: productPrice } = useRetrieveProductPrice(null);
     const uploadFileMethode = useUploadFileProductInventories();
     const filterTools = useGetProductList();
-    // const warehouseTypeTools = useGetWarehouseTypes();
     // State
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isUploadpen, setIsUploadOpen] = useState<boolean>(false);
+    const [isDownloadOpen, setIsDownloadOpen] = useState<boolean>(false);
     const [productItem, setProductItem] = useState<{row: IProducts}>()
-    // const [isOpen, setIsOpen] = useState<boolean>(false);
     const [results, setResults] = useState<any[]>([]);
 
     useEffect(() => {
@@ -59,18 +57,6 @@ const ProductInventoriesSepehr = () => {
         setProductItem(item)
         setIsCreateOpen(true)
     }
-
-    // const onFilterProductByWarehouse = (value: any) => {
-    //     const filter = {
-    //         ByBrand: true,
-    //         WarehouseTypeId: +value
-    //     }
-    //     filterTools.mutate(filter, {
-    //         onSuccess: (res) => {
-    //             setResults(res?.data)
-    //         }
-    //     });
-    // };
 
     return (
         <>
@@ -112,6 +98,13 @@ const ProductInventoriesSepehr = () => {
                         >
                             <Typography>خروجی اکسل</Typography>
                         </Button>
+                        <Button
+                            onClick={() => setIsDownloadOpen(true)}
+                            variant="outlined"
+                            color="primary"
+                        >
+                            <Typography>خروجی اکسل براساس تاریخ</Typography>
+                        </Button>
                     </Box>
                 </Box>
                 <Box className="grid grid-cols-1 lg:grid-cols-2 mt-4">
@@ -151,6 +144,14 @@ const ProductInventoriesSepehr = () => {
                     title="آپلود فایل موجودی"
                 >
                     <UploadFileInventorySepehr />
+                </TransitionsModal>
+                <TransitionsModal
+                    open={isDownloadOpen}
+                    isClose={() => setIsDownloadOpen(false)}
+                    width="50%"
+                    title="دریافت فایل موجودی"
+                >
+                    <DownloadInventory />
                 </TransitionsModal>
             </ReusableCard>
         </>
