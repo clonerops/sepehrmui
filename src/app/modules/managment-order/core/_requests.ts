@@ -139,7 +139,7 @@ const retrievePurchaserOrdersMutation = async (formData: { pageNumber?: number; 
 
 const approvePurchaserInvoiceType = async (formData: IApprovePurchaserInvoice) => {
     try {
-        const { data } = await http.post(`/v1/PurchaseOrder/ApprovePurchaseOrder`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/PurchaseOrder/ApproveInvoiceType`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response

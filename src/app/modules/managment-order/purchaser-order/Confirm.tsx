@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import { dropdownInvoiceType } from "../helpers/dropdowns";
+import { dropdownCustomerCompanies, dropdownInvoiceType } from "../helpers/dropdowns";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import { Description, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -16,7 +16,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikPrice from "../../../../_cloner/components/FormikPrice";
 import { dropdownProductByInventory } from "../../generic/_functions";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
-import { useApproveInvoiceType, useApprovePurchaserInvoiceType, useRetrievePurchaserOrder } from "../core/_hooks";
+import { useApprovePurchaserInvoiceType, useRetrievePurchaserOrder } from "../core/_hooks";
 import { useGetInvoiceType } from "../../generic/_hooks";
 import { useGetCustomerCompaniesMutate } from "../../generic/customerCompany/_hooks";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
@@ -29,6 +29,7 @@ const initialValues = {
     productName: "",
     proximateAmount: "",
     productPrice: "",
+    customerOfficialCompanyId: "",
 
     invoiceTypeDesc: "",
     invoiceTypeId: "",
@@ -68,25 +69,24 @@ const PurchaserOrderConfirm = () => {
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderSendTypeDesc },
+        { id: 3, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 3, title: "وضعیت", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderStatusDesc },
     ]
 
     const orderOrderColumnMain = [
-        { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => { return params.productBrand.productName } },
+        { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => { return  params.productBrand.productName } },
         { id: 3, header: "مقدار", accessor: "proximateAmount" },
         { id: 4, header: "قیمت", accessor: "price" },
     ]
 
     const orderOrderColumnReplace = [
-        { id: 5, header: "کالا رسمی", accessor: "productName" },
+        { id: 5, header: "کالا رسمی", accessor: "productName", render: (params: any) => { return params.productName ? params.productName : params.productBrand.productName } },
         { id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
            return params.alternativeProductAmount === 0 ? params.proximateAmount : params.alternativeProductAmount
         }},
         { id: 7, header: "قیمت", accessor: "price", render: (params: any) => {
           return params.alternativeProductPrice === 0 ? params.price : params.alternativeProductPrice
         } }
-
     ]
 
     const orderParseFields = (fields: FieldType, values: any, setFieldValue: any, resetForm: any, index: number) => {
@@ -130,7 +130,7 @@ const PurchaserOrderConfirm = () => {
     }
 
     const handleDoubleClick = (params: any, setFieldValue: any, rowIndex: number) => {
-        setFieldValue("productName", params.productName)
+        setFieldValue("productName", params.productName ? params.productName : params.productBrand.productName)
         setFieldValue("proximateAmount", params.proximateAmount)
         setFieldValue("productPrice", params.price)
         // setFieldValue("productPrice", params.price)
@@ -174,6 +174,7 @@ const PurchaserOrderConfirm = () => {
             attachments: attachments,
             orderStatusId: statusId,
             customerOfficialCompanyId: values.customerOfficialCompanyId,
+            // details: data?.data?.details
             details: cpData.map((element: any) => ({
                 id: element.id,
                 alternativeProductId: element.alternativeProductId,
@@ -182,14 +183,14 @@ const PurchaserOrderConfirm = () => {
             }))
         }
         approveTools.mutate(formData, {
-            onSuccess: (message) => {
-                if (message.succeeded) {
+            onSuccess: (response) => {
+                if (response.succeeded) {
                     setApprove(false)
-                    EnqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", "info")
+                    EnqueueSnackbar(response.message, "success")
                     
                 }
-                if (!message?.data?.Succeeded) {
-                    EnqueueSnackbar( message.data.Message , "error")
+                if (!response?.data?.Succeeded) {
+                    EnqueueSnackbar( response.data.Message , "error")
                 }
             },
 
@@ -204,7 +205,8 @@ const PurchaserOrderConfirm = () => {
         <>
             <Formik initialValues={{
                 ...initialValues,
-                invoiceTypeId: data?.data?.invoiceTypeId
+                invoiceTypeId: data?.data?.invoiceTypeId,
+                customerOfficialCompanyId: data?.data?.customerOfficialCompany?.id
             }
             } onSubmit={(_) => handleConfirmOrder(_, 0)}>
                 {({ values, setFieldValue, resetForm }) => {
@@ -219,7 +221,7 @@ const PurchaserOrderConfirm = () => {
                             })}
                             <CardTitleValue key={orderAndAmountInfo.length + 1} className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                         </Box>
-                        {/* <ReusableCard cardClassName="my-4">
+                        <ReusableCard cardClassName="my-4">
                             {saleOrderFieldConfirm.map((rowFields, index) => (
                                 <Box
                                     key={index}
@@ -237,16 +239,16 @@ const PurchaserOrderConfirm = () => {
                                     )}
                                 </Box>
                             ))}
-                        </ReusableCard> */}
+                        </ReusableCard>
                         <ReusableCard cardClassName="my-4">
                             <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                             <Box component="div" className="flex flex-col md:flex-row gap-x-4">
                                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
-                                {/* <MuiTable onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} /> */}
+                                <MuiTable onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} />
                             </Box>
                         </ReusableCard>
 
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Box component="div" className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                             <Box component="div" className="flex flex-col">
                                 <ReusableCard >
                                     <Typography variant="h2" color="primary" className="pb-4">افزودن پیوست</Typography>
@@ -271,7 +273,7 @@ const PurchaserOrderConfirm = () => {
                                     />
                                 </ReusableCard>
                             </Box>
-                            {/* <Box component="div" className="flex flex-col">
+                            <Box component="div" className="flex flex-col">
                                 <ReusableCard>
                                     <Box component="div" className="flex justify-between items-center">
                                         <Typography variant="h2" color="primary" className="pb-4">شرکت رسمی و توضیحات</Typography>
@@ -293,7 +295,7 @@ const PurchaserOrderConfirm = () => {
                                         label="" name="description"
                                     />
                                 </ReusableCard>
-                            </Box> */}
+                            </Box>
                         </Box>
                         <Box component="div" className="flex justify-end items-end gap-x-4 my-4 ">
                             <Button onClick={() => setApprove(true)} className="!bg-[#fcc615] !text-black">

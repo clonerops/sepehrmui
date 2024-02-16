@@ -29,6 +29,7 @@ const initialValues = {
     productName: "",
     proximateAmount: "",
     productPrice: "",
+    // customerOfficialCompanyId: "",
 
     invoiceTypeDesc: "",
     invoiceTypeId: "",
@@ -67,9 +68,9 @@ const SalesOrderConfirm = () => {
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
-        { id: 1, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 1, title: "اسم رسمی شرکت مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName },
-        { id: 2, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
+        { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
+        { id: 3, title: "اسم رسمی شرکت مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName },
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
     ]
 
     const orderOrderColumnMain = [
@@ -201,11 +202,13 @@ const SalesOrderConfirm = () => {
         return <Backdrop loading={isLoading} />
     }
 
+    // console.log(data?.data?.customerOfficialCompany?.id)
     return (
         <>
             <Formik initialValues={{
                 ...initialValues,
-                invoiceTypeId: data?.data?.invoiceTypeId
+                invoiceTypeId: data?.data?.invoiceTypeId,
+                // customerOfficialCompanyId: data?.data?.customerOfficialCompany?.id
             }
             } onSubmit={(_) => handleConfirmOrder(_, 0)}>
                 {({ values, setFieldValue, resetForm }) => {
