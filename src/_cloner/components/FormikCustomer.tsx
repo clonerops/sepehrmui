@@ -11,7 +11,7 @@ const FormikCustomer = (props: any) => {
         <FormikComboBox
             options={dropdownCustomer(customers?.data)}
             renderOption={(props: any, option: any) => {
-                return <li {...props}>
+                return <li {...props} key={option.value}>
                     <Box component="div" style={{
                         backgroundColor: `#${option.customerValidityColorCode}`,
                         width: 20,
