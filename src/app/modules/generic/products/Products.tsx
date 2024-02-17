@@ -247,9 +247,9 @@ const Products = () => {
             {productsLoading && <Backdrop loading={productsLoading} />}
             <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
                 <CardInformation cardClassName="!bg-[#3322D8]" title="تعداد محصولات" value={products?.data && +products?.data?.length} />
-                <CardInformation cardClassName="!bg-[#369BFD]" title="میانگین حداقل موجودی" value={+_.sumBy(products?.data, 'minInventory') / +products?.data?.length} />
-                <CardInformation cardClassName="!bg-[#F8B30E]" title="میانگین حداکثر موجودی" value={+_.sumBy(products?.data, 'maxInventory') / +products?.data?.length} />
-                <CardInformation cardClassName="!bg-[#EB5553]" title="میانگین نقطه بحرانی" value={+_.sumBy(products?.data, 'inventotyCriticalPoint') / +products?.data?.length} />
+                <CardInformation cardClassName="!bg-[#369BFD]" title="میانگین حداقل موجودی" value={+_.sumBy(products?.data && products?.data, 'minInventory') / +products?.data?.length} />
+                <CardInformation cardClassName="!bg-[#F8B30E]" title="میانگین حداکثر موجودی" value={+_.sumBy(products?.data && products?.data, 'maxInventory') / +products?.data?.length} />
+                <CardInformation cardClassName="!bg-[#EB5553]" title="میانگین نقطه بحرانی" value={+_.sumBy(products?.data && products?.data, 'inventotyCriticalPoint') / +products?.data?.length} />
             </Box>
 
             <ReusableCard>

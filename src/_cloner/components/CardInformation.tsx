@@ -25,7 +25,7 @@ const CardInformation: FC<ICardInformation> = ({ title, value, cardClassName }) 
                 <Typography variant="body1" className="text-white">{title}</Typography>
                 <MonetizationOn className="!text-white" />
             </Box>
-            <Typography variant="h2" data-target={value} className="text-white">
+            <Typography variant="h2" data-target={isNaN(value) ? 0 : value} className="text-white">
             {separateAmountWithCommas(counter)}
             </Typography>
         </ReusableCard>

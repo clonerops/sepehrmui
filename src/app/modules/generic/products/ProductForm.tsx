@@ -232,7 +232,7 @@ const ProductForm = (props: {
                             {fields.map((rowFields) => (
                                 <Box
                                     component="div"
-                                    className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 my-4"
+                                    className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4"
                                 >
                                     {rowFields.map((field) =>
                                         parseFields(field)
