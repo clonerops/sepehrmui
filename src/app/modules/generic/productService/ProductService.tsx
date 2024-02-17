@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Box, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
-import { AddCircleOutline } from '@mui/icons-material'
+import { AddCircleOutline, AddTask, AdfScanner, DesignServices, PlusOne, TextDecrease } from '@mui/icons-material'
 import * as Yup from 'yup'
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
@@ -16,6 +16,8 @@ import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../../_cloner/components/Backdrop'
+import CardWithIcons from '../../../../_cloner/components/CardWithIcons'
+import _ from 'lodash'
 
 const initialValues = {
   id: 0,
@@ -105,8 +107,8 @@ const ProductService = () => {
 
   return (
     <>
-      <ReusableCard>
-        <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
+    <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4">
+      <ReusableCard cardClassName='order-2 lg:order-1'>
           <Box component="div">
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
@@ -138,7 +140,7 @@ const ProductService = () => {
                     <FormikInput name="desc" label="نوع خدمت " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <ButtonComponent onClick={() => handleSubmit()}>
                       <Typography className="px-2">
-                        <AddCircleOutline />
+                        <AddCircleOutline className='text-white' />
                       </Typography>
                     </ButtonComponent>
                   </Box>
@@ -162,20 +164,30 @@ const ProductService = () => {
               data={Services?.data}
             />
           </Box>
-          <Box component="div">
-            <Box
-              component="div"
-              className="hidden md:flex md:justify-center md:items-center"
-            >
-              <Box component="img"
-                src={toAbsoulteUrl("/media/logos/7758834.jpg")}
-                width={400}
-              />
-            </Box>
-
-          </Box>
-        </Box>
       </ReusableCard>
+      <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:h-[240px] order-1 lg:order-2">
+        <CardWithIcons 
+            title='تعداد سرویس های ثبت شده' 
+            icon={<DesignServices className="text-white" />} 
+            value={Services?.data?.length}
+            iconClassName='bg-[#3322D8]' />
+        <CardWithIcons 
+            title='تعداد سرویس ها در وضعیت فعال' 
+            icon={<AddTask className="text-white" />} 
+            value={_.filter(Services?.data, 'isActive').length}
+            iconClassName='bg-[#369BFD]' />
+          <CardWithIcons 
+            title='تعداد سرویس ها در وضعیت غیرفعال' 
+            icon={<TextDecrease className="text-white" />} 
+            value={_.filter(Services?.data, (item) => !item.isActive).length}
+            iconClassName='bg-[#F8B30E]' />
+          <CardWithIcons 
+            title='تعداد سرویس های ثبت امروز' 
+            icon={<AdfScanner className="text-white" />} 
+            value={0}
+            iconClassName='bg-[#EB5553]' />
+      </Box>
+    </Box>
     </>
   )
 }
