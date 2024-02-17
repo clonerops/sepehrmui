@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { IWarehouse } from "./_models"
+import { IWarehouse, IWarehouseFilter } from "./_models"
 
 const useGetWarehouses = () => {
     return useQuery(['Warehouses'], () => api.getWarehouses(), {
@@ -9,6 +9,15 @@ const useGetWarehouses = () => {
         refetchIntervalInBackground: false
     })
 }
+
+const useGetWarehousesByFilter = () => {
+    return useMutation((filter: IWarehouseFilter) => {
+        return api.getWarehousesByFilter(filter)
+    })
+
+}
+
+
 const usePostWarehouses = () => {
     return useMutation((formData: IWarehouse) => {
         return api.postWarehouses(formData)
@@ -38,4 +47,5 @@ export {
     useGetWarehouse,
     useUpdateWarehouses,
     useDeleteWarehouses,
+    useGetWarehousesByFilter
 }

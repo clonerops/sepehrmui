@@ -1,5 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig"
-import { IWarehouse } from "./_models";
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
+import { IWarehouse, IWarehouseFilter } from "./_models";
 
 const getWarehouses = async () => {
     try {
@@ -11,6 +12,18 @@ const getWarehouses = async () => {
         return error.response
     }
 }
+
+const getWarehousesByFilter = async (filter: IWarehouseFilter) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/Warehouse', filter)}`)
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
+
 
 const postWarehouses = async (formData: IWarehouse) => {
     try {
@@ -62,4 +75,5 @@ export {
     getWarehouse,
     updateWarehouses,
     deleteWarehouse,
+    getWarehousesByFilter
 }

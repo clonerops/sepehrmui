@@ -11,10 +11,15 @@ import { toAbsoulteUrl } from "../../../../../_cloner/helpers/AssetsHelper";
 import { dropdownWarehouseType } from "../../../managment-order/helpers/dropdowns";
 import { exportProductInventories } from "../_requests";
 import { useGetProductList } from "../../products/_hooks";
+import FormikWarehouseType from "../../../../../_cloner/components/FormikWarehouseType";
+import FormikWarehouse from "../../../../../_cloner/components/FormikWarehouse";
+import FormikWarehouseBasedOfType from "../../../../../_cloner/components/FormikWarehouseBasedOfType";
+import { useGetWarehouses, useGetWarehousesByFilter } from "../../warehouse/_hooks";
 
 const ProductInventories = () => {
     const filterTools = useGetProductList();
     const warehouseTypeTools = useGetWarehouseTypes();
+    const filterWarehouse = useGetWarehousesByFilter()
     let formikRef = useRef<FormikProps<any>>(null);
 
     // State
@@ -42,36 +47,40 @@ const ProductInventories = () => {
         }
     };
 
-    const onFilterProductByWarehouse = (value: any) => {
+    // const onFilterProductByWarehouse = (value: any) => {
+    //     const filter = {
+    //         ByBrand: true,
+    //         WarehouseTypeId: +value
+    //     }
+    //     filterTools.mutate(filter, {
+    //         onSuccess: (res) => {
+    //             setResults(res?.data)
+    //         }
+    //     });
+    // };
+    const onFilterProductByWarehouseType = (value: any) => {
         const filter = {
             ByBrand: true,
-            WarehouseTypeId: +value
+            WarehouseTypeId: formikRef?.current?.values.warehouseTypeId
+            
         }
         filterTools.mutate(filter, {
             onSuccess: (res) => {
                 setResults(res?.data)
+                filterWarehouse.mutate({warehouseTypeId: +formikRef?.current?.values.warehouseTypeId})
             }
         });
     };
 
+    const onFilterProductByWarehouse = () => {
+
+    }
+
+
     return (
         <>
             <ReusableCard>
-                <Box
-                    component="div"
-                    className="md:flex md:justify-end md:items-end space-y-2 mb-4"
-                >
-                    <Box component="div" className="flex flex-wrap gap-x-4">
-                        <Button
-                            onClick={handleDownloadExcel}
-                            variant="outlined"
-                            color="primary"
-                        >
-                            <Typography>خروجی اکسل</Typography>
-                        </Button>
-                    </Box>
-                </Box>
-                <Box className="m-2">
+                {/* <Box className="m-2">
                     <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1 }} onSubmit={() => { }}>
                         {({ }) => {
                             return <Form>
@@ -79,8 +88,32 @@ const ProductInventories = () => {
                             </Form>
                         }}
                     </Formik>
-                </Box>
-                <Box className="grid grid-cols-2 mt-4">
+                </Box> */}
+                    <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 0 }} onSubmit={() => { }}>
+                        {({ }) => {
+                            return <Form className="flex flex-row lg:w-[50%] gap-4 mb-4">
+                                <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
+                                <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
+                            </Form>
+                        }}
+                    </Formik>
+
+                    <Button
+                            onClick={handleDownloadExcel}
+                            variant="outlined"
+                            color="success"
+                    >
+                        <Typography>خروجی اکسل</Typography>
+                        <img
+                            className={"mr-3"}
+                            src={toAbsoulteUrl(
+                                "/media/logos/excelLogo.png"
+                            )}
+                            width={30}
+                            height={30}
+                        />
+                    </Button>
+                <Box className="grid grid-cols-2 mt-2">
                     <MuiDataGrid
                         columns={columnsProductInventories()}
                         isLoading={filterTools.isLoading}
