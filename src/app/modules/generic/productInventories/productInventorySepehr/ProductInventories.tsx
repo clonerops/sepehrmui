@@ -94,7 +94,7 @@ const ProductInventoriesSepehr = () => {
                         <Button
                             onClick={handleDownloadExcel}
                             variant="outlined"
-                            color="primary"
+                            color="success"
                         >
                             <Typography>خروجی اکسل</Typography>
                         </Button>
@@ -107,14 +107,16 @@ const ProductInventoriesSepehr = () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box className="grid grid-cols-1 lg:grid-cols-2 mt-4">
-                    <MuiDataGrid
-                        columns={columnsProductInventories(renderIncreaseInventory)}
-                        isLoading={filterTools.isLoading}
-                        rows={results}
-                        data={filterTools?.data?.data}
-                        height={400}
-                    />
+                <Box className="grid grid-cols-1 lg:grid-cols-3 mt-4">
+                    <Box className="col-span-2">
+                        <MuiDataGrid
+                            columns={columnsProductInventories(renderIncreaseInventory)}
+                            isLoading={filterTools.isLoading}
+                            rows={results}
+                            data={filterTools?.data?.data}
+                            height={400}
+                        />
+                    </Box>
                     <Box component="div">
                         <Box
                             component="div"

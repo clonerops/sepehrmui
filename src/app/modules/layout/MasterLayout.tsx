@@ -144,12 +144,13 @@ const MasterLayout = () => {
             </IconButton>
           </DrawerHeader>
           <Divider />
+          <Box className="md:flex md:justify-center md:items-center mb-6 hidden">
+            <img src={toAbsoulteUrl('/media/logos/folladlogowhite.png')} width={128} height={128} />
+          </Box>
+          <Divider color="#FFF" />
           <List>
             <MenuItems menuItems={menuItemsData} />
           </List>
-          <Box className="md:flex md:justify-center md:items-center md:absolute md:right-0 md:left-0 md:bottom-8 hidden">
-            <img src={toAbsoulteUrl('/media/logos/folladlogowhite.png')} width={128} height={128} />
-          </Box>
         </Drawer>
       )}
       <Box

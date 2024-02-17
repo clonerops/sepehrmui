@@ -128,7 +128,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                 }
             })
         }
-        console.log(formData)
+        console.log(JSON.stringify(formData))
         postTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
