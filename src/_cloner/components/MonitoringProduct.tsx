@@ -8,6 +8,7 @@ import { columnsModalProduct } from "../../app/modules/managment-order/helpers/c
 import FormikWarehouseType from "./FormikWarehouseType";
 import FormikWarehouseBasedOfType from "./FormikWarehouseBasedOfType";
 import { useGetWarehousesByFilter } from "../../app/modules/generic/warehouse/_hooks";
+import FormikPeoductType from "./FormikProductType";
 
 
 const MonitoringProdcuct = () => {
@@ -15,8 +16,9 @@ const MonitoringProdcuct = () => {
     const filterWarehouse = useGetWarehousesByFilter()
     const productTypeTools = useGetProductTypes();
     let formikRef = useRef<FormikProps<any>>(null);
-    const [currentSelectProductType, setCurrentSelectProductType] = useState(-1)
-    const handleFilterProduct = (value: number) => {
+    // const [currentSelectProductType, setCurrentSelectProductType] = useState(-1)
+
+    const onFilterProductType = (value: number) => {
         const filter = {
             ByBrand: true,
             ProductTypeId: +value,
@@ -53,7 +55,8 @@ const MonitoringProdcuct = () => {
         filterTools.mutate(filter, {
             onSuccess: (res) => {
                 formikRef.current?.setFieldValue('warehouseId', 0)
-                setCurrentSelectProductType(-1)
+                formikRef.current?.setFieldValue('productTypeId', -1)
+                // setCurrentSelectProductType(-1)
                 filterWarehouse.mutate({ warehouseTypeId: +value })
             }
         });
@@ -65,7 +68,7 @@ const MonitoringProdcuct = () => {
             ByBrand: true,
             WarehouseTypeId: formikRef?.current?.values.warehouseTypeId,
             WarehouseId: +value,
-            ProductTypeId: currentSelectProductType,
+            ProductTypeId: formikRef?.current?.values.productTypeId,
         }
         filterTools.mutate(filter);
 
@@ -76,37 +79,9 @@ const MonitoringProdcuct = () => {
                 {({ values }) => {
                     return <>
                         <Box className="grid grid-cols-8 gap-x-8">
-                            <Box className="p-4 flex flex-col border border-r-2 rounded-md gap-y-2">
-                                <Button
-                                    className={`${currentSelectProductType == -1 ? "!bg-[#fcc615] !text-black" : ""
-                                        }`}
-                                    onClick={() => {
-                                        setCurrentSelectProductType(-1)
-                                        handleFilterProduct(-1)
-                                    }} >
-                                    <Typography className="px-2">کل محصولات</Typography>
-                                </Button>
-
-                                {productTypeTools?.data?.map((item: any, index: number) => {
-                                    return (
-                                        <Button key={index}
-                                            className={`${currentSelectProductType == item.id
-                                                ? "!bg-[#fcc615] !text-black"
-                                                : ""
-                                                }`}
-                                            onClick={() => {
-                                                setCurrentSelectProductType(item.id)
-                                                handleFilterProduct(item.id)
-
-                                            }}
-                                        >
-                                            <Typography className="px-2">{item.desc}</Typography>
-                                        </Button>
-                                    );
-                                })}
-                            </Box>
                             <Box className="flex flex-col col-span-6">
-                                <Box component="div" className="my-8">
+                                <Box component="div" className="my-8 flex flex-col space-y-4">
+                                    <FormikPeoductType name="productTypeId" label="نوع کالا" onChange={onFilterProductType} />
                                     <Form className="flex flex-col lg:flex-row gap-x-4">
                                         <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
                                         <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
