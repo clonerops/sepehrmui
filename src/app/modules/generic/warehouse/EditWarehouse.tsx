@@ -82,7 +82,7 @@ const EditWarehouse = (props: Props) => {
                     <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" boxClassName=" mt-2 md:mt-0" />
                     <Box component="div" className="mt-2 md:mt-0">
                       <ButtonComponent onClick={() => handleSubmit()}>
-                        <Typography className="px-2">
+                        <Typography className="px-2 text-white">
                           ویرایش
                         </Typography>
                       </ButtonComponent>
