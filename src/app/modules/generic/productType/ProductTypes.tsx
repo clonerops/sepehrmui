@@ -1,38 +1,27 @@
 import { useState, useEffect } from 'react'
-import { Box, Button, Typography } from "@mui/material"
-import { Formik, Form } from "formik"
-import { AddCircleOutline } from '@mui/icons-material'
-import * as Yup from 'yup'
+import { Box, Typography } from "@mui/material"
 
 import { IType } from "./_models"
-import { useDeleteTypes, useGetTypes, usePostTypes, useUpdateTypes } from './_hooks'
+import { useDeleteTypes, useGetTypes, useUpdateTypes } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
-import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
 import SwitchComponent from '../../../../_cloner/components/Switch'
-import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import EditGridButton from '../../../../_cloner/components/EditGridButton'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import ProductTypeForm from './ProductTypeForm'
-
-const initialValues = {
-  id: 0,
-  desc: ""
-}
-
-const validation = Yup.object({
-  desc: Yup.string().required("فیلد الزامی می باشد")
-})
+import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
+import { AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
+import CardWithIcons from '../../../../_cloner/components/CardWithIcons'
+import _ from 'lodash'
 
 const ProductTypes = () => {
   const { data: types, refetch, isLoading: TypeLoading } = useGetTypes()
-  const { mutate: postType } = usePostTypes()
   const { mutate: updateType } = useUpdateTypes()
   const { mutate: deleteType } = useDeleteTypes()
 
@@ -147,29 +136,32 @@ const ProductTypes = () => {
 
   return (
     <>
+      <Box className="flex flex-row gap-x-4 mb-4">
+        <CardWithIcons
+          title='تعداد نوع کالا های ثبت شده'
+          icon={<DesignServices className="text-white" />}
+          value={types?.data?.length}
+          iconClassName='bg-[#3322D8]' />
+        <CardWithIcons
+          title='تعداد نوع کالا ها در وضعیت فعال'
+          icon={<AddTask className="text-white" />}
+          value={_.filter(types?.data, 'isActive').length}
+          iconClassName='bg-[#369BFD]' />
+        <CardWithIcons
+          title='تعداد نوع کالا ها در وضعیت غیرفعال'
+          icon={<TextDecrease className="text-white" />}
+          value={_.filter(types?.data, (item) => !item.isActive).length}
+          iconClassName='bg-[#F8B30E]' />
+        <CardWithIcons
+          title='تعداد نوع کالا های ثبت امروز'
+          icon={<AdfScanner className="text-white" />}
+          value={0}
+          iconClassName='bg-[#EB5553]' />
+      </Box>
+
       <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
           <Box component="div" className=''>
-            {/* <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
-              async (values, { setStatus, setSubmitting, setFieldValue }) => {
-              }
-            }>
-              {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className='mb-4'>
-                  <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
-                    <FormikInput name="id" label="کد نوع کالا " disabled={true} boxClassName=" mt-2 md:mt-0" />
-                    <FormikInput name="desc" label="نوع کالا " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
-                    <Box component="div" className="mt-2 md:mt-0">
-                      <ButtonComponent onClick={() => handleSubmit()}>
-                        <Typography className="px-2">
-                          <AddCircleOutline />
-                        </Typography>
-                      </ButtonComponent>
-                    </Box>
-                  </Box>
-                </Form>
-              }}
-            </Formik> */}
             <Box className="md:flex md:justify-between md:items-center gap-x-4 space-y-2 mb-4">
               <Box component="div" className=''>
                 <FuzzySearch
@@ -182,9 +174,14 @@ const ProductTypes = () => {
                   setResults={setResults}
                 />
               </Box>
-              <Button onClick={() => setIsCreateOpen(true)} variant="contained" color="secondary">
-                  <Typography variant="h4">ایجاد نوع کالا</Typography >
-              </Button>
+              <Box component="div" className="mt-2 md:mt-0">
+                <ButtonComponent onClick={() => setIsCreateOpen(true)}>
+                  <Typography className="px-2 text-white">
+                    ایجاد نوع کالا
+                  </Typography>
+                </ButtonComponent>
+              </Box>
+
             </Box>
             <MuiDataGrid
               columns={columns(renderAction, renderSwitch)}
@@ -206,17 +203,17 @@ const ProductTypes = () => {
         </Box>
       </ReusableCard>
       <TransitionsModal
-                open={isCreateOpen}
-                isClose={() => setIsCreateOpen(false)}
-                title="ایجاد نوع کالا جدید"
-                width="50%"
-                description="برای ایجاد نوع کالا جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
-            >
-                <ProductTypeForm
-                    refetch={refetch}
-                    setIsCreateOpen={setIsCreateOpen}
-                />
-            </TransitionsModal>
+        open={isCreateOpen}
+        isClose={() => setIsCreateOpen(false)}
+        title="ایجاد نوع کالا جدید"
+        width="50%"
+        description="برای ایجاد نوع کالا جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
+      >
+        <ProductTypeForm
+          refetch={refetch}
+          setIsCreateOpen={setIsCreateOpen}
+        />
+      </TransitionsModal>
       <TransitionsModal
         open={isOpen}
         isClose={() => setIsOpen(false)}

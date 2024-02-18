@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Box, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
-import { AddCircleOutline } from '@mui/icons-material'
+import { AddCircleOutline, AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
 import * as Yup from 'yup'
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
@@ -16,6 +16,8 @@ import { useGetStates, usePostState, useUpdateState } from './_hooks'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import Backdrop from '../../../../_cloner/components/Backdrop'
+import CardWithIcons from '../../../../_cloner/components/CardWithIcons'
+import _ from 'lodash'
 
 const initialValues = {
   id: 0,
@@ -49,7 +51,7 @@ const ProductState = () => {
       }
       updateState(formData, {
         onSuccess: (response) => {
-          if(response.succeeded) {
+          if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
@@ -107,6 +109,29 @@ const ProductState = () => {
 
   return (
     <>
+      <Box className="flex flex-row gap-x-4 mb-4">
+        <CardWithIcons
+          title='تعداد حالت های ثبت شده'
+          icon={<DesignServices className="text-white" />}
+          value={state?.data?.length}
+          iconClassName='bg-[#3322D8]' />
+        <CardWithIcons
+          title='تعداد حالت ها در وضعیت فعال'
+          icon={<AddTask className="text-white" />}
+          value={_.filter(state?.data, 'isActive').length}
+          iconClassName='bg-[#369BFD]' />
+        <CardWithIcons
+          title='تعداد حالت ها در وضعیت غیرفعال'
+          icon={<TextDecrease className="text-white" />}
+          value={_.filter(state?.data, (item) => !item.isActive).length}
+          iconClassName='bg-[#F8B30E]' />
+        <CardWithIcons
+          title='تعداد حالت های ثبت امروز'
+          icon={<AdfScanner className="text-white" />}
+          value={0}
+          iconClassName='bg-[#EB5553]' />
+      </Box>
+
       <ReusableCard>
         <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
           <Box component="div">
@@ -118,13 +143,13 @@ const ProductState = () => {
                   }
                   postState(formData, {
                     onSuccess: (response: any) => {
-                      if(response.succeeded) {
+                      if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
                         refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
-                      }                        
+                      }
                     }
                   })
                 } catch (error) {
