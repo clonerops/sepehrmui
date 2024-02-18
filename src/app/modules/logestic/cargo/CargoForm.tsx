@@ -124,7 +124,8 @@ const CargoForm = () => {
 
     const onSubmit = (values: ICargo) => {
         try {
-            const formData: ICargo = { ...values, orderId: id, fareAmount: +values?.fareAmount}
+            const formData: ICargo = { ...values, orderId: id, fareAmount: values?.fareAmount.includes(',') ? +values?.fareAmount.replace(/,/g, "") : +values?.fareAmount}
+            console.log(JSON.stringify(formData))
             mutate(formData, {
                 onSuccess: (message) => {
                     if (message.succeeded) {
@@ -154,6 +155,7 @@ const CargoForm = () => {
 
     return (
         <>
+            {isLoading && <Backdrop loading={isLoading} />}
             <Box component="div" className={`grid grid-cols-1 md:grid-cols-5 gap-4 my-4`}>
                 {orderAndAmountInfoInCargo.map((item: {
                     title: string,

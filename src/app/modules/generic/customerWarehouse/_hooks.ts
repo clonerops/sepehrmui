@@ -1,30 +1,33 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
 import { ICustomerWarehouse } from "./_models"
+import { IWarehouseFilter } from "../warehouse/_models"
 
 const useGetCustomerWarehouses = () => {
-    return useQuery(['customerWarehouse'], () => api.getCustomerWarehouses(), {
-            refetchOnMount: false,
-            refetchOnWindowFocus: false,
-            refetchIntervalInBackground: false
+    return useQuery(['Warehouses'], () => api.getCustomerWarehouses(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
     })
 }
+
+const useGetCustomerWarehousesByFilter = () => {
+    return useMutation((filter: IWarehouseFilter) => {
+        return api.getCustomerWarehousesByFilter(filter)
+    })
+
+}
+
 
 const usePostCustomerWarehouses = () => {
     return useMutation((formData: ICustomerWarehouse) => {
         return api.postCustomerWarehouses(formData)
     })
 }
-const useGetCustomerWarehousesByProductId = (productId: string) => {
-    return useQuery(['customerWarehouse', productId], () => api.getCustomerWarehousesByProductId(productId))
-    // return useMutation((productId: string) => {
-    //     return api.getCustomerWarehousesByProductId(productId)
-    // })
-}
 
 
-const useGetCustomerWarehouse = (id: string) => {
-    return useQuery(['customerWarehouses', id], () => api.getCustomerWarehouse(id))
+const useGetCustomerWarehouse = (id: number) => {
+    return useQuery(['Warehouses', id], () => api.getCustomerWarehouse(id))
 }
 
 const useUpdateCustomerWarehouses = () => {
@@ -41,9 +44,9 @@ const useDeleteCustomerWarehouses = () => {
 
 export {
     useGetCustomerWarehouses,
-    useGetCustomerWarehousesByProductId,
     usePostCustomerWarehouses,
     useGetCustomerWarehouse,
     useUpdateCustomerWarehouses,
-    useDeleteCustomerWarehouses
+    useDeleteCustomerWarehouses,
+    useGetCustomerWarehousesByFilter
 }

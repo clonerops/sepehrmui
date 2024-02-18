@@ -1,10 +1,12 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig"
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
+import { IWarehouseFilter } from "../warehouse/_models";
 import { ICustomerWarehouse } from "./_models";
 
 const getCustomerWarehouses = async () => {
     try {
 
-        const { data } = await http.get('/v1/CustomerWarehouse')
+        const { data } = await http.get('/v1/Warehouse')
         return data;
 
     } catch (error: any) {
@@ -12,10 +14,10 @@ const getCustomerWarehouses = async () => {
     }
 }
 
-const getCustomerWarehousesByProductId = async (productId: string) => {
+const getCustomerWarehousesByFilter = async (filter: IWarehouseFilter) => {
     try {
 
-        const { data } = await http.get(`/v1/CustomerWarehouse?ProductId=${productId}`)
+        const { data } = await http.get(`${generateURLQueryParam('/v1/Warehouse', filter)}`)
         return data;
 
     } catch (error: any) {
@@ -27,7 +29,7 @@ const getCustomerWarehousesByProductId = async (productId: string) => {
 const postCustomerWarehouses = async (formData: ICustomerWarehouse) => {
     try {
 
-        const { data } = await http.post('/v1/CustomerWarehouse', JSON.stringify(formData))
+        const { data } = await http.post('/v1/Warehouse', JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -35,10 +37,10 @@ const postCustomerWarehouses = async (formData: ICustomerWarehouse) => {
     }
 }
 
-const getCustomerWarehouse = async (id: string) => {
+const getCustomerWarehouse = async (id: number) => {
     try {
 
-        const { data } = await http.get(`/v1/CustomerWarehouse/${id}`)
+        const { data } = await http.get(`/v1/Warehouse/${id}`)
         return data;
 
     } catch (error: any) {
@@ -49,7 +51,7 @@ const getCustomerWarehouse = async (id: string) => {
 const updateCustomerWarehouses = async (formData: ICustomerWarehouse) => {
     try {
 
-        const { data } = await http.put(`/v1/CustomerWarehouse/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/Warehouse/${formData.id}`, JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -60,7 +62,7 @@ const updateCustomerWarehouses = async (formData: ICustomerWarehouse) => {
 const deleteCustomerWarehouse = async (id: number) => {
     try {
 
-        const { data } = await http.delete(`/v1/CustomerWarehouse/${id}`)
+        const { data } = await http.delete(`/v1/Warehouse/${id}`)
         return data;
 
     } catch (error: any) {
@@ -70,9 +72,9 @@ const deleteCustomerWarehouse = async (id: number) => {
 
 export {
     getCustomerWarehouses,
-    getCustomerWarehousesByProductId,
     postCustomerWarehouses,
     getCustomerWarehouse,
     updateCustomerWarehouses,
-    deleteCustomerWarehouse
+    deleteCustomerWarehouse,
+    getCustomerWarehousesByFilter
 }

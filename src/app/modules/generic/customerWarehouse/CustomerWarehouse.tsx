@@ -48,16 +48,16 @@ const CustomerWarehouse = () => {
         warehouseId: Number(rowData.row.warehouseId),
         isActive: !rowData.row.isActive
       }
-      updateCustomerWarehouse(formData, {
-        onSuccess: (response) => {
-          if(response.succeeded) {
-            EnqueueSnackbar(response.message, "success")
-          } else {
-            EnqueueSnackbar(response.data.Message, "error")
-          }
-        refetch()
-        }
-      })
+      // updateCustomerWarehouse(formData, {
+      //   onSuccess: (response) => {
+      //     if(response.succeeded) {
+      //       EnqueueSnackbar(response.message, "success")
+      //     } else {
+      //       EnqueueSnackbar(response.data.Message, "error")
+      //     }
+      //   refetch()
+      //   }
+      // })
     } catch (e) {
       return e;
     }
@@ -147,17 +147,17 @@ const CustomerWarehouse = () => {
                       customerId: values.productId?.value,
                       warehouseId: Number(values.brandId)
                     }
-                    postCustomerWarehouse(formData, {
-                      onSuccess: (response: any) => {
-                        if(response.succeeded) {
-                          EnqueueSnackbar(response.message, "success")
-                          setFieldValue('id', response.data.id)
-                          refetch();
-                        } else {
-                          EnqueueSnackbar(response.data.Message, "warning")
-                        }                        
-  }
-                    })
+  //                   postCustomerWarehouse(formData, {
+  //                     onSuccess: (response: any) => {
+  //                       if(response.succeeded) {
+  //                         EnqueueSnackbar(response.message, "success")
+  //                         setFieldValue('id', response.data.id)
+  //                         refetch();
+  //                       } else {
+  //                         EnqueueSnackbar(response.data.Message, "warning")
+  //                       }                        
+  // }
+  //                   })
                   } catch (error) {
                     setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
                     setSubmitting(false);
@@ -171,7 +171,7 @@ const CustomerWarehouse = () => {
                       className="md:flex md:justify-start md:items-start gap-4 space-y-4 lg:space-y-0"
                     > 
                       <FormikCustomer name="customerId" label="مشتری" boxClassName="mt-2 md:mt-0" />
-                      <FormikWarehouse name='warehouseId' label="انبار" />
+                      <FormikWarehouse name='warehouseId' label="انبار" />ظ
                       <Box component="div" className="mt-2 md:mt-0">
                         <ButtonComponent onClick={() => handleSubmit()}>
                           <Typography className="px-2">
