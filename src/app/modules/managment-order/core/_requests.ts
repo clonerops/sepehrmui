@@ -97,11 +97,12 @@ const createPurchaserOrder = async (formData: IPurchaserOrder) => {
     }
 }
 
-const retrievePurchaserOrders = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[] }) => {
+const retrievePurchaserOrders = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[], IsNotTransferedToWarehouse?: boolean }) => {
     const filter = {
         pageNumber: formData.pageNumber,
         pageSize: formData.pageSize,
-        InvoiceTypeId: formData.InvoiceTypeId
+        InvoiceTypeId: formData.InvoiceTypeId,
+        IsNotTransferedToWarehouse: formData.IsNotTransferedToWarehouse
       };
     
     try {

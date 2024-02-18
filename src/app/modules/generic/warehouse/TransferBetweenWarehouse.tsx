@@ -19,6 +19,7 @@ const TransferBetweenWarehouse = () => {
     let formData = {
         pageNumber: currentPage,
         pageSize: pageSize,
+        IsNotTransferedToWarehouse: true
     };
 
     const { data: orders, isLoading, refetch } = useRetrievePurchaserOrders(formData);

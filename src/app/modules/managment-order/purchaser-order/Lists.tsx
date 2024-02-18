@@ -63,7 +63,6 @@ const PurchaserOrderList = () => {
                         "exitType",
                     ]}
                     data={orders?.data}
-                    threshold={0.5}
                     setResults={setResults}
                 />
             </Box>

@@ -33,7 +33,7 @@ const useGetOrderDetailByCode = () => useMutation((orderCode: number) => api.get
 
 // Purchase Order
 const useCreatePurchaserOrder = () => useMutation((formData: IPurchaserOrder) => api.createPurchaserOrder(formData))
-const useRetrievePurchaserOrders = (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number}) => {
+const useRetrievePurchaserOrders = (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number, IsNotTransferedToWarehouse?: boolean}) => {
     return useQuery(["purchaserOrders", formData], () => api.retrievePurchaserOrders(formData), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
