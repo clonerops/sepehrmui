@@ -112,7 +112,6 @@ const PurchaserOrder = () => {
                         }
                     })
                 };
-                console.log(JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
 

@@ -30,10 +30,3 @@ const SaleHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => 
 }
 
 export default memo(SaleHeaderBase)
-
-// , (prevProps: Readonly<IProps>, nextProps: Readonly<IProps>) => {
-//     console.log("header order props", prevProps.orders === nextProps.orders)
-//     console.log('"header postSaleOrder props"',prevProps.postSaleOrder === nextProps.postSaleOrder)
-//     console.log('"header orderServices props"',prevProps.orderServices === nextProps.orderServices)
-//     return true
-// }
