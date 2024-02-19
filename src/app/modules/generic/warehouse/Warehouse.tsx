@@ -34,7 +34,7 @@ const initialValues = {
 
 const Warehouse = () => {
   const { data: Warehouses, refetch, isLoading: WarehouseLoading } = useGetWarehouses()
-  const { mutate: postWarehouse } = usePostWarehouses()
+  const { mutate: postWarehouse, isLoading:postLoading } = usePostWarehouses()
   const { mutate: deleteWarehouse, isLoading: deleteLoading } = useDeleteWarehouses()
 
   const [results, setResults] = useState<IWarehouse[]>([]);
@@ -154,8 +154,11 @@ const Warehouse = () => {
     return <Backdrop loading={WarehouseLoading} />;
   }
 
+  console.log(Warehouses?.data)
+
   return (
     <>
+    {postLoading || deleteLoading && <Backdrop loading={postLoading || deleteLoading} />}
       <Box className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
           <Box component="div">
@@ -191,7 +194,6 @@ const Warehouse = () => {
                     "name",
                   ]}
                   data={Warehouses?.data}
-                  threshold={0.5}
                   setResults={setResults}
                 />
               </Box>
@@ -199,6 +201,7 @@ const Warehouse = () => {
                 columns={columns(renderAction)}
                 rows={results}
                 data={Warehouses?.data}
+                getRowId={(row: {id: number}) => row.id}
               />
             </Box>
           </Box>

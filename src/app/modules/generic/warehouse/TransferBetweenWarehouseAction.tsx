@@ -20,6 +20,7 @@ import FormikWarehouse from "../../../../_cloner/components/FormikWarehouse";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { renderAlertGoBack } from "../../../../_cloner/helpers/SweetAlertNavigateGoBack";
+import FormikWarehouseBasedOfCustomer from "../../../../_cloner/components/FormikWarehouseBasedOfCustomer";
 interface IProps {
 }
 
@@ -179,7 +180,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                                 <Typography variant="h3" className="text-red-500">نکته:</Typography>
                                 <Typography variant="h4" >کالا های سفارش در انباری که انتخاب می کنید قرار می گیرند</Typography>
                                 <Box className="mt-4">
-                                    <FormikWarehouse name="warehouseId" label="انبار" />
+                                    <FormikWarehouseBasedOfCustomer name="warehouseId" label="انبار" customerId={data?.data?.customer?.id} />
                                 </Box>
                             </ReusableCard>
                             <ReusableCard cardClassName="flex justify-center items-center">

@@ -17,7 +17,7 @@ type Props = {
 };
 
 const MuiDataGrid = (props: Props) => {
-    const { columns, rows, isLoading, data, width, height, maxVisibleRows = 12, customRowStyle, onDoubleClick, onCellEditCommit  } = props;
+    const { columns, rows, isLoading, data, width, height, getRowId, maxVisibleRows = 12, customRowStyle, onDoubleClick, onCellEditCommit  } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
@@ -63,7 +63,8 @@ const MuiDataGrid = (props: Props) => {
                 }}
                 rows={uniqueData ? uniqueData : []}
                 columns={columns}
-                getRowId={getRowIdFunc}
+                getRowId={getRowId ? getRowId :getRowIdFunc}
+                // getRowId={(row) => row.id}
                 rowHeight={42}
                 pageSize={data?.length}
                 hideFooter={false} 
