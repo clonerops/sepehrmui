@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
 import { IOrder } from "../../managment-order/core/_models";
-import { useRetrievePurchaserOrders } from "../../managment-order/core/_hooks";
+import { useRetrievePurchaserOrders, useRetrievePurchaserOrdersByMutation } from "../../managment-order/core/_hooks";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import { purchaserOrderListsForBetweenWarehouseColumns } from "./_columns";
 
@@ -22,14 +22,29 @@ const TransferBetweenWarehouse = () => {
         IsNotTransferedToWarehouse: true
     };
 
-    const { data: orders, isLoading, refetch } = useRetrievePurchaserOrders(formData);
+    // const { data: orders, isLoading, refetch } = useRetrievePurchaserOrders(formData);
+    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
+
+    const renderOrders = (IsNotTransferedToWarehouse=true) => {
+        let formData = {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+            IsNotTransferedToWarehouse: IsNotTransferedToWarehouse
+        }
+
+        mutate(formData)
+    }
 
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
-        setResults(orders?.data);
-        refetch()
-    }, [orders?.data]);
+        mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+        // refetch()
+    }, []);
 
     const renderAction = (item: any) => {
         return (
@@ -53,24 +68,34 @@ const TransferBetweenWarehouse = () => {
     return (
         <>
             <ReusableCard>
-                <Box component="div" className="w-auto md:w-[40%] mb-4">
-                    <FuzzySearch
-                        keys={[
-                            "orderCode",
-                            "registerDate",
-                            "customerFirstName",
-                            "customerLastName",
-                            "orderSendTypeDesc",
-                            "paymentTypeDesc",
-                            "invoiceTypeDesc",
-                            "isTemporary",
-                            "totalAmount",
-                            "exitType",
-                        ]}
-                        data={orders?.data}
-                        threshold={0.5}
-                        setResults={setResults}
-                    />
+                <Box component="div" className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between items-center mb-4">
+                    <Box className="w-full lg:w-[50%]">
+                        <FuzzySearch
+                            keys={[
+                                "orderCode",
+                                "registerDate",
+                                "customerFirstName",
+                                "customerLastName",
+                                "orderSendTypeDesc",
+                                "paymentTypeDesc",
+                                "invoiceTypeDesc",
+                                "isTemporary",
+                                "totalAmount",
+                                "exitType",
+                            ]}
+                            data={orders?.data}
+                            threshold={0.5}
+                            setResults={setResults}
+                        />
+                    </Box>
+                    <Box className="flex flex-col lg:flex-row gap-4">
+                        <Button onClick={() => renderOrders(true)} variant="contained" className="!bg-pink-800">
+                            <Typography>سفارشات آماده انتقال</Typography>
+                        </Button>
+                        <Button onClick={() => renderOrders(false)} variant="contained" className="!bg-sky-800">
+                            <Typography>سفارشات انتقال داده شده</Typography>
+                        </Button>
+                    </Box>
                 </Box>
                 <MuiDataGrid
                     columns={purchaserOrderListsForBetweenWarehouseColumns(

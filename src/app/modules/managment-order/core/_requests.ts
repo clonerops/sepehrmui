@@ -122,12 +122,13 @@ const retrievePurchaserOrder = async (id: string | undefined) => {
     }
 }
 
-const retrievePurchaserOrdersMutation = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number }) => {
+const retrievePurchaserOrdersMutation = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number, IsNotTransferedToWarehouse?: boolean }) => {
     const filter = {
         pageNumber: formData.pageNumber,
         pageSize: formData.pageSize,
         InvoiceTypeId: formData.InvoiceTypeId,
         OrderStatusId: formData.OrderStatusId,
+        IsNotTransferedToWarehouse: formData.IsNotTransferedToWarehouse
       };
 
     try {
