@@ -12,7 +12,7 @@ const FormikWarehouseBasedOfCustomer = (props: any) => {
     }, [props.customerId])
     return (
         <FormikSelect
-        options={dropdownWarehouses(data?.data)}
+        options={dropdownWarehouses(data?.data?.data)}
         {...props} />
     )
 }

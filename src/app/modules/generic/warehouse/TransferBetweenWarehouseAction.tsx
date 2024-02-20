@@ -144,7 +144,6 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
     if (isLoading) {
         return <Typography>در حال بارگزاری</Typography>;
     }
-
     return (
         <>
             <Box
