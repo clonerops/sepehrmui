@@ -100,7 +100,7 @@ const Warehouse = () => {
       },
       {
         field: 'customerName', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value ? params.value : "ثبت نشده"}</Typography>;
+          return <Typography variant="h4">{params.value ? params.value : <Typography variant="h4" className="text-fuchsia-700 border-2 border-dashed px-4 py-1 border-fuchsia-700">ثبت نشده</Typography>}</Typography>;
         },
         headerName: 'مشتری ثبت شده', headerClassName: "headerClassName", minWidth: 120,
         flex: 1,

@@ -39,16 +39,15 @@ type Props = {
 const EditWarehouse = (props: Props) => {
   const { mutate: updateWarehouse } = useUpdateWarehouses()
   const detailTools = useGetWarehouse(props.id)
-  
+  console.log(detailTools?.data?.data?.customerId)
   const onUpdate = (values: any) => {
     try {
       const formData = {
         id: values.id,
         name: values.name,
         warehouseTypeId: values.warehouseTypeId,
-        customerId: values.customerId.value
+        customerId: values.customerId.value ? values.customerId.value : detailTools?.data?.data?.customerId
       }
-
       updateWarehouse(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
