@@ -91,7 +91,8 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
 
 
     return (
-        <ReusableCard>
+        // <ReusableCard>
+        <ReusableCard cardClassName="bg-gradient-to-r from-gray-100">
             <Typography variant="h2" color="primary">
                 تسویه حساب
             </Typography>

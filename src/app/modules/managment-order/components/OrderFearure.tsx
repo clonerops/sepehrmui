@@ -47,7 +47,8 @@ const orderFeatureRenderFields = (
 const OrderFeature:FC<IProps> = ({postOrder}) => {
 
     return (
-    <ReusableCard>
+    // <ReusableCard>
+    <ReusableCard cardClassName='bg-gradient-to-r from-gray-100'>
     <Box component="div" className="">
         <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
         {orderFeatureFields.map((rowFields, index) => (

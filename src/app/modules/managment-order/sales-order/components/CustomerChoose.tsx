@@ -64,8 +64,9 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
     return (
         <>
             {detailCustomer.isLoading && <Backdrop loading={detailCustomer.isLoading} />}
-            <Box component="div" className="grid grid-cols-2 gap-4">
-                <ReusableCard cardClassName="col-span-2">
+            <Box component="div" className="grid grid-cols-2 gap-4 ">
+                {/* <ReusableCard cardClassName="col-span-2"> */}
+                <ReusableCard cardClassName="bg-gradient-to-r from-gray-100 col-span-2">
                     <Box component="div" className="">
                         <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
                             <FormikCustomer

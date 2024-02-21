@@ -114,7 +114,8 @@ const SalesOrder = () => {
                         </Box>
 
                         <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
-                            <ReusableCard cardClassName="col-span-3">
+                            {/* <ReusableCard cardClassName="col-span-3"> */}
+                            <ReusableCard cardClassName="col-span-3 bg-gradient-to-r from-gray-100">
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
                                     products={products}
