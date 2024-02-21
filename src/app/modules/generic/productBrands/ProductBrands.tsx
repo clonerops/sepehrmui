@@ -27,8 +27,8 @@ const initialValues: any = {
 
 const ProductBrands = () => {
   const { data: productBrands, refetch, isLoading: productBrandLoading } = useGetProductBrands();
-  const { mutate: postProductBrand } = usePostProductBrands();
-  const { mutate: updateProductBrand } = useUpdateProductBrands();
+  const { mutate: postProductBrand, isLoading: postLoading } = usePostProductBrands();
+  const { mutate: updateProductBrand, isLoading: updateLoading } = useUpdateProductBrands();
 
   const [results, setResults] = useState<IProductBrand[]>([]);
 
@@ -90,7 +90,7 @@ const ProductBrands = () => {
         },
         headerClassName:
           "headerClassName",
-        minWidth: 120,
+        minWidth: 180,
         flex: 1,
       },
       {
@@ -133,6 +133,7 @@ const ProductBrands = () => {
   }
   return (
     <>
+      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
       <Box className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
           <Box component="div">
