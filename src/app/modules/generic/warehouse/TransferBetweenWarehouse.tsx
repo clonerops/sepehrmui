@@ -22,14 +22,14 @@ const TransferBetweenWarehouse = () => {
         IsNotTransferedToWarehouse: true
     };
 
-    // const { data: orders, isLoading, refetch } = useRetrievePurchaserOrders(formData);
     const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
 
     const renderOrders = (IsNotTransferedToWarehouse=true) => {
         let formData = {
             pageNumber: currentPage,
             pageSize: pageSize,
-            IsNotTransferedToWarehouse: IsNotTransferedToWarehouse
+            IsNotTransferedToWarehouse: IsNotTransferedToWarehouse,
+            OrderStatusId: IsNotTransferedToWarehouse ? null : 4
         }
 
         mutate(formData)
