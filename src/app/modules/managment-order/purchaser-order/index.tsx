@@ -140,7 +140,15 @@ const PurchaserOrder = () => {
 
     return (
         <>
-            <Formik enableReinitialize innerRef={formikRef} initialValues={saleOrderInitialValues} onSubmit={onSubmit} validationSchema={saleOrderValidation}>
+            <Formik 
+                enableReinitialize 
+                validateOnChange={false}
+                validateOnBlur={true}
+                validateOnMount={true}
+                innerRef={formikRef} 
+                initialValues={saleOrderInitialValues} 
+                onSubmit={onSubmit} 
+                validationSchema={saleOrderValidation}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
                         {/*The design of the header section of the order module includes order information and customer information */}

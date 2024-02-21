@@ -10,6 +10,7 @@ import { IOrder } from "../../managment-order/core/_models";
 import { useRetrievePurchaserOrders, useRetrievePurchaserOrdersByMutation } from "../../managment-order/core/_hooks";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import { purchaserOrderListsForBetweenWarehouseColumns } from "./_columns";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const pageSize = 20;
 
@@ -24,15 +25,19 @@ const TransferBetweenWarehouse = () => {
 
     const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
 
-    const renderOrders = (IsNotTransferedToWarehouse=true) => {
+    const renderOrders = (isNotTransferedToWarehouse=true) => {
         let formData = {
             pageNumber: currentPage,
             pageSize: pageSize,
-            IsNotTransferedToWarehouse: IsNotTransferedToWarehouse,
-            OrderStatusId: IsNotTransferedToWarehouse ? null : 4
+            IsNotTransferedToWarehouse: !isNotTransferedToWarehouse ? null : true ,
+            PurchaseOrderStatusId: isNotTransferedToWarehouse ? null : 4
         }
 
-        mutate(formData)
+        mutate(formData,{
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
     }
 
     const [results, setResults] = useState<IOrder[]>([]);
@@ -84,15 +89,25 @@ const TransferBetweenWarehouse = () => {
                                 "exitType",
                             ]}
                             data={orders?.data}
-                            threshold={0.5}
                             setResults={setResults}
                         />
                     </Box>
                     <Box className="flex flex-col lg:flex-row gap-4">
-                        <Button onClick={() => renderOrders(true)} variant="contained" className="!bg-pink-800">
+                        <Button onClick={() => renderOrders(true)
+                        //  {
+                        //     setIsNotTransferedToWarehouse(false)
+                        //     renderOrders()
+                        // }
+                        } variant="contained" className={"!bg-pink-800"}>
                             <Typography>سفارشات آماده انتقال</Typography>
                         </Button>
-                        <Button onClick={() => renderOrders(false)} variant="contained" className="!bg-sky-800">
+                        <Button onClick={() => renderOrders(false)
+                                
+                        // {
+                        //     setIsNotTransferedToWarehouse(true)
+                        //     renderOrders()
+                        // }
+                        } variant="contained" className={"!bg-sky-800" }>
                             <Typography>سفارشات انتقال داده شده</Typography>
                         </Button>
                     </Box>

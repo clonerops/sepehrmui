@@ -101,6 +101,9 @@ const SalesOrder = () => {
         <>
             <Formik
                 enableReinitialize
+                validateOnChange={false}
+                validateOnBlur={true}
+                validateOnMount={true}
                 innerRef={formikRef}
                 initialValues={saleOrderInitialValues}
                 onSubmit={onSubmit}
