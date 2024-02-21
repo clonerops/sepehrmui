@@ -1,4 +1,4 @@
-import React, { FC, memo, useEffect, useState } from "react";
+import React, { FC, memo, useCallback, useEffect, useState } from "react";
 import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
@@ -93,7 +93,7 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
     }, [])
 
 
-    const handleSelectProduct = (newSelectionModel: any) => {
+    const handleSelectProduct = useCallback((newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
         setProductData((prevState) => ({
             ...prevState,
@@ -113,10 +113,10 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
         } else {
             alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
         }
-    };
+    }, [productData.selectedProduct, productData.selectionModel]);
 
 
-    const renderAction = (indexToDelete: any) => {
+    const renderAction = useCallback((indexToDelete: any) => {
         return (
             <>
                 <DeleteGridButton
@@ -135,7 +135,7 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
                 />
             </>
         );
-    };
+    }, [productData.selectedProduct]);
 
     const renderInput = (params: any) => {
         const productId = params.row.id;
