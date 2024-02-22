@@ -100,7 +100,7 @@ const ProductInventories = () => {
                         </Form>
                     }}
                 </Formik>
-                <Box component="div" className="mb-4">
+                <Box component="div" className="mb-4 lg:w-[50%] w-full">
                     <FuzzySearch
                         keys={[
                             "productCode",

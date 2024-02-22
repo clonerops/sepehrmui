@@ -17,6 +17,7 @@ import { dropdownWarehouseType } from "../../helpers/dropdowns";
 import { useGetProductTypes, useGetWarehouseTypes } from "../../../generic/_hooks";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
 import { useGetProductList } from "../../../generic/products/_hooks";
+import SearchBackendInput from "../../../../../_cloner/components/SearchBackendInput";
 
 interface IProps {
     setOrders?: any
@@ -51,6 +52,7 @@ interface IFilter {
     WarehouseId?: number
     WarehouseTypeId?: number
     ProductTypeId?: number
+    ProductName?: string
     PageNumber?: number
     PageSize?: number
 }
@@ -59,6 +61,7 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
     const filterTools = useGetProductList();
     const warehouseTypeTools = useGetWarehouseTypes();
     const productTypeTools = useGetProductTypes();
+    const [searchTerm, setSearchTerm] = useState<any>("")
 
     const { data: units } = useGetUnits();
 
@@ -91,6 +94,20 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
     useEffect(() => {
         handleFilterProduct(currentFilter)
     }, [])
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            const filter = {
+                ...currentFilter,
+                ProductName : searchTerm
+            }
+            filterTools.mutate(filter);
+    
+        }, 1000)
+    
+        return () => clearTimeout(delayDebounceFn)
+      }, [searchTerm])
+
 
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
@@ -363,12 +380,13 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
             </Box>
             <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
                 <Box component="div">
+                    <Box className="my-2">
+                        <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
+                    </Box>
                     <MuiDataGrid
                         onDoubleClick={handleSelectProduct}
                         columns={columnsModalProduct()}
                         isLoading={filterTools.isLoading}
-                        // rows={results}
-                        // data={productData.filteredTabs}
                         rows={filterTools?.data?.data}
                         data={filterTools?.data?.data}
                         height={400}
