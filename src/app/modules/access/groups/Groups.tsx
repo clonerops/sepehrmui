@@ -44,6 +44,7 @@ const RoleGroups = () => {
 
   return (
     <>
+    {deleteGroup.isLoading && <Backdrop loading={deleteGroup.isLoading} />}
       <Box component="div" className="flex justify-end mb-4">
           <Button onClick={() => setIsCreateOpen(true)} color="secondary" variant="contained">
             <Typography>ایجاد گروه جدید</Typography>

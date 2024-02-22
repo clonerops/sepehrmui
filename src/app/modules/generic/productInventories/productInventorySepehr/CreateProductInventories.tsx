@@ -8,6 +8,7 @@ import FormikInput from "../../../../../_cloner/components/FormikInput"
 import FormikAmount from "../../../../../_cloner/components/FormikAmount"
 import { useIncraseInventory } from "../_hooks"
 import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar"
+import Backdrop from "../../../../../_cloner/components/Backdrop"
 
 const initialValues = {
     inventory: "",
@@ -31,6 +32,7 @@ const CreateProductInventories = (props: Props) => {
     
     return (
         <>
+        {increseInventoryMethode.isLoading && <Backdrop loading={increseInventoryMethode.isLoading} />}
             <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
                     try {

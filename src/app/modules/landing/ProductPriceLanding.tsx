@@ -6,9 +6,10 @@ import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { useRetrieveProductsByType } from "../generic/products/_hooks";
 import { columnsProductPriceDashboard } from "../generic/productPrices/_columns";
+import Backdrop from "../../../_cloner/components/Backdrop";
 
 const ProductPriceLanding = () => {
-    const { data: productsByType } = useRetrieveProductsByType();
+    const { data: productsByType, isLoading } = useRetrieveProductsByType();
 
     const [results, setResults] = useState<any>([]);
 
@@ -45,6 +46,7 @@ const ProductPriceLanding = () => {
                         columns={columnsProductPriceDashboard(renderAction)}
                         rows={results[index]}
                         data={i.products}
+                        isLoading={isLoading}
                     />
                 </Box>
             ),
@@ -52,6 +54,7 @@ const ProductPriceLanding = () => {
     });
     return (
         <>
+            {isLoading && <Backdrop loading={isLoading} />}
             <Box component="div" className="flex flex-col">
                 <ReusableTabComponent tabs={tabs} />
             </Box>

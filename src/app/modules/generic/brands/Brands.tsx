@@ -30,8 +30,8 @@ const validation = Yup.object({
 
 const Brands = () => {
     const { data: brands, refetch, isLoading: brandLoading } = useGetBrands();
-    const { mutate: postBrand } = usePostBrands();
-    const { mutate: updateBrand } = useUpdateBrands();
+    const { mutate: postBrand, isLoading: postLoading } = usePostBrands();
+    const { mutate: updateBrand, isLoading: updateLoading } = useUpdateBrands();
     // const { mutate: deleteBrand } = useDeleteBrands();
 
     const [results, setResults] = useState<IBrand[]>([]);
@@ -63,11 +63,11 @@ const Brands = () => {
             };
             updateBrand(formData, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
-                      } else {
+                    } else {
                         EnqueueSnackbar(response.data.Message, "error")
-                      }
+                    }
                     refetch()
                 },
             });
@@ -76,7 +76,7 @@ const Brands = () => {
         }
     };
 
-    const columns = ( renderSwitch: any) => {
+    const columns = (renderSwitch: any) => {
         const col = [
             {
                 field: "id",
@@ -132,26 +132,27 @@ const Brands = () => {
     }
 
     return (
-        <>  
+        <>
+            {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
             <Box className="flex flex-row gap-x-4 mb-4">
-                <CardWithIcons 
-                    title='تعداد برند های ثبت شده' 
-                    icon={<DesignServices className="text-white" />} 
+                <CardWithIcons
+                    title='تعداد برند های ثبت شده'
+                    icon={<DesignServices className="text-white" />}
                     value={brands?.data?.length}
                     iconClassName='bg-[#3322D8]' />
-                <CardWithIcons 
-                    title='تعداد سرویس ها در وضعیت فعال' 
-                    icon={<AddTask className="text-white" />} 
+                <CardWithIcons
+                    title='تعداد سرویس ها در وضعیت فعال'
+                    icon={<AddTask className="text-white" />}
                     value={_.filter(brands?.data, 'isActive').length}
                     iconClassName='bg-[#369BFD]' />
-                <CardWithIcons 
-                    title='تعداد سرویس ها در وضعیت غیرفعال' 
-                    icon={<TextDecrease className="text-white" />} 
+                <CardWithIcons
+                    title='تعداد سرویس ها در وضعیت غیرفعال'
+                    icon={<TextDecrease className="text-white" />}
                     value={_.filter(brands?.data, (item) => !item.isActive).length}
                     iconClassName='bg-[#F8B30E]' />
-                <CardWithIcons 
-                    title='تعداد سرویس های ثبت امروز' 
-                    icon={<AdfScanner className="text-white" />} 
+                <CardWithIcons
+                    title='تعداد سرویس های ثبت امروز'
+                    icon={<AdfScanner className="text-white" />}
                     value={0}
                     iconClassName='bg-[#EB5553]' />
             </Box>
@@ -159,97 +160,97 @@ const Brands = () => {
             <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <ReusableCard>
                     <Box component="div">
-                            <Formik
-                                initialValues={initialValues}
-                                validationSchema={validation}
-                                onSubmit={async (
-                                    values,
-                                    { setStatus, setSubmitting, setFieldValue }
-                                ) => {
-                                    try {
-                                        const formData = {
-                                            name: values.name,
-                                        };
-                                        postBrand(formData, {
-                                            onSuccess: (response) => {
-                                                if(response.succeeded) {
-                                                    EnqueueSnackbar(response.message, "success")
-                                                    setFieldValue('id', response.data.id)
-                                                    refetch();
-                                                } else {
-                                                    EnqueueSnackbar(response.data.Message, "warning")
-                                                }                        
-                                            },
-                                        });
-                                    } catch (error) {
-                                        setStatus("اطلاعات ثبت برند نادرست می باشد");
-                                        setSubmitting(false);
-                                    }
-                                }}
-                            >
-                                {({ handleSubmit }) => {
-                                    return (
-                                        <Form
-                                            onSubmit={handleSubmit}
-                                            className="mb-4"
+                        <Formik
+                            initialValues={initialValues}
+                            validationSchema={validation}
+                            onSubmit={async (
+                                values,
+                                { setStatus, setSubmitting, setFieldValue }
+                            ) => {
+                                try {
+                                    const formData = {
+                                        name: values.name,
+                                    };
+                                    postBrand(formData, {
+                                        onSuccess: (response) => {
+                                            if (response.succeeded) {
+                                                EnqueueSnackbar(response.message, "success")
+                                                setFieldValue('id', response.data.id)
+                                                refetch();
+                                            } else {
+                                                EnqueueSnackbar(response.data.Message, "warning")
+                                            }
+                                        },
+                                    });
+                                } catch (error) {
+                                    setStatus("اطلاعات ثبت برند نادرست می باشد");
+                                    setSubmitting(false);
+                                }
+                            }}
+                        >
+                            {({ handleSubmit }) => {
+                                return (
+                                    <Form
+                                        onSubmit={handleSubmit}
+                                        className="mb-4"
+                                    >
+                                        <Box
+                                            component="div"
+                                            className="md:flex md:justify-start md:items-start gap-x-4"
                                         >
-                                            <Box
-                                                component="div"
-                                                className="md:flex md:justify-start md:items-start gap-x-4"
-                                            >
-                                                <FormikInput
-                                                    name="id"
-                                                    label="کد برند"
-                                                    disabled={true}
-                                                    boxClassName="mt-2 md:mt-0"
-                                                />
-                                                <FormikInput
-                                                    name="name"
-                                                    label="نام برند"
-                                                    boxClassName="mt-2 md:mt-0"
-                                                    autoFocus={true}
-                                                />
-                                                <Box component="div" className="mt-2 md:mt-0">
-                                                    <ButtonComponent
-                                                        onClick={() => handleSubmit()}
-                                                    >
-                                                        <Typography className="px-2">
-                                                            <AddCircleOutline />
-                                                        </Typography>
-                                                    </ButtonComponent>
-                                                </Box>
+                                            <FormikInput
+                                                name="id"
+                                                label="کد برند"
+                                                disabled={true}
+                                                boxClassName="mt-2 md:mt-0"
+                                            />
+                                            <FormikInput
+                                                name="name"
+                                                label="نام برند"
+                                                boxClassName="mt-2 md:mt-0"
+                                                autoFocus={true}
+                                            />
+                                            <Box component="div" className="mt-2 md:mt-0">
+                                                <ButtonComponent
+                                                    onClick={() => handleSubmit()}
+                                                >
+                                                    <Typography className="px-2">
+                                                        <AddCircleOutline />
+                                                    </Typography>
+                                                </ButtonComponent>
                                             </Box>
-                                        </Form>
-                                    );
-                                }}
-                            </Formik>
-                            <Box component="div" className="mb-4">
-                                <FuzzySearch
-                                    keys={["id", "name"]}
-                                    data={brands?.data}
-                                    threshold={0.5}
-                                    setResults={setResults}
-                                />
-                            </Box>
-                            <MuiDataGrid
-                                columns={columns(renderSwitch)}
-                                rows={results}
+                                        </Box>
+                                    </Form>
+                                );
+                            }}
+                        </Formik>
+                        <Box component="div" className="mb-4">
+                            <FuzzySearch
+                                keys={["id", "name"]}
                                 data={brands?.data}
+                                threshold={0.5}
+                                setResults={setResults}
                             />
+                        </Box>
+                        <MuiDataGrid
+                            columns={columns(renderSwitch)}
+                            rows={results}
+                            data={brands?.data}
+                        />
 
                     </Box>
                 </ReusableCard>
                 <ReusableCard cardClassName="hidden md:flex md:justify-center md:items-center">
                     <Box component="div">
-                            <Box
-                                component="div"
-                            >
-                                <Box component="img"
-                                    src={toAbsoulteUrl("/media/logos/8595513.jpg")}
-                                    width={400}
-                                />
-                            </Box>
+                        <Box
+                            component="div"
+                        >
+                            <Box component="img"
+                                src={toAbsoulteUrl("/media/logos/8595513.jpg")}
+                                width={400}
+                            />
                         </Box>
+                    </Box>
                 </ReusableCard>
             </Box>
         </>

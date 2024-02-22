@@ -31,8 +31,8 @@ const validation = Yup.object({
 
 const ProductState = () => {
   const { data: state, refetch, isLoading: StateLoading } = useGetStates()
-  const { mutate: postState } = usePostState()
-  const { mutate: updateState } = useUpdateState()
+  const { mutate: postState, isLoading: postLoading } = usePostState()
+  const { mutate: updateState, isLoading: updateLoading } = useUpdateState()
 
   const [results, setResults] = useState<IState[]>([]);
 
@@ -109,6 +109,7 @@ const ProductState = () => {
 
   return (
     <>
+      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
       <Box className="flex flex-row gap-x-4 mb-4">
         <CardWithIcons
           title='تعداد حالت های ثبت شده'

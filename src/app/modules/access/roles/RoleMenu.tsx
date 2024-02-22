@@ -104,6 +104,7 @@ const RoleMenu = () => {
                                     columns={columns(renderActions)}
                                     rows={results}
                                     data={roleTools?.data}
+                                    isLoading={roleTools.isLoading}
                                 />
                             </Box>
                         </Container>

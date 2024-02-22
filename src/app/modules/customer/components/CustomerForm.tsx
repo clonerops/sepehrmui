@@ -43,7 +43,7 @@ const CustomerForm = (props: {
     // ) => Promise<QueryObserverResult<any, unknown>>;
     refetch?: any;
 }) => {
-    const { mutate } = useCreateCustomer();
+    const { mutate, isLoading: postLoading } = useCreateCustomer();
     const updateTools = useUpdateCustomer();
     const detailTools = useGetCustomer();
     const { data: customerValidityData } = useGetCustomerValidities();
@@ -242,8 +242,8 @@ const CustomerForm = (props: {
     
     return (
         <>
-            {updateTools.isLoading && (
-                <Backdrop loading={updateTools.isLoading} />
+            {updateTools.isLoading || postLoading && (
+                <Backdrop loading={updateTools.isLoading || postLoading} />
             )}
             <Formik
                 enableReinitialize

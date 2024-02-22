@@ -18,6 +18,7 @@ import { useCreateProduct, useRetrieveProduct, useUpdateProduct } from "./_hooks
 import { IProducts } from "./_models";
 import { createProductValidations } from "./_validations";
 import { dropdownUnit } from "../productUnit/convertDropdown";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const initialValues = {
     productName: "",
@@ -45,7 +46,7 @@ const ProductForm = (props: {
     ) => Promise<QueryObserverResult<any, unknown>>;
 }) => {
     // Fetchig
-    const { mutate } = useCreateProduct();
+    const { mutate, isLoading: postLoading } = useCreateProduct();
     const { data: productUnit } = useGetUnits();
     const updateTools = useUpdateProduct();
     const detailTools = useRetrieveProduct()
@@ -86,7 +87,7 @@ const ProductForm = (props: {
             },
         ],
         [
-           
+
             {
                 label: "نرخ تبدیل",
                 name: "exchangeRate",
@@ -164,14 +165,14 @@ const ProductForm = (props: {
         try {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-    
+
                 },
             });
 
@@ -184,7 +185,7 @@ const ProductForm = (props: {
         try {
             return mutate(values, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
@@ -217,6 +218,7 @@ const ProductForm = (props: {
 
     return (
         <>
+            {postLoading || updateTools.isLoading && <Backdrop loading={postLoading || updateTools.isLoading} />}
             <Formik
                 initialValues={
                     isNew

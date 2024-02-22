@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Box, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
-import { AddCircleOutline, AddTask, AdfScanner, DesignServices, PlusOne, TextDecrease } from '@mui/icons-material'
+import { AddCircleOutline, AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
 import * as Yup from 'yup'
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
@@ -13,7 +13,6 @@ import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 
 import { IService } from "./_models"
 import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import CardWithIcons from '../../../../_cloner/components/CardWithIcons'
@@ -30,8 +29,8 @@ const validation = Yup.object({
 
 const ProductService = () => {
   const { data: Services, refetch, isLoading: ServiceLoading } = useGetServices()
-  const { mutate: postService } = usePostServices()
-  const { mutate: updateService } = useUpdateServices()
+  const { mutate: postService, isLoading: postLoading } = usePostServices()
+  const { mutate: updateService, isLoading: updateLoading } = useUpdateServices()
 
   const [results, setResults] = useState<IService[]>([]);
 
@@ -49,7 +48,7 @@ const ProductService = () => {
       }
       updateService(formData, {
         onSuccess: (response) => {
-          if(response.succeeded) {
+          if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
@@ -107,8 +106,9 @@ const ProductService = () => {
 
   return (
     <>
-    <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4">
-      <ReusableCard cardClassName='order-2 lg:order-1'>
+      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
+      <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4">
+        <ReusableCard cardClassName='order-2 lg:order-1'>
           <Box component="div">
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
@@ -118,13 +118,13 @@ const ProductService = () => {
                   }
                   postService(formData, {
                     onSuccess: (response: any) => {
-                      if(response.succeeded) {
+                      if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
                         refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
-                      }                        
+                      }
                     }
                   })
                 } catch (error) {
@@ -164,30 +164,30 @@ const ProductService = () => {
               data={Services?.data}
             />
           </Box>
-      </ReusableCard>
-      <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:h-[240px] order-1 lg:order-2">
-        <CardWithIcons 
-            title='تعداد سرویس های ثبت شده' 
-            icon={<DesignServices className="text-white" />} 
+        </ReusableCard>
+        <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:h-[240px] order-1 lg:order-2">
+          <CardWithIcons
+            title='تعداد سرویس های ثبت شده'
+            icon={<DesignServices className="text-white" />}
             value={Services?.data?.length}
             iconClassName='bg-[#3322D8]' />
-        <CardWithIcons 
-            title='تعداد سرویس ها در وضعیت فعال' 
-            icon={<AddTask className="text-white" />} 
+          <CardWithIcons
+            title='تعداد سرویس ها در وضعیت فعال'
+            icon={<AddTask className="text-white" />}
             value={_.filter(Services?.data, 'isActive').length}
             iconClassName='bg-[#369BFD]' />
-          <CardWithIcons 
-            title='تعداد سرویس ها در وضعیت غیرفعال' 
-            icon={<TextDecrease className="text-white" />} 
+          <CardWithIcons
+            title='تعداد سرویس ها در وضعیت غیرفعال'
+            icon={<TextDecrease className="text-white" />}
             value={_.filter(Services?.data, (item) => !item.isActive).length}
             iconClassName='bg-[#F8B30E]' />
-          <CardWithIcons 
-            title='تعداد سرویس های ثبت امروز' 
-            icon={<AdfScanner className="text-white" />} 
+          <CardWithIcons
+            title='تعداد سرویس های ثبت امروز'
+            icon={<AdfScanner className="text-white" />}
             value={0}
             iconClassName='bg-[#EB5553]' />
+        </Box>
       </Box>
-    </Box>
     </>
   )
 }

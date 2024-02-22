@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { ISuppliers } from "./_models";
 import moment from "moment-jalaali";
 import { useRetrieveProducts } from "../products/_hooks";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 const initialValues = {
     price: "",
     rentAmount: "",
@@ -32,7 +33,7 @@ const SupplierForm = (props: {
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }) => {
     // fetching Data
-    const { mutate } = useCreateSupplier();
+    const { mutate, isLoading: postLoading } = useCreateSupplier();
     const { data: customers } = useGetCustomers()
     const { data: products } = useRetrieveProducts()
     const detailTools = useRetrieveSupplierById()
@@ -61,14 +62,14 @@ const SupplierForm = (props: {
         try {
             return updateTools.mutate(formData, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-    
+
                 },
             });
 
@@ -82,7 +83,7 @@ const SupplierForm = (props: {
         try {
             return mutate(values, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
@@ -121,16 +122,17 @@ const SupplierForm = (props: {
 
     return (
         <>
-
-            <Formik 
+            {postLoading || updateTools.isLoading && <Backdrop loading={postLoading || updateTools.isLoading} />}
+            <Formik
                 enableReinitialize
                 initialValues={
                     isNew
                         ? initialValues
-                        : { 
-                            ...initialValues, 
-                            ...detailTools?.data?.data, 
-                            priceDate: moment(detailTools?.data?.data.priceDate).format('jYYYY/jMM/jDD') }
+                        : {
+                            ...initialValues,
+                            ...detailTools?.data?.data,
+                            priceDate: moment(detailTools?.data?.data.priceDate).format('jYYYY/jMM/jDD')
+                        }
                 }
                 validationSchema={createSupplierValidations} onSubmit={handleSubmit}>
                 {({ handleSubmit, setFieldValue }) => {

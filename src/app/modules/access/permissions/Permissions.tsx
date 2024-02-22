@@ -16,6 +16,7 @@ import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import PermissionForm from "./PermissionForm";
 import Pagination from "../../../../_cloner/components/Pagination";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 interface Item {
     name: string;
@@ -41,14 +42,14 @@ const Permissions = () => {
 
     let formData = {
         pageNumber: currentPage,
-        pageSize: pageSize,    
+        pageSize: pageSize,
     }
 
 
     const deletePermissions = useDeletePermissions();
     // const permissionTools = useGetPermissions();
     const Permissions = useGetPermissionsFilter(formData);
-    
+
     useEffect(() => {
         setResults(Permissions?.data?.data);
     }, [Permissions?.data?.data]);
@@ -138,19 +139,20 @@ const Permissions = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
-    if(Permissions.isLoading) {
-        return <Typography>Loading ...</Typography>
-    }
-    
+    // if(Permissions.isLoading) {
+    //     return <Typography>Loading ...</Typography>
+    // }
+
     return (
         <>
+            {deletePermissions.isLoading && <Backdrop loading={deletePermissions.isLoading} />}
             <ReusableCard>
                 <Box
                     component="div"
                     className="md:grid md:grid-cols-2 md:gap-x-4"
                 >
                     <Box component="div">
-                        <PermissionForm refetch={Permissions.refetch}  />
+                        <PermissionForm refetch={Permissions.refetch} />
                         <FuzzySearch<Item>
                             keys={["permissionName", "description"]}
                             data={Permissions?.data?.data || []}
@@ -162,25 +164,26 @@ const Permissions = () => {
                                 columns={columns(renderAction)}
                                 rows={results}
                                 data={Permissions?.data?.data}
+                                isLoading={Permissions.isLoading}
                             />
                             {/* <Pagination pageCount={+Permissions?.data?.data.length / +pageSize || 200} onPageChange={handlePageChange} /> */}
                         </Box>
 
                     </Box>
                     <Box component="div">
+                        <Box
+                            component="div"
+                            className="hidden md:flex md:justify-center md:items-center"
+                        >
                             <Box
-                                component="div"
-                                className="hidden md:flex md:justify-center md:items-center"
-                            >
-                                <Box
-                                    component="img"
-                                    src={toAbsoulteUrl(
-                                        "/media/logos/34313.jpg"
-                                    )}
-                                    width={400}
-                                />
-                            </Box>
+                                component="img"
+                                src={toAbsoulteUrl(
+                                    "/media/logos/34313.jpg"
+                                )}
+                                width={400}
+                            />
                         </Box>
+                    </Box>
 
                 </Box>
             </ReusableCard>
@@ -191,7 +194,7 @@ const Permissions = () => {
                 title="ویرایش"
                 description="درصورتی که مغایرتی در ویرایش مجوز وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <PermissionForm 
+                <PermissionForm
                     id={itemForEdit?.id}
                     refetch={Permissions.refetch}
                     onClose={() => setIsEditOpen(false)}

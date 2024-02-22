@@ -56,7 +56,7 @@ const Menus = (props: Props) => {
             const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId)
             deleteMenu.mutate(filterRoleMenuId.id, {
                 onSuccess: (message) => {
-                    if(message.succeeded) {
+                    if (message.succeeded) {
                         enqueueSnackbar("User Role Menu is DeActive", {
                             variant: "success",
                             anchorOrigin: { vertical: "top", horizontal: "center" },
@@ -77,54 +77,54 @@ const Menus = (props: Props) => {
     }
     return (
         <>
-        
-        <Card className="p-8">
-            <Box component="div" className="flex gap-x-4">
-                <Typography variant="h2" color="primary">
-                    {"اعمال منوها به نقش های کاربری"}:
-                </Typography>
-                <Typography variant="h2" color="secondary">
-                    {props?.items?.row?.name}
-                </Typography>
-            </Box>
-            <Formik initialValues={initialValues} onSubmit={() => {}}>
-                {({ handleSubmit }) => {
-                    return (
-                        <Form>
-                            <Box
-                                component="div"
-                                className="grid grid-cols-2 md:grid-cols-4 p-8"
-                            >
-                                {appMenu?.data.map((i: any) => {
-                                    return i.children.map((sub: any) => {
-                                        return (
-                                            <Box
-                                                component="div"
-                                                className="flex items-center"
-                                            >
-                                                <FormControlLabel
-                                                    control={
-                                                        <Switch
-                                                            name="applicationMenuId"
-                                                            onChange={(event) => {
-                                                                const checked = event.target.checked;
-                                                                handleCheckboxChange(i.id, sub.id, checked);
-                                                            }}
-                                                            checked={roleIds.includes(sub.id)}
-                                                        />
-                                                    }
-                                                    label={
-                                                        <Typography>
-                                                            {sub.description}
-                                                        </Typography>
-                                                    }
-                                                />
-                                            </Box>
-                                        );
-                                    });
-                                })}
-                            </Box>
-                            {/* <Box className="flex justify-end">
+            {postMenu.isLoading || deleteMenu.isLoading && <Backdrop loading={postMenu.isLoading || deleteMenu.isLoading} />}
+            <Card className="p-8">
+                <Box component="div" className="flex gap-x-4">
+                    <Typography variant="h2" color="primary">
+                        {"اعمال منوها به نقش های کاربری"}:
+                    </Typography>
+                    <Typography variant="h2" color="secondary">
+                        {props?.items?.row?.name}
+                    </Typography>
+                </Box>
+                <Formik initialValues={initialValues} onSubmit={() => { }}>
+                    {({ handleSubmit }) => {
+                        return (
+                            <Form>
+                                <Box
+                                    component="div"
+                                    className="grid grid-cols-2 md:grid-cols-4 p-8"
+                                >
+                                    {appMenu?.data.map((i: any) => {
+                                        return i.children.map((sub: any) => {
+                                            return (
+                                                <Box
+                                                    component="div"
+                                                    className="flex items-center"
+                                                >
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Switch
+                                                                name="applicationMenuId"
+                                                                onChange={(event) => {
+                                                                    const checked = event.target.checked;
+                                                                    handleCheckboxChange(i.id, sub.id, checked);
+                                                                }}
+                                                                checked={roleIds.includes(sub.id)}
+                                                            />
+                                                        }
+                                                        label={
+                                                            <Typography>
+                                                                {sub.description}
+                                                            </Typography>
+                                                        }
+                                                    />
+                                                </Box>
+                                            );
+                                        });
+                                    })}
+                                </Box>
+                                {/* <Box className="flex justify-end">
                                 <Button
                                     type={"submit"}
                                     variant="contained"
@@ -134,11 +134,11 @@ const Menus = (props: Props) => {
                                     {t("Submit")}
                                 </Button>
                             </Box> */}
-                        </Form>
-                    );
-                }}
-            </Formik>
-        </Card>
+                            </Form>
+                        );
+                    }}
+                </Formik>
+            </Card>
         </>
     );
 };

@@ -11,6 +11,7 @@ import { useGetCustomerCompanyMutate, usePostCustomerCompanies, useUpdateCustome
 import { ICustomerCompany } from './_models';
 import { enqueueSnackbar } from 'notistack';
 import FormikMaskInput from '../../../../_cloner/components/FormikMaskInput';
+import Backdrop from '../../../../_cloner/components/Backdrop';
 
 const initialValues = {
     companyName: "",
@@ -32,12 +33,12 @@ const customerType = [
 
 type Props = {
     refetch: any,
-    id?: any,    
+    id?: any,
 }
 
 const CustomerCompanyForm = (props: Props) => {
     const { data: customers } = useGetCustomers();
-    const { mutate: postCustomerCompany, data: postData } = usePostCustomerCompanies();
+    const { mutate: postCustomerCompany, data: postData, isLoading: postLoading } = usePostCustomerCompanies();
     const detailTools = useGetCustomerCompanyMutate()
     const updateTools = useUpdateCustomerCompanies()
 
@@ -118,7 +119,7 @@ const CustomerCompanyForm = (props: Props) => {
         try {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         enqueueSnackbar("ویرایش با موفقیت انجام شد", {
                             variant: "success",
                             anchorOrigin: { vertical: "top", horizontal: "center" }
@@ -136,13 +137,13 @@ const CustomerCompanyForm = (props: Props) => {
         try {
             return postCustomerCompany(values, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         enqueueSnackbar("ایجاد با موفقیت انجام شد", {
                             variant: "success",
                             anchorOrigin: { vertical: "top", horizontal: "center" }
                         })
                     }
-                    
+
                     props.refetch();
                 },
             });
@@ -163,47 +164,50 @@ const CustomerCompanyForm = (props: Props) => {
     }
 
     return (
-        <Formik
-            initialValues={
-                isNew
-                    ? initialValues
-                    : {
-                        ...initialValues,
-                        ...detailTools?.data?.data,
-                    }
-            }
-            validationSchema={customerCompanyValidation} onSubmit={() => { }}>
-            {({ values, setFieldValue }) => {
-                return (
-                    <Form>
-                        {fields.map((rowFields) => (
-                            <Box
-                                component="div"
-                                className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
+        <>
+            {postLoading || updateTools.isLoading && <Backdrop loading={postLoading || updateTools.isLoading} />}
+            <Formik
+                initialValues={
+                    isNew
+                        ? initialValues
+                        : {
+                            ...initialValues,
+                            ...detailTools?.data?.data,
+                        }
+                }
+                validationSchema={customerCompanyValidation} onSubmit={() => { }}>
+                {({ values, setFieldValue }) => {
+                    return (
+                        <Form>
+                            {fields.map((rowFields) => (
+                                <Box
+                                    component="div"
+                                    className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
+                                >
+                                    {rowFields.map((field) =>
+                                        parseFields(field)
+                                    )}
+                                </Box>
+                            ))}
+                            <Button
+                                onClick={() =>
+                                    handleSubmit(values)
+                                }
+                                variant="contained"
+                                color="secondary"
                             >
-                                {rowFields.map((field) =>
-                                    parseFields(field)
-                                )}
-                            </Box>
-                        ))}
-                        <Button
-                            onClick={() =>
-                                handleSubmit(values)
-                            }
-                            variant="contained"
-                            color="secondary"
-                        >
-                            <Typography
-                                variant="h3"
-                                className="px-8 py-2"
-                            >
-                                ثبت
-                            </Typography>
-                        </Button>
-                    </Form>
-                );
-            }}
-        </Formik>
+                                <Typography
+                                    variant="h3"
+                                    className="px-8 py-2"
+                                >
+                                    ثبت
+                                </Typography>
+                            </Button>
+                        </Form>
+                    );
+                }}
+            </Formik>
+        </>
     )
 }
 

@@ -16,6 +16,7 @@ import FormikComboBox from "../../../../_cloner/components/FormikComboBox"
 import FormikBrandPriceSelect from "../../../../_cloner/components/FormikBrandPriceSelect"
 import FormikAmount from "../../../../_cloner/components/FormikAmount"
 import SwitchComponent from "../../../../_cloner/components/Switch"
+import Backdrop from "../../../../_cloner/components/Backdrop"
 
 const initialValues = {
     price: "",
@@ -32,7 +33,7 @@ type Props = {
 
 const ProductPriceForm = (props: Props) => {
     const { data: products } = useRetrieveProducts()
-    const { mutate } = useCreateProductPrice()
+    const { mutate, isLoading: postLoading } = useCreateProductPrice()
 
     const updateTools = useUpdateProductPrice();
     const detailTools = useRetrieveProductPriceById()
@@ -61,8 +62,8 @@ const ProductPriceForm = (props: Props) => {
                 return <FormikComboBox disabled={!isNew} options={dropdownProduct(products?.data)} {...rest} />;
             case "productBrandId":
                 return <FormikBrandPriceSelect disabled={!isNew} productId={isNew ? values.productId.value : props.items.productId} {...rest} />
-                case "price":
-                    return <FormikAmount {...rest} />;
+            case "price":
+                return <FormikAmount {...rest} />;
             default:
                 return <FormikInput {...rest} />;
         }
@@ -88,14 +89,14 @@ const ProductPriceForm = (props: Props) => {
         try {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-    
+
                 },
             });
 
@@ -109,7 +110,7 @@ const ProductPriceForm = (props: Props) => {
         try {
             return mutate(values, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
                         props.refetch()
                         props.setIsCreateOpen(false)
@@ -130,9 +131,9 @@ const ProductPriceForm = (props: Props) => {
         const formData: any = {
             id: props.id,
             price: Number(values.price),
-            isActive : checked,
+            isActive: checked,
         }
-        
+
         if (props.id) onUpdate(formData);
         else onAdd(values);
         props.refetch()
@@ -144,13 +145,14 @@ const ProductPriceForm = (props: Props) => {
 
     return (
         <>
-            <Formik 
+            {postLoading || updateTools.isLoading && <Backdrop loading={postLoading || updateTools.isLoading} />}
+            <Formik
                 initialValues={
                     isNew
                         ? initialValues
                         : { ...initialValues, ...detailTools?.data?.data, productId: props.items.productName, price: detailTools?.data?.data.price.toString() }
                 }
-            validationSchema={createProductPriceValidations} onSubmit={handleSubmit}>
+                validationSchema={createProductPriceValidations} onSubmit={handleSubmit}>
                 {({ handleSubmit, values }) => {
                     return <Form onSubmit={handleSubmit}>
                         {fields.map((rowFields) => (
@@ -164,19 +166,19 @@ const ProductPriceForm = (props: Props) => {
                             </Box>
                         ))}
                         <Box component="div" className="flex flex-col">
-                        {!isNew &&
-                        <Box component="div" className="flex flex-row items-center">
+                            {!isNew &&
+                                <Box component="div" className="flex flex-row items-center">
 
-                                <SwitchComponent
-                                    checked={checked}
-                                    onChange={(e) => setChecked(e.target.checked)}
+                                    <SwitchComponent
+                                        checked={checked}
+                                        onChange={(e) => setChecked(e.target.checked)}
                                     />
                                     <Typography variant="h3">{checked ? "فعال" : "غیرفعال"}</Typography>
-                        </Box>
-                        }
-                        <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">
-                            <Typography variant="h3" className="px-8 py-2">{isNew ? "ثبت قیمت" : "ویرایش قیمت"}</Typography>
-                        </Button>
+                                </Box>
+                            }
+                            <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">
+                                <Typography variant="h3" className="px-8 py-2">{isNew ? "ثبت قیمت" : "ویرایش قیمت"}</Typography>
+                            </Button>
 
                         </Box>
                     </Form>

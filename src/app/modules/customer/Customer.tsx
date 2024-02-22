@@ -197,8 +197,7 @@ const Customer = () => {
 
     return (
         <>
-            {deleteLoading && <Backdrop loading={deleteLoading} />}
-            {customersLoading && <Backdrop loading={customersLoading} />}
+            {deleteLoading || customersLoading && <Backdrop loading={deleteLoading || customersLoading} />}
             <ReusableCard>
                 <Box
                     component="div"

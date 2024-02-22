@@ -18,6 +18,7 @@ import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import { roleCreateValidation } from "./helpers/validations";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import { IRole } from "./core/_models";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 interface Item {
     name: string;
@@ -134,6 +135,7 @@ const Roles = () => {
 
     return (
         <>
+            {postApplicationRoles.isLoading || deleteApplicationRoles.isLoading && <Backdrop loading={postApplicationRoles.isLoading || deleteApplicationRoles.isLoading} />}
             <ReusableCard>
                 <Box
                     component="div"
@@ -188,13 +190,13 @@ const Roles = () => {
                             keys={["name", "description"]}
                             data={applicationRoles?.data?.data || []}
                             setResults={setResults}
-                            threshold={0.3}
                         />
                         <Box component="div" className="my-4">
                             <MuiDataGrid
                                 columns={columns(renderAction)}
                                 rows={results}
                                 data={applicationRoles?.data?.data}
+                                isLoading={applicationRoles.isLoading}
                             />
                         </Box>
 

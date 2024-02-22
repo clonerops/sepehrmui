@@ -14,6 +14,7 @@ import { IPermission } from "./_models";
 import { createPermissionValidation } from "./_validation";
 import { AddCircleOutline, Edit } from "@mui/icons-material";
 import FormikApplicationMenu from "../../../../_cloner/components/FormikApplicarionMenu";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const initialValues = {
     name: "",
@@ -94,12 +95,13 @@ const PermissionForm = (props: {
     };
 
     if (props.id && detailTools?.isLoading) {
-        return <Typography>Loading ...</Typography>
+        return <Backdrop loading={detailTools?.isLoading} />
     }
 
 
     return (
         <>
+        {postPermissions.isLoading || updateTools.isLoading && <Backdrop loading={postPermissions.isLoading || updateTools.isLoading} />}
             <Formik
                 initialValues={
                     isNew

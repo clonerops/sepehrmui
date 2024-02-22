@@ -1,26 +1,15 @@
-import { useState, useEffect } from 'react'
 import { Box, Typography } from "@mui/material"
 import { Formik, Form } from "formik"
-import { AddCircleOutline } from '@mui/icons-material'
-import * as Yup from 'yup'
 
-import {  useGetWarehouse, useGetWarehouses, useUpdateWarehouses } from './_hooks'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import {  useGetWarehouse, useUpdateWarehouses } from './_hooks'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
-import FuzzySearch from "../../../../_cloner/helpers/Fuse"
-import DeleteGridButton from '../../../../_cloner/components/DeleteGridButton'
-import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
-import ReusableCard from '../../../../_cloner/components/ReusableCard'
-import EditGridButton from '../../../../_cloner/components/EditGridButton'
-import TransitionsModal from '../../../../_cloner/components/ReusableModal'
-import FileUpload from '../../payment/components/FileUpload'
 import FormikWarehouseType from '../../../../_cloner/components/FormikWarehouseType'
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query'
 import FormikCustomer from '../../../../_cloner/components/FormikCustomer'
+import Backdrop from "../../../../_cloner/components/Backdrop"
 
 const initialValues = {
   id: 0,
@@ -37,9 +26,8 @@ type Props = {
   }
 
 const EditWarehouse = (props: Props) => {
-  const { mutate: updateWarehouse } = useUpdateWarehouses()
+  const { mutate: updateWarehouse, isLoading: updateLoading } = useUpdateWarehouses()
   const detailTools = useGetWarehouse(props.id)
-  console.log(detailTools?.data?.data?.customerId)
   const onUpdate = (values: any) => {
     try {
       const formData = {
@@ -70,6 +58,7 @@ const EditWarehouse = (props: Props) => {
 
   return (
     <>
+        {updateLoading && <Backdrop loading={updateLoading} />}
         <Box component="div">
           <Box component="div">
             <Formik enableReinitialize initialValues={{

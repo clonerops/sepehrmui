@@ -11,6 +11,7 @@ import { useGetAllPermissionByMenus } from "../permissions/_hooks";
 import FileSystemNavigator from "../../../../_cloner/components/TreeView";
 import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup";
 import { dropdownPermissions, dropdownPermissionsByMenu } from "../permissions/_functions";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const initialValues: IRoleMenu = {
     roleId: "",
@@ -73,12 +74,13 @@ const MenusWithPermissions = (props: Props) => {
     };
 
     if(allMenuLoading) {
-        return <Typography>درحال بارگزاری ...</Typography>
+        return <Backdrop loading={allMenuLoading} />
     }
 
 
   return (
     <>
+    {postMenu.isLoading || roleMenuTools.isLoading || deleteMenu.isLoading && <Backdrop loading={postMenu.isLoading || roleMenuTools.isLoading || deleteMenu.isLoading} />}
         <Box sx={{ minHeight: 180, flexGrow: 1}}>
         <TreeView
             aria-label="file system navigator"

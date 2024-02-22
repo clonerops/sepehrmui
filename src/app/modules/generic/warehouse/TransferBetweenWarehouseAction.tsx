@@ -21,6 +21,7 @@ import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { renderAlertGoBack } from "../../../../_cloner/helpers/SweetAlertNavigateGoBack";
 import FormikWarehouseBasedOfCustomer from "../../../../_cloner/components/FormikWarehouseBasedOfCustomer";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 interface IProps {
 }
 
@@ -146,6 +147,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
     }
     return (
         <>
+            {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
             <Box
                 component="div"
                 className={`grid grid-cols-1 lg:grid-cols-4 gap-4 my-4`}

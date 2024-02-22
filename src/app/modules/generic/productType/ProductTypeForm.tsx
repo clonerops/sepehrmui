@@ -22,6 +22,7 @@ import FileUpload from '../../payment/components/FileUpload'
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query'
 import ImagePreview from '../../../../_cloner/components/ImagePreview'
 import { convertFilesToBase64 } from '../../../../_cloner/helpers/ConvertToBase64'
+import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
   id: 0,
@@ -34,23 +35,23 @@ const validation = Yup.object({
 })
 
 type Props = {
-    id?: any
-    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
-    setIsCreateOpen?: React.Dispatch<React.SetStateAction<boolean>>
+  id?: any
+  refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
+  setIsCreateOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ProductTypeForm = (props: Props) => {
-  const { mutate: postType } = usePostTypes()
-  const { mutate: updateType } = useUpdateTypes()
+  const { mutate: postType, isLoading: postLoading } = usePostTypes()
+  const { mutate: updateType, isLoading: updateLoading } = useUpdateTypes()
   const detailTools = useGetType()
 
   const isNew = !props.id
-  
+
   useEffect(() => {
     if (!isNew) {
-        detailTools.mutate(props.id)
+      detailTools.mutate(props.id)
     }
-}, [props.id]);
+  }, [props.id]);
 
 
   const onUpdate = (rowData: any) => {
@@ -76,28 +77,28 @@ const ProductTypeForm = (props: Props) => {
 
   const onAdd = (values: any) => {
     try {
-        const formData = {
-          desc: values.desc,
-        }
-        postType(formData, {
-          onSuccess: (response) => {
-            if (response.succeeded) {
-              EnqueueSnackbar(response.message, "success")
-            //   setFieldValue('id', response.data.id)
-              props.refetch();
-            } else {
-              EnqueueSnackbar(response.data.Message, "warning")
-            }
-          }
-        })
-      } catch (error) {
-        console.log(error)
+      const formData = {
+        desc: values.desc,
       }
+      postType(formData, {
+        onSuccess: (response) => {
+          if (response.succeeded) {
+            EnqueueSnackbar(response.message, "success")
+            //   setFieldValue('id', response.data.id)
+            props.refetch();
+          } else {
+            EnqueueSnackbar(response.data.Message, "warning")
+          }
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
   const onSubmit = (values: any) => {
-    if(isNew) onAdd(values)
+    if (isNew) onAdd(values)
     else onUpdate(values)
   }
 
@@ -107,28 +108,29 @@ const ProductTypeForm = (props: Props) => {
 
   return (
     <>
+      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
+      <Box component="div">
         <Box component="div">
-          <Box component="div">
-            <Formik enableReinitialize initialValues={isNew ? initialValues : {...initialValues, ...detailTools?.data?.data}} validationSchema={validation} onSubmit={onSubmit}>
-              {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className='mb-4'>
-                  <Box component="div" className="md:flex md:flex-col md:justify-start md:items-start gap-4 ">
-                    <FormikInput name="id" label="کد نوع کالا " disabled={true} boxClassName=" mt-2 md:mt-4" />
-                    <FormikInput name="desc" label="نوع کالا " boxClassName=" mt-2 md:mt-0" />
-                    {/* {!isNew && <ImagePreview base64Strings={detailTools?.data?.data?.image || ""} />} */}
-                    <Box component="div" className="mt-2 md:mt-0">
-                      <ButtonComponent onClick={() => handleSubmit()}>
-                        <Typography className="px-2">
-                          {isNew ? "ثبت نوع کالا" : "ویرایش"}
-                        </Typography>
-                      </ButtonComponent>
-                    </Box>
+          <Formik enableReinitialize initialValues={isNew ? initialValues : { ...initialValues, ...detailTools?.data?.data }} validationSchema={validation} onSubmit={onSubmit}>
+            {({ handleSubmit }) => {
+              return <Form onSubmit={handleSubmit} className='mb-4'>
+                <Box component="div" className="md:flex md:flex-col md:justify-start md:items-start gap-4 ">
+                  <FormikInput name="id" label="کد نوع کالا " disabled={true} boxClassName=" mt-2 md:mt-4" />
+                  <FormikInput name="desc" label="نوع کالا " boxClassName=" mt-2 md:mt-0" />
+                  {/* {!isNew && <ImagePreview base64Strings={detailTools?.data?.data?.image || ""} />} */}
+                  <Box component="div" className="mt-2 md:mt-0">
+                    <ButtonComponent onClick={() => handleSubmit()}>
+                      <Typography className="px-2">
+                        {isNew ? "ثبت نوع کالا" : "ویرایش"}
+                      </Typography>
+                    </ButtonComponent>
                   </Box>
-                </Form>
-              }}
-            </Formik>
-          </Box>
+                </Box>
+              </Form>
+            }}
+          </Formik>
         </Box>
+      </Box>
     </>
   )
 }
