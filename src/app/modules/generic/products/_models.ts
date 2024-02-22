@@ -44,4 +44,5 @@ export interface IProductFilters {
     PageNumber?: number
     PageSize?: number
     ProductTypeId?: number
+    ProductName?: string
 }

@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useGetProductList } from "../../app/modules/generic/products/_hooks";
 import { useGetProductTypes } from "../../app/modules/generic/_hooks";
@@ -9,14 +9,16 @@ import FormikWarehouseType from "./FormikWarehouseType";
 import FormikWarehouseBasedOfType from "./FormikWarehouseBasedOfType";
 import { useGetWarehousesByFilter } from "../../app/modules/generic/warehouse/_hooks";
 import FormikPeoductType from "./FormikProductType";
+import Backdrop from "./Backdrop";
+import FormikInput from "./FormikInput";
+import SearchBackendInput from "./SearchBackendInput";
 
 
 const MonitoringProdcuct = () => {
     const filterTools = useGetProductList();
     const filterWarehouse = useGetWarehousesByFilter()
-    const productTypeTools = useGetProductTypes();
+    const [searchTerm, setSearchTerm] = useState<any>("")
     let formikRef = useRef<FormikProps<any>>(null);
-    // const [currentSelectProductType, setCurrentSelectProductType] = useState(-1)
 
     const onFilterProductType = (value: number) => {
         const filter = {
@@ -56,7 +58,6 @@ const MonitoringProdcuct = () => {
             onSuccess: (res) => {
                 formikRef.current?.setFieldValue('warehouseId', 0)
                 formikRef.current?.setFieldValue('productTypeId', -1)
-                // setCurrentSelectProductType(-1)
                 filterWarehouse.mutate({ warehouseTypeId: +value })
             }
         });
@@ -73,9 +74,28 @@ const MonitoringProdcuct = () => {
         filterTools.mutate(filter);
 
     }
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            const filter = {
+                ByBrand: true,
+                WarehouseTypeId: formikRef?.current?.values.warehouseTypeId,
+                WarehouseId: +formikRef?.current?.values.warehouseId,
+                ProductTypeId: formikRef?.current?.values.productTypeId,
+                ProductName : searchTerm
+            }
+            filterTools.mutate(filter);
+    
+        }, 1000)
+    
+        return () => clearTimeout(delayDebounceFn)
+      }, [searchTerm])
+    
+
     return (
         <>
-            <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 6, productTypeId: -1 }} onSubmit={() => { }}>
+            {filterTools.isLoading && <Backdrop loading={filterTools.isLoading} />}
+            <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 6, productTypeId: -1, productName: "" }} onSubmit={() => { }}>
                 {({ values }) => {
                     return <>
                         <Box className="grid grid-cols-8 gap-x-8">
@@ -85,8 +105,8 @@ const MonitoringProdcuct = () => {
                                     <Form className="flex flex-col lg:flex-row gap-x-4">
                                         <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
                                         <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
-
                                     </Form>
+                                    <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
                                 </Box>
                                 <MuiDataGrid
                                     columns={columnsModalProduct()}
