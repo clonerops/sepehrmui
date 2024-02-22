@@ -82,7 +82,7 @@ const ExitRemiitance = () => {
                 flex: 1,
                 headerClassName: "headerClassName",
                 render: (params: any) => {
-                    return <Typography sx={{minWidth:140}}>{params.productName}</Typography>;
+                    return <Typography sx={{ minWidth: 140 }}>{params.productName}</Typography>;
                 },
             },
             {
@@ -124,7 +124,7 @@ const ExitRemiitance = () => {
                 render: (params: any) => {
                     return (
                         <OutlinedInput
-                            sx={{minWidth: 140}}
+                            sx={{ minWidth: 140 }}
                             onChange={(e) => {
                                 handleRealAmountChange(
                                     params,
@@ -147,7 +147,7 @@ const ExitRemiitance = () => {
                     return (
                         <OutlinedInput
                             inputRef={productSubUnitAmount}
-                            sx={{minWidth: 140}}
+                            sx={{ minWidth: 140 }}
                             onChange={(e) => {
                                 handleProductSubUnitAmountChange(
                                     params,
@@ -181,7 +181,7 @@ const ExitRemiitance = () => {
                         productName: item?.orderDetail?.productName,
                         ladingAmount: item?.ladingAmount,
                         exchangeRate: item?.orderDetail?.product?.exchangeRate,
-                        proximateAmount: Math.ceil(+item?.ladingAmount /+item.orderDetail?.product?.exchangeRate),
+                        proximateAmount: Math.ceil(+item?.ladingAmount / +item.orderDetail?.product?.exchangeRate),
                         productSubUnitDesc:
                             item?.orderDetail?.productSubUnitDesc,
                         productSubUnitId:
@@ -199,23 +199,23 @@ const ExitRemiitance = () => {
 
     const handleRealAmountChange = (params: any, value: string) => {
         const updatedLadingList = ladingList.map((item) => {
-            if(params.id === item.id) {
-                return {...item, realAmount: +value}
+            if (params.id === item.id) {
+                return { ...item, realAmount: +value }
             } else {
                 return item
             }
-        }) 
+        })
         setLadingList(updatedLadingList);
     };
 
     const handleProductSubUnitAmountChange = (params: any, value: string) => {
         const updatedLadingList = ladingList.map((item) => {
-            if(params.id === item.id) {
-                return {...item, productSubUnitAmount: +value}
+            if (params.id === item.id) {
+                return { ...item, productSubUnitAmount: +value }
             } else {
                 return item
             }
-        }) 
+        })
         setLadingList(updatedLadingList);
     };
 
@@ -266,6 +266,7 @@ const ExitRemiitance = () => {
 
     return (
         <>
+            {postExitRemittance.isLoading && <Backdrop loading={postExitRemittance.isLoading} />}
             <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-4">
                 <CardTitleValue
                     icon={<Person color="secondary" />}
@@ -322,7 +323,7 @@ const ExitRemiitance = () => {
                             ""
                         )
                     }
-                    onDoubleClick={() => {}}
+                    onDoubleClick={() => { }}
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
                     data={ladingList}

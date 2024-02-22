@@ -9,6 +9,7 @@ import { IUser } from "../core/_models";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 import { useEffect } from "react";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const registerValidation = Yup.object().shape({
     firstName: Yup.string().required("نام الزامی است"),
@@ -52,7 +53,7 @@ type Props = {
 
 const UserForm = (props: Props) => {
     const {id, onClose, refetchUser} = props;
-    const { mutate } = useRegisterUser();
+    const { mutate, isLoading } = useRegisterUser();
     const detailTools = useGetUserDetail();
     const updateTools = useGetUpdateUser();
 
@@ -157,6 +158,7 @@ const UserForm = (props: Props) => {
 
     return (
         <>
+            {isLoading || updateTools.isLoading && <Backdrop loading={isLoading || updateTools.isLoading} />}
             <Container>
                 <ReusableCard>
                     {detailTools.isLoading ? (<Typography>درحال بارگزاری ....</Typography>) : (

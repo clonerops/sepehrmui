@@ -12,6 +12,7 @@ import { useGetProductList } from "../../products/_hooks";
 import FormikWarehouseType from "../../../../../_cloner/components/FormikWarehouseType";
 import FormikWarehouseBasedOfType from "../../../../../_cloner/components/FormikWarehouseBasedOfType";
 import { useGetWarehousesByFilter } from "../../warehouse/_hooks";
+import FuzzySearch from "../../../../../_cloner/helpers/Fuse";
 
 const ProductInventories = () => {
     const filterTools = useGetProductList();
@@ -31,8 +32,8 @@ const ProductInventories = () => {
     }, []);
 
 
-    const handleDownloadExcel = async (values: {warehouseTypeId: number, warehouseId: number}) => {
-        const filter = { WarehouseTypeId: values.warehouseTypeId,  warehouseId: values.warehouseId}
+    const handleDownloadExcel = async (values: { warehouseTypeId: number, warehouseId: number }) => {
+        const filter = { WarehouseTypeId: values.warehouseTypeId, warehouseId: values.warehouseId }
 
         try {
             const response: any = await exportProductInventories(filter);
@@ -47,13 +48,13 @@ const ProductInventories = () => {
         const filter = {
             ByBrand: true,
             WarehouseTypeId: +value
-            
+
         }
         filterTools.mutate(filter, {
             onSuccess: (res) => {
                 formikRef.current?.setFieldValue('warehouseId', 0)
                 setResults(res?.data)
-                filterWarehouse.mutate({warehouseTypeId: +formikRef?.current?.values.warehouseTypeId})
+                filterWarehouse.mutate({ warehouseTypeId: +formikRef?.current?.values.warehouseTypeId })
             }
         });
     };
@@ -63,7 +64,7 @@ const ProductInventories = () => {
             ByBrand: true,
             WarehouseTypeId: formikRef?.current?.values.warehouseTypeId,
             WarehouseId: +value,
-            
+
         }
         filterTools.mutate(filter, {
             onSuccess: (res) => {
@@ -77,37 +78,41 @@ const ProductInventories = () => {
     return (
         <>
             <ReusableCard>
-                {/* <Box className="m-2">
-                    <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1 }} onSubmit={() => { }}>
-                        {({ }) => {
-                            return <Form>
-                                <FormikRadioGroup onChange={onFilterProductByWarehouse} radioData={dropdownWarehouseType(warehouseTypeTools?.data)} name="warehouseTypeId" />
-                            </Form>
-                        }}
-                    </Formik>
-                </Box> */}
-                    <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 0 }} onSubmit={() => { }}>
-                        {({ values }) => {
-                            return <Form className="flex flex-row lg:w-[50%] gap-4 mb-4">
-                                <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
-                                <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
-                                <Button
-                                        onClick={() => handleDownloadExcel(values)}
-                                        variant="outlined"
-                                        color="success"
-                                >
-                                    <img
-                                        className={"mr-3"}
-                                        src={toAbsoulteUrl(
-                                            "/media/logos/excelLogo.png"
-                                        )}
-                                        width={30}
-                                        height={30}
-                                    />
-                                </Button>
-                            </Form>
-                        }}
-                    </Formik>
+                <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 0 }} onSubmit={() => { }}>
+                    {({ values }) => {
+                        return <Form className="flex flex-row lg:w-[50%] gap-4 mb-4">
+                            <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
+                            <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
+                            <Button
+                                onClick={() => handleDownloadExcel(values)}
+                                variant="outlined"
+                                color="success"
+                            >
+                                <img
+                                    className={"mr-3"}
+                                    src={toAbsoulteUrl(
+                                        "/media/logos/excelLogo.png"
+                                    )}
+                                    width={30}
+                                    height={30}
+                                />
+                            </Button>
+                        </Form>
+                    }}
+                </Formik>
+                <Box component="div" className="mb-4">
+                    <FuzzySearch
+                        keys={[
+                            "productCode",
+                            "productName",
+                            "productBrandName",
+                            "warehouseName",
+                            "inventory",
+                        ]}
+                        data={filterTools?.data?.data}
+                        setResults={setResults}
+                    />
+                </Box>
 
                 <Box className="grid grid-cols-2 mt-2">
                     <MuiDataGrid

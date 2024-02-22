@@ -31,9 +31,9 @@ const ReadyToCargo = () => {
         );
     };
 
-    if(isLoading) {
-        return <Backdrop loading={isLoading} />
-    }
+    // if(isLoading) {
+    //     return <Backdrop loading={isLoading} />
+    // }
 
     return (
         <ReusableCard>
@@ -41,7 +41,6 @@ const ReadyToCargo = () => {
                 <FuzzySearch
                     keys={[ "orderCode", "registerDate", "customerFirstName", "customerLastName", "fareAmount", "description"]}
                     data={cargoNotSended}
-                    threshold={0.5}
                     setResults={setResults}
                 />
             </Box>
@@ -49,6 +48,7 @@ const ReadyToCargo = () => {
                 columns={readyToCargoColumns(renderAction)}
                 rows={results}
                 data={cargoNotSended}
+                isLoading={isLoading}
             />
         </ReusableCard>
     );

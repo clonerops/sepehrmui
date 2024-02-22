@@ -117,6 +117,7 @@ const LadingLicenceEdit = () => {
 
     return (
         <>
+            {postLadingLicence.isLoading && <Backdrop loading={postLadingLicence.isLoading} />}
             <Box component="div" className='grid grid-cols-4 gap-x-4 gap-y-4'>
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره سفارش' value={data?.data?.order?.orderCode} />
                 <CardTitleValue icon={<Person color="secondary" />} title='نام مشتری' value={data?.data?.order?.customerName} />

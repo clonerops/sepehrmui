@@ -134,12 +134,9 @@ const PurchaserOrder = () => {
         }
     }
 
-    if (postSaleOrder.isLoading) {
-        return <Backdrop loading={postSaleOrder.isLoading} />
-    }
-
     return (
         <>
+            {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
             <Formik 
                 enableReinitialize 
                 validateOnChange={false}

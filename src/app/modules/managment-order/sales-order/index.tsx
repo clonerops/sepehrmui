@@ -91,14 +91,11 @@ const SalesOrder = () => {
         calculateTotalAmount(orders, orderServices)
     }, [orders, orderServices]);
 
-    if (postSaleOrder.isLoading) {
-        return <Backdrop loading={postSaleOrder.isLoading} />
-    }
-
     console.log("parent component is rendered")
 
     return (
         <>
+            {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
             <Formik
                 enableReinitialize
                 validateOnChange={false}

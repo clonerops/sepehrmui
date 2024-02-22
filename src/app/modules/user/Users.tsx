@@ -63,7 +63,6 @@ const Users = () => {
             keys={[ "email", "userName", "firstName", "lastName", "phoneNumber", "description"]}
             data={usersTools?.data?.data}
             setResults={setResults}
-            threshold={0.3}
           />
             <Button
               onClick={() => setCreateUserOpen(true)}
@@ -79,6 +78,7 @@ const Users = () => {
               columns={userListColumns(renderActions)}
               rows={results}
               data={usersTools?.data?.data}
+              isLoading={usersTools.isLoading}
             />
           </Box>
           <Box component="div" className="md:flex md:justify-center md:items-center hidden"> 
