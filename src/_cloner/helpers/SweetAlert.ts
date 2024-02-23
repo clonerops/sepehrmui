@@ -16,8 +16,8 @@ export const renderAlert = (title: string) => {
             title: "text-lg"
         }
     })
-    .then(() => {
-        window.location.href = '/dashboard/sales_order/lists'
-    })
+    // .then(() => {
+    //     window.location.href = '/dashboard/sales_order/lists'
+    // })
 
 }

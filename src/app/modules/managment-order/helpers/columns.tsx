@@ -109,14 +109,96 @@ export const orderListColumns = (renderActions: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 190, maxWidth: 190
         },
+        {
+            headerName: "برند", field: "productBrandName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        },
+        {
+            headerName: "نام انبار", field: "warehouseName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        },
+        {
+            headerName: "مقدار", field: "proximateAmount",
+            renderCell: (params: any) => {
+                const combinedValue = `${params.row.proximateAmount} ${params.row.productMainUnitDesc} `;
+                return <Typography variant="h4">{combinedValue}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        },
+        {
+            headerName: "مقدار(فرعی)", field: "proximateSubUnit",
+            renderCell: (params: any) => {
+                const combinedValue = `${params.row.proximateSubUnit} ${params.row.productSubUnitDesc}`;
+                return <Typography variant="h4">{combinedValue}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        },
+        {
+            headerName: "قیمت(ریال)", field: "price",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        },
+
+        {
+            headerName: "قیمت خرید", field: "purchasePrice",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        },
+        {
+            headerName: "تاریخ تحویل", field: "purchaseSettlementDate",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        },
         // {
-        //     headerName: "برند", field: "productBrandName",
+        //     headerName: "نوع فاکتور خرید", field: "purchaseInvoiceTypeDesc",
         //     renderCell: (params: any) => {
         //         return <Typography variant="h4">{params.value}</Typography>
         //     }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         // },
         {
-            headerName: "نام انبار", field: "warehouseName",
+            headerName: "", field: "rowId", hide: true
+        },
+        {
+            headerName: "", field: "warehouseId", type: "hidden"
+        },
+        {
+            headerName: "", field: "productBrandId", type: "hidden"
+        },
+        {
+            headerName: "", field: "purchaseInvoiceTypeId", type: "hidden"
+        },
+        {
+            headerName: "", field: "purchaserCustomerName", type: "hidden"
+        },
+        {
+            headerName: "", field: "purchaserCustomerName", type: "hidden"
+        },
+        {
+            headerName: "حذف",
+            field: "Action",
+            renderCell: renderActions,
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+    ];
+    return col;
+}
+export const orderPurchaserListColumns = (renderActions: any) => {
+    const col = [
+        {
+            headerName: "کالا", field: "productName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 190, maxWidth: 190
+        },
+        {
+            headerName: "برند", field: "productBrandName",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,

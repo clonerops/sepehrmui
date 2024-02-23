@@ -8,7 +8,7 @@ import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
-import { orderListColumns } from "../../helpers/columns";
+import { orderPurchaserListColumns } from "../../helpers/columns";
 import { IProducts } from "../../../generic/products/_models";
 
 type ProductProps = {
@@ -128,7 +128,7 @@ const OrderProductList = (props: ProductProps) => {
         }
     };
 
-    const filteredColumns = orderListColumns(renderActions).filter(column =>
+    const filteredColumns = orderPurchaserListColumns(renderActions).filter(column =>
         column.field !== "warehouseId" &&
         column.field !== "productBrandId" &&
         column.field !== "rowId" &&

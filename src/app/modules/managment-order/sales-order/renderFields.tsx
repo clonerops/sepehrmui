@@ -87,14 +87,14 @@ const orderDetailParseFields = (
         case "warehouse":
             return <FormikWarehouse 
                 key={index} 
-                disabled={isUpdate || postSaleOrder.data?.succeeded} 
+                disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} 
                 onChange={(value: any) => changeWarehouseFunction(value)} 
                 {...rest} />
         case "product":
             return (
                 <Box key={index} component="div" className="flex gap-x-2 w-full">
-                    <FormikProduct disabled={isUpdate || postSaleOrder.data?.succeeded} onChange={(value: any) => changeProductFunction(value)} options={dropdownProductByBrandName(products?.data?.data)} {...rest} />
-                    <Button onClick={() => setState((prev) => ({...prev, isProductChoose: true}))} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded}>
+                    <FormikProduct disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} onChange={(value: any) => changeProductFunction(value)} options={dropdownProductByBrandName(products?.data?.data)} {...rest} />
+                    <Button onClick={() => setState((prev) => ({...prev, isProductChoose: true}))} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}>
                         <Grading />
                     </Button>
                     {isProductChoose ?
@@ -113,16 +113,16 @@ const orderDetailParseFields = (
                 </Box>
             );
         case "purchaserCustomer":
-            return <FormikCustomer key={index} disabled={postSaleOrder.data?.succeeded} {...rest} />
+            return <FormikCustomer key={index} disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0} {...rest} />
         case "purchaseInvoiceType":
             return <FormikPurchaserInvoiceType key={index} {...rest} />
         case "date":
-            return <FormikDatepicker key={index} disabled={postSaleOrder.data?.succeeded} {...rest} />;
+            return <FormikDatepicker key={index} disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0} {...rest} />;
         case "proximateAmount":
             return (
                 <FormikProximateAmount
                     key={index}
-                    disabled={postSaleOrder.data?.succeeded}
+                    disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="start">
@@ -137,7 +137,7 @@ const orderDetailParseFields = (
             return (
                 <FormikPrice
                     key={index}    
-                    disabled={postSaleOrder.data?.succeeded}
+                    disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="start">
@@ -149,9 +149,9 @@ const orderDetailParseFields = (
                 />
             );
         case "price":
-            return <FormikAmount key={index} disabled={postSaleOrder.data?.succeeded}  {...rest} />
+            return <FormikAmount key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}  {...rest} />
         case "input":
-            return <FormikInput key={index} disabled={postSaleOrder.data?.succeeded}  {...rest} />;
+            return <FormikInput key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}  {...rest} />;
         case "add":
             return isUpdate ? 
                 <Button key={index} onClick={() => handleOrder(formikRef)} className="!bg-yellow-500"><Edit /></Button>
@@ -159,7 +159,7 @@ const orderDetailParseFields = (
                 <Button key={index} onClick={() => handleOrder(formikRef)} className="!bg-green-500"><Add /></Button>
             
         default:
-            return <FormikInput key={index} disabled={postSaleOrder.data?.succeeded} {...rest} />;
+            return <FormikInput key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} {...rest} />;
     }
 };
 

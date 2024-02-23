@@ -135,6 +135,7 @@ const SalesOrder = () => {
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
+                                setOrderPayment={setOrderPayment}
                                 formikRef={formikRef}
                                 postSaleOrder={postSaleOrder}
                                 orders={orders} />
@@ -155,6 +156,7 @@ const SalesOrder = () => {
                                 onClick={() => handleSubmit()}
                                 disabled={
                                     orders.length <= 0 ||
+                                    postSaleOrder.isLoading ||
                                     orderPayment.length <= 0 ||
                                     formikRef.current?.values.customerId === "" ||
                                     formikRef.current?.values.invoiceTypeId === "" ||

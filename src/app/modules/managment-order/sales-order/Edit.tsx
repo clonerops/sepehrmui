@@ -238,6 +238,7 @@ const SalesOrderEdit = () => {
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
+                                setOrderPayment={setOrderPayment}
                                 formikRef={formikRef}
                                 postSaleOrder={postSaleOrder}
                                 orders={orders} />

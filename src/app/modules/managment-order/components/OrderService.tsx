@@ -2,13 +2,13 @@ import { Box, Typography, IconButton } from '@mui/material'
 
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import {  IOrderItems, IOrderService } from '../core/_models'
+import {  IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 
 import FormikService from '../../../../_cloner/components/FormikService'
 import FormikPrice from '../../../../_cloner/components/FormikPrice'
 import { AddCircle, DeleteOutlineRounded } from '@mui/icons-material'
 import MuiTable from '../../../../_cloner/components/MuiTable'
-import { FormikErrors, FormikProps } from 'formik'
+import { FormikProps } from 'formik'
 import { useGetServices } from '../../generic/_hooks'
 import { calculateProximateAmount, calculateTotalAmount } from '../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
@@ -19,6 +19,7 @@ interface IProps {
     postSaleOrder: any,
     orderService: IOrderService[],
     setOrderService:  (value: React.SetStateAction<IOrderService[]>) => void
+    setOrderPayment: React.Dispatch<React.SetStateAction<IOrderPayment[]>>
     orders: IOrderItems[]
     formikRef: React.RefObject<FormikProps<any>>
 }
@@ -26,7 +27,7 @@ interface IProps {
 console.log("OrderServices is rendered")
 
 
-const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, formikRef, orders}) => {
+const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders}) => {
     const { data: productService } = useGetServices();
 
 
@@ -46,6 +47,7 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
         }
         else {
             setOrderService([...orderServices, orderServicetData])
+            setOrderPayment([])
             formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
             formikRef.current?.setFieldValue('serviceId', "")
             formikRef.current?.setFieldValue('serviceAmount', "")
