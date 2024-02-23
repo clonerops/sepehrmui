@@ -125,10 +125,12 @@ const CargoForm = () => {
     const onSubmit = (values: ICargo) => {
         try {
             const formData: ICargo = { ...values, orderId: id, fareAmount: values?.fareAmount.includes(',') ? +values?.fareAmount.replace(/,/g, "") : +values?.fareAmount}
+            console.log(JSON.stringify(formData))
             mutate(formData, {
                 onSuccess: (message) => {
+                    console.log(message)
                     if (message.succeeded) {
-                        renderSwal(`اعلام بار با شماره ${message?.data.cargoAccounceNo} ثبت گردید`)
+                        renderSwal(`اعلام بار با شماره ${message?.data.cargoAnnounceNo} ثبت گردید`)
                     }
 
                     if (!message?.data?.Succeeded) {

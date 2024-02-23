@@ -15,6 +15,7 @@ interface IProps {
 }
 
 const PurchaserHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => {
+    console.log(postSaleOrder?.data)
     return (
         <Box component="div" className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4">
             {saleBaseOrderInformation(postSaleOrder?.data?.data[0]?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: any, index: number) => {

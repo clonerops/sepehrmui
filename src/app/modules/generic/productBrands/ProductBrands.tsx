@@ -72,6 +72,17 @@ const ProductBrands = () => {
   const columns = (renderSwitch: any) => {
     const col = [
       {
+        field: "id",
+        headerName: "کد کالابرند",
+        renderCell: (params: any) => {
+          return <Typography variant="h4">{params?.value}</Typography>;
+        },
+        headerClassName:"headerClassName",
+        minWidth: 80,
+        maxWidth: 80,
+        flex: 1,
+      },
+      {
         field: "productCode",
         headerName: "کدکالا",
         renderCell: (params: any) => {
@@ -94,7 +105,7 @@ const ProductBrands = () => {
         flex: 1,
       },
       {
-        field: "id",
+        field: "brandId",
         headerName: "کدبرند",
         renderCell: (params: any) => {
           return <Typography variant="h4">{params?.row?.brand?.id}</Typography>;
@@ -131,7 +142,6 @@ const ProductBrands = () => {
   if (productBrandLoading) {
     return <Backdrop loading={productBrandLoading} />;
   }
-  console.log(postLoading)
   return (
     <>
       {postLoading && <Backdrop loading={postLoading} />}

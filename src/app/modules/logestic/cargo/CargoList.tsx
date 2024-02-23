@@ -20,6 +20,7 @@ const CargoList = () => {
 
     const { data: customers } = useGetCustomers();
     const cargoList = useGetCargosList();
+    console.log()
 
     useEffect(() => {
         let formData = {
