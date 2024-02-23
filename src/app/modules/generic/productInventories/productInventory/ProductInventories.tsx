@@ -27,6 +27,7 @@ const ProductInventories = () => {
         filterTools.mutate(filter, {
             onSuccess: (res) => {
                 setResults(res?.data)
+                filterWarehouse.mutate({ warehouseTypeId: 1 })
             }
         });
     }, []);

@@ -161,7 +161,9 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                         return 'custom-row-style'
                     } else if ([2, 6].includes(params.row.warehouseId) && (
                         params.row.proximateAmount === "" ||
-                        params.row.price === "0"
+                        params.row.price === "0" ||
+                        params.row.price === 0 ||
+                        params.row.price === ""
                     )) {
                         setOrderValid(false)
                         return 'custom-row-style'
