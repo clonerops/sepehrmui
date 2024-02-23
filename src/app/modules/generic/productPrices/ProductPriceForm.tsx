@@ -145,7 +145,8 @@ const ProductPriceForm = (props: Props) => {
 
     return (
         <>
-            {postLoading || updateTools.isLoading && <Backdrop loading={postLoading || updateTools.isLoading} />}
+            {postLoading && <Backdrop loading={postLoading} />}
+            {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
             <Formik
                 initialValues={
                     isNew

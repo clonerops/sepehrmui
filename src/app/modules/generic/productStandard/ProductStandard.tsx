@@ -104,7 +104,8 @@ const ProductStandards = () => {
 
   return (
     <>
-      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
+      {updateLoading && <Backdrop loading={updateLoading} />}
+      {postLoading && <Backdrop loading={postLoading} />}
       <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
           <Box component="div">

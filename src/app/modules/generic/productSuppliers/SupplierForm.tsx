@@ -122,7 +122,8 @@ const SupplierForm = (props: {
 
     return (
         <>
-            {postLoading || updateTools.isLoading && <Backdrop loading={postLoading || updateTools.isLoading} />}
+            {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
+            {postLoading && <Backdrop loading={postLoading} />}
             <Formik
                 enableReinitialize
                 initialValues={

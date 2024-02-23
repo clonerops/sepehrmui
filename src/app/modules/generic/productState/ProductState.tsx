@@ -109,7 +109,8 @@ const ProductState = () => {
 
   return (
     <>
-      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
+      {postLoading && <Backdrop loading={postLoading} />}
+      {updateLoading && <Backdrop loading={updateLoading} />}
       <Box className="flex flex-row gap-x-4 mb-4">
         <CardWithIcons
           title='تعداد حالت های ثبت شده'

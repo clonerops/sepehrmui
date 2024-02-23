@@ -131,9 +131,11 @@ const ProductBrands = () => {
   if (productBrandLoading) {
     return <Backdrop loading={productBrandLoading} />;
   }
+  console.log(postLoading)
   return (
     <>
-      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
+      {postLoading && <Backdrop loading={postLoading} />}
+      {updateLoading && <Backdrop loading={updateLoading} />}
       <Box className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
           <Box component="div">

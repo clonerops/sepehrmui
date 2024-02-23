@@ -158,7 +158,8 @@ const UserForm = (props: Props) => {
 
     return (
         <>
-            {isLoading || updateTools.isLoading && <Backdrop loading={isLoading || updateTools.isLoading} />}
+            {isLoading && <Backdrop loading={isLoading} />}
+            {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
             <Container>
                 <ReusableCard>
                     {detailTools.isLoading ? (<Typography>درحال بارگزاری ....</Typography>) : (

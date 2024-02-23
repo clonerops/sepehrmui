@@ -242,9 +242,8 @@ const CustomerForm = (props: {
     
     return (
         <>
-            {updateTools.isLoading || postLoading && (
-                <Backdrop loading={updateTools.isLoading || postLoading} />
-            )}
+            {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
+            {postLoading && <Backdrop loading={postLoading} />}
             <Formik
                 enableReinitialize
                 initialValues={

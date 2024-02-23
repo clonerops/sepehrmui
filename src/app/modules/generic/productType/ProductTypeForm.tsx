@@ -108,7 +108,8 @@ const ProductTypeForm = (props: Props) => {
 
   return (
     <>
-      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
+      {updateLoading && <Backdrop loading={updateLoading} />}
+      {postLoading && <Backdrop loading={postLoading} />}
       <Box component="div">
         <Box component="div">
           <Formik enableReinitialize initialValues={isNew ? initialValues : { ...initialValues, ...detailTools?.data?.data }} validationSchema={validation} onSubmit={onSubmit}>

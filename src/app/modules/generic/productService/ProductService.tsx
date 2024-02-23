@@ -106,7 +106,8 @@ const ProductService = () => {
 
   return (
     <>
-      {postLoading || updateLoading && <Backdrop loading={postLoading || updateLoading} />}
+      {postLoading && <Backdrop loading={postLoading} />}
+      {updateLoading && <Backdrop loading={updateLoading} />}
       <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4">
         <ReusableCard cardClassName='order-2 lg:order-1'>
           <Box component="div">
