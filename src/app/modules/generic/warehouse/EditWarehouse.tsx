@@ -15,7 +15,7 @@ const initialValues = {
   id: 0,
   name: "",
   warehouseTypeId: null,
-  customerId: ""
+  // customerId: ""
 }
 
 
@@ -34,7 +34,7 @@ const EditWarehouse = (props: Props) => {
         id: values.id,
         name: values.name,
         warehouseTypeId: values.warehouseTypeId,
-        customerId: values.customerId.value ? values.customerId.value : detailTools?.data?.data?.customerId
+        // customerId: values.customerId.value ? values.customerId.value : detailTools?.data?.data?.customerId
       }
       updateWarehouse(formData, {
         onSuccess: (response) => {
@@ -64,7 +64,7 @@ const EditWarehouse = (props: Props) => {
             <Formik enableReinitialize initialValues={{
               ...initialValues,
               ...detailTools?.data?.data,
-              customerId: detailTools?.data?.data.customerName
+              // customerId: detailTools?.data?.data.customerName
             }} onSubmit={onUpdate}>
               {({ handleSubmit }) => {
                 return <Form onSubmit={handleSubmit} className='my-4'>
@@ -72,7 +72,7 @@ const EditWarehouse = (props: Props) => {
                     <FormikInput name="id" label="کد انبار " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="name" label="نام انبار" autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" boxClassName=" mt-2 md:mt-0" />
-                    <FormikCustomer name="customerId" label="مشتری" boxClassName=" mt-2 md:mt-0" />
+                    {/* <FormikCustomer name="customerId" label="مشتری" boxClassName=" mt-2 md:mt-0" /> */}
                     <Box component="div" className="mt-2 md:mt-0">
                       <ButtonComponent onClick={() => handleSubmit()}>
                         <Typography className="px-2 text-white">

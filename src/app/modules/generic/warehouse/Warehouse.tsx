@@ -29,7 +29,7 @@ const initialValues = {
   id: 0,
   name: "",
   warehouseTypeId: null,
-  customerId: ""
+  // customerId: ""
 }
 
 const Warehouse = () => {
@@ -98,13 +98,13 @@ const Warehouse = () => {
         headerName: 'نوع انبار', headerClassName: "headerClassName", minWidth: 120,
         flex: 1,
       },
-      {
-        field: 'customerName', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value ? params.value : <Typography variant="h4" className="text-fuchsia-700 border-2 border-dashed px-4 py-1 border-fuchsia-700">ثبت نشده</Typography>}</Typography>;
-        },
-        headerName: 'مشتری ثبت شده', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
+      // {
+      //   field: 'customerName', renderCell: (params: any) => {
+      //     return <Typography variant="h4">{params.value ? params.value : <Typography variant="h4" className="text-fuchsia-700 border-2 border-dashed px-4 py-1 border-fuchsia-700">ثبت نشده</Typography>}</Typography>;
+      //   },
+      //   headerName: 'مشتری ثبت شده', headerClassName: "headerClassName", minWidth: 120,
+      //   flex: 1,
+      // },
       {
         field: "Action",
         headerName: "عملیات", flex: 1,
@@ -131,7 +131,7 @@ const Warehouse = () => {
       const formData = {
         name: values.name,
         warehouseTypeId: values.warehouseTypeId,
-        customerId: values.customerId.value,
+        // customerId: values.customerId.value,
       }
       postWarehouse(formData, {
         onSuccess: (response: any) => {
@@ -154,8 +154,6 @@ const Warehouse = () => {
     return <Backdrop loading={WarehouseLoading} />;
   }
 
-  console.log(Warehouses?.data)
-
   return (
     <>
     {postLoading || deleteLoading && <Backdrop loading={postLoading || deleteLoading} />}
@@ -173,8 +171,8 @@ const Warehouse = () => {
                     >
                       <FormikInput name="id" label="کد انبار " disabled={true} boxClassName=" mt-2 md:mt-0" />
                       <FormikInput name="name" label="نام انبار" autoFocus={true} boxClassName=" mt-2 md:mt-0" />
-                      <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" boxClassName=" mt-2 md:mt-0" />
-                      <FormikCustomer name="customerId" label="مشتری" boxClassName=" mt-2 md:mt-0" />
+                      <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" boxClassName=" mt-2 md:mt-0 lg:col-span-2" />
+                      {/* <FormikCustomer name="customerId" label="مشتری" boxClassName=" mt-2 md:mt-0" /> */}
                       <Box component="div" className="mt-2 md:mt-0 flex justify-end items-end lg:col-span-2">
                         <ButtonComponent onClick={() => handleSubmit()}>
                           <Typography className="px-2 text-white">

@@ -98,7 +98,7 @@ const MonitoringProdcuct = () => {
             <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 6, productTypeId: -1, productName: "" }} onSubmit={() => { }}>
                 {({ values }) => {
                     return <>
-                        <Box className="grid grid-cols-8 gap-x-8">
+                        <Box className="">
                             <Box className="flex flex-col col-span-6">
                                 <Box component="div" className="my-8 flex flex-col space-y-4">
                                     <FormikPeoductType name="productTypeId" label="نوع کالا" onChange={onFilterProductType} />

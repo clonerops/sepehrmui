@@ -14,6 +14,10 @@ const ProductPrice = React.lazy(
 const ReadyToCargo = React.lazy(
     () => import("../modules/logestic/cargo/ReadyToCargo")
 );
+const CustomerWarehouse = React.lazy(
+    () => import("../modules/generic/customerWarehouse/CustomerWarehouse")
+);
+
 const CargoList = React.lazy(
     () => import("../modules/logestic/cargo/CargoList")
 );
@@ -183,6 +187,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/payment/accounting/:id", element: <Detail /> },
     { path: "dashboard/brands", element: <Brands /> },
     { path: "dashboard/productTypes", element: <ProductTypes /> },
+    { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },
     { path: "dashboard/productState", element: <ProductState /> },
     { path: "dashboard/productStandard", element: <ProductStandards /> },
     { path: "dashboard/warehouses", element: <Warehouse /> },

@@ -21,7 +21,7 @@ const Dashboard = () => {
                 <CardInformation cardClassName="!bg-[#F8B30E]" title="میانگین قیمت" value={77754} />
                 <CardInformation cardClassName="!bg-[#EB5553]" title="درآمد" value={77754} />
             </Box>
-            <Box component="div" className="grid md:grid-cols-1 lg:grid-cols-3 gap-x-8">
+            <Box component="div" className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
                 <ReusableCard cardClassName="col-span-2 w-full">
                     <Typography variant="h2" className="pb-8 px-2">مانیتورینگ محصولات</Typography>
                     <MonitoringProdcuct />
