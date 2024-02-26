@@ -275,6 +275,12 @@ export const orderPurchaserListColumns = (renderActions: any) => {
 export const readyToLadingColumns = (renderAction: any) => {
     const col = [
         {
+            field: 'cargoAnnounceNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره اعلام بار', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
             field: 'orderCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.row.order.orderCode}</Typography>;
             },
@@ -316,7 +322,7 @@ export const readyToLadingColumns = (renderAction: any) => {
             },
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        {field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+        {field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120 },
     ]
     return col
 }

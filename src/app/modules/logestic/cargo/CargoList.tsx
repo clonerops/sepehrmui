@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Form, Formik } from "formik";
-import { Edit, Search } from "@mui/icons-material";
+import { Edit, Print, Search } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -14,13 +14,18 @@ import { useGetCustomers } from "../../customer/core/_hooks";
 import { useGetCargosList } from "../core/_hooks";
 import { dropdownCustomer } from "../../generic/_functions";
 import { readyToLadingColumns } from "../../managment-order/helpers/columns";
-
+import ReactToPrint, { useReactToPrint } from "react-to-print";
+import CargoPaper from "./CargoPaper";
 
 const CargoList = () => {
 
     const { data: customers } = useGetCustomers();
     const cargoList = useGetCargosList();
-    console.log()
+    const componentRef = useRef<HTMLDivElement>(null);
+    
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });    
 
     useEffect(() => {
         let formData = {
@@ -40,11 +45,14 @@ const CargoList = () => {
     
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
-                <Button variant="contained" color="secondary">
-                    <Edit />
-                </Button>
-            </Link>
+            <Box className="flex gap-x-4">
+                <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
+                    <Edit color="secondary" />
+                </Link>
+                <Box onClick={handlePrint}>
+                    <Print color="primary" />
+                </Box>
+            </Box>
         );
     };
 
@@ -91,6 +99,9 @@ const CargoList = () => {
                     isLoading={cargoList?.isLoading}
                 />
             </ReusableCard>
+            <div style={{ display: 'none' }}>
+                <CargoPaper contentRef={componentRef} />
+            </div>
         </>
     );
 };
