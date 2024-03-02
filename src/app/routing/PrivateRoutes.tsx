@@ -8,6 +8,9 @@ const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
 const Products = React.lazy(() => import("../modules/generic/products/Products"));
 const Suppliers = React.lazy(() => import("../modules/generic/productSuppliers/Suppliers"));
+const Billlanding = React.lazy(
+    () => import("../modules/logestic/billlanding/Billlanding")
+);
 const ProductPrice = React.lazy(
     () => import("../modules/generic/productPrices/ProductPrice")
 );
@@ -197,6 +200,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productService", element: <ProductService /> },
     { path: "dashboard/transferBetweenWarehouse", element: <TransferBetweenWarehouse /> },
     { path: "dashboard/transferBetweenWarehouse/:id", element: <TransferBetweenWarehouseAction /> },
+    { path: "dashboard/billlanding", element: <Billlanding /> },
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },
     { path: "dashboard/user/role/:id", element: <RoleUser /> },

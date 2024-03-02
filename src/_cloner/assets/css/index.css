@@ -136,3 +136,10 @@
 /* .MuiDataGrid-root .MuiDataGrid-cell:focus-within {
     outline: none !important;
 } */
+
+input[type="radio"]:checked+span { 
+    background-color: #009EF7;
+    color: white;
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+ }

@@ -42,6 +42,7 @@ export const translationMapping: any = {
     sales_order: "سفارش فروش",
     transferBetweenWarehouse: "انتقال بین انبار",
     customerWarehouse: "اختصاص انبار به مشتری",
+    billlanding: "صدور حواله",
 
     // Add more translations as needed
   };

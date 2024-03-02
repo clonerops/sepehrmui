@@ -48,7 +48,7 @@ const orderOrderColumnMain = [
 ]
 
 const lastCargoList: any = [
-    { id: 1, header: "شماره بارنامه", accessor: "cargoAccounceNo" },
+    { id: 1, header: "شماره بارنامه", accessor: "cargoAnnounceNo" },
     { id: 1, header: "راننده", accessor: "driverName" },
     { id: 2, header: "شماره موبایل راننده", accessor: "driverMobile" },
     { id: 3, header: "شماره پلاک", accessor: "carPlaque" },
