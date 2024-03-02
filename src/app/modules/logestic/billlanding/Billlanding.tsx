@@ -150,10 +150,9 @@ const Billlanding = () => {
                                             label="انبار مبدا"
                                             warehouse={warehouse?.data?.filter((item: {warehouseTypeId: number}) => item.warehouseTypeId === 4)}
                                         />
-                                        <FormikWarehouseBasedOfType
+                                        <FormikWarehouse
                                             name="warehouseTo"
                                             label="انبار مقصد"
-                                            warehouse={warehouse?.data?.filter((item: {warehouseTypeId: number}) => item.warehouseTypeId === 4)}
                                         />
                                     </Box>
                                     <Box className="my-4">

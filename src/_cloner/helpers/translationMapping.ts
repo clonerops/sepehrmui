@@ -43,6 +43,7 @@ export const translationMapping: any = {
     transferBetweenWarehouse: "انتقال بین انبار",
     customerWarehouse: "اختصاص انبار به مشتری",
     billlanding: "صدور حواله",
+    presale: "سفارشات پیش فروش",
 
     // Add more translations as needed
   };

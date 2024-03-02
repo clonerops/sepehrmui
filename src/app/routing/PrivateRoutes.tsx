@@ -48,6 +48,9 @@ const PurchaserOrder = React.lazy(() => import("../modules/managment-order/purch
 const SalesOrderList = React.lazy(
     () => import("../modules/managment-order/sales-order/Lists")
 );
+const PreSaleLists = React.lazy(
+    () => import("../modules/managment-order/sales-order/PreSaleLists")
+);
 const PurchaserOrderList = React.lazy(
     () => import("../modules/managment-order/purchaser-order/Lists")
 );
@@ -59,6 +62,9 @@ const PurchaserOrderEdit = React.lazy(
 );
 const SalesOrderDetail = React.lazy(
     () => import("../modules/managment-order/sales-order/Details")
+);
+const ConvertPreSaleToUrgentSale = React.lazy(
+    () => import("../modules/managment-order/sales-order/ConvertPreSaleToUrgentSale")
 );
 const PurchaserOrderDetail = React.lazy(
     () => import("../modules/managment-order/purchaser-order/Details")
@@ -148,8 +154,10 @@ export const routes: RouteProps[] = [
     { path: "dashboard/sales_order", element: <SalesOrder /> },
     { path: "dashboard/purchaser_order", element: <PurchaserOrder /> },
     { path: "dashboard/sales_order/lists", element: <SalesOrderList /> },
+    { path: "dashboard/sales_order/presale", element: <PreSaleLists /> },
     { path: "dashboard/purchaser_order/lists", element: <PurchaserOrderList /> },
     { path: "dashboard/sales_order/lists/:id", element: <SalesOrderDetail /> },
+    { path: "dashboard/sales_order/presale-to-urgentsale/:id", element: <ConvertPreSaleToUrgentSale /> },
     { path: "dashboard/purchaser_order/lists/:id", element: <PurchaserOrderDetail /> },
     {
         path: "dashboard/sales_order/ready-to-confirm/:id",
