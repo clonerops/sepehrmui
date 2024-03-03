@@ -14,7 +14,6 @@ import FormikExitType from '../../../../_cloner/components/FormikExitType'
 import FormikTemporary from '../../../../_cloner/components/FormikTemporary'
 import FormikDescription from '../../../../_cloner/components/FormikDescription'
 import FormikInput from '../../../../_cloner/components/FormikInput'
-import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker'
 import RadioGroup from '../../../../_cloner/components/RadioGroup'
 
 console.log("OrderFeauture is rendered")
@@ -62,27 +61,27 @@ const orderFeatureRenderFields = (
 const OrderFeature:FC<IProps> = ({postOrder}) => {
 
     return (
-    // <ReusableCard>
-    <ReusableCard cardClassName='bg-gradient-to-r from-gray-100'>
-    <Box component="div" className="">
-        <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
-        {orderFeatureFields.map((rowFields, index) => (
-            <Box
-                key={index}
-                component="div"
-                className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
-            >
-                {rowFields.map((field, index) =>
-                    orderFeatureRenderFields(
-                        index,
-                        postOrder,
-                        field,
-                    )
-                )}
-            </Box>
-        ))}
-    </Box>
-</ReusableCard>
+    // <ReusableCard cardClassName='bg-gradient-to-r from-gray-100'>
+    <ReusableCard cardClassName=''>
+        <Box component="div" className="">
+            <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
+            {orderFeatureFields.map((rowFields, index) => (
+                <Box
+                    key={index}
+                    component="div"
+                    className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
+                >
+                    {rowFields.map((field, index) =>
+                        orderFeatureRenderFields(
+                            index,
+                            postOrder,
+                            field,
+                        )
+                    )}
+                </Box>
+            ))}
+        </Box>
+    </ReusableCard>
 
   )
 }

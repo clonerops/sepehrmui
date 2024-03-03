@@ -1,4 +1,4 @@
-import { Box, Button, InputAdornment } from '@mui/material'
+import { Box, Button, InputAdornment, Typography } from '@mui/material'
 import { Edit, Add, Grading } from "@mui/icons-material"
 import { FormikProps } from 'formik';
 import { UseMutationResult } from '@tanstack/react-query';
@@ -92,10 +92,10 @@ const orderDetailParseFields = (
                 {...rest} />
         case "product":
             return (
-                <Box key={index} component="div" className="flex gap-x-2 w-full">
+                <div key={index} className="flex gap-x-2 w-full">
                     <FormikProduct disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} onChange={(value: any) => changeProductFunction(value)} options={dropdownProductByBrandName(products?.data?.data)} {...rest} />
-                    <Button onClick={() => setState((prev) => ({...prev, isProductChoose: true}))} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}>
-                        <Grading />
+                    <Button className="!w-[160px] !h-[36px]" onClick={() => setState((prev) => ({...prev, isProductChoose: true}))} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}>
+                        <Typography >انتخاب کالا</Typography>
                     </Button>
                     {isProductChoose ?
                         <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='99%' isClose={() => setState((prev) => ({...prev, isProductChoose: false}))}>
@@ -110,7 +110,7 @@ const orderDetailParseFields = (
                         </TransitionsModal>
                         : null
                     }
-                </Box>
+                </div>
             );
         case "purchaserCustomer":
             return <FormikCustomer key={index} disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0} {...rest} />

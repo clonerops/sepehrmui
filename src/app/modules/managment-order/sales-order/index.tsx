@@ -61,7 +61,8 @@ const SalesOrder = () => {
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
                         return {
                             ...item,
-                            amount: +item.amount.replace(/,/g, ""),
+                            // amount: item.amount && +item?.amount.replace(/,/g, ""),
+                            amount: item.amount && +item.amount,
                         }
                     }),
                     orderServices: [...orderServices]
@@ -108,14 +109,15 @@ const SalesOrder = () => {
                 validationSchema={saleOrderValidation}>
                 {({ handleSubmit }) => {
                     return <>
+                        <div className="">
+                            <SaleHeaderBase 
+                                postSaleOrder={postSaleOrder} 
+                                orders={orders} 
+                                orderServices={orderServices} />
+                        </div>
 
-                        <Box component="div" className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
-                            <SaleHeaderBase postSaleOrder={postSaleOrder} orders={orders} orderServices={orderServices} />
-                            <CustomerChoose formikRef={formikRef} openModalState={setIsOpen} postSaleOrder={postSaleOrder} />
-                        </Box>
-
-                        <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
-                            <ReusableCard cardClassName="col-span-3 bg-gradient-to-r from-gray-100">
+                        <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
+                            <ReusableCard cardClassName='lg:col-span-3'>
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
                                     products={products}
@@ -129,8 +131,13 @@ const SalesOrder = () => {
                                     setOrderValid={setOrderValid}
                                 />
                             </ReusableCard>
-                        </Box>
-
+                            <ReusableCard>
+                                <CustomerChoose 
+                                formikRef={formikRef} 
+                                openModalState={setIsOpen} 
+                                postSaleOrder={postSaleOrder} />
+                            </ReusableCard>
+                        </div>
                         <Box component="div" className="md:grid md:grid-cols-3 gap-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
@@ -149,7 +156,6 @@ const SalesOrder = () => {
                                 formikRef={formikRef}
                                 setOrderPayment={setOrderPayment} />
                         </Box>
-
                         <Box component="div" className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
@@ -166,7 +172,6 @@ const SalesOrder = () => {
                                 isLoading={postSaleOrder.isLoading}
                             />
                         </Box>
-
                     </>
                 }}
             </Formik>

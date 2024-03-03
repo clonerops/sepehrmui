@@ -12,17 +12,18 @@ interface IProps {
 const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName}) => {
     return (
         <>
-            <ReusableCard cardClassName="bg-gradient-to-r from-gray-200">
-                <Box className="flex justify-between items-center">
+            {/* <ReusableCard cardClassName="bg-gradient-to-r from-gray-200"> */}
+            <ReusableCard cardClassName="">
+                <div className="flex justify-between items-center">
                     <Typography variant="h4" color="primary">
                         {title}
                     </Typography>
-                    <Box
+                    <div
                         className={`flex justify-center items-center ${iconClassName} w-[50px] h-[50px] rounded-lg`}
                     >
                         {icon}
-                    </Box>
-                </Box>
+                    </div>
+                </div>
                 <Typography variant="h1">{value}</Typography>
             </ReusableCard>
         </>

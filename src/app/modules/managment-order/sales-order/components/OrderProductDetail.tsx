@@ -1,4 +1,4 @@
-import {FC, memo, useState} from 'react'
+import {FC, memo, useCallback, useState} from 'react'
 import { Form, FormikProps } from "formik"
 import {Box} from '@mui/material'
 
@@ -44,49 +44,103 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
         isProductChoose: false
     })
 
-    const changeWarehouseFunction = (warehouseType: number) => {
+    // const changeWarehouseFunction = (warehouseType: number) => {
+    //     try {
+    //         const filter = {
+    //             ByBrand: true,
+    //             WarehouseId: warehouseType
+    //         }
+    //         products.mutate(filter)
+
+    //         FIELD_VALUE.forEach((field) => formikRef.current?.setFieldValue(field.title, field.value));
+
+    //         if (BUY_WAREHOUSE_TYPES.includes(warehouseType)) setState((prev) => ({...prev, isBuy: true}));
+    //         else setState((prev) => ({...prev, isProductChoose: false, isBuy: false}))
+    //     } catch (error) {
+    //         console.error("Error handling warehouse change:", error);
+    //     }
+
+    // }
+
+    const changeWarehouseFunction = useCallback((warehouseType: number) => {
         try {
-            const filter = {
-                ByBrand: true,
-                WarehouseId: warehouseType
-            }
-            products.mutate(filter)
-
-            FIELD_VALUE.forEach((field) => formikRef.current?.setFieldValue(field.title, field.value));
-
-            if (BUY_WAREHOUSE_TYPES.includes(warehouseType)) setState((prev) => ({...prev, isBuy: true}));
-            else setState((prev) => ({...prev, isProductChoose: false, isBuy: false}))
+          const filter = {
+            ByBrand: true,
+            WarehouseId: warehouseType
+          };
+          products.mutate(filter);
+    
+          FIELD_VALUE.forEach((field) => formikRef.current?.setFieldValue(field.title, field.value));
+    
+          setState((prev) => ({
+            ...prev,
+            isBuy: BUY_WAREHOUSE_TYPES.includes(warehouseType),
+            isProductChoose: false,
+          }));
         } catch (error) {
-            console.error("Error handling warehouse change:", error);
+          console.error("Error handling warehouse change:", error);
         }
+      }, [products, formikRef, setState]);
+    
+    
+    const changeProductFunction = useCallback((value: any) => {
+      const fieldValue = [
+        { title: "productBrandName", value: value?.productBrandName },
+        { title: "warehouseName", value: value?.warehouseName },
+        { title: "productMainUnitDesc", value: value?.productMainUnitDesc },
+        { title: "productSubUnitDesc", value: value?.productSubUnitDesc },
+        { title: "productSubUnitId", value: value?.productSubUnitId },
+      ];
 
-    }
+      formikRef.current?.setValues((prevValues: any) => {
+        const updatedValues = { ...prevValues };
+        fieldValue.forEach((i: { title: string; value: any }) => {
+          updatedValues[i.title] = i.value;
+        });
 
-    const changeProductFunction = (value: any) => { 
-        const fieldValue = [
-            { title: "productBrandName", value: value?.productBrandName },
-            { title: "warehouseName", value: value?.warehouseName },
-            { title: "productMainUnitDesc", value: value?.productMainUnitDesc },
-            { title: "productSubUnitDesc", value: value?.productSubUnitDesc },
-            { title: "productSubUnitId", value: value?.productSubUnitId },
-        ]
-        fieldValue.forEach((i: { title: string, value: any }) => formikRef.current?.setFieldValue(i.title, i.value))
-        if (BUY_WAREHOUSE_TYPES.includes(value?.warehouseId)) setState((prev) => ({...prev, isBuy: true}))
-        else setState((prev) => ({...prev, isBuy: false}))
-    }
+        return updatedValues;
+      });
+
+      setState((prev) => ({
+        ...prev,
+        isBuy: BUY_WAREHOUSE_TYPES.includes(value?.warehouseId),
+      }));
+    }, [formikRef, setState]);
+
+
+    // const changeProductFunction = (value: any) => { 
+    //     const fieldValue = [
+    //         { title: "productBrandName", value: value?.productBrandName },
+    //         { title: "warehouseName", value: value?.warehouseName },
+    //         { title: "productMainUnitDesc", value: value?.productMainUnitDesc },
+    //         { title: "productSubUnitDesc", value: value?.productSubUnitDesc },
+    //         { title: "productSubUnitId", value: value?.productSubUnitId },
+    //     ]
+    //     fieldValue.forEach((i: { title: string, value: any }) => formikRef.current?.setFieldValue(i.title, i.value))
+    //     if (BUY_WAREHOUSE_TYPES.includes(value?.warehouseId)) setState((prev) => ({...prev, isBuy: true}))
+    //     else setState((prev) => ({...prev, isBuy: false}))
+    // }
 
     const handleOrder = () => {
         const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
-
+        console.log(formikRef?.current?.values)
         const productOrder: IOrderItems = {
-            id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
-            productId: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
-            productName: formikRef?.current?.values?.productName?.productName ? formikRef?.current?.values?.productName?.productName : formikRef?.current?.values?.productName,
-            exchangeRate: formikRef?.current?.values?.productName?.exchangeRate ? formikRef?.current?.values?.productName?.exchangeRate : formikRef?.current?.values?.exchangeRate,
-            warehouseId: formikRef?.current?.values?.productName?.warehouseId ? formikRef?.current?.values?.productName?.warehouseId : formikRef?.current?.values.warehouseId,
-            productBrandName: formikRef?.current?.values?.productName?.productBrandName ? formikRef?.current?.values?.productName?.productBrandName : formikRef?.current?.values.productBrandName,
-            productBrandId: formikRef?.current?.values.productName.productBrandId ? formikRef?.current?.values.productName.productBrandId : formikRef?.current?.values.productBrandId,
-            warehouseName: formikRef?.current?.values?.productName.warehouseName ? formikRef?.current?.values?.productName.warehouseName : formikRef?.current?.values?.warehouseName,
+            // id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
+            // productId: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
+            // productName: formikRef?.current?.values?.productName?.productName ? formikRef?.current?.values?.productName?.productName : formikRef?.current?.values?.productName,
+            // exchangeRate: formikRef?.current?.values?.productName?.exchangeRate ? formikRef?.current?.values?.productName?.exchangeRate : formikRef?.current?.values?.exchangeRate,
+            // warehouseId: formikRef?.current?.values?.productName?.warehouseId ? formikRef?.current?.values?.productName?.warehouseId : formikRef?.current?.values.warehouseId,
+            // productBrandName: formikRef?.current?.values?.productName?.productBrandName ? formikRef?.current?.values?.productName?.productBrandName : formikRef?.current?.values.productBrandName,
+            // productBrandId: formikRef?.current?.values.productName.productBrandId ? formikRef?.current?.values.productName.productBrandId : formikRef?.current?.values.productBrandId,
+            // warehouseName: formikRef?.current?.values?.productName.warehouseName ? formikRef?.current?.values?.productName.warehouseName : formikRef?.current?.values?.warehouseName,
+            id: formikRef?.current?.values?.productId?.value ? formikRef?.current?.values?.productId?.value : formikRef?.current?.values.id,
+            productId: formikRef?.current?.values?.productId?.value ? formikRef?.current?.values?.productId?.value : formikRef?.current?.values.id,
+            productName: formikRef?.current?.values?.productId?.productId ? formikRef?.current?.values?.productId?.productId : formikRef?.current?.values?.productId,
+            exchangeRate: formikRef?.current?.values?.productId?.exchangeRate ? formikRef?.current?.values?.productId?.exchangeRate : formikRef?.current?.values?.exchangeRate,
+            warehouseId: formikRef?.current?.values?.productId?.warehouseId ? formikRef?.current?.values?.productId?.warehouseId : formikRef?.current?.values.warehouseId,
+            productBrandName: formikRef?.current?.values?.productId?.productBrandName ? formikRef?.current?.values?.productId?.productBrandName : formikRef?.current?.values.productBrandName,
+            productBrandId: formikRef?.current?.values.productId.productBrandId ? formikRef?.current?.values.productId.productBrandId : formikRef?.current?.values.productBrandId,
+            warehouseName: formikRef?.current?.values?.productId.warehouseName ? formikRef?.current?.values?.productId.warehouseName : formikRef?.current?.values?.warehouseName,
             productDesc: formikRef?.current?.values?.productDesc,
             purchasePrice: formikRef?.current?.values?.purchasePrice,
             purchaseSettlementDate: formikRef?.current?.values.purchaseSettlementDate,
@@ -124,7 +178,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                 EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error")
             } else {
                 setOrders([...orders, productOrder]);
-                formikRef.current?.setFieldValue("amount", sliceNumberPriceRial( calculateTotalAmount([...orders, productOrder], orderServices)))
+                formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial( calculateTotalAmount([...orders, productOrder], orderServices)))
             }
             formikRef?.current?.setFieldValue("proximateAmount", "0");
             formikRef?.current?.setFieldValue("price", "0");
@@ -146,7 +200,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                 EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
             } else {
                 setOrders(updatedOrders);
-                formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
+                formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
             }
             setState((prev) => ({...prev, orderIndex: 0}))
             formikRef?.current?.setFieldValue("proximateAmount", "0");
@@ -163,12 +217,11 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
     return (
         <>
             {products.isLoading && <Backdrop loading={products.isLoading} />}
-            <Form>
-                <Box component="div" className="">
+            <form>
+                <div className="">
                     {fieldsToMap.map((rowFields, index) => (
-                        <Box
+                        <div
                             key={index}
-                            component="div"
                             className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                         >
                             {rowFields.map((field, index) =>
@@ -192,9 +245,9 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                                     setOrderServices,
                                 )
                             )}
-                        </Box>
+                        </div>
                     ))}
-                </Box>
+                </div>
                 <OrderProductList
                     selectedOrderIndex={state.orderIndex}
                     orders={orders}
@@ -207,7 +260,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                     formikRef={formikRef}
                     setOrderValid={setOrderValid}
                 />
-            </Form>
+            </form>
         </>
     )
 }

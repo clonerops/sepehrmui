@@ -1,4 +1,4 @@
-import { Box, Typography, IconButton } from '@mui/material'
+import { Box, Typography, IconButton, Button } from '@mui/material'
 
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
@@ -48,9 +48,11 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
         else {
             setOrderService([...orderServices, orderServicetData])
             setOrderPayment([])
-            formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
-            formikRef.current?.setFieldValue('serviceId', "")
-            formikRef.current?.setFieldValue('serviceAmount', "")
+            formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
+            // formikRef.current?.setFieldValue('serviceId', "")
+            // formikRef.current?.setFieldValue('serviceAmount', "")
+            formikRef.current?.setFieldValue('orderServiceId', "")
+            formikRef.current?.setFieldValue('orderServiceDescription', "")
         }
 
     }
@@ -58,7 +60,7 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
     const handleDeleteService = (params: {id: number}) => {
         const filterServices = orderService.filter((item: IOrderService) => item.id !== params.id)
         setOrderService(filterServices)
-        formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
+        formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
 
     }
 
@@ -86,9 +88,9 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
         <Box component="div" className="flex flex-wrap md:flex-nowrap gap-4 my-4 ">
             <FormikService label="نوع خدمت" name="serviceId" disabled={postSaleOrder?.data?.succeeded} />
             <FormikPrice name="serviceAmount" label="هزینه" disabled={postSaleOrder?.data?.succeeded} />
-            <IconButton onClick={handleSetServices}>
-                <AddCircle color='secondary' />
-            </IconButton>
+            <Button onClick={handleSetServices} className="!w-[120px]" variant="contained">
+                <Typography>افزودن</Typography>
+            </Button>
         </Box>
     <MuiTable onDoubleClick={() => {}} columns={renderColumns} data={orderService} />
 </ReusableCard>

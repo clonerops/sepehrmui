@@ -22,6 +22,8 @@ export const orderFieldWhenWarehouseIsMain: FieldType[][] = [
             name: "proximateSubUnit",
             type: "proximateSubUnit",
         },
+    ],
+    [
         {
             label: "قیمت",
             name: "price",
@@ -32,6 +34,10 @@ export const orderFieldWhenWarehouseIsMain: FieldType[][] = [
             name: "productDesc",
             type: "input",
         },
+    ],
+    [
+    
+     
         {
             label: "ردیف فروش",
             name: "rowId",
@@ -51,14 +57,15 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
             name: "warehouseId",
             type: "warehouse",
         },
-        { label: "کالا", name: "productName", type: "product" },
-    ],
-    [
+        // { label: "کالا", name: "productName", type: "product" },
+        { label: "کالا", name: "productId", type: "product" },
         {
             label: "مقدار",
             name: "proximateAmount",
             type: "proximateAmount",
         },
+    ],
+    [
         {
             label: "تعداد (واحدفرعی)",
             name: "proximateSubUnit",
@@ -68,11 +75,6 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
             label: "قیمت",
             name: "price",
             type: "price",
-        },
-        {
-            label: "توضیحات کالا",
-            name: "productDesc",
-            type: "input",
         },
         {
             label: "ردیف فروش",
@@ -96,10 +98,18 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
             name: "purchaseInvoiceTypeId",
             type: "purchaseInvoiceType",
         },
+    ],
+    [
+        
         {
             label: "تاریخ تسویه خرید",
             name: "purchaseSettlementDate",
             type: "date",
+        },
+        {
+            label: "توضیحات کالا",
+            name: "productDesc",
+            type: "input",
         },
         {
             label: "",
