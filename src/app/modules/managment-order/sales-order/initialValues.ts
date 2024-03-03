@@ -28,7 +28,7 @@ export const saleOrderInitialValues = {
     purchaserCustomerId: "",
     sellerCompanyRow: "",
     detailDescription: "",
-    purchaseSettlementDates: "",
+    purchaseSettlementDate: "",
     cargoSendDate: "",
 
     // order payment

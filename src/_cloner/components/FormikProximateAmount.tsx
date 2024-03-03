@@ -11,10 +11,10 @@ const FormikProximateAmount = (props: any) => {
         const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         event.target.value = formattedValue;
         formikProps.setFieldValue(props.name, inputValue);
-        if(formikProps?.values?.exchangeRate) {
-            formikProps.setFieldValue("proximateSubUnit", Math.ceil(+inputValue / +formikProps?.values?.exchangeRate))
+        if(formikProps?.values?.productId?.exchangeRate) {
+            formikProps.setFieldValue("productSubUnitAmount", Math.ceil(+inputValue / +formikProps?.values?.productId?.exchangeRate))
         } else {
-            formikProps.setFieldValue("proximateSubUnit", Math.ceil(+inputValue / +formikProps?.values?.productName.exchangeRate))
+            formikProps.setFieldValue("productSubUnitAmount", Math.ceil(+inputValue / +formikProps?.values?.productId?.exchangeRate))
         }
     };
 

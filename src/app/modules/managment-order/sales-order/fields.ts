@@ -9,7 +9,7 @@ export const orderFieldWhenWarehouseIsMain: FieldType[][] = [
             name: "warehouseId",
             type: "warehouse",
         },
-        { label: "کالا", name: "productName", type: "product" },
+        { label: "کالا", name: "productId", type: "product" },
     ],
     [
         {
@@ -19,8 +19,8 @@ export const orderFieldWhenWarehouseIsMain: FieldType[][] = [
         },
         {
             label: "تعداد (واحدفرعی)",
-            name: "proximateSubUnit",
-            type: "proximateSubUnit",
+            name: "productSubUnitAmount",
+            type: "productSubUnitAmount",
         },
     ],
     [
@@ -31,7 +31,7 @@ export const orderFieldWhenWarehouseIsMain: FieldType[][] = [
         },
         {
             label: "توضیحات کالا",
-            name: "productDesc",
+            name: "detailDescription",
             type: "input",
         },
     ],
@@ -57,19 +57,18 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
             name: "warehouseId",
             type: "warehouse",
         },
-        // { label: "کالا", name: "productName", type: "product" },
         { label: "کالا", name: "productId", type: "product" },
+    ],
+    [
         {
             label: "مقدار",
             name: "proximateAmount",
             type: "proximateAmount",
         },
-    ],
-    [
         {
             label: "تعداد (واحدفرعی)",
-            name: "proximateSubUnit",
-            type: "proximateSubUnit",
+            name: "productSubUnitAmount",
+            type: "productSubUnitAmount",
         },
         {
             label: "قیمت",
@@ -85,7 +84,7 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
     [
         {
             label: "خرید از",
-            name: "purchaserCustomerName",
+            name: "purchaserCustomerId",
             type: "purchaserCustomer",
         },
         {
@@ -108,7 +107,7 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
         },
         {
             label: "توضیحات کالا",
-            name: "productDesc",
+            name: "detailDescription",
             type: "input",
         },
         {

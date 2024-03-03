@@ -13,6 +13,21 @@ import { orderFieldWhenNotWarehouseMain, orderFieldWhenWarehouseIsMain } from '.
 import { orderDetailParseFields } from '../../sales-order/renderFields'
 import { EnqueueSnackbar } from '../../../../../_cloner/helpers/Snackebar'
 
+const fields = [
+    "warehouseId", 
+    "productId", 
+    "proximateAmount", 
+    "productSubUnitAmount",
+    "price", 
+    "rowId", 
+    "purchaserCustomerId", 
+    "purchasePrice", 
+    "purchaseInvoiceTypeId", 
+    "purchaseSettlementDate",
+    "detailDescription", 
+];
+
+
 console.log("OrderProductDetail is rendered")
 
 interface IProps {
@@ -74,6 +89,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
           { title: "productSubUnitId", value: value?.productSubUnitId },
         ];
     
+        // formikRef.current?.setValues((prevValues: any) => {
         formikRef.current?.setValues((prevValues: any) => {
           const updatedValues = { ...prevValues };
           fieldValue.forEach((i: { title: string; value: any }) => {
@@ -90,86 +106,91 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
       }, [formikRef, setState]);
     
     const handleOrder = () => {
-        const fields = ["productName", "id", "warehouseId", "warehouseTypeId", "warehouseName", "productDesc", "productBrandDesc", "purchasePrice", "purchaseSettlementDate", "purchaseInvoiceTypeId", "purchaseInvoiceTypeDesc", "sellerCompanyRow", "rowId", "proximateSubUnit", "purchaserCustomerId", "purchaserCustomerName", "productMainUnitDesc", "productSubUnitDesc"];
         const productOrder: IOrderItems = {
             id: formikRef?.current?.values?.productId?.value ? formikRef?.current?.values?.productId?.value : formikRef?.current?.values.id,
+            rowId: formikRef?.current?.values?.rowId,
             productId: formikRef?.current?.values?.productId?.value ? formikRef?.current?.values?.productId?.value : formikRef?.current?.values.id,
-            productName: formikRef?.current?.values?.productId?.productId ? formikRef?.current?.values?.productId?.productId : formikRef?.current?.values?.productId,
-            exchangeRate: formikRef?.current?.values?.productId?.exchangeRate ? formikRef?.current?.values?.productId?.exchangeRate : formikRef?.current?.values?.exchangeRate,
             warehouseId: formikRef?.current?.values?.productId?.warehouseId ? formikRef?.current?.values?.productId?.warehouseId : formikRef?.current?.values.warehouseId,
-            productBrandName: formikRef?.current?.values?.productId?.productBrandName ? formikRef?.current?.values?.productId?.productBrandName : formikRef?.current?.values.productBrandName,
-            productBrandId: formikRef?.current?.values.productId.productBrandId ? formikRef?.current?.values.productId.productBrandId : formikRef?.current?.values.productBrandId,
-            warehouseName: formikRef?.current?.values?.productId.warehouseName ? formikRef?.current?.values?.productId.warehouseName : formikRef?.current?.values?.warehouseName,
-            productDesc: formikRef?.current?.values?.productDesc,
-            purchasePrice: formikRef?.current?.values?.purchasePrice,
-            purchaseSettlementDate: formikRef?.current?.values.purchaseSettlementDate,
-            purchaseInvoiceTypeId: formikRef?.current?.values?.purchaseInvoiceTypeId ,
-            sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
             proximateAmount: formikRef?.current?.values.proximateAmount,
-            proximateSubUnit: formikRef?.current?.values.proximateSubUnit,
-            purchaserCustomerId: formikRef?.current?.values.purchaserCustomerName?.value ? formikRef?.current?.values.purchaserCustomerName?.value : formikRef?.current?.values.purchaserCustomerId,
-            purchaserCustomerName: formikRef?.current?.values.purchaserCustomerName?.label ? formikRef?.current?.values.purchaserCustomerName?.label : formikRef?.current?.values.purchaserCustomerName,
+            price: formikRef?.current?.values?.price,
+            productName: formikRef?.current?.values?.productId?.label ? formikRef?.current?.values?.productId?.label : formikRef?.current?.values?.productId.label,
+            purchasePrice: formikRef?.current?.values?.purchasePrice,
+            productBrandId: formikRef?.current?.values.productId.productBrandId ? formikRef?.current?.values.productId.productBrandId : formikRef?.current?.values.productBrandId,
+            productSubUnitId: formikRef?.current?.values.productSubUnitId,
+            proximateSubUnit: formikRef?.current?.values.productSubUnitAmount,
+            purchaseInvoiceTypeId: formikRef?.current?.values?.purchaseInvoiceTypeId ,
+            purchaserCustomerId: formikRef?.current?.values.purchaserCustomerId?.value ? formikRef?.current?.values.purchaserCustomerId?.value : formikRef?.current?.values.purchaserCustomerId,
+            sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
+            purchaseSettlementDate: formikRef?.current?.values.purchaseSettlementDate,
+            description: formikRef?.current?.values.detailDescription,
+            
+            exchangeRate: formikRef?.current?.values?.productId?.exchangeRate ? formikRef?.current?.values?.productId?.exchangeRate : formikRef?.current?.values?.exchangeRate,
+            productBrandName: formikRef?.current?.values?.productId?.productBrandName ? formikRef?.current?.values?.productId?.productBrandName : formikRef?.current?.values.productBrandName,
+            warehouseName: formikRef?.current?.values?.productId.warehouseName ? formikRef?.current?.values?.productId.warehouseName : formikRef?.current?.values?.warehouseName,
+            purchaserCustomerName: formikRef?.current?.values.purchaserCustomerId?.label ? formikRef?.current?.values.purchaserCustomerId?.label : formikRef?.current?.values.purchaserCustomerName,
             productMainUnitDesc: formikRef?.current?.values.productMainUnitDesc,
             productSubUnitDesc: formikRef?.current?.values.productSubUnitDesc,
-            productSubUnitId: formikRef?.current?.values.productSubUnitId,
-            price: formikRef?.current?.values?.price,
-            description: formikRef?.current?.values.productDesc,
-            rowId: formikRef?.current?.values?.rowId,
         };
-
-
-        if (!state.isUpdate) {
-            const isDuplicate = orders.some(
-                (order: any) =>
-                    order.id === productOrder.id &&
-                    order.warehouseId === productOrder.warehouseId &&
-                    order.productId === productOrder.productId &&
-                    order.productBrandId === productOrder.productBrandId
-            );
-
-            if (formikRef?.current?.values.productId === "" || formikRef?.current?.values.productId.label === "") {
-                EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
-            } else if (formikRef?.current?.values?.price === "") {
-                EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
-            } else if (formikRef?.current?.values?.proximateAmount === "") {
-                EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
-            } else if (isDuplicate) {
-                EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error")
-            } else {
-                console.log([...orders, productOrder])
-                setOrders([...orders, productOrder]);
-                formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial( calculateTotalAmount([...orders, productOrder], orderServices)))
-            }
-            formikRef?.current?.setFieldValue("proximateAmount", "0");
-            formikRef?.current?.setFieldValue("price", "0");
-            fields.forEach((element) => {
-                formikRef?.current?.setFieldValue(element, "");
-            });
-            setState((prev) => ({...prev, isBuy: false}))
-        } else {
-            const updatedOrder = {
-                ...productOrder,
+        console.log(formikRef?.current?.values?.productId)
+        formikRef?.current?.setValues((prevValues: any) => {
+            return {
+              ...prevValues,
+              productId: null,
             };
-            const updatedOrders: IOrderItems[] = [...orders];
-            updatedOrders[state.orderIndex ? state.orderIndex : 0] = updatedOrder;
-            if (formikRef?.current?.values.productName === "" || formikRef?.current?.values.productName.label === "") {
-                EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
-            } else if (formikRef?.current?.values?.price === "") {
-                EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
-            } else if (formikRef?.current?.values?.proximateAmount === "") {
-                EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
-            } else {
-                setOrders(updatedOrders);
-                formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
-            }
-            setState((prev) => ({...prev, orderIndex: 0}))
-            formikRef?.current?.setFieldValue("proximateAmount", "0");
-            formikRef?.current?.setFieldValue("price", "0");
-            fields.forEach((element) => {
-                formikRef?.current?.setFieldValue(element, "");
-            });
-            setState((prev) => ({...prev, isBuy: false, isUpdate: false}))
-        }
+          });
+                  formikRef?.current?.setFieldValue("warehouseId", "")
+
+        // if (!state.isUpdate) {
+        //     const isDuplicate = orders.some(
+        //         (order: any) =>
+        //             order.id === productOrder.id &&
+        //             order.warehouseId === productOrder.warehouseId &&
+        //             order.productId === productOrder.productId &&
+        //             order.productBrandId === productOrder.productBrandId
+        //     );
+
+        //     if (formikRef?.current?.values.productId === "" || formikRef?.current?.values.productId.label === "") {
+        //         EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
+        //     } else if (formikRef?.current?.values?.price === "") {
+        //         EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
+        //     } else if (formikRef?.current?.values?.proximateAmount === "") {
+        //         EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
+        //     } else if (isDuplicate) {
+        //         EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error")
+        //     } else {
+        //         setOrders([...orders, productOrder]);
+        //         formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial( calculateTotalAmount([...orders, productOrder], orderServices)))
+        //     }
+        //     formikRef?.current?.setFieldValue("proximateAmount", "0");
+        //     formikRef?.current?.setFieldValue("price", "0");
+        //     fields.forEach((element) => {
+        //         formikRef?.current?.setFieldValue(element, "");
+        //     });
+        //     setState((prev) => ({...prev, isBuy: false}))
+        // } else {
+        //     const updatedOrder = {
+        //         ...productOrder,
+        //     };
+        //     const updatedOrders: IOrderItems[] = [...orders];
+        //     updatedOrders[state.orderIndex ? state.orderIndex : 0] = updatedOrder;
+        //     if (formikRef?.current?.values.productId === "" || formikRef?.current?.values.productId.label === "") {
+        //         EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
+        //     } else if (formikRef?.current?.values?.price === "") {
+        //         EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
+        //     } else if (formikRef?.current?.values?.proximateAmount === "") {
+        //         EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
+        //     } else {
+        //         setOrders(updatedOrders);
+        //         formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
+        //     }
+        //     setState((prev) => ({...prev, orderIndex: 0}))
+        //     formikRef?.current?.setFieldValue("proximateAmount", "0");
+        //     formikRef?.current?.setFieldValue("price", "0");
+        //     fields.forEach((element) => {
+        //         formikRef?.current?.setFieldValue(element, "");
+        //     });
+        //     setState((prev) => ({...prev, isBuy: false, isUpdate: false}))
+        // }
     };
 
     const fieldsToMap = state.isBuy ? orderFieldWhenNotWarehouseMain : orderFieldWhenWarehouseIsMain;

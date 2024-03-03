@@ -74,11 +74,13 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
                                 onChange={(value: any) => changeCustomerFunction(value)}
                                 name="customerId"
                                 label="مشتری" />
-                            <Button onClick={() => openModalState(true)} variant="contained" className="!w-[160px] !h-[36px]">
-                                <Typography>ایجاد مشتری</Typography>
-                            </Button>
                         </div>
                         <FormikCompany customerid={formikRef.current?.values.customerId} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
+                    </div>
+                    <div className='mt-4 flex justify-end items-end'>
+                        <Button onClick={() => openModalState(true)} variant="contained" className="w-full">
+                            <Typography>ایجاد مشتری</Typography>
+                        </Button>
                     </div>
                     <div className='flex flex-col space-y-4'>
                         <div className='flex flex-row justify-between items-center'>

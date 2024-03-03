@@ -133,7 +133,7 @@ const orderDetailParseFields = (
                     {...rest}
                 />
             );
-        case "proximateSubUnit":
+        case "productSubUnitAmount":
             return (
                 <FormikPrice
                     key={index}    
