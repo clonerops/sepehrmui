@@ -37,6 +37,12 @@ const fields: FieldType[][] = [
     ]
 ];
 
+const categories = [
+    {value: 1, title: "طبق برنامه", defaultChecked: true},
+    {value: 2, title: "برای رزرو", defaultChecked: false},
+    {value: 3, title: "برای انبار", defaultChecked: false}
+]
+
 
 const Billlanding = () => {
     const vehicleList = useGetVehicleTypes()
@@ -158,6 +164,7 @@ const Billlanding = () => {
                                     <Box className="my-4">
                                         <RadioGroup
                                             onChange={(e: any) => () => {}}
+                                            categories={categories}
                                             id="saleTotalTypeDetail"
                                             key="saleTotalTypeDetail"
                                         />

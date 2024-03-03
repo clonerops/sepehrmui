@@ -115,7 +115,6 @@ const SalesOrder = () => {
                         </Box>
 
                         <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
-                            {/* <ReusableCard cardClassName="col-span-3"> */}
                             <ReusableCard cardClassName="col-span-3 bg-gradient-to-r from-gray-100">
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
@@ -132,7 +131,7 @@ const SalesOrder = () => {
                             </ReusableCard>
                         </Box>
 
-                        <Box component="div" className="md:grid md:grid-cols-3 gap-x-4 mt-4">
+                        <Box component="div" className="md:grid md:grid-cols-3 gap-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}

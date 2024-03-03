@@ -81,10 +81,9 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
     let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit
 
   return (
-    // <ReusableCard cardClassName="mt-4 md:mt-0">
     <ReusableCard cardClassName="mt-4 md:mt-0 bg-gradient-to-r from-gray-100">
         <Typography variant="h2" color="primary">بسته خدمت</Typography>
-        <Box component="div" className="flex flex-wrap md:flex-nowrap  gap-4 my-4">
+        <Box component="div" className="flex flex-wrap md:flex-nowrap gap-4 my-4 ">
             <FormikService label="نوع خدمت" name="serviceId" disabled={postSaleOrder?.data?.succeeded} />
             <FormikPrice name="serviceAmount" label="هزینه" disabled={postSaleOrder?.data?.succeeded} />
             <IconButton onClick={handleSetServices}>
