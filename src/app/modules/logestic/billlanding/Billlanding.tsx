@@ -234,6 +234,7 @@ console.log("productsInventory.data", productsInventory.data)
                                             categories={categories}
                                             id="saleTotalTypeDetail"
                                             key="saleTotalTypeDetail"
+                                            name="saleTotalTypeDetail"
                                         />
                                     </Box>
                                 </ReusableCard>

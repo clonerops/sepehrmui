@@ -15,6 +15,7 @@ import FormikTemporary from '../../../../_cloner/components/FormikTemporary'
 import FormikDescription from '../../../../_cloner/components/FormikDescription'
 import FormikInput from '../../../../_cloner/components/FormikInput'
 import RadioGroup from '../../../../_cloner/components/RadioGroup'
+import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker'
 
 console.log("OrderFeauture is rendered")
 
@@ -23,8 +24,8 @@ interface IProps {
 }
 
 const categories = [
-    {value: 1, title: "پیش فروش", defaultChecked: true},
-    {value: 2, title: "فروش فوری", defaultChecked: false}
+    {value: 2, title: "پیش فروش", defaultChecked: true},
+    {value: 1, title: "فروش فوری", defaultChecked: false}
 ]
 
 const orderFeatureRenderFields = (
@@ -45,12 +46,14 @@ const orderFeatureRenderFields = (
             return <FormikTemporary key={index} disabled={postOrder?.data?.succeeded} {...rest} />
         case "description":
             return <FormikDescription key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-        case "saleType":
+        case "deliverDate":
+            return <FormikDatepicker key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+        case "orderType":
             return <RadioGroup
-            onChange={(e: any) => () => {}}
             categories={categories}
-            id="saleTotalTypeDetail"
-            key="saleTotalTypeDetail"
+            id="orderType"
+            key="orderType"
+            name="orderType"
         />
 
         default:

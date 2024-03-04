@@ -80,7 +80,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         filteredTabs: []
     });
 
-
     const handleFilterProduct = (filter: IFilter) => {
         filterTools.mutate(filter);
     }
@@ -101,8 +100,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
         return () => clearTimeout(delayDebounceFn)
     }, [searchTerm])
-
-
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
@@ -125,7 +122,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
             alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
         }
     }, [productData.selectedProduct, productData.selectionModel]);
-
 
     const renderAction = useCallback((indexToDelete: any) => {
         return (

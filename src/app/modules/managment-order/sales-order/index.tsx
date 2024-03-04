@@ -41,12 +41,22 @@ const SalesOrder = () => {
         } else {
             try {
                 const formData = {
-                    ...values,
-                    customerId: values.customerId.value,
+                    customerId: values.customerId,
                     totalAmount: calculateTotalAmount(orders, orderServices),
-                    isTemporary: values?.isTemporary && +values?.isTemporary === 1 ? false : true,
+                    description: values.description,
+                    exitType: values.exitType,
+                    orderSendTypeId: values.orderSendTypeId,
+                    paymentTypeId: values.paymentTypeId,
+                    orderTypeId: values.orderTypeId,
+                    customerOfficialName: "string",
                     customerOfficialCompanyId: values.customerOfficialCompanyId && +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
-                    carPlaque: "NO PLAQUE",
+                    invoiceTypeId: values.invoiceTypeId,
+                    freightName: "string",
+                    isTemporary: values?.isTemporary && +values?.isTemporary === 1 ? false : true,
+                    deliverDate: values.deliverDate,
+                    dischargePlaceAddress: "string",
+                    freightDriverName: "string",
+                    carPlaque: "string",
                     details: orders?.map(({ id, ...item }) => ({
                         ...item,
                         rowId: item.rowId ? Number(item.rowId) : 0,
@@ -58,15 +68,24 @@ const SalesOrder = () => {
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                         warehouseId: item.warehouseId ? +item.warehouseId : null,
                     })),
-                    orderPayments: orderPayment?.map((item: IOrderPayment) => {
+                    orderPayments: orderPayment?.map((item: any) => {
                         return {
-                            ...item,
-                            // amount: item.amount && +item?.amount.replace(/,/g, ""),
-                            amount: item.amount && +item.amount,
+                            amount: item.orderPaymentAmount && +item.orderPaymentAmount.replace(/,/g, ""),
+                            paymentDate: item.orderPaymentDate,
+                            daysAfterExit: item.orderPaymentDaysAfterExit,
+                            paymentType: item.orderPaymentType
+                      
                         }
                     }),
-                    orderServices: [...orderServices]
+                    orderServices: orderServices?.map((item: any) => {
+                        return {
+                            ...item,
+                            description: item.description.replace(/,/g, "")
+                        }
+                    })
                 }
+                console.log("orders", orders)
+                console.log("formData", JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors && response.data.Errors.length > 0) {
@@ -139,7 +158,7 @@ const SalesOrder = () => {
                                 postSaleOrder={postSaleOrder} />
                             </ReusableCard>
                         </div>
-                        <Box component="div" className="md:grid md:grid-cols-3 gap-4 mt-4">
+                        <Box component="div" className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
@@ -148,7 +167,7 @@ const SalesOrder = () => {
                                 postSaleOrder={postSaleOrder}
                                 orders={orders} />
                             <OrderFeature
-                                postOrder={postSaleOrder} />
+                                postOrder={postSaleOrder}  />
                             <OrderPayment
                                 orderPayment={orderPayment}
                                 orderService={orderServices}

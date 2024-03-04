@@ -77,6 +77,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
     }
 
     const handleOrder = () => {
+        console.log(values)
         const productOrder: any = {
             id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,
@@ -88,7 +89,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
             productName: values?.productId?.label ? values?.productId?.label : values?.productName,
             purchasePrice: values?.purchasePrice.replace(/,/g, ""),
             productBrandId: values.productId.productBrandId ? values.productId.productBrandId : values.productBrandId,
-            productSubUnitId: values.productSubUnitId,
+            productSubUnitId: values?.productId?.productSubUnitId ? values?.productId?.productSubUnitId : values.productSubUnitId,
             proximateSubUnit: values.productSubUnitAmount ? values.productSubUnitAmount : values.proximateSubUnit,
             purchaseInvoiceTypeId: values?.purchaseInvoiceTypeId,
             purchaserCustomerId: values.purchaserCustomerId?.value ? values.purchaserCustomerId?.value : values.purchaserCustomerId,
@@ -237,7 +238,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     <FormikPurchaserInvoiceType
                         name="purchaseInvoiceTypeId"
                         label="نوع فاکتور خرید"
-                        disabeld={values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                        disabeld={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
                     <FormikDatepicker
                         name="purchaseSettlementDate"
                         label="تاریخ تسویه خرید"

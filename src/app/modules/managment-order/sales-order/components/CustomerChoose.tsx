@@ -83,7 +83,7 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
                             <Typography>ایجاد مشتری</Typography>
                         </Button>
                     </div>
-                    <div className='flex flex-col space-y-4'>
+                    <div className='flex flex-col space-y-4 mt-8'>
                         <div className='flex flex-row justify-between items-center'>
                             <RenderInformation
                                 title='معرف'
