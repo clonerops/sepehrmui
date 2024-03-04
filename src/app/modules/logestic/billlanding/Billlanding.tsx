@@ -17,6 +17,11 @@ import { useState } from "react";
 import TransferAmount from "./TransferAmount";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import FormikWarehouseBasedOfType from "../../../../_cloner/components/FormikWarehouseBasedOfType";
+import { useGetProductList } from "../../generic/products/_hooks";
+
+const initialValues = {
+    warehouseFrom: ""
+}
 
 const fields: FieldType[][] = [
     [
@@ -47,12 +52,13 @@ const categories = [
 const Billlanding = () => {
     const vehicleList = useGetVehicleTypes()
     const warehouse = useGetWarehouses()
-
+    const productsInventory = useGetProductList()
 
     console.log(warehouse?.data)
 
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [itemSelected, setItemSelected] = useState<any>({})
 
     const parseFields = (fields: FieldType, setFieldValue:  (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>, index: number) => {
         const { type, ...rest } = fields;
@@ -106,7 +112,7 @@ const Billlanding = () => {
                 flex: 1,
             },
             {
-                field: "brandName",
+                field: "productBrandName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
@@ -116,36 +122,96 @@ const Billlanding = () => {
                 flex: 1,
             },
             {
-                field: "inventory",
+                field: "purchaseInventory",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
-                headerName: "موجودی",
+                headerName: "موجودی خرید",
                 headerClassName: "headerClassName",
                 minWidth: 120,
                 flex: 1,
             },
-            { headerName: 'عملیات', flex: 1, renderCell: renderAction , headerClassName: "headerClassName", minWidth: 160 }
-
+            { headerName: 'عملیات', flex: 1, renderCell: (params: any) => {
+                return <Button variant="contained" color="secondary" onClick={() => {
+                    setIsOpen(true)
+                    setItemSelected(params.row)
+                }}>
+                    <Typography>انتقال</Typography>
+                </Button> 
+            } , headerClassName: "headerClassName", minWidth: 160 }
+        ];
+        return col;
+    };
+    const columnsForBilllanding = (renderAction: () => void) => {
+        const col = [
+            {
+                field: "productCode",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "کد کالا",
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1,
+            },
+            {
+                field: "productName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "نام کالا",
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1,
+            },
+            {
+                field: "productBrandName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "برند",
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1,
+            },
+            {
+                field: "purchaseInventory",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "موجودی خرید",
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1,
+            },
         ];
         return col;
     };
 
 
     const renderAction = () => {
-        return <Button variant="contained" color="secondary" onClick={() => {
-            setIsOpen(true)
-        }}>
-            <Typography>انتقال</Typography>
-        </Button>   
+        return   
     }
 
+    const onFilterWarehouseFrom =  (value: any) => {
+        const filter = {
+            ByBrand: true,
+            HasPurchaseInventory: true,
+            WarehouseId: +value
+        }
+        productsInventory.mutate(filter, {
+            onSuccess: (response) => {
+                console.log(response)
+            }
+        })
+    }
 
+console.log("productsInventory.data", productsInventory.data)
 
     return (
         <>
-            <Formik initialValues={{}} onSubmit={() => {}}>
-                {({setFieldValue}) => {
+            <Formik initialValues={initialValues} onSubmit={() => {}}>
+                {({values, setFieldValue}) => {
                     return (
                         <Form>
                             <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -154,6 +220,7 @@ const Billlanding = () => {
                                         <FormikWarehouseBasedOfType
                                             name="warehouseFrom"
                                             label="انبار مبدا"
+                                            onChange={onFilterWarehouseFrom}
                                             warehouse={warehouse?.data?.filter((item: {warehouseTypeId: number}) => item.warehouseTypeId === 4)}
                                         />
                                         <FormikWarehouse
@@ -184,14 +251,15 @@ const Billlanding = () => {
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای موجود در انبار</Typography>
                                     <MuiDataGrid
                                         columns={columns(renderAction)}
-                                        rows={[{}]}
-                                        data={[{}]}
+                                        rows={productsInventory.data?.data || null}
+                                        data={productsInventory.data?.data || null}
+                                        isLoading={productsInventory.isLoading}
                                         />
                                 </Box>
                                 <Box>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای انتخاب شده جهت انتقال حواله</Typography>
                                     <MuiDataGrid
-                                        columns={columns(renderAction)}
+                                        columns={columnsForBilllanding(renderAction)}
                                         rows={[{}]}
                                         data={[{}]}
                                         />
@@ -221,7 +289,7 @@ const Billlanding = () => {
                 width="50%"
                 title="مقدار انتقال"
             >
-                <TransferAmount />
+                <TransferAmount item={itemSelected} />
             </TransitionsModal>
 
         </>
