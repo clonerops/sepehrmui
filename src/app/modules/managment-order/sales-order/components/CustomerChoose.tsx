@@ -71,11 +71,12 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
                         <div className="flex gap-x-2 w-full md:col-span-4">
                             <FormikCustomer
                                 disabled={postSaleOrder?.data?.succeeded}
-                                onChange={(value: any) => changeCustomerFunction(value)}
+                                onChange={changeCustomerFunction}
+                                isLabelSetValue
                                 name="customerId"
                                 label="مشتری" />
                         </div>
-                        <FormikCompany customerid={formikRef.current?.values.customerId} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
+                        <FormikCompany  customerid={formikRef.current?.values.customerId} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
                     </div>
                     <div className='mt-4 flex justify-end items-end'>
                         <Button onClick={() => openModalState(true)} variant="contained" className="w-full">

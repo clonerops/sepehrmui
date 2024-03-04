@@ -17,14 +17,14 @@ export const saleOrderInitialValues = {
     rowId: "",
     id: 0,
     productId: "",
-    warehouseId: 0,
-    proximateAmount: 0,
-    numberInPackage: 0,
-    price: 0,
-    purchasePrice: 0,
-    productSubUnitId: 0,
-    productSubUnitAmount: 0,
-    purchaseInvoiceTypeId: 0,
+    warehouseId: "",
+    proximateAmount: "",
+    numberInPackage: "",
+    price: "",
+    purchasePrice: "",
+    productSubUnitId: "",
+    productSubUnitAmount: "",
+    purchaseInvoiceTypeId: "",
     purchaserCustomerId: "",
     sellerCompanyRow: "",
     detailDescription: "",
@@ -42,23 +42,20 @@ export const saleOrderInitialValues = {
     //order services
     orderServiceMainId: "",
     orderServiceId: "",
-    orderServiceDescription: ""
+    orderServiceDescription: "",
 
+};
 
+export const saleOrderEditInitialValues = {
     // searchOrderCode: "",
 
-    // customerId: "",
-    // customerID: "",
     
+    // customerId: "",
     // settlementDate: "",
-    // // exitType: 1,
-    // // orderSendTypeId: 1,
-    // // paymentTypeId: 2,
-    // exitType: 1,
-    // orderSendTypeId: 1,
-    // paymentTypeId: 2,
-    // // isTemporary: "0",
-    // isTemporary: 1,
+    // exitType: "",
+    // orderSendTypeId: "",
+    // paymentTypeId: "",
+    // isTemporary: "",
     // invoiceTypeId: "",
     // customerOfficialName: "",
     // customerOfficialCompanyId: "",
@@ -87,46 +84,6 @@ export const saleOrderInitialValues = {
     // productBrandId: "",
     // productBrandName: "",
     // purchaserCustomerName: ""
-};
-
-export const saleOrderEditInitialValues = {
-    searchOrderCode: "",
-
-    
-    customerId: "",
-    settlementDate: "",
-    exitType: "",
-    orderSendTypeId: "",
-    paymentTypeId: "",
-    isTemporary: "",
-    invoiceTypeId: "",
-    customerOfficialName: "",
-    customerOfficialCompanyId: "",
-    // Order
-    rowId: "",
-    id: "",
-    warehouseId: "",
-    warehouseTypeId: "",
-    proximateAmount: "0",
-    numberInPackage: "",
-    productDesc: "",
-    price: "0",
-    cargoSendDate: "",
-    purchasePrice: "",
-    purchaseInvoiceTypeId: "",
-    purchaserCustomerId: "",
-    purchaseSettlementDate: "",
-    sellerCompanyRow: "",
-    // not Main
-    productName: "",
-    warehouseName: "",
-    proximateSubUnit: "",
-    mainUnit: "",
-    subUnit: "",
-    productSubUnitId: "",
-    productBrandId: "",
-    productBrandName: "",
-    purchaserCustomerName: ""
 };
 
 

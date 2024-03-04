@@ -107,7 +107,7 @@ const SalesOrder = () => {
                 initialValues={saleOrderInitialValues}
                 onSubmit={onSubmit}
                 validationSchema={saleOrderValidation}>
-                {({ handleSubmit }) => {
+                {({ values, setFieldValue, handleSubmit }) => {
                     return <>
                         <div className="">
                             <SaleHeaderBase 
@@ -129,6 +129,8 @@ const SalesOrder = () => {
                                     setOrderServices={setOrderServices}
                                     formikRef={formikRef}
                                     setOrderValid={setOrderValid}
+                                    values={values}
+                                    setFieldValue={setFieldValue}
                                 />
                             </ReusableCard>
                             <ReusableCard>

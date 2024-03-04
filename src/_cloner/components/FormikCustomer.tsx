@@ -10,6 +10,8 @@ const FormikCustomer = (props: any) => {
     return (
         <FormikComboBox
             options={dropdownCustomer(customers?.data)}
+            // isLabelSetValue={props.isLabelSetValue ? props.isLabelSetValue : false}
+            isLabelSetValue={props.isLabelSetValue}
             renderOption={(props: any, option: any) => {
                 return <li {...props} key={option.value}>
                     <Box component="div" style={{

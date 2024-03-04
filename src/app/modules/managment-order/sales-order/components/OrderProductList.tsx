@@ -7,7 +7,7 @@ import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { orderListColumns } from "../../helpers/columns";
-import { FormikProps } from "formik";
+import { FormikErrors, FormikProps } from "formik";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
@@ -29,10 +29,14 @@ interface IProps {
         isUpdate: boolean
         isProductChoose: boolean
     }>>
+    setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>
+    values: any,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
+
 }
 
 const OrderProductList:FC<IProps> = (props: IProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, formikRef, setOrderValid, disabled, setState } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, formikRef, setOrderValid, disabled, setState, setIsUpdate, values, setFieldValue } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
@@ -41,7 +45,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
             );
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
-            if (formikRef.current?.setFieldValue) formikRef.current?.setFieldValue('amount', calculateTotalAmount(updatedOrders, orderServices).toString())
+            if (setFieldValue) setFieldValue('amount', calculateTotalAmount(updatedOrders, orderServices).toString())
         }
     };
 
@@ -72,6 +76,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                     orderIndex: rowIndex
                 }
             ))    
+            console.log(params.row)
             const fieldValue = [
                 {title: "productName", value: params.row.productName},
                 {title: "id", value: params.row.id},
@@ -83,6 +88,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                 {title: "proximateAmount", value: params.row.proximateAmount},
                 {title: "warehouseName", value: params.row.warehouseName},
                 {title: "proximateSubUnit", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
+                {title: "proximateSubUnitAmount", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
                 {title: "purchasePrice", value: separateAmountWithCommas(params.row.purchasePrice)},
                 {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
                 {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
@@ -92,41 +98,36 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                 {title: "purchaserCustomerName", value: params.row.purchaserCustomerName},
                 {title: "rowId", value: params.row.rowId},
                 {title: "productDesc", value: params.row.productDesc},
+                {title: "description", value: params.row.description},
                 {title: "productMainUnitDesc", value: params.row.productMainUnitDesc},
                 {title: "productSubUnitDesc", value: params.row.productSubUnitDesc},
                 {title: "productSubUnitId", value: params.row.productSubUnitId},
                 {title: "exchangeRate", value: params.row.exchangeRate},
             ];
 
-            if (formikRef.current?.setFieldValue) {
+            if (setFieldValue) {
                 fieldValue.forEach((i: {title: string, value: any}) => (
-                    formikRef.current?.setFieldValue(i.title, i.value)
+                    setFieldValue(i.title, i.value)
                 ))
             }
-            
-            if (setState) {
-                if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseId)) {
-                    setState((prev) => (
-                        {
-                            ...prev, 
-                            isBuy: true
-                        }
-                    ))
-                } else {
-                    setState((prev) => (
-                        {
-                            ...prev, 
-                            isBuy: false
-                        }
-                    ))
-                }
-            }
-            if (setState) setState((prev) => (
-                {
-                    ...prev, 
-                    isUpdate: true
-                }
-            ))
+            // if (setState) {
+            //     if () {
+            //         setState((prev) => (
+            //             {
+            //                 ...prev, 
+            //                 isBuy: true
+            //             }
+            //         ))
+            //     } else {
+            //         setState((prev) => (
+            //             {
+            //                 ...prev, 
+            //                 isBuy: false
+            //             }
+            //         ))
+            //     }
+            // }
+            setIsUpdate(true)
         }
     };
 

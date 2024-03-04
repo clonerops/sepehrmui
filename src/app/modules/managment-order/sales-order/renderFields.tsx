@@ -55,113 +55,6 @@ const saleOrderParseFields = (
     }
 };
 
-const orderDetailParseFields = (
-    index: number | string,
-    fields: FieldType,
-    isUpdate: boolean,
-    postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
-    formikRef: React.RefObject<FormikProps<any>>,
-    isProductChoose: boolean,
-    setState: React.Dispatch<React.SetStateAction<{
-        isBuy: boolean;
-        orderIndex: number;
-        isUpdate: boolean;
-        isProductChoose: boolean;
-    }>>,    
-    products: any,
-    changeWarehouseFunction: (values: any) => void,
-    changeProductFunction: (values: any) => void,
-    handleOrder: (formikRef: React.RefObject<FormikProps<any>>) => void,
-    orders: IOrderItems[],
-    setOrders: React.Dispatch<React.SetStateAction<IOrderItems[]>>,
-    orderPayment: IOrderPayment[],
-    setOrderPayment: React.Dispatch<React.SetStateAction<IOrderPayment[]>>,
-    orderService: IOrderService[],
-    setOrderService: React.Dispatch<React.SetStateAction<IOrderService[]>>,
-    
-
-    ) => {
-        console.log("isProductChoose", isProductChoose)
-    const { type, ...rest } = fields;
-    switch (type) {
-        case "warehouse":
-            return <FormikWarehouse 
-                key={index} 
-                disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} 
-                onChange={(value: any) => changeWarehouseFunction(value)} 
-                {...rest} />
-        case "product":
-            return (
-                <div key={index} className="flex gap-x-2 w-full">
-                    <FormikProduct disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} onChange={(value: any) => changeProductFunction(value)} options={dropdownProductByBrandName(products?.data?.data)} {...rest} />
-                    <Button className="!w-[160px] !h-[36px]" onClick={() => setState((prev) => ({...prev, isProductChoose: true}))} variant="contained" color="primary" disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}>
-                        <Typography >انتخاب کالا</Typography>
-                    </Button>
-                    {isProductChoose ?
-                        <TransitionsModal title="انتخاب محصول" open={isProductChoose} width='99%' isClose={() => setState((prev) => ({...prev, isProductChoose: false}))}>
-                                <ProductsList
-                                    formikRef={formikRef}
-                                    setState={setState}
-                                    orders={orders}
-                                    setOrders={setOrders}
-                                    setOrderPayment={setOrderPayment}
-                                    orderService={orderService}
-                                />
-                        </TransitionsModal>
-                        : null
-                    }
-                </div>
-            );
-        case "purchaserCustomer":
-            return <FormikCustomer key={index} disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0} {...rest} />
-        case "purchaseInvoiceType":
-            return <FormikPurchaserInvoiceType key={index} {...rest} />
-        case "date":
-            return <FormikDatepicker key={index} disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0} {...rest} />;
-        case "proximateAmount":
-            return (
-                <FormikProximateAmount
-                    key={index}
-                    disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="start">
-                                {formikRef.current?.values.productMainUnitDesc}
-                            </InputAdornment>
-                        ),
-                    }}
-                    {...rest}
-                />
-            );
-        case "productSubUnitAmount":
-            return (
-                <FormikPrice
-                    key={index}    
-                    disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="start">
-                                {formikRef.current?.values.productSubUnitDesc}
-                            </InputAdornment>
-                        ),
-                    }}
-                    {...rest}
-                />
-            );
-        case "price":
-            return <FormikAmount key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}  {...rest} />
-        case "input":
-            return <FormikInput key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}  {...rest} />;
-        case "add":
-            return isUpdate ? 
-                <Button key={index} onClick={() => handleOrder(formikRef)} className="!bg-yellow-500"><Edit /></Button>
-             : 
-                <Button key={index} onClick={() => handleOrder(formikRef)} className="!bg-green-500"><Add /></Button>
-            
-        default:
-            return <FormikInput key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} {...rest} />;
-    }
-};
 
 const orderFeatureRenderFields = (
     index: number | string,
@@ -189,6 +82,5 @@ const orderFeatureRenderFields = (
 
 export {
     saleOrderParseFields,
-    orderDetailParseFields,
     orderFeatureRenderFields
 }
