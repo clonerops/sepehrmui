@@ -108,26 +108,26 @@ export const orderListColumns = (renderActions: any) => {
             renderCell: (params: any) => {
                 console.log("params", params)
                 return <Typography variant="h4">{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1, minWidth: 190, maxWidth: 190
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 190
         },
         {
             headerName: "برند", field: "productBrandName",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 80,
         },
         {
             headerName: "نام انبار", field: "warehouseName",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
-            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 90,
         },
         {
             headerName: "مقدار", field: "proximateAmount",
             renderCell: (params: any) => {
                 const combinedValue = `${params.row.proximateAmount} ${params.row.productMainUnitDesc} `;
                 return <Typography variant="h4">{combinedValue}</Typography>
-            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 90,
         },
         {
             headerName: "مقدار(فرعی)", field: "proximateSubUnit",
@@ -140,14 +140,14 @@ export const orderListColumns = (renderActions: any) => {
             headerName: "قیمت(ریال)", field: "price",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
-            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 90,
         },
 
         {
             headerName: "قیمت خرید", field: "purchasePrice",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
-            }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+            }, headerClassName: "headerClassName", flex: 1, minWidth: 90,
         },
         {
             headerName: "تاریخ تحویل", field: "purchaseSettlementDate",
@@ -184,7 +184,7 @@ export const orderListColumns = (renderActions: any) => {
             field: "Action",
             renderCell: renderActions,
             headerClassName: "headerClassName",
-            minWidth: 120,
+            maxWidth: 60,
             flex: 1
         },
     ];

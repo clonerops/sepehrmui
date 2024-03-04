@@ -18,6 +18,7 @@ export const saleOrderInitialValues = {
     id: 0,
     productId: "",
     warehouseId: "",
+    warehouseTypeId: "",
     proximateAmount: "",
     numberInPackage: "",
     price: "",

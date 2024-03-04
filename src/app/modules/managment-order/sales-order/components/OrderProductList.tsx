@@ -63,7 +63,6 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         if (orders) {
             const selectedRow: any = orders.find(order => order.id === params.row.id);
             const rowIndex = orders.indexOf(selectedRow);
-
             setOrderIndex(rowIndex)
             const fieldValue = [
                 {title: "productName", value: params.row.productName},
@@ -73,6 +72,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                 {title: "productBrandId", value: params.row.productBrandId},
                 {title: "productBrandName", value: params.row.productBrandName},
                 {title: "warehouseId", value: params.row.warehouseId},
+                {title: "warehouseTypeId", value: params.row.warehouseTypeId},
                 {title: "proximateAmount", value: params.row.proximateAmount},
                 {title: "warehouseName", value: params.row.warehouseName},
                 {title: "proximateSubUnit", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
@@ -100,6 +100,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
 
     const filteredColumns = orderListColumns(renderActions).filter(column =>
         column.field !== "warehouseId" &&
+        column.field !== "warehouseTypeId" &&
         column.field !== "productBrandId" &&
         column.field !== "rowId" &&
         column.field !== "purchaseSettlementDate" &&

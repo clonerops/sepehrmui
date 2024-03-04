@@ -1,6 +1,6 @@
-import {FC, memo, useCallback, useState} from 'react'
+import { FC, memo, useCallback, useState } from 'react'
 import { Form, FormikErrors, FormikProps } from "formik"
-import {Box, Button, InputAdornment, Typography} from '@mui/material'
+import { Box, Button, InputAdornment, Typography } from '@mui/material'
 
 import OrderProductList from './OrderProductList'
 import Backdrop from '../../../../../_cloner/components/Backdrop'
@@ -19,24 +19,23 @@ import { dropdownProductByBrandName } from '../../../generic/_functions'
 import FormikInput from '../../../../../_cloner/components/FormikInput'
 import FormikProximateAmount from '../../../../../_cloner/components/FormikProximateAmount'
 import FormikPrice from '../../../../../_cloner/components/FormikPrice'
-import FormikAmount from '../../../../../_cloner/components/FormikAmount'
 import FormikCustomer from '../../../../../_cloner/components/FormikCustomer'
 import FormikPurchaserInvoiceType from '../../../../../_cloner/components/FormikPurchaserInvoiceType'
 import FormikDatepicker from '../../../../../_cloner/components/FormikDatepicker'
 import { Add, Edit } from '@mui/icons-material'
 
 const fields = [
-    "warehouseId", 
-    "productId", 
-    "proximateAmount", 
+    "warehouseId",
+    "productId",
+    "proximateAmount",
     "productSubUnitAmount",
-    "price", 
-    "rowId", 
-    "purchaserCustomerId", 
-    "purchasePrice", 
-    "purchaseInvoiceTypeId", 
+    "price",
+    "rowId",
+    "purchaserCustomerId",
+    "purchasePrice",
+    "purchaseInvoiceTypeId",
     "purchaseSettlementDate",
-    "detailDescription", 
+    "detailDescription",
 ];
 
 
@@ -57,37 +56,33 @@ interface IProps {
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
 }
 
-const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
+const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
     const [orderIndex, setOrderIndex] = useState<number>(0);
 
-
-    const [state, setState] = useState<any>({})
-
     const changeWarehouseFunction = (value: any) => {
         try {
-          const filter = {
-            ByBrand: true,
-            WarehouseId: value.value
-          };
-          products.mutate(filter);
-          fields.forEach((element) => {
-            setFieldValue(element, "");
-        });
+            const filter = {
+                ByBrand: true,
+                WarehouseId: value.value
+            };
+            products.mutate(filter);
+            fields.forEach((element) => {
+                setFieldValue(element, "");
+            });
         } catch (error) {
-          console.error("Error handling warehouse change:", error);
+            console.error("Error handling warehouse change:", error);
         }
-      }
+    }
 
-    
-    
     const handleOrder = () => {
         const productOrder: any = {
             id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,
             productId: values?.productId?.value ? values?.productId?.value : values.productId,
             warehouseId: values?.productId?.warehouseId ? values?.productId?.warehouseId : values.warehouseId,
+            warehouseTypeId: values?.productId?.warehouseTypeId ? values?.productId?.warehouseTypeId : values.warehouseTypeId,
             proximateAmount: values.proximateAmount,
             price: values?.price.replace(/,/g, ""),
             productName: values?.productId?.label ? values?.productId?.label : values?.productName,
@@ -95,12 +90,12 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
             productBrandId: values.productId.productBrandId ? values.productId.productBrandId : values.productBrandId,
             productSubUnitId: values.productSubUnitId,
             proximateSubUnit: values.productSubUnitAmount ? values.productSubUnitAmount : values.proximateSubUnit,
-            purchaseInvoiceTypeId: values?.purchaseInvoiceTypeId ,
+            purchaseInvoiceTypeId: values?.purchaseInvoiceTypeId,
             purchaserCustomerId: values.purchaserCustomerId?.value ? values.purchaserCustomerId?.value : values.purchaserCustomerId,
             sellerCompanyRow: values.sellerCompanyRow,
             purchaseSettlementDate: values.purchaseSettlementDate,
             description: values.detailDescription ? values.detailDescription : values.productDesc,
-            
+
             exchangeRate: values?.productId?.exchangeRate ? values?.productId?.exchangeRate : values?.exchangeRate,
             productBrandName: values?.productId?.productBrandName ? values?.productId?.productBrandName : values.productBrandName,
             warehouseName: values?.productId.warehouseName ? values?.productId.warehouseName : values?.warehouseName,
@@ -114,46 +109,60 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                 (order: any) =>
                     order.id === productOrder.id &&
                     order.warehouseId === productOrder.warehouseId &&
+                    order.warehouseTypeId === productOrder.warehouseTypeId &&
                     order.productId === productOrder.productId &&
                     order.productBrandId === productOrder.productBrandId
             );
-
             if (values.productId === "" || values.productId.label === "") {
-                EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
-            } else if (values?.price === "") {
-                EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
-            } else if (values?.proximateAmount === "") {
-                EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
-            } else if (isDuplicate) {
-                EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error")
-            } else {
-                setOrders([...orders, productOrder]);
-                setFieldValue("orderPaymentAmount", sliceNumberPriceRial( calculateTotalAmount([...orders, productOrder], orderServices)))
+                EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error");
+                return;
             }
-            fields.forEach((element) => {
-                setFieldValue(element, "");
-            });
+
+            if (values?.price === "") {
+                EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error");
+                return;
+            }
+
+            if (values?.proximateAmount === "") {
+                EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error");
+                return;
+            }
+
+            if (isDuplicate) {
+                EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error");
+                return;
+            }
+
+            setOrders([...orders, productOrder]);
+            setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderServices)));
+
+            fields.forEach((element) => setFieldValue(element, ""));
         } else {
             const updatedOrder = {
                 ...productOrder,
             };
             const updatedOrders: any = [...orders];
             updatedOrders[orderIndex ? orderIndex : 0] = updatedOrder;
+
             if (values.productId === "" || values.productId.label === "") {
                 EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
-            } else if (values?.price === "") {
-                EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
-            } else if (values?.proximateAmount === "") {
-                EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
-            } else {
-                setOrders(updatedOrders);
-                setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
+                return;
             }
+            if (values?.price === "") {
+                EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
+                return;
+            }
+            if (values?.proximateAmount === "") {
+                EnqueueSnackbar("وارد نمودن مقدار الزامی می باشد", "error")
+                return;
+            }
+
+            setOrders(updatedOrders);
+            setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
+
             setOrderIndex(0)
             setIsUpdate(false)
-            fields.forEach((element) => {
-                setFieldValue(element, "");
-            });
+            fields.forEach((element) => setFieldValue(element, ""));
         }
     };
 
@@ -162,94 +171,91 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
             {products.isLoading && <Backdrop loading={products.isLoading} />}
             <form>
                 <div className='flex justify-end items-end'>
-                    <Button 
-                        className="!w-[160px] !h-[36px]" 
-                        onClick={() => setIsOpen(true)} 
-                        variant="contained" 
-                        color="primary" 
+                    <Button
+                        className="!w-[160px] !h-[36px]"
+                        onClick={() => setIsOpen(true)}
+                        variant="contained"
+                        color="primary"
                         disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}>
                         <Typography >انتخاب کالا</Typography>
                     </Button>
                 </div>
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">
-                    <FormikWarehouse 
-                        // name="warehouseId" 
-                        name={!isUpdate ? "warehouseId" : "warehouseName"} 
+                    <FormikWarehouse
+                        name={!isUpdate ? "warehouseId" : "warehouseName"}
                         label="انبار"
                         disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
                         onChange={changeWarehouseFunction} />
-                    <FormikProduct 
-                        // name="productId"
-                        name={!isUpdate ? "productId" : "productName"} 
+                    <FormikProduct
+                        name={!isUpdate ? "productId" : "productName"}
                         label="کالا/محصول"
-                        disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} 
+                        disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
                         options={dropdownProductByBrandName(products?.data?.data)} />
 
                     <FormikProximateAmount
                         name="proximateAmount"
                         label="مقدار"
-                        disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0}
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
                                     {values?.productId?.productMainUnitDesc || ""}
                                 </InputAdornment>
                             ),
-                        }}/>
+                        }} />
                     <FormikInput
                         name="productSubUnitAmount"
                         label="مقدار واحد فرعی"
-                        disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0}
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
                                     {values?.productId?.productSubUnitDesc || ""}
                                 </InputAdornment>
                             ),
-                        }}/>
-                    <FormikPrice 
+                        }} />
+                    <FormikPrice
                         name="price"
                         label="قیمت (ریال)"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}/> 
-                    <FormikInput 
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                    <FormikInput
                         name="detailDescription"
                         label="توضیحات"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}/> 
-                    <FormikInput 
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                    <FormikInput
                         name="rowId"
                         label="ردیف فروش"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}/> 
-                    <FormikCustomer 
-                        name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"} 
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                    <FormikCustomer
+                        name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
                         label="خرید از"
-                        disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5}/>
-                    {/* <FormikAmount  */}
-                    <FormikPrice 
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                    <FormikPrice
                         name="purchasePrice"
                         label="قیمت خرید (ریال)"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5}/> 
-                    <FormikPurchaserInvoiceType 
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                    <FormikPurchaserInvoiceType
                         name="purchaseInvoiceTypeId"
                         label="نوع فاکتور خرید"
-                        disabeld={values.warehouseId?.warehouseTypeId === 5}  />
-                    <FormikDatepicker 
+                        disabeld={values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                    <FormikDatepicker
                         name="purchaseSettlementDate"
                         label="تاریخ تسویه خرید"
-                        disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5} />
-                        {isUpdate ? (
-                            <Button 
-                                onClick={handleOrder} className="!bg-yellow-500">
-                                    <Edit />
-                                    <Typography>ویرایش سفارش انتخاب شده</Typography>
-                            </Button>
-                        ) : (
-                        <Button 
-                            onClick={handleOrder} 
-                            className="!bg-green-500">
-                                <Add />
-                                <Typography>افزودن به لیست سفارشات</Typography>
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                    {isUpdate ? (
+                        <Button
+                            onClick={handleOrder} className="!bg-yellow-500">
+                            <Edit />
+                            <Typography>ویرایش سفارش انتخاب شده</Typography>
                         </Button>
-                        )}
+                    ) : (
+                        <Button
+                            onClick={handleOrder}
+                            className="!bg-green-500">
+                            <Add />
+                            <Typography>افزودن به لیست سفارشات</Typography>
+                        </Button>
+                    )}
 
                 </div>
                 <OrderProductList
@@ -265,18 +271,18 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                     setOrderValid={setOrderValid}
                     setFieldValue={setFieldValue}
                     values={values}
-                    
+
                 />
             </form>
             {isOpen &&
-                <TransitionsModal 
-                    title="انتخاب محصول" 
-                    open={isOpen} 
-                    width='99%' 
+                <TransitionsModal
+                    title="انتخاب محصول"
+                    open={isOpen}
+                    width='99%'
                     isClose={() => setIsOpen(false)}>
                     <ProductsList
-                        formikRef={formikRef}
-                        setState={setState}
+                        setIsOpen={setIsOpen}
+                        setFieldValue={setFieldValue}
                         orders={orders}
                         setOrders={setOrders}
                         setOrderPayment={setOrderPayment}
