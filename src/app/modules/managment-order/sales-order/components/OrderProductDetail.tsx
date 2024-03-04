@@ -60,11 +60,10 @@ interface IProps {
 const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
+    const [orderIndex, setOrderIndex] = useState<number>(0);
 
 
-    const [state, setState] = useState<any>({
-        orderIndex: 0
-    })
+    const [state, setState] = useState<any>({})
 
     const changeWarehouseFunction = (value: any) => {
         try {
@@ -73,8 +72,9 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
             WarehouseId: value.value
           };
           products.mutate(filter);
-    
-          FIELD_VALUE.forEach((field) => setFieldValue(field.title, field.value));
+          fields.forEach((element) => {
+            setFieldValue(element, "");
+        });
         } catch (error) {
           console.error("Error handling warehouse change:", error);
         }
@@ -138,7 +138,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                 ...productOrder,
             };
             const updatedOrders: any = [...orders];
-            updatedOrders[state.orderIndex ? state.orderIndex : 0] = updatedOrder;
+            updatedOrders[orderIndex ? orderIndex : 0] = updatedOrder;
             if (values.productId === "" || values.productId.label === "") {
                 EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
             } else if (values?.price === "") {
@@ -149,15 +149,13 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                 setOrders(updatedOrders);
                 setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
             }
-            setState((prev: any) => ({...prev, orderIndex: 0}))
+            setOrderIndex(0)
+            setIsUpdate(false)
             fields.forEach((element) => {
                 setFieldValue(element, "");
             });
-            setIsUpdate(false)
         }
     };
-
-    console.log("orders", orders)
 
     return (
         <>
@@ -198,7 +196,7 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                                 </InputAdornment>
                             ),
                         }}/>
-                    <FormikPrice
+                    <FormikInput
                         name="productSubUnitAmount"
                         label="مقدار واحد فرعی"
                         disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0}
@@ -209,7 +207,6 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                                 </InputAdornment>
                             ),
                         }}/>
-                    {/* <FormikAmount  */}
                     <FormikPrice 
                         name="price"
                         label="قیمت (ریال)"
@@ -225,20 +222,20 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
                     <FormikCustomer 
                         name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"} 
                         label="خرید از"
-                        disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0 || values.warehouseId.warehouseTypeId === 5}/>
+                        disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5}/>
                     {/* <FormikAmount  */}
                     <FormikPrice 
                         name="purchasePrice"
                         label="قیمت خرید (ریال)"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId.warehouseTypeId === 5}/> 
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5}/> 
                     <FormikPurchaserInvoiceType 
                         name="purchaseInvoiceTypeId"
                         label="نوع فاکتور خرید"
-                        disabeld={values.warehouseId.warehouseTypeId === 5}  />
+                        disabeld={values.warehouseId?.warehouseTypeId === 5}  />
                     <FormikDatepicker 
                         name="purchaseSettlementDate"
                         label="تاریخ تسویه خرید"
-                        disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0 || values.warehouseId.warehouseTypeId === 5} />
+                        disabled={postSaleOrder.data?.succeeded  || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5} />
                         {isUpdate ? (
                             <Button 
                                 onClick={handleOrder} className="!bg-yellow-500">
@@ -256,16 +253,15 @@ const OrderProductDetail:FC<IProps> = ({ postSaleOrder, products, orders, setOrd
 
                 </div>
                 <OrderProductList
-                    selectedOrderIndex={state.orderIndex}
+                    selectedOrderIndex={orderIndex}
+                    setOrderIndex={setOrderIndex}
                     orders={orders}
                     setOrders={setOrders}
                     disabled={postSaleOrder?.data?.succeeded}
                     products={products}
                     orderServices={orderServices}
                     setOrderPayment={setOrderPayment}
-                    setState={setState}
                     setIsUpdate={setIsUpdate}
-                    formikRef={formikRef}
                     setOrderValid={setOrderValid}
                     setFieldValue={setFieldValue}
                     values={values}

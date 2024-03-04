@@ -21,14 +21,8 @@ interface IProps {
     selectedOrderIndex?: number
     products?: IProducts[]
     setOrderValid: React.Dispatch<React.SetStateAction<boolean>>
+    setOrderIndex: React.Dispatch<React.SetStateAction<number>>
     disabled?: boolean
-    formikRef: React.RefObject<FormikProps<any>>
-    setState?: React.Dispatch<React.SetStateAction<{
-        isBuy: boolean
-        orderIndex: number
-        isUpdate: boolean
-        isProductChoose: boolean
-    }>>
     setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>
     values: any,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
@@ -36,7 +30,7 @@ interface IProps {
 }
 
 const OrderProductList:FC<IProps> = (props: IProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, formikRef, setOrderValid, disabled, setState, setIsUpdate, values, setFieldValue } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, setOrderValid, disabled,  setIsUpdate, setOrderIndex, values, setFieldValue } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
@@ -70,13 +64,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
             const selectedRow: any = orders.find(order => order.id === params.row.id);
             const rowIndex = orders.indexOf(selectedRow);
 
-            if (setState) setState((prev) => (
-                {
-                    ...prev, 
-                    orderIndex: rowIndex
-                }
-            ))    
-            console.log(params.row)
+            setOrderIndex(rowIndex)
             const fieldValue = [
                 {title: "productName", value: params.row.productName},
                 {title: "id", value: params.row.id},
@@ -88,45 +76,24 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                 {title: "proximateAmount", value: params.row.proximateAmount},
                 {title: "warehouseName", value: params.row.warehouseName},
                 {title: "proximateSubUnit", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
-                {title: "proximateSubUnitAmount", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
+                {title: "productSubUnitAmount", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
                 {title: "purchasePrice", value: separateAmountWithCommas(params.row.purchasePrice)},
-                {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
                 {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
                 {title: "purchaseInvoiceTypeId", value: params.row.purchaseInvoiceTypeId},
                 {title: "purchaseSettlementDate", value: params.row.purchaseSettlementDate},
                 {title: "purchaserCustomerId", value: params.row.purchaserCustomerId},
                 {title: "purchaserCustomerName", value: params.row.purchaserCustomerName},
                 {title: "rowId", value: params.row.rowId},
-                {title: "productDesc", value: params.row.productDesc},
-                {title: "description", value: params.row.description},
+                {title: "detailDescription", value: params.row.description},
                 {title: "productMainUnitDesc", value: params.row.productMainUnitDesc},
                 {title: "productSubUnitDesc", value: params.row.productSubUnitDesc},
                 {title: "productSubUnitId", value: params.row.productSubUnitId},
                 {title: "exchangeRate", value: params.row.exchangeRate},
             ];
 
-            if (setFieldValue) {
-                fieldValue.forEach((i: {title: string, value: any}) => (
-                    setFieldValue(i.title, i.value)
-                ))
-            }
-            // if (setState) {
-            //     if () {
-            //         setState((prev) => (
-            //             {
-            //                 ...prev, 
-            //                 isBuy: true
-            //             }
-            //         ))
-            //     } else {
-            //         setState((prev) => (
-            //             {
-            //                 ...prev, 
-            //                 isBuy: false
-            //             }
-            //         ))
-            //     }
-            // }
+            fieldValue.forEach((i: {title: string, value: any}) => (
+                setFieldValue(i.title, i.value)
+            ))
             setIsUpdate(true)
         }
     };
