@@ -2,8 +2,15 @@ import { Box, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import { AnyAaaaRecord } from "dns";
+import { FC } from "react";
 
-const TransferAmount = () => {
+interface IProps {
+    item: any
+}
+
+const TransferAmount:FC<IProps> = ({item}) => {
+    console.log(item)
     return (
         <>
             <Box className="flex flex-row justify-between items-center flex-wrap gap-4 bg-slate-100 p-4 rounded-md mt-4">
