@@ -85,6 +85,7 @@ const SalesOrder = () => {
                     })
                 }
                 console.log("orders", orders)
+                console.log("formDataqqq", formData)
                 console.log("formData", JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {

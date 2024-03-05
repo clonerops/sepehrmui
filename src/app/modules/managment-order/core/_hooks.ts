@@ -3,7 +3,7 @@ import { IApproveInvoice, IPurchaserOrder, IPurchaserTransferBetweenWarehouse, I
 import * as api from "./_requests";
 
 // Sales Order
-const useCreateOrder = () => useMutation((formData: ISalesOrder) => api.createOrder(formData))
+const useCreateOrder = () => useMutation((formData: any) => api.createOrder(formData))
 
 const useUpdateOrder = () => useMutation((formData: ISalesOrder) =>  api.updateOrder(formData))
 

@@ -10,6 +10,7 @@ export interface ISalesOrder {
     customerOfficialName?: string;
     customerOfficialCompanyId?: number;
     invoiceTypeId?: number;
+    orderTypeId?: number;
     freightName?: string;
     isTemporary?: string;
     dischargePlaceAddress?: string;

@@ -31,7 +31,7 @@ export const saleOrderInitialValues = {
     detailDescription: "",
     purchaseSettlementDate: "",
     cargoSendDate: "",
-    orderType: 1,
+    orderTypeId: 1,
 
     // order payment
     orderPaymentId: "",
