@@ -117,7 +117,7 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
                     <Box component="div" className="flex w-full">
                         <FormikDatepicker disabled={postSaleOrder?.data?.succeeded} name="orderPaymentDate" label="تاریخ" />
                     </Box>
-                    <Button onClick={handleSetPayment} className="!w-[120px]" variant="contained">
+                    <Button disabled={postSaleOrder?.data?.succeeded} onClick={handleSetPayment} className="!w-[120px]" variant="contained">
                          <Typography>افزودن</Typography>
                     </Button>
                 </Box>

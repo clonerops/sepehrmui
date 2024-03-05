@@ -47,7 +47,7 @@ const SalesOrder = () => {
                     exitType: values.exitType,
                     orderSendTypeId: values.orderSendTypeId,
                     paymentTypeId: values.paymentTypeId,
-                    orderTypeId: values.orderTypeId,
+                    orderTypeId: +values.orderType,
                     customerOfficialName: "string",
                     customerOfficialCompanyId: values.customerOfficialCompanyId && +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
                     invoiceTypeId: values.invoiceTypeId,
@@ -84,8 +84,6 @@ const SalesOrder = () => {
                         }
                     })
                 }
-                console.log("orders", orders)
-                console.log("formData", JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors && response.data.Errors.length > 0) {
@@ -94,7 +92,7 @@ const SalesOrder = () => {
                             })
                         } else {
                             if (response.succeeded) {
-                                renderAlert(`سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`)
+                                renderAlert(response.message)
                             } else {
                                 EnqueueSnackbar(response?.data.Message, "error")
                             }
@@ -176,7 +174,7 @@ const SalesOrder = () => {
                                 formikRef={formikRef}
                                 setOrderPayment={setOrderPayment} />
                         </Box>
-                        <Box component="div" className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
+                        <Box  component="div" className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
@@ -186,6 +184,7 @@ const SalesOrder = () => {
                                     orderPayment.length <= 0 ||
                                     formikRef.current?.values.customerId === "" ||
                                     formikRef.current?.values.invoiceTypeId === "" ||
+                                    postSaleOrder?.data?.succeeded === "" ||
                                     !orderValid
                                 }
                                 color="primary"

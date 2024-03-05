@@ -30,10 +30,9 @@ const saleBaseOrderInformation = (orderCode: number, totalAmount: number) => {
 const SaleHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => {
     let totalAmount = useMemo(() => calculateTotalAmount(orders, orderServices), [orders, orderServices])
     return (
-        // <Box component="div" className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col lg:flex-row flex-warp  gap-4">
             {saleBaseOrderInformation(
-                postSaleOrder?.data?.data[0]?.orderCode, 
+                postSaleOrder?.data?.data?.orderCode, 
                 totalAmount)
                 .map((item: { title: string, icon: React.ReactNode, value: any, cardClassName: string }) => {
                 return <CardWithIcons 

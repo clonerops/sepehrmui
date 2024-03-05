@@ -252,7 +252,8 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     ) : (
                         <Button
                             onClick={handleOrder}
-                            className="!bg-green-500">
+                            disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                            className={postSaleOrder.data?.succeeded || orderPayment.length > 0 ? "!bg-gray-200" : "!bg-green-500"} >
                             <Add />
                             <Typography>افزودن به لیست سفارشات</Typography>
                         </Button>
