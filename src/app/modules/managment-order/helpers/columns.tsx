@@ -17,10 +17,16 @@ export const orderColumns = (renderAction: any) => {
             headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
+            field: 'orderTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
             field: 'customerName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 160, flex: 1
+            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 190, flex: 1
         },
         {
             field: 'invoiceTypeDesc', renderCell: (params: any) => {
@@ -32,7 +38,7 @@ export const orderColumns = (renderAction: any) => {
             field: 'isTemporary', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value === false ? "ثبت نهایی" : "ثبت موقت"}</Typography>;
             },
-            headerName: 'نوع ثبت', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'نوع ثبت', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
             field: 'orderStatusId', renderCell: (params: any) => {
@@ -47,7 +53,7 @@ export const orderColumns = (renderAction: any) => {
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 140 }
     ]
     return col
 }
@@ -96,7 +102,7 @@ export const purchaserOrderColumns = (renderAction: any) => {
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120 }
     ]
     return col
 }

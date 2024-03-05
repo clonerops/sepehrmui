@@ -88,7 +88,7 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
         <Box component="div" className="flex flex-wrap md:flex-nowrap gap-4 my-4 ">
             <FormikService label="نوع خدمت" name="serviceId" disabled={postSaleOrder?.data?.succeeded} />
             <FormikPrice name="serviceAmount" label="هزینه" disabled={postSaleOrder?.data?.succeeded} />
-            <Button onClick={handleSetServices} className="!w-[120px]" variant="contained">
+            <Button disabled={postSaleOrder?.data?.succeeded} onClick={handleSetServices} className="!w-[120px]" variant="contained">
                 <Typography>افزودن</Typography>
             </Button>
         </Box>

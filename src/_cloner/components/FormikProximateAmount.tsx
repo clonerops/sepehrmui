@@ -14,6 +14,8 @@ const FormikProximateAmount = (props: any) => {
         formikProps.setFieldValue(props.name, inputValue);
         if(formikProps?.values?.productId?.exchangeRate) {
             formikProps.setFieldValue("productSubUnitAmount", Math.ceil(+inputValue / +formikProps?.values?.productId?.exchangeRate))
+        } else if(formikProps?.values?.exchangeRate){
+            formikProps.setFieldValue("productSubUnitAmount", Math.ceil(+inputValue / +formikProps?.values?.exchangeRate))
         } else {
             formikProps.setFieldValue("productSubUnitAmount", Math.ceil(+inputValue / +formikProps?.values?.productId?.exchangeRate))
         }

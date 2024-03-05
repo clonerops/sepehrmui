@@ -51,6 +51,7 @@ const orderFeatureRenderFields = (
         case "orderType":
             return <RadioGroup
             categories={categories}
+            disabled={postOrder?.data?.succeeded}
             id="orderType"
             key="orderType"
             name="orderType"

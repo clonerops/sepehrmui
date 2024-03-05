@@ -5,7 +5,7 @@ import * as api from "./_requests";
 // Sales Order
 const useCreateOrder = () => useMutation((formData: any) => api.createOrder(formData))
 
-const useUpdateOrder = () => useMutation((formData: ISalesOrder) =>  api.updateOrder(formData))
+const useUpdateOrder = () => useMutation((formData: any) =>  api.updateOrder(formData))
 
 const useRetrieveOrders = (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number}) => {
     return useQuery(["orders", formData], () => api.retrieveOrders(formData), {

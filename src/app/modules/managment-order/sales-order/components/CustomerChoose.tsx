@@ -76,10 +76,10 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
                                 name="customerId"
                                 label="مشتری" />
                         </div>
-                        <FormikCompany  customerid={formikRef.current?.values.customerId} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
+                        <FormikCompany disabled={postSaleOrder?.data?.succeeded} customerid={formikRef.current?.values.customerId} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
                     </div>
                     <div className='mt-4 flex justify-end items-end'>
-                        <Button onClick={() => openModalState(true)} variant="contained" className="w-full">
+                        <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalState(true)} variant="contained" className="w-full">
                             <Typography>ایجاد مشتری</Typography>
                         </Button>
                     </div>
