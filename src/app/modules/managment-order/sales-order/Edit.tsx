@@ -33,6 +33,7 @@ const SalesOrderEdit = () => {
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
     const [orderValid, setOrderValid] = useState<boolean>(false)
+    const [categories, setCategories] = useState<any>([])
 
     const postSaleOrder = useUpdateOrder();
 
@@ -40,27 +41,26 @@ const SalesOrderEdit = () => {
     const detailTools = useGetOrderDetailByCode()
     const { data: warehouse } = useGetWarehouses();
 
-
     useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
-    
+
     useEffect(() => {
         if (detailTools?.data?.data) {
 
             setOrderServices([
                 ...detailTools?.data?.data?.orderServices?.map((i: any) => ({
-                    id: i.id,
+                    orderServiceMainId: i.id,
                     serviceName: i?.serviceDesc,
-                    serviceId: i?.serviceId,
-                    description: i?.description
+                    orderServiceId: i?.serviceId,
+                    orderServiceDescription: i?.description
                 })) || []
             ]);
 
             setOrderPayment([
                 ...detailTools?.data?.data?.orderPayments?.map((i: any) => ({
-                    id: i?.id,
-                    amount: separateAmountWithCommas(+i.amount),
-                    paymentDate: i.paymentDate,
-                    daysAfterExit: i.daysAfterExit
+                    orderPaymentId: i?.id,
+                    orderPaymentAmount: separateAmountWithCommas(+i.amount),
+                    orderPaymentDate: i.paymentDate,
+                    orderPaymentDaysAfterExit: i.daysAfterExit
                 })) || []
             ]);
 
@@ -77,26 +77,31 @@ const SalesOrderEdit = () => {
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
                     productBrandName: i.brandName,
                     purchaserCustomerId: i.purchaserCustomerId,
-                    // purchaserCustomerName: customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.firstName+" "+customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.lastName,
                     proximateSubUnit: Math.ceil(+i.proximateAmount / +i.product.exchangeRate)
                 })) || []
             ]);
 
+            setCategories([
+                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId == 2 ? true : false },
+                { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId == 1 ? true : false },
+            ])
         }
     }, [detailTools?.data?.data])
 
     const onSubmit = (values: any) => {
+        console.log("values", values)
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد.", "error")
         } else {
             const formData = {
                 id: detailTools?.data?.data?.id,
-                productBrandId: 25,
+                productBrandId: 89,
                 customerId: detailTools?.data?.data.customer.id, //ok
                 totalAmount: calculateTotalAmount(orders, orderServices), //ok
                 description: values.description ? values.description : detailTools?.data?.data.description, //ok
+                deliverDate: values.deliverDate ? values.deliverDate : detailTools?.data?.data.deliverDate, //ok
                 exitType: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
-                orderTypeId: values.orderTypeId ? Number(values.orderTypeId) : detailTools?.data?.data.orderTypeId, //ok
+                orderTypeId: values.orderType ? +values.orderType : detailTools?.data?.data.orderTypeId, //ok
                 orderSendTypeId: values.orderSendTypeId ? Number(values.orderSendTypeId) : detailTools?.data?.data.orderSendTypeId,//ok
                 paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
                 customerOfficialName: "string",
@@ -136,16 +141,16 @@ const SalesOrderEdit = () => {
 
                     return orderDetails;
                 }),
-                orderPayments: orderPayment?.map((item: IOrderPayment) => {
+                orderPayments: orderPayment?.map((item: any) => {
                     return {
-                        id: item.id ? item.id : null,
-                        amount: item.amount,
-                        paymentDate: item.paymentDate,
-                        daysAfterExit: Number(item.daysAfterExit),
-                        paymentType: item.paymentType
+                        id: item.orderPaymentId ? item.orderPaymentId : null,
+                        amount: +item.orderPaymentAmount.replace(/,/g, ""),
+                        paymentDate: item.orderPaymentDate,
+                        daysAfterExit: +item.orderPaymentDaysAfterExit,
+                        paymentType: item.orderPaymentType
                     }
                 }),
-                orderServices: orderServices.map((item: IOrderService) => {
+                orderServices: orderServices.map((item: any) => {
                     return {
                         id: item.id ? item.id : null,
                         serviceId: item.serviceId,
@@ -188,6 +193,8 @@ const SalesOrderEdit = () => {
             }
         }
     }
+
+    console.log(orderServices)
     return (
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
@@ -199,21 +206,21 @@ const SalesOrderEdit = () => {
                     </Typography>
                 </Alert>
             }
-            <Formik enableReinitialize innerRef={formikRef} initialValues={{
-                ...saleOrderEditInitialValues,
-                // ...orderPaymentValues,
-                // ...orderServiceValues,
-                ...detailTools?.data?.data,
-                paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
-                isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
-            }} onSubmit={onSubmit}>
+            <Formik enableReinitialize innerRef={formikRef} initialValues={
+                {
+                    ...saleOrderEditInitialValues,
+                    ...detailTools?.data?.data,
+                    paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
+                    isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
+                }
+            } onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
                         {/*The design of the header section of the order module includes order information and customer information */}
                         <Box component="div" className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <OrderDetailBaseOrderCode postSaleOrder={postSaleOrder} detailTools={detailTools} formikRef={formikRef} orderCode={values.searchOrderCode} orderServices={orderServices} orders={orders} />
                             <Box component="div" className='col-span-3'>
-                                <OrderFeature postOrder={postSaleOrder} />
+                                <OrderFeature categories={categories} postOrder={postSaleOrder} />
                             </Box>
                             <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
                                 <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
@@ -247,13 +254,13 @@ const SalesOrderEdit = () => {
                                 formikRef={formikRef}
                                 postSaleOrder={postSaleOrder}
                                 orders={orders} />
-                            {/* <OrderPayment
+                            <OrderPayment
                                 orderPayment={orderPayment}
                                 orderService={orderServices}
                                 postSaleOrder={postSaleOrder}
                                 formikRef={formikRef}
                                 orders={orders}
-                                setOrderPayment={setOrderPayment} /> */}
+                                setOrderPayment={setOrderPayment} />
                         </Box>
                         <Box
                             component="div"

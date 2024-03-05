@@ -23,6 +23,10 @@ import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 import { useGetProductList } from '../../generic/products/_hooks'
 
+const categories = [{ value: 2, title: "پیش فروش", defaultChecked: true },
+{ value: 1, title: "فروش فوری", defaultChecked: false }
+]
+
 const SalesOrder = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [orders, setOrders] = useState<IOrderItems[]>([]);
@@ -165,6 +169,7 @@ const SalesOrder = () => {
                                 postSaleOrder={postSaleOrder}
                                 orders={orders} />
                             <OrderFeature
+                                categories={categories}
                                 postOrder={postSaleOrder}  />
                             <OrderPayment
                                 orderPayment={orderPayment}

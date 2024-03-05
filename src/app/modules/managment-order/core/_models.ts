@@ -46,18 +46,28 @@ export interface ISaleOrderDetails {
 }
 
 export interface IOrderPayment {
-    id?: string;
-    amount?: number;
-    paymentDate?: string
-    daysAfterExit?: number
-    paymentType?: number
+    // id?: string;
+    // amount?: number;
+    // paymentDate?: string
+    // daysAfterExit?: number
+    // paymentType?: number
+    orderPaymentId?: string;
+    orderPaymentAmount?: number;
+    orderPaymentDate?: string
+    orderPaymentDaysAfterExit?: number
+    orderPaymentType?: number
+
 }
 
 export interface IOrderService {
     id?: number;
-    serviceId?: number;
+    // serviceId?: number;
+    // serviceName?: string;
+    // description?: string;
+    orderServiceMainId?: number;
+    orderServiceId?: number;
     serviceName?: string;
-    description?: string;
+    orderServiceDescription?: string;
 }
 
 

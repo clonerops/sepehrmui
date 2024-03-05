@@ -21,48 +21,55 @@ console.log("OrderFeauture is rendered")
 
 interface IProps {
     postOrder: any,
+    categories: {
+        value: any,
+        title: string,
+        defaultChecked: boolean
+    }[],
 }
 
-const categories = [
-    {value: 2, title: "پیش فروش", defaultChecked: true},
-    {value: 1, title: "فروش فوری", defaultChecked: false}
-]
+// const categories = [
+//     {value: 2, title: "پیش فروش", defaultChecked: true},
+//     {value: 1, title: "فروش فوری", defaultChecked: false}
+// ]
 
-const orderFeatureRenderFields = (
-    index: number | string,
-    postOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
-    fields: FieldType) => {
-    const { type, ...rest } = fields;
-    switch (type) {
-        case "orderSendTypeId":
-            return <FormikOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-        case "invoiceTypeId":
-            return <FormikInvoiceType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-        case "paymentTypeId":
-            return <FormikPaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-        case "exitType":
-            return <FormikExitType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-        case "temporary":
-            return <FormikTemporary key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-        case "description":
-            return <FormikDescription key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-        case "deliverDate":
-            return <FormikDatepicker key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-        case "orderType":
-            return <RadioGroup
-            categories={categories}
-            disabled={postOrder?.data?.succeeded}
-            id="orderType"
-            key="orderType"
-            name="orderType"
-        />
 
-        default:
-            return <FormikInput key={index} {...rest} />;
-    }
-};
+const OrderFeature:FC<IProps> = ({postOrder, categories}) => {
 
-const OrderFeature:FC<IProps> = ({postOrder}) => {
+    const orderFeatureRenderFields = (
+        index: number | string,
+        postOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>,
+        fields: FieldType) => {
+        const { type, ...rest } = fields;
+        switch (type) {
+            case "orderSendTypeId":
+                return <FormikOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case "invoiceTypeId":
+                return <FormikInvoiceType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case "paymentTypeId":
+                return <FormikPaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case "exitType":
+                return <FormikExitType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case "temporary":
+                return <FormikTemporary key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case "description":
+                return <FormikDescription key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case "deliverDate":
+                return <FormikDatepicker key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case "orderType":
+                return <RadioGroup
+                categories={categories}
+                disabled={postOrder?.data?.succeeded}
+                id="orderType"
+                key="orderType"
+                name="orderType"
+            />
+    
+            default:
+                return <FormikInput key={index} {...rest} />;
+        }
+    };
+    
 
     return (
     // <ReusableCard cardClassName='bg-gradient-to-r from-gray-100'>
