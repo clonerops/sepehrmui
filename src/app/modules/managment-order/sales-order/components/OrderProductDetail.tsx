@@ -234,19 +234,19 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     <FormikCustomer
                         name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
                         label="خرید از"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
                     <FormikPrice
                         name="purchasePrice"
                         label="قیمت خرید (ریال)"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
                     <FormikPurchaserInvoiceType
                         name="purchaseInvoiceTypeId"
                         label="نوع فاکتور خرید"
-                        disabeld={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                        disabeld={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
                     <FormikDatepicker
                         name="purchaseSettlementDate"
                         label="تاریخ تسویه خرید"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5} />
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
                     {isUpdate ? (
                         <Button
                             onClick={handleOrder} className="!bg-yellow-500">

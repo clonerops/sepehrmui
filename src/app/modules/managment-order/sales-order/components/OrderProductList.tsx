@@ -63,6 +63,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         if (orders) {
             const selectedRow: any = orders.find(order => order.id === params.row.id);
             const rowIndex = orders.indexOf(selectedRow);
+            console.log("selectedRow", selectedRow)
             setOrderIndex(rowIndex)
             const fieldValue = [
                 {title: "productName", value: params.row.productName},

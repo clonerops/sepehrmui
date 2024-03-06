@@ -43,3 +43,16 @@ export interface IExitRemittance {
   }[]
 
 }
+
+export interface ITransferRemittance {
+  originWarehouseId: number | null | undefined,
+  destinationWarehouseId: number | null | undefined,
+  transferRemittanceTypeId: number | null | undefined,
+  details: [
+    {
+      productBrandId: number | null | undefined,
+      transferAmount: number | null | undefined,
+    }
+  ],
+  description: string | null | undefined
+}

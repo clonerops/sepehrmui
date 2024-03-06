@@ -218,17 +218,17 @@ const SalesOrderEdit = () => {
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
                         {/*The design of the header section of the order module includes order information and customer information */}
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
+                        <div className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <OrderDetailBaseOrderCode postSaleOrder={postSaleOrder} detailTools={detailTools} formikRef={formikRef} orderCode={values.searchOrderCode} orderServices={orderServices} orders={orders} />
-                            <Box component="div" className='col-span-3'>
+                            <div className='col-span-3'>
                                 <OrderFeature categories={categories} postOrder={postSaleOrder} />
-                            </Box>
+                            </div>
                             <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
                                 <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
                             </ReusableCard>
-                        </Box>
+                        </div>
                         {/*The design of the main section of the order module order */}
-                        <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
+                        <div className="md:space-y-0 space-y-4 md:gap-x-4">
                             <ReusableCard cardClassName="col-span-3">
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
@@ -246,8 +246,8 @@ const SalesOrderEdit = () => {
 
                                 />
                             </ReusableCard>
-                        </Box>
-                        <Box component="div" className="md:grid md:grid-cols-2 gap-x-4 mt-4">
+                        </div>
+                        <div className="md:grid md:grid-cols-2 gap-x-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
@@ -262,9 +262,8 @@ const SalesOrderEdit = () => {
                                 formikRef={formikRef}
                                 orders={orders}
                                 setOrderPayment={setOrderPayment} />
-                        </Box>
-                        <Box
-                            component="div"
+                        </div>
+                        <div
                             className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
                         >
                             <CustomButton
@@ -274,7 +273,7 @@ const SalesOrderEdit = () => {
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />
-                        </Box>
+                        </div>
 
                     </>
                 }}

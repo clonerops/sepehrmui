@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ICargo, IExitRemittance, ILadingLicence } from "./_models";
+import { ICargo, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
 import * as api from "./_requests";
 
 const useRetrievesNotSendedOrder = () => {
@@ -95,6 +95,12 @@ const usePostExitRemiitance = () => {
     });
 };
 
+//Transfer Remittance 
+const usePostTransferRemittance = () => {
+    return useMutation((formData: ITransferRemittance) => {
+        return api.postTransferRemittance(formData);
+    });
+};
 
 
 export {
@@ -109,5 +115,6 @@ export {
     useGetLadingLicenceById,
     useEditLadingLicence,
     useDeleteLadingLicenceById,
-    usePostExitRemiitance
+    usePostExitRemiitance,
+    usePostTransferRemittance
 };

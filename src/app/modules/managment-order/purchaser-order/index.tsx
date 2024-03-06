@@ -25,6 +25,7 @@ import { calculateTotalAmount } from '../helpers/functions'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 import { useGetProductList } from '../../generic/products/_hooks'
+import { useGetWarehouses } from '../../generic/_hooks'
 
 
 const PurchaserOrder = () => {
@@ -89,7 +90,6 @@ const PurchaserOrder = () => {
                       } 
                   })
               };
-              console.log(JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
 
@@ -111,7 +111,6 @@ const PurchaserOrder = () => {
             }
         }
     }
-    console.log("orders", orders)
     return (
         <>
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
@@ -152,8 +151,8 @@ const PurchaserOrder = () => {
                             <ReusableCard>
                               <PurchaserChoose 
                                 formikRef={formikRef}
-                               openModalState={setIsOpen} 
-                               postSaleOrder={postSaleOrder} />
+                                openModalState={setIsOpen} 
+                                postSaleOrder={postSaleOrder} />
                             </ReusableCard>
                         </div>
                         <Box component="div" className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">

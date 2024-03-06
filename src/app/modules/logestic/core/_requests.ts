@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { ICargo, IExitRemittance, ILadingLicence } from "./_models";
+import { ICargo, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
 
 const getCargosList = async (formData: {
     PageNumber?: number,
@@ -137,6 +137,20 @@ const postExitRemittance = async (formdata: IExitRemittance) => {
     }
 }
 
+
+// Transfer Remittance
+const postTransferRemittance = async (formdata: ITransferRemittance) => {
+    try {
+        const { data } = await http.post(
+            `/v1/Product/TransferRemittance`,
+            JSON.stringify(formdata)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
 export {
     getCargosList,
     retrievesNotSendedOrder,
@@ -149,5 +163,6 @@ export {
     getLadingLicenceById,
     editLadingLicence,
     deleteLadingLicenceById,
-    postExitRemittance
+    postExitRemittance,
+    postTransferRemittance
 };

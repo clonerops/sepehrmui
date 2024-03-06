@@ -61,7 +61,6 @@ const OrderProductDetail = (props: Props) => {
         formikRef
     } = props;
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
     const [orderIndex, setOrderIndex] = useState<number>(0);
 
@@ -110,31 +109,6 @@ const OrderProductDetail = (props: Props) => {
             purchaserCustomerName: values.purchaserCustomerId?.label ? values.purchaserCustomerId?.label : values.purchaserCustomerName,
             productMainUnitDesc: values.productId.productMainUnitDesc ? values.productId.productMainUnitDesc : values.productMainUnitDesc,
             productSubUnitDesc: values.productId.productSubUnitDesc ? values.productId.productSubUnitDesc : values.productSubUnitDesc,
-
-
-
-            // id: formikRef?.current?.values?.productName?.value ? formikRef?.current?.values?.productName?.value : formikRef?.current?.values.id,
-            // productName: formikRef?.current?.values?.productName?.label ? formikRef?.current?.values?.productName?.label : formikRef?.current?.values?.productName,
-            // exchangeRate: formikRef?.current?.values?.productName?.exchangeRate ? formikRef?.current?.values?.productName?.exchangeRate : formikRef?.current?.values?.exchangeRate,
-            // warehouseId: formikRef?.current?.values?.productName?.warehouseId ? formikRef?.current?.values?.productName?.warehouseId : formikRef?.current?.values.warehouseId,
-            // productBrandName: formikRef?.current?.values?.productName?.productBrandName ? formikRef?.current?.values?.productName?.productBrandName : formikRef?.current?.values.productBrandName,
-            // productBrandId: formikRef?.current?.values.productName.productBrandId ? formikRef?.current?.values.productName.productBrandId : formikRef?.current?.values.productBrandId,
-            // warehouseName: formikRef?.current?.values?.productName.warehouseName ? formikRef?.current?.values?.productName.warehouseName : formikRef?.current?.values?.warehouseName,
-            // productDesc: formikRef?.current?.values?.productDesc,
-            // purchasePrice: formikRef?.current?.values?.purchasePrice,
-            // purchaseSettlementDate: formikRef?.current?.values.settlementDate,
-            // purchaseInvoiceTypeId: formikRef?.current?.values?.purchaseInvoiceTypeId ,
-            // sellerCompanyRow: formikRef?.current?.values.sellerCompanyRow,
-            // proximateAmount: formikRef?.current?.values.proximateAmount,
-            // proximateSubUnit: formikRef?.current?.values.proximateSubUnit,
-            // purchaserCustomerId: formikRef?.current?.values.purchaserCustomerId?.value ? formikRef?.current?.values.purchaserCustomerId?.value : formikRef?.current?.values.purchaserCustomerId,
-            // purchaserCustomerName: formikRef?.current?.values.purchaserCustomerId?.label ? formikRef?.current?.values.purchaserCustomerId?.label : formikRef?.current?.values.purchaserCustomerName,
-            // productMainUnitDesc: formikRef?.current?.values.productMainUnitDesc,
-            // productSubUnitDesc: formikRef?.current?.values.productSubUnitDesc,
-            // productSubUnitId: formikRef?.current?.values.productSubUnitId,
-            // price: formikRef?.current?.values?.price,
-            // description: formikRef?.current?.values.productDesc,
-            // rowId: formikRef?.current?.values?.rowId,
         };
 
         if (!isUpdate) {
@@ -205,7 +179,7 @@ const OrderProductDetail = (props: Props) => {
             <form>
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">
                     <FormikProductBrand
-                        name="productId"
+                        name={!isUpdate ? "productId" : "productName"}
                         label="کالا/محصول"
                         disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} 
                         onChange={changeProductFunction} 
