@@ -238,7 +238,7 @@ export const orderPurchaserListColumns = (renderActions: any) => {
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },
         {
-            headerName: "تاریخ تحویل", field: "purchaseSettlementDate",
+            headerName: "تاریخ تحویل", field: "deliverDate",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,

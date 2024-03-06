@@ -21,6 +21,7 @@ console.log("OrderFeauture is rendered")
 
 interface IProps {
     postOrder: any,
+    isPurchaser?: boolean
     categories: {
         value: any,
         title: string,
@@ -34,7 +35,7 @@ interface IProps {
 // ]
 
 
-const OrderFeature:FC<IProps> = ({postOrder, categories}) => {
+const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
 
     const orderFeatureRenderFields = (
         index: number | string,
@@ -55,15 +56,15 @@ const OrderFeature:FC<IProps> = ({postOrder, categories}) => {
             case "description":
                 return <FormikDescription key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "deliverDate":
-                return <FormikDatepicker key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+                return !isPurchaser ? <FormikDatepicker key={index} disabled={postOrder?.data?.succeeded} {...rest} /> : null
             case "orderType":
-                return <RadioGroup
+                return !isPurchaser ? <RadioGroup
                 categories={categories}
                 disabled={postOrder?.data?.succeeded}
                 id="orderType"
                 key="orderType"
                 name="orderType"
-            />
+            /> : null
     
             default:
                 return <FormikInput key={index} {...rest} />;

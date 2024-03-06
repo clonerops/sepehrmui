@@ -62,7 +62,6 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
     const onDoubleClick = (params: any) => {
         if (orders) {
             const selectedRow: any = orders.find(order => order.id === params.row.id);
-            console.log("selectedRow", selectedRow)
             const rowIndex = orders.indexOf(selectedRow);
             setOrderIndex(rowIndex)
             const fieldValue = [

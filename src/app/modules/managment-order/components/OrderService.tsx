@@ -80,8 +80,6 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
         { id: 2, header: "هزینه", accessor: "orderServiceDescription" },
     ]    
 
-    console.log(orderService)
-
     let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit
 
   return (

@@ -43,7 +43,7 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
 
         const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue?.orderPaymentAmount.replace(/,/g, ""), 10), 0);
 
-        if(formikRef.current?.values?.orderPaymentDate === undefined || formikRef.current?.values?.orderPaymentDate === null) {
+        if(formikRef.current?.values?.orderPaymentDate === undefined || formikRef.current?.values?.orderPaymentDate === null || formikRef.current?.values?.orderPaymentDate === "") {
             EnqueueSnackbar("تاریخ نمی تواند خالی باشد.", "error")
         } else if(formikRef.current?.values?.orderPaymentAmount === undefined || formikRef.current?.values?.orderPaymentAmount === null) {
             EnqueueSnackbar("مبلغ نمی تواند خالی باشد.", "error")

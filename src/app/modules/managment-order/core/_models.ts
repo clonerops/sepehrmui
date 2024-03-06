@@ -157,6 +157,9 @@ export interface IOrderItems {
     exchangeRate?: string | null | undefined;
     rowId?: string | null | undefined;
     description?: string | null | undefined;
+    deliverDate?: string | null | undefined;
+    originWarehouseId?: string | null | undefined;
+    destinationWarehouseId?: string | null | undefined;
 }
 
 export interface IOrder extends ISalesOrder {

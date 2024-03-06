@@ -11,6 +11,10 @@ import { UseMutationResult } from '@tanstack/react-query'
 import { IPurchaserOrder } from '../../core/_models'
 import { useGetCustomer } from '../../../customer/core/_hooks'
 import Backdrop from '../../../../../_cloner/components/Backdrop'
+import FormikWarehouse from '../../../../../_cloner/components/FormikWarehouse'
+import FormikWarehouseBasedOfCustomer from '../../../../../_cloner/components/FormikWarehouseBasedOfCustomer'
+import FormikWarehouseBasedOfType from '../../../../../_cloner/components/FormikWarehouseBasedOfType'
+import { useGetWarehouses } from '../../../generic/_hooks'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, IPurchaserOrder, unknown>
@@ -21,6 +25,7 @@ interface IProps {
 const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }) => {
 
     const detailCustomer = useGetCustomer();
+    const warehouse = useGetWarehouses()
 
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
         if (item?.value) {
@@ -45,7 +50,26 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState 
     return (
         <>
             {detailCustomer.isLoading && <Backdrop loading={detailCustomer.isLoading} />}
-            <Box component="div" className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col space-y-4">
+                <Typography variant="h2">انتخاب فروشنده و انبار</Typography>
+                <Typography variant="body1" className='text-violet-800'>از طریق لیست زیر، فروشنده ای که قصد خرید کالا از آن دارید را انتخاب نمایید</Typography>
+                <div className="flex gap-x-2 w-full md:col-span-4">
+                    <FormikCustomer
+                        disabled={postSaleOrder?.data?.succeeded}
+                        onChange={changeCustomerFunction}
+                        isLabelSetValue
+                        name="customerId"
+                        label="فروشنده" />
+                </div>
+                <FormikCompany disabled={postSaleOrder?.data?.succeeded} customerid={formikRef.current?.values.customerId?.value} name="customerOfficialCompanyId" label="اسم رسمی شرکت فروشنده" />
+                <FormikWarehouseBasedOfType
+                    name="originWarehouseId"
+                    label="انبار مبدا"
+                    warehouse={warehouse?.data?.filter((item: {warehouseTypeId: number}) => item.warehouseTypeId === 4)}
+                />
+                <FormikWarehouse name="destinationWarehouseId" label="انبار مقصد" />
+            </div>
+            {/* <Box component="div" className="grid grid-cols-2 gap-4">
                 <ReusableCard cardClassName="col-span-2 flex flex-col gap-y-8">
                     <Typography variant="h2">انتخاب فروشنده</Typography>
                     <Typography variant="body1" className='text-violet-800'>از طریق لیست زیر، فروشنده ای که قصد خرید کالا از آن دارید را انتخاب نمایید</Typography>
@@ -60,7 +84,7 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState 
                         </Box>
                     </Box>
                 </ReusableCard>
-            </Box>
+            </Box> */}
         </>
     )
 }
