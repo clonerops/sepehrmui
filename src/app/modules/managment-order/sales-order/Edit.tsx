@@ -141,20 +141,21 @@ const SalesOrderEdit = () => {
 
                     return orderDetails;
                 }),
-                orderPayments: orderPayment?.map((item: any) => {
+                orderPayments: orderPayment?.map((item: IOrderPayment) => {
                     return {
                         id: item.orderPaymentId ? item.orderPaymentId : null,
-                        amount: +item.orderPaymentAmount.replace(/,/g, ""),
+                        // amount: +item.orderPaymentAmount.replace(/,/g, ""),
+                        amount:item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
                         paymentDate: item.orderPaymentDate,
-                        daysAfterExit: +item.orderPaymentDaysAfterExit,
+                        daysAfterExit: item.orderPaymentDaysAfterExit && +item.orderPaymentDaysAfterExit,
                         paymentType: item.orderPaymentType
                     }
                 }),
-                orderServices: orderServices.map((item: any) => {
+                orderServices: orderServices.map((item: IOrderService) => {
                     return {
-                        id: item.id ? item.id : null,
-                        serviceId: item.serviceId,
-                        description: item.description
+                        id: item.id ? item.orderServiceMainId : null,
+                        serviceId: item.orderServiceId,
+                        description: item.orderServiceDescription
                     }
                 }) //ok
             };

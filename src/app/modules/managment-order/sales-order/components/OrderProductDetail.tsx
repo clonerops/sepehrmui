@@ -77,7 +77,6 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
     }
 
     const handleOrder = () => {
-        console.log(values)
         const productOrder: any = {
             id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,
@@ -165,7 +164,12 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
             setIsUpdate(false)
             fields.forEach((element) => setFieldValue(element, ""));
         }
+        console.log("values", values)
+
     };
+
+    console.log("orders", orders)
+
 
     return (
         <>

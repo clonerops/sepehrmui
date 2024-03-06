@@ -36,7 +36,7 @@ const SalesOrder = () => {
 
     const postSaleOrder = useCreateOrder();
     const products = useGetProductList();
-
+    
     let formikRef = useRef<FormikProps<any>>(null);
 
     const onSubmit = (values: any) => {
@@ -51,7 +51,7 @@ const SalesOrder = () => {
                     exitType: values.exitType,
                     orderSendTypeId: values.orderSendTypeId,
                     paymentTypeId: values.paymentTypeId,
-                    orderTypeId: +values.orderType,
+                    orderTypeId: +values.orderType ? values.orderType : 2,
                     customerOfficialName: "string",
                     customerOfficialCompanyId: values.customerOfficialCompanyId && +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
                     invoiceTypeId: values.invoiceTypeId,
@@ -72,20 +72,21 @@ const SalesOrder = () => {
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                         warehouseId: item.warehouseId ? +item.warehouseId : null,
                     })),
-                    orderPayments: orderPayment?.map((item: any) => {
+                    orderPayments: orderPayment?.map((item: IOrderPayment) => {
                         return {
-                            amount: item.orderPaymentAmount && +item.orderPaymentAmount.replace(/,/g, ""),
+                            amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
                             paymentDate: item.orderPaymentDate,
                             daysAfterExit: item.orderPaymentDaysAfterExit,
                             paymentType: item.orderPaymentType
                       
                         }
                     }),
-                    orderServices: orderServices?.map((item: any) => {
+                    orderServices: orderServices?.map((item: IOrderService) => {
                         return {
-                            ...item,
-                            description: item.description.replace(/,/g, "")
-                        }
+                            id: item.orderServiceMainId,
+                            serviceId: item.orderServiceId,
+                            description: item?.orderServiceDescription &&  item.orderServiceDescription.replace(/,/g, "")
+                        } 
                     })
                 }
                 postSaleOrder.mutate(formData, {

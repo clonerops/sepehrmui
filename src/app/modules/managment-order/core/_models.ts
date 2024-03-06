@@ -52,7 +52,7 @@ export interface IOrderPayment {
     // daysAfterExit?: number
     // paymentType?: number
     orderPaymentId?: string;
-    orderPaymentAmount?: number;
+    orderPaymentAmount?: string;
     orderPaymentDate?: string
     orderPaymentDaysAfterExit?: number
     orderPaymentType?: number

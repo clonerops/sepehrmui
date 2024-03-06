@@ -62,6 +62,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
     const onDoubleClick = (params: any) => {
         if (orders) {
             const selectedRow: any = orders.find(order => order.id === params.row.id);
+            console.log("selectedRow", selectedRow)
             const rowIndex = orders.indexOf(selectedRow);
             setOrderIndex(rowIndex)
             const fieldValue = [
@@ -90,6 +91,8 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                 {title: "productSubUnitId", value: params.row.productSubUnitId},
                 {title: "exchangeRate", value: params.row.exchangeRate},
             ];
+
+            console.log("params.row", params.row)
 
             fieldValue.forEach((i: {title: string, value: any}) => (
                 setFieldValue(i.title, i.value)
