@@ -11,6 +11,9 @@ const Suppliers = React.lazy(() => import("../modules/generic/productSuppliers/S
 const Billlanding = React.lazy(
     () => import("../modules/logestic/billlanding/Billlanding")
 );
+const ListOfBilllanding = React.lazy(
+    () => import("../modules/logestic/billlanding/ListOfBilllanding")
+);
 const ProductPrice = React.lazy(
     () => import("../modules/generic/productPrices/ProductPrice")
 );
@@ -209,6 +212,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/transferBetweenWarehouse", element: <TransferBetweenWarehouse /> },
     { path: "dashboard/transferBetweenWarehouse/:id", element: <TransferBetweenWarehouseAction /> },
     { path: "dashboard/billlanding", element: <Billlanding /> },
+    { path: "dashboard/billlandingList", element: <ListOfBilllanding /> },
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },
     { path: "dashboard/user/role/:id", element: <RoleUser /> },

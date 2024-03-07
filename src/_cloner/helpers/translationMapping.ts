@@ -44,6 +44,7 @@ export const translationMapping: any = {
     customerWarehouse: "اختصاص انبار به مشتری",
     billlanding: "صدور حواله",
     presale: "سفارشات پیش فروش",
+    billlandingList: "لیست حواله های صادرشده",
 
     // Add more translations as needed
   };
