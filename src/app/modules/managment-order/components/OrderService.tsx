@@ -14,6 +14,7 @@ import { calculateProximateAmount, calculateTotalAmount } from '../helpers/funct
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { FC, memo } from 'react'
+import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
 
 interface IProps {
     postSaleOrder: any,
@@ -67,7 +68,9 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
 
     const serviceBeforSubmit = [
         { id: 1, header: "نام بسته خدمت", accessor: "serviceName" },
-        { id: 2, header: "هزینه", accessor: "orderServiceDescription" },
+        { id: 2, header: "هزینه(ریال)", accessor: "orderServiceDescription", render: (params: any) => {
+            return <Typography variant="h4" className='text-green-500'>{separateAmountWithCommas(params.orderServiceDescription)}</Typography>
+        } },
         { id: 3, header: "حذف", accessor: "", render: (params: any) => {
             return <IconButton onClick={() => handleDeleteService(params)}>
                 <DeleteOutlineRounded className='!text-red-500' />
@@ -77,7 +80,9 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
 
     const serviceAfterSubmit = [
         { id: 1, header: "نام بسته خدمت", accessor: "serviceName" },
-        { id: 2, header: "هزینه", accessor: "orderServiceDescription" },
+        { id: 2, header: "هزینه(ریال)", accessor: "orderServiceDescription", render: (params: any) => {
+            return <Typography variant="h4" className='text-green-500'>{separateAmountWithCommas(params.orderServiceDescription)}</Typography>
+        }},
     ]    
 
     let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit

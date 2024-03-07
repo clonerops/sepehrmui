@@ -139,7 +139,7 @@ const PurchaserOrderEdit = () => {
             id: item.orderPaymentId ? item.orderPaymentId : null,
             amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
             paymentDate: item.orderPaymentDate,
-            daysAfterExit: item.orderPaymentDaysAfterExit && +item.orderPaymentDaysAfterExit,
+            daysAfterExit: item.orderPaymentDaysAfterExit ? +item.orderPaymentDaysAfterExit : 0,
             paymentType: item.orderPaymentType
           }
         }),
@@ -284,6 +284,12 @@ console.log(detailTools?.data?.data)
             >
               <CustomButton
                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ویرایش سفارش فروش"}
+                disabled={
+                  orders.length <= 0 ||
+                  postSaleOrder.isLoading ||
+                  orderPayment.length <= 0 ||
+                  postSaleOrder?.data?.succeeded === ""
+              }
                 onClick={() => handleSubmit()}
                 color="primary"
                 isLoading={postSaleOrder.isLoading}

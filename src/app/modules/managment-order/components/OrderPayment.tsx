@@ -14,6 +14,7 @@ import { calculateProximateAmount, calculateTotalAmount } from "../helpers/funct
 import { FormikProps } from "formik";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { FC, memo, useMemo } from "react";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 
 console.log("OrderPayments is rendered")
 
@@ -72,7 +73,9 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
     }
 
     const paymentBeforSubmit = [
-        { id: 1, header: "مبلغ", accessor: "orderPaymentAmount" },
+        { id: 1, header: "مبلغ(ریال)", accessor: "orderPaymentAmount", render: (params: any) => {
+            return <Typography variant="h4" className='text-green-500'>{params.orderPaymentAmount}</Typography>
+        } },
         { id: 2, header: "تاریخ تسویه", accessor: "orderPaymentDate" },
         {
             id: 3, header: "حذف", accessor: "", render: (params: any) => {
@@ -83,7 +86,9 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
         },
     ]
     const paymentAfterSubmit = [
-        { id: 1, header: "مبلغ", accessor: "orderPaymentAmount" },
+        { id: 1, header: "مبلغ(ریال)", accessor: "orderPaymentAmount", render: (params: any) => {
+            return <Typography variant="h4" className='text-green-500'>{params.orderPaymentAmoun}</Typography>
+        } },
         { id: 2, header: "تاریخ تسویه", accessor: "orderPaymentDate" },
     ]
 
