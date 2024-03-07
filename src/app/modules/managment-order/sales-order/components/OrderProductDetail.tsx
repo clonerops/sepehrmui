@@ -29,6 +29,7 @@ const fields = [
     "productId",
     "proximateAmount",
     "productSubUnitAmount",
+    "warehouseTypeId",
     "price",
     "rowId",
     "purchaserCustomerId",

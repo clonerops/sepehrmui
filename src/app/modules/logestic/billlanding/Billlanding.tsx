@@ -24,6 +24,8 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import _ from "lodash";
 import { renderAlert } from "../../../../_cloner/helpers/SweetAlert";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import CustomButton from "../../../../_cloner/components/CustomButton";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 
 const initialValues = {
     originWarehouseId: "",
@@ -332,9 +334,9 @@ const Billlanding = () => {
                                 ))}
                             </ReusableCard>
                             <div className="flex justify-end items-end mt-8">
-                                <Button onClick={() => handleSubmit()} variant="contained" color="primary">
-                                    <Typography variant="h3">ثبت صدور حواله</Typography>
-                                </Button>
+                                <ButtonComponent onClick={() => handleSubmit()}>
+                                    <Typography variant="h4" className="px-4 py-2 text-white">ثبت صدور حواله</Typography>
+                                </ButtonComponent>
                             </div>
                         </Form>
                     );

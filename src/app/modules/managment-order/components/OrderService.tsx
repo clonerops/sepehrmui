@@ -69,7 +69,7 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
     const serviceBeforSubmit = [
         { id: 1, header: "نام بسته خدمت", accessor: "serviceName" },
         { id: 2, header: "هزینه(ریال)", accessor: "orderServiceDescription", render: (params: any) => {
-            return <Typography variant="h4" className='text-green-500'>{separateAmountWithCommas(params.orderServiceDescription)}</Typography>
+            return <Typography variant="h4" className='text-green-500'>{params.orderServiceDescription}</Typography>
         } },
         { id: 3, header: "حذف", accessor: "", render: (params: any) => {
             return <IconButton onClick={() => handleDeleteService(params)}>
@@ -81,7 +81,7 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
     const serviceAfterSubmit = [
         { id: 1, header: "نام بسته خدمت", accessor: "serviceName" },
         { id: 2, header: "هزینه(ریال)", accessor: "orderServiceDescription", render: (params: any) => {
-            return <Typography variant="h4" className='text-green-500'>{separateAmountWithCommas(params.orderServiceDescription)}</Typography>
+            return <Typography variant="h4" className='text-green-500'>{params.orderServiceDescription}</Typography>
         }},
     ]    
 

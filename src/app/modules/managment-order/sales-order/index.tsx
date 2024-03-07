@@ -36,7 +36,7 @@ const SalesOrder = () => {
 
     const postSaleOrder = useCreateOrder();
     const products = useGetProductList();
-    
+
     let formikRef = useRef<FormikProps<any>>(null);
 
     const onSubmit = (values: any) => {
@@ -51,7 +51,7 @@ const SalesOrder = () => {
                     exitType: values.exitType,
                     orderSendTypeId: values.orderSendTypeId,
                     paymentTypeId: values.paymentTypeId,
-                    orderTypeId: +values.orderType ? values.orderType : 2,
+                    orderTypeId: values.orderType ? +values.orderType : 2,
                     customerOfficialName: "string",
                     customerOfficialCompanyId: values.customerOfficialCompanyId && +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
                     invoiceTypeId: values.invoiceTypeId,
