@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback, useEffect, useState } from "react";
+import React, { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
@@ -11,7 +11,7 @@ import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumber
 import { calculateTotalAmount } from "../../helpers/functions";
 import { useGetUnits } from "../../../generic/productUnit/_hooks";
 import { IOrderService } from "../../core/_models";
-import { Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikErrors, FormikProps } from "formik";
 import FormikRadioGroup from "../../../../../_cloner/components/FormikRadioGroup";
 import { dropdownWarehouseType } from "../../helpers/dropdowns";
 import { useGetProductTypes, useGetWarehouseTypes } from "../../../generic/_hooks";
@@ -24,13 +24,8 @@ interface IProps {
     setOrderPayment?: any
     orders?: any
     orderService?: IOrderService[];
-    formikRef:  React.RefObject<FormikProps<any>>
-    setState: React.Dispatch<React.SetStateAction<{
-        isBuy: boolean;
-        orderIndex: number;
-        isUpdate: boolean;
-        isProductChoose: boolean;
-    }>>
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
 }
 
 interface IProductData {
@@ -57,7 +52,7 @@ interface IFilter {
     PageSize?: number
 }
 
-const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderService, formikRef, setState}) => {    
+const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderService, setIsOpen, setFieldValue }) => {
     const filterTools = useGetProductList();
     const warehouseTypeTools = useGetWarehouseTypes();
     const productTypeTools = useGetProductTypes();
@@ -84,8 +79,6 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
         selectedTab: -1,
         filteredTabs: []
     });
-    // const [results, setResults] = useState<IProducts[]>([]);
-
 
     const handleFilterProduct = (filter: IFilter) => {
         filterTools.mutate(filter);
@@ -99,16 +92,14 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
         const delayDebounceFn = setTimeout(() => {
             const filter = {
                 ...currentFilter,
-                ProductName : searchTerm
+                ProductName: searchTerm
             }
             filterTools.mutate(filter);
-    
+
         }, 1000)
-    
+
         return () => clearTimeout(delayDebounceFn)
-      }, [searchTerm])
-
-
+    }, [searchTerm])
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
@@ -132,7 +123,6 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
         }
     }, [productData.selectedProduct, productData.selectionModel]);
 
-
     const renderAction = useCallback((indexToDelete: any) => {
         return (
             <>
@@ -154,7 +144,7 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
         );
     }, [productData.selectedProduct]);
 
-    const renderInput = (params: any) => {
+    const renderInput = useCallback((params: any) => {
         const productId = params.row.id;
         return (
             <>
@@ -179,9 +169,9 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
                 />
             </>
         );
-    };
+    }, [productData.proximateAmounts])
 
-    const renderSubUnit = (params: any) => {
+    const renderSubUnit = useCallback((params: any) => {
         const productId = params.row.id;
         return (
             <Box component="div" className="flex gap-x-2">
@@ -228,20 +218,20 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
                 </FormControl>{" "}
             </Box>
         );
-    };
+    }, [productData.proximateSubAmounts])
 
-    const renderPrice = (params: any) => {
+    const renderPrice = useCallback((params: any) => {
         const productId = params.row.id;
         return (
             <>
                 <MaskInput
                     label=""
                     mask={Number}
-                    onAccept={(value: any) => 
+                    onAccept={(value: any) =>
                         setProductData((prevState) => ({
                             ...prevState,
                             price: { ...prevState.price, [productId]: value },
-                        }))                
+                        }))
                     }
                     thousandsSeparator=","
                     id={`outlined-adornment-weight-${productId}`}
@@ -255,7 +245,9 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
                 />
             </>
         );
-    };
+    }, [productData.price])
+
+
 
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
@@ -293,24 +285,21 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
 
             setOrders(updatedOrders);
             setOrderPayment([]);
-            formikRef.current?.setFieldValue(
-                "amount",
+            setFieldValue(
+                "orderPaymentAmount",
                 sliceNumberPriceRial(
                     calculateTotalAmount(updatedOrders, orderService)
                 )
             );
-            setState((prev) => ({
-                ...prev,
-                isProductChoose: false,
-            }));
+            setIsOpen(false)
         } else {
             alert("برخی از کالا ها در لیست سفارشات موجود می باشد");
         }
     };
 
-    if(warehouseTypeTools?.isLoading || productTypeTools?.isLoading) {
+    if (warehouseTypeTools?.isLoading || productTypeTools?.isLoading) {
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
-    } 
+    }
 
     return (
         <>
@@ -318,50 +307,50 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
                 <Button
                     className={`${currentFilter.ProductTypeId == -1 ? "!bg-[#fcc615] !text-black" : ""
                         }`}
-                        onClick={() => {
-                            setCurrentFilter({
-                                ...currentFilter,
-                                ProductTypeId: -1
-                            })
-                            handleFilterProduct({
-                                ...currentFilter,
-                                ProductTypeId: -1
-                            })
-                        }} >
+                    onClick={() => {
+                        setCurrentFilter({
+                            ...currentFilter,
+                            ProductTypeId: -1
+                        })
+                        handleFilterProduct({
+                            ...currentFilter,
+                            ProductTypeId: -1
+                        })
+                    }} >
                     <Typography className="px-2">کل محصولات</Typography>
                 </Button>
 
-                    {productTypeTools?.data?.map((item: any, index: number) => {
-                        return (
-                            <Button key={index}
-                                className={`${currentFilter.ProductTypeId == item.id
-                                    ? "!bg-[#fcc615] !text-black"
-                                    : ""
-                                    }`}
+                {productTypeTools?.data?.map((item: any, index: number) => {
+                    return (
+                        <Button key={index}
+                            className={`${currentFilter.ProductTypeId == item.id
+                                ? "!bg-[#fcc615] !text-black"
+                                : ""
+                                }`}
 
-                                onClick={() => {
-                                    setCurrentFilter({
-                                        ...currentFilter,
-                                        ProductTypeId: item.id
-                                    })
-                                    handleFilterProduct({
-                                        ...currentFilter,
-                                        ProductTypeId: item.id
-                                    })
+                            onClick={() => {
+                                setCurrentFilter({
+                                    ...currentFilter,
+                                    ProductTypeId: item.id
+                                })
+                                handleFilterProduct({
+                                    ...currentFilter,
+                                    ProductTypeId: item.id
+                                })
 
-                                }}
-                            >
-                                <Typography className="px-2">{item.desc}</Typography>
-                            </Button>
-                        );
-                    })}
+                            }}
+                        >
+                            <Typography className="px-2">{item.desc}</Typography>
+                        </Button>
+                    );
+                })}
             </Box>
 
             <Box component="div" className="col-span-2 mx-4 my-2">
-                <Formik initialValues={{warehouseTypeId: "1"}} onSubmit={() => {}}>
-                    {({}) => {
+                <Formik initialValues={{ warehouseTypeId: "1" }} onSubmit={() => { }}>
+                    {({ }) => {
                         return <Form>
-                             <FormikRadioGroup
+                            <FormikRadioGroup
                                 onChange={(value: number) => {
                                     setCurrentFilter({
                                         ...currentFilter,
@@ -372,7 +361,7 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
                                         WarehouseTypeId: +value
                                     })
                                 }}
-                                radioData={dropdownWarehouseType(warehouseTypeTools?.data)} 
+                                radioData={dropdownWarehouseType(warehouseTypeTools?.data)}
                                 name="warehouseTypeId" />
                         </Form>
                     }}
@@ -427,8 +416,5 @@ const ProductsList:FC<IProps> = ({ setOrders, setOrderPayment, orders, orderServ
 };
 
 export default memo(ProductsList, (prevProps: Readonly<IProps>, nextProps: Readonly<IProps>) => {
-    console.log("prevProps === nextProps", prevProps === nextProps)
     return prevProps === nextProps
 });
-
-console.log("ProductsList is rendered")

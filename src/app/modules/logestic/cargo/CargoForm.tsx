@@ -43,8 +43,8 @@ const initialValues = {
 const orderOrderColumnMain = [
     { id: 1, header: "نام کالا", accessor: "productName" },
     { id: 2, header: "انبار", accessor: "warehouseName" },
-    { id: 3, header: "مقدار", accessor: "proximateAmount", },
-    { id: 4, header: "قیمت", accessor: "price" },
+    { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
+    { id: 4, header: "قیمت(ریال)", accessor: "price", render: (params: any) => separateAmountWithCommas(params.price) },
 ]
 
 const lastCargoList: any = [
@@ -125,10 +125,8 @@ const CargoForm = () => {
     const onSubmit = (values: ICargo) => {
         try {
             const formData: ICargo = { ...values, orderId: id, fareAmount: values?.fareAmount.includes(',') ? +values?.fareAmount.replace(/,/g, "") : +values?.fareAmount}
-            console.log(JSON.stringify(formData))
             mutate(formData, {
                 onSuccess: (message) => {
-                    console.log(message)
                     if (message.succeeded) {
                         renderSwal(`اعلام بار با شماره ${message?.data.cargoAnnounceNo} ثبت گردید`)
                     }

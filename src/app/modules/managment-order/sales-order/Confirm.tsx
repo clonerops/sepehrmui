@@ -202,7 +202,6 @@ const SalesOrderConfirm = () => {
         return <Backdrop loading={isLoading} />
     }
 
-    // console.log(data?.data?.customerOfficialCompany?.id)
     return (
         <>
             <Formik initialValues={{

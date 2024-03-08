@@ -23,10 +23,10 @@ export const orderFeatureFields: FieldType[][] = [
     ],
     [
         { label: "نوع ثبت", name: "isTemporary", type: "temporary" },
-        { label: "تاریخ تحویل", name: "deliveryDate", type: "deliveryDate" },
+        { label: "تاریخ تحویل", name: "deliverDate", type: "deliverDate" },
     ],
     [
-        { label: "توضیحات", name: "description", type: "saleType" },
+        { label: "orderType", name: "orderType", type: "orderType" },
     ],
     [
         { label: "توضیحات", name: "description", type: "description" },

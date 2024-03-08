@@ -1,46 +1,98 @@
 export const saleOrderInitialValues = {
-    searchOrderCode: "",
 
     customerId: "",
-    customerID: "",
-    
-    settlementDate: "",
-    // exitType: 1,
-    // orderSendTypeId: 1,
-    // paymentTypeId: 2,
+    description: "",
     exitType: 1,
     orderSendTypeId: 1,
     paymentTypeId: 2,
-    // isTemporary: "0",
-    isTemporary: 1,
-    invoiceTypeId: "",
     customerOfficialName: "",
-    customerOfficialCompanyId: "",
-    // Order
+    customerOfficialCompanyId: 0,
+    invoiceTypeId: "",
+    freightName: "",
+    isTemporary: 1,
+    dischargePlaceAddress: "",
+    freightDriverName: "",
+    carPlaque: "",
+    originWarehouseId: "",
+    destinationWarehouseId: "",
+
+    // order detail
     rowId: "",
-    id: "",
+    id: 0,
+    productId: "",
     warehouseId: "",
     warehouseTypeId: "",
     proximateAmount: "",
     numberInPackage: "",
-    productDesc: "",
     price: "",
-    cargoSendDate: "",
     purchasePrice: "",
+    productSubUnitId: "",
+    productSubUnitAmount: "",
     purchaseInvoiceTypeId: "",
     purchaserCustomerId: "",
-    purchaseSettlementDate: "",
     sellerCompanyRow: "",
-    // not Main
-    productName: "",
-    warehouseName: "",
-    proximateSubUnit: "",
-    mainUnit: "",
-    subUnit: "",
-    productSubUnitId: "",
-    productBrandId: "",
-    productBrandName: "",
-    purchaserCustomerName: ""
+    detailDescription: "",
+    purchaseSettlementDate: "",
+    cargoSendDate: "",
+    orderTypeId: 1,
+
+    // order payment
+    orderPaymentId: "",
+    orderPaymentAmount: 0,
+    orderPaymentDate: "",
+    orderPaymentDaysAfterExit: 0,
+    orderPaymentType: 1,
+
+
+    //order services
+    orderServiceMainId: "",
+    orderServiceId: "",
+    orderServiceDescription: "",
+
+
+
+    // searchOrderCode: "",
+
+    // customerId: "",
+    // customerID: "",
+    
+    // settlementDate: "",
+    // // exitType: 1,
+    // // orderSendTypeId: 1,
+    // // paymentTypeId: 2,
+    // exitType: 1,
+    // orderSendTypeId: 1,
+    // paymentTypeId: 2,
+    // // isTemporary: "0",
+    // isTemporary: 1,
+    // invoiceTypeId: "",
+    // customerOfficialName: "",
+    // customerOfficialCompanyId: "",
+    // // Order
+    // rowId: "",
+    // id: "",
+    // warehouseId: "",
+    // warehouseTypeId: "",
+    // proximateAmount: "",
+    // numberInPackage: "",
+    // productDesc: "",
+    // price: "",
+    // cargoSendDate: "",
+    // purchasePrice: "",
+    // purchaseInvoiceTypeId: "",
+    // purchaserCustomerId: "",
+    // purchaseSettlementDate: "",
+    // sellerCompanyRow: "",
+    // // not Main
+    // productName: "",
+    // warehouseName: "",
+    // proximateSubUnit: "",
+    // mainUnit: "",
+    // subUnit: "",
+    // productSubUnitId: "",
+    // productBrandId: "",
+    // productBrandName: "",
+    // purchaserCustomerName: ""
 };
 
 export const saleOrderEditInitialValues = {

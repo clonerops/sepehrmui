@@ -1,4 +1,4 @@
-import { Box, Typography, IconButton } from '@mui/material'
+import { Box, Typography, IconButton, Button } from '@mui/material'
 
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
@@ -14,6 +14,7 @@ import { calculateProximateAmount, calculateTotalAmount } from '../helpers/funct
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { FC, memo } from 'react'
+import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
 
 interface IProps {
     postSaleOrder: any,
@@ -24,48 +25,46 @@ interface IProps {
     formikRef: React.RefObject<FormikProps<any>>
 }
 
-console.log("OrderServices is rendered")
-
-
 const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders}) => {
     const { data: productService } = useGetServices();
-
 
     const handleSetServices = () => {
         const orderServices = [...orderService]
         const orderServicetData: IOrderService = {
-            description: formikRef.current?.values.serviceAmount,
-            serviceId: formikRef.current?.values.serviceId,
-            serviceName: productService?.find((i: IOrderService) => i.id === formikRef.current?.values.serviceId)?.description
+            orderServiceDescription: formikRef.current?.values.orderServiceDescription,
+            orderServiceId: formikRef.current?.values.orderServiceId,
+            serviceName: productService?.find((i: IOrderService) => i.id === formikRef.current?.values.orderServiceId)?.description
         }
-        if (orderServices.some(item => item.serviceId === formikRef.current?.values.serviceId)) {
+        if (orderServices.some(item => item.orderServiceId === formikRef.current?.values.orderServiceId)) {
             EnqueueSnackbar("نوع خدمت قبلا به لیست اضافه شده است.", "error")
-        } else if (formikRef.current?.values.serviceId === "") {
+        } else if (formikRef.current?.values.orderServiceId === "") {
             EnqueueSnackbar("نوع خدمت نمی تواند خالی باشد.", "error")
-        } else if (formikRef.current?.values.serviceAmount === "") {
+        } else if (formikRef.current?.values.orderServiceDescription === "") {
             EnqueueSnackbar("هزینه نوع خدمت نمی تواند خالی باشد.", "error")
         }
         else {
             setOrderService([...orderServices, orderServicetData])
             setOrderPayment([])
-            formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
-            formikRef.current?.setFieldValue('serviceId', "")
-            formikRef.current?.setFieldValue('serviceAmount', "")
+            formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))
+            formikRef.current?.setFieldValue('orderServiceId', "")
+            formikRef.current?.setFieldValue('orderServiceDescription', "")
         }
 
     }
 
-    const handleDeleteService = (params: {id: number}) => {
-        const filterServices = orderService.filter((item: IOrderService) => item.id !== params.id)
+    const handleDeleteService = (params: {orderServiceMainId: number}) => {
+        const filterServices = orderService.filter((item: IOrderService) => item.orderServiceMainId !== params.orderServiceMainId)
         setOrderService(filterServices)
-        formikRef.current?.setFieldValue("amount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
+        formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
 
     }
 
 
     const serviceBeforSubmit = [
         { id: 1, header: "نام بسته خدمت", accessor: "serviceName" },
-        { id: 2, header: "هزینه", accessor: "description" },
+        { id: 2, header: "هزینه(ریال)", accessor: "orderServiceDescription", render: (params: any) => {
+            return <Typography variant="h4" className='text-green-500'>{params.orderServiceDescription}</Typography>
+        } },
         { id: 3, header: "حذف", accessor: "", render: (params: any) => {
             return <IconButton onClick={() => handleDeleteService(params)}>
                 <DeleteOutlineRounded className='!text-red-500' />
@@ -75,7 +74,9 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
 
     const serviceAfterSubmit = [
         { id: 1, header: "نام بسته خدمت", accessor: "serviceName" },
-        { id: 2, header: "هزینه", accessor: "description" },
+        { id: 2, header: "هزینه(ریال)", accessor: "orderServiceDescription", render: (params: any) => {
+            return <Typography variant="h4" className='text-green-500'>{params.orderServiceDescription}</Typography>
+        }},
     ]    
 
     let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit
@@ -84,11 +85,11 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
     <ReusableCard cardClassName="mt-4 md:mt-0 bg-gradient-to-r from-gray-100">
         <Typography variant="h2" color="primary">بسته خدمت</Typography>
         <Box component="div" className="flex flex-wrap md:flex-nowrap gap-4 my-4 ">
-            <FormikService label="نوع خدمت" name="serviceId" disabled={postSaleOrder?.data?.succeeded} />
-            <FormikPrice name="serviceAmount" label="هزینه" disabled={postSaleOrder?.data?.succeeded} />
-            <IconButton onClick={handleSetServices}>
-                <AddCircle color='secondary' />
-            </IconButton>
+            <FormikService label="نوع خدمت" name="orderServiceId" disabled={postSaleOrder?.data?.succeeded} />
+            <FormikPrice name="orderServiceDescription" label="هزینه" disabled={postSaleOrder?.data?.succeeded} />
+            <Button disabled={postSaleOrder?.data?.succeeded} onClick={handleSetServices} className="!w-[120px]" variant="contained">
+                <Typography>افزودن</Typography>
+            </Button>
         </Box>
     <MuiTable onDoubleClick={() => {}} columns={renderColumns} data={orderService} />
 </ReusableCard>

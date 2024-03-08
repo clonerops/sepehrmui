@@ -4,7 +4,7 @@ import { Alert, Box, IconButton, Typography } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 import Swal from 'sweetalert2'
 
-import { orderPaymentValues, orderServiceValues, saleOrderEditInitialValues } from "./initialValues"
+import { saleOrderEditInitialValues } from "./initialValues"
 
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import OrderFeature from '../components/OrderFearure'
@@ -33,6 +33,7 @@ const SalesOrderEdit = () => {
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
     const [orderValid, setOrderValid] = useState<boolean>(false)
+    const [categories, setCategories] = useState<any>([])
 
     const postSaleOrder = useUpdateOrder();
 
@@ -40,26 +41,26 @@ const SalesOrderEdit = () => {
     const detailTools = useGetOrderDetailByCode()
     const { data: warehouse } = useGetWarehouses();
 
-
     useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
+
     useEffect(() => {
         if (detailTools?.data?.data) {
 
             setOrderServices([
                 ...detailTools?.data?.data?.orderServices?.map((i: any) => ({
-                    id: i.id,
+                    orderServiceMainId: i.id,
                     serviceName: i?.serviceDesc,
-                    serviceId: i?.serviceId,
-                    description: i?.description
+                    orderServiceId: i?.serviceId,
+                    orderServiceDescription: i?.description
                 })) || []
             ]);
 
             setOrderPayment([
                 ...detailTools?.data?.data?.orderPayments?.map((i: any) => ({
-                    id: i?.id,
-                    amount: separateAmountWithCommas(+i.amount),
-                    paymentDate: i.paymentDate,
-                    daysAfterExit: i.daysAfterExit
+                    orderPaymentId: i?.id,
+                    orderPaymentAmount: separateAmountWithCommas(+i.amount),
+                    orderPaymentDate: i.paymentDate,
+                    orderPaymentDaysAfterExit: i.daysAfterExit
                 })) || []
             ]);
 
@@ -76,30 +77,36 @@ const SalesOrderEdit = () => {
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
                     productBrandName: i.brandName,
                     purchaserCustomerId: i.purchaserCustomerId,
-                    // purchaserCustomerName: customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.firstName+" "+customers.data.find((item: any) => item.id === i.purchaserCustomerId)?.lastName,
                     proximateSubUnit: Math.ceil(+i.proximateAmount / +i.product.exchangeRate)
                 })) || []
             ]);
 
+            setCategories([
+                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId == 2 ? true : false },
+                { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId == 1 ? true : false },
+            ])
         }
     }, [detailTools?.data?.data])
 
     const onSubmit = (values: any) => {
+
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد.", "error")
         } else {
             const formData = {
                 id: detailTools?.data?.data?.id,
-                productBrandId: 25,
+                productBrandId: 89,
                 customerId: detailTools?.data?.data.customer.id, //ok
                 totalAmount: calculateTotalAmount(orders, orderServices), //ok
                 description: values.description ? values.description : detailTools?.data?.data.description, //ok
+                deliverDate: values.deliverDate ? values.deliverDate : detailTools?.data?.data.deliverDate, //ok
                 exitType: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
+                orderTypeId: values.orderType ? +values.orderType : detailTools?.data?.data.orderTypeId, //ok
                 orderSendTypeId: values.orderSendTypeId ? Number(values.orderSendTypeId) : detailTools?.data?.data.orderSendTypeId,//ok
                 paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
                 customerOfficialName: "string",
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
-                invoiceTypeId: detailTools?.data?.data.invoiceTypeId, //ok
+                invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId, //ok
                 // isTemporary: values.isTemporary === ? values.isTemporary : detailTools?.data?.data.isTemporary, //ok
                 isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
                 freightName: "string", //ok
@@ -136,18 +143,19 @@ const SalesOrderEdit = () => {
                 }),
                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
                     return {
-                        id: item.id ? item.id : null,
-                        amount: +item.amount.replace(/,/g, ""),
-                        paymentDate: item.paymentDate,
-                        daysAfterExit: Number(item.daysAfterExit),
-                        paymentType: item.paymentType
+                        id: item.orderPaymentId ? item.orderPaymentId : null,
+                        // amount: +item.orderPaymentAmount.replace(/,/g, ""),
+                        amount:item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
+                        paymentDate: item.orderPaymentDate,
+                        daysAfterExit: item.orderPaymentDaysAfterExit && +item.orderPaymentDaysAfterExit,
+                        paymentType: item.orderPaymentType
                     }
                 }),
                 orderServices: orderServices.map((item: IOrderService) => {
                     return {
-                        id: item.id ? item.id : null,
-                        serviceId: item.serviceId,
-                        description: item.description
+                        id: item.id ? item.orderServiceMainId : null,
+                        serviceId: item.orderServiceId,
+                        description: item.orderServiceDescription
                     }
                 }) //ok
             };
@@ -186,6 +194,7 @@ const SalesOrderEdit = () => {
             }
         }
     }
+
     return (
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
@@ -197,28 +206,28 @@ const SalesOrderEdit = () => {
                     </Typography>
                 </Alert>
             }
-            <Formik enableReinitialize innerRef={formikRef} initialValues={{
-                ...saleOrderEditInitialValues,
-                ...orderPaymentValues,
-                ...orderServiceValues,
-                ...detailTools?.data?.data,
-                paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
-                isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
-            }} onSubmit={onSubmit}>
-                {({ values, handleSubmit }) => {
+            <Formik enableReinitialize innerRef={formikRef} initialValues={
+                {
+                    ...saleOrderEditInitialValues,
+                    ...detailTools?.data?.data,
+                    paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
+                    isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
+                }
+            } onSubmit={onSubmit}>
+                {({ values, setFieldValue, handleSubmit }) => {
                     return <>
                         {/*The design of the header section of the order module includes order information and customer information */}
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
+                        <div className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
                             <OrderDetailBaseOrderCode postSaleOrder={postSaleOrder} detailTools={detailTools} formikRef={formikRef} orderCode={values.searchOrderCode} orderServices={orderServices} orders={orders} />
-                            <Box component="div" className='col-span-3'>
-                                <OrderFeature postOrder={postSaleOrder} />
-                            </Box>
+                            <div className='col-span-3'>
+                                <OrderFeature categories={categories} postOrder={postSaleOrder} />
+                            </div>
                             <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
                                 <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
                             </ReusableCard>
-                        </Box>
+                        </div>
                         {/*The design of the main section of the order module order */}
-                        <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
+                        <div className="md:space-y-0 space-y-4 md:gap-x-4">
                             <ReusableCard cardClassName="col-span-3">
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
@@ -231,10 +240,13 @@ const SalesOrderEdit = () => {
                                     setOrderServices={setOrderServices}
                                     formikRef={formikRef}
                                     setOrderValid={setOrderValid}
+                                    values={values}
+                                    setFieldValue={setFieldValue}
+
                                 />
                             </ReusableCard>
-                        </Box>
-                        <Box component="div" className="md:grid md:grid-cols-2 gap-x-4 mt-4">
+                        </div>
+                        <div className="md:grid md:grid-cols-2 gap-x-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
@@ -249,9 +261,8 @@ const SalesOrderEdit = () => {
                                 formikRef={formikRef}
                                 orders={orders}
                                 setOrderPayment={setOrderPayment} />
-                        </Box>
-                        <Box
-                            component="div"
+                        </div>
+                        <div
                             className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
                         >
                             <CustomButton
@@ -261,7 +272,7 @@ const SalesOrderEdit = () => {
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />
-                        </Box>
+                        </div>
 
                     </>
                 }}

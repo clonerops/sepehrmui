@@ -23,6 +23,10 @@ import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 import { useGetProductList } from '../../generic/products/_hooks'
 
+const categories = [{ value: 2, title: "پیش فروش", defaultChecked: true },
+{ value: 1, title: "فروش فوری", defaultChecked: false }
+]
+
 const SalesOrder = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [orders, setOrders] = useState<IOrderItems[]>([]);
@@ -41,12 +45,22 @@ const SalesOrder = () => {
         } else {
             try {
                 const formData = {
-                    ...values,
-                    customerId: values.customerId.value,
+                    customerId: values.customerId,
                     totalAmount: calculateTotalAmount(orders, orderServices),
-                    isTemporary: values?.isTemporary && +values?.isTemporary === 1 ? false : true,
+                    description: values.description,
+                    exitType: values.exitType,
+                    orderSendTypeId: values.orderSendTypeId,
+                    paymentTypeId: values.paymentTypeId,
+                    orderTypeId: values.orderType ? +values.orderType : 2,
+                    customerOfficialName: "string",
                     customerOfficialCompanyId: values.customerOfficialCompanyId && +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
-                    carPlaque: "NO PLAQUE",
+                    invoiceTypeId: values.invoiceTypeId,
+                    freightName: "string",
+                    isTemporary: values?.isTemporary && +values?.isTemporary === 1 ? false : true,
+                    deliverDate: values.deliverDate,
+                    dischargePlaceAddress: "string",
+                    freightDriverName: "string",
+                    carPlaque: "string",
                     details: orders?.map(({ id, ...item }) => ({
                         ...item,
                         rowId: item.rowId ? Number(item.rowId) : 0,
@@ -60,13 +74,21 @@ const SalesOrder = () => {
                     })),
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
                         return {
-                            ...item,
-                            amount: +item.amount.replace(/,/g, ""),
+                            amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
+                            paymentDate: item.orderPaymentDate,
+                            daysAfterExit: item.orderPaymentDaysAfterExit,
+                            paymentType: item.orderPaymentType
+                      
                         }
                     }),
-                    orderServices: [...orderServices]
+                    orderServices: orderServices?.map((item: IOrderService) => {
+                        return {
+                            id: item.orderServiceMainId,
+                            serviceId: item.orderServiceId,
+                            description: item?.orderServiceDescription &&  item.orderServiceDescription.replace(/,/g, "")
+                        } 
+                    })
                 }
-                console.log(JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors && response.data.Errors.length > 0) {
@@ -75,7 +97,7 @@ const SalesOrder = () => {
                             })
                         } else {
                             if (response.succeeded) {
-                                renderAlert(`سفارش شما با شماره ${response?.data[0].orderCode} ثبت گردید`)
+                                renderAlert(response.message)
                             } else {
                                 EnqueueSnackbar(response?.data.Message, "error")
                             }
@@ -92,8 +114,6 @@ const SalesOrder = () => {
         calculateTotalAmount(orders, orderServices)
     }, [orders, orderServices]);
 
-    console.log("parent component is rendered")
-
     return (
         <>
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
@@ -106,16 +126,17 @@ const SalesOrder = () => {
                 initialValues={saleOrderInitialValues}
                 onSubmit={onSubmit}
                 validationSchema={saleOrderValidation}>
-                {({ handleSubmit }) => {
+                {({ values, setFieldValue, handleSubmit }) => {
                     return <>
+                        <div className="">
+                            <SaleHeaderBase 
+                                postSaleOrder={postSaleOrder} 
+                                orders={orders} 
+                                orderServices={orderServices} />
+                        </div>
 
-                        <Box component="div" className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 md:space-y-0 space-y-4 gap-x-4 my-4">
-                            <SaleHeaderBase postSaleOrder={postSaleOrder} orders={orders} orderServices={orderServices} />
-                            <CustomerChoose formikRef={formikRef} openModalState={setIsOpen} postSaleOrder={postSaleOrder} />
-                        </Box>
-
-                        <Box component="div" className="md:space-y-0 space-y-4 md:gap-x-4">
-                            <ReusableCard cardClassName="col-span-3 bg-gradient-to-r from-gray-100">
+                        <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
+                            <ReusableCard cardClassName='lg:col-span-3'>
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
                                     products={products}
@@ -127,11 +148,18 @@ const SalesOrder = () => {
                                     setOrderServices={setOrderServices}
                                     formikRef={formikRef}
                                     setOrderValid={setOrderValid}
+                                    values={values}
+                                    setFieldValue={setFieldValue}
                                 />
                             </ReusableCard>
-                        </Box>
-
-                        <Box component="div" className="md:grid md:grid-cols-3 gap-4 mt-4">
+                            <ReusableCard>
+                                <CustomerChoose 
+                                formikRef={formikRef} 
+                                openModalState={setIsOpen} 
+                                postSaleOrder={postSaleOrder} />
+                            </ReusableCard>
+                        </div>
+                        <Box component="div" className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
@@ -140,7 +168,8 @@ const SalesOrder = () => {
                                 postSaleOrder={postSaleOrder}
                                 orders={orders} />
                             <OrderFeature
-                                postOrder={postSaleOrder} />
+                                categories={categories}
+                                postOrder={postSaleOrder}  />
                             <OrderPayment
                                 orderPayment={orderPayment}
                                 orderService={orderServices}
@@ -149,8 +178,7 @@ const SalesOrder = () => {
                                 formikRef={formikRef}
                                 setOrderPayment={setOrderPayment} />
                         </Box>
-
-                        <Box component="div" className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
+                        <Box  component="div" className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
@@ -160,13 +188,13 @@ const SalesOrder = () => {
                                     orderPayment.length <= 0 ||
                                     formikRef.current?.values.customerId === "" ||
                                     formikRef.current?.values.invoiceTypeId === "" ||
+                                    postSaleOrder?.data?.succeeded === "" ||
                                     !orderValid
                                 }
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />
                         </Box>
-
                     </>
                 }}
             </Formik>

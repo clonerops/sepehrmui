@@ -7,7 +7,7 @@ import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { orderListColumns } from "../../helpers/columns";
-import { FormikProps } from "formik";
+import { FormikErrors, FormikProps } from "formik";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
@@ -21,18 +21,16 @@ interface IProps {
     selectedOrderIndex?: number
     products?: IProducts[]
     setOrderValid: React.Dispatch<React.SetStateAction<boolean>>
+    setOrderIndex: React.Dispatch<React.SetStateAction<number>>
     disabled?: boolean
-    formikRef: React.RefObject<FormikProps<any>>
-    setState?: React.Dispatch<React.SetStateAction<{
-        isBuy: boolean
-        orderIndex: number
-        isUpdate: boolean
-        isProductChoose: boolean
-    }>>
+    setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>
+    values: any,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
+
 }
 
 const OrderProductList:FC<IProps> = (props: IProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, formikRef, setOrderValid, disabled, setState } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, setOrderValid, disabled,  setIsUpdate, setOrderIndex, values, setFieldValue } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
@@ -41,7 +39,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
             );
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
-            if (formikRef.current?.setFieldValue) formikRef.current?.setFieldValue('amount', calculateTotalAmount(updatedOrders, orderServices).toString())
+            if (setFieldValue) setFieldValue('orderPaymentAmount', calculateTotalAmount(updatedOrders, orderServices))
         }
     };
 
@@ -65,13 +63,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         if (orders) {
             const selectedRow: any = orders.find(order => order.id === params.row.id);
             const rowIndex = orders.indexOf(selectedRow);
-
-            if (setState) setState((prev) => (
-                {
-                    ...prev, 
-                    orderIndex: rowIndex
-                }
-            ))    
+            setOrderIndex(rowIndex)
             const fieldValue = [
                 {title: "productName", value: params.row.productName},
                 {title: "id", value: params.row.id},
@@ -80,58 +72,35 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                 {title: "productBrandId", value: params.row.productBrandId},
                 {title: "productBrandName", value: params.row.productBrandName},
                 {title: "warehouseId", value: params.row.warehouseId},
+                {title: "warehouseTypeId", value: params.row.warehouseTypeId},
                 {title: "proximateAmount", value: params.row.proximateAmount},
                 {title: "warehouseName", value: params.row.warehouseName},
                 {title: "proximateSubUnit", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
+                {title: "productSubUnitAmount", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
                 {title: "purchasePrice", value: separateAmountWithCommas(params.row.purchasePrice)},
-                {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
                 {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
                 {title: "purchaseInvoiceTypeId", value: params.row.purchaseInvoiceTypeId},
                 {title: "purchaseSettlementDate", value: params.row.purchaseSettlementDate},
                 {title: "purchaserCustomerId", value: params.row.purchaserCustomerId},
                 {title: "purchaserCustomerName", value: params.row.purchaserCustomerName},
                 {title: "rowId", value: params.row.rowId},
-                {title: "productDesc", value: params.row.productDesc},
+                {title: "detailDescription", value: params.row.description},
                 {title: "productMainUnitDesc", value: params.row.productMainUnitDesc},
                 {title: "productSubUnitDesc", value: params.row.productSubUnitDesc},
                 {title: "productSubUnitId", value: params.row.productSubUnitId},
                 {title: "exchangeRate", value: params.row.exchangeRate},
             ];
 
-            if (formikRef.current?.setFieldValue) {
-                fieldValue.forEach((i: {title: string, value: any}) => (
-                    formikRef.current?.setFieldValue(i.title, i.value)
-                ))
-            }
-            
-            if (setState) {
-                if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseId)) {
-                    setState((prev) => (
-                        {
-                            ...prev, 
-                            isBuy: true
-                        }
-                    ))
-                } else {
-                    setState((prev) => (
-                        {
-                            ...prev, 
-                            isBuy: false
-                        }
-                    ))
-                }
-            }
-            if (setState) setState((prev) => (
-                {
-                    ...prev, 
-                    isUpdate: true
-                }
+            fieldValue.forEach((i: {title: string, value: any}) => (
+                setFieldValue(i.title, i.value)
             ))
+            setIsUpdate(true)
         }
     };
 
     const filteredColumns = orderListColumns(renderActions).filter(column =>
         column.field !== "warehouseId" &&
+        column.field !== "warehouseTypeId" &&
         column.field !== "productBrandId" &&
         column.field !== "rowId" &&
         column.field !== "purchaseSettlementDate" &&
@@ -182,4 +151,3 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
 };
 
 export default memo(OrderProductList);
-console.log("OrderProductList is rendered")

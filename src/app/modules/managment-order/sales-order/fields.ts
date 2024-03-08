@@ -9,7 +9,7 @@ export const orderFieldWhenWarehouseIsMain: FieldType[][] = [
             name: "warehouseId",
             type: "warehouse",
         },
-        { label: "کالا", name: "productName", type: "product" },
+        { label: "کالا", name: "productId", type: "product" },
     ],
     [
         {
@@ -19,9 +19,11 @@ export const orderFieldWhenWarehouseIsMain: FieldType[][] = [
         },
         {
             label: "تعداد (واحدفرعی)",
-            name: "proximateSubUnit",
-            type: "proximateSubUnit",
+            name: "productSubUnitAmount",
+            type: "productSubUnitAmount",
         },
+    ],
+    [
         {
             label: "قیمت",
             name: "price",
@@ -29,9 +31,13 @@ export const orderFieldWhenWarehouseIsMain: FieldType[][] = [
         },
         {
             label: "توضیحات کالا",
-            name: "productDesc",
+            name: "detailDescription",
             type: "input",
         },
+    ],
+    [
+    
+     
         {
             label: "ردیف فروش",
             name: "rowId",
@@ -51,7 +57,7 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
             name: "warehouseId",
             type: "warehouse",
         },
-        { label: "کالا", name: "productName", type: "product" },
+        { label: "کالا", name: "productId", type: "product" },
     ],
     [
         {
@@ -61,18 +67,13 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
         },
         {
             label: "تعداد (واحدفرعی)",
-            name: "proximateSubUnit",
-            type: "proximateSubUnit",
+            name: "productSubUnitAmount",
+            type: "productSubUnitAmount",
         },
         {
             label: "قیمت",
             name: "price",
             type: "price",
-        },
-        {
-            label: "توضیحات کالا",
-            name: "productDesc",
-            type: "input",
         },
         {
             label: "ردیف فروش",
@@ -83,7 +84,7 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
     [
         {
             label: "خرید از",
-            name: "purchaserCustomerName",
+            name: "purchaserCustomerId",
             type: "purchaserCustomer",
         },
         {
@@ -96,10 +97,18 @@ export const orderFieldWhenNotWarehouseMain: FieldType[][] = [
             name: "purchaseInvoiceTypeId",
             type: "purchaseInvoiceType",
         },
+    ],
+    [
+        
         {
             label: "تاریخ تسویه خرید",
             name: "purchaseSettlementDate",
             type: "date",
+        },
+        {
+            label: "توضیحات کالا",
+            name: "detailDescription",
+            type: "input",
         },
         {
             label: "",

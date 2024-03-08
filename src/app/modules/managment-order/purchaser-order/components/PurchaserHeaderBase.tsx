@@ -10,29 +10,22 @@ import CardWithIcons from '../../../../../_cloner/components/CardWithIcons'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, IPurchaserOrder, unknown>
-    orders: IOrderPayment[]
+    orders: any
     orderServices: IOrderService[]
 }
 
 const PurchaserHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => {
-    console.log(postSaleOrder?.data)
+
     return (
-        <Box component="div" className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4">
-            {saleBaseOrderInformation(postSaleOrder?.data?.data[0]?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: any, index: number) => {
+        <div className="flex flex-col lg:flex-row flex-warp  gap-4">
+            {saleBaseOrderInformation(postSaleOrder?.data?.data?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: any, index: number) => {
                 return <CardWithIcons 
                 title={item.title} 
                 icon={item.icon}
                 value={item.value}
                 iconClassName={item.cardClassName} />
-                // <ReusableCard key={index} >
-                //     <Box key={index} component="div" className="flex justify-between items-center space-y-4">
-                //         <Typography variant="body1">{item.title}</Typography>
-                //         {item.icon}
-                //     </Box>
-                //     <Typography variant="h2">{item.value}</Typography>
-                // </ReusableCard>
             })}
-        </Box>
+        </div>
     )
 }
 

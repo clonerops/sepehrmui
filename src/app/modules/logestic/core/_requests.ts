@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { ICargo, IExitRemittance, ILadingLicence } from "./_models";
+import { ICargo, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
 
 const getCargosList = async (formData: {
     PageNumber?: number,
@@ -137,6 +137,65 @@ const postExitRemittance = async (formdata: IExitRemittance) => {
     }
 }
 
+
+// Transfer Remittance
+const postTransferRemittance = async (formdata: ITransferRemittance) => {
+    try {
+        const { data } = await http.post(
+            `/v1/Product/TransferRemittance`,
+            JSON.stringify(formdata)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
+const getTransferRemitances = async () => {
+    const { data } = await http.get("/v1/PurchaseOrder/GetAllTransferRemittances");
+    return data;
+}
+
+const getTransferRemitancesFilter = async (filter: {id?: number}) => {
+    const { data } = await http.get(`${generateURLQueryParam('/v1/PurchaseOrder/GetAllTransferRemittances', filter)}`);
+    return data;
+}
+
+
+const getTransferRemitanceById = async (id: string) => {
+    try {
+        const { data } = await http.get(`/v1/PurchaseOrder/GetTransferRemittanceById/${id}`);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
+const editTransferRemitance = async (formdata: ITransferRemittance) => {
+    try {
+        const { data } = await http.put(
+            `/v1/PurchaseOrder/UpdateTransferRemittance/${formdata.id}`,
+            JSON.stringify(formdata)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
+
+
+// Entrance Permission
+const entrancePermission = async (formData: {id: number}) => {
+    try {
+        const { data } = await http.put(`/v1/PurchaseOrder/TransferRemittanceEntrancePermission/${formData.id}`, JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 export {
     getCargosList,
     retrievesNotSendedOrder,
@@ -149,5 +208,11 @@ export {
     getLadingLicenceById,
     editLadingLicence,
     deleteLadingLicenceById,
-    postExitRemittance
+    postExitRemittance,
+    postTransferRemittance,
+    getTransferRemitances,
+    getTransferRemitancesFilter,
+    getTransferRemitanceById,
+    editTransferRemitance,
+    entrancePermission
 };

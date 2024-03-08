@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import {Box} from '@mui/material'
+import {Box, Button, Typography} from '@mui/material'
 
 import { useRetrievePurchaserOrders } from "../core/_hooks";
 import { IOrder } from "../core/_models";
@@ -37,7 +37,10 @@ const PurchaserOrderList = () => {
                 to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
                 state={{ isConfirmed: false }}
             >
-                <Visibility color="secondary" />
+                <Button variant="contained"  color="secondary">
+                    <Visibility color="primary" />
+                    <Typography className="px-2" variant="h5">مشاهده جزئیات</Typography>
+                </Button>
             </Link>
         );
     };

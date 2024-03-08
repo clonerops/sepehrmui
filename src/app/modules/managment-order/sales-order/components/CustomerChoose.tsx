@@ -1,10 +1,9 @@
-import React, { FC, memo } from 'react'
+import React, { FC, memo, useMemo } from 'react'
 import moment from 'moment-jalaali'
 import { FormikProps } from 'formik'
-import { Box, IconButton, Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { AddCircle } from '@mui/icons-material'
 
-import ReusableCard from '../../../../../_cloner/components/ReusableCard'
 import FormikCustomer from '../../../../../_cloner/components/FormikCustomer'
 import FormikCompany from '../../../../../_cloner/components/FormikCompany'
 
@@ -26,14 +25,11 @@ interface IRenderInfoProps {
     valueClassName?: string
 }
 
-console.log("customer choose component is rendered")
-
-
 const RenderInformation: FC<IRenderInfoProps> = ({ title, value, valueClassName }) => {
-    return <Box component="div" className="flex flex-row pt-2">
+    return <div className="flex flex-row pt-2 ">
         <Typography variant="h4" className="text-gray-500">{title}: </Typography>
         <Typography variant="h3" className={`px-4 ${valueClassName}`}>{value} </Typography>
-    </Box>
+    </div>
 
 }
 
@@ -45,12 +41,12 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
         if (item?.value) {
             detailCustomer?.mutate(item?.value, {
                 onSuccess: (result) => {
-                    formikRef.current?.setFieldValue("customerID", result.data.id)
-                    formikRef.current?.setFieldValue("number", result.data.settlementDay)
-                    formikRef.current?.setFieldValue("settlement", moment(Date.now()).add(+result.data.settlementDay, "days").format('jYYYY/jMM/jDD'))
+                    formikRef.current?.setFieldValue("customerId", result.data.id)
+                    formikRef.current?.setFieldValue("orderPaymentDaysAfterExit", result.data.settlementDay)
+                    formikRef.current?.setFieldValue("orderPaymentDate", moment(Date.now()).add(+result.data.settlementDay, "days").format('jYYYY/jMM/jDD'))
                     if (!result?.data) {
-                        formikRef.current?.setFieldValue("number", "")
-                        formikRef.current?.setFieldValue("settlement", "")
+                        formikRef.current?.setFieldValue("orderPaymentDaysAfterExit", "")
+                        formikRef.current?.setFieldValue("orderPaymentDate", "")
                     }
                 }
             })
@@ -60,49 +56,57 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
         }
     };
 
+    let customerCurrentDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerCurrentDept), [detailCustomer.data?.data])
+    let customerDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerDept), [detailCustomer.data?.data])
 
     return (
         <>
             {detailCustomer.isLoading && <Backdrop loading={detailCustomer.isLoading} />}
-            <Box component="div" className="grid grid-cols-2 gap-4 ">
-                {/* <ReusableCard cardClassName="col-span-2"> */}
-                <ReusableCard cardClassName="bg-gradient-to-r from-gray-100 col-span-2">
-                    <Box component="div" className="">
-                        <Box component="div" className="flex gap-x-2 w-full md:col-span-4">
+            <div className="">
+                <div>
+                    <div className="flex flex-col space-y-4">
+                        <div className="flex gap-x-2 w-full md:col-span-4">
                             <FormikCustomer
                                 disabled={postSaleOrder?.data?.succeeded}
-                                onChange={(value: any) => changeCustomerFunction(value)}
+                                onChange={changeCustomerFunction}
+                                isLabelSetValue
                                 name="customerId"
                                 label="مشتری" />
-                            <IconButton onClick={() => openModalState(true)} className="flex justify-center items-center cursor-pointer text-xl">
-                                <AddCircle color="secondary" />
-                            </IconButton>
-                            <FormikCompany customerid={formikRef.current?.values.customerID} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
-                        </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 mt-4">
+                        </div>
+                        <FormikCompany disabled={postSaleOrder?.data?.succeeded} customerid={formikRef.current?.values.customerId} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
+                    </div>
+                    <div className='mt-4 flex justify-end items-end'>
+                        <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalState(true)} variant="contained" className="w-full">
+                            <Typography>ایجاد مشتری</Typography>
+                        </Button>
+                    </div>
+                    <div className='flex flex-col space-y-4 mt-8'>
+                        <div className='flex flex-row justify-between items-center'>
                             <RenderInformation
                                 title='معرف'
                                 value={detailCustomer.data?.data?.representative} />
-                            <Box component="div" className="flex flex-row pt-2">
+                            <div className="flex flex-row pt-2">
                                 <Typography
                                     sx={{ backgroundColor: `#${detailCustomer.data?.data?.customerValidityColorCode}` }}
                                     variant="h3"
                                     className={`text-white px-4 rounded-md py-1`}>
                                     {detailCustomer.data?.data?.customerValidityDesc}
                                 </Typography>
-                            </Box>
+                            </div>
+                        </div>
+                        <div className='flex flex-col space-y-4 w-full'>
                             <RenderInformation
                                 title='بدهی جاری(ریال)'
                                 valueClassName='text-red-500'
-                                value={detailCustomer.data?.data?.customerCurrentDept ? separateAmountWithCommas(Number(detailCustomer.data?.data?.customerCurrentDept)) : 0} />
+                                value={detailCustomer.data?.data?.customerCurrentDept ? customerCurrentDept : 0} />
                             <RenderInformation
                                 title='بدهی کل(ریال)'
                                 valueClassName='text-red-500'
-                                value={detailCustomer.data?.data?.customerDept ? separateAmountWithCommas(Number(detailCustomer.data?.data?.customerDept)) : 0} />
-                        </Box>
-                    </Box>
-                </ReusableCard>
-            </Box>
+                                value={detailCustomer.data?.data?.customerDept ? customerDept : 0} />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

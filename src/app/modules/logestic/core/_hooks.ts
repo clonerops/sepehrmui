@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ICargo, IExitRemittance, ILadingLicence } from "./_models";
+import { ICargo, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
 import * as api from "./_requests";
 
 const useRetrievesNotSendedOrder = () => {
@@ -95,6 +95,49 @@ const usePostExitRemiitance = () => {
     });
 };
 
+//Transfer Remittance 
+const usePostTransferRemittance = () => {
+    return useMutation((formData: ITransferRemittance) => {
+        return api.postTransferRemittance(formData);
+    });
+};
+
+const useGetTransferRemitances = () => {
+    return useQuery(["transferRemittance"], () => api.getTransferRemitances(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
+};
+const useGetTransferRemitancesByMutation = () => {
+    return useMutation((filter: {id?: number}) => {
+        return api.getTransferRemitancesFilter(filter)
+    });
+};
+const useGetTransferRemitanceById = (id: string) => {
+    return useQuery(["transferRemittance", id], () => api.getTransferRemitanceById(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
+};
+const useGetTransferRemitanceByIdByMutation = () => {
+    return useMutation((id: string) => {
+        return api.getTransferRemitanceById(id)
+    });
+};
+const useUpdateTransferRemitance = () => {
+    return useMutation((formdata: ITransferRemittance) => {
+        return api.editTransferRemitance(formdata)
+    });
+};
+
+// Entrance Permissions 
+const useEntrancePermission = () => {
+    return useMutation((formData: {id: number}) => {
+        return api.entrancePermission(formData);
+    });
+};
 
 
 export {
@@ -109,5 +152,12 @@ export {
     useGetLadingLicenceById,
     useEditLadingLicence,
     useDeleteLadingLicenceById,
-    usePostExitRemiitance
+    usePostExitRemiitance,
+    usePostTransferRemittance,
+    useGetTransferRemitances,
+    useGetTransferRemitancesByMutation,
+    useGetTransferRemitanceById,
+    useGetTransferRemitanceByIdByMutation,
+    useUpdateTransferRemitance,
+    useEntrancePermission
 };

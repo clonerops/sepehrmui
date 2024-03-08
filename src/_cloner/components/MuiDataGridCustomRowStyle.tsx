@@ -31,7 +31,7 @@ export default function MuiDataGridCustomRowStyle(props: Props) {
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
-        const defaultRowHeight = 52;
+        const defaultRowHeight = numRows < 6 ? 76 : 52;
         const headerHeight = numRows > 0 ? 8 : 16; // Adjust headerHeight based on the number of rows
         const scrollbarHeight = 15;
     

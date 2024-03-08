@@ -11,6 +11,7 @@ type Props = {
     label: string;
     name: string;
     disabled?: boolean;
+    isLabelSetValue?: boolean;
     value?: string;
     title?: string;
     defaultValue?: {
@@ -34,6 +35,7 @@ const FormikComboBox = (props: Props) => {
         title,
         defaultValue,
         disabled,
+        isLabelSetValue,
         name,
         setState,
         value,
@@ -55,6 +57,7 @@ const FormikComboBox = (props: Props) => {
         formikProps.setFieldValue(name, value);
     };
 
+
     return (
         <Box component={"div"} className={cx("w-full", boxClassName)}>
             <Autocomplete
@@ -62,7 +65,8 @@ const FormikComboBox = (props: Props) => {
                 {...rest}
                 {...getFormikFieldValidationProps(formikProps, name)}
                 options={options || []}
-                value={field?.value}
+                // value={field?.value?.label}
+                value={isLabelSetValue ? field?.value?.label : field?.value}
                 disabled={disabled}
                 // renderOption={renderOption}
                 renderOption={renderOption ? renderOption : (props, option: any) => {
@@ -73,7 +77,7 @@ const FormikComboBox = (props: Props) => {
                     );
                   }}                
                 isOptionEqualToValue={(option: any, value) => 
-                    option.id === value.id
+                    option?.id === value?.id
                 }
                 defaultValue={defaultValue}
                 onChange={handleSelectChange}
@@ -88,18 +92,19 @@ const FormikComboBox = (props: Props) => {
                         });
                     });
                 }}
-                renderInput={(params: any) => (
-                    <TextField
-                        label={label}
-                        name={name}
-                        error={
-                            getFormikFieldValidationProps(formikProps, name)
-                                .error
-                        }
-                        {...params}
-                        size="small"
-                    />
-                )}
+                renderInput={(params: any) => {
+                    return  <TextField
+                    label={label}
+                    name={name}
+                    error={
+                        getFormikFieldValidationProps(formikProps, name)
+                            .error
+                    }
+                    {...params}
+                    size="small"
+                />
+
+                }}
                 // id={name}
             />
             <Typography variant="body2" className={"text-red-600"}>
