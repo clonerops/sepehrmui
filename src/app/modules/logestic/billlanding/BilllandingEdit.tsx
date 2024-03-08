@@ -243,7 +243,7 @@ const BilllandingEdit = () => {
                         WarehouseId: response?.data.originWarehouseId
                     }
                     productsInventory.mutate(filter, {
-                        onSuccess: (response) => {}
+                        onSuccess: (response) => { }
                     })
                 }
             });
@@ -343,12 +343,21 @@ const BilllandingEdit = () => {
                                         />
                                     </div>
                                 </ReusableCard>
-                                <ReusableCard cardClassName="flex justify-center items-center">
-                                    <img
-                                        src={toAbsoulteUrl("/media/logos/fo.png")}
-                                        className="rounded-md"
-                                        width={400}
-                                    />
+                                <ReusableCard cardClassName="flex flex-col">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
+                                        <img
+                                            src={toAbsoulteUrl("/media/mainlogo/2.png")}
+                                            width={40}
+                                        />
+
+                                    </div>
+                                    <div className="flex flex-col flex-wrap gap-4">
+                                        <Typography>در ابتدا انبار مبدا را انتخاب کنید، پس از آن لیست کالاهایی که  در انبار خرید می باشد برای شما نمایش داده می شود</Typography>
+                                        <Typography>از لیست کالاها، پس از انتخاب کالا و دکمه انتقال صفحه ای باز می شود تا بتوانید مقداری که در نظر دارید را وارد و سپس دکمه ثبت را کلیک می کنید</Typography>
+                                        <Typography>پس از ثبت مقدار، کالا با مقدار در لیست کالاهای انتخاب شده جهت انتقال حواله قرار می گیرد</Typography>
+                                        <Typography>در انتها با وارد نمودن اطلاعات مربوط حمل اقدام به صدور حواله نمایید</Typography>
+                                    </div>
                                 </ReusableCard>
                             </div>
                             <ReusableCard cardClassName="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
