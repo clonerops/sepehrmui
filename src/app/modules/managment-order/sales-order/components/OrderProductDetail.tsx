@@ -39,9 +39,6 @@ const fields = [
     "detailDescription",
 ];
 
-
-console.log("OrderProductDetail is rendered")
-
 interface IProps {
     postSaleOrder: any,
     products: any,
@@ -165,12 +162,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
             setIsUpdate(false)
             fields.forEach((element) => setFieldValue(element, ""));
         }
-        console.log("values", values)
-
     };
-
-    console.log("orders", orders)
-
 
     return (
         <>

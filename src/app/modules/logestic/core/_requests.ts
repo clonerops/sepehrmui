@@ -151,6 +151,51 @@ const postTransferRemittance = async (formdata: ITransferRemittance) => {
     }
 }
 
+const getTransferRemitances = async () => {
+    const { data } = await http.get("/v1/PurchaseOrder/GetAllTransferRemittances");
+    return data;
+}
+
+const getTransferRemitancesFilter = async (filter: {id?: number}) => {
+    const { data } = await http.get(`${generateURLQueryParam('/v1/PurchaseOrder/GetAllTransferRemittances', filter)}`);
+    return data;
+}
+
+
+const getTransferRemitanceById = async (id: string) => {
+    try {
+        const { data } = await http.get(`/v1/PurchaseOrder/GetTransferRemittanceById/${id}`);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
+const editTransferRemitance = async (formdata: ITransferRemittance) => {
+    try {
+        const { data } = await http.put(
+            `/v1/PurchaseOrder/UpdateTransferRemittance/${formdata.id}`,
+            JSON.stringify(formdata)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
+
+
+// Entrance Permission
+const entrancePermission = async (formData: {id: number}) => {
+    try {
+        const { data } = await http.put(`/v1/PurchaseOrder/TransferRemittanceEntrancePermission/${formData.id}`, JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 export {
     getCargosList,
     retrievesNotSendedOrder,
@@ -164,5 +209,10 @@ export {
     editLadingLicence,
     deleteLadingLicenceById,
     postExitRemittance,
-    postTransferRemittance
+    postTransferRemittance,
+    getTransferRemitances,
+    getTransferRemitancesFilter,
+    getTransferRemitanceById,
+    editTransferRemitance,
+    entrancePermission
 };

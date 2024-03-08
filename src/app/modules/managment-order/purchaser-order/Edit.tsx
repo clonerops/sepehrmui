@@ -111,7 +111,7 @@ const PurchaserOrderEdit = () => {
         originWarehouseId: values.originWarehouseId ? +values.originWarehouseId : detailTools?.data?.data?.originWarehouseId,
         destinationWarehouseId: values.destinationWarehouseId ? values.destinationWarehouseId : detailTools?.data?.data?.destinationWarehouseId,
         customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
-        invoiceTypeId: detailTools?.data?.data.invoiceTypeId, //ok
+        invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId, //ok
         isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
         details: orders?.map((item: any) => {
           const orderDetails: any = {
@@ -151,6 +151,7 @@ const PurchaserOrderEdit = () => {
           }
         }) //ok
       };
+
       try {
         postSaleOrder.mutate(formData, {
           onSuccess: (response) => {
@@ -172,7 +173,6 @@ const PurchaserOrderEdit = () => {
       }
     }
   }
-console.log(detailTools?.data?.data)
   return (
     <>
       {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}

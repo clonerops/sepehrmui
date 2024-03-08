@@ -25,9 +25,6 @@ interface IRenderInfoProps {
     valueClassName?: string
 }
 
-console.log("customer choose component is rendered")
-
-
 const RenderInformation: FC<IRenderInfoProps> = ({ title, value, valueClassName }) => {
     return <div className="flex flex-row pt-2 ">
         <Typography variant="h4" className="text-gray-500">{title}: </Typography>

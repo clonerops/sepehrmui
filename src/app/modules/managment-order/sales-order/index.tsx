@@ -114,8 +114,6 @@ const SalesOrder = () => {
         calculateTotalAmount(orders, orderServices)
     }, [orders, orderServices]);
 
-    console.log("parent component is rendered")
-
     return (
         <>
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}

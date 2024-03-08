@@ -82,7 +82,6 @@ const CustomerWarehouse = () => {
         field: "customerName",
         headerName: "نام مشتری",
         renderCell: (params: any) => {
-          console.log(params)
           return <Typography variant="h4">{params?.row?.firstName} {params?.row?.lastName}</Typography>;
         },
         headerClassName:
@@ -125,7 +124,6 @@ const CustomerWarehouse = () => {
         field: "name",
         headerName: "نام انبار",
         renderCell: (params: any) => {
-          console.log(params)
           return <Typography variant="h4">{params?.value}</Typography>;
         },
         headerClassName:
@@ -138,8 +136,6 @@ const CustomerWarehouse = () => {
   };
 
   let groupedCustomerWarehouse = _.groupBy(customers?.data?.data, "warehouses")
-  console.log(groupedCustomerWarehouse)
-
   if (customers.isLoading) {
     return <Backdrop loading={customers.isLoading} />;
   }
@@ -212,9 +208,10 @@ const CustomerWarehouse = () => {
           <ReusableCard cardClassName='col-span-2 flex justify-center items-center'>
             <Box
               component="img"
-              src={toAbsoulteUrl("/media/logos/fo.png")}
+              // src={toAbsoulteUrl("/media/logos/fo.png")}
+              src={toAbsoulteUrl("/media/mainlogo/2.png")}
               className="rounded-md"
-              width={400}
+              width={100}
             />
 
           </ReusableCard>

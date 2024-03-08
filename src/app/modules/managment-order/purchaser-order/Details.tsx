@@ -56,12 +56,12 @@ const PurchaserOrderDetail = (props: Props) => {
 
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => <Typography>{params.productBrand.productName}</Typography> },
-        { id: 2, header: "مقدار", accessor: "proximateAmount", },
-        { id: 3, header: "قیمت", accessor: "price" },
+        { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.proximateAmount)}</Typography> },
+        { id: 4, header: "قیمت (ریال)", accessor: "price", render: (params: any) => <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.price)}</Typography> },
     ]
     const orderServicesColumn = [
         { id: 1, header: "نوع خدمت", accessor: "serviceDesc", render: (params: any) => <Typography>{params.serviceDesc}</Typography> },
-        { id: 2, header: "هزینه", accessor: "description", render: (params: any) => <Typography>{params.description}</Typography> },
+        { id: 2, header: "هزینه(ریال)", accessor: "description", render: (params: any) => <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.description)}</Typography> },
     ]
     const orderPaymentsColumn = [
         { id: 1, header: "مبلغ(ریال)", accessor: "amount", render: (params: any) => <Typography className="text-green-500" variant="h3">{separateAmountWithCommas(params.amount)}</Typography> },

@@ -32,7 +32,7 @@ export const billlandingColumns = (renderAction: any) => {
             },
             headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        {field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
+        {field: "Action", headerName: 'صدور مجوز', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
     ]
     return col
 }

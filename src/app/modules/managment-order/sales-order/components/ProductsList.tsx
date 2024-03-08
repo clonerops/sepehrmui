@@ -84,7 +84,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         filterTools.mutate(filter);
     }
 
-    console.log("filterTools?.data?.data",filterTools?.data?.data)
     useEffect(() => {
         handleFilterProduct(currentFilter)
     }, [])
@@ -104,7 +103,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
-        console.log("selectedRow", selectedRow)
         setProductData((prevState) => ({
             ...prevState,
             productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
@@ -252,7 +250,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
 
     const handleSubmitSelectedProduct = () => {
-        console.log("productData.selectedProduct", productData.selectedProduct)
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
             const { id, warehouseId, productBrandId, productName, exchangeRate, productBrandName, warehouseName, productDesc = "", purchasePrice = "", purchaseSettlementDate = "", purchaseInvoiceTypeId = 0, sellerCompanyRow = "string", productMainUnitDesc, rowId = 0, proximateAmount = productData.proximateAmounts[product.id] || "", warehouseTypeId = 0 } = product;
             const productSubUnitDesc = productData.productSubUnitDesc[product.id]
@@ -421,5 +418,3 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 export default memo(ProductsList, (prevProps: Readonly<IProps>, nextProps: Readonly<IProps>) => {
     return prevProps === nextProps
 });
-
-console.log("ProductsList is rendered")

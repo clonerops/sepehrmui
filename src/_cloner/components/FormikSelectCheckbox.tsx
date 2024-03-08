@@ -44,8 +44,6 @@ const FormikSelectCheckbox = <Value,>(props: FormikSelectPropsType<Value>) => {
     }
     formikProps.setFieldValue(name, selectedValue);
   };
-  console.log(field.value)
-
   return (
     <Box component={"div"} className={cx("w-full", boxClassName)}>
       <FormControl fullWidth size={"small"} error={getFormikFieldValidationProps(formikProps, name).error}>

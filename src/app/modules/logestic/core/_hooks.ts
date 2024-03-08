@@ -102,6 +102,43 @@ const usePostTransferRemittance = () => {
     });
 };
 
+const useGetTransferRemitances = () => {
+    return useQuery(["transferRemittance"], () => api.getTransferRemitances(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
+};
+const useGetTransferRemitancesByMutation = () => {
+    return useMutation((filter: {id?: number}) => {
+        return api.getTransferRemitancesFilter(filter)
+    });
+};
+const useGetTransferRemitanceById = (id: string) => {
+    return useQuery(["transferRemittance", id], () => api.getTransferRemitanceById(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
+};
+const useGetTransferRemitanceByIdByMutation = () => {
+    return useMutation((id: string) => {
+        return api.getTransferRemitanceById(id)
+    });
+};
+const useUpdateTransferRemitance = () => {
+    return useMutation((formdata: ITransferRemittance) => {
+        return api.editTransferRemitance(formdata)
+    });
+};
+
+// Entrance Permissions 
+const useEntrancePermission = () => {
+    return useMutation((formData: {id: number}) => {
+        return api.entrancePermission(formData);
+    });
+};
+
 
 export {
     useGetCargosList,
@@ -116,5 +153,11 @@ export {
     useEditLadingLicence,
     useDeleteLadingLicenceById,
     usePostExitRemiitance,
-    usePostTransferRemittance
+    usePostTransferRemittance,
+    useGetTransferRemitances,
+    useGetTransferRemitancesByMutation,
+    useGetTransferRemitanceById,
+    useGetTransferRemitanceByIdByMutation,
+    useUpdateTransferRemitance,
+    useEntrancePermission
 };

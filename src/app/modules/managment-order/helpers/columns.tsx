@@ -124,7 +124,6 @@ export const orderListColumns = (renderActions: any) => {
         {
             headerName: "کالا", field: "productName",
             renderCell: (params: any) => {
-                console.log("params", params)
                 return <Typography variant="h4">{params.value}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 190
         },

@@ -75,7 +75,7 @@ const Drawer = styled(MuiDrawer, {
     {
       ...closedMixin(theme),
       background: `linear-gradient(180deg, #020024, #090979 0%, #000000 100%);`
-        }
+    }
   }),
 }));
 
@@ -107,19 +107,19 @@ const MasterLayout = () => {
         isMobile={isMobile}
       />
       {isMobile ? (
-          <SwipeableDrawer
-            onOpen={handleDrawerOpen}
-            anchor="left"
-            open={open}
-            onClose={handleDrawerClose}
-            sx={{
-              '&.MuiDrawer-root .MuiDrawer-paper': { marginTop: '56px' },
-            }}
-          >
-            <List>
-              <MenuItems menuItems={menuItemsData} />
-            </List>
-          </SwipeableDrawer>
+        <SwipeableDrawer
+          onOpen={handleDrawerOpen}
+          anchor="left"
+          open={open}
+          onClose={handleDrawerClose}
+          sx={{
+            '&.MuiDrawer-root .MuiDrawer-paper': { marginTop: '56px' },
+          }}
+        >
+          <List>
+            <MenuItems menuItems={menuItemsData} />
+          </List>
+        </SwipeableDrawer>
       ) : (
         <Drawer
           // disableScrollLock={true}
@@ -144,8 +144,13 @@ const MasterLayout = () => {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <Box className="md:flex md:justify-center md:items-center mb-6 hidden">
-            <img src={toAbsoulteUrl('/media/logos/folladlogowhite.png')} width={128} height={128} />
+
+          <Box className="md:flex md:justify-center md:items-center my-2 hidden transition">
+            <img
+              src={toAbsoulteUrl("/media/mainlogo/1.png")}
+              width={open ? 60 : 30}
+            />
+            {/* <img src={toAbsoulteUrl('/media/logos/folladlogowhite.png')} width={128} height={128} /> */}
           </Box>
           <Divider color="#FFF" />
           <List>

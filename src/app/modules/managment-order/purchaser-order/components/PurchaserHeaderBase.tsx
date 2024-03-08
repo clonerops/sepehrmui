@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const PurchaserHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => {
-    console.log("postSaleOrder?.data?.data?.orderCode", postSaleOrder?.data?.data?.orderCode)
+
     return (
         <div className="flex flex-col lg:flex-row flex-warp  gap-4">
             {saleBaseOrderInformation(postSaleOrder?.data?.data?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: any, index: number) => {

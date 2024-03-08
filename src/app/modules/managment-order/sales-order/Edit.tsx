@@ -89,7 +89,7 @@ const SalesOrderEdit = () => {
     }, [detailTools?.data?.data])
 
     const onSubmit = (values: any) => {
-        console.log("values", values)
+
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد.", "error")
         } else {
@@ -106,7 +106,7 @@ const SalesOrderEdit = () => {
                 paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
                 customerOfficialName: "string",
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
-                invoiceTypeId: detailTools?.data?.data.invoiceTypeId, //ok
+                invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId, //ok
                 // isTemporary: values.isTemporary === ? values.isTemporary : detailTools?.data?.data.isTemporary, //ok
                 isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
                 freightName: "string", //ok
@@ -195,7 +195,6 @@ const SalesOrderEdit = () => {
         }
     }
 
-    console.log(orderServices)
     return (
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}

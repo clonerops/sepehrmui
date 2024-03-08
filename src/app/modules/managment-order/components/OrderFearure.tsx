@@ -17,8 +17,6 @@ import FormikInput from '../../../../_cloner/components/FormikInput'
 import RadioGroup from '../../../../_cloner/components/RadioGroup'
 import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker'
 
-console.log("OrderFeauture is rendered")
-
 interface IProps {
     postOrder: any,
     isPurchaser?: boolean

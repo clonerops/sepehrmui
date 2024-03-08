@@ -3,6 +3,9 @@ import React, { Suspense } from "react";
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
 import ReadyToExit from "../modules/logestic/exit/ReadyToExit";
 import Permissions from "../modules/access/permissions/Permissions";
+import TransferRemitancesList from "../modules/logestic/entrance/TransferRemittancesList";
+import TransferRemittanceDetails from "../modules/logestic/entrance/TransferRemittanceDetails";
+import BilllandingEdit from "../modules/logestic/billlanding/BilllandingEdit";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -13,6 +16,9 @@ const Billlanding = React.lazy(
 );
 const ListOfBilllanding = React.lazy(
     () => import("../modules/logestic/billlanding/ListOfBilllanding")
+);
+const BilllandingDetails = React.lazy(
+    () => import("../modules/logestic/billlanding/BilllandingDetails")
 );
 const ProductPrice = React.lazy(
     () => import("../modules/generic/productPrices/ProductPrice")
@@ -212,7 +218,11 @@ export const routes: RouteProps[] = [
     { path: "dashboard/transferBetweenWarehouse", element: <TransferBetweenWarehouse /> },
     { path: "dashboard/transferBetweenWarehouse/:id", element: <TransferBetweenWarehouseAction /> },
     { path: "dashboard/billlanding", element: <Billlanding /> },
+    { path: "dashboard/billlandingEdit/:id", element: <BilllandingEdit /> },
     { path: "dashboard/billlandingList", element: <ListOfBilllanding /> },
+    { path: "dashboard/billlandingList/:id", element: <BilllandingDetails /> },
+    { path: "dashboard/transferRemittance", element: <TransferRemitancesList /> },
+    { path: "dashboard/transferRemittance/:id", element: <TransferRemittanceDetails /> },
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },
     { path: "dashboard/user/role/:id", element: <RoleUser /> },

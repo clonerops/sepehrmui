@@ -45,6 +45,7 @@ export interface IExitRemittance {
 }
 
 export interface ITransferRemittance {
+  id?: string | null | undefined
   originWarehouseId: number | null | undefined,
   destinationWarehouseId: number | null | undefined,
   transferRemittanceTypeId: number | null | undefined,
@@ -55,4 +56,12 @@ export interface ITransferRemittance {
     }
   ],
   description: string | null | undefined
+  unloadingPlaceAddress?: string | null | undefined
+  driverName?: string | null | undefined
+  carPlaque?: string | null | undefined
+  driverMobile?: string | null | undefined
+  fareAmount?: any
+  vehicleTypeId?: number | null
+  deliveryDate?: string | null | undefined
+
 }

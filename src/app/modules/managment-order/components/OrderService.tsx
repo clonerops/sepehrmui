@@ -25,13 +25,8 @@ interface IProps {
     formikRef: React.RefObject<FormikProps<any>>
 }
 
-console.log("OrderServices is rendered")
-
-
 const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders}) => {
     const { data: productService } = useGetServices();
-
-    console.log(productService)
 
     const handleSetServices = () => {
         const orderServices = [...orderService]
@@ -48,7 +43,6 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
             EnqueueSnackbar("هزینه نوع خدمت نمی تواند خالی باشد.", "error")
         }
         else {
-            console.log(calculateTotalAmount(orders, [...orderServices, orderServicetData]))
             setOrderService([...orderServices, orderServicetData])
             setOrderPayment([])
             formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(orders, [...orderServices, orderServicetData])))

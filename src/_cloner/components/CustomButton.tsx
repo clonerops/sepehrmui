@@ -9,8 +9,6 @@ type Props = {
     isLoading?: boolean
 }
 
-console.log("Button Submit is rendered")
-
 const CustomButton = (props: Props) => {
     const { title, onClick, disabled, color, isLoading } = props
     return (

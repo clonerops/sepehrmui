@@ -16,9 +16,6 @@ import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { FC, memo, useMemo } from "react";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 
-console.log("OrderPayments is rendered")
-
-
 interface IProps {
     postSaleOrder: any,
     orderPayment: IOrderPayment[],
