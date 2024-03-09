@@ -23,7 +23,7 @@ const TransferRemitancesList = () => {
   useEffect(() => {
     const filter: any = {
       pageNumber: currentPage,
-      pageSize: 100,        
+      pageSize: 100,     
     }
     transferList.mutate(filter)
   }, [currentPage])

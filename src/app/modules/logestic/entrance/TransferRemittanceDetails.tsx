@@ -31,7 +31,7 @@ const TransferRemittanceDetails = () => {
         { id: 8, title: "شماره پلاک خودرو", icon: <Place color="secondary" />, value: detailTools?.data?.data?.carPlaque },
         { id: 9, title: "نوع خودرو", icon: <TypeSpecimen color="secondary" />, value: detailTools?.data?.data?.vehicleTypeName },
         { id: 10, title: "مبلغ کرایه", icon: <PriceChange color="secondary" />, value: detailTools?.data?.data?.fareAmount },
-        { id: 11, title: "تاریخ تحویل", icon: <DateRange color="secondary" />, value: detailTools?.data?.data?.deliveryDate },
+        { id: 11, title: "تاریخ تحویل", icon: <DateRange color="secondary" />, value: detailTools?.data?.data?.deliverDate },
         { id: 12, title: "باربری", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.shippingName },
     ]
 
@@ -66,6 +66,7 @@ const TransferRemittanceDetails = () => {
     return (
         <>
             {entranceTools.isLoading && <Backdrop loading={entranceTools.isLoading} />}
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             <div className="flex justify-end items-end mb-4">
                 <ButtonComponent onClick={() => setApprove(true)}>
                     <Typography className="text-white px-4 py-2" variant="h4">ثبت مجوز ورود</Typography>
