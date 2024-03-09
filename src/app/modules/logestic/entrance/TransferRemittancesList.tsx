@@ -60,7 +60,7 @@ return (
                         return (
                             <form>
                                 <div
-                                    className="flex gap-4 w-[50%] mb-4"
+                                    className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4"
                                 >
                                     <FormikInput
                                         name="id"

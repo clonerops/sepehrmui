@@ -66,7 +66,7 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForBilllanding, setP
             <Formik initialValues={{transferAmount: ""}} onSubmit={handleSetAmountForBilllanding}>
                 {({values}) => {
                     return <Form className="my-4">
-                        <FormikInput name="transferAmount" label="مقدار موردنظر جهت انتقال" />
+                        <FormikInput autoFocus={true} name="transferAmount" label="مقدار موردنظر جهت انتقال" />
                         <Box className="flex justify-end items-end my-4">
                             <ButtonComponent onClick={() => handleSetAmountForBilllanding(values)}>
                                 <Typography className="text-white">ثبت</Typography>

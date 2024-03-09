@@ -20,8 +20,8 @@ const ListOfBilllanding = () => {
   const transferList = useGetTransferRemitancesByMutation()
   useEffect(() => {
     const filter = {
-        PageNumber: currentPage,
-        PageSize: 100,          
+      PageNumber: currentPage,
+      PageSize: 100,
     }
     transferList.mutate(filter)
   }, [currentPage])
@@ -44,14 +44,14 @@ const ListOfBilllanding = () => {
     let formData = {
       id: values.id ? values.id : "",
       PageNumber: currentPage,
-      PageSize: 100,          
+      PageSize: 100,
     };
     transferList.mutate(formData);
   }
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected + 1);
-};
+  };
 
   return (
     <>
@@ -63,7 +63,7 @@ const ListOfBilllanding = () => {
           {({ values }) => {
             return (
               <form>
-                <div className="flex gap-4 w-[50%] mb-4">
+                <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
                   <FormikInput
                     name="id"
                     label="شماره حواله"

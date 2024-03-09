@@ -246,8 +246,10 @@ const Billlanding = () => {
             onSuccess: (response) => {
                 console.log(response)
                 if (response.succeeded) {
-                    renderAlert("صدور حواله انتقال با موفقیت انجام گردید")
+                    renderAlert("صدور حواله انتقال با موفقیت انجام گردید")                        
+
                 } else {
+                    EnqueueSnackbar(response.data.Errors[0], "error")
                     EnqueueSnackbar(response.data.Message, "error")
                 }
             }
@@ -261,7 +263,7 @@ const Billlanding = () => {
                 {({ values, setFieldValue, handleSubmit }) => {
                     return (
                         <Form>
-                            <div className="flex justify-between items-center mb-4 gap-x-4">
+                            <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
                                 <CardWithIcons
                                     title='شماره حواله'
                                     icon={<DesignServices className="text-white" />}
