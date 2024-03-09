@@ -233,6 +233,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/ready_to_evacuation", element: <ReadyToEvacuation /> },
 
     { path: "dashboard/evacuation/:id", element: <EvacuationPermit /> },
+    { path: "dashboard/evacuation", element: <EvacuationPermit /> },
 
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },

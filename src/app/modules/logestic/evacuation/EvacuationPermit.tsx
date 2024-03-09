@@ -26,6 +26,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../../_cloner/components/FormikDescription";
 import FileUpload from "../../payment/components/FileUpload";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 
 interface ILadingList {
     id?: number;
@@ -118,9 +119,14 @@ const EvacuationPermit = () => {
                 return { ...item, realAmount: +value }
             } else {
                 return item
-            }})
+            }
+        })
         setEvacuationList(updatedLadingList);
     };
+
+    const handleFilter = (values: any) => {
+
+    }
 
     const onSubmit = async (values: any) => {
         let attachments = base64Attachments.map((i) => {
@@ -167,6 +173,29 @@ const EvacuationPermit = () => {
         <>
             {postExitRemittance.isLoading && <Backdrop loading={postExitRemittance.isLoading} />}
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            <ReusableCard cardClassName="mb-4">
+                <Formik initialValues={{
+                    id: "",
+                }} onSubmit={() => { }}>
+                    {({ values }) => {
+                        return (
+                            <form>
+                                <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
+                                    <FormikInput
+                                        name="id"
+                                        label="شماره ورود"
+                                    />
+                                    <ButtonComponent onClick={() => handleFilter(values)}>
+                                        <Search className="text-white" />
+                                        <Typography className="px-2 text-white">جستجو</Typography>
+                                    </ButtonComponent>
+                                </div>
+                            </form>
+                        );
+                    }}
+                </Formik>
+            </ReusableCard>
+
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">
                 {orderAndAmountInfo.map((item: {
                     title: string,
