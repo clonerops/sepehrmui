@@ -1,9 +1,10 @@
 import { Form, Formik, FormikErrors } from "formik";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import FormikWarehouse from "../../../../_cloner/components/FormikWarehouse";
 import RadioGroup from "../../../../_cloner/components/RadioGroup";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
+import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikAmount from "../../../../_cloner/components/FormikAmount";
@@ -23,11 +24,8 @@ import Backdrop from "../../../../_cloner/components/Backdrop";
 import _ from "lodash";
 import { renderAlert } from "../../../../_cloner/helpers/SweetAlert";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import CustomButton from "../../../../_cloner/components/CustomButton";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
-import { billlandingValidation } from "./_validation";
-import CardWithIcons from "../../../../_cloner/components/CardWithIcons";
-import { AddTask, DesignServices } from "@mui/icons-material";
-import moment from "moment-jalaali";
 
 const initialValues = {
     originWarehouseId: "",
@@ -45,8 +43,9 @@ const fields: FieldType[][] = [
     ],
     [
         { label: "شماره همراه راننده", name: "driverMobile", type: "input" },
-        { label: "تاریخ تحویل", name: "deliverDate", type: "datepicker" },
+        { label: "تاریخ تحویل", name: "deliveryDate", type: "datepicker" },
         { label: "مبلغ کرایه", name: "fareAmount", type: "amount" },
+        { label: "ندارد", name: "isComplete", type: "checkbox" },
     ],
     [
         { label: "آدرس محل تخلیه", name: "unloadingPlaceAddress", type: "desc" },
@@ -74,6 +73,18 @@ const Billlanding = () => {
     const parseFields = (fields: FieldType, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>, index: number) => {
         const { type, ...rest } = fields;
         switch (type) {
+            case "checkbox":
+                return (
+                    <Box key={index} component="div" className="w-full flex items-center">
+                        <FormikCheckbox
+                            name="isComplete"
+                            label=""
+                        />
+                        <Typography variant="h3">
+                            تکمیل بارگیری
+                        </Typography>
+                    </Box>
+                );
             case "datepicker":
                 return <FormikDatepicker key={index} setFieldValue={setFieldValue} boxClassName="w-full" {...rest} />
             case "select":
@@ -219,15 +230,15 @@ const Billlanding = () => {
             WarehouseId: +value
         }
         productsInventory.mutate(filter, {
-            onSuccess: (response) => {}
+            onSuccess: (response) => {
+                console.log(response)
+            }
         })
     }
 
     const handleTransferRemittance = (values: any) => {
         const formData: any = {
-            ...values,
             originWarehouseId: +values.originWarehouseId,
-            fareAmount: +values.fareAmount,
             destinationWarehouseId: +values.destinationWarehouseId.value,
             transferRemittanceTypeId: +values.transferRemittanceTypeId ? +values.transferRemittanceTypeId : 1,
             details: _.map(productForBilllanding, (item) => {
@@ -240,7 +251,8 @@ const Billlanding = () => {
         }
         transfer.mutate(formData, {
             onSuccess: (response) => {
-                if (response.succeeded) {
+                console.log(response)
+                if(response.succeeded) {
                     renderAlert("صدور حواله انتقال با موفقیت انجام گردید")
                 } else {
                     EnqueueSnackbar(response.data.Message, "error")
@@ -252,25 +264,13 @@ const Billlanding = () => {
     return (
         <>
             {transfer.isLoading && <Backdrop loading={transfer.isLoading} />}
-            <Formik validationSchema={billlandingValidation} initialValues={initialValues} onSubmit={handleTransferRemittance}>
+            <Formik initialValues={initialValues} onSubmit={handleTransferRemittance}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return (
                         <Form>
-                            <div className="flex justify-between items-center mb-4 gap-x-4">
-                                <CardWithIcons
-                                    title='شماره حواله'
-                                    icon={<DesignServices className="text-white" />}
-                                    value={transfer?.data?.data?.id || 0}
-                                    iconClassName='bg-[#3322D8]' />
-                                <CardWithIcons
-                                    title='تاریخ حواله'
-                                    icon={<AddTask className="text-white" />}
-                                    value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
-                                    iconClassName='bg-[#369BFD]' />
-                            </div>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <ReusableCard>
-                                    <div className="flex justify-center items-center gap-4">
+                                    <Box className="flex justify-center items-center gap-4">
                                         <FormikWarehouseBasedOfType
                                             name="originWarehouseId"
                                             label="انبار مبدا"
@@ -281,35 +281,27 @@ const Billlanding = () => {
                                             name="destinationWarehouseId"
                                             label="انبار مقصد"
                                         />
-                                    </div>
-                                    <div className="my-4">
+                                    </Box>
+                                    <Box className="my-4">
                                         <RadioGroup
                                             categories={categories}
                                             id="transferRemittanceTypeId"
                                             key="transferRemittanceTypeId"
                                             name="transferRemittanceTypeId"
                                         />
-                                    </div>
+                                    </Box>
                                 </ReusableCard>
-                                <ReusableCard cardClassName="flex flex-col">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
-                                        <img
-                                            src={toAbsoulteUrl("/media/mainlogo/2.png")}
-                                            width={40}
-                                        />
-
-                                    </div>
-                                    <div className="flex flex-col flex-wrap gap-4">
-                                        <Typography>در ابتدا انبار مبدا را انتخاب کنید، پس از آن لیست کالاهایی که  در انبار خرید می باشد برای شما نمایش داده می شود</Typography>
-                                        <Typography>از لیست کالاها، پس از انتخاب کالا و دکمه انتقال صفحه ای باز می شود تا بتوانید مقداری که در نظر دارید را وارد و سپس دکمه ثبت را کلیک می کنید</Typography>
-                                        <Typography>پس از ثبت مقدار، کالا با مقدار در لیست کالاهای انتخاب شده جهت انتقال حواله قرار می گیرد</Typography>
-                                        <Typography>در انتها با وارد نمودن اطلاعات مربوط حمل اقدام به صدور حواله نمایید</Typography>
-                                    </div>
+                                <ReusableCard cardClassName="flex justify-center items-center">
+                                    <Box
+                                        component="img"
+                                        src={toAbsoulteUrl("/media/logos/fo.png")}
+                                        className="rounded-md"
+                                        width={400}
+                                    />
                                 </ReusableCard>
-                            </div>
+                            </Box>
                             <ReusableCard cardClassName="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-                                <div>
+                                <Box>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای موجود در انبار</Typography>
                                     <MuiDataGrid
                                         columns={columns()}
@@ -317,32 +309,32 @@ const Billlanding = () => {
                                         data={productsInventory.data?.data || []}
                                         isLoading={productsInventory.isLoading}
                                     />
-                                </div>
-                                <div>
+                                </Box>
+                                <Box>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای انتخاب شده جهت انتقال حواله</Typography>
                                     <MuiDataGrid
                                         columns={columnsForBilllanding()}
                                         rows={productForBilllanding}
                                         data={productForBilllanding}
                                     />
-                                </div>
+                                </Box>
                             </ReusableCard>
                             <ReusableCard cardClassName="mt-4">
                                 <Typography variant="h3" className="text-gray-500 pb-2">جزئیات حمل توسط راننده</Typography>
                                 {fields.map((rowFields, index) => (
-                                    <div
+                                    <Box
                                         key={index}
-
+                                        component="div"
                                         className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
                                     >
                                         {rowFields.map((field, index) =>
                                             parseFields(field, setFieldValue, index)
                                         )}
-                                    </div>
+                                    </Box>
                                 ))}
                             </ReusableCard>
                             <div className="flex justify-end items-end mt-8">
-                                <ButtonComponent onClick={() => handleSubmit()} disabled={productForBilllanding.length < 0}>
+                                <ButtonComponent onClick={() => handleSubmit()}>
                                     <Typography variant="h4" className="px-4 py-2 text-white">ثبت صدور حواله</Typography>
                                 </ButtonComponent>
                             </div>
@@ -350,16 +342,14 @@ const Billlanding = () => {
                     );
                 }}
             </Formik>
-            {isOpen &&
-                <TransitionsModal
-                    open={isOpen}
-                    isClose={() => setIsOpen(false)}
-                    width="50%"
-                    title="مقدار انتقال"
-                >
-                    <TransferAmount productForBilllanding={productForBilllanding} setProductForBilllanding={setProductForBilllanding} setIsOpen={setIsOpen} item={itemSelected} />
-                </TransitionsModal>
-            }
+            <TransitionsModal
+                open={isOpen}
+                isClose={() => setIsOpen(false)}
+                width="50%"
+                title="مقدار انتقال"
+            >
+                <TransferAmount productForBilllanding={productForBilllanding} setProductForBilllanding={setProductForBilllanding} setIsOpen={setIsOpen} item={itemSelected} />
+            </TransitionsModal>
 
         </>
     );

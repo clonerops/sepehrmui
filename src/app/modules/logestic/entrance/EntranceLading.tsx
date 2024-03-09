@@ -1,19 +1,21 @@
-import { IconButton, Typography } from "@mui/material"
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
+import { Box, Button, IconButton, Typography } from "@mui/material"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import { useGetTransferRemitancesByMutation } from "../core/_hooks"
-import { billlandingColumns, entranceColumns } from "./_columns"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
-import { CarCrash, DateRange, DateRangeRounded, Edit, HomeMaxRounded, HomeMiniOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, Search, TypeSpecimen, TypeSpecimenTwoTone, Visibility } from "@mui/icons-material"
+import { CarCrash, DateRange, DateRangeRounded, Delete, Edit, HomeMaxRounded, HomeMiniOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, Search, TypeSpecimen, TypeSpecimenTwoTone, Visibility } from "@mui/icons-material"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import { Link } from "react-router-dom"
-import { Formik } from "formik"
+import { Form, Formik } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
+import TransitionsModal from "../../../../_cloner/components/ReusableModal"
+import MuiTable from "../../../../_cloner/components/MuiTable"
 
 const EntranceLading = () => {
     const transferList = useGetTransferRemitancesByMutation()
+    const [open, setOpen] = useState<boolean>(false)
+
     useEffect(() => {
         const filter = {}
         transferList.mutate(filter)
@@ -32,6 +34,18 @@ const EntranceLading = () => {
         { id: 10, title: "مبلغ کرایه", icon: <PriceChange color="secondary" />, value: "" },
         { id: 11, title: "تاریخ تحویل", icon: <DateRange color="secondary" />, value: "" },
         { id: 12, title: "باربری", icon: <CarCrash color="secondary" />, value: "" },
+    ]
+
+    const entranceLadingList: any = [
+        { id: 1, header: "کالا", flex: 1, accessor: "orderDetailName" },
+        { id: 2, header: "مقدار بارگیری", flex: 1, accessor: "ladingAmount" },
+        {
+            id: 3, header: "حذف", flex: 1, accessor: "", render: (params: any) => {
+                return <Button onClick={() => {}}>
+                    <Delete className='!text-red-500' />
+                </Button>
+            }
+        },
     ]
 
 
@@ -56,6 +70,10 @@ const EntranceLading = () => {
         };
         transferList.mutate(formData);
     }
+
+    const onSubmit = () => {}
+
+
     return (
         <>
             {transferList.isLoading && <Backdrop loading={transferList.isLoading} />}
@@ -94,6 +112,35 @@ const EntranceLading = () => {
                     return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                 })}
             </div>
+            <div className='mt-4'>
+                <Button onClick={() => setOpen(true)} variant='contained' color='primary'>
+                    <Typography>ثبت مجوز بارگیری</Typography>
+                </Button>
+            </div>
+
+            <TransitionsModal
+                open={open}
+                isClose={() => setOpen(false)}
+                title="ثبت مجوز بارگیری"
+                width="50%"
+                description="چنانچه مشکلی بابت ثبت مجوز بارگیری دارید، لطفا با پشتیبانی تماس بگیرید."
+            >
+                <Formik initialValues={{}} onSubmit={onSubmit}>
+                    {({ values }) => {
+                        return <Form className='mt-8'>
+                            <Box component="div" className='my-8 mx-auto'>
+                                <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862] !text-center" headCellTextColor="!text-white" data={[]} columns={entranceLadingList} />
+                            </Box>
+                            <FormikInput multiline minRows={3} name="description" label="توضیحات" />
+                            <Box component="div" className='mt-8'>
+                                <Button onClick={() => onSubmit()} className='!bg-green-500 !text-white'>
+                                    <Typography className='py-1'>ثبت مجوز</Typography>
+                                </Button>
+                            </Box>
+                        </Form>
+                    }}
+                </Formik>
+            </TransitionsModal>
 
         </>
     )

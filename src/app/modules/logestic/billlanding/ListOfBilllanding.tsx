@@ -9,14 +9,22 @@ import Backdrop from "../../../../_cloner/components/Backdrop"
 import { Link } from "react-router-dom"
 import { Formik } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import Pagination from "../../../../_cloner/components/Pagination"
+
+const pageSize = 20
 
 const ListOfBilllanding = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const transferList = useGetTransferRemitancesByMutation()
   useEffect(() => {
-    const filter = {}
+    const filter = {
+        PageNumber: currentPage,
+        PageSize: 100,          
+    }
     transferList.mutate(filter)
-  }, [])
+  }, [currentPage])
 
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
@@ -35,9 +43,16 @@ const ListOfBilllanding = () => {
   const handleFilter = (values: any) => {
     let formData = {
       id: values.id ? values.id : "",
+      PageNumber: currentPage,
+      PageSize: 100,          
     };
     transferList.mutate(formData);
   }
+
+  const handlePageChange = (selectedItem: { selected: number }) => {
+    setCurrentPage(selectedItem.selected + 1);
+};
+
   return (
     <>
       {transferList.isLoading && <Backdrop loading={transferList.isLoading} />}
@@ -48,9 +63,7 @@ const ListOfBilllanding = () => {
           {({ values }) => {
             return (
               <form>
-                <div
-                  className="flex gap-4 w-[50%] mb-4"
-                >
+                <div className="flex gap-4 w-[50%] mb-4">
                   <FormikInput
                     name="id"
                     label="شماره حواله"
@@ -69,8 +82,11 @@ const ListOfBilllanding = () => {
           columns={billlandingColumns(renderAction)}
           rows={transferList?.data?.data || [{}]}
           data={transferList?.data?.data || [{}]}
+          hideFooter={true}
         />
+        <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>
+
     </>
   )
 }

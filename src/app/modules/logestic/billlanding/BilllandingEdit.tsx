@@ -168,7 +168,7 @@ const BilllandingEdit = () => {
                 flex: 1,
             },
             {
-                field: "productBrandName",
+                field: "brandName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
@@ -267,6 +267,7 @@ const BilllandingEdit = () => {
             transferRemittanceTypeId: +values.transferRemittanceTypeId ? +values.transferRemittanceTypeId : detailTools?.data?.data?.transferRemittanceTypeId,
             details: _.map(productForBilllanding, (item) => {
                 return {
+                    id: item.id ? +item.id : null,
                     productBrandId: +item.productBrandId,
                     transferAmount: +item.transferAmount,
                 }
@@ -284,6 +285,7 @@ const BilllandingEdit = () => {
         });
     };
 
+    console.log('productForBilllanding', productForBilllanding)
 
 
     return (
@@ -320,12 +322,14 @@ const BilllandingEdit = () => {
                                             label="انبار مبدا"
                                             onChange={onFilterWarehouseFrom}
                                             warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                            disabled
                                         />
                                         <FormikWarehouseBasedOfType
                                             name="destinationWarehouseId"
                                             label="انبار مقصد"
                                             onChange={onFilterWarehouseFrom}
                                             warehouse={warehouse?.data}
+                                            disabled
                                         />
 
                                         {/* <FormikWarehouse

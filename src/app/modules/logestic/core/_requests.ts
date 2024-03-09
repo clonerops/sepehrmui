@@ -142,7 +142,7 @@ const postExitRemittance = async (formdata: IExitRemittance) => {
 const postTransferRemittance = async (formdata: ITransferRemittance) => {
     try {
         const { data } = await http.post(
-            `/v1/Product/TransferRemittance`,
+            `/v1/PurchaseOrder/TransferRemittance`,
             JSON.stringify(formdata)
         );
         return data;
@@ -156,7 +156,12 @@ const getTransferRemitances = async () => {
     return data;
 }
 
-const getTransferRemitancesFilter = async (filter: {id?: number}) => {
+const getTransferRemitancesFilter = async (filter: {
+    id?: number, 
+    IsEntranced?: boolean,
+    PageNumber?: number,
+    PageSize?: number,
+}) => {
     const { data } = await http.get(`${generateURLQueryParam('/v1/PurchaseOrder/GetAllTransferRemittances', filter)}`);
     return data;
 }

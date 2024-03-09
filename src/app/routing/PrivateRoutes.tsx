@@ -227,7 +227,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/transferRemittance", element: <TransferRemitancesList /> },
     { path: "dashboard/transferRemittance/:id", element: <TransferRemittanceDetails /> },
     { path: "dashboard/entranceList", element: <EntranceList /> },
-    { path: "dashboard/entranceLading/:id", element: <EntranceLading /> },
+    { path: "dashboard/entranceLading", element: <EntranceLading /> },
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },
     { path: "dashboard/user/role/:id", element: <RoleUser /> },

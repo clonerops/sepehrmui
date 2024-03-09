@@ -1,8 +1,8 @@
-import { Button, IconButton, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import { useGetTransferRemitancesByMutation } from "../core/_hooks"
-import { billlandingColumns, entranceColumns } from "./_columns"
+import { entranceColumns } from "./_columns"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { Edit, Search, Visibility } from "@mui/icons-material"
 import Backdrop from "../../../../_cloner/components/Backdrop"
@@ -20,12 +20,12 @@ const EntranceList = () => {
 
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
-      <Link to={`/dashboard/entranceLading/${params.row.id}`}>
+      {/* <Link to={`/dashboard/entranceLading/${params.row.id}`}>
         <Button variant="contained" color="secondary">
           <Visibility />
           <Typography className="px-2">صدور مجوز بارگیری</Typography>
         </Button>
-      </Link>
+      </Link> */}
     </div>
   }
   const handleFilter = (values: any) => {

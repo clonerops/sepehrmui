@@ -110,7 +110,12 @@ const useGetTransferRemitances = () => {
     });
 };
 const useGetTransferRemitancesByMutation = () => {
-    return useMutation((filter: {id?: number}) => {
+    return useMutation((filter: {
+        id?: number, 
+        IsEntranced?: boolean,
+        PageNumber?: number,
+        PageSize?: number,
+    }) => {
         return api.getTransferRemitancesFilter(filter)
     });
 };
