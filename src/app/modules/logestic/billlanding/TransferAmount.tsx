@@ -13,9 +13,11 @@ interface IProps {
 }
 
 const TransferAmount:FC<IProps> = ({item, setIsOpen, productForBilllanding, setProductForBilllanding}) => {
+    console.log("productForBilllanding", productForBilllanding)
     const handleSetAmountForBilllanding = (values: any) => {
         const cpProductForBilllanding = [...productForBilllanding]
         const newValue = {
+            id: item.id,
             productCode: item.productCode,
             productName: item.productName,
             productBrandName: item.productBrandName,

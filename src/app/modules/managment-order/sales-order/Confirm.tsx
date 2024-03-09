@@ -207,7 +207,7 @@ const SalesOrderConfirm = () => {
             <Formik initialValues={{
                 ...initialValues,
                 invoiceTypeId: data?.data?.invoiceTypeId,
-                // customerOfficialCompanyId: data?.data?.customerOfficialCompany?.id
+                customerOfficialCompanyId: data?.data?.customerOfficialCompany?.id
             }
             } onSubmit={(_) => handleConfirmOrder(_, 0)}>
                 {({ values, setFieldValue, resetForm }) => {
