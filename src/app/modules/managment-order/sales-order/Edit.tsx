@@ -160,7 +160,6 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
-            console.log("formData", formData)
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
@@ -196,10 +195,6 @@ const SalesOrderEdit = () => {
             }
         }
     }
-
-    console.log("detailTools?.data?.data?.details", detailTools?.data?.data)
-    console.log("orders", orders)
-
 
     return (
         <>

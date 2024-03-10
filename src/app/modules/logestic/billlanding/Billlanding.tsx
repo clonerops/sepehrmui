@@ -221,9 +221,7 @@ const Billlanding = () => {
             WarehouseId: +value
         }
         productsInventory.mutate(filter, {
-            onSuccess: (response) => {
-                console.log(response)
-            }
+            onSuccess: (response) => {}
         })
     }
 
@@ -244,7 +242,6 @@ const Billlanding = () => {
         }
         transfer.mutate(formData, {
             onSuccess: (response) => {
-                console.log(response)
                 if (response.succeeded) {
                     renderAlert("صدور حواله انتقال با موفقیت انجام گردید")                        
 
