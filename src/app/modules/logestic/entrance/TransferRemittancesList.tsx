@@ -23,7 +23,7 @@ const TransferRemitancesList = () => {
   useEffect(() => {
     const filter: any = {
       pageNumber: currentPage,
-      pageSize: 100,        
+      pageSize: 100,     
     }
     transferList.mutate(filter)
   }, [currentPage])
@@ -60,7 +60,7 @@ return (
                         return (
                             <form>
                                 <div
-                                    className="flex gap-4 w-[50%] mb-4"
+                                    className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4"
                                 >
                                     <FormikInput
                                         name="id"

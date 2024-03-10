@@ -387,6 +387,48 @@ export const ladingColumns = (renderAction: any) => {
     ]
     return col
 }
+export const evacuationColumns = (renderAction: any) => {
+    const col = [
+        {
+            field: 'id', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره ورود', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
+            field: 'createDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'cargoAnnounceNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.cargoAnnounceNo}</Typography>;
+            },
+            headerName: 'شماره حواله', headerClassName: "headerClassName", minWidth: 160, flex: 1
+        },
+        {
+            field: 'driverName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.driverName}</Typography>;
+            },
+            headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'isTemporary', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.vehicleTypeName}</Typography>;
+            },
+            headerName: 'نوع وسیله نقلیه', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'carPlaque', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.carPlaque}</Typography>;
+            },
+            headerName: 'شماره پلاک خودروبر', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        { field: "Action", headerName: 'ویرایش', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+    ]
+    return col
+}
 
 export const columnsModalProduct = () => {
     const col = [

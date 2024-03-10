@@ -8,6 +8,8 @@ import TransferRemittanceDetails from "../modules/logestic/entrance/TransferRemi
 import BilllandingEdit from "../modules/logestic/billlanding/BilllandingEdit";
 import EntranceList from "../modules/logestic/entrance/EntranceList";
 import EntranceLading from "../modules/logestic/entrance/EntranceLading";
+import ReadyToEvacuation from "../modules/logestic/evacuation/ReadyToEvacuation";
+import EvacuationPermit from "../modules/logestic/evacuation/EvacuationPermit";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -228,6 +230,11 @@ export const routes: RouteProps[] = [
     { path: "dashboard/transferRemittance/:id", element: <TransferRemittanceDetails /> },
     { path: "dashboard/entranceList", element: <EntranceList /> },
     { path: "dashboard/entranceLading", element: <EntranceLading /> },
+    { path: "dashboard/ready_to_evacuation", element: <ReadyToEvacuation /> },
+
+    { path: "dashboard/evacuation/:id", element: <EvacuationPermit /> },
+    { path: "dashboard/evacuation", element: <EvacuationPermit /> },
+
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },
     { path: "dashboard/user/role/:id", element: <RoleUser /> },

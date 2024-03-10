@@ -147,17 +147,6 @@ const BilllandingEdit = () => {
     const columnsForBilllanding = () => {
         const col = [
             {
-                field: "productCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کد کالا",
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                maxWidth: 80,
-                flex: 1,
-            },
-            {
                 field: "productName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
@@ -170,7 +159,7 @@ const BilllandingEdit = () => {
             {
                 field: "brandName",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h4">{params.row.brandName ? params.row.brandName : params.row.productBrandName}</Typography>;
                 },
                 headerName: "برند",
                 headerClassName: "headerClassName",
@@ -277,16 +266,13 @@ const BilllandingEdit = () => {
         updateTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
-                    EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                    renderAlert(response.message || "ویرایش با موفقیت انجام شد")
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")
                 }
             },
         });
     };
-
-    console.log('productForBilllanding', productForBilllanding)
-
 
     return (
         <>
@@ -302,7 +288,7 @@ const BilllandingEdit = () => {
                 {({ values, setFieldValue, handleSubmit }) => {
                     return (
                         <Form>
-                            <div className="flex justify-between items-center mb-4 gap-x-4">
+                            <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
                                 <CardWithIcons
                                     title='شماره حواله'
                                     icon={<DesignServices className="text-white" />}
