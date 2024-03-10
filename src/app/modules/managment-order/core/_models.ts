@@ -147,7 +147,11 @@ export interface IOrderItems {
     proximateAmount?: string | null | undefined;
     proximateSubUnit?: string | null | undefined;
     purchaserCustomerId?: string | null | undefined;
-    purchaserCustomerName?: string | null | undefined;
+    // purchaserCustomerName?: string | null | undefined;
+    purchaserCustomerName?: {
+        value?: any;
+        label?: string | null | undefined;
+    };
     mainUnit?: string | null | undefined;
     productMainUnitDesc?: string | null | undefined;
     subUnit?: string | null | undefined;

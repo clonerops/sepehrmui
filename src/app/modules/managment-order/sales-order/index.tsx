@@ -68,7 +68,8 @@ const SalesOrder = () => {
                         proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
                         proximateSubUnit: item.proximateSubUnit ? +item.proximateSubUnit : null,
                         purchasePrice: item.purchasePrice ? +item.purchasePrice : 0,
-                        purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                        purchaserCustomerId: item.purchaserCustomerName && item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
+                        purchaserCustomerName: item.purchaserCustomerName && item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : null,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                         warehouseId: item.warehouseId ? +item.warehouseId : null,
                     })),
@@ -89,6 +90,8 @@ const SalesOrder = () => {
                         } 
                     })
                 }
+
+                console.log("formData", formData)
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors && response.data.Errors.length > 0) {

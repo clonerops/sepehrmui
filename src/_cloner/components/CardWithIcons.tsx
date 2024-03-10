@@ -24,7 +24,7 @@ const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName}) => {
                         {icon}
                     </div>
                 </div>
-                <Typography variant="h1">{value}</Typography>
+                <Typography variant="h2">{value}</Typography>
             </ReusableCard>
         </>
     );
