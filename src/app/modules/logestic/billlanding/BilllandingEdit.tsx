@@ -249,7 +249,7 @@ const BilllandingEdit = () => {
 
     const onUpdate = (values: any) => {
         const formData: any = {
-            ...values,
+            // ...values,
             originWarehouseId: values.originWarehouseId ? +values.originWarehouseId : detailTools?.data?.data?.originWarehouseId,
             fareAmount: values.fareAmount ? +values.fareAmount : detailTools?.data?.data?.fareAmount,
             destinationWarehouseId: values.destinationWarehouseId ? +values.destinationWarehouseId : detailTools?.data?.data?.destinationWarehouseId,
@@ -261,8 +261,18 @@ const BilllandingEdit = () => {
                     transferAmount: +item.transferAmount,
                 }
             }),
-            description: values.description ? values.description : detailTools?.data?.data?.description
+            description: values.description ? values.description : detailTools?.data?.data?.description,
+            driverName: values.driverName ? values.driverName : detailTools?.data?.data?.driverName,
+            shippingName: values.shippingName ? values.shippingName : detailTools?.data?.data?.shippingName,
+            carPlaque: values.carPlaque ? values.carPlaque : detailTools?.data?.data?.carPlaque,
+            vehicleTypeId: values.vehicleTypeId ? values.vehicleTypeId : detailTools?.data?.data?.vehicleTypeId === 0 ? null : detailTools?.data?.data?.vehicleTypeId,
+            driverMobile: values.driverMobile ? values.driverMobile : detailTools?.data?.data?.driverMobile,
+            deliverDate: values.deliverDate ? values.deliverDate : detailTools?.data?.data?.deliverDate,
+            unloadingPlaceAddress: values.unloadingPlaceAddress ? values.unloadingPlaceAddress : detailTools?.data?.data?.unloadingPlaceAddress,
+            id: +id,
+          
         }
+        console.log(JSON.stringify(formData))
         updateTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {

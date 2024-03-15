@@ -390,40 +390,52 @@ export const ladingColumns = (renderAction: any) => {
 export const evacuationColumns = (renderAction: any) => {
     const col = [
         {
+            field: 'entrancePermitCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
+        },
+        {
+            field: 'entrancePermitDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
+        },
+        {
             field: 'id', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'شماره ورود', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+            headerName: 'شماره حواله', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
-            field: 'createDate', renderCell: (params: any) => {
+            field: 'registerDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'تاریخ حواله', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
-            field: 'cargoAnnounceNo', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.cargoAnnounce.cargoAnnounceNo}</Typography>;
+            field: 'transferRemittanceTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'شماره حواله', headerClassName: "headerClassName", minWidth: 160, flex: 1
+            headerName: 'نوع انتقال', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
-            field: 'driverName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.cargoAnnounce.driverName}</Typography>;
+            field: 'transferRemittanceStatusDesc', renderCell: (params: any) => {
+                return params.row.transferRemittanceStatusId === 2 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography>
             },
-            headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
         },
         {
-            field: 'isTemporary', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.cargoAnnounce.vehicleTypeName}</Typography>;
+            field: 'originWarehouseName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'نوع وسیله نقلیه', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'انبار مبدا', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: 'carPlaque', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.cargoAnnounce.carPlaque}</Typography>;
+            field: 'destinationWarehouseName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'شماره پلاک خودروبر', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         { field: "Action", headerName: 'ویرایش', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]

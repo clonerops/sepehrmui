@@ -232,7 +232,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/entranceLading", element: <EntranceLading /> },
     { path: "dashboard/ready_to_evacuation", element: <ReadyToEvacuation /> },
 
-    { path: "dashboard/evacuation/:id", element: <EvacuationPermit /> },
+    { path: "dashboard/evacuation/:id/:entranceId", element: <EvacuationPermit /> },
     { path: "dashboard/evacuation", element: <EvacuationPermit /> },
 
     { path: "dashboard/users", element: <Users /> },

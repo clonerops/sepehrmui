@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ICargo, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
+import { ICargo, IEvacuationPermit, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
 import * as api from "./_requests";
 
 const useRetrievesNotSendedOrder = () => {
@@ -111,7 +111,8 @@ const useGetTransferRemitances = () => {
 };
 const useGetTransferRemitancesByMutation = () => {
     return useMutation((filter: {
-        id?: number, 
+        id?: number,
+        TransferEntransePermitNo?: number,
         IsEntranced?: boolean,
         PageNumber?: number,
         PageSize?: number,
@@ -144,6 +145,13 @@ const useEntrancePermission = () => {
     });
 };
 
+const usePostEvacuation = () => {
+    return useMutation((formData: IEvacuationPermit) => {
+        return api.postEvacuation(formData);
+    });
+};
+
+
 
 export {
     useGetCargosList,
@@ -164,5 +172,6 @@ export {
     useGetTransferRemitanceById,
     useGetTransferRemitanceByIdByMutation,
     useUpdateTransferRemitance,
-    useEntrancePermission
+    useEntrancePermission,
+    usePostEvacuation
 };

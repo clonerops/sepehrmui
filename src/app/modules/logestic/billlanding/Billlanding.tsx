@@ -229,7 +229,7 @@ const Billlanding = () => {
         const formData: any = {
             ...values,
             originWarehouseId: +values.originWarehouseId,
-            fareAmount: +values.fareAmount,
+            fareAmount: values.fareAmount ? +values.fareAmount : 0,
             destinationWarehouseId: +values.destinationWarehouseId.value,
             transferRemittanceTypeId: +values.transferRemittanceTypeId ? +values.transferRemittanceTypeId : 1,
             details: _.map(productForBilllanding, (item) => {

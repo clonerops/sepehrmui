@@ -15,12 +15,13 @@ import {
     useCargoById,
     useGetLadingLicenceById,
     useGetTransferRemitanceById,
+    usePostEvacuation,
     usePostExitRemiitance,
     usePostLadingLicence,
 } from "../core/_hooks";
 import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
-import { IExitRemittance, ILadingLicence } from "../core/_models";
+import { IEvacuationPermit, IExitRemittance, ILadingLicence } from "../core/_models";
 import { enqueueSnackbar } from "notistack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../../_cloner/components/FormikDescription";
@@ -30,38 +31,33 @@ import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
 import { useGetVehicleTypes } from "../../generic/_hooks";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import MaskInput from "../../../../_cloner/components/MaskInput";
+import { evacuationValidation } from "./_validation";
 
-interface ILadingList {
-    id?: number;
-    description?: string;
-    orderDetailId?: {
-        value: number;
-        label: string;
-        productId: string;
-    };
-    orderDetailName?: string;
-    ladingAmount?: any;
-}
-
-const initialValues: ILadingList = {
+const initialValues = {
     id: 0,
     description: "",
-    orderDetailId: {
-        value: 0,
-        label: "",
-        productId: "",
-    },
-    orderDetailName: "",
-    ladingAmount: 0,
+    unloadedAmount: 0,
+    driverName: "",
+    shippingName: "",
+    carPlaque: "",
+    vehicleTypeId: "",
+    driverMobile: "",
+    deliverDate: "",
+    fareAmount: "",
+    unloadingPlaceAddress: "",
+    driverAccountNo: "",
+    driverCreditCardNo: "",
+    otherAmount: "",
 };
 
 const EvacuationPermit = () => {
-    const { id }: any = useParams();
+    const { id, entranceId }: any = useParams();
     const detailTools = useGetTransferRemitanceById(id)
-    const postExitRemittance = usePostExitRemiitance();
+    const postEvacuation = usePostEvacuation();
     const vehicleList = useGetVehicleTypes()
 
-    let formikRef: any = useRef();
     let realAmount = useRef<HTMLInputElement>(null);
 
     const [evacuationList, setEvacuationList] = useState<any[]>([]);
@@ -75,19 +71,32 @@ const EvacuationPermit = () => {
     }, [files]);
 
 
+    useEffect(() => {
+        if (detailTools?.data?.data?.details.length > 0) {
+            const destructureData = detailTools?.data?.data?.details.map(
+                (item: any) => {
+                    return {
+                        id: item.id,
+                        productBrandId: item?.productBrandId,
+                        transferAmount: item?.transferAmount,
+                        productCode: item?.productCode,
+                        productName: item?.productName,
+                    };
+                }
+            );
+            if (destructureData) {
+                setEvacuationList(destructureData);
+            }
+        }
+    }, [detailTools?.data?.data?.details]);
+
+
     const orderAndAmountInfo = [
         { id: 1, title: "شماره حواله", icon: <NumbersOutlined color="secondary" />, value: detailTools?.data?.data?.id },
         { id: 2, title: "تاریخ حواله", icon: <DateRangeRounded color="secondary" />, value: detailTools?.data?.data?.registerDate },
         { id: 3, title: "نوع انتقال", icon: <TypeSpecimenTwoTone color="secondary" />, value: detailTools?.data?.data?.transferRemittanceTypeDesc },
         { id: 4, title: "انبار مبدا", icon: <HomeMaxRounded color="secondary" />, value: detailTools?.data?.data?.originWarehouseName },
         { id: 5, title: "انبار مقصد", icon: <HomeMiniOutlined color="secondary" />, value: detailTools?.data?.data?.destinationWarehouseName },
-        // { id: 6, title: "نام و نام خانوادگی راننده", icon: <Person color="secondary" />, value: detailTools?.data?.data?.driverName },
-        // { id: 7, title: "شماره همراه راننده", icon: <PhoneRounded color="secondary" />, value: detailTools?.data?.data?.driverMobile },
-        // { id: 8, title: "شماره پلاک خودرو", icon: <Place color="secondary" />, value: detailTools?.data?.data?.carPlaque },
-        // { id: 9, title: "نوع خودرو", icon: <TypeSpecimen color="secondary" />, value: detailTools?.data?.data?.vehicleTypeName },
-        // { id: 10, title: "مبلغ کرایه", icon: <PriceChange color="secondary" />, value: detailTools?.data?.data?.fareAmount },
-        // { id: 11, title: "تاریخ تحویل", icon: <DateRange color="secondary" />, value: detailTools?.data?.data?.deliverDate },
-        // { id: 12, title: "باربری", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.shippingName },
     ]
 
     const fields: FieldType[][] = [
@@ -114,8 +123,14 @@ const EvacuationPermit = () => {
                 return <FormikDatepicker key={index} setFieldValue={setFieldValue} boxClassName="w-full" {...rest} />
             case "select":
                 return <FormikSelect key={index} options={dropdownVehicleType(vehicleList.data)} {...rest} />
-            // case "amount":
-            //     return <FormikAmount key={index} {...rest} />;
+            case "amount":
+                return <FormikMaskInput
+                    thousandsSeparator=","
+                    mask={Number}
+                    autoComplete="off"
+                    {...rest}
+                />
+
             case "desc":
                 return <FormikInput key={index} multiline minRows={3} {...rest} />;
 
@@ -128,6 +143,7 @@ const EvacuationPermit = () => {
     const detailTransfer = [
         { id: 2, header: "نام کالا", accessor: "productName" },
         { id: 3, header: "برند", accessor: "brandName" },
+        { id: 3, header: "مقدار انتقال داده شده", accessor: "transferAmount", render: (params: any) => <Typography variant="h3">{`${separateAmountWithCommas(params.transferAmount)} ${params.product.productMainUnitDesc}`}</Typography> },
         {
             id: 4,
             header: "مقدار واقعی تخلیه شده",
@@ -136,14 +152,20 @@ const EvacuationPermit = () => {
             headerClassName: "headerClassName",
             render: (params: any) => {
                 return (
-                    <OutlinedInput
+                    <MaskInput
+                        thousandsSeparator=","
+                        mask={Number}
+                        label=""
+                        key={params.id}
                         sx={{ minWidth: 140 }}
-                        onChange={(e) => {
-                            handleRealAmountChange(
-                                params,
-                                e.target.value
-                            );
-                        }}
+                        onAccept={(value, mask) => handleRealAmountChange(params, mask.unmaskedValue)}
+
+                        // onChange={(e) => {
+                        //     handleRealAmountChange(
+                        //         params,
+                        //         e.target.value
+                        //     );
+                        // }}
                         inputRef={realAmount}
                         size="small"
                     />
@@ -160,12 +182,8 @@ const EvacuationPermit = () => {
                 return item
             }
         })
-        setEvacuationList(updatedLadingList);
+        setEvacuationList(updatedLadingList)
     };
-
-    const handleFilter = (values: any) => {
-
-    }
 
     const onSubmit = async (values: any) => {
         let attachments = base64Attachments.map((i) => {
@@ -174,24 +192,51 @@ const EvacuationPermit = () => {
             }
             return convert
         })
-        const formData: IExitRemittance = {
-            ladingLicenseId: +id,
-            bankAccountNo: values.bankAccountNo,
+        const formData: any = {
+            driverAccountNo: values.driverAccountNo,
+            driverCreditCardNo: values.driverCreditCardNo,
             bankAccountOwnerName: "",
-            creditCardNo: values.creditCardNo,
-            fareAmount: values.fareAmount,
-            otherAmount: values.otherAmount,
+            shippingName: values.shippingName,
+            plaque: values.carPlaque,
+            vehicleTypeId: values.vehicleTypeId,
+            driverMobile: values.driverMobile,
+            driverName: values.driverName,
+            deliverDate: values.deliverDate,
+            unloadingPlaceAddress: values.shippingName,
+            purchaseOrderTransferRemittanceEntrancePermitId: entranceId,
+            fareAmount: +values.fareAmount,
+            otherCosts: +values.otherAmount,
             description: values.description,
             attachments: attachments,
-            cargoExitPermitDetails: evacuationList.map((item: any) => ({
-                ladingLicenseDetailId: +item?.id,
-                realAmount: +item.realAmount,
-                productSubUnitId: +item.productSubUnitId,
-                productSubUnitAmount: +item.productSubUnitAmount,
+            purchaseOrderTransferRemittanceUnloadingPermitDetails: evacuationList.map((item: any) => ({
+                purchaseOrderTransferRemittanceDetailId: item?.id,
+                unloadedAmount: +item.realAmount,
             })),
         };
 
-        postExitRemittance.mutate(formData, {
+        let requiredRealAmount = evacuationList.some((item) => {
+            return !item.realAmount
+         })
+
+         let isValidRealAmount = evacuationList.some((item) => {
+            return item.realAmount > item.transferAmount
+         })
+         if(requiredRealAmount) {
+             enqueueSnackbar("افزودن مقدار واقعی تمامی اقلام سفارش اجباری می باشد", {
+                 variant: "error",
+                 anchorOrigin: { vertical: "top", horizontal: "center" },
+             });
+             return ;
+         } 
+         if(isValidRealAmount) {
+             enqueueSnackbar("مقدار واقعی بیشتر از مقدار ثبت شده است    ", {
+                 variant: "error",
+                 anchorOrigin: { vertical: "top", horizontal: "center" },
+             });
+             return ;
+         } 
+
+         postEvacuation.mutate(formData, {
             onSuccess: (res) => {
                 if (res.succeeded) {
                     enqueueSnackbar(res.message, {
@@ -205,13 +250,21 @@ const EvacuationPermit = () => {
                     });
                 }
             },
-        });
+        });    
+
+ 
+
+        console.log(formData)
+
     };
+
+    if(detailTools.isLoading) {
+        return <Backdrop loading={detailTools.isLoading} />
+    }
 
     return (
         <>
-            {postExitRemittance.isLoading && <Backdrop loading={postExitRemittance.isLoading} />}
-            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />} 
+            {postEvacuation.isLoading && <Backdrop loading={postEvacuation.isLoading} />}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">
                 {orderAndAmountInfo.map((item: {
                     title: string,
@@ -240,18 +293,23 @@ const EvacuationPermit = () => {
             </ReusableCard>
             <ReusableCard cardClassName="mt-4">
                 <Formik
-                    innerRef={formikRef}
                     enableReinitialize
-                    // initialValues={initialValues}
                     initialValues={
                         {
                             ...initialValues,
                             ...detailTools?.data?.data,
+                            fareAmount: detailTools?.data?.data?.fareAmount === 0 ? "" : detailTools?.data?.data?.fareAmount?.toString(),
+                            carPlaque: detailTools?.data?.data?.plaque ? detailTools?.data?.data?.plaque : "",
+                            vehicleTypeId: detailTools?.data?.data?.vehicleTypeId === 0 ? "" : detailTools?.data?.data?.vehicleTypeId,
+                            otherAmount: detailTools?.data?.data?.otherCosts === 0 ? "0" : detailTools?.data?.data?.otherAmount?.toString()
+                        
                         }
                     }
                     onSubmit={onSubmit}
+                    validationSchema={evacuationValidation}
+
                 >
-                    {({ values, setFieldValue }) => {
+                    {({ setFieldValue, handleSubmit }) => {
                         return (
                             <Form className="mt-8">
                                 {fields.map((rowFields, index) => (
@@ -268,24 +326,24 @@ const EvacuationPermit = () => {
 
                                 <Box
                                     component="div"
-                                    // className="flex items-center justify-center gap-x-4 mb-4"
                                     className="grid grid-cols-1 md:grid-cols-3 gap-x-4 mb-4 md:space-y-0 space-y-4"
                                 >
                                     <FormikInput
-                                        name="bankAccountNo"
+                                        name="driverAccountNo"
                                         label="شماره حساب راننده"
-                                    />
+                                        type="number"
+                                        />
                                     <FormikInput
-                                        name="creditCardNo"
+                                        name="driverCreditCardNo"
                                         label="شماره کارت راننده"
-                                    />
+                                        type="number"
+                                        />
                                     <FormikMaskInput
                                         thousandsSeparator=","
                                         mask={Number}
                                         name="otherAmount"
                                         label={"مقدار سایر هزینه ها"}
                                     />
-                                    {/* <FormikMaskInput */}
                                 </Box>
 
                                 <Box
@@ -317,7 +375,7 @@ const EvacuationPermit = () => {
                                 </Box>
                                 <Box component="div" className="mt-8">
                                     <Button
-                                        onClick={() => onSubmit(values)}
+                                        onClick={() => handleSubmit()}
                                         className="!bg-green-500 !text-white"
                                     >
                                         <Typography className="py-1">

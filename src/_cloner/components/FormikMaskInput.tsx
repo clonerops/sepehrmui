@@ -2,7 +2,8 @@ import MaskInput from "./MaskInput";
 import { ComponentProps, useEffect } from "react";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import cx from "classnames";
 
 export type FormikMaskProps = ComponentProps<typeof MaskInput> & {
   name: string;
@@ -23,17 +24,25 @@ const FormikMaskInput = (props: FormikMaskProps) => {
   }, [value]);
 
   return (
-    <MaskInput
-      {...getFormikFieldValidationProps(formikProps, name)}
-      {...field}
-      {...rest}
-      onAccept={(maskedValue: any, mask: any) => {
-        if (rest?.onAccept) rest.onAccept(maskedValue, mask);
-        else meta.setValue(mask.unmaskedValue);
-      }}
-      value={field.value || ""}
-      label={label}
-    />
+    <Box component={"div"} className={cx("w-full")}>
+      <MaskInput
+        {...getFormikFieldValidationProps(formikProps, name)}
+        {...field}
+        {...rest}
+        onAccept={(maskedValue: any, mask: any) => {
+          if (rest?.onAccept) rest.onAccept(maskedValue, mask);
+          else meta.setValue(mask.unmaskedValue);
+        }}
+        value={field.value || ""}
+        label={label}
+      />
+      {getFormikFieldValidationProps(formikProps, name).helpertext?.props.children &&
+        <Typography className="text-red-500">
+          {getFormikFieldValidationProps(formikProps, name).helpertext?.props.children}
+        </Typography>
+      }
+
+    </Box>
   );
 };
 

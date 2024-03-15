@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import { Form, Formik } from 'formik'
 import FormikInput from '../../../../_cloner/components/FormikInput'
@@ -7,7 +7,7 @@ import { Search } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../../_cloner/components/Pagination'
-import { useGetLadingLicenceList } from '../core/_hooks'
+import { useGetLadingLicenceList, useGetTransferRemitancesByMutation } from '../core/_hooks'
 import { evacuationColumns, ladingColumns } from '../../managment-order/helpers/columns'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 
@@ -16,13 +16,21 @@ const pageSize = 20
 const ReadyToEvacuation = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const ladingList = useGetLadingLicenceList();
-
+    const transferList = useGetTransferRemitancesByMutation()
+    useEffect(() => {
+      const filter = {
+        PageNumber: currentPage,
+        PageSize: 100,
+        IsEntranced: true
+      }
+      transferList.mutate(filter)
+    }, [currentPage])
+  
 
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/evacuation/${item?.row?.id}`}
+                to={`/dashboard/evacuation/${item?.row?.id}/${item?.row?.entrancePermitId}`}
             >
                 <Button variant="contained" color="secondary">
                     <Typography>صدور مجوز تخلیه</Typography>
@@ -36,9 +44,15 @@ const ReadyToEvacuation = () => {
     };
 
     const handleFilter = (values: any) => {
+        let formData = {
+          TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
+          PageNumber: currentPage,
+          PageSize: 100,
+          IsEntranced: true
+        };
+        transferList.mutate(formData);
+      }
         
-    }
-    
     return (
         <>
             <ReusableCard>
@@ -51,7 +65,7 @@ const ReadyToEvacuation = () => {
                             <form>
                                 <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
                                     <FormikInput
-                                        name="id"
+                                        name="TransferEntransePermitNo"
                                         label="شماره ورود"
                                     />
                                     <ButtonComponent onClick={() => handleFilter(values)}>
@@ -66,11 +80,11 @@ const ReadyToEvacuation = () => {
 
                 <MuiDataGrid
                     columns={evacuationColumns(renderAction)}
-                    rows={ladingList?.data?.data}
-                    data={ladingList?.data?.data}
-                    isLoading={ladingList.isLoading}
+                    rows={transferList?.data?.data}
+                    data={transferList?.data?.data}
+                    isLoading={transferList.isLoading}
                 />
-                <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
+                <Pagination pageCount={transferList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 
             </ReusableCard>
         </>
