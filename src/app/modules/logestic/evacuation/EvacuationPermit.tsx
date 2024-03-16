@@ -193,8 +193,8 @@ const EvacuationPermit = () => {
             return convert
         })
         const formData: any = {
-            driverAccountNo: values.driverAccountNo,
-            driverCreditCardNo: values.driverCreditCardNo,
+            driverAccountNo: values.driverAccountNo.toString(),
+            driverCreditCardNo: values.driverCreditCardNo.toString(),
             bankAccountOwnerName: "",
             shippingName: values.shippingName,
             plaque: values.carPlaque,
@@ -214,13 +214,15 @@ const EvacuationPermit = () => {
             })),
         };
 
+        console.log(formData)
+
         let requiredRealAmount = evacuationList.some((item) => {
             return !item.realAmount
          })
 
-         let isValidRealAmount = evacuationList.some((item) => {
-            return item.realAmount > item.transferAmount
-         })
+        //  let isValidRealAmount = evacuationList.some((item) => {
+        //     return item.realAmount > item.transferAmount
+        //  })
          if(requiredRealAmount) {
              enqueueSnackbar("افزودن مقدار واقعی تمامی اقلام سفارش اجباری می باشد", {
                  variant: "error",
@@ -228,13 +230,15 @@ const EvacuationPermit = () => {
              });
              return ;
          } 
-         if(isValidRealAmount) {
-             enqueueSnackbar("مقدار واقعی بیشتر از مقدار ثبت شده است    ", {
-                 variant: "error",
-                 anchorOrigin: { vertical: "top", horizontal: "center" },
-             });
-             return ;
-         } 
+        //  if(isValidRealAmount) {
+        //      enqueueSnackbar("مقدار واقعی بیشتر از مقدار ثبت شده است    ", {
+        //          variant: "error",
+        //          anchorOrigin: { vertical: "top", horizontal: "center" },
+        //      });
+        //      return ;
+        //  } 
+
+        console.log(JSON.stringify(formData))
 
          postEvacuation.mutate(formData, {
             onSuccess: (res) => {
@@ -251,11 +255,6 @@ const EvacuationPermit = () => {
                 }
             },
         });    
-
- 
-
-        console.log(formData)
-
     };
 
     if(detailTools.isLoading) {

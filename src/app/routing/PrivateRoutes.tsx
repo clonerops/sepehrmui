@@ -10,6 +10,7 @@ import EntranceList from "../modules/logestic/entrance/EntranceList";
 import EntranceLading from "../modules/logestic/entrance/EntranceLading";
 import ReadyToEvacuation from "../modules/logestic/evacuation/ReadyToEvacuation";
 import EvacuationPermit from "../modules/logestic/evacuation/EvacuationPermit";
+import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -209,6 +210,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/payment", element: <RecievePayment /> },
     { path: "dashboard/payment/accounting", element: <PaymentAccounting /> },
     { path: "dashboard/payment/accounting/:id", element: <Detail /> },
+    { path: "dashboard/payment/edit/:id", element: <RecievePaymentEdit /> },
     { path: "dashboard/brands", element: <Brands /> },
     { path: "dashboard/productTypes", element: <ProductTypes /> },
     { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },

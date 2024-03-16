@@ -1,6 +1,5 @@
-import { AttachMoney, CarCrash, DateRange, DateRangeRounded, Description, ExitToApp, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, LocalShipping, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
+import {  CarCrash, DateRange, DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import MuiTable from "../../../../_cloner/components/MuiTable"
 import { Typography } from "@mui/material"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
@@ -11,7 +10,6 @@ import Backdrop from "../../../../_cloner/components/Backdrop"
 const BilllandingDetails = () => {
     const { id }: any = useParams()
     const detailTools = useGetTransferRemitanceById(id)
-
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره حواله", icon: <NumbersOutlined color="secondary" />, value: detailTools?.data?.data?.id },
@@ -50,6 +48,8 @@ const BilllandingDetails = () => {
     if(detailTools.isLoading) {
         return <Backdrop loading={detailTools.isLoading} />
     }
+
+    console.log("detailTools.isLoading", detailTools.isLoading)
 
     return (
         <>

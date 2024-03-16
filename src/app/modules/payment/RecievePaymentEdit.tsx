@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Form, Formik } from 'formik'
-import { Box, Button, Typography } from '@mui/material'
+import { Formik } from 'formik'
+import { Button, Typography } from '@mui/material'
 import moment from 'moment-jalaali'
 
-import { usePostRecievePayment } from './core/_hooks'
+import { useGetRecievePaymentById, usePostRecievePayment, useUpdateRecievePaymentById } from './core/_hooks'
 import { dropdownReceivePaymentResource } from './helpers/dropdownConvert'
-import { useGetCustomers } from '../customer/core/_hooks'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 
@@ -16,11 +15,11 @@ import Backdrop from '../../../_cloner/components/Backdrop'
 import FormikPrice from '../../../_cloner/components/FormikPrice'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
-import { dropdownCustomer } from '../generic/_functions'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 import { DateRange, Paid } from '@mui/icons-material'
 import FormikDescription from '../../../_cloner/components/FormikDescription'
 import FormikCustomer from '../../../_cloner/components/FormikCustomer'
+import { useParams } from 'react-router-dom'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -34,16 +33,20 @@ const initialValues = {
     ReceivePaymentSourceFromId: "",
     ReceiveFromCustomerId: "",
     ReceivePaymentSourceToId: "",
-    PayToCustomerId: "",
-    AccountingDocumentNumber: ""
+    PayToCustomerId: ""
 
 }
 
-const RecievePayment = () => {
+const RecievePaymentEdit = () => {
+    const { id }: any = useParams()
+
     const [trachingCode, setTrachingCode] = useState<any>(0)
 
-    const { mutate, isLoading } = usePostRecievePayment()
+    const { mutate, isLoading } = useUpdateRecievePaymentById()
     const { data: paymentResource } = useGetReceivePaymentSources()
+
+    const detailTools = useGetRecievePaymentById(id)
+
 
     const [files, setFiles] = useState<File[]>([]);
 
@@ -65,9 +68,13 @@ const RecievePayment = () => {
 
             <ReusableCard>
                 <div className='mt-2'>
-                    <Formik initialValues={initialValues} onSubmit={
+                    <Formik initialValues={{
+                        ...initialValues,
+                        ...detailTools?.data?.data
+                    }} onSubmit={
                         async (values: any) => {
                             const formData: any = new FormData()
+                            formData.append("Id", id)
                             formData.append("ReceivePaymentSourceFromId", Number(values.ReceivePaymentSourceFromId))
                             // formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId)
                             formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId.value)
@@ -118,7 +125,6 @@ const RecievePayment = () => {
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
                                     <FormikInput name='CompanyName' label='نام شرکت' type='text' />
                                     <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
-                                    <FormikInput name='AccountingDocumentNumber' label='شماره سند حسابداری' type='text' />
                                 </div>
                                 <div className='grid grid-cols-1 my-8'>
                                         <FormikDescription name='Description' label='توضیحات' type='text' />
@@ -139,4 +145,4 @@ const RecievePayment = () => {
     )
 }
 
-export default RecievePayment
+export default RecievePaymentEdit

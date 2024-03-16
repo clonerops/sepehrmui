@@ -122,8 +122,8 @@ const useGetTransferRemitancesByMutation = () => {
 };
 const useGetTransferRemitanceById = (id: string) => {
     return useQuery(["transferRemittance", id], () => api.getTransferRemitanceById(id), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
+        refetchOnMount: true,
+        refetchOnWindowFocus: true,
         refetchIntervalInBackground: false
     });
 };

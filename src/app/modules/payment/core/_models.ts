@@ -17,3 +17,11 @@ export interface IAttachment {
     id: string | null | undefined
     fileData: string 
 }
+
+export interface IPaymentFilter {
+    IsApproved?: number | null | undefined
+    FromDate?:  string | null | undefined
+    ToDate?:  string | null | undefined
+    PageNumber?:  number | null | undefined
+    PageSize?:  number | null | undefined
+}
