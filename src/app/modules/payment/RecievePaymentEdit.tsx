@@ -20,20 +20,21 @@ import { DateRange, Paid } from '@mui/icons-material'
 import FormikDescription from '../../../_cloner/components/FormikDescription'
 import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 import { useParams } from 'react-router-dom'
+import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 
 const initialValues = {
-    ReceivedFrom: "",
-    PayTo: "",
-    AccountOwner: "",
-    Amount: "",
-    TrachingCode: "",
-    CompanyName: "",
-    ContractCode: "",
-    Description: "",
-    ReceivePaymentSourceFromId: "",
-    ReceiveFromCustomerId: "",
-    ReceivePaymentSourceToId: "",
-    PayToCustomerId: ""
+    receivedFrom: "",
+    payTo: "",
+    accountOwner: "",
+    amount: "",
+    trachingCode: "",
+    companyName: "",
+    contractCode: "",
+    description: "",
+    receivePaymentSourceFromId: "",
+    receiveFromCustomerId: "",
+    receivePaymentSourceToId: "",
+    payToCustomerId: ""
 
 }
 
@@ -49,15 +50,19 @@ const RecievePaymentEdit = () => {
 
 
     const [files, setFiles] = useState<File[]>([]);
-
+    console.log({
+        ...initialValues,
+        ...detailTools?.data?.data
+    })
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
                 <CardWithIcons
                     title='شماره'
                     icon={<Paid className="text-white" />}
-                    value={trachingCode || 0}
+                    value={trachingCode ? trachingCode : detailTools?.data?.data?.trachingCode || 0}
                     iconClassName='bg-[#F8B30E]' />
                 <CardWithIcons
                     title='تاریخ ثبت'
@@ -68,25 +73,26 @@ const RecievePaymentEdit = () => {
 
             <ReusableCard>
                 <div className='mt-2'>
-                    <Formik initialValues={{
+                    <Formik enableReinitialize initialValues={{
                         ...initialValues,
-                        ...detailTools?.data?.data
+                        ...detailTools?.data?.data, 
+                        amount: detailTools?.data?.data?.amount ? separateAmountWithCommas(detailTools?.data?.data?.amount) : ""
                     }} onSubmit={
                         async (values: any) => {
                             const formData: any = new FormData()
                             formData.append("Id", id)
-                            formData.append("ReceivePaymentSourceFromId", Number(values.ReceivePaymentSourceFromId))
+                            formData.append("ReceivePaymentSourceFromId", Number(values.receivePaymentSourceFromId))
                             // formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId)
-                            formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId.value)
-                            formData.append("ReceivePaymentSourceToId", values.ReceivePaymentSourceToId)
-                            formData.append("Amount", Number(values.Amount?.replace(/,/g, "")))
+                            formData.append("ReceiveFromCustomerId", values.receiveFromCustomerId.value)
+                            formData.append("ReceivePaymentSourceToId", values.receivePaymentSourceToId)
+                            formData.append("Amount", Number(values.amount?.replace(/,/g, "")))
                             // formData.append("PayToCustomerId", values.PayToCustomerId)
-                            formData.append("PayToCustomerId", values.PayToCustomerId.value)
-                            formData.append("AccountOwner", values.AccountOwner)
-                            formData.append("TrachingCode", values.TrachingCode)
-                            formData.append("CompanyName", values.CompanyName)
-                            formData.append("ContractCode", values.ContractCode)
-                            formData.append("Description", values.Description)
+                            formData.append("PayToCustomerId", values.payToCustomerId.value)
+                            formData.append("AccountOwner", values.accountOwner)
+                            formData.append("TrachingCode", values.trachingCode)
+                            formData.append("CompanyName", values.companyName)
+                            formData.append("ContractCode", values.contractCode)
+                            formData.append("Description", values.description)
                             files.forEach((file) => {
                                 formData.append('Attachments', file);
                             });
@@ -105,26 +111,26 @@ const RecievePaymentEdit = () => {
                         {({ handleSubmit, values }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
-                                    <FormikSelect name='ReceivePaymentSourceFromId' label='دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {Number(values.ReceivePaymentSourceFromId) == 1 &&
+                                    <FormikSelect name='receivePaymentSourceFromId' label='دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    {Number(values.receivePaymentSourceFromId) == 1 &&
                                         // <FormikSelect name='ReceiveFromCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
-                                        <FormikCustomer name='ReceiveFromCustomerId' label='نام مشتری' />
+                                        <FormikCustomer name='receiveFromCustomerId' label='نام مشتری' />
                                     }
-                                    <FormikSelect name='ReceivePaymentSourceToId' label='پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {Number(values.ReceivePaymentSourceToId) == 1 &&
-                                     <FormikCustomer name='PayToCustomerId' label='نام مشتری' />
+                                    <FormikSelect name='receivePaymentSourceToId' label='پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    {Number(values.receivePaymentSourceToId) == 1 &&
+                                     <FormikCustomer name='payToCustomerId' label='نام مشتری' />
                                         // <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
                                     }
-                                    <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
+                                    <FormikInput name='accountOwner' label='صاحب حساب' type='text' />
                                     <div className='flex flex-col'>
-                                        <FormikPrice name='Amount' label='مبلغ' type='text' />
+                                        <FormikPrice name='amount' label='مبلغ' type='text' />
                                         {/* <Typography variant='subtitle1' color="secondary">{separateAmountWithCommas(values.Amount)}</Typography> */}
                                         <Typography variant='subtitle1' color="primary">{convertToPersianWord(Number(values.Amount?.replace(/,/g, "")))} تومان</Typography>
                                     </div>
 
-                                    <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
-                                    <FormikInput name='CompanyName' label='نام شرکت' type='text' />
-                                    <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
+                                    <FormikInput name='trachingCode' label='کد پیگیری' type='text' />
+                                    <FormikInput name='companyName' label='نام شرکت' type='text' />
+                                    <FormikInput name='contractCode' label='کد قرارداد' type='text' />
                                 </div>
                                 <div className='grid grid-cols-1 my-8'>
                                         <FormikDescription name='Description' label='توضیحات' type='text' />
