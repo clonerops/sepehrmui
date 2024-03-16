@@ -11,6 +11,8 @@ import EntranceLading from "../modules/logestic/entrance/EntranceLading";
 import ReadyToEvacuation from "../modules/logestic/evacuation/ReadyToEvacuation";
 import EvacuationPermit from "../modules/logestic/evacuation/EvacuationPermit";
 import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
+import EntranceReport from "../modules/report/EntranceReport";
+import LadingReport from "../modules/report/LadingReport";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -205,6 +207,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },
     { path: "dashboard/exit/:id", element: <ExitRemittance /> },
+    { path: "dashboard/ladingReport", element: <LadingReport /> },
     { path: "dashboard/lading_list", element: <LadingList /> },
     { path: "dashboard/exitRemittanceList", element: <ExitRemittanceList /> },
     { path: "dashboard/payment", element: <RecievePayment /> },
@@ -231,6 +234,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/transferRemittance", element: <TransferRemitancesList /> },
     { path: "dashboard/transferRemittance/:id", element: <TransferRemittanceDetails /> },
     { path: "dashboard/entranceList", element: <EntranceList /> },
+    { path: "dashboard/entranceReport", element: <EntranceReport /> },
     { path: "dashboard/entranceLading", element: <EntranceLading /> },
     { path: "dashboard/ready_to_evacuation", element: <ReadyToEvacuation /> },
 

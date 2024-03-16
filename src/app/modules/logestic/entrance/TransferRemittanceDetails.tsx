@@ -75,7 +75,7 @@ const TransferRemittanceDetails = () => {
         entranceTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
-                    renderAlert(response.message)
+                    renderAlert(`مجوز ورود با شماره ${response.data.permitCode} با موفقیت ثبت گردید`)
                 } else {
                     EnqueueSnackbar(response.data.Message, "error")
                 }

@@ -243,7 +243,7 @@ const Billlanding = () => {
         transfer.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
-                    renderAlert("صدور حواله انتقال با موفقیت انجام گردید")                        
+                    renderAlert(`حواله انتقال با شماره ${response.data.id} با موفقیت انجام پذیرفت`)                        
 
                 } else {
                     EnqueueSnackbar(response.data.Errors[0], "error")
