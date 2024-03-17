@@ -138,6 +138,12 @@ const SalesOrder = () => {
                         </div>
 
                         <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
+                            <ReusableCard>
+                                <CustomerChoose 
+                                formikRef={formikRef} 
+                                openModalState={setIsOpen} 
+                                postSaleOrder={postSaleOrder} />
+                            </ReusableCard>
                             <ReusableCard cardClassName='lg:col-span-3'>
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
@@ -153,12 +159,6 @@ const SalesOrder = () => {
                                     values={values}
                                     setFieldValue={setFieldValue}
                                 />
-                            </ReusableCard>
-                            <ReusableCard>
-                                <CustomerChoose 
-                                formikRef={formikRef} 
-                                openModalState={setIsOpen} 
-                                postSaleOrder={postSaleOrder} />
                             </ReusableCard>
                         </div>
                         <Box component="div" className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
