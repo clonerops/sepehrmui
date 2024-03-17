@@ -272,7 +272,6 @@ const BilllandingEdit = () => {
             id: +id,
           
         }
-        console.log(JSON.stringify(formData))
         updateTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {

@@ -66,7 +66,7 @@ const BilllandingDetails = () => {
         }
     }
 
-    const hadelDownload = () => {
+    const hadelDownloadEntrance = () => {
         if (detailTools?.data?.data.entrancePermit?.attachments?.length === 0) {
             alert("فایلی برای دانلود وجود ندارد")
         } else {
@@ -91,13 +91,41 @@ const BilllandingDetails = () => {
             });
         }
     };
+    const hadelDownloadEvacuation = () => {
+        if (detailTools?.data?.data.entrancePermit?.unloadingPermits?.length === 0) {
+            alert("فایلی برای دانلود وجود ندارد")
+        } else {
+            detailTools?.data?.data.entrancePermit?.unloadingPermits[0]?.attachments?.forEach((element: any) => {
+                switch (detectMimeType(element.fileData)) {
+                    case "image/png":
+                        const outputFilenamePng = `filesattachments${Date.now()}.png`;
+                        DownloadFilePNG(element.fileData, outputFilenamePng)
+                        break;
+                    case "image/jpg":
+                        const outputFilenameJpg = `filesattachments${Date.now()}.jpg`;
+                        DownloadFileJPG(element.fileData, outputFilenameJpg)
+                        break;
+                    case "image/jpeg":
+                        const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
+                        DownloadFileJPEG(element.fileData, outputFilenameJpeg)
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+        }
+    };
 
 
     return (
         <>
-            <div className='flex justify-end items-end mb-2' >
-                <Button variant="contained" onClick={hadelDownload} color="primary">
+            <div className='flex justify-end items-end mb-2 gap-x-4' >
+                <Button variant="contained" onClick={hadelDownloadEntrance} color="primary">
                     <Typography>{"دانلود ضمیمه ثبت برای حواله ورود"}</Typography>
+                </Button>
+                <Button variant="contained" onClick={hadelDownloadEvacuation} color="secondary">
+                    <Typography>{"دانلود ضمیمه ثبت برای مجوز تخلیه"}</Typography>
                 </Button>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">

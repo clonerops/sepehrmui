@@ -15,6 +15,18 @@ export const billlandingColumns = (renderAction: any) => {
             headerName: 'تاریخ حواله', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
+            field: 'entrancePermitCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره ورود', headerClassName: "headerClassName", minWidth: 90, flex: 1
+        },
+        {
+            field: 'entrancePermitDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 90, flex: 1
+        },
+        {
             field: 'transferRemittanceStatusDesc', renderCell: (params: any) => {
                 return params.row.transferRemittanceStatusId === 2 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography>
             },
