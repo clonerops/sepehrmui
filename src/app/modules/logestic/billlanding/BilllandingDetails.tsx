@@ -1,11 +1,20 @@
 import {  CarCrash, DateRange, DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
 import MuiTable from "../../../../_cloner/components/MuiTable"
-import { Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
 import { useGetTransferRemitanceById } from "../core/_hooks"
 import { useParams } from "react-router-dom"
 import Backdrop from "../../../../_cloner/components/Backdrop"
+import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
+
+var signatures: any = {
+    JVBERi0: "application/pdf",
+    R0lGODdh: "image/gif",
+    R0lGODlh: "image/gif",
+    iVBORw0KGgo: "image/png",
+    "/9j/": "image/jpg"
+};
 
 const BilllandingDetails = () => {
     const { id }: any = useParams()
@@ -49,10 +58,48 @@ const BilllandingDetails = () => {
         return <Backdrop loading={detailTools.isLoading} />
     }
 
-    console.log("detailTools.isLoading", detailTools.isLoading)
+    function detectMimeType(b64: any) {
+        for (var s in signatures) {
+            if (b64.indexOf(s) === 0) {
+                return signatures[s];
+            }
+        }
+    }
+
+    const hadelDownload = () => {
+        if (detailTools?.data?.data.entrancePermit?.attachments?.length === 0) {
+            alert("فایلی برای دانلود وجود ندارد")
+        } else {
+            detailTools?.data?.data.entrancePermit?.attachments?.forEach((element: any) => {
+                switch (detectMimeType(element.fileData)) {
+                    case "image/png":
+                        const outputFilenamePng = `filesattachments${Date.now()}.png`;
+                        DownloadFilePNG(element.fileData, outputFilenamePng)
+                        break;
+                    case "image/jpg":
+                        const outputFilenameJpg = `filesattachments${Date.now()}.jpg`;
+                        DownloadFileJPG(element.fileData, outputFilenameJpg)
+                        break;
+                    case "image/jpeg":
+                        const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
+                        DownloadFileJPEG(element.fileData, outputFilenameJpeg)
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+        }
+    };
+
 
     return (
         <>
+            <div className='flex justify-end items-end mb-2' >
+                <Button variant="contained" onClick={hadelDownload} color="primary">
+                    <Typography>{"دانلود ضمیمه ثبت برای حواله ورود"}</Typography>
+                </Button>
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">
                 {orderAndAmountInfo.map((item: {
                     title: string,

@@ -39,7 +39,7 @@ const getRecievePaymentById = async (id:string) => {
 }
 const updateRecievePaymentById = async (formData: any) => {
     try {
-        const { data } = await http.put(`/v1/ReceivePay/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/ReceivePay/${formData.get("Id")}`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response

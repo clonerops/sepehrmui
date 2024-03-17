@@ -22,21 +22,6 @@ import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 import { useParams } from 'react-router-dom'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 
-const initialValues = {
-    receivedFrom: "",
-    payTo: "",
-    accountOwner: "",
-    amount: "",
-    trachingCode: "",
-    companyName: "",
-    contractCode: "",
-    description: "",
-    receivePaymentSourceFromId: "",
-    receiveFromCustomerId: "",
-    receivePaymentSourceToId: "",
-    payToCustomerId: ""
-
-}
 
 const RecievePaymentEdit = () => {
     const { id }: any = useParams()
@@ -47,13 +32,24 @@ const RecievePaymentEdit = () => {
     const { data: paymentResource } = useGetReceivePaymentSources()
 
     const detailTools = useGetRecievePaymentById(id)
-
+    const initialValues = {
+        receivedFrom: "",
+        payTo: "",
+        accountOwner: "",
+        amount: "",
+        trachingCode: "",
+        companyName: "",
+        contractCode: "",
+        description: "",
+        receivePaymentSourceFromId: "",
+        receiveFromCustomerId: "",
+        receivePaymentSourceToId: "",
+        payToCustomerId: ""
+    
+    }
+    
 
     const [files, setFiles] = useState<File[]>([]);
-    console.log({
-        ...initialValues,
-        ...detailTools?.data?.data
-    })
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
@@ -76,7 +72,10 @@ const RecievePaymentEdit = () => {
                     <Formik enableReinitialize initialValues={{
                         ...initialValues,
                         ...detailTools?.data?.data, 
-                        amount: detailTools?.data?.data?.amount ? separateAmountWithCommas(detailTools?.data?.data?.amount) : ""
+                        amount: detailTools?.data?.data?.amount ? separateAmountWithCommas(detailTools?.data?.data?.amount) : "",
+                        receiveFromCustomerId: detailTools?.data?.data?.receiveFromCustomerName || "",
+                        payToCustomerId: detailTools?.data?.data?.payToCustomerName || "",
+
                     }} onSubmit={
                         async (values: any) => {
                             const formData: any = new FormData()
@@ -139,7 +138,7 @@ const RecievePaymentEdit = () => {
                                     <FileUpload files={files} setFiles={setFiles} />
                                 </div>
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                    <Typography variant="h3" className="px-8 py-2">ثبت دریافت و پرداخت</Typography>
+                                    <Typography variant="h3" className="px-8 py-2">ویرایش دریافت و پرداخت</Typography>
                                 </Button>
                             </form>
                         }}

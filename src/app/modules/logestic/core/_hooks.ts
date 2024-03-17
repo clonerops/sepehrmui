@@ -140,7 +140,7 @@ const useUpdateTransferRemitance = () => {
 
 // Entrance Permissions 
 const useEntrancePermission = () => {
-    return useMutation((formData: {id: number}) => {
+    return useMutation((formData: {purchaseOrderTransferRemittanceId: number}) => {
         return api.entrancePermission(formData);
     });
 };

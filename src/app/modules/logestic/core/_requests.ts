@@ -192,9 +192,9 @@ const editTransferRemitance = async (formdata: ITransferRemittance) => {
 
 
 // Entrance Permission
-const entrancePermission = async (formData: {id: number}) => {
+const entrancePermission = async (formData: {purchaseOrderTransferRemittanceId: number}) => {
     try {
-        const { data } = await http.put(`/v1/PurchaseOrder/TransferRemittanceEntrancePermission/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/PurchaseOrder/TransferRemittanceEntrancePermission/${formData.purchaseOrderTransferRemittanceId}`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response

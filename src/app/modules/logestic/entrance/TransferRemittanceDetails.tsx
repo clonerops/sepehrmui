@@ -69,7 +69,7 @@ const TransferRemittanceDetails = () => {
         })
 
         const formData = {
-            id: +id,
+            purchaseOrderTransferRemittanceId: +id,
             attachments: attachments
         }
         entranceTools.mutate(formData, {
@@ -84,6 +84,8 @@ const TransferRemittanceDetails = () => {
         setApprove(false)
 
     }
+
+
 
     return (
         <>
