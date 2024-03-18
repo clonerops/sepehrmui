@@ -107,12 +107,13 @@ const ExitRemiitance = () => {
             },
             {
                 id: 4,
-                header: "واحد فرعی",
-                accessor: "productSubUnitDesc",
+                header: "واحد اصلی",
+                accessor: "productMainUnitDesc",
                 flex: 1,
                 headerClassName: "headerClassName",
                 render: (params: any) => {
-                    return <Typography>{params.productSubUnitDesc}</Typography>;
+                    console.log('params', params)
+                    return <Typography>{params.productMainUnitDesc}</Typography>;
                 },
             },
             {
@@ -174,6 +175,7 @@ const ExitRemiitance = () => {
 
     useEffect(() => {
         if (data?.data?.ladingLicenseDetails.length > 0) {
+            console.log("data?.data?.ladingLicenseDetails", data?.data?.ladingLicenseDetails)
             const destructureData = data?.data?.ladingLicenseDetails.map(
                 (item: any) => {
                     return {
@@ -184,6 +186,8 @@ const ExitRemiitance = () => {
                         proximateAmount: Math.ceil(+item?.ladingAmount / +item.orderDetail?.product?.exchangeRate),
                         productSubUnitDesc:
                             item?.orderDetail?.productSubUnitDesc,
+                        productMainUnitDesc:
+                            item?.orderDetail?.product.productMainUnitDesc,
                         productSubUnitId:
                             item?.orderDetail?.productSubUnitId,
                         productSubUnitAmount: 0,

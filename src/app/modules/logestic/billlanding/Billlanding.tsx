@@ -131,6 +131,7 @@ const Billlanding = () => {
                 headerName: "موجودی خرید",
                 headerClassName: "headerClassName",
                 minWidth: 120,
+                maxWidth: 120,
                 flex: 1,
             },
             {
