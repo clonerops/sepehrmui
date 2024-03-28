@@ -112,7 +112,6 @@ const ExitRemiitance = () => {
                 flex: 1,
                 headerClassName: "headerClassName",
                 render: (params: any) => {
-                    console.log('params', params)
                     return <Typography>{params.productMainUnitDesc}</Typography>;
                 },
             },
@@ -175,7 +174,6 @@ const ExitRemiitance = () => {
 
     useEffect(() => {
         if (data?.data?.ladingLicenseDetails.length > 0) {
-            console.log("data?.data?.ladingLicenseDetails", data?.data?.ladingLicenseDetails)
             const destructureData = data?.data?.ladingLicenseDetails.map(
                 (item: any) => {
                     return {

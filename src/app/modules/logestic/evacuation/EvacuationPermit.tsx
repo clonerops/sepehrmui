@@ -48,7 +48,7 @@ const initialValues = {
     fareAmount: "",
     unloadingPlaceAddress: "",
     driverAccountNo: "",
-    driverCreditCardNo: "",
+    // driverCreditCardNo: "",
     otherAmount: "",
 };
 
@@ -110,6 +110,8 @@ const EvacuationPermit = () => {
             { label: "شماره همراه راننده", name: "driverMobile", type: "input" },
             { label: "تاریخ تحویل", name: "deliverDate", type: "datepicker" },
             { label: "مبلغ کرایه", name: "fareAmount", type: "amount" },
+            { label: "شماره حساب راننده", name: "driverAccountNo", type: "input" },
+            { label: "سایر هزینه ها", name: "otherAmount", type: "amount" },
         ],
         [
             { label: "آدرس محل تخلیه", name: "unloadingPlaceAddress", type: "desc" },
@@ -194,7 +196,7 @@ const EvacuationPermit = () => {
         })
         const formData: any = {
             driverAccountNo: values.driverAccountNo.toString(),
-            driverCreditCardNo: values.driverCreditCardNo.toString(),
+            // driverCreditCardNo: values.driverCreditCardNo.toString(),
             bankAccountOwnerName: "",
             shippingName: values.shippingName,
             plaque: values.carPlaque,
@@ -213,9 +215,7 @@ const EvacuationPermit = () => {
                 unloadedAmount: +item.realAmount,
             })),
         };
-
-        console.log(formData)
-
+        
         let requiredRealAmount = evacuationList.some((item) => {
             return !item.realAmount
          })
@@ -320,7 +320,7 @@ const EvacuationPermit = () => {
                                         )}
                                     </div>
                                 ))}
-
+{/* 
                                 <Box
                                     component="div"
                                     className="grid grid-cols-1 md:grid-cols-3 gap-x-4 mb-4 md:space-y-0 space-y-4"
@@ -328,7 +328,7 @@ const EvacuationPermit = () => {
                                     <FormikInput
                                         name="driverAccountNo"
                                         label="شماره حساب راننده"
-                                        type="number"
+                                        type="text"
                                         />
                                     <FormikInput
                                         name="driverCreditCardNo"
@@ -341,7 +341,7 @@ const EvacuationPermit = () => {
                                         name="otherAmount"
                                         label={"مقدار سایر هزینه ها"}
                                     />
-                                </Box>
+                                </Box> */}
 
                                 <Box
                                     component="div"

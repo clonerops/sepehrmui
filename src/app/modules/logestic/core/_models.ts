@@ -72,7 +72,7 @@ export interface IEvacuationPermit {
   purchaseOrderTransferRemittanceOnloadingPermitId?: number | null | undefined
   driverAccountNo?: string | null | undefined
   bankAccountOwnerName?: string | null | undefined
-  driverCreditCardNo?: string | null | undefined
+  // driverCreditCardNo?: string | null | undefined
   shippingName?: string | null | undefined
   fareAmount?: number | null | undefined
   otherCosts?: number | null | undefined

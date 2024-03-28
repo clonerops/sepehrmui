@@ -145,6 +145,7 @@ const CargoEditForm = () => {
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
+            <Typography color="primary" variant="h1" className="pb-8">ویرایش اعلام بار</Typography>
             <Box component="div" className={`grid grid-cols-1 md:grid-cols-5 gap-4 my-4`}>
                 {orderAndAmountInfoInCargo.map((item: {
                     title: string,
