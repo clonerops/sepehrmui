@@ -1,25 +1,53 @@
-import React, { Suspense } from "react";
+import React from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
-import ReadyToExit from "../modules/logestic/exit/ReadyToExit";
-import Permissions from "../modules/access/permissions/Permissions";
-import TransferRemitancesList from "../modules/logestic/entrance/TransferRemittancesList";
-import TransferRemittanceDetails from "../modules/logestic/entrance/TransferRemittanceDetails";
-import BilllandingEdit from "../modules/logestic/billlanding/BilllandingEdit";
-import EntranceList from "../modules/logestic/entrance/EntranceList";
-import EntranceLading from "../modules/logestic/entrance/EntranceLading";
-import ReadyToEvacuation from "../modules/logestic/evacuation/ReadyToEvacuation";
-import EvacuationPermit from "../modules/logestic/evacuation/EvacuationPermit";
-import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
-import EntranceReport from "../modules/report/EntranceReport";
-import LadingReport from "../modules/report/LadingReport";
-import PaymentAccountingRegister from "../modules/payment/PaymentAccountingRegister";
-import SinglePaymentRegister from "../modules/payment/components/SinglePaymentRegister";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
 const Products = React.lazy(() => import("../modules/generic/products/Products"));
 const Suppliers = React.lazy(() => import("../modules/generic/productSuppliers/Suppliers"));
+const ReadyToExit = React.lazy(
+    () => import("../modules/logestic/exit/ReadyToExit")
+);
+const Permissions = React.lazy(
+    () => import("../modules/access/permissions/Permissions")
+);
+const TransferRemitancesList = React.lazy(
+    () => import("../modules/logestic/entrance/TransferRemittancesList")
+);
+const TransferRemittanceDetails = React.lazy(
+    () => import("../modules/logestic/entrance/TransferRemittanceDetails")
+);
+const BilllandingEdit = React.lazy(
+    () => import("../modules/logestic/billlanding/BilllandingEdit")
+);
+const EntranceList = React.lazy(
+    () => import("../modules/logestic/entrance/EntranceList")
+);
+const EntranceLading = React.lazy(
+    () => import("../modules/logestic/entrance/EntranceLading")
+);
+const ReadyToEvacuation = React.lazy(
+    () => import("../modules/logestic/evacuation/ReadyToEvacuation")
+);
+const EvacuationPermit = React.lazy(
+    () => import("../modules/logestic/evacuation/EvacuationPermit")
+);
+const RecievePaymentEdit = React.lazy(
+    () => import("../modules/payment/RecievePaymentEdit")
+);
+const EntranceReport = React.lazy(
+    () => import("../modules/report/EntranceReport")
+);
+const LadingReport = React.lazy(
+    () => import("../modules/report/LadingReport")
+);
+const PaymentAccountingRegister = React.lazy(
+    () => import("../modules/payment/PaymentAccountingRegister")
+);
+const SinglePaymentRegister = React.lazy(
+    () => import("../modules/payment/components/SinglePaymentRegister")
+);
 const Billlanding = React.lazy(
     () => import("../modules/logestic/billlanding/Billlanding")
 );
@@ -131,9 +159,6 @@ const ProductInventories = React.lazy(
 );
 const ProductInventoriesSepehr = React.lazy(
     () => import("../modules/generic/productInventories/productInventorySepehr/ProductInventories")
-);
-const ProductForm = React.lazy(
-    () => import("../modules/generic/products/ProductForm")
 );
 const ProductService = React.lazy(
     () => import("../modules/generic/productService/ProductService")

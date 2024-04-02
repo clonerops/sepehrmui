@@ -84,7 +84,7 @@ const PaymentAccounting = () => {
                     <Typography variant="h4">
                         {value.row.receivePaymentSourceFromDesc +
                             " " +
-                            (value.row?.receiveFromCustomerName === null
+                            (value.row?.receivePaymentSourceFromId !== 1
                                 ? ""
                                 : value.row?.receiveFromCustomerName)}
                     </Typography>
@@ -99,7 +99,7 @@ const PaymentAccounting = () => {
                     <Typography variant="h4">
                         {value.row.receivePaymentSourceToDesc +
                             " " +
-                            (value.row?.payToCustomerName === null
+                            (value.row?.receivePaymentSourceToId !== 1
                                 ? ""
                                 : value.row?.payToCustomerName)}
                     </Typography>

@@ -1,13 +1,12 @@
 import { useParams } from "react-router-dom"
-import { Badge, Box, Button, Container, Typography } from "@mui/material"
+import { Badge, Box, Button, Typography } from "@mui/material"
 import { useGetRecievePaymentById, useUpdatePaymentApproved } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import Backdrop from "../../../../_cloner/components/Backdrop"
-import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
-import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, Paid, Person, Source } from "@mui/icons-material"
+import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, Person, Source } from "@mui/icons-material"
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog"
 import { useState } from "react"
 

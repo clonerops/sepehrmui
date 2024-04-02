@@ -1,6 +1,6 @@
 import { http, httpFormData } from "../../../../_cloner/helpers/axiosConfig"
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl"
-import { IPayment, IPaymentFilter } from "./_models"
+import {  IPaymentFilter } from "./_models"
 
 const getRecievePaymentByApproved = async (approvied:string = "0") => {
     try {

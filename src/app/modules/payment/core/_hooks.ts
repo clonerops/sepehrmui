@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IPayment, IPaymentFilter } from "./_models";
+import { IPaymentFilter } from "./_models";
 import * as api from "./_requests";
 
 const useGetRecievePaymentByApproved = () => {

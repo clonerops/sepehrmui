@@ -1,12 +1,13 @@
+// eslint-disable-next-line
 import { useParams } from "react-router-dom"
 import { Badge, Box, Button, Typography } from "@mui/material"
-import { useGetRecievePaymentById, usePutRecievePaymentRegister, useUpdatePaymentApproved } from "../core/_hooks"
+import { useGetRecievePaymentById, usePutRecievePaymentRegister } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
-import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, Paid, Person, Source } from "@mui/icons-material"
+import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, Person, Source } from "@mui/icons-material"
 import { useRef, useState } from "react"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import { Formik, FormikProps } from "formik"
@@ -186,7 +187,10 @@ const SinglePaymentRegister = () => {
                 description="لطفا شماره سند را برای ثبت حسابداری دریافت و پرداخت را وارد نمایید"
             >
                 <>
-                    <Formik innerRef={formikRefAccountDocNo} initialValues={{ accountDocNo: "" }} onSubmit={() => { }}>
+                    <Formik innerRef={formikRefAccountDocNo} initialValues={{ accountDocNo: "" }} onSubmit={
+                        () => {
+                        }
+                }>
                         {({ }) => (
                             <div className="flex flex-col space-y-4">
                                 <div className="mt-8">
