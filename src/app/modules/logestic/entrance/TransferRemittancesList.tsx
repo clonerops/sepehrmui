@@ -29,8 +29,8 @@ const TransferRemitancesList = () => {
   }, [currentPage])
 
   const renderAction = (params: any) => {
-    return <Link to={params.row.transferRemittanceStatusId === 2 ? "" : `/dashboard/transferRemittance/${params.row.id}`}>
-          <Button variant="contained" color="secondary" disabled={params.row.transferRemittanceStatusId === 2} onClick={() => { }}>
+    return <Link to={params.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${params.row.id}`}>
+          <Button variant="contained" color="secondary" disabled={params.row.transferRemittanceStatusId >= 2} onClick={() => { }}>
             <Typography className="px-2" color="primary">صدور مجوز ورود</Typography>
           </Button>
     </Link>
@@ -60,7 +60,7 @@ return (
                         return (
                             <form>
                                 <div
-                                    className="flex gap-4 w-[50%] mb-4"
+                                    className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4"
                                 >
                                     <FormikInput
                                         name="id"

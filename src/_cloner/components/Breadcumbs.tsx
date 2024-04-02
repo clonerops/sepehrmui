@@ -17,7 +17,7 @@ function DynamicBreadcrumbs(props: any) {
       path = path?.replace(`/${value}`, "");
     });
     if (param.id) {
-      path = `جزئیات`;
+      path = ``;
     }  
 
     return (

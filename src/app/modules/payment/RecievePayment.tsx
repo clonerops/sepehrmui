@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Form, Formik } from 'formik'
-import { Box, Button, Typography } from '@mui/material'
+import { Formik } from 'formik'
+import { Button, Typography } from '@mui/material'
 import moment from 'moment-jalaali'
 
 import { usePostRecievePayment } from './core/_hooks'
 import { dropdownReceivePaymentResource } from './helpers/dropdownConvert'
-import { useGetCustomers } from '../customer/core/_hooks'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 
@@ -16,7 +15,10 @@ import Backdrop from '../../../_cloner/components/Backdrop'
 import FormikPrice from '../../../_cloner/components/FormikPrice'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
-import { dropdownCustomer } from '../generic/_functions'
+import CardWithIcons from '../../../_cloner/components/CardWithIcons'
+import { DateRange, Paid } from '@mui/icons-material'
+import FormikDescription from '../../../_cloner/components/FormikDescription'
+import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -30,7 +32,9 @@ const initialValues = {
     ReceivePaymentSourceFromId: "",
     ReceiveFromCustomerId: "",
     ReceivePaymentSourceToId: "",
-    PayToCustomerId: ""
+    PayToCustomerId: "",
+    AccountingDocNo: "",
+    AccountingDescription: ""
 
 }
 
@@ -39,29 +43,41 @@ const RecievePayment = () => {
 
     const { mutate, isLoading } = usePostRecievePayment()
     const { data: paymentResource } = useGetReceivePaymentSources()
-    const { data: customers } = useGetCustomers()
 
     const [files, setFiles] = useState<File[]>([]);
 
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
+            <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
+                <CardWithIcons
+                    title='شماره'
+                    icon={<Paid className="text-white" />}
+                    value={trachingCode || 0}
+                    iconClassName='bg-[#F8B30E]' />
+                <CardWithIcons
+                    title='تاریخ ثبت'
+                    icon={<DateRange className="text-white" />}
+                    value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
+                    iconClassName='bg-[#EB5553]' />
+            </div>
+
             <ReusableCard>
-                <Box component="div" className='md:flex md:justify-between md:first-letter:items-center'>
-                    <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-slate-200 py-4 px-16 text-black font-bold font-boldrounded-lg'>شماره: <Typography variant='h3' className='px-4'>{trachingCode}</Typography></Box>
-                    <Box component="div" className='md:flex md:justify-center md:items-center text-center my-2 font-bold text-lg bg-gray-200 text-black font-bold font-boldpy-4 px-16 rounded-lg'>تاریخ ثبت: <Typography variant='h3' className='pr-4'>{moment(Date.now()).format('jYYYY/jMM/jDD').toString()}</Typography></Box>
-                </Box>
-                <Box component="div" className='mt-2'>
+                <div className='mt-2'>
                     <Formik initialValues={initialValues} onSubmit={
-                        async (values) => {
+                        async (values: any) => {
                             const formData: any = new FormData()
                             formData.append("ReceivePaymentSourceFromId", Number(values.ReceivePaymentSourceFromId))
-                            formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId)
+                            // formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId)
+                            formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId ? values.ReceiveFromCustomerId.value : "")
                             formData.append("ReceivePaymentSourceToId", values.ReceivePaymentSourceToId)
                             formData.append("Amount", Number(values.Amount?.replace(/,/g, "")))
-                            formData.append("PayToCustomerId", values.PayToCustomerId)
+                            // formData.append("PayToCustomerId", values.PayToCustomerId)
+                            formData.append("PayToCustomerId", values.PayToCustomerId ? values.PayToCustomerId.value : "")
                             formData.append("AccountOwner", values.AccountOwner)
                             formData.append("TrachingCode", values.TrachingCode)
+                            formData.append("AccountingDocNo", Number(values.AccountingDocNo))
+                            formData.append("AccountingDescription", values.AccountingDescription ? values.AccountingDescription : "ندارد")
                             formData.append("CompanyName", values.CompanyName)
                             formData.append("ContractCode", values.ContractCode)
                             formData.append("Description", values.Description)
@@ -73,48 +89,51 @@ const RecievePayment = () => {
                                     if (response?.succeeded) {
                                         setTrachingCode(response?.data?.receivePayCode)
                                         EnqueueSnackbar(response.message, "success")
-                                    }else {
+                                    } else {
                                         EnqueueSnackbar(response.data.Message, "warning")
-                                      } 
+                                    }
                                 }
                             })
                         }
                     }>
                         {({ handleSubmit, values }) => {
-                            return <Form onSubmit={handleSubmit}>
-                                <Box component="div" className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
+                            return <form onSubmit={handleSubmit}>
+                                <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
                                     <FormikSelect name='ReceivePaymentSourceFromId' label='دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {Number(values.ReceivePaymentSourceFromId) == 1 &&
-                                        <FormikSelect name='ReceiveFromCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
+                                        // <FormikSelect name='ReceiveFromCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
+                                        <FormikCustomer name='ReceiveFromCustomerId' label='نام مشتری' />
                                     }
                                     <FormikSelect name='ReceivePaymentSourceToId' label='پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {Number(values.ReceivePaymentSourceToId) == 1 &&
-                                        <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
+                                        <FormikCustomer name='PayToCustomerId' label='نام مشتری' />
+                                        // <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
                                     }
                                     <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
-                                    <Box component="div" className='flex flex-col'>
+                                    <div className='flex flex-col'>
                                         <FormikPrice name='Amount' label='مبلغ' type='text' />
                                         {/* <Typography variant='subtitle1' color="secondary">{separateAmountWithCommas(values.Amount)}</Typography> */}
                                         <Typography variant='subtitle1' color="primary">{convertToPersianWord(Number(values.Amount?.replace(/,/g, "")))} تومان</Typography>
-                                    </Box>
+                                    </div>
 
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
                                     <FormikInput name='CompanyName' label='نام شرکت' type='text' />
-                                    {/* <FormikInput name='ContractCode' label='کد قرارداد' type='text' /> */}
-                                </Box>
-                                <Box component="div" className='grid grid-cols-1 py-4'>
-                                    <FormikInput name='Description' label='توضیحات' type='text' />
-                                </Box>
-                                <Box component="div" className='grid grid-cols-1'>
+                                    <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
+                                    <FormikInput name='AccountingDocNo' label='شماره سند حسابداری' type='text' />
+                                </div>
+                                <div className='grid grid-cols-1 my-8'>
+                                    <FormikDescription name='Description' label='توضیحات' type='text' />
+                                </div>
+                                <div className='grid grid-cols-1'>
                                     <FileUpload files={files} setFiles={setFiles} />
-                                </Box>
+                                </div>
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                                     <Typography variant="h3" className="px-8 py-2">ثبت دریافت و پرداخت</Typography>
                                 </Button>
-                            </Form>
+                            </form>
                         }}
                     </Formik>
-                </Box>
+                </div>
 
             </ReusableCard>
         </>

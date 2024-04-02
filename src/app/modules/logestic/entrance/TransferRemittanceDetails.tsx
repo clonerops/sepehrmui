@@ -1,4 +1,4 @@
-import { AttachMoney, CarCrash, DateRange, DateRangeRounded, Description, ExitToApp, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, LocalShipping, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
+import { AddTask, AttachMoney, CarCrash, DateRange, DateRangeRounded, Description, DesignServices, ExitToApp, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, LocalShipping, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import MuiTable from "../../../../_cloner/components/MuiTable"
@@ -8,10 +8,15 @@ import { useEntrancePermission, useGetTransferRemitanceById } from "../core/_hoo
 import { useParams } from "react-router-dom"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { renderAlert } from "../../../../_cloner/helpers/SweetAlert"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 import Backdrop from "../../../../_cloner/components/Backdrop"
+import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
+import moment from "moment-jalaali"
+import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64"
+import FileUpload from "../../payment/components/FileUpload"
+import ReusableCard from "../../../../_cloner/components/ReusableCard"
 
 const TransferRemittanceDetails = () => {
     const { id }: any = useParams()
@@ -19,6 +24,15 @@ const TransferRemittanceDetails = () => {
     const entranceTools = useEntrancePermission()
 
     const [approve, setApprove] = useState<boolean>(false)
+    const [files, setFiles] = useState<File[]>([]);
+    const [base64Attachments, setBase64Attachments] = useState<string[]>([])
+
+    useEffect(() => {
+        if (files.length > 0) {
+            convertFilesToBase64(files, setBase64Attachments);
+        }
+    }, [files]);
+
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره حواله", icon: <NumbersOutlined color="secondary" />, value: detailTools?.data?.data?.id },
@@ -28,7 +42,7 @@ const TransferRemittanceDetails = () => {
         { id: 5, title: "انبار مقصد", icon: <HomeMiniOutlined color="secondary" />, value: detailTools?.data?.data?.destinationWarehouseName },
         { id: 6, title: "نام و نام خانوادگی راننده", icon: <Person color="secondary" />, value: detailTools?.data?.data?.driverName },
         { id: 7, title: "شماره همراه راننده", icon: <PhoneRounded color="secondary" />, value: detailTools?.data?.data?.driverMobile },
-        { id: 8, title: "شماره پلاک خودرو", icon: <Place color="secondary" />, value: detailTools?.data?.data?.carPlaque },
+        { id: 8, title: "شماره پلاک خودرو", icon: <Place color="secondary" />, value: detailTools?.data?.data?.plaque },
         { id: 9, title: "نوع خودرو", icon: <TypeSpecimen color="secondary" />, value: detailTools?.data?.data?.vehicleTypeName },
         { id: 10, title: "مبلغ کرایه", icon: <PriceChange color="secondary" />, value: detailTools?.data?.data?.fareAmount },
         { id: 11, title: "تاریخ تحویل", icon: <DateRange color="secondary" />, value: detailTools?.data?.data?.deliverDate },
@@ -47,13 +61,21 @@ const TransferRemittanceDetails = () => {
     ]
 
     const handleEntrancePermission = () => {
+        let attachments = base64Attachments.map((i) => {
+            let convert = {
+                fileData: i,
+            }
+            return convert
+        })
+
         const formData = {
-            id: id
+            purchaseOrderTransferRemittanceId: +id,
+            attachments: attachments
         }
         entranceTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
-                    renderAlert(response.message)
+                    renderAlert(`مجوز ورود با شماره ${response.data.permitCode} با موفقیت ثبت گردید`)
                 } else {
                     EnqueueSnackbar(response.data.Message, "error")
                 }
@@ -63,15 +85,35 @@ const TransferRemittanceDetails = () => {
 
     }
 
+
+
     return (
         <>
             {entranceTools.isLoading && <Backdrop loading={entranceTools.isLoading} />}
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
-            <div className="flex justify-end items-end mb-4">
-                <ButtonComponent onClick={() => setApprove(true)}>
-                    <Typography className="text-white px-4 py-2" variant="h4">ثبت مجوز ورود</Typography>
-                </ButtonComponent>
+            <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
+                <CardWithIcons
+                    title='شماره ورود'
+                    icon={<DesignServices className="text-white" />}
+                    value={entranceTools?.data?.data?.permitCode || 0}
+                    iconClassName='bg-[#3322D8]' />
+                <CardWithIcons
+                    title='تاریخ ثبت مجوز'
+                    icon={<AddTask className="text-white" />}
+                    value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
+                    iconClassName='bg-[#369BFD]' />
+            </div>
 
+            <div className="flex justify-between items-center mb-4">
+                <ReusableCard cardClassName="flex flex-col w-full">
+                    <Typography variant="h2" color="primary" className="pb-4">
+                        افزودن پیوست
+                    </Typography>
+                    <FileUpload
+                        files={files}
+                        setFiles={setFiles}
+                    />
+                </ReusableCard>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">
                 {orderAndAmountInfo.map((item: {
@@ -90,6 +132,12 @@ const TransferRemittanceDetails = () => {
             </div>
 
             <MuiTable data={detailTools?.data?.data?.details} columns={detailTransfer} />
+            <div className="flex justify-end items-end my-4">
+                <ButtonComponent onClick={() => setApprove(true)}>
+                    <Typography className="text-white px-4 py-2" variant="h4">ثبت مجوز ورود</Typography>
+                </ButtonComponent>
+            </div>
+
             <ConfirmDialog
                 open={approve}
                 hintTitle={`آیا از ثبت مجوز ورود شماره حواله ${detailTools?.data?.data?.id} مطمئن هستید؟`}

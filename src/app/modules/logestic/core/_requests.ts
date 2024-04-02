@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { ICargo, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
+import { ICargo, IEvacuationPermit, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
 
 const getCargosList = async (formData: {
     PageNumber?: number,
@@ -158,6 +158,7 @@ const getTransferRemitances = async () => {
 
 const getTransferRemitancesFilter = async (filter: {
     id?: number, 
+    TransferEntransePermitNo?: number, 
     IsEntranced?: boolean,
     PageNumber?: number,
     PageSize?: number,
@@ -191,14 +192,27 @@ const editTransferRemitance = async (formdata: ITransferRemittance) => {
 
 
 // Entrance Permission
-const entrancePermission = async (formData: {id: number}) => {
+const entrancePermission = async (formData: {purchaseOrderTransferRemittanceId: number}) => {
     try {
-        const { data } = await http.put(`/v1/PurchaseOrder/TransferRemittanceEntrancePermission/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/PurchaseOrder/TransferRemittanceEntrancePermission/${formData.purchaseOrderTransferRemittanceId}`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response
     }
 }
+
+const postEvacuation = async (formdata: IEvacuationPermit) => {
+    try {
+        const { data } = await http.post(
+            `/v1/PurchaseOrder/PurchaseOrderTransferRemittanceUnloadingPermit/${formdata.purchaseOrderTransferRemittanceEntrancePermitId}`,
+            JSON.stringify(formdata)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
 
 
 export {
@@ -219,5 +233,6 @@ export {
     getTransferRemitancesFilter,
     getTransferRemitanceById,
     editTransferRemitance,
-    entrancePermission
+    entrancePermission,
+    postEvacuation
 };

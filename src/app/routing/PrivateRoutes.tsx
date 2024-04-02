@@ -8,6 +8,13 @@ import TransferRemittanceDetails from "../modules/logestic/entrance/TransferRemi
 import BilllandingEdit from "../modules/logestic/billlanding/BilllandingEdit";
 import EntranceList from "../modules/logestic/entrance/EntranceList";
 import EntranceLading from "../modules/logestic/entrance/EntranceLading";
+import ReadyToEvacuation from "../modules/logestic/evacuation/ReadyToEvacuation";
+import EvacuationPermit from "../modules/logestic/evacuation/EvacuationPermit";
+import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
+import EntranceReport from "../modules/report/EntranceReport";
+import LadingReport from "../modules/report/LadingReport";
+import PaymentAccountingRegister from "../modules/payment/PaymentAccountingRegister";
+import SinglePaymentRegister from "../modules/payment/components/SinglePaymentRegister";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -202,11 +209,15 @@ export const routes: RouteProps[] = [
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },
     { path: "dashboard/exit/:id", element: <ExitRemittance /> },
+    { path: "dashboard/ladingReport", element: <LadingReport /> },
     { path: "dashboard/lading_list", element: <LadingList /> },
     { path: "dashboard/exitRemittanceList", element: <ExitRemittanceList /> },
     { path: "dashboard/payment", element: <RecievePayment /> },
     { path: "dashboard/payment/accounting", element: <PaymentAccounting /> },
+    { path: "dashboard/payment/accounting/register", element: <PaymentAccountingRegister /> },
     { path: "dashboard/payment/accounting/:id", element: <Detail /> },
+    { path: "dashboard/payment/accounting/register/:id", element: <SinglePaymentRegister /> },
+    { path: "dashboard/payment/edit/:id", element: <RecievePaymentEdit /> },
     { path: "dashboard/brands", element: <Brands /> },
     { path: "dashboard/productTypes", element: <ProductTypes /> },
     { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },
@@ -227,7 +238,13 @@ export const routes: RouteProps[] = [
     { path: "dashboard/transferRemittance", element: <TransferRemitancesList /> },
     { path: "dashboard/transferRemittance/:id", element: <TransferRemittanceDetails /> },
     { path: "dashboard/entranceList", element: <EntranceList /> },
+    { path: "dashboard/entranceReport", element: <EntranceReport /> },
     { path: "dashboard/entranceLading", element: <EntranceLading /> },
+    { path: "dashboard/ready_to_evacuation", element: <ReadyToEvacuation /> },
+
+    { path: "dashboard/evacuation/:id/:entranceId", element: <EvacuationPermit /> },
+    { path: "dashboard/evacuation", element: <EvacuationPermit /> },
+
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },
     { path: "dashboard/user/role/:id", element: <RoleUser /> },

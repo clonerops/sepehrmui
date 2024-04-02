@@ -147,17 +147,6 @@ const BilllandingEdit = () => {
     const columnsForBilllanding = () => {
         const col = [
             {
-                field: "productCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کد کالا",
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                maxWidth: 80,
-                flex: 1,
-            },
-            {
                 field: "productName",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
@@ -170,7 +159,7 @@ const BilllandingEdit = () => {
             {
                 field: "brandName",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
+                    return <Typography variant="h4">{params.row.brandName ? params.row.brandName : params.row.productBrandName}</Typography>;
                 },
                 headerName: "برند",
                 headerClassName: "headerClassName",
@@ -260,7 +249,7 @@ const BilllandingEdit = () => {
 
     const onUpdate = (values: any) => {
         const formData: any = {
-            ...values,
+            // ...values,
             originWarehouseId: values.originWarehouseId ? +values.originWarehouseId : detailTools?.data?.data?.originWarehouseId,
             fareAmount: values.fareAmount ? +values.fareAmount : detailTools?.data?.data?.fareAmount,
             destinationWarehouseId: values.destinationWarehouseId ? +values.destinationWarehouseId : detailTools?.data?.data?.destinationWarehouseId,
@@ -272,12 +261,21 @@ const BilllandingEdit = () => {
                     transferAmount: +item.transferAmount,
                 }
             }),
-            description: values.description ? values.description : detailTools?.data?.data?.description
+            description: values.description ? values.description : detailTools?.data?.data?.description,
+            driverName: values.driverName ? values.driverName : detailTools?.data?.data?.driverName,
+            shippingName: values.shippingName ? values.shippingName : detailTools?.data?.data?.shippingName,
+            carPlaque: values.carPlaque ? values.carPlaque : detailTools?.data?.data?.carPlaque,
+            vehicleTypeId: values.vehicleTypeId ? values.vehicleTypeId : detailTools?.data?.data?.vehicleTypeId === 0 ? null : detailTools?.data?.data?.vehicleTypeId,
+            driverMobile: values.driverMobile ? values.driverMobile : detailTools?.data?.data?.driverMobile,
+            deliverDate: values.deliverDate ? values.deliverDate : detailTools?.data?.data?.deliverDate,
+            unloadingPlaceAddress: values.unloadingPlaceAddress ? values.unloadingPlaceAddress : detailTools?.data?.data?.unloadingPlaceAddress,
+            id: +id,
+          
         }
         updateTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
-                    EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
+                    renderAlert(response.message || "ویرایش با موفقیت انجام شد")
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")
                 }
@@ -285,13 +283,11 @@ const BilllandingEdit = () => {
         });
     };
 
-    console.log('productForBilllanding', productForBilllanding)
-
-
     return (
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
+            <Typography color="primary" variant="h1" className="pb-8">ویرایش حواله</Typography>
             <Formik enableReinitialize initialValues={
                 {
                     ...initialValues,
@@ -302,7 +298,7 @@ const BilllandingEdit = () => {
                 {({ values, setFieldValue, handleSubmit }) => {
                     return (
                         <Form>
-                            <div className="flex justify-between items-center mb-4 gap-x-4">
+                            <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
                                 <CardWithIcons
                                     title='شماره حواله'
                                     icon={<DesignServices className="text-white" />}
@@ -313,55 +309,29 @@ const BilllandingEdit = () => {
                                     icon={<AddTask className="text-white" />}
                                     value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
                                     iconClassName='bg-[#369BFD]' />
-                            </div>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                <ReusableCard>
-                                    <div className="flex justify-center items-center gap-4">
-                                        <FormikWarehouseBasedOfType
-                                            name="originWarehouseId"
-                                            label="انبار مبدا"
-                                            onChange={onFilterWarehouseFrom}
-                                            warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
-                                            disabled
-                                        />
-                                        <FormikWarehouseBasedOfType
-                                            name="destinationWarehouseId"
-                                            label="انبار مقصد"
-                                            onChange={onFilterWarehouseFrom}
-                                            warehouse={warehouse?.data}
-                                            disabled
-                                        />
-
-                                        {/* <FormikWarehouse
-                                            name="destinationWarehouseId"
-                                            // isLabelSetValue={true}
-                                            label="انبار مقصد"
-                                        /> */}
-                                    </div>
-                                    <div className="my-4">
-                                        <RadioGroup
-                                            categories={categories}
-                                            id="transferRemittanceTypeId"
-                                            key="transferRemittanceTypeId"
-                                            name="transferRemittanceTypeId"
-                                        />
-                                    </div>
+                                <ReusableCard cardClassName="flex flex-col gap-y-4">
+                                    <FormikWarehouseBasedOfType
+                                        name="originWarehouseId"
+                                        label="انبار مبدا"
+                                        onChange={onFilterWarehouseFrom}
+                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                        disabled
+                                    />
+                                    <FormikWarehouseBasedOfType
+                                        name="destinationWarehouseId"
+                                        label="انبار مقصد"
+                                        onChange={onFilterWarehouseFrom}
+                                        warehouse={warehouse?.data}
+                                        disabled
+                                    />
                                 </ReusableCard>
-                                <ReusableCard cardClassName="flex flex-col">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
-                                        <img
-                                            src={toAbsoulteUrl("/media/mainlogo/2.png")}
-                                            width={40}
-                                        />
-
-                                    </div>
-                                    <div className="flex flex-col flex-wrap gap-4">
-                                        <Typography>در ابتدا انبار مبدا را انتخاب کنید، پس از آن لیست کالاهایی که  در انبار خرید می باشد برای شما نمایش داده می شود</Typography>
-                                        <Typography>از لیست کالاها، پس از انتخاب کالا و دکمه انتقال صفحه ای باز می شود تا بتوانید مقداری که در نظر دارید را وارد و سپس دکمه ثبت را کلیک می کنید</Typography>
-                                        <Typography>پس از ثبت مقدار، کالا با مقدار در لیست کالاهای انتخاب شده جهت انتقال حواله قرار می گیرد</Typography>
-                                        <Typography>در انتها با وارد نمودن اطلاعات مربوط حمل اقدام به صدور حواله نمایید</Typography>
-                                    </div>
+                                <ReusableCard cardClassName="flex justify-center items-center flex-col gap-y-4">
+                                    <RadioGroup
+                                        categories={categories}
+                                        id="transferRemittanceTypeId"
+                                        key="transferRemittanceTypeId"
+                                        name="transferRemittanceTypeId"
+                                    />
                                 </ReusableCard>
                             </div>
                             <ReusableCard cardClassName="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">

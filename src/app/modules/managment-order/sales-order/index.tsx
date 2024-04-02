@@ -68,7 +68,8 @@ const SalesOrder = () => {
                         proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
                         proximateSubUnit: item.proximateSubUnit ? +item.proximateSubUnit : null,
                         purchasePrice: item.purchasePrice ? +item.purchasePrice : 0,
-                        purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                        purchaserCustomerId: item.purchaserCustomerName && item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
+                        purchaserCustomerName: item.purchaserCustomerName && item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : null,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                         warehouseId: item.warehouseId ? +item.warehouseId : null,
                     })),
@@ -89,6 +90,7 @@ const SalesOrder = () => {
                         } 
                     })
                 }
+
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors && response.data.Errors.length > 0) {
@@ -136,6 +138,12 @@ const SalesOrder = () => {
                         </div>
 
                         <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
+                            <ReusableCard>
+                                <CustomerChoose 
+                                formikRef={formikRef} 
+                                openModalState={setIsOpen} 
+                                postSaleOrder={postSaleOrder} />
+                            </ReusableCard>
                             <ReusableCard cardClassName='lg:col-span-3'>
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
@@ -151,12 +159,6 @@ const SalesOrder = () => {
                                     values={values}
                                     setFieldValue={setFieldValue}
                                 />
-                            </ReusableCard>
-                            <ReusableCard>
-                                <CustomerChoose 
-                                formikRef={formikRef} 
-                                openModalState={setIsOpen} 
-                                postSaleOrder={postSaleOrder} />
                             </ReusableCard>
                         </div>
                         <Box component="div" className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">

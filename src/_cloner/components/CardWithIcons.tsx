@@ -13,7 +13,7 @@ const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName}) => {
     return (
         <>
             {/* <ReusableCard cardClassName="bg-gradient-to-r from-gray-200"> */}
-            <ReusableCard cardClassName="">
+            <ReusableCard cardClassName="w-full">
                 <div className="flex justify-between items-center">
                     <Typography variant="h4" color="primary">
                         {title}
@@ -24,7 +24,7 @@ const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName}) => {
                         {icon}
                     </div>
                 </div>
-                <Typography variant="h1">{value}</Typography>
+                <Typography variant="h2">{value}</Typography>
             </ReusableCard>
         </>
     );

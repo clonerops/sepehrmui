@@ -1,22 +1,27 @@
 import { useParams } from "react-router-dom"
-import { Badge, Box, Button, Container, Typography } from "@mui/material"
-import { useGetRecievePaymentById, useUpdatePaymentApproved } from "../core/_hooks"
+import { Badge, Box, Button, Typography } from "@mui/material"
+import { useGetRecievePaymentById, usePutRecievePaymentRegister, useUpdatePaymentApproved } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import Backdrop from "../../../../_cloner/components/Backdrop"
-import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
 import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, Paid, Person, Source } from "@mui/icons-material"
-import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog"
-import { useState } from "react"
+import { useRef, useState } from "react"
+import TransitionsModal from "../../../../_cloner/components/ReusableModal"
+import { Formik, FormikProps } from "formik"
+import FormikInput from "../../../../_cloner/components/FormikInput"
+import { renderAlert } from "../../../../_cloner/helpers/SweetAlert"
 
-const Detail = () => {
-    const [approve, setApprove] = useState<boolean>(false);
+const SinglePaymentRegister = () => {
+    const putRecievePayRegister = usePutRecievePaymentRegister()
+
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const { id }: any = useParams()
     const { data, isLoading: fetchingLaoding, refetch } = useGetRecievePaymentById(id)
-    const { mutate, isLoading } = useUpdatePaymentApproved()
+
+    const formikRefAccountDocNo = useRef<FormikProps<any>>(null)
 
     const fieldsValue = [
         {
@@ -119,26 +124,38 @@ const Detail = () => {
 
 
     const handleConfirm = () => {
-        if (id)
-            mutate(id, {
+        if (id) {
+            const filters: any = {
+                receivePays: [id],
+                accountDocNo: formikRefAccountDocNo?.current?.values?.accountDocNo
+            }
+            putRecievePayRegister.mutate(filters, {
                 onSuccess: (response) => {
                     if (response?.succeeded) {
-                        EnqueueSnackbar(response.message, "success")
+                        renderAlert(response.message)
                         refetch()
-                        setApprove(false)
-
+                        setIsOpen(false)
                     } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                     }
                 }
             })
+        }
 
     }
 
     return (
         <>
             {fetchingLaoding && <Backdrop loading={fetchingLaoding} />}
-            <Typography color="primary" variant="h1" className="pb-8">جزئیات و ثبت تایید دریافت و پرداخت</Typography>
+            <Typography color="primary" variant="h1" className="pb-8">جزئیات و ثبت سند حسابداری</Typography>
+            <div className="flex justify-end items-end mb-4">
+                <Badge badgeContent={data?.data?.attachments.length || 0} color="secondary">
+                    <Button variant="contained" onClick={hadelDownload} className='mb-2' color="primary">
+                        <Typography>{"دانلود ضمیمه ها"}</Typography>
+                    </Button>
+                </Badge>
+            </div>
+
             <Box component="div" className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
                 {fieldsValue.map((item: any) =>
                     <CardWithIcons
@@ -158,26 +175,49 @@ const Detail = () => {
                 </div>
             </Box>
             <Box component="div" className="md:flex md:justify-end md:items-end gap-x-4 py-4">
-                <Badge badgeContent={data?.data?.attachments.length || 0} color="secondary">
-                    <Button variant="contained" onClick={hadelDownload} className='mb-2' color="primary">
-                        <Typography>{"دانلود ضمیمه ها"}</Typography>
-                    </Button>
-                </Badge>
-                <Button variant="contained" onClick={() => setApprove(true)} className='mb-2' color="secondary">
-                    <Typography>{isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
+                <Button variant="contained" onClick={() => setIsOpen(true)} className='mb-2' color="secondary">
+                    <Typography>{"ثبت سند حسابداری"}</Typography>
                 </Button>
             </Box>
-            <ConfirmDialog
+            <TransitionsModal
+                open={isOpen}
+                isClose={() => setIsOpen(false)}
+                title="ثبت شماره سند"
+                description="لطفا شماره سند را برای ثبت حسابداری دریافت و پرداخت را وارد نمایید"
+            >
+                <>
+                    <Formik innerRef={formikRefAccountDocNo} initialValues={{ accountDocNo: "" }} onSubmit={() => { }}>
+                        {({ }) => (
+                            <div className="flex flex-col space-y-4">
+                                <div className="mt-8">
+                                    <FormikInput name="accountDocNo" label="شماره سند" />
+                                </div>
+                                <div className="flex justify-end items-end gap-4">
+                                    <Button className="!bg-green-500" onClick={() => handleConfirm()}>
+                                        <Typography>{putRecievePayRegister.isLoading ? "درحال پردازش" : "ثبت"}</Typography>
+                                    </Button>
+                                    <Button className="!bg-red-500" onClick={() => setIsOpen(false)}>
+                                        <Typography className="text-white">انصراف</Typography>
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+                    </Formik>
+                </>
+            </TransitionsModal>
+
+
+            {/* <ConfirmDialog
                 open={approve}
-                hintTitle="آیا از تایید سند دریافت و پرداخت مطمئن هستید؟"
+                hintTitle="آیا از ثبت سند حسابداری مطمئن هستید؟"
                 notConfirmText="لغو"
                 confirmText={fetchingLaoding ? "درحال پردازش ..." : "تایید"}
                 onCancel={() => setApprove(false)}
                 onConfirm={() => handleConfirm()}
-            />
+            /> */}
 
         </>
     )
 }
 
-export default Detail
+export default SinglePaymentRegister

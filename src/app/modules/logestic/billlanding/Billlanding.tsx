@@ -131,6 +131,7 @@ const Billlanding = () => {
                 headerName: "موجودی خرید",
                 headerClassName: "headerClassName",
                 minWidth: 120,
+                maxWidth: 120,
                 flex: 1,
             },
             {
@@ -221,9 +222,7 @@ const Billlanding = () => {
             WarehouseId: +value
         }
         productsInventory.mutate(filter, {
-            onSuccess: (response) => {
-                console.log(response)
-            }
+            onSuccess: (response) => {}
         })
     }
 
@@ -231,7 +230,7 @@ const Billlanding = () => {
         const formData: any = {
             ...values,
             originWarehouseId: +values.originWarehouseId,
-            fareAmount: +values.fareAmount,
+            fareAmount: values.fareAmount ? +values.fareAmount : 0,
             destinationWarehouseId: +values.destinationWarehouseId.value,
             transferRemittanceTypeId: +values.transferRemittanceTypeId ? +values.transferRemittanceTypeId : 1,
             details: _.map(productForBilllanding, (item) => {
@@ -244,10 +243,11 @@ const Billlanding = () => {
         }
         transfer.mutate(formData, {
             onSuccess: (response) => {
-                console.log(response)
                 if (response.succeeded) {
-                    renderAlert("صدور حواله انتقال با موفقیت انجام گردید")
+                    renderAlert(`حواله انتقال با شماره ${response.data.id} با موفقیت انجام پذیرفت`)                        
+
                 } else {
+                    EnqueueSnackbar(response.data.Errors[0], "error")
                     EnqueueSnackbar(response.data.Message, "error")
                 }
             }
@@ -258,10 +258,10 @@ const Billlanding = () => {
         <>
             {transfer.isLoading && <Backdrop loading={transfer.isLoading} />}
             <Formik initialValues={initialValues} validationSchema={billlandingValidation} onSubmit={handleTransferRemittance}>
-                {({ values, setFieldValue, handleSubmit }) => {
+                {({ setFieldValue, handleSubmit }) => {
                     return (
                         <Form>
-                            <div className="flex justify-between items-center mb-4 gap-x-4">
+                            <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
                                 <CardWithIcons
                                     title='شماره حواله'
                                     icon={<DesignServices className="text-white" />}
@@ -272,48 +272,28 @@ const Billlanding = () => {
                                     icon={<AddTask className="text-white" />}
                                     value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
                                     iconClassName='bg-[#369BFD]' />
+                                <ReusableCard cardClassName="flex flex-col gap-y-4">
+                                    <FormikWarehouseBasedOfType
+                                        name="originWarehouseId"
+                                        label="انبار مبدا"
+                                        onChange={onFilterWarehouseFrom}
+                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                    />
+                                    <FormikWarehouse
+                                        name="destinationWarehouseId"
+                                        label="انبار مقصد"
+                                    />
+                                </ReusableCard>
+                                <ReusableCard cardClassName="flex justify-center items-center flex-col gap-y-4">
+                                    <RadioGroup
+                                        categories={categories}
+                                        id="transferRemittanceTypeId"
+                                        key="transferRemittanceTypeId"
+                                        name="transferRemittanceTypeId"
+                                    />
+                                </ReusableCard>
+
                             </div>
-
-                            <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                <ReusableCard>
-                                    <Box className="flex justify-center items-center gap-4">
-                                        <FormikWarehouseBasedOfType
-                                            name="originWarehouseId"
-                                            label="انبار مبدا"
-                                            onChange={onFilterWarehouseFrom}
-                                            warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
-                                        />
-                                        <FormikWarehouse
-                                            name="destinationWarehouseId"
-                                            label="انبار مقصد"
-                                        />
-                                    </Box>
-                                    <Box className="my-4">
-                                        <RadioGroup
-                                            categories={categories}
-                                            id="transferRemittanceTypeId"
-                                            key="transferRemittanceTypeId"
-                                            name="transferRemittanceTypeId"
-                                        />
-                                    </Box>
-                                </ReusableCard>
-                                <ReusableCard cardClassName="flex flex-col">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
-                                        <img
-                                            src={toAbsoulteUrl("/media/mainlogo/2.png")}
-                                            width={40}
-                                        />
-
-                                    </div>
-                                    <div className="flex flex-col flex-wrap gap-4">
-                                        <Typography>در ابتدا انبار مبدا را انتخاب کنید، پس از آن لیست کالاهایی که  در انبار خرید می باشد برای شما نمایش داده می شود</Typography>
-                                        <Typography>از لیست کالاها، پس از انتخاب کالا و دکمه انتقال صفحه ای باز می شود تا بتوانید مقداری که در نظر دارید را وارد و سپس دکمه ثبت را کلیک می کنید</Typography>
-                                        <Typography>پس از ثبت مقدار، کالا با مقدار در لیست کالاهای انتخاب شده جهت انتقال حواله قرار می گیرد</Typography>
-                                        <Typography>در انتها با وارد نمودن اطلاعات مربوط حمل اقدام به صدور حواله نمایید</Typography>
-                                    </div>
-                                </ReusableCard>
-                            </Box>
                             <ReusableCard cardClassName="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
                                 <Box>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای موجود در انبار</Typography>

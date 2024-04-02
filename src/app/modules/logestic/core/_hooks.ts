@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ICargo, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
+import { ICargo, IEvacuationPermit, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
 import * as api from "./_requests";
 
 const useRetrievesNotSendedOrder = () => {
@@ -111,7 +111,8 @@ const useGetTransferRemitances = () => {
 };
 const useGetTransferRemitancesByMutation = () => {
     return useMutation((filter: {
-        id?: number, 
+        id?: number,
+        TransferEntransePermitNo?: number,
         IsEntranced?: boolean,
         PageNumber?: number,
         PageSize?: number,
@@ -121,8 +122,8 @@ const useGetTransferRemitancesByMutation = () => {
 };
 const useGetTransferRemitanceById = (id: string) => {
     return useQuery(["transferRemittance", id], () => api.getTransferRemitanceById(id), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
+        refetchOnMount: true,
+        refetchOnWindowFocus: true,
         refetchIntervalInBackground: false
     });
 };
@@ -139,10 +140,17 @@ const useUpdateTransferRemitance = () => {
 
 // Entrance Permissions 
 const useEntrancePermission = () => {
-    return useMutation((formData: {id: number}) => {
+    return useMutation((formData: {purchaseOrderTransferRemittanceId: number}) => {
         return api.entrancePermission(formData);
     });
 };
+
+const usePostEvacuation = () => {
+    return useMutation((formData: IEvacuationPermit) => {
+        return api.postEvacuation(formData);
+    });
+};
+
 
 
 export {
@@ -164,5 +172,6 @@ export {
     useGetTransferRemitanceById,
     useGetTransferRemitanceByIdByMutation,
     useUpdateTransferRemitance,
-    useEntrancePermission
+    useEntrancePermission,
+    usePostEvacuation
 };

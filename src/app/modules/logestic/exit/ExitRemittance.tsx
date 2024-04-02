@@ -107,12 +107,12 @@ const ExitRemiitance = () => {
             },
             {
                 id: 4,
-                header: "واحد فرعی",
-                accessor: "productSubUnitDesc",
+                header: "واحد اصلی",
+                accessor: "productMainUnitDesc",
                 flex: 1,
                 headerClassName: "headerClassName",
                 render: (params: any) => {
-                    return <Typography>{params.productSubUnitDesc}</Typography>;
+                    return <Typography>{params.productMainUnitDesc}</Typography>;
                 },
             },
             {
@@ -184,6 +184,8 @@ const ExitRemiitance = () => {
                         proximateAmount: Math.ceil(+item?.ladingAmount / +item.orderDetail?.product?.exchangeRate),
                         productSubUnitDesc:
                             item?.orderDetail?.productSubUnitDesc,
+                        productMainUnitDesc:
+                            item?.orderDetail?.product.productMainUnitDesc,
                         productSubUnitId:
                             item?.orderDetail?.productSubUnitId,
                         productSubUnitAmount: 0,

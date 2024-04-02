@@ -43,6 +43,7 @@ const SalesOrderEdit = () => {
 
     useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
 
+
     useEffect(() => {
         if (detailTools?.data?.data) {
 
@@ -129,7 +130,8 @@ const SalesOrderEdit = () => {
                         description: item.description,
                         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                        purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                        purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : item.purchaserCustomerId,
+                        purchaserCustomerName: item.purchaserCustomerName.label ? item.purchaserCustomerName.label : item.purchaserCustomerName,
                         purchaseSettlementDate: item.purchaseSettlementDate,
                         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                     };
@@ -144,7 +146,6 @@ const SalesOrderEdit = () => {
                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
                     return {
                         id: item.orderPaymentId ? item.orderPaymentId : null,
-                        // amount: +item.orderPaymentAmount.replace(/,/g, ""),
                         amount:item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
                         paymentDate: item.orderPaymentDate,
                         daysAfterExit: item.orderPaymentDaysAfterExit && +item.orderPaymentDaysAfterExit,

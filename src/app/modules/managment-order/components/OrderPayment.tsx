@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, Typography } from "@mui/material";
-import { AddCircle, DeleteOutlineRounded } from "@mui/icons-material";
+import { DeleteOutlineRounded } from "@mui/icons-material";
 import moment from "moment-jalaali";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -98,8 +98,8 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
             <Typography variant="h2" color="primary">
                 تسویه حساب
             </Typography>
-            <Box component="div" className="mt-4">
-                <Box component="div" className="md:flex space-y-4 md:space-y-0 gap-x-2 my-4">
+            <div className="mt-4">
+                <div>
                     <FormikPrice disabled={postSaleOrder?.data?.succeeded} name="orderPaymentAmount" label="مبلغ" InputProps={{
                         inputProps: {
                             style: {
@@ -108,6 +108,8 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
                             },
                         },
                     }} />
+                </div>
+                <div className="md:flex space-y-4 md:space-y-0 gap-x-2 my-4">
                     <FormikInput disabled={postSaleOrder?.data?.succeeded} name="orderPaymentDaysAfterExit" label="روز" boxClassName="md:w-[50%]" InputProps={{
                         inputProps: {
                             style: {
@@ -116,33 +118,33 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
                             },
                         },
                     }} />
-                    <Box component="div" className="flex w-full">
+                    <div className="flex w-full">
                         <FormikDatepicker disabled={postSaleOrder?.data?.succeeded} name="orderPaymentDate" label="تاریخ" />
-                    </Box>
+                    </div>
                     <Button disabled={postSaleOrder?.data?.succeeded} onClick={handleSetPayment} className="!w-[120px]" variant="contained">
                          <Typography>افزودن</Typography>
                     </Button>
-                </Box>
+                </div>
                 <MuiTable onDoubleClick={() => { }} columns={renderColumns} data={orderPayment} />
-                <Box component="div" className="flex flex-col justify-between mt-8">
-                    <Box component="div" className="flex mt-8">
+                <div className="flex flex-col justify-between mt-8">
+                    <div className="flex mt-8">
                         <Typography variant="h4" className="flex items-center text-gray-500">
                             جمع کل مبالغ تسویه:
                         </Typography>
                         <Typography variant="h4" className="flex items-center px-4">
                             {sliceNumberPriceRial(orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue.orderPaymentAmount.replace(/,/g, ""), 10), 0))} ریال
                         </Typography>
-                    </Box>
-                    <Box component="div" className="flex mt-8">
+                    </div>
+                    <div className="flex mt-8">
                         <Typography variant="h4" className="flex items-center text-gray-500">
                             قیمت کل:
                         </Typography>
                         <Typography variant="h4" className="flex items-center px-4">
                             {sliceNumberPriceRial(totalAmount)} ریال
                         </Typography>
-                    </Box>
-                </Box>
-            </Box>
+                    </div>
+                </div>
+            </div>
         </ReusableCard>
     )
 }
