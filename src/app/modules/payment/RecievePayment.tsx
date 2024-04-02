@@ -76,7 +76,7 @@ const RecievePayment = () => {
                             formData.append("PayToCustomerId", values.PayToCustomerId ? values.PayToCustomerId.value : "")
                             formData.append("AccountOwner", values.AccountOwner)
                             formData.append("TrachingCode", values.TrachingCode)
-                            formData.append("AccountingDocNo", Number(values.AccountingDocNo))
+                            // formData.append("AccountingDocNo", Number(values.AccountingDocNo))
                             formData.append("AccountingDescription", values.AccountingDescription ? values.AccountingDescription : "ندارد")
                             formData.append("CompanyName", values.CompanyName)
                             formData.append("ContractCode", values.ContractCode)
@@ -100,12 +100,12 @@ const RecievePayment = () => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
                                     <FormikSelect name='ReceivePaymentSourceFromId' label='دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {Number(values.ReceivePaymentSourceFromId) == 1 &&
+                                    {Number(values.ReceivePaymentSourceFromId) === 1 &&
                                         // <FormikSelect name='ReceiveFromCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
                                         <FormikCustomer name='ReceiveFromCustomerId' label='نام مشتری' />
                                     }
                                     <FormikSelect name='ReceivePaymentSourceToId' label='پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {Number(values.ReceivePaymentSourceToId) == 1 &&
+                                    {Number(values.ReceivePaymentSourceToId) === 1 &&
                                         <FormikCustomer name='PayToCustomerId' label='نام مشتری' />
                                         // <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
                                     }
@@ -119,7 +119,7 @@ const RecievePayment = () => {
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
                                     <FormikInput name='CompanyName' label='نام شرکت' type='text' />
                                     <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
-                                    <FormikInput name='AccountingDocNo' label='شماره سند حسابداری' type='text' />
+                                    {/* <FormikInput name='AccountingDocNo' label='شماره سند حسابداری' type='text' /> */}
                                 </div>
                                 <div className='grid grid-cols-1 my-8'>
                                     <FormikDescription name='Description' label='توضیحات' type='text' />

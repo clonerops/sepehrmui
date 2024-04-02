@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { PrivateRoutes } from "./PrivateRoutes";
 // import { ErrorsPage } from "../modules/errors/ErrorsPage";
 import Cookies from "js-cookie";
 import App from "../App";

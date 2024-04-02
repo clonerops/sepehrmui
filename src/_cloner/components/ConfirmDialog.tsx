@@ -7,6 +7,7 @@ type Props = Omit<DialogProps, "children"> & {
     hintTitle?: string;
     confirmText?: string;
     notConfirmText?: string;
+    isEdit?: boolean
 };
 const ConfirmDialog = (props: Props) => {
     return (
@@ -18,7 +19,7 @@ const ConfirmDialog = (props: Props) => {
                 <Box className={"flex items-center gap-x-5"}>
                     <Button
                         className={
-                            "!bg-green-500 !text-white !text-[14px] !py-2 !px-[30px]"
+                            `${props.isEdit ? "!bg-yellow-500" :"!bg-green-500"} !text-white !text-[14px] !py-2 !px-[30px] `
                         }
                         onClick={() => props.onConfirm && props.onConfirm()}
                     >

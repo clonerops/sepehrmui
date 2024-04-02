@@ -1,21 +1,17 @@
 import { useState, useEffect, useRef } from "react";
-import { useGetRecievePaymentByApproved, useGetRecievePayments } from "./core/_hooks";
+import { useGetRecievePayments } from "./core/_hooks";
 import { Link } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { IPayment, IPaymentFilter } from "./core/_models";
-import React from "react";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
-import { Edit, Visibility } from "@mui/icons-material";
-import ActiveText from "../../../_cloner/components/ActiveText";
+import { DoneAll, Visibility } from "@mui/icons-material";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Pagination from "../../../_cloner/components/Pagination";
 import { Formik, FormikProps } from "formik";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import RadioGroup from "../../../_cloner/components/RadioGroup";
 import moment from "moment-jalaali";
 
 const pageSize = 100
@@ -26,11 +22,11 @@ const initialValues = {
     toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
 }
 
-const categories = [
-    { value: 0, title: "همه", defaultChecked: true },
-    { value: 1, title: "تایید شده ها", defaultChecked: false },
-    { value: 2, title: "تایید نشده ها", defaultChecked: false }
-]
+// const categories = [
+//     { value: 0, title: "همه", defaultChecked: true },
+//     { value: 1, title: "تایید شده ها", defaultChecked: false },
+//     { value: 2, title: "تایید نشده ها", defaultChecked: false }
+// ]
 
 
 const PaymentAccounting = () => {
@@ -223,7 +219,7 @@ const PaymentAccounting = () => {
                 </Link>
                 <Link to={`/dashboard/payment/edit/${item?.row?.id}`}>
                     <Typography variant="h4">
-                        <Edit color="secondary" />
+                        <DoneAll color="secondary" />
                     </Typography>
                 </Link>
             </div>
@@ -245,16 +241,16 @@ const PaymentAccounting = () => {
         getReceivePayments(filters)
     }
     
-    const handleFilterChange = (event: any, values: any) => {
-        const filters: any = {
-            isApproved: +event,
-            fromDate: values.fromDate,
-            toDate: values.toDate,
-            pageNumber: currentPage,
-            pageSize: 100,
-        }
-        getReceivePayments(filters)
-    }
+    // const handleFilterChange = (event: any, values: any) => {
+    //     const filters: any = {
+    //         isApproved: +event,
+    //         fromDate: values.fromDate,
+    //         toDate: values.toDate,
+    //         pageNumber: currentPage,
+    //         pageSize: 100,
+    //     }
+    //     getReceivePayments(filters)
+    // }
 
     return (
         <>

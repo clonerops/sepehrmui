@@ -1,21 +1,18 @@
 import { useState, useEffect, useRef } from "react";
-import { useGetRecievePaymentByApproved, useGetRecievePayments, usePutRecievePaymentRegister } from "./core/_hooks";
+import { useGetRecievePayments, usePutRecievePaymentRegister } from "./core/_hooks";
 import { Link } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { Box, Button, Card, Container, Typography, Checkbox } from "@mui/material";
+import { Button, Typography, Checkbox } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { IPayment, IPaymentFilter } from "./core/_models";
 import React from "react";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
-import { Edit, Visibility } from "@mui/icons-material";
-import ActiveText from "../../../_cloner/components/ActiveText";
+import { Visibility } from "@mui/icons-material";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Pagination from "../../../_cloner/components/Pagination";
 import { Formik, FormikProps } from "formik";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import RadioGroup from "../../../_cloner/components/RadioGroup";
 import moment from "moment-jalaali";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import CustomButton from "../../../_cloner/components/CustomButton";
@@ -30,15 +27,15 @@ const initialValues = {
     fromDate: '1402/12/01',
     toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
 }
-const initialValuesRegister = {
-    accountDocNo: 0,
-}
+// const initialValuesRegister = {
+//     accountDocNo: 0,
+// }
 
-const categories = [
-    { value: 0, title: "همه", defaultChecked: true },
-    { value: 1, title: "تایید شده ها", defaultChecked: false },
-    { value: 2, title: "تایید نشده ها", defaultChecked: false }
-]
+// const categories = [
+//     { value: 0, title: "همه", defaultChecked: true },
+//     { value: 1, title: "تایید شده ها", defaultChecked: false },
+//     { value: 2, title: "تایید نشده ها", defaultChecked: false }
+// ]
 
 
 const PaymentAccountingRegister = () => {
@@ -281,6 +278,7 @@ const PaymentAccountingRegister = () => {
 
     useEffect(() => {
         handleHeaderCheckboxClick(isSelectAll)
+        // eslint-disable-next-line
     }, [isSelectAll])
 
 
@@ -312,16 +310,16 @@ const PaymentAccountingRegister = () => {
         getReceivePayments(filters)
     }
 
-    const handleFilterChange = (event: any, values: any) => {
-        const filters: any = {
-            isApproved: +event,
-            fromDate: values.fromDate,
-            toDate: values.toDate,
-            pageNumber: currentPage,
-            pageSize: 100,
-        }
-        getReceivePayments(filters)
-    }
+    // const handleFilterChange = (event: any, values: any) => {
+    //     const filters: any = {
+    //         isApproved: +event,
+    //         fromDate: values.fromDate,
+    //         toDate: values.toDate,
+    //         pageNumber: currentPage,
+    //         pageSize: 100,
+    //     }
+    //     getReceivePayments(filters)
+    // }
 
 
     const onSubmit = () => {
@@ -344,8 +342,6 @@ const PaymentAccountingRegister = () => {
             })
         }
     }
-
-
 
     return (
         <>
@@ -392,8 +388,14 @@ const PaymentAccountingRegister = () => {
                 description="لطفا شماره سند را برای ثبت حسابداری دریافت و پرداخت را وارد نمایید"
             >
                 <>
-                    <Formik innerRef={formikRefAccountDocNo} initialValues={{ accountDocNo: "" }} onSubmit={() => { }}>
-                        {({ }) => (
+                    <Formik
+                        innerRef={formikRefAccountDocNo}
+                        initialValues={{ accountDocNo: "" }}
+                        onSubmit={(actions) => {
+                            actions.setSubmitting(false);
+                          }}
+                        >
+                        {({ setSubmitting }) => (
                             <div className="flex flex-col space-y-4">
                                 <div className="mt-8">
                                     <FormikInput name="accountDocNo" label="شماره سند" />

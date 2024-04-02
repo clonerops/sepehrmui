@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Form, Formik } from 'formik'
 import { Box, Button, Typography } from '@mui/material'
 import { Search, Visibility } from '@mui/icons-material'
@@ -7,13 +7,13 @@ import { useGetLadingLicenceList } from '../logestic/core/_hooks'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
-import { ladingColumns, ladingReportColumns } from '../managment-order/helpers/columns'
-import Pagination from '../../../_cloner/components/Pagination'
+import { ladingReportColumns } from '../managment-order/helpers/columns'
+// import Pagination from '../../../_cloner/components/Pagination'
 
-const pageSize = 20
+// const pageSize = 20
 
 const LadingReport = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    // const [currentPage, setCurrentPage] = useState<number>(1);
 
     const ladingList = useGetLadingLicenceList();
 
@@ -28,9 +28,9 @@ const LadingReport = () => {
         );
     };
     
-    const handlePageChange = (selectedItem: { selected: number }) => {
-        setCurrentPage(selectedItem.selected + 1);
-    };
+    // const handlePageChange = (selectedItem: { selected: number }) => {
+    //     setCurrentPage(selectedItem.selected + 1);
+    // };
 
   return (
     <>
@@ -53,7 +53,7 @@ const LadingReport = () => {
                 data={ladingList?.data?.data}
                 isLoading={ladingList.isLoading}
             />
-            <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
+            {/* <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} /> */}
 
         </ReusableCard>
     </>

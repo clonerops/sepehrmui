@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import { Box, CircularProgress } from '@mui/material';
-import { toAbsoulteUrl } from '../helpers/AssetsHelper';
 
 interface IProps {
     loading: boolean

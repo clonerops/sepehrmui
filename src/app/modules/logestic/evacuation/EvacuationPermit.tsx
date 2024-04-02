@@ -2,32 +2,23 @@ import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import { dropdownCustomer } from "../../generic/_functions";
-import { useGetCustomers } from "../../customer/core/_hooks";
-import { Box, Button, OutlinedInput, Typography } from "@mui/material";
-import { Delete, Person, Search, Add, NumbersOutlined, DateRangeRounded, TypeSpecimenTwoTone, HomeMaxRounded, HomeMiniOutlined, PhoneRounded, Place, TypeSpecimen, PriceChange, DateRange, CarCrash, HomeOutlined, Description } from "@mui/icons-material";
-import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import { Box, Button, Typography } from "@mui/material";
+import { NumbersOutlined, DateRangeRounded, TypeSpecimenTwoTone, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, Description } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { Formik, Form, FormikErrors } from "formik";
-import { dropdownProductLading, dropdownVehicleType } from "../helpers/dropdowns";
+import { dropdownVehicleType } from "../helpers/dropdowns";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
-    useCargoById,
-    useGetLadingLicenceById,
     useGetTransferRemitanceById,
     usePostEvacuation,
-    usePostExitRemiitance,
-    usePostLadingLicence,
 } from "../core/_hooks";
 import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
-import { IEvacuationPermit, IExitRemittance, ILadingLicence } from "../core/_models";
 import { enqueueSnackbar } from "notistack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../../_cloner/components/FormikDescription";
 import FileUpload from "../../payment/components/FileUpload";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
-import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
 import { useGetVehicleTypes } from "../../generic/_hooks";

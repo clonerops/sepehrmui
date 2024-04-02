@@ -1,25 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import { dropdownCustomer } from "../../generic/_functions";
-import { useGetCustomers } from "../../customer/core/_hooks";
-import { Box, Button, OutlinedInput, Typography } from "@mui/material";
-import { Delete, Person, Search, Add } from "@mui/icons-material";
-import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import { Button, OutlinedInput, Typography } from "@mui/material";
+import { Person } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
-import { dropdownProductLading } from "../helpers/dropdowns";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
-    useCargoById,
     useGetLadingLicenceById,
     usePostExitRemiitance,
-    usePostLadingLicence,
 } from "../core/_hooks";
 import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
-import { IExitRemittance, ILadingLicence } from "../core/_models";
+import { IExitRemittance } from "../core/_models";
 import { enqueueSnackbar } from "notistack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../../_cloner/components/FormikDescription";

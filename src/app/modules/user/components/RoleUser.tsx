@@ -6,7 +6,7 @@ import { Box, Chip, Stack, Typography } from "@mui/material";
 //     useGetUserRole,
 //     usePostUserRole,
 // } from "../../access/roles/core/_hooks";
-import { IRole, IUpdateRole, IUserRole } from "../../access/roles/core/_models";
+import { IUserRole } from "../../access/roles/core/_models";
 // import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 // import { useQueryClient } from "@tanstack/react-query";

@@ -176,7 +176,7 @@ const SinglePaymentRegister = () => {
                 </div>
             </Box>
             <Box component="div" className="md:flex md:justify-end md:items-end gap-x-4 py-4">
-                <Button variant="contained" onClick={() => setIsOpen(true)} className='mb-2' color="secondary">
+                <Button variant="contained" disabled={data?.data?.receivePayStatusId >= 3} onClick={() => setIsOpen(true)} className='mb-2' color="secondary">
                     <Typography>{"ثبت سند حسابداری"}</Typography>
                 </Button>
             </Box>
