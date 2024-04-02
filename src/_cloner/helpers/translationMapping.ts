@@ -48,6 +48,7 @@ export const translationMapping: any = {
     billlandingList: "لیست حواله های صادرشده",
     register: "ثبت",
     ready_to_evacuation: "صدور مجوز تخلیه",
+    transferRemittance: "ثبت مجوز ورود",
 
     // Add more translations as needed
   };
