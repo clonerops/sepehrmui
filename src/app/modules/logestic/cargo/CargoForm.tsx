@@ -155,7 +155,8 @@ const CargoForm = () => {
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
-            <Box component="div" className={`grid grid-cols-1 md:grid-cols-5 gap-4 my-4`}>
+            <Typography color="primary" variant="h1" className="pb-8">ثبت اعلام بار</Typography>
+            <div className={`grid grid-cols-1 md:grid-cols-5 gap-4 my-4`}>
                 {orderAndAmountInfoInCargo.map((item: {
                     title: string,
                     icon: React.ReactNode,
@@ -163,7 +164,7 @@ const CargoForm = () => {
                     }, index) => {
                         return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
                     })}
-            </Box>
+            </div>
 
             <ReusableCard cardClassName={ "col-span-3"}>
                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
@@ -191,11 +192,11 @@ const CargoForm = () => {
                                     )}
                                 </Box>
                             ))}
-                            <Box component="div" className="flex justify-end items-end">
+                            <div className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                                     <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ثبت اعلام بار" } </Typography>
                                 </Button>
-                            </Box>
+                            </div>
                         </Form>
                     }}
                 </Formik>

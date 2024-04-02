@@ -91,6 +91,7 @@ const TransferRemittanceDetails = () => {
         <>
             {entranceTools.isLoading && <Backdrop loading={entranceTools.isLoading} />}
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز ورود</Typography>
             <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
                 <CardWithIcons
                     title='شماره ورود'

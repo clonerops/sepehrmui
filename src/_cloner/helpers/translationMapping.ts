@@ -49,6 +49,8 @@ export const translationMapping: any = {
     register: "ثبت",
     ready_to_evacuation: "صدور مجوز تخلیه",
     transferRemittance: "ثبت مجوز ورود",
+    ladingReport: "لیست مجوزهای بارگیری",
+    entranceReport: "لیست مجوزهای ورود",
 
     // Add more translations as needed
   };

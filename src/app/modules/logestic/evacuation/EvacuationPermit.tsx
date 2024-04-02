@@ -262,6 +262,7 @@ const EvacuationPermit = () => {
     return (
         <>
             {postEvacuation.isLoading && <Backdrop loading={postEvacuation.isLoading} />}
+            <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز تخلیه</Typography>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">
                 {orderAndAmountInfo.map((item: {
                     title: string,

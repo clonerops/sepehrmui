@@ -269,7 +269,8 @@ const ExitRemiitance = () => {
     return (
         <>
             {postExitRemittance.isLoading && <Backdrop loading={postExitRemittance.isLoading} />}
-            <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-4">
+            <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز خروج</Typography>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-4">
                 <CardTitleValue
                     icon={<Person color="secondary" />}
                     title="شماره مجوز"
@@ -310,7 +311,7 @@ const ExitRemiitance = () => {
                     title="تاریخ تحویل"
                     value={data?.data?.cargoAnnounce.deliveryDate}
                 />
-            </Box>
+            </div>
             <ReusableCard cardClassName="mt-4">
                 <Typography variant="h2" color="primary" className="pb-4">
                     اقلام مجوز بارگیری
@@ -341,8 +342,7 @@ const ExitRemiitance = () => {
                     {({ values }) => {
                         return (
                             <Form className="mt-8">
-                                <Box
-                                    component="div"
+                                <div
                                     // className="flex items-center justify-center gap-x-4 mb-4"
                                     className="grid grid-cols-1 md:grid-cols-4 gap-x-4 mb-4 md:space-y-0 space-y-4"
                                 >
@@ -366,10 +366,9 @@ const ExitRemiitance = () => {
                                         name="fareAmount"
                                         label={"مقدار کرایه"}
                                     />
-                                </Box>
+                                </div>
 
-                                <Box
-                                    component="div"
+                                <div
                                     // className="flex flex-row gap-x-4"
                                     className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:space-y-0 space-y-4"
                                 >
@@ -378,8 +377,7 @@ const ExitRemiitance = () => {
                                         label="توضیحات"
                                     />
 
-                                    <Box
-                                        component="div"
+                                    <div
                                         className="flex flex-col w-full"
                                     >
                                         <Typography
@@ -393,9 +391,9 @@ const ExitRemiitance = () => {
                                             files={files}
                                             setFiles={setFiles}
                                         />
-                                    </Box>
-                                </Box>
-                                <Box component="div" className="mt-8">
+                                    </div>
+                                </div>
+                                <div className="mt-8">
                                     <Button
                                         onClick={() => onSubmit(values)}
                                         className="!bg-green-500 !text-white"
@@ -404,7 +402,7 @@ const ExitRemiitance = () => {
                                             ثبت مجوز
                                         </Typography>
                                     </Button>
-                                </Box>
+                                </div>
                             </Form>
                         );
                     }}

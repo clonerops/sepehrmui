@@ -140,7 +140,8 @@ const LadingLicence = () => {
     return (
         <>
             {postLadingLicence.isLoading && <Backdrop loading={postLadingLicence.isLoading} />}
-            <Box component="div" className='grid grid-cols-4 gap-x-4 gap-y-4'>
+            <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز بارگیری</Typography>
+            <div className='grid grid-cols-4 gap-x-4 gap-y-4'>
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره سفارش' value={data?.data?.order?.orderCode} />
                 <CardTitleValue icon={<Person color="secondary" />} title='نام مشتری' value={data?.data?.order?.customerName} />
                 <CardTitleValue icon={<Person color="secondary" />} title='نوع ارسال' value={data?.data?.order?.orderSendTypeDesc} />
@@ -149,15 +150,15 @@ const LadingLicence = () => {
                 <CardTitleValue icon={<Person color="secondary" />} title='نام راننده' value={data?.data?.driverName} />
                 <CardTitleValue icon={<Person color="secondary" />} title='پلاک خودروبر' value={data?.data?.carPlaque} />
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره همراه راننده' value={data?.data?.driverMobile} />
-            </Box>
+            </div>
             <ReusableCard cardClassName='mt-4'>
                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                 <MuiTable tooltipTitle={data?.data?.order.description ? <Typography>{data?.data?.order.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.order.details} columns={orderOrderColumnMain} />
-                <Box component="div" className='mt-4'>
+                <div className='mt-4'>
                     <Button onClick={() => setOpen(true)} variant='contained' color='primary'>
                         <Typography>ثبت مجوز بارگیری</Typography>
                     </Button>
-                </Box>
+                </div>
             </ReusableCard>
             <TransitionsModal
                 open={open}
@@ -169,7 +170,7 @@ const LadingLicence = () => {
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={onSubmit}>
                     {({ values }) => {
                         return <Form className='mt-8'>
-                            <Box component="div" className='flex items-center justify-center gap-x-4 mb-4'>
+                            <div className='flex items-center justify-center gap-x-4 mb-4'>
                                 <FormikComboBox name='orderDetailId' label={"کالای سفارش"} options={dropdownProductLading(data?.data?.order.details)} />
                                 <FormikMaskInput thousandsSeparator=',' mask={Number} name='ladingAmount' label={"مقدار بارگیری"} />
                                 <Button onClick={() => handleLadingList(values)} className='w-[50%] !bg-fuchsia-700 !text-white'>
@@ -177,16 +178,16 @@ const LadingLicence = () => {
                                         <Add />افزودن
                                     </Typography>
                                 </Button>
-                            </Box>
-                            <Box component="div" className='my-8 mx-auto'>
+                            </div>
+                            <div className='my-8 mx-auto'>
                                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862] !text-center" headCellTextColor="!text-white" data={ladingList} columns={lastCargoList} />
-                            </Box>
+                            </div>
                             <FormikInput multiline minRows={3} name="description" label="توضیحات" />
-                            <Box component="div" className='mt-8'>
+                            <div className='mt-8'>
                                 <Button onClick={() => onSubmit(values)} className='!bg-green-500 !text-white'>
                                     <Typography className='py-1'>ثبت مجوز</Typography>
                                 </Button>
-                            </Box>
+                            </div>
                         </Form>
                     }}
                 </Formik>
