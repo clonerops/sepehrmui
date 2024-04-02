@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Form, Formik } from 'formik'
-import { Box, Button, Typography } from '@mui/material'
+import { Formik } from 'formik'
+import { Button, Typography } from '@mui/material'
 import moment from 'moment-jalaali'
 
 import { usePostRecievePayment } from './core/_hooks'
 import { dropdownReceivePaymentResource } from './helpers/dropdownConvert'
-import { useGetCustomers } from '../customer/core/_hooks'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 
@@ -16,7 +15,6 @@ import Backdrop from '../../../_cloner/components/Backdrop'
 import FormikPrice from '../../../_cloner/components/FormikPrice'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
-import { dropdownCustomer } from '../generic/_functions'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 import { DateRange, Paid } from '@mui/icons-material'
 import FormikDescription from '../../../_cloner/components/FormikDescription'
@@ -35,7 +33,8 @@ const initialValues = {
     ReceiveFromCustomerId: "",
     ReceivePaymentSourceToId: "",
     PayToCustomerId: "",
-    AccountingDocumentNumber: ""
+    AccountingDocNo: "",
+    AccountingDescription: ""
 
 }
 
@@ -70,13 +69,15 @@ const RecievePayment = () => {
                             const formData: any = new FormData()
                             formData.append("ReceivePaymentSourceFromId", Number(values.ReceivePaymentSourceFromId))
                             // formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId)
-                            formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId.value)
+                            formData.append("ReceiveFromCustomerId", values.ReceiveFromCustomerId ? values.ReceiveFromCustomerId.value : "")
                             formData.append("ReceivePaymentSourceToId", values.ReceivePaymentSourceToId)
                             formData.append("Amount", Number(values.Amount?.replace(/,/g, "")))
                             // formData.append("PayToCustomerId", values.PayToCustomerId)
-                            formData.append("PayToCustomerId", values.PayToCustomerId.value)
+                            formData.append("PayToCustomerId", values.PayToCustomerId ? values.PayToCustomerId.value : "")
                             formData.append("AccountOwner", values.AccountOwner)
                             formData.append("TrachingCode", values.TrachingCode)
+                            formData.append("AccountingDocNo", Number(values.AccountingDocNo))
+                            formData.append("AccountingDescription", values.AccountingDescription ? values.AccountingDescription : "ندارد")
                             formData.append("CompanyName", values.CompanyName)
                             formData.append("ContractCode", values.ContractCode)
                             formData.append("Description", values.Description)
@@ -88,9 +89,9 @@ const RecievePayment = () => {
                                     if (response?.succeeded) {
                                         setTrachingCode(response?.data?.receivePayCode)
                                         EnqueueSnackbar(response.message, "success")
-                                    }else {
+                                    } else {
                                         EnqueueSnackbar(response.data.Message, "warning")
-                                      } 
+                                    }
                                 }
                             })
                         }
@@ -105,7 +106,7 @@ const RecievePayment = () => {
                                     }
                                     <FormikSelect name='ReceivePaymentSourceToId' label='پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {Number(values.ReceivePaymentSourceToId) == 1 &&
-                                     <FormikCustomer name='PayToCustomerId' label='نام مشتری' />
+                                        <FormikCustomer name='PayToCustomerId' label='نام مشتری' />
                                         // <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
                                     }
                                     <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
@@ -118,11 +119,11 @@ const RecievePayment = () => {
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
                                     <FormikInput name='CompanyName' label='نام شرکت' type='text' />
                                     <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
-                                    <FormikInput name='AccountingDocumentNumber' label='شماره سند حسابداری' type='text' />
+                                    <FormikInput name='AccountingDocNo' label='شماره سند حسابداری' type='text' />
                                 </div>
                                 <div className='grid grid-cols-1 my-8'>
-                                        <FormikDescription name='Description' label='توضیحات' type='text' />
-                                    </div>
+                                    <FormikDescription name='Description' label='توضیحات' type='text' />
+                                </div>
                                 <div className='grid grid-cols-1'>
                                     <FileUpload files={files} setFiles={setFiles} />
                                 </div>

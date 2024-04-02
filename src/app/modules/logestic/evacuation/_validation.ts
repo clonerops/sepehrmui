@@ -10,7 +10,7 @@ const evacuationValidation = Yup.object().shape({
     fareAmount: Yup.string().required("مبلغ کرایه الزامی است"),
     unloadingPlaceAddress: Yup.string().required("آدرس محل تخلیه الزامی است"),
     driverAccountNo: Yup.string().required("شماره حساب راننده الزامی است"),
-    driverCreditCardNo: Yup.string().required("شماره کارت راننده الزامی است"),
+    // driverCreditCardNo: Yup.string().required("شماره کارت راننده الزامی است"),
     otherAmount: Yup.string().required("مقدار سایر هزینه ها الزامی است"),
 });
 

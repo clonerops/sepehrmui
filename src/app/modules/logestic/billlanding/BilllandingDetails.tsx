@@ -1,7 +1,7 @@
-import {  CarCrash, DateRange, DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
+import { CarCrash, DateRange, DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
 import MuiTable from "../../../../_cloner/components/MuiTable"
-import { Button, Typography } from "@mui/material"
+import { Badge, Button, Typography } from "@mui/material"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
 import { useGetTransferRemitanceById } from "../core/_hooks"
 import { useParams } from "react-router-dom"
@@ -35,7 +35,7 @@ const BilllandingDetails = () => {
         { id: 11, title: "تاریخ تحویل", icon: <DateRange color="secondary" />, value: detailTools?.data?.data?.deliverDate },
         { id: 12, title: "باربری", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.shippingName },
         { id: 12, title: "شماره حساب راننده", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.driverAccountNo },
-        { id: 12, title: "شماره کارت راننده", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.driverCreditCardNo },
+        // { id: 12, title: "شماره کارت راننده", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.driverCreditCardNo },
         { id: 12, title: "سایر هزینه ها", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.otherCosts },
     ]
 
@@ -54,7 +54,7 @@ const BilllandingDetails = () => {
         },
     ]
 
-    if(detailTools.isLoading) {
+    if (detailTools.isLoading) {
         return <Backdrop loading={detailTools.isLoading} />
     }
 
@@ -120,13 +120,18 @@ const BilllandingDetails = () => {
 
     return (
         <>
+            <Typography color="primary" variant="h1" className="pb-8">جزئیات حواله</Typography>
             <div className='flex justify-end items-end mb-2 gap-x-4' >
-                <Button variant="contained" onClick={hadelDownloadEntrance} color="primary">
-                    <Typography>{"دانلود ضمیمه ثبت برای حواله ورود"}</Typography>
-                </Button>
-                <Button variant="contained" onClick={hadelDownloadEvacuation} color="secondary">
-                    <Typography>{"دانلود ضمیمه ثبت برای مجوز تخلیه"}</Typography>
-                </Button>
+                <Badge badgeContent={detailTools?.data?.data?.entrancePermit?.attachments.length || 0} color="secondary">
+                    <Button variant="contained" onClick={hadelDownloadEntrance} color="primary">
+                        <Typography>{"دانلود ضمیمه ثبت برای حواله ورود"}</Typography>
+                    </Button>
+                </Badge>
+                <Badge badgeContent={detailTools?.data?.data?.entrancePermit?.unloadingPermits[0].attachments.length || 0} color="primary">
+                    <Button variant="contained" onClick={hadelDownloadEvacuation} color="secondary">
+                        <Typography>{"دانلود ضمیمه ثبت برای مجوز تخلیه"}</Typography>
+                    </Button>
+                </Badge>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">
                 {orderAndAmountInfo.map((item: {

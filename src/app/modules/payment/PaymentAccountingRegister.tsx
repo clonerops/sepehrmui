@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useGetRecievePaymentByApproved, useGetRecievePayments } from "./core/_hooks";
+import { useGetRecievePaymentByApproved, useGetRecievePayments, usePutRecievePaymentRegister } from "./core/_hooks";
 import { Link } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Box, Button, Card, Container, Typography, Checkbox } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { IPayment, IPaymentFilter } from "./core/_models";
@@ -17,6 +17,11 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import RadioGroup from "../../../_cloner/components/RadioGroup";
 import moment from "moment-jalaali";
+import FormikInput from "../../../_cloner/components/FormikInput";
+import CustomButton from "../../../_cloner/components/CustomButton";
+import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import TransitionsModal from "../../../_cloner/components/ReusableModal";
 
 const pageSize = 100
 
@@ -24,6 +29,9 @@ const initialValues = {
     isApproved: 0,
     fromDate: '1402/12/01',
     toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+}
+const initialValuesRegister = {
+    accountDocNo: 0,
 }
 
 const categories = [
@@ -33,14 +41,19 @@ const categories = [
 ]
 
 
-const PaymentAccounting = () => {
+const PaymentAccountingRegister = () => {
     // Fetching
     const { mutate, data, isLoading } = useGetRecievePayments();
+    const putRecievePayRegister = usePutRecievePaymentRegister()
     // States
     const [results, setResults] = useState<IPayment[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [selectedIds, setSelectedIds] = useState<any>([]);
+    const [isSelectAll, setIsSelectAll] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const formikRef = useRef<FormikProps<any>>(null)
+    const formikRefAccountDocNo = useRef<FormikProps<any>>(null)
 
     const getReceivePayments = (filters: IPaymentFilter) => {
         mutate(filters, {
@@ -65,8 +78,23 @@ const PaymentAccounting = () => {
         // eslint-disable-next-line
     }, [currentPage]);
 
-    const columns = (renderAction: any) => {
+    const columns = (renderCheckbox: any, renderAction: any) => {
         const col = [
+            {
+                field: "id",
+                headerName: (
+                    <Checkbox
+                        color="primary"
+                        checked={isSelectAll}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+                    />
+                ),
+                sortable: false,
+                renderCell: renderCheckbox,
+                headerClassName: "headerClassName",
+                minWidth: 80,
+                flex: 1
+            },
             {
                 field: "receivePayCode",
                 renderCell: (params: any) => {
@@ -114,7 +142,7 @@ const PaymentAccounting = () => {
                 headerName: "مبلغ",
                 renderCell: (value: any) => (
                     <Typography color="primary" variant="h4">
-                        {separateAmountWithCommas(value.row.amount)+ "تومان"}
+                        {separateAmountWithCommas(value.row.amount) + "تومان"}
                     </Typography>
                 ),
                 headerClassName: "headerClassName",
@@ -125,10 +153,9 @@ const PaymentAccounting = () => {
                 field: "receivePayStatusDesc",
                 headerName: "وضعیت",
                 renderCell: (value: any) => (
-                    <Typography className={`${
-                        value.row.receivePayStatusId === 1 ? "text-yellow-500" :
-                        value.row.receivePayStatusId === 2 ? "text-green-500" : 
-                        value.row.receivePayStatusId === 3 ? "text-violet-500" : ""   }`} variant="h4">
+                    <Typography className={`${value.row.receivePayStatusId === 1 ? "text-yellow-500" :
+                        value.row.receivePayStatusId === 2 ? "text-green-500" :
+                            value.row.receivePayStatusId === 3 ? "text-violet-500" : ""}`} variant="h4">
                         {value.row.receivePayStatusDesc}
                     </Typography>
                 ),
@@ -203,10 +230,10 @@ const PaymentAccounting = () => {
             //     flex: 1
             // },
             {
-                headerName: "جزئیات",
+                headerName: "جزئیات و ثبت",
                 renderCell: renderAction,
                 headerClassName: "headerClassName",
-                minWidth: 80,
+                minWidth: 120,
                 flex: 1
             },
         ];
@@ -216,24 +243,64 @@ const PaymentAccounting = () => {
     const renderActions = (item: any) => {
         return (
             <div className="flex justify-center items-center gap-x-4">
-                <Link to={`/dashboard/payment/accounting/${item?.row?.id}`}>
+                <Link to={`/dashboard/payment/accounting/register/${item?.row?.id}`}>
                     <Typography variant="h4">
                         <Visibility color="primary" />
                     </Typography>
                 </Link>
-                <Link to={`/dashboard/payment/edit/${item?.row?.id}`}>
-                    <Typography variant="h4">
-                        <Edit color="secondary" />
-                    </Typography>
-                </Link>
             </div>
-            
+
         );
     };
+    const renderCheckbox = (item: any) => {
+        const isChecked = isSelectAll ?
+            selectedIds.length === results.length :
+            selectedIds.includes(item.row.id);
+
+        return (
+            <div className="flex justify-center items-center gap-x-4">
+                <Checkbox
+                    checked={isChecked}
+                    onChange={() => {
+                        if (isSelectAll) {
+                            handleHeaderCheckboxClick(isChecked);
+                        } else {
+                            handleCheckboxClick(item.row.id);
+                        }
+                    }}
+                />
+            </div>
+        );
+    };
+
+    const handleHeaderCheckboxClick = (isChecked: boolean) => {
+        const allIds = results.map((item: any) => item.id);
+        setSelectedIds(isChecked ? allIds : []);
+        setIsSelectAll(isChecked);
+    };
+
+    useEffect(() => {
+        handleHeaderCheckboxClick(isSelectAll)
+    }, [isSelectAll])
+
+
+    const handleCheckboxClick = (id: any) => {
+        const currentIndex = selectedIds.indexOf(id);
+        const newSelectedIds = [...selectedIds];
+
+        if (currentIndex === -1) {
+            newSelectedIds.push(id);
+        } else {
+            newSelectedIds.splice(currentIndex, 1);
+        }
+
+        setSelectedIds(newSelectedIds);
+    };
+
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
-      };
-    
+    };
+
     const handleFilter = (values: any) => {
         const filters: any = {
             isApproved: +values.isApproved,
@@ -244,7 +311,7 @@ const PaymentAccounting = () => {
         }
         getReceivePayments(filters)
     }
-    
+
     const handleFilterChange = (event: any, values: any) => {
         const filters: any = {
             isApproved: +event,
@@ -256,13 +323,38 @@ const PaymentAccounting = () => {
         getReceivePayments(filters)
     }
 
+
+    const onSubmit = () => {
+        if (selectedIds.length === 0) {
+            EnqueueSnackbar("لطفا سندی را برای ثبت انتخاب کنید", "warning")
+        } else {
+            const filters: any = {
+                receivePays: selectedIds,
+                accountDocNo: formikRefAccountDocNo?.current?.values?.accountDocNo
+            }
+            putRecievePayRegister.mutate(filters, {
+                onSuccess: (response) => {
+                    if (response?.succeeded) {
+                        renderAlert(response.message)
+                        setIsOpen(false)
+                    } else {
+                        EnqueueSnackbar(response.data.Message, "warning")
+                    }
+                }
+            })
+        }
+    }
+
+
+
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
+            {putRecievePayRegister.isLoading && <Backdrop loading={putRecievePayRegister.isLoading} />}
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={handleFilter}>
-                    {({values}) => {
-                       return <form>
+                    {({ values }) => {
+                        return <form>
                             <div className="flex justify-center items-center gap-8">
                                 <FormikDatepicker name="fromDate" label="از تاریخ" />
                                 <FormikDatepicker name="toDate" label="تا تاریخ" />
@@ -270,28 +362,59 @@ const PaymentAccounting = () => {
                             <div className="flex justify-end items-end my-4">
                                 {/* <RadioGroup
                                     categories={categories}
-                                    onChange={(event: any)=> handleFilterChange(event, values)}
+                                    onChange={(event: any) => handleFilterChange(event, values)}
                                     id="isApproved"
                                     key="isApproved"
                                     name="isApproved"
-                                /> */}
-
+                                />
+ */}
                                 <ButtonComponent onClick={() => handleFilter(values)}>
-                                  <Typography className="!text-white">جستجو</Typography>  
+                                    <Typography className="!text-white">جستجو</Typography>
                                 </ButtonComponent>
                             </div>
                         </form>
                     }}
                 </Formik>
                 <MuiDataGrid
-                    columns={columns(renderActions)}
+                    columns={columns(renderCheckbox, renderActions)}
                     rows={results}
                     data={data?.data}
                 />
                 <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
+                <div className="flex justify-end items-end mt-8">
+                    <CustomButton onClick={() => setIsOpen(true)} title="ثبت سند حسابداری" />
+                </div>
             </ReusableCard>
+            <TransitionsModal
+                open={isOpen}
+                isClose={() => setIsOpen(false)}
+                title="ثبت شماره سند"
+                description="لطفا شماره سند را برای ثبت حسابداری دریافت و پرداخت را وارد نمایید"
+            >
+                <>
+                    <Formik innerRef={formikRefAccountDocNo} initialValues={{ accountDocNo: "" }} onSubmit={() => { }}>
+                        {({ }) => (
+                            <div className="flex flex-col space-y-4">
+                                <div className="mt-8">
+                                    <FormikInput name="accountDocNo" label="شماره سند" />
+                                </div>
+                                <div className="flex justify-end items-end gap-4">
+                                    <Button className="!bg-green-500" onClick={() => onSubmit()}>
+                                        <Typography>ثبت</Typography>
+                                    </Button>
+                                    <Button className="!bg-red-500" onClick={() => setIsOpen(false)}>
+                                        <Typography className="text-white">انصراف</Typography>
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+                    </Formik>
+                </>
+            </TransitionsModal>
+
+
         </>
     );
 };
 
-export default PaymentAccounting;
+export default PaymentAccountingRegister;

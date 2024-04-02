@@ -46,6 +46,8 @@ export const translationMapping: any = {
     presale: "سفارشات پیش فروش",
     edit: "ویرایش",
     billlandingList: "لیست حواله های صادرشده",
+    register: "ثبت",
+    ready_to_evacuation: "صدور مجوز تخلیه",
 
     // Add more translations as needed
   };

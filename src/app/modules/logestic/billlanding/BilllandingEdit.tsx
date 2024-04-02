@@ -287,6 +287,7 @@ const BilllandingEdit = () => {
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
+            <Typography color="primary" variant="h1" className="pb-8">ویرایش حواله</Typography>
             <Formik enableReinitialize initialValues={
                 {
                     ...initialValues,
