@@ -30,7 +30,6 @@ const RecievePaymentEdit = () => {
     const formikRef = useRef<FormikProps<any>>(null)
 
     const [approve, setApprove] = useState<boolean>(false);
-    const [approveConfirm, setApproveConfirm] = useState<boolean>(false);
     const convertBase64ToFile = useBase64toFile()
 
     const { mutate, isLoading } = useUpdateRecievePaymentById()
@@ -60,34 +59,32 @@ const RecievePaymentEdit = () => {
     }
     const [files, setFiles] = useState<File[]>([]);
 
+    const formData = new FormData()
+    formData.append("Id", id)
+    formData.append("ReceiveFromCustomerId", formikRef?.current?.values?.receiveFromCustomerId.value ? formikRef?.current?.values?.receiveFromCustomerId.value : formikRef?.current?.values?.receiveFromCustomerIdForm === "" ? "" : formikRef?.current?.values?.receiveFromCustomerIdForm)
+    formData.append("PayToCustomerId", formikRef?.current?.values?.payToCustomerId.value ? formikRef?.current?.values?.payToCustomerId.value : formikRef?.current?.values?.payToCustomerIdForm === "" ? "" : formikRef?.current?.values?.payToCustomerIdForm)
+    formData.append("ReceivePaymentSourceFromId", formikRef?.current?.values?.receivePaymentSourceFromId ? +formikRef?.current?.values?.receivePaymentSourceFromId : detailTools?.data?.data?.receivePaymentSourceFromId)
+    formData.append("ReceivePaymentSourceToId", formikRef?.current?.values?.receivePaymentSourceToId ? formikRef?.current?.values?.receivePaymentSourceToId : detailTools?.data?.data?.receivePaymentSourceToId)
+    formData.append("Amount", formikRef?.current?.values?.amount ? +formikRef?.current?.values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
+    formData.append("AccountOwner", formikRef?.current?.values?.accountOwner ? formikRef?.current?.values?.accountOwner : detailTools?.data?.data?.accountOwner)
+    formData.append("TrachingCode", formikRef?.current?.values?.trachingCode ? formikRef?.current?.values?.trachingCode : detailTools?.data?.data?.trachingCode)
+    formData.append("CompanyName", formikRef?.current?.values?.companyName ? formikRef?.current?.values?.companyName : detailTools?.data?.data?.companyName)
+    formData.append("ContractCode", formikRef?.current?.values?.contractCode ? formikRef?.current?.values?.contractCode : detailTools?.data?.data?.contractCode)
+    formData.append("AccountingDocNo", formikRef?.current?.values?.accountingDocNo ? +formikRef?.current?.values?.accountingDocNo : detailTools?.data?.data?.accountingDocNo)
+    formData.append("AccountingDescription", formikRef?.current?.values?.accountingDescription ? formikRef?.current?.values?.accountingDescription : detailTools?.data?.data?.accountingDescription)
+    formData.append("Description", formikRef?.current?.values?.description ? formikRef?.current?.values?.description : detailTools?.data?.data?.description)
+    formData.append("ReceivedFrom", "")
+    formData.append("PayTo", "")
+    files.forEach((file) => {
+        formData.append('Attachments', file);
+    });
+
+
     const onSubmit = async () => {
-        const formData = new FormData()
-        formData.append("Id", id)
-        formData.append("ReceiveFromCustomerId", formikRef?.current?.values?.receiveFromCustomerId.value ? formikRef?.current?.values?.receiveFromCustomerId.value : formikRef?.current?.values?.receiveFromCustomerIdForm === "" ? "" : formikRef?.current?.values?.receiveFromCustomerIdForm)
-        formData.append("PayToCustomerId", formikRef?.current?.values?.payToCustomerId.value ? formikRef?.current?.values?.payToCustomerId.value : formikRef?.current?.values?.payToCustomerIdForm === "" ? "" : formikRef?.current?.values?.payToCustomerIdForm)
-        formData.append("ReceivePaymentSourceFromId", formikRef?.current?.values?.receivePaymentSourceFromId ? +formikRef?.current?.values?.receivePaymentSourceFromId : detailTools?.data?.data?.receivePaymentSourceFromId)
-        formData.append("ReceivePaymentSourceToId", formikRef?.current?.values?.receivePaymentSourceToId ? formikRef?.current?.values?.receivePaymentSourceToId : detailTools?.data?.data?.receivePaymentSourceToId)
-        formData.append("Amount", formikRef?.current?.values?.amount ? +formikRef?.current?.values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
-        formData.append("AccountOwner", formikRef?.current?.values?.accountOwner ? formikRef?.current?.values?.accountOwner : detailTools?.data?.data?.accountOwner)
-        formData.append("TrachingCode", formikRef?.current?.values?.trachingCode ? formikRef?.current?.values?.trachingCode : detailTools?.data?.data?.trachingCode)
-        formData.append("CompanyName", formikRef?.current?.values?.companyName ? formikRef?.current?.values?.companyName : detailTools?.data?.data?.companyName)
-        formData.append("ContractCode", formikRef?.current?.values?.contractCode ? formikRef?.current?.values?.contractCode : detailTools?.data?.data?.contractCode)
-        formData.append("AccountingDocNo", formikRef?.current?.values?.accountingDocNo ? +formikRef?.current?.values?.accountingDocNo : detailTools?.data?.data?.accountingDocNo)
-        formData.append("AccountingDescription", formikRef?.current?.values?.accountingDescription ? formikRef?.current?.values?.accountingDescription : detailTools?.data?.data?.accountingDescription)
-        formData.append("Description", formikRef?.current?.values?.description ? formikRef?.current?.values?.description : detailTools?.data?.data?.description)
-        formData.append("ReceivedFrom", "")
-        formData.append("PayTo", "")
-        files.forEach((file) => {
-            formData.append('Attachments', file);
-        });
         mutate(formData, {
             onSuccess: (response) => {
                 if (response?.succeeded) {
                     EnqueueSnackbar("ویرایش با موفقیت انجام پذیرفت", "success")
-                    if(approve) {
-                        setApprove(false)
-                        setApproveConfirm(true)
-                    }
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")
                 }
@@ -96,19 +93,32 @@ const RecievePaymentEdit = () => {
 
     }
 
+
     const handleConfirm = () => {
         if (id)
-            updateApprove.mutate(id, {
-                onSuccess: (response) => {
-                    if (response?.succeeded) {
-                        EnqueueSnackbar(response.message, "success")
-                        setApproveConfirm(false)
-
-                    } else {
-                        EnqueueSnackbar(response.data.Message, "warning")
+        mutate(formData, {
+            onSuccess: (response) => {
+                if (response?.succeeded) {
+                    EnqueueSnackbar("ویرایش با موفقیت انجام پذیرفت", "success")
+                    if(approve) {
+                        setApprove(false)
+                        updateApprove.mutate(id, {
+                            onSuccess: (response) => {
+                                if (response?.succeeded) {
+                                    EnqueueSnackbar(response.message, "success")
+                                } else {
+                                    EnqueueSnackbar(response.data.Message, "warning")
+                                }
+                            }
+                        })            
                     }
+                } else {
+                    EnqueueSnackbar(response.data.Message, "warning")
                 }
-            })
+            }
+        })
+
+
 
     }
 
@@ -121,6 +131,7 @@ const RecievePaymentEdit = () => {
         }
         // eslint-disable-next-line
     }, [detailTools?.isLoading])
+
 
     return (
         <>
@@ -186,10 +197,10 @@ const RecievePaymentEdit = () => {
                                     <FileUpload files={files} setFiles={setFiles} />
                                 </div>
                                 <div className='flex gap-x-4'>
-                                    <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
+                                    <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 3} onClick={() => handleSubmit()} variant="contained" color="secondary">
                                         <Typography variant="h3" className="px-8 py-2">ویرایش دریافت و پرداخت</Typography>
                                     </Button>
-                                    <Button variant="contained" onClick={() => setApprove(true)} className='mb-2' color="primary">
+                                    <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 2} variant="contained" onClick={() => setApprove(true)} className='mb-2' color="primary">
                                         <Typography variant="h3">{isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
                                     </Button>
                                 </div>
@@ -201,22 +212,10 @@ const RecievePaymentEdit = () => {
             </ReusableCard>
             <ConfirmDialog
                 open={approve}
-                hintTitle="چنانچه مقادیری را تغییر داده باشید بایستی قبل از ثبت تایید، اقدام به ثبت ویرایش نمایید"
-                notConfirmText="تغییری نداده ام!"
-                confirmText={detailTools?.isLoading ? "درحال پردازش ..." : "بله! ثبت ویرایش "}
-                onCancel={() => {
-                    setApprove(false)
-                    setApproveConfirm(true)
-                }}
-                onConfirm={() => onSubmit()}
-                isEdit
-            />
-            <ConfirmDialog
-                open={approveConfirm}
                 hintTitle="آیا از تایید سند دریافت و پرداخت مطمئن هستید؟"
                 notConfirmText="لغو"
                 confirmText={updateApprove?.isLoading ? "درحال پردازش ..." : "تایید"}
-                onCancel={() => setApproveConfirm(false)}
+                onCancel={() => setApprove(false)}
                 onConfirm={() => handleConfirm()}
             />
 
