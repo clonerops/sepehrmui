@@ -1,10 +1,10 @@
 
-export const dropdownStandard = (data: any) => {
+export const dropdownIncome = (data: any) => {
     return (
         data &&
-        data?.map((obj: { desc: string, id: string }): any => {
-            const { desc,  id } = obj;
-            return { value: id, label: desc };
+        data?.map((obj: { incomeDescription: string, id: string }): any => {
+            const { incomeDescription,  id } = obj;
+            return { value: id, label: incomeDescription };
         })
     );
 };

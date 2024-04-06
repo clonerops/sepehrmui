@@ -1,42 +1,42 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { IStandard } from "./_models"
+import { IIncome } from "./_models"
 
-const useGetStandards = () => {
-    return useQuery(['Standards'], () => api.getStandards(), {
+const useGetIncomes = () => {
+    return useQuery(['Incomes'], () => api.getIncomes(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
     })
 }
 
-const usePostStandards = () => {
-    return useMutation((formData: IStandard) => {
-        return api.postStandards(formData)
+const usePostIncomes = () => {
+    return useMutation((formData: IIncome) => {
+        return api.postIncomes(formData)
     })
 }
 
 
-const useGetStandard = (id: string) => {
-    return useQuery(['Standards', id], () => api.getStandard(id))
+const useGetIncome = (id: string) => {
+    return useQuery(['incomes', id], () => api.getIncome(id))
 }
 
-const useUpdateStandards = () => {
-    return useMutation((formData: IStandard) => {
-        return api.updateStandards(formData)
+const useUpdateIncomes = () => {
+    return useMutation((formData: IIncome) => {
+        return api.updateIncomes(formData)
     })
 }
 
-const useDeleteStandards = () => {
+const useDeleteIncomes = () => {
     return useMutation((id: number) => {
-        return api.deleteStandard(id)
+        return api.deleteIncome(id)
     })
 }
 
 export {
-    useGetStandards,
-    usePostStandards,
-    useGetStandard,
-    useUpdateStandards,
-    useDeleteStandards
+    useGetIncomes,
+    usePostIncomes,
+    useGetIncome,
+    useUpdateIncomes,
+    useDeleteIncomes
 }

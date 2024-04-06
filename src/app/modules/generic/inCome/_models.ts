@@ -1,5 +1,5 @@
-export interface IStandard {
+export interface IIncome {
     id?: number | null | undefined
-    desc: string | null | undefined
+    incomeDescription: string | null | undefined
     isActive?: boolean | null | undefined
 }
