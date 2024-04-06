@@ -1,76 +1,102 @@
 import { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
-
-
+import { Box, Button, Typography } from "@mui/material";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
-import Backdrop from "../../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import ActiveText from "../../../../_cloner/components/ActiveText";
-import ProductForm from "./ShareholdersForm";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-// import { useDisableProduct, useRetrieveProducts } from "./_hooks";
-import { IBank } from "./_models";
-import CardInformation from "../../../../_cloner/components/CardInformation";
+import { IShareholder } from "./_models";
 import _ from 'lodash'
-import CardWithIcons from "../../../../_cloner/components/CardWithIcons";
-import { AddTask, AdfScanner, DesignServices, TextDecrease } from "@mui/icons-material";
-import BankForm from "./ShareholdersForm";
+import { Add, Search, } from "@mui/icons-material";
+import ShareholdersForm from "./ShareholdersForm";
+import { useDeleteShareHolder, useGetShareholderList } from "./_hooks";
+import { Formik } from "formik";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import Pagination from "../../../../_cloner/components/Pagination";
+import Backdrop from "../../../../_cloner/components/Backdrop";
+
+const pageSize = 100
+
 
 const Shareholders = () => {
-    // const {
-    //     data: products,
-    //     isLoading: productsLoading,
-    //     refetch,
-    // } = useRetrieveProducts();
-    // const {
-    //     mutate,
-    //     data: deleteData,
-    //     isLoading: deleteLoading,
-    // } = useDisableProduct();
-    const [results, setResults] = useState<IBank[]>([]);
-
-    // useEffect(() => {
-    //     setResults(products?.data);
-    // }, [products]);
-
+    
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-    const [itemForEdit, setItemForEdit] = useState<IBank>();
+    const [itemForEdit, setItemForEdit] = useState<IShareholder>();
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
+    const shareHolderLists = useGetShareholderList();
+        const { mutate, data: deleteData, isLoading: deleteLoading, } = useDeleteShareHolder();
+
+    const getLists = () => {
+        const filter = {
+            pageNumber: currentPage,
+            pageSize: 100,
+          }
+          shareHolderLists.mutate(filter)
+  
+    }
+
+    useEffect(() => {
+        getLists()
+    }, [currentPage])
+    
 
     const columns = (renderAction: any) => {
         const col = [
             {
-                field: "bankCode",
+                field: "shareHolderCode",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
-                headerName: "کد کالا",
-                cellClassName: "font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 60,
-                maxWidth: 80,
-                flex: 1,
-            },
-            {
-                field: "bankName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام کالا",
+                headerName: "کد سهامدار",
                 cellClassName: "bg-green-100 font-bold",
                 headerClassName: "headerClassName",
-                minWidth: 240,
+                minWidth: 80,
+                maxWidth: 120,
                 flex: 1,
             },
             {
-                field: "bankTypeDesc",
+                field: "firstName",
                 renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
+                    return <Typography variant="h4">{params.value}</Typography>;
                 },
-                headerName: "نوع کالا",
+                headerName: "نام سهامدار",
+                cellClassName: "font-bold",
+                headerClassName: "headerClassName",
+                minWidth: 180,
+                flex: 1,
+            },
+            {
+                field: "lastName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "نام خانوادگی سهامدار",
+                headerClassName: "headerClassName",
+                minWidth: 180,
+                flex: 1,
+            },
+            {
+                field: "fatherName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "نام پدر",
+                cellClassName: "font-bold",
+                headerClassName: "headerClassName",
+                minWidth: 180,
+                flex: 1,
+            },
+            {
+                field: "mobileNo",
+                renderCell: (params: any) => {
+                    return <Typography variant="h4">{params.value}</Typography>;
+                },
+                headerName: "موبایل",
+                cellClassName: "font-bold", 
                 headerClassName: "headerClassName",
                 minWidth: 120,
                 flex: 1,
@@ -86,32 +112,53 @@ const Shareholders = () => {
         return col;
     };
 
-    const handleEdit = (item: IBank) => {
+    const handleEdit = (item: IShareholder) => {
         setIsEditOpen(true);
         setItemForEdit(item);
     };
-    // const handleDelete = (id: string | undefined) => {
-    //     if (id) mutate(id, {
-    //         onSuccess: (message) => {
-    //            setSnackeOpen(true)
-    //             refetch()
-    //         }
-    //     });
-    // };
+    const handleDelete = (id: string | undefined) => {
+        if (id) mutate(id, {
+            onSuccess: (response) => {
+                if (response.succeeded) {
+                    EnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
+                    getLists()
+                } else {
+                    EnqueueSnackbar(response.data.Message, "error")
+                }
+            }
+        });
+    };
 
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
-                {/* <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} /> */}
+                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
             </Box>
         );
     };
 
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
+    
+    const handleFilter = (values: any) => {
+        let formData =  values.shareHolderCode ? {
+          pageNumber: currentPage,
+          pageSize: 100,
+          shareHolderCode: +values.shareHolderCode
+        } : {
+            pageNumber: currentPage,
+            pageSize: 100,  
+        };
+        shareHolderLists.mutate(formData);
+      }
+    
+
     return (
         <>
-            {/* {deleteLoading && <Backdrop loading={deleteLoading} />}
-            {productsLoading && <Backdrop loading={productsLoading} />} */}
+            {deleteLoading && <Backdrop loading={deleteLoading} />}
+            {shareHolderLists.isLoading && <Backdrop loading={shareHolderLists.isLoading} />}
             {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
                 <CardWithIcons
                     title='تعداد سرویس های ثبت شده'
@@ -134,67 +181,61 @@ const Shareholders = () => {
                     value={Math.ceil(+_.sumBy(products?.data && products?.data, 'inventotyCriticalPoint') / +products?.data?.length)}
                     iconClassName='bg-[#EB5553]' />
             </Box> */}
-
             <ReusableCard>
-                <Box
-                    component="div"
-                    className="md:flex md:justify-between md:items-center space-y-2 mb-4"
+                <div
+                    className="flex lg:flex-row flex-col lg:justify-between lg:items-center space-y-2 mb-4"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
-                        <FuzzySearch
-                            keys={[
-                                "productCode",
-                                "productName",
-                                "productDetail.size",
-                                "productDetail.productIntegratedName",
-                                "approximateWeight",
-                                "numberInPackage",
-                                "productDetail.standard",
-                                "productDetail.productState",
-                                "description",
-                            ]}
-                            // data={products?.data}
-                            data={[]}
-                            // threshold={0.5}
-                            setResults={setResults}
-                        />
-                    </Box>
-                    <ButtonComponent
-                        onClick={() => setIsCreateOpen(true)}
-                    >
-                        <Typography variant="h4" className="px-4 py-1 text-white">ایجاد کالا</Typography>
-                    </ButtonComponent>
-                </Box>
+                    <Formik initialValues={{shareHolderCode: ""}} onSubmit={handleFilter}>
+                        {({ values }) => (
+                            <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%]">
+                                <FormikInput
+                                    name="shareHolderCode"
+                                    label="شماره سهامداری"
+                                />
+                                <ButtonComponent onClick={() => handleFilter(values)}>
+                                <Search className="text-white" />
+                                <Typography className="px-2 text-white">جستجو</Typography>
+                                </ButtonComponent>
+                            </div>
+                        )}
+                    </Formik>
+
+                    <Button onClick={() => setIsCreateOpen(true)} className="!bg-indigo-500">
+                        <Add className="text-white"  />
+                        <Typography variant="h4" className="px-4 py-1 text-white">ایجاد سهامدار جدید</Typography>
+                    </Button>
+                </div>
                 <MuiDataGrid
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
-                    rows={[]}
-                    data={[]}
+                    rows={shareHolderLists?.data?.data}
+                    data={shareHolderLists?.data?.data}
+                    hideFooter={true}
                 />
+                <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
             </ReusableCard>
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
-                title="ایجاد محصول جدید"
+                title="ایجاد سهامدار جدید"
                 width="60%"
-                description="لطفاً مشخصات محصول را با دقت وارد کنید تا مشتریان به آسانی اطلاعات مورد نیاز را بیابند اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
+                description="جهت ثبت سهامدار جدید لطفا اطلاعات زیر را تکمیل نمائید"
             >
-                <BankForm
-                    // refetch={refetch}
+                <ShareholdersForm
+                    getLists={getLists}
                     setIsCreateOpen={setIsCreateOpen}
-                />
+                    />
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
-                title="ویرایش محصول جدید"
+                title="ویرایش سهامدار جدید"
                 width="60%"
-                description=" درصورتی که محصولی نیاز به ویرایش داشته باشد می توانید از طریق فرم زیر اقدام به ویرایش محصول نمایید"
-            >
-                <BankForm
-                    // id={itemForEdit?.id}
-                    id={"1"}
-                    // refetch={refetch}
+                description=" درصورتی که اطلاعتی که ثبت کرده اید نیاز به ویرایش داشته باشد ازطریق فرم زیر اقدام کنید"
+                >
+                <ShareholdersForm
+                    id={itemForEdit?.id}
+                    getLists={getLists}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>

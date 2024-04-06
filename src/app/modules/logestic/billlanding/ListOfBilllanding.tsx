@@ -15,7 +15,7 @@ import { useGetTransferRemittanceStatus } from "../../generic/_hooks"
 import RadioGroup from "../../../../_cloner/components/RadioGroup"
 import { dropdownTransferRemittanceStatus } from "../helpers/dropdowns"
 
-const pageSize = 20
+const pageSize = 100
 
 const ListOfBilllanding = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -58,7 +58,6 @@ const ListOfBilllanding = () => {
   };
 
   const handleChangeStatus = (id: number) => {
-    console.log("id", id)
     let formData = {
       PageNumber: currentPage,
       PageSize: 100,
@@ -93,9 +92,9 @@ const ListOfBilllanding = () => {
                     disabled={false}
                     categories={
                       transferRemittanceStatus?.data === undefined
-                          ? [{ value: 0, title: "همه", defaultChecked: true }]
+                          ? [{ value: null, title: "همه", defaultChecked: true }]
                           : dropdownTransferRemittanceStatus([
-                                { id: 0, statusDesc: "همه", defaultChecked: true },
+                                { id: null, statusDesc: "همه", defaultChecked: true },
                                 ...transferRemittanceStatus?.data,
                             ])
                   }

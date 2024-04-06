@@ -11,13 +11,18 @@ import { Formik } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import { useEffect, useState } from "react"
 import Pagination from "../../../../_cloner/components/Pagination"
+import { dropdownTransferRemittanceStatus } from "../helpers/dropdowns"
+import { useGetTransferRemittanceStatus } from "../../generic/_hooks"
+import RadioGroup from "../../../../_cloner/components/RadioGroup"
 
 
 const pageSize = 20
 
 
 const TransferRemitancesList = () => {
-      const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const transferRemittanceStatus = useGetTransferRemittanceStatus()
 
   const transferList = useGetTransferRemitancesByMutation()
   useEffect(() => {
@@ -48,6 +53,16 @@ const TransferRemitancesList = () => {
       setCurrentPage(selectedItem.selected + 1);
   };
 
+  const handleChangeStatus = (id: number) => {
+    let formData = {
+      PageNumber: currentPage,
+      PageSize: 100,
+      TransferRemittStatusId: id, 
+    };
+    transferList.mutate(formData);
+  }
+
+
 
 return (
     <>
@@ -71,6 +86,23 @@ return (
                                             <Typography className="px-2 text-white">جستجو</Typography>
                                     </ButtonComponent>
                                 </div>
+                                <div className="mb-4">
+                                  <RadioGroup
+                                    key="TransferRemittStatusId"
+                                    disabled={false}
+                                    categories={
+                                      transferRemittanceStatus?.data === undefined
+                                          ? [{ value: null, title: "همه", defaultChecked: true }]
+                                          : dropdownTransferRemittanceStatus([
+                                                { id: null, statusDesc: "همه", defaultChecked: true },
+                                                ...transferRemittanceStatus?.data,
+                                            ])
+                                  }
+                                    name="TransferRemittStatusId"
+                                    id="TransferRemittStatusId"
+                                    onChange={(id: number) => handleChangeStatus(id)}
+                                  />
+                              </div>
                             </form>
                         );
                     }}
