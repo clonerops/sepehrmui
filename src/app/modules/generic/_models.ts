@@ -50,3 +50,9 @@ export interface IVehicleType{
     id: number,
     isActive: boolean
 }
+
+export interface ITransferRemittanceStatus {
+    id: number
+    statusDesc: string 
+  }
+  

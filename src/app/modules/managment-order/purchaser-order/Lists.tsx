@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Visibility } from "@mui/icons-material";
+import { Search, Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {Box, Button, Typography} from '@mui/material'
 
-import { useRetrievePurchaserOrders } from "../core/_hooks";
+import { useRetrievePurchaserOrders, useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
 import { orderColumns, purchaserOrderColumns } from "../helpers/columns";
 
@@ -11,24 +11,32 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
+import { Formik } from "formik";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 
-const pageSize = 20
+const pageSize = 100
 
 const PurchaserOrderList = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    let formData = {
-        pageNumber: currentPage,
-        pageSize: pageSize,    
-    }
 
-    const { data: orders, isLoading } = useRetrievePurchaserOrders(formData);
+    const orderLists = useRetrievePurchaserOrdersByMutation()
 
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
-        setResults(orders?.data);
-    }, [orders?.data]);
+        const formData = {
+            pageNumber: currentPage,
+            pageSize: 100,        
+        }
+        orderLists.mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+    }, [currentPage]);
+
 
 
     const renderAction = (item: any) => {
@@ -48,34 +56,46 @@ const PurchaserOrderList = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
+
+    const onSubmit = (values: any) => {
+        const formData = values?.orderCode ? {
+            pageNumber: currentPage,
+            pageSize: 100,
+            OrderCode: +values?.orderCode  
+        } : {
+            pageNumber: currentPage,
+            pageSize: 100,
+        }
+        orderLists.mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+    }
+
     
     return (
         <ReusableCard>
-            <Box component="div" className="w-auto md:w-[40%] mb-4">
-                <FuzzySearch
-                    keys={[
-                        "orderCode",
-                        "registerDate",
-                        "customerFirstName",
-                        "customerLastName",
-                        "orderSendTypeDesc",
-                        "paymentTypeDesc",
-                        "invoiceTypeDesc",
-                        "isTemporary",
-                        "totalAmount",
-                        "exitType",
-                    ]}
-                    data={orders?.data}
-                    setResults={setResults}
-                />
-            </Box>
+            <Formik initialValues={{orderCode: ""}} onSubmit={onSubmit}> 
+                {({handleSubmit}) => {
+                    return <div className="w-[50%] mb-4">
+                        <div className="flex justify-center items-center gap-4">
+                            <FormikInput name="orderCode" label="شماره سفارش"  />
+                            <ButtonComponent onClick={handleSubmit}>
+                                <Search className="text-white" />
+                                <Typography className="text-white">جستجو</Typography>
+                            </ButtonComponent>
+                        </div>
+                    </div>
+                }}
+            </Formik>
             <MuiDataGrid
                 columns={purchaserOrderColumns(renderAction)}
                 rows={results || [{}]}
-                data={orders?.data || [{}]}
-                isLoading={isLoading}
+                data={orderLists?.data?.data || [{}]}
+                isLoading={orderLists?.isLoading}
             />
-            <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
+            <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
         </ReusableCard>
     );
 };

@@ -159,6 +159,7 @@ const getTransferRemitances = async () => {
 const getTransferRemitancesFilter = async (filter: {
     id?: number, 
     TransferEntransePermitNo?: number, 
+    TransferRemittStatusId?: number, 
     IsEntranced?: boolean,
     PageNumber?: number,
     PageSize?: number,

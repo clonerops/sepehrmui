@@ -82,6 +82,13 @@ const useGetVehicleTypes = () => {
         refetchIntervalInBackground: false,
     });
 };
+const useGetTransferRemittanceStatus = () => {
+    return useQuery(["transferRemittanceStatus"], () => api.getTransferRemitanceStatus(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 
 export {
     useGetSendTypes,
@@ -95,4 +102,5 @@ export {
     useGetServices,
     useGetProductTypes,
     useGetVehicleTypes,
+    useGetTransferRemittanceStatus
 };

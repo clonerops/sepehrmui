@@ -1,33 +1,39 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {Box, Button, Typography} from '@mui/material'
+import { Button, Typography} from '@mui/material'
 
-import { useRetrieveOrders } from "../core/_hooks";
+import {  useRetrieveOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
 import { orderColumns } from "../helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-// import Pagination from "../../../../_cloner/components/Pagination";
+import Pagination from "../../../../_cloner/components/Pagination";
+import { Formik } from "formik";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import { Search } from "@mui/icons-material";
 
-// const pageSize = 20
+const pageSize = 100
 
 const SalesOrderList = () => {
-    // const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
-    let formData = {
-        pageNumber: 1,
-        pageSize: 100,    
-    }
-
-    const { data: orders, isLoading } = useRetrieveOrders(formData);
+    const orderLists = useRetrieveOrdersByMutation()
 
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
-        setResults(orders?.data);
-    }, [orders?.data]);
+        const formData = {
+            pageNumber: currentPage,
+            pageSize: 100,        
+        }
+        orderLists.mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+    }, [currentPage]);
 
 
     const renderAction = (item: any) => {
@@ -44,37 +50,48 @@ const SalesOrderList = () => {
         );
     };
 
-    // const handlePageChange = (selectedItem: { selected: number }) => {
-    //     setCurrentPage(selectedItem.selected + 1);
-    // };
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
+
+    const onSubmit = (values: any) => {
+        const formData = values?.orderCode ? {
+            pageNumber: currentPage,
+            pageSize: 100,
+            OrderCode: +values?.orderCode  
+        } : {
+            pageNumber: currentPage,
+            pageSize: 100,
+        }
+        orderLists.mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+    }
     
     return (
         <ReusableCard>
-            <Box component="div" className="w-auto md:w-[40%] mb-4">
-                <FuzzySearch
-                    keys={[
-                        "orderCode",
-                        "registerDate",
-                        "customerFirstName",
-                        "customerLastName",
-                        "orderSendTypeDesc",
-                        "paymentTypeDesc",
-                        "invoiceTypeDesc",
-                        "isTemporary",
-                        "totalAmount",
-                        "exitType",
-                    ]}
-                    data={orders?.data}
-                    setResults={setResults}
-                />
-            </Box>
+            <Formik initialValues={{orderCode: ""}} onSubmit={onSubmit}> 
+                {({handleSubmit}) => {
+                    return <div className="w-[50%] mb-4">
+                        <div className="flex justify-center items-center gap-4">
+                            <FormikInput name="orderCode" label="شماره سفارش"  />
+                            <ButtonComponent onClick={handleSubmit}>
+                                <Search className="text-white" />
+                                <Typography className="text-white">جستجو</Typography>
+                            </ButtonComponent>
+                        </div>
+                    </div>
+                }}
+            </Formik>
             <MuiDataGrid
                 columns={orderColumns(renderAction)}
                 rows={results}
-                data={orders?.data}
-                isLoading={isLoading}
+                data={orderLists?.data?.data}
+                isLoading={orderLists.isLoading}
             />
-            {/* <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} /> */}
+            <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
         </ReusableCard>
     );
 };

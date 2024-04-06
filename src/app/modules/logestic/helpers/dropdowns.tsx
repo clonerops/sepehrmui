@@ -18,3 +18,13 @@ export const dropdownProductLading = (data: any) => {
         })
     );
 };
+
+export const dropdownTransferRemittanceStatus = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { statusDesc:string, id: number }): any => {
+            const { statusDesc, id } = obj;
+            return { value: id, title: statusDesc };
+        })
+    );
+};

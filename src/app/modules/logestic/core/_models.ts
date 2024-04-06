@@ -84,8 +84,5 @@ export interface IEvacuationPermit {
     onloadedAmount?: number | null | undefined
   }[]
 
-
-
-
 }
 
