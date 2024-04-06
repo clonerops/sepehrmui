@@ -1,5 +1,5 @@
-export interface IStandard {
+export interface ICost {
     id?: number | null | undefined
-    desc: string | null | undefined
+    costDescription: string | null | undefined
     isActive?: boolean | null | undefined
 }

@@ -1,42 +1,42 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { IStandard } from "./_models"
+import { ICost } from "./_models"
 
-const useGetStandards = () => {
-    return useQuery(['Standards'], () => api.getStandards(), {
+const useGetCosts = () => {
+    return useQuery(['Costs'], () => api.getCosts(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
     })
 }
 
-const usePostStandards = () => {
-    return useMutation((formData: IStandard) => {
-        return api.postStandards(formData)
+const usePostCosts = () => {
+    return useMutation((formData: ICost) => {
+        return api.postCosts(formData)
     })
 }
 
 
-const useGetStandard = (id: string) => {
-    return useQuery(['Standards', id], () => api.getStandard(id))
+const useGetCost = (id: string) => {
+    return useQuery(['costs', id], () => api.getCost(id))
 }
 
-const useUpdateStandards = () => {
-    return useMutation((formData: IStandard) => {
-        return api.updateStandards(formData)
+const useUpdateCosts = () => {
+    return useMutation((formData: ICost) => {
+        return api.updateCosts(formData)
     })
 }
 
-const useDeleteStandards = () => {
+const useDeleteCosts = () => {
     return useMutation((id: number) => {
-        return api.deleteStandard(id)
+        return api.deleteCost(id)
     })
 }
 
 export {
-    useGetStandards,
-    usePostStandards,
-    useGetStandard,
-    useUpdateStandards,
-    useDeleteStandards
+    useGetCosts,
+    usePostCosts,
+    useGetCost,
+    useUpdateCosts,
+    useDeleteCosts
 }

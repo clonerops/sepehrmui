@@ -11,40 +11,40 @@ import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
-import { IStandard } from "./_models"
-import { useGetStandards, usePostStandards, useUpdateStandards } from './_hooks'
+import { ICost } from "./_models"
+import { useGetCosts, usePostCosts, useUpdateCosts } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
   id: 0,
-  desc: ""
+  costDescription: ""
 }
 
 const validation = Yup.object({
-  desc: Yup.string().required("فیلد الزامی می باشد")
+  costDescription: Yup.string().required("فیلد الزامی می باشد")
 })
 
 const Costs = () => {
-  const { data: standards, refetch, isLoading: StandardLoading } = useGetStandards()
-  const { mutate: postStandard, isLoading: postLoading } = usePostStandards()
-  const { mutate: updateStandard, isLoading: updateLoading } = useUpdateStandards()
+  const { data: Costs, refetch, isLoading: CostLoading } = useGetCosts()
+  const { mutate: postCost, isLoading: postLoading } = usePostCosts()
+  const { mutate: updateCost, isLoading: updateLoading } = useUpdateCosts()
 
-  const [results, setResults] = useState<IStandard[]>([]);
+  const [results, setResults] = useState<ICost[]>([]);
 
   useEffect(() => {
-    setResults(standards?.data);
-  }, [standards?.data]);
+    setResults(Costs?.data);
+  }, [Costs?.data]);
 
   const onUpdateStatus = (rowData: any) => {
     try {
       const formData = {
         id: rowData.row.id,
-        desc: rowData.row.desc,
+        costDescription: rowData.row.costDescription,
         isActive: !rowData.row.isActive
       }
-      updateStandard(formData, {
+      updateCost(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
@@ -69,7 +69,7 @@ const Costs = () => {
         flex: 1,
       },
       {
-        field: 'desc', renderCell: (params: any) => {
+        field: 'costDescription', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'هزینه', headerClassName: "headerClassName", minWidth: 120,
@@ -98,8 +98,8 @@ const Costs = () => {
   };
 
 
-  if (StandardLoading) {
-    return <Backdrop loading={StandardLoading} />;
+  if (CostLoading) {
+    return <Backdrop loading={CostLoading} />;
   }
 
   return (
@@ -108,15 +108,15 @@ const Costs = () => {
       {postLoading && <Backdrop loading={postLoading} />}
       <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
-          <Box component="div">
+          <div>
 
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
                 try {
                   const formData = {
-                    desc: values.desc
+                    costDescription: values.costDescription
                   }
-                  postStandard(formData, {
+                  postCost(formData, {
                     onSuccess: (response: any) => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
@@ -135,62 +135,49 @@ const Costs = () => {
             }>
               {({ handleSubmit }) => {
                 return <Form onSubmit={handleSubmit} className="mb-4">
-                  <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
+                  <div className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد هزینه " disabled={true} boxClassName=" mt-2 md:mt-0" />
-                    <FormikInput name="desc" label="هزینه " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
+                    <FormikInput name="costDescription" label="هزینه " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <ButtonComponent onClick={() => handleSubmit()}>
                       <Typography className="px-2">
                         <AddCircleOutline className='!text-white' />
                       </Typography>
                     </ButtonComponent>
-                  </Box>
+                  </div>
                 </Form>
               }}
             </Formik>
-            <Box component="div" className="mb-4">
+            <div className="mb-4">
               <FuzzySearch
                 keys={[
                   "id",
-                  "desc",
+                  "costDescription",
                 ]}
-                data={standards?.data}
+                data={Costs?.data}
                 threshold={0.5}
                 setResults={setResults}
               />
-            </Box>
+            </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
-              data={standards?.data}
+              data={Costs?.data}
             />
-          </Box>
+          </div>
         </ReusableCard>
-        <ReusableCard cardClassName='lg:flex gap-4 hidden'>
-          <Box component="div">
-            <Box component="div" className="hidden md:flex md:justify-center md:items-center">
-              <Box className="flex flex-col flex-wrap gap-4">
-                <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
-                <Typography>هر کالایی که تعریف می شود هزینه مخصوص به خود را دارا می باشد</Typography>
-                <Typography>از طریق فرم مقابل می توانید تمامی استادارد ها را تعریف کرده و در فرم تعریف کالا از این استادارد ها برای اختصاص به به کالا استفاده کنید</Typography>
-                <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
-                <Typography>امکان حذف استادارد کالا وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
-                <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
-                <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Box component="div">
+        <ReusableCard cardClassName='lg:flex lg:justify-center lg:items-center gap-4 hidden'>
+          <div>
             <Box
               component="div"
               className="hidden md:flex md:justify-center md:items-center"
             >
               <Box component="img"
-                src={toAbsoulteUrl("/media/logos/11089.jpg")}
+                src={toAbsoulteUrl("/media/images/cost.png")}
                 width={400}
               />
             </Box>
 
-          </Box>
+          </div>
         </ReusableCard>
       </Box>
     </>
