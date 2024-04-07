@@ -57,7 +57,15 @@ const deleteRecievePaymentById = async (id:string) => {
 
 const updatePaymentApproved = async (id:string) => {
     try {
-        const { data } = await http.put(`/v1/ReceivePay/ReceivePayApprove/${id}`, JSON.stringify({id: id}))
+        const { data } = await http.put(`/v1/ReceivePay/ReceivePayApprove`, JSON.stringify({ids: [id]}))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+const disApprovePaymentApproved = async (formData: {id: string, accountingDescription: string}) => {
+    try {
+        const { data } = await http.put(`/v1/ReceivePay/ReceivePayAccReject`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response
@@ -82,6 +90,7 @@ export {
     deleteRecievePaymentById,
     updatePaymentApproved,
     getRecievePayments,
-    putRecievePaymentRegister
+    putRecievePaymentRegister,
+    disApprovePaymentApproved
 
 }

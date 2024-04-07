@@ -3,7 +3,7 @@ import { Formik, FormikProps } from 'formik'
 import { Button, Typography } from '@mui/material'
 import moment from 'moment-jalaali'
 
-import { useGetRecievePaymentById, useUpdatePaymentApproved, useUpdateRecievePaymentById } from './core/_hooks'
+import { useDisApprovePaymentApproved, useGetRecievePaymentById, useUpdatePaymentApproved, useUpdateRecievePaymentById } from './core/_hooks'
 import { dropdownReceivePaymentResource } from './helpers/dropdownConvert'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
@@ -23,6 +23,7 @@ import { useParams } from 'react-router-dom'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 import useBase64toFile from '../../../_cloner/helpers/convertBaseToFile'
 import ConfirmDialog from '../../../_cloner/components/ConfirmDialog'
+import TransitionsModal from '../../../_cloner/components/ReusableModal'
 
 
 const RecievePaymentEdit = () => {
@@ -30,12 +31,15 @@ const RecievePaymentEdit = () => {
     const formikRef = useRef<FormikProps<any>>(null)
 
     const [approve, setApprove] = useState<boolean>(false);
+    const [disApprove, setDisApprove] = useState<boolean>(false);
+
     const convertBase64ToFile = useBase64toFile()
 
     const { mutate, isLoading } = useUpdateRecievePaymentById()
     const updateApprove = useUpdatePaymentApproved()
 
     const { data: paymentResource } = useGetReceivePaymentSources()
+    const { mutate: reject, isLoading: rejectLoading } = useDisApprovePaymentApproved()
 
     const detailTools = useGetRecievePaymentById(id)
     const initialValues = {
@@ -122,6 +126,25 @@ const RecievePaymentEdit = () => {
 
     }
 
+    const handleDisApproveConfirm = (values: any) => {
+        const formData = {
+            id: id,
+            accountingDescription: values.accountingDescription
+        }
+        if (id)
+            reject(formData, {
+                onSuccess: (response) => {
+                    if (response?.succeeded) {
+                        EnqueueSnackbar(response.message, "success")
+                        setApprove(false)
+
+                    } else {
+                        EnqueueSnackbar(response.data.Message, "warning")
+                    }
+                }
+            })
+
+    }
 
     useEffect(() => {
         if (detailTools.isLoading) {
@@ -203,6 +226,9 @@ const RecievePaymentEdit = () => {
                                     <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 2} variant="contained" onClick={() => setApprove(true)} className='mb-2' color="primary">
                                         <Typography variant="h3">{isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
                                     </Button>
+                                    <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
+                                        <Typography>{rejectLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
+                                    </Button>
                                 </div>
 
                             </form>
@@ -218,6 +244,32 @@ const RecievePaymentEdit = () => {
                 onCancel={() => setApprove(false)}
                 onConfirm={() => handleConfirm()}
             />
+            <TransitionsModal
+                open={disApprove}
+                isClose={() => setDisApprove(false)}
+                title="عدم تایید دریافت و پرداخت"
+                width="60%"
+                description=" درصورتی که دریافت و پرداخت مورد تایید نمی باشد می توانید از طریق فرم زیر اقدام به عدم تایید آن نمایید"
+            >
+                <div className="flex flex-col space-y-4 mt-4">
+                    <Typography variant="h3"> شماره دریافت پرداخت: {detailTools?.data?.data?.receivePayCode}</Typography>
+                    <Formik initialValues={{accountingDescription: ""}} onSubmit={handleDisApproveConfirm}>
+                        {({handleSubmit}) => (
+                            <form>
+                                <FormikDescription name="accountingDescription" label="توضیحات حسابداری" />
+                                <div className="flex gap-x-4 justify-end items-end mt-2">
+                                    <Button onClick={() => handleSubmit()} className='!bg-red-500 hover:!bg-red-700'>
+                                        <Typography variant="h3" className="text-white">عدم تایید حسابداری</Typography>
+                                    </Button>
+                                    <Button onClick={() => setDisApprove(false)} variant="outlined" color="secondary">
+                                        <Typography variant="h4">لغو</Typography>
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                </div>
+            </TransitionsModal>
 
         </>
     )

@@ -38,6 +38,11 @@ const useUpdatePaymentApproved = () => {
         return api.updatePaymentApproved(id);
     });
 };
+const useDisApprovePaymentApproved = () => {
+    return useMutation((formData: {id: string, accountingDescription: string}) => {
+        return api.disApprovePaymentApproved(formData);
+    });
+};
 
 const usePutRecievePaymentRegister = () => {
     return useMutation((formData: any) => {
@@ -54,5 +59,6 @@ export {
     useDeleteRecievePaymentById,
     useUpdatePaymentApproved,
     useGetRecievePayments,
-    usePutRecievePaymentRegister
+    usePutRecievePaymentRegister,
+    useDisApprovePaymentApproved
 };

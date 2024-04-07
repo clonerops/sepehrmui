@@ -5,10 +5,10 @@ import FormikSelect from './FormikSelect'
 
 const FormikOrganzationBank = (props: any) => {
     const { data: OrganzationBank } = useGetOrganizationBankList();
-
+    console.log(OrganzationBank)
     return (
         <FormikSelect
-            options={dropdownOrganzationBank(OrganzationBank?.data.filter((i: IOrganizationBank) => i.isActive))}
+            options={dropdownOrganzationBank(OrganzationBank?.data)}
             {...props} />
     )
 }
