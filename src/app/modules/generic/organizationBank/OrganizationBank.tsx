@@ -33,9 +33,9 @@ const OrganizationBank = () => {
     const columns = (renderAction: any) => {
         const col = [
             {
-                field: "bankId",
+                field: "id",
                 renderCell: (params: any) => {
-                    return <Typography variant="h4">{params?.row?.bank?.bankId}</Typography>;
+                    return <Typography variant="h4">{params?.row?.bank?.id}</Typography>;
                 },
                 headerName: "کد بانک",
                 cellClassName: "font-bold",
@@ -153,7 +153,7 @@ const OrganizationBank = () => {
                     <Box component="div" className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
-                                "bankId",
+                                "id",
                                 "bankName",
                                 "accountOwner",
                                 "accountNo",
