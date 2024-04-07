@@ -48,6 +48,10 @@ const getTransferRemitanceStatus = async () => {
     const { data } = await http.get('/v1/GenericApi/GetAllTransferRemittanceStatus')
     return data
 }
+const getOfficialBank = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetAllBanks')
+    return data
+}
 
 export {
     getSendTypes,
@@ -61,5 +65,6 @@ export {
     getServices,
     getProductTypes,
     getVehicleTypes,
-    getTransferRemitanceStatus
+    getTransferRemitanceStatus,
+    getOfficialBank
 }

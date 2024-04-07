@@ -1,5 +1,5 @@
-export interface IStandard {
+export interface ICashDesk {
     id?: number | null | undefined
-    desc: string | null | undefined
+    cashDeskDescription: string | null | undefined
     isActive?: boolean | null | undefined
 }

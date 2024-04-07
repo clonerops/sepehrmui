@@ -1,10 +1,10 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig"
-import { IStandard } from "./_models";
+import { ICashDesk } from "./_models";
 
-const getStandards = async () => {
+const getCashDesks = async () => {
     try {
 
-        const { data } = await http.get('/v1/ProductStandard')
+        const { data } = await http.get('/v1/CashDesk')
         return data;
 
     } catch (error: any) {
@@ -12,10 +12,10 @@ const getStandards = async () => {
     }
 }
 
-const postStandards = async (formData: IStandard) => {
+const postCashDesks = async (formData: ICashDesk) => {
     try {
 
-        const { data } = await http.post('/v1/ProductStandard', JSON.stringify(formData))
+        const { data } = await http.post('/v1/CashDesk', JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -23,10 +23,10 @@ const postStandards = async (formData: IStandard) => {
     }
 }
 
-const getStandard = async (id: string) => {
+const getCashDesk = async (id: string) => {
     try {
 
-        const { data } = await http.get(`/v1/ProductStandard/${id}`)
+        const { data } = await http.get(`/v1/CashDesk/${id}`)
         return data;
 
     } catch (error: any) {
@@ -34,10 +34,10 @@ const getStandard = async (id: string) => {
     }
 }
 
-const updateStandards = async (formData: IStandard) => {
+const updateCashDesks = async (formData: ICashDesk) => {
     try {
 
-        const { data } = await http.put(`/v1/ProductStandard/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/CashDesk/${formData.id}`, JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -45,10 +45,10 @@ const updateStandards = async (formData: IStandard) => {
     }
 }
 
-const deleteStandard = async (id: number) => {
+const deleteCashDesk = async (id: number) => {
     try {
 
-        const { data } = await http.delete(`/v1/ProductStandard/${id}`)
+        const { data } = await http.delete(`/v1/CashDesk/${id}`)
         return data;
 
     } catch (error: any) {
@@ -57,9 +57,9 @@ const deleteStandard = async (id: number) => {
 }
 
 export {
-    getStandards,
-    postStandards,
-    getStandard,
-    updateStandards,
-    deleteStandard
+    getCashDesks,
+    postCashDesks,
+    getCashDesk,
+    updateCashDesks,
+    deleteCashDesk
 }

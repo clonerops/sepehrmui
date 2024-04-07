@@ -117,3 +117,15 @@ export const dropdownShareholders = (data: any) => {
         })
     );
 };
+
+
+export const dropdownOfficialBank = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, bankName:string }): any => {
+            const { bankName, id } = obj;
+            return { value: id, label: bankName };
+        })
+    );
+};
+

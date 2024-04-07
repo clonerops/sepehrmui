@@ -1,12 +1,13 @@
 import React from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
+import OrganizationBank from "../modules/generic/organizationBank/OrganizationBank";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
-const Banks = React.lazy(() => import("../modules/generic/bank/Banks"));
+const Banks = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
 const Shareholders = React.lazy(() => import("../modules/generic/shareHolders/Shareholders"));
-const Funds = React.lazy(() => import("../modules/generic/fund/Funds"));
+const Slanderers = React.lazy(() => import("../modules/generic/slanderer/Slanderers"));
 const CashDesks = React.lazy(() => import("../modules/generic/cashDesk/CashDesk"));
 const InComs = React.lazy(() => import("../modules/generic/inCome/InCome"));
 const Costs = React.lazy(() => import("../modules/generic/cost/Cost"));
@@ -228,9 +229,9 @@ export const routes: RouteProps[] = [
     { path: "dashboard/purchaser_order/edit", element: <PurchaserOrderEdit /> },
     { path: "dashboard/customers", element: <Customer /> },
     { path: "dashboard/products", element: <Products /> },
-    { path: "dashboard/banks", element: <Banks /> },
+    { path: "dashboard/organizationBank", element: <OrganizationBank /> },
     { path: "dashboard/shareholders", element: <Shareholders /> },
-    { path: "dashboard/funds", element: <Funds /> },
+    { path: "dashboard/slanderer", element: <Slanderers /> },
     { path: "dashboard/cashDesk", element: <CashDesks /> },
     { path: "dashboard/income", element: <InComs /> },
     { path: "dashboard/cost", element: <Costs /> },

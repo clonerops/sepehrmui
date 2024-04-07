@@ -89,6 +89,13 @@ const useGetTransferRemittanceStatus = () => {
         refetchIntervalInBackground: false,
     });
 };
+const useGetOfficialBank = () => {
+    return useQuery(["officialBank"], () => api.getOfficialBank(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 
 export {
     useGetSendTypes,
@@ -102,5 +109,6 @@ export {
     useGetServices,
     useGetProductTypes,
     useGetVehicleTypes,
-    useGetTransferRemittanceStatus
+    useGetTransferRemittanceStatus,
+    useGetOfficialBank
 };

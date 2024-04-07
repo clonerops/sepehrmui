@@ -11,40 +11,40 @@ import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 
-import { IStandard } from "./_models"
-import { useGetStandards, usePostStandards, useUpdateStandards } from './_hooks'
+import { ICashDesk } from "./_models"
+import { useGetCashDesks, usePostCashDesks, useUpdateCashDesks } from './_hooks'
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 
 const initialValues = {
   id: 0,
-  desc: ""
+  cashDeskDescription: ""
 }
 
 const validation = Yup.object({
-  desc: Yup.string().required("فیلد الزامی می باشد")
+  cashDeskDescription: Yup.string().required("فیلد الزامی می باشد")
 })
 
 const CashDesks = () => {
-  const { data: standards, refetch, isLoading: StandardLoading } = useGetStandards()
-  const { mutate: postStandard, isLoading: postLoading } = usePostStandards()
-  const { mutate: updateStandard, isLoading: updateLoading } = useUpdateStandards()
+  const { data: CashDesks, refetch, isLoading: CashDeskLoading } = useGetCashDesks()
+  const { mutate: postCashDesk, isLoading: postLoading } = usePostCashDesks()
+  const { mutate: updateCashDesk, isLoading: updateLoading } = useUpdateCashDesks()
 
-  const [results, setResults] = useState<IStandard[]>([]);
+  const [results, setResults] = useState<ICashDesk[]>([]);
 
   useEffect(() => {
-    setResults(standards?.data);
-  }, [standards?.data]);
+    setResults(CashDesks?.data);
+  }, [CashDesks?.data]);
 
   const onUpdateStatus = (rowData: any) => {
     try {
       const formData = {
         id: rowData.row.id,
-        desc: rowData.row.desc,
+        cashDeskDescription: rowData.row.cashDeskDescription,
         isActive: !rowData.row.isActive
       }
-      updateStandard(formData, {
+      updateCashDesk(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
@@ -69,7 +69,7 @@ const CashDesks = () => {
         flex: 1,
       },
       {
-        field: 'desc', renderCell: (params: any) => {
+        field: 'cashDeskDescription', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
         headerName: 'صندوق', headerClassName: "headerClassName", minWidth: 120,
@@ -98,8 +98,8 @@ const CashDesks = () => {
   };
 
 
-  if (StandardLoading) {
-    return <Backdrop loading={StandardLoading} />;
+  if (CashDeskLoading) {
+    return <Backdrop loading={CashDeskLoading} />;
   }
 
   return (
@@ -114,9 +114,9 @@ const CashDesks = () => {
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
                 try {
                   const formData = {
-                    desc: values.desc
+                    cashDeskDescription: values.cashDeskDescription
                   }
-                  postStandard(formData, {
+                  postCashDesk(formData, {
                     onSuccess: (response: any) => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
@@ -137,7 +137,7 @@ const CashDesks = () => {
                 return <Form onSubmit={handleSubmit} className="mb-4">
                   <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد صندوق " disabled={true} boxClassName=" mt-2 md:mt-0" />
-                    <FormikInput name="desc" label="صندوق " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
+                    <FormikInput name="cashDeskDescription" label="صندوق " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <ButtonComponent onClick={() => handleSubmit()}>
                       <Typography className="px-2">
                         <AddCircleOutline className='!text-white' />
@@ -151,9 +151,9 @@ const CashDesks = () => {
               <FuzzySearch
                 keys={[
                   "id",
-                  "desc",
+                  "cashDeskDescription",
                 ]}
-                data={standards?.data}
+                data={CashDesks?.data}
                 threshold={0.5}
                 setResults={setResults}
               />
@@ -161,7 +161,7 @@ const CashDesks = () => {
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
-              data={standards?.data}
+              data={CashDesks?.data}
             />
           </Box>
         </ReusableCard>

@@ -54,5 +54,11 @@ export interface IVehicleType{
 export interface ITransferRemittanceStatus {
     id: number
     statusDesc: string 
+}
+
+export interface IOfficialBank {
+    id: number
+    bankName: string 
+    isActive: boolean
   }
   
