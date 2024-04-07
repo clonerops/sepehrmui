@@ -4,4 +4,5 @@ export interface IOrganizationBank {
     accountOwner: string 
     accountNo: string
     branchName: string
+    isActive?: string
 }
