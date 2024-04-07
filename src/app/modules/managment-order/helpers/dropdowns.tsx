@@ -107,3 +107,13 @@ export const dropdownRole = (data: any) => {
         })
     );
 };
+
+export const dropdownShareholders = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, shareHolderCode: number, firstName: string, lastName: string }): any => {
+            const { shareHolderCode, id, firstName, lastName } = obj;
+            return { value: id, label: `${firstName} ${lastName} - (${shareHolderCode})` };
+        })
+    );
+};
