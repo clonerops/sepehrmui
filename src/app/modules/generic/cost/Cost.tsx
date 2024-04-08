@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography } from "@mui/material"
-import { Formik, Form } from "formik"
+import { Typography } from "@mui/material"
+import { Formik } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
 import * as Yup from 'yup'
 
@@ -106,7 +106,7 @@ const Costs = () => {
     <>
       {updateLoading && <Backdrop loading={updateLoading} />}
       {postLoading && <Backdrop loading={postLoading} />}
-      <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
           <div>
 
@@ -134,7 +134,7 @@ const Costs = () => {
               }
             }>
               {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className="mb-4">
+                return <form onSubmit={handleSubmit} className="mb-4">
                   <div className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد هزینه " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="costDescription" label="هزینه " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
@@ -144,7 +144,7 @@ const Costs = () => {
                       </Typography>
                     </ButtonComponent>
                   </div>
-                </Form>
+                </form>
               }}
             </Formik>
             <div className="mb-4">
@@ -154,7 +154,6 @@ const Costs = () => {
                   "costDescription",
                 ]}
                 data={Costs?.data}
-                threshold={0.5}
                 setResults={setResults}
               />
             </div>
@@ -167,19 +166,29 @@ const Costs = () => {
         </ReusableCard>
         <ReusableCard cardClassName='lg:flex lg:justify-center lg:items-center gap-4 hidden'>
           <div>
-            <Box
-              component="div"
+            <div className="hidden md:flex md:justify-center md:items-center">
+              <div className="flex flex-col flex-wrap gap-4">
+                <Typography>از طریق فرم مقابل می توانید تمامی هزینه ها را تعریف کرده و ثبت نمایید</Typography>
+                <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
+                <Typography>امکان حذف هزینه وجود ندارد اما می توانید اقدام به غیرفعاسازی آن کنید</Typography>
+                <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
+                <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی هزینه با پشتیبانی تماس بگیرید</Typography>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
               className="hidden md:flex md:justify-center md:items-center"
             >
-              <Box component="img"
+              <img
                 src={toAbsoulteUrl("/media/images/cost.png")}
                 width={400}
               />
-            </Box>
+            </div>
 
           </div>
         </ReusableCard>
-      </Box>
+      </div>
     </>
   )
 }
