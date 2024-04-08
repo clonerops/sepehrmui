@@ -24,6 +24,7 @@ const EntranceReport = () => {
             IsEntranced: true
         }
         transferList.mutate(filter)
+         // eslint-disable-next-line
     }, [currentPage])
 
 

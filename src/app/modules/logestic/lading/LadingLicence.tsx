@@ -66,6 +66,7 @@ const LadingLicence = () => {
               })) || [];
               setLadingList(renameOrderDetails)
         }
+         // eslint-disable-next-line
         }, [data?.data?.order.details])
 
     const [open, setOpen] = useState<boolean>(false)

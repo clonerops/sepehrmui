@@ -32,6 +32,7 @@ const Products = () => {
 
     useEffect(() => {
         setResults(products?.data);
+         // eslint-disable-next-line
     }, [products]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);

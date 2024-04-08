@@ -56,6 +56,7 @@ const ProductPrice = () => {
 
     useEffect(() => {
         setResults(productPrice?.data);
+         // eslint-disable-next-line
     }, [productPrice]);
 
 

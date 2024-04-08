@@ -59,6 +59,7 @@ const CustomerCompanyForm = (props: Props) => {
 
     useEffect(() => {
         getDetail();
+         // eslint-disable-next-line
     }, [props.id]);
 
 

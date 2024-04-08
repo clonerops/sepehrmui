@@ -38,6 +38,7 @@ const Brands = () => {
 
     useEffect(() => {
         setResults(brands?.data);
+         // eslint-disable-next-line
     }, [brands?.data]);
 
     // const handleDelete = (id: number) => {

@@ -61,6 +61,7 @@ const UserForm = (props: Props) => {
 
     useEffect(() => {
         detailTools.mutate(id)
+         // eslint-disable-next-line
     }, [id])
 
     const fields: FieldType[][] = [

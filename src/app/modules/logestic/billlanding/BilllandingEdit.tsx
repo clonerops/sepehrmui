@@ -239,6 +239,7 @@ const BilllandingEdit = () => {
 
     useEffect(() => {
         getDetail();
+         // eslint-disable-next-line
     }, [id]);
 
 

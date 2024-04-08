@@ -27,6 +27,7 @@ const PreSaleLists = () => {
 
     useEffect(() => {
         setResults(orders?.data);
+         // eslint-disable-next-line
     }, [orders?.data]);
 
 

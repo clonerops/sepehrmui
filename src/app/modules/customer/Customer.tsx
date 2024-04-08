@@ -29,6 +29,7 @@ const Customer = () => {
 
     useEffect(() => {
         setResults(customers?.data);
+         // eslint-disable-next-line
     }, [customers?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);

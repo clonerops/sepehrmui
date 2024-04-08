@@ -34,6 +34,7 @@ const PurchaserOrderList = () => {
                 setResults(response?.data);
             }
         })
+         // eslint-disable-next-line
     }, [currentPage]);
 
 

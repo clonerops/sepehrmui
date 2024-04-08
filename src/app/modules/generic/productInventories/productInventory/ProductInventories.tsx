@@ -29,6 +29,7 @@ const ProductInventories = () => {
                 filterWarehouse.mutate({ warehouseTypeId: 1 })
             }
         });
+         // eslint-disable-next-line
     }, []);
 
 

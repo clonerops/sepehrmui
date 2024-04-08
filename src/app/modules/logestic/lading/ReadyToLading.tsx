@@ -28,6 +28,7 @@ const ReadyToLading = () => {
             PageSize: pageSize,
         };
         cargoList.mutate(formData);
+         // eslint-disable-next-line
     }, []);
 
     const handleFilter = (values: any) => {

@@ -65,6 +65,7 @@ const ShareholdersForm = (props: {
 
     useEffect(() => {
         getDetail();
+         // eslint-disable-next-line
     }, [props.id]);
 
 

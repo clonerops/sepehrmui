@@ -81,6 +81,7 @@ const ProductPriceForm = (props: Props) => {
 
     useEffect(() => {
         getDetail();
+         // eslint-disable-next-line
     }, [props.id]);
 
 

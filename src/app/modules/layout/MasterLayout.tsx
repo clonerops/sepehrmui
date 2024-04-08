@@ -87,6 +87,7 @@ const MasterLayout = () => {
 
   useEffect(() => {
     setMenuItemsData(parseMenuItems(data?.data));
+     // eslint-disable-next-line
   }, [data?.data]);
 
   const handleDrawerOpen = () => {

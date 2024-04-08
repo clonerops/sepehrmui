@@ -113,6 +113,7 @@ const SalesOrder = () => {
 
     useEffect(() => {
         calculateTotalAmount(orders, orderServices)
+         // eslint-disable-next-line
     }, [orders, orderServices]);
 
     return (

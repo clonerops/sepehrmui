@@ -34,6 +34,7 @@ const CustomerWarehouse = () => {
 
   useEffect(() => {
     setResults(customers?.data?.data);
+     // eslint-disable-next-line
   }, [customers?.data?.data]);
 
   const onAdd = async (values: any) => {

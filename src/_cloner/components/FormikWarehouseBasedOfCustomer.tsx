@@ -8,7 +8,8 @@ import { useGetWarehousesByFilter } from '../../app/modules/generic/warehouse/_h
 const FormikWarehouseBasedOfCustomer = (props: any) => {
     const data = useGetWarehousesByFilter();
     useEffect(() => {
-        data.mutate({customerId: props.customerId})        
+        data.mutate({customerId: props.customerId})
+         // eslint-disable-next-line        
     }, [props.customerId])
     return (
         <FormikSelect

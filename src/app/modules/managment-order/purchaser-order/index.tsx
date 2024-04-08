@@ -38,7 +38,9 @@ const PurchaserOrder = () => {
     const products = useGetProductList();
 
 
-    useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
+    useEffect(() => { calculateTotalAmount(orders, orderServices) 
+         // eslint-disable-next-line
+     }, [orders, orderServices]);
 
 
     const onSubmit = (values: any) => {

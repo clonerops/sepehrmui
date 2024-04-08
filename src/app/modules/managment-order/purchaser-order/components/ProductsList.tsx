@@ -371,6 +371,7 @@ const ProductsList = (props: {
                 setResults(res?.data)
             }
         });
+         // eslint-disable-next-line
     }, []);
 
 
@@ -381,7 +382,7 @@ const ProductsList = (props: {
             filteredTabs: productData.selectedTab === -1 ? filterTools?.data?.data : filtered 
         }))        
         setResults(productData.selectedTab === -1 ? filterTools?.data?.data : filtered);
-
+        // eslint-disable-next-line
     }, [productData.selectedTab]);
 
 

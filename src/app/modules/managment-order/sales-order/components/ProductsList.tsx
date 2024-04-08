@@ -86,6 +86,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     useEffect(() => {
         handleFilterProduct(currentFilter)
+         // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -99,6 +100,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         }, 1000)
 
         return () => clearTimeout(delayDebounceFn)
+         // eslint-disable-next-line
     }, [searchTerm])
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {

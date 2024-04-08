@@ -16,6 +16,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
 
     useEffect(() => {
         setImageSrcs(dataURLs);
+         // eslint-disable-next-line
     }, [base64Strings]);
 
     // Function to handle image load

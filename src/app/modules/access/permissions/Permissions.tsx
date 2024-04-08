@@ -52,6 +52,7 @@ const Permissions = () => {
 
     useEffect(() => {
         setResults(Permissions?.data?.data);
+         // eslint-disable-next-line
     }, [Permissions?.data?.data]);
 
     const columns = (renderAction: any) => {

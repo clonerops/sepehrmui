@@ -54,16 +54,19 @@ const SalesOrderConfirm = () => {
 
     useEffect(() => {
         setCpData(data?.data?.details)
+         // eslint-disable-next-line
     }, [data])
 
     useEffect(() => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
+         // eslint-disable-next-line
     }, [files]);
 
     useEffect(() => {
         customerCompaniesTools.mutate(data?.data?.customer.id)
+         // eslint-disable-next-line
     }, [data?.data?.customer.id])
 
     const orderAndAmountInfo = [

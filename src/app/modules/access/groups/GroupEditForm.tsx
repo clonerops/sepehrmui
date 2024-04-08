@@ -37,6 +37,7 @@ const GroupEditForm = (props: Props) => {
 
     useEffect(() => {
         detailApplicationRole.mutate(itemData.id)
+         // eslint-disable-next-line
     }, [itemData.id])
 
     const onSubmit = (values: any) => {

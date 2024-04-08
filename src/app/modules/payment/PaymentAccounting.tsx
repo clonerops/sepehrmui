@@ -48,6 +48,7 @@ const PaymentAccounting = () => {
 
     useEffect(() => {
         setResults(data?.data);
+         // eslint-disable-next-line
     }, [data?.data]);
     useEffect(() => {
         const filters = {

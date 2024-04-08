@@ -26,6 +26,7 @@ const CargoList = () => {
             PageSize: 20,
         };
         cargoList.mutate(formData);
+         // eslint-disable-next-line
     }, []);
 
     const handleFilter = (values: any) => {

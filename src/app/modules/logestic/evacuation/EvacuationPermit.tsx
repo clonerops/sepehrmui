@@ -59,6 +59,7 @@ const EvacuationPermit = () => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
+         // eslint-disable-next-line
     }, [files]);
 
 
@@ -79,6 +80,7 @@ const EvacuationPermit = () => {
                 setEvacuationList(destructureData);
             }
         }
+         // eslint-disable-next-line
     }, [detailTools?.data?.data?.details]);
 
 

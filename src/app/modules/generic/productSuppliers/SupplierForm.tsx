@@ -53,6 +53,7 @@ const SupplierForm = (props: {
 
     useEffect(() => {
         getDetail();
+         // eslint-disable-next-line
     }, [props.id]);
 
     const onUpdate = (values: ISuppliers) => {

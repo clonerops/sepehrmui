@@ -158,6 +158,7 @@ const ProductForm = (props: {
 
     useEffect(() => {
         getDetail();
+         // eslint-disable-next-line
     }, [props.id]);
 
 

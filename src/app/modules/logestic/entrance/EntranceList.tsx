@@ -15,6 +15,7 @@ const EntranceList = () => {
   useEffect(() => {
     const filter = {}
     transferList.mutate(filter)
+     // eslint-disable-next-line
   }, [])
 
   const renderAction = (params: any) => {

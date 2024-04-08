@@ -24,6 +24,7 @@ const ReadyToEvacuation = () => {
         IsEntranced: true
       }
       transferList.mutate(filter)
+       // eslint-disable-next-line
     }, [currentPage])
   
 

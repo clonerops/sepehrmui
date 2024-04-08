@@ -43,6 +43,7 @@ const Roles = () => {
     const applicationRoles = useGetApplicationRoles();
     useEffect(() => {
         setResults(applicationRoles?.data?.data);
+         // eslint-disable-next-line
     }, [applicationRoles?.data?.data]);
 
     const columns = (renderAction: any) => {

@@ -24,6 +24,7 @@ const Slanderers = () => {
 
     useEffect(() => {
         setResults(slanderer?.data);
+         // eslint-disable-next-line
     }, [slanderer]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);

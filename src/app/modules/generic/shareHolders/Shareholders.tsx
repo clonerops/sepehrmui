@@ -41,6 +41,7 @@ const Shareholders = () => {
 
     useEffect(() => {
         getLists()
+         // eslint-disable-next-line
     }, [currentPage])
     
 

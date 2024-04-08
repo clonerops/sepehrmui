@@ -28,6 +28,7 @@ const ListOfBilllanding = () => {
       PageSize: 100,
     }
     transferList.mutate(filter)
+     // eslint-disable-next-line
   }, [currentPage])
 
   const renderAction = (params: any) => {

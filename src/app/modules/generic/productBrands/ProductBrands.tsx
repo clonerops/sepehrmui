@@ -34,6 +34,7 @@ const ProductBrands = () => {
 
   useEffect(() => {
     setResults(productBrands?.data);
+     // eslint-disable-next-line
   }, [productBrands?.data]);
 
 

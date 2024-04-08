@@ -44,6 +44,7 @@ const Warehouse = () => {
 
   useEffect(() => {
     setResults(Warehouses?.data);
+     // eslint-disable-next-line
   }, [Warehouses?.data]);
 
   const handleDelete = (id: number) => {

@@ -42,7 +42,10 @@ const PurchaserOrderEdit = () => {
   const warehouse = useGetWarehouses()
 
 
-  useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
+  useEffect(() => { 
+    calculateTotalAmount(orders, orderServices)
+     // eslint-disable-next-line 
+  }, [orders, orderServices]);
   useEffect(() => {
     if (detailTools?.data?.data) {
 
@@ -84,6 +87,7 @@ const PurchaserOrderEdit = () => {
       ]);
 
     }
+     // eslint-disable-next-line
   }, [detailTools?.data?.data])
 
   const onGetOrderDetailByCode = (orderCode: number) => {

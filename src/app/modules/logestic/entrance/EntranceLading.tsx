@@ -19,6 +19,7 @@ const EntranceLading = () => {
     useEffect(() => {
         const filter = {}
         transferList.mutate(filter)
+         // eslint-disable-next-line
     }, [])
 
     const orderAndAmountInfo = [
@@ -64,7 +65,7 @@ const EntranceLading = () => {
     //         </Link>
     //     </div>
     // }
-    
+
     const handleFilter = (values: any) => {
         let formData = {
             id: values.id ? values.id : "",

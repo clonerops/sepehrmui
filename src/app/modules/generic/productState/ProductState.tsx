@@ -38,6 +38,7 @@ const ProductState = () => {
 
   useEffect(() => {
     setResults(state?.data);
+     // eslint-disable-next-line
   }, [state?.data]);
 
 

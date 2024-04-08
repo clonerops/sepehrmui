@@ -67,6 +67,7 @@ const OrderProductDetail = (props: Props) => {
             ByBrand: true,
         }
         products.mutate(filter)
+         // eslint-disable-next-line
     }, [])
 
     const changeProductFunction = (value: any) => { 

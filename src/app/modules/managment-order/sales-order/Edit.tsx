@@ -41,7 +41,9 @@ const SalesOrderEdit = () => {
     const detailTools = useGetOrderDetailByCode()
     const { data: warehouse } = useGetWarehouses();
 
-    useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
+    useEffect(() => { calculateTotalAmount(orders, orderServices) 
+         // eslint-disable-next-line
+    }, [orders, orderServices]);
 
 
     useEffect(() => {
@@ -87,6 +89,7 @@ const SalesOrderEdit = () => {
                 { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId == 1 ? true : false },
             ])
         }
+         // eslint-disable-next-line
     }, [detailTools?.data?.data])
 
     const onSubmit = (values: any) => {

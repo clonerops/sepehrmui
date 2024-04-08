@@ -49,6 +49,7 @@ const TransferBetweenWarehouse = () => {
             }
         })
         // refetch()
+        // eslint-disable-next-line
     }, []);
 
     const renderAction = (item: any) => {

@@ -41,6 +41,7 @@ const MonitoringProdcuct = () => {
                 filterWarehouse.mutate({ warehouseTypeId: 1 })
             }
         });
+         // eslint-disable-next-line
     }, []);
 
 
@@ -86,6 +87,7 @@ const MonitoringProdcuct = () => {
         }, 1000)
     
         return () => clearTimeout(delayDebounceFn)
+         // eslint-disable-next-line
       }, [searchTerm])
     
 

@@ -24,6 +24,7 @@ const Users = () => {
 
   useEffect(() => {
     setResults(usersTools?.data?.data);
+     // eslint-disable-next-line
   }, [usersTools?.data?.data]);
 
 

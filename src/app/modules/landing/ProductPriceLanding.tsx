@@ -17,6 +17,7 @@ const ProductPriceLanding = () => {
             const initialResults = productsByType.data.map((i: any) => i.products);
             setResults(initialResults);
         }
+         // eslint-disable-next-line
     }, [productsByType]);
 
     const renderAction = () => { };

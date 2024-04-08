@@ -26,6 +26,7 @@ const CreateProductInventories = (props: Props) => {
     useEffect(() => {
         formikRef.current?.setFieldValue("productName", props.productItem?.row.productName)
         formikRef.current?.setFieldValue("productBrandName", props.productItem?.row.productBrandName)
+         // eslint-disable-next-line
     }, [props.productItem?.row])
 
     

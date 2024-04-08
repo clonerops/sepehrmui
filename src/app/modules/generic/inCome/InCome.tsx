@@ -35,6 +35,7 @@ const InComs = () => {
 
   useEffect(() => {
     setResults(Incomes?.data);
+     // eslint-disable-next-line
   }, [Incomes?.data]);
 
   const onUpdateStatus = (rowData: any) => {

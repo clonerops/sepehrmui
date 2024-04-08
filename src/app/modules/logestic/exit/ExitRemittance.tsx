@@ -60,6 +60,7 @@ const ExitRemiitance = () => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
+         // eslint-disable-next-line
     }, [files]);
 
 
@@ -190,6 +191,7 @@ const ExitRemiitance = () => {
                 setLadingList(destructureData);
             }
         }
+         // eslint-disable-next-line
     }, [data?.data?.ladingLicenseDetails]);
 
     const handleRealAmountChange = (params: any, value: string) => {

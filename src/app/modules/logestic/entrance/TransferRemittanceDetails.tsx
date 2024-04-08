@@ -30,6 +30,7 @@ const TransferRemittanceDetails = () => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
+         // eslint-disable-next-line
     }, [files]);
 
 

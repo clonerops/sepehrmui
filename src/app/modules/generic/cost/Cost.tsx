@@ -35,6 +35,7 @@ const Costs = () => {
 
   useEffect(() => {
     setResults(Costs?.data);
+     // eslint-disable-next-line
   }, [Costs?.data]);
 
   const onUpdateStatus = (rowData: any) => {

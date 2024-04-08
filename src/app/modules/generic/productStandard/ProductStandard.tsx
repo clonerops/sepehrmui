@@ -35,6 +35,7 @@ const ProductStandards = () => {
 
   useEffect(() => {
     setResults(standards?.data);
+     // eslint-disable-next-line
   }, [standards?.data]);
 
   const onUpdateStatus = (rowData: any) => {

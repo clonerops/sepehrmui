@@ -27,6 +27,7 @@ const ReadyToPurchaserOrderConfirm = () => {
                 setResults(message?.data);
             }
         })
+         // eslint-disable-next-line
     }, []);
 
 

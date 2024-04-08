@@ -34,6 +34,7 @@ const Menus = (props: Props) => {
             roleId = roleId.concat(item.applicationMenuId);
         })
         setRoleIds(roleId);
+         // eslint-disable-next-line
     }, [id, roleMenuTools?.data]);
 
     const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean) => {

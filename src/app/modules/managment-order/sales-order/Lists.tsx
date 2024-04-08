@@ -33,6 +33,7 @@ const SalesOrderList = () => {
                 setResults(response?.data);
             }
         })
+         // eslint-disable-next-line
     }, [currentPage]);
 
 

@@ -36,6 +36,7 @@ const ProductService = () => {
 
   useEffect(() => {
     setResults(Services?.data);
+     // eslint-disable-next-line
   }, [Services?.data]);
 
 

@@ -33,6 +33,7 @@ const ProductInventoriesSepehr = () => {
                 setResults(res?.data)
             }
         });
+         // eslint-disable-next-line
     }, []);
 
 

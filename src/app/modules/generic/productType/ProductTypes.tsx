@@ -33,6 +33,7 @@ const ProductTypes = () => {
 
   useEffect(() => {
     setResults(types?.data);
+     // eslint-disable-next-line
   }, [types?.data]);
 
 

@@ -24,6 +24,7 @@ const OrganizationBank = () => {
 
     useEffect(() => {
         setResults(organizationBank?.data);
+         // eslint-disable-next-line
     }, [organizationBank?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);

@@ -17,6 +17,7 @@ const CardInformation: FC<ICardInformation> = ({ title, value, cardClassName }) 
 
     useEffect(() => {
         if(value) counterValue(value, setCounter)
+             // eslint-disable-next-line
     }, [value]);
     
     return (

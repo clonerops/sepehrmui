@@ -19,6 +19,7 @@ const ReadyToCargo = () => {
 
     useEffect(() => {
         setResults(cargoNotSended);
+         // eslint-disable-next-line
     }, [cargoNotSended]);
 
     const renderAction = (item: any) => {

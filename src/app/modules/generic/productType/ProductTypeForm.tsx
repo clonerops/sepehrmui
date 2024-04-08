@@ -38,6 +38,7 @@ const ProductTypeForm = (props: Props) => {
     if (!isNew) {
       detailTools.mutate(props.id)
     }
+     // eslint-disable-next-line
   }, [props.id]);
 
 
