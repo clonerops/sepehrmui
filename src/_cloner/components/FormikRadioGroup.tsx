@@ -1,5 +1,4 @@
 import {
-    Box,
     FormControl,
     FormLabel,
     RadioGroup,
@@ -34,7 +33,7 @@ const FormikRadioGroup = (props: Props) => {
 };
 
     return (
-        <Box component="div">
+        <div>
             <FormControl>
                 <FormLabel id="demo-row-radio-buttons-group-label">
                     {label}
@@ -54,7 +53,7 @@ const FormikRadioGroup = (props: Props) => {
                             control={<Radio sx={{ display: "none" }} />}
                             label={
                                 <>
-                                    <Box
+                                    <div
                                         className={`rounded-md py-2 px-4 ${
                                             Number(field.value) ===
                                             Number(item.value)
@@ -63,14 +62,14 @@ const FormikRadioGroup = (props: Props) => {
                                         }`}
                                     >
                                         {item.label}
-                                    </Box>
+                                    </div>
                                 </>
                             }
                         />
                     ))}
                 </RadioGroup>
             </FormControl>{" "}
-        </Box>
+        </div>
     );
 };
 

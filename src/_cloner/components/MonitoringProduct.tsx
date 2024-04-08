@@ -1,7 +1,5 @@
 import React, {useEffect, useRef, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
 import { useGetProductList } from "../../app/modules/generic/products/_hooks";
-import { useGetProductTypes } from "../../app/modules/generic/_hooks";
 import { Form, Formik, FormikProps } from "formik";
 import MuiDataGrid from "./MuiDataGrid";
 import { columnsModalProduct } from "../../app/modules/managment-order/helpers/columns";
@@ -10,7 +8,6 @@ import FormikWarehouseBasedOfType from "./FormikWarehouseBasedOfType";
 import { useGetWarehousesByFilter } from "../../app/modules/generic/warehouse/_hooks";
 import FormikPeoductType from "./FormikProductType";
 import Backdrop from "./Backdrop";
-import FormikInput from "./FormikInput";
 import SearchBackendInput from "./SearchBackendInput";
 
 
@@ -96,26 +93,26 @@ const MonitoringProdcuct = () => {
         <>
             {filterTools.isLoading && <Backdrop loading={filterTools.isLoading} />}
             <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 6, productTypeId: -1, productName: "" }} onSubmit={() => { }}>
-                {({ values }) => {
+                {({}) => {
                     return <>
-                        <Box className="">
-                            <Box className="flex flex-col col-span-6">
-                                <Box component="div" className="my-8 flex flex-col space-y-4">
+                        <div className="">
+                            <div className="flex flex-col col-span-6">
+                                <div className="my-8 flex flex-col space-y-4">
                                     <FormikPeoductType name="productTypeId" label="نوع کالا" onChange={onFilterProductType} />
                                     <Form className="flex flex-col lg:flex-row gap-x-4">
                                         <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
                                         <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
                                     </Form>
                                     <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
-                                </Box>
+                                </div>
                                 <MuiDataGrid
                                     columns={columnsModalProduct()}
                                     isLoading={filterTools.isLoading}
                                     rows={filterTools?.data?.data}
                                     data={filterTools?.data?.data}
                                 />
-                            </Box>
-                        </Box>
+                            </div>
+                        </div>
                     </>
                 }}
             </Formik>

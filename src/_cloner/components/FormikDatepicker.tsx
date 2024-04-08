@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Box, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { FormikErrors, useField, useFormikContext } from "formik";
 import MultiDatepicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
@@ -43,7 +43,7 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
 
     return (
         <>
-            <Box component="div" className={cx("w-full", boxClassName)}>
+            <div className={cx("w-full", boxClassName)}>
                 <MultiDatepicker
                     {...field}
                     {...rest}
@@ -73,7 +73,7 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
                         {validationProps.helpertext}
                     </Typography>
                 )}
-            </Box>
+            </div>
         </>
     );
 });

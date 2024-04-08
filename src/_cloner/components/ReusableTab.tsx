@@ -3,8 +3,6 @@ import {
     Tabs,
     Tab,
     Box,
-    Typography,
-    TabsPropsIndicatorColorOverrides,
 } from "@mui/material";
 
 interface TabPanelProps {

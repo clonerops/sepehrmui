@@ -2,7 +2,7 @@ import MaskInput from "./MaskInput";
 import { ComponentProps, useEffect } from "react";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import cx from "classnames";
 
 export type FormikMaskProps = ComponentProps<typeof MaskInput> & {
@@ -24,7 +24,7 @@ const FormikMaskInput = (props: FormikMaskProps) => {
   }, [value]);
 
   return (
-    <Box component={"div"} className={cx("w-full")}>
+    <div className={cx("w-full")}>
       <MaskInput
         {...getFormikFieldValidationProps(formikProps, name)}
         {...field}
@@ -42,7 +42,7 @@ const FormikMaskInput = (props: FormikMaskProps) => {
         </Typography>
       }
 
-    </Box>
+    </div>
   );
 };
 

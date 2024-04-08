@@ -1,6 +1,6 @@
 // DynamicBreadcrumbs.js
 
-import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
+import { Breadcrumbs, Link, Typography } from '@mui/material';
 import { Outlet, Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import { translationMapping } from '../helpers/translationMapping';
 
@@ -9,7 +9,6 @@ function DynamicBreadcrumbs(props: any) {
     const location = useLocation();
     const param = useParams();
 
-    // const pathnames = location.pathname.split('/').filter((x) => x);
     const pathnames = location.pathname.split("/").filter((x) => x);
     let path = Object.entries(param)[0][1];
     Object.entries(param).forEach(([key, value]) => {
@@ -41,9 +40,9 @@ function DynamicBreadcrumbs(props: any) {
                     );
                 })}
             </Breadcrumbs>
-            <Box component="div" className='my-4'>
+            <div className='my-4'>
                 <Outlet />
-            </Box>
+            </div>
         </>
     );
 }

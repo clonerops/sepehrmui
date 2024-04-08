@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import ReusableCard from "./ReusableCard";
 import React, { FC } from "react";
 

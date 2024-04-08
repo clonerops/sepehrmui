@@ -4,7 +4,6 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import HC_exporting from "highcharts/modules/exporting";
 import highcharts3D from 'highcharts/highcharts-3d'; // Import 3D module
-import React from "react";
 
 HC_exporting(Highcharts);
 highcharts3D(Highcharts); // Enable 3D module

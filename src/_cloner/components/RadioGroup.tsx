@@ -1,7 +1,6 @@
 import { useField, useFormikContext } from "formik";
 import { FC } from "react";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
-import { SelectChangeEvent } from "@mui/material";
 
 interface IProps {
   onChange?: any;

@@ -1,5 +1,4 @@
 import {
-  Box,
   Checkbox,
   FormControl,
   InputLabel,
@@ -45,7 +44,7 @@ const FormikSelectCheckbox = <Value,>(props: FormikSelectPropsType<Value>) => {
     formikProps.setFieldValue(name, selectedValue);
   };
   return (
-    <Box component={"div"} className={cx("w-full", boxClassName)}>
+    <div className={cx("w-full", boxClassName)}>
       <FormControl fullWidth size={"small"} error={getFormikFieldValidationProps(formikProps, name).error}>
         <InputLabel id={label + "-label"}>{label}</InputLabel>
         <Select
@@ -63,13 +62,13 @@ const FormikSelectCheckbox = <Value,>(props: FormikSelectPropsType<Value>) => {
           onChange={handleSelectChange}
           value={field.value || []}
           renderValue={(selected: any) => (
-            <Box className='flex gap-x-4'>
+            <div className='flex gap-x-4'>
               {options
                 .filter((option) => selected.includes(option.value))
                 .map((option) => (
                   <Typography key={option.value}>{option.label}, </Typography>
                 ))}
-            </Box>
+            </div>
           )}
         >
           {options?.map((node, index) => (
@@ -87,7 +86,7 @@ const FormikSelectCheckbox = <Value,>(props: FormikSelectPropsType<Value>) => {
           {getFormikFieldValidationProps(formikProps, name).helpertext}
         </Typography>
       </FormControl>
-    </Box>
+    </div>
   );
 };
 export default memo(FormikSelectCheckbox);

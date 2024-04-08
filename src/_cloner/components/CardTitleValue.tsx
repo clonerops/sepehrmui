@@ -1,4 +1,4 @@
-import { Box, Typography, Card } from "@mui/material"
+import { Typography, Card } from "@mui/material"
 
 type Props = {
     title: string,
@@ -12,10 +12,10 @@ const CardTitleValue = (props: Props) => {
     const {title, icon, value, className, index} = props;
     return (
         <Card key={index} className={`px-4 py-4 shadow-md !rounded-xl ${className}`}>
-            <Box key={index} component="div" className="flex justify-between items-center space-y-4">
+            <div key={index} className="flex justify-between items-center space-y-4">
                 <Typography variant="body1">{title}</Typography>
                 {icon}
-            </Box>
+            </div>
             <Typography variant="h2">{value}</Typography>
         </Card>
     )

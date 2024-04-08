@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
@@ -29,7 +29,7 @@ const FormikInput = (props: Props) => {
   const formikProps = useFormikContext();
 
   return (
-    <Box component={"div"} className={cx("w-full", boxClassName)}>
+    <div className={cx("w-full", boxClassName)}>
       <TextField
         {...field}
         {...getFormikFieldValidationProps(formikProps, name)}
@@ -49,7 +49,7 @@ const FormikInput = (props: Props) => {
         </Typography>
       }
 
-    </Box>
+    </div>
   );
 };
 export default memo(FormikInput);

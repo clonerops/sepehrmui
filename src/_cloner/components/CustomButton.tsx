@@ -1,4 +1,4 @@
-import { Button, Typography, CircularProgress } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import { memo } from "react";
 
 type Props = {

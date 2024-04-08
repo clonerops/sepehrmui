@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useGetAllApplicationMenus } from '../../app/modules/access/menus/_hooks';
 import { dropdownApplicationMenu } from '../../app/modules/access/permissions/_functions';
 

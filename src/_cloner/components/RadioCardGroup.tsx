@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import {
-    Card,
     CardContent,
     Typography,
-    TextField,
     Radio,
     RadioGroup,
     FormControlLabel,
-    Box,
 } from "@mui/material";
 import cx from "classnames";
 import FormikInput from "./FormikInput";
@@ -27,18 +24,10 @@ const RadioCard: React.FC<RadioCardProps> = ({ title, options, boxClassName }) =
     };
 
     return (
-        <Box component={"div"} className={cx("w-full", boxClassName)}>
+        <div className={cx("w-full", boxClassName)}>
             <ReusableCard>
                 <Typography variant="h4" className="px-4 py-1">تسویه حساب</Typography>
                 <CardContent>
-                    {/* <TextField
-                        label="تسویه حساب"
-                        variant="outlined"
-                        fullWidth
-                        size="small"
-                        value={selectedOption}
-                        onChange={(e) => setSelectedOption(e.target.value)}
-                    /> */}
                     <FormikInput label="تعداد روز" name="settlementDaysExit" />
                     <RadioGroup
                         aria-label="options"
@@ -46,7 +35,7 @@ const RadioCard: React.FC<RadioCardProps> = ({ title, options, boxClassName }) =
                         value={selectedOption}
                         onChange={handleRadioChange}
                     >
-                        <Box component="div">
+                        <div>
                             {options.map((option) => (
                                 <FormControlLabel
                                     key={option}
@@ -55,11 +44,11 @@ const RadioCard: React.FC<RadioCardProps> = ({ title, options, boxClassName }) =
                                     label={option}
                                 />
                             ))}
-                        </Box>
+                        </div>
                     </RadioGroup>
                 </CardContent>
             </ReusableCard>
-        </Box>
+        </div>
     );
 };
 

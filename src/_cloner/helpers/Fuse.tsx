@@ -19,13 +19,13 @@ const FuzzySearch = <T extends {}>({
 
   const [query, setQuery] = useState("");
 
-  const fuse = new Fuse(data, {
-    keys,
-    includeScore: true,
-    threshold,
-    findAllMatches: true,
-    includeMatches: true
-  });
+  // const fuse = new Fuse(data, {
+  //   keys,
+  //   includeScore: true,
+  //   threshold,
+  //   findAllMatches: true,
+  //   includeMatches: true
+  // });
 
   // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const inputValue = e.target.value;

@@ -1,5 +1,4 @@
 import { useMemo, useCallback } from "react";
-import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
 type Props = {
@@ -47,7 +46,7 @@ const MuiDataGrid = (props: Props) => {
     const getRowIdFunc = (row: any) => row.uniqueId;
 
     return (
-        <Box sx={{ width: width }}>
+        <div style={{ width: width }}>
             <DataGrid
                 {...data}
                 sx={{
@@ -83,7 +82,7 @@ const MuiDataGrid = (props: Props) => {
                   }}
                 style={{ height: height ? height : gridHeight, maxHeight: gridHeight, overflow: "hidden" }}
             />
-        </Box>
+        </div>
     );
 }
 

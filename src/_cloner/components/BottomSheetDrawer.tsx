@@ -2,10 +2,7 @@ import React, { ReactNode } from 'react';
 import {
     Drawer,
     Divider,
-    IconButton,
-    Box,
     Typography,
-    Container,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -31,18 +28,18 @@ const BottomDrawer: React.FC<BottomDrawerProps> = ({ open, onClose, children, ti
             }}
         >
 
-            <Box component="div" style={{ height: "90vh", backgroundColor: "white", color: "black", overflow: "auto" }}>
-                <Box component="div" className='flex justify-between items-center'>
+            <div style={{ height: "90vh", backgroundColor: "white", color: "black", overflow: "auto" }}>
+                <div className='flex justify-between items-center'>
                     <Typography variant="h2" className='p-4'>{title}</Typography>
-                    <Box onClick={onClose} component="div" className='pl-8 cursor-pointer'>
+                    <div onClick={onClose} className='pl-8 cursor-pointer'>
                         <CloseIcon style={{ color: "red" }} />
-                    </Box>
-                </Box>
+                    </div>
+                </div>
                 <Divider />
-                <Box component="div" className='p-4'>
+                <div className='p-4'>
                     {children}
-                </Box>
-            </Box>
+                </div>
+            </div>
         </Drawer>
     );
 };

@@ -1,12 +1,10 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { TextField } from "@mui/material";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
   TextFieldProps,
   TextFieldVariants,
 } from "@mui/material/TextField/TextField";
-import { useField, useFormikContext } from "formik";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
 import { memo } from "react";
 
 export type Label = keyof typeof translation;
@@ -23,10 +21,10 @@ type Props = {
 } & Omit<TextFieldProps, "variant">;
 
 const SearchBackendInput = (props: Props) => {
-  const { boxClassName, label, title, disabled, name, value, onChange, ...rest } = props;
+  const { boxClassName, label, disabled, name, value, onChange } = props;
 
   return (
-    <Box component={"div"} className={cx("w-full", boxClassName)}>
+    <div className={cx("w-full", boxClassName)}>
       <TextField
         fullWidth
         size="small"
@@ -38,7 +36,7 @@ const SearchBackendInput = (props: Props) => {
         value={value}
         onChange={onChange}
       />
-    </Box>
+    </div>
   );
 };
 export default memo(SearchBackendInput);

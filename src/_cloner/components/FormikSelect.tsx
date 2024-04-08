@@ -1,5 +1,4 @@
 import {
-  Box,
   FormControl,
   InputLabel,
   MenuItem,
@@ -48,7 +47,7 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
   };
 
   return (
-    <Box component={"div"} className={cx("w-full", boxClassName)}>
+    <div className={cx("w-full", boxClassName)}>
       <FormControl fullWidth size={"small"} error={getFormikFieldValidationProps(formikProps, name).error}>
         <InputLabel id={label + "-label"}>{label}</InputLabel>
         <Select
@@ -73,7 +72,7 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
           {getFormikFieldValidationProps(formikProps, name).helpertext}
         </Typography>
       </FormControl>
-    </Box>
+    </div>
   );
 };
 export default memo(FormikSelect);

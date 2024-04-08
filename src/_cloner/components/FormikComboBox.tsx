@@ -1,4 +1,4 @@
-import { Box, Autocomplete, Typography } from "@mui/material";
+import { Autocomplete, Typography } from "@mui/material";
 import cx from "classnames";
 import TextField, {
     TextFieldProps,
@@ -59,7 +59,7 @@ const FormikComboBox = (props: Props) => {
 
 
     return (
-        <Box component={"div"} className={cx("w-full", boxClassName)}>
+        <div className={cx("w-full", boxClassName)}>
             <Autocomplete
                 {...field}
                 {...rest}
@@ -105,12 +105,11 @@ const FormikComboBox = (props: Props) => {
                 />
 
                 }}
-                // id={name}
             />
             <Typography variant="body2" className={"text-red-600"}>
                 {getFormikFieldValidationProps(formikProps, name).helpertext}
             </Typography>
-        </Box>
+        </div>
     );
 };
 export default FormikComboBox;

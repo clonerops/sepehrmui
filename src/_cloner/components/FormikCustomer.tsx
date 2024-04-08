@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import FormikComboBox from './FormikComboBox';
 import { useGetCustomers } from '../../app/modules/customer/core/_hooks';
@@ -14,14 +14,14 @@ const FormikCustomer = (props: any) => {
             isLabelSetValue={props.isLabelSetValue}
             renderOption={(props: any, option: any) => {
                 return <li {...props} key={option.value}>
-                    <Box component="div" style={{
+                    <div style={{
                         backgroundColor: `#${option.customerValidityColorCode}`,
                         width: 20,
                         height: 20,
                         borderRadius: 40
                     }}>
 
-                    </Box> <Typography className="pr-4" style={{
+                    </div> <Typography className="pr-4" style={{
                         width: "100%"
                     }}>{option?.label}</Typography>
                 </li>

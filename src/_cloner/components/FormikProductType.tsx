@@ -16,9 +16,6 @@ const FormikPeoductType = (props: any) => {
                           ...productType.filter((i: IProductType) => i.isActive),
                       ])
             }
-            // options={dropdownTypes(
-            //     productType?.filter((i: IProductType) => i.isActive)
-            // )}
             {...props}
         />
     );
