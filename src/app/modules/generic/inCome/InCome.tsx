@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography } from "@mui/material"
-import { Formik, Form } from "formik"
+import { Typography } from "@mui/material"
+import { Formik } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
 import * as Yup from 'yup'
 
@@ -134,7 +134,7 @@ const InComs = () => {
               }
             }>
               {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className="mb-4">
+                return <form onSubmit={handleSubmit} className="mb-4">
                   <div className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد درآمد " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="incomeDescription" label="درآمد " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
@@ -144,7 +144,7 @@ const InComs = () => {
                       </Typography>
                     </ButtonComponent>
                   </div>
-                </Form>
+                </form>
               }}
             </Formik>
             <div className="mb-4">
@@ -166,19 +166,17 @@ const InComs = () => {
           </div>
         </ReusableCard>
         <ReusableCard cardClassName='lg:flex lg:justify-center lg:items-center gap-4 hidden'>
-          {/* <div>
+          <div>
             <div className="hidden md:flex md:justify-center md:items-center">
-              <Box className="flex flex-col flex-wrap gap-4">
-                <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
-                <Typography>هر کالایی که تعریف می شود درآمد مخصوص به خود را دارا می باشد</Typography>
-                <Typography>از طریق فرم مقابل می توانید تمامی استادارد ها را تعریف کرده و در فرم تعریف کالا از این استادارد ها برای اختصاص به به کالا استفاده کنید</Typography>
+              <div className="flex flex-col flex-wrap gap-4">
+                <Typography>از طریق فرم مقابل می توانید تمامی درآمد ها را تعریف کرده و ثبت نمایید</Typography>
                 <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
-                <Typography>امکان حذف استادارد کالا وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
+                <Typography>امکان حذف درآمد وجود ندارد اما می توانید اقدام به غیرفعاسازی آن کنید</Typography>
                 <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
-                <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
-              </Box>
+                <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی درآمد با پشتیبانی تماس بگیرید</Typography>
+              </div>
             </div>
-          </Box> */}
+          </div>
           <div>
             <div
               className="hidden md:flex md:justify-center md:items-center"
