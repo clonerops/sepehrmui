@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { CSSObject, makeStyles, styled, Theme, useTheme } from "@mui/material/styles";
+import { CSSObject, styled, Theme, useTheme } from "@mui/material/styles";
 import {
   Box,
   CssBaseline,
@@ -21,7 +21,6 @@ import { useMenuItems } from "./core/_hooks";
 import { IMenuItem } from "./core/_models";
 import { parseMenuItems } from "./helpers/parseMenuItems";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
-import { menuItem } from "./helpers/MenuItem";
 
 const drawerWidth = 240;
 

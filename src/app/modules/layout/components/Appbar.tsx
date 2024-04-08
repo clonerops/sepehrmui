@@ -1,12 +1,10 @@
 import { FC } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Toolbar, IconButton, TextField, Typography } from "@mui/material";
+import { Toolbar, IconButton, Typography } from "@mui/material";
 
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import MenuIcon from "@mui/icons-material/Menu";
 import ToolbarComponent from "../../../../_cloner/components/Toolbar";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
-import React from "react";
 import { Link } from "react-router-dom";
 
 interface IProps {
@@ -54,7 +52,7 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                 } !bg-slate-50 app_bar`}
         >
             <Toolbar className="flex justify-between items-center">
-                <Box component="div" className="flex items-center">
+                <div className="flex items-center">
                     <IconButton
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
@@ -64,29 +62,25 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             ...(open && { display: "none", color: "white" }),
                         }}
                     >
-                        <Box component="div" className="text-black font-bold">
-                            <Box component="img" className="text-primary" src={toAbsoulteUrl('/media/icons/duotune/general/gen063.svg')} width={24} />
-                        </Box>
+                        <div className="text-black font-bold">
+                            <img className="text-primary" src={toAbsoulteUrl('/media/icons/duotune/general/gen063.svg')} width={24} />
+                        </div>
                     </IconButton>
                     <Link to="/dashboard" className="flex items-center">
-                        <Box component="div" className="mx-4 hidden md:block">
+                        <div className="mx-4 hidden md:block">
                             <img
                                 src={toAbsoulteUrl("/media/mainlogo/2.png")}
                                 width={30}
                             />
-                        </Box>
+                        </div>
                         <Typography color="primary" variant="h3" className="">
                             بازرگانی سپهر ایرانیان
                         </Typography>
                     </Link>
-                </Box>
-                <Box
-                    component="div"
-                    className={`flex flex-row items-center absolute ${open ? "left-[0px]" : "left-[0px]"
-                        }`}
-                >
+                </div>
+                <div className={`flex flex-row items-center absolute ${open ? "left-[0px]" : "left-[0px]"}`}>
                     <ToolbarComponent />
-                </Box>
+                </div>
             </Toolbar>
         </AppBar>
     );
