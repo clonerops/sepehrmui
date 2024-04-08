@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableTabComponent from "../../../_cloner/components/ReusableTab";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import { useRetrieveProductsByType } from "../generic/products/_hooks";
 import { columnsProductPriceDashboard } from "../generic/productPrices/_columns";
@@ -24,13 +23,13 @@ const ProductPriceLanding = () => {
     const tabs = productsByType?.data?.map((i: any, index: number) => {
         return {
             label: (
-                <Box component="div" className="flex gap-x-2">
+                <div className="flex gap-x-2">
                     <Typography variant="h5">{i.desc}</Typography>
-                </Box>
+                </div>
             ),
             content: (
-                <Box>
-                    <Box component="div" className="pb-4">
+                <div>
+                    <div className="pb-4">
                         <FuzzySearch
                             keys={["productName", "productBrandName"]}
                             data={i.products}
@@ -41,23 +40,23 @@ const ProductPriceLanding = () => {
                                 setResults(updatedResults);
                             }}
                         />
-                    </Box>
+                    </div>
                     <MuiDataGrid
                         columns={columnsProductPriceDashboard(renderAction)}
                         rows={results[index]}
                         data={i.products}
                         isLoading={isLoading}
                     />
-                </Box>
+                </div>
             ),
         };
     });
     return (
         <>
             {isLoading && <Backdrop loading={isLoading} />}
-            <Box component="div" className="flex flex-col">
+            <div className="flex flex-col">
                 <ReusableTabComponent tabs={tabs} />
-            </Box>
+            </div>
         </>
     );
 };
