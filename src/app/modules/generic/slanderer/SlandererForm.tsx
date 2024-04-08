@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import {
     QueryObserverResult,
     RefetchOptions,
     RefetchQueryFilters,
 } from "@tanstack/react-query";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { ISlanderer } from "./_models";
@@ -130,16 +130,14 @@ const SlandererForm = (props: {
             >
                 {({ handleSubmit }) => {
                     return (
-                        <Form>
+                        <form>
                             {fields.map((rowFields) => (
-                                <Box
-                                    component="div"
-                                    className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4"
+                                <div className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4"
                                 >
                                     {rowFields.map((field) =>
                                         parseFields(field)
                                     )}
-                                </Box>
+                                </div>
                             ))}
                             <Button
                                 onClick={() => handleSubmit()}
@@ -150,7 +148,7 @@ const SlandererForm = (props: {
                                     {isNew ? "ثبت بانک" : "ویرایش بانک"}
                                 </Typography>
                             </Button>
-                        </Form>
+                        </form>
                     );
                 }}
             </Formik>

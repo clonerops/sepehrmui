@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import Backdrop from "../../../../_cloner/components/Backdrop";
@@ -104,14 +104,14 @@ const Slanderers = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Box component="div" className="flex justify-center items-center gap-4">
+            <div className="flex justify-center items-center gap-4">
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
                 <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
                 <SwitchComponent
                     checked={item?.row.isActive}
                     onChange={(_) => onUpdateStatus(item)}
                 />
-            </Box>
+            </div>
         );
     };
     
@@ -119,13 +119,13 @@ const Slanderers = () => {
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
-            <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <ReusableCard>
-                <Box
-                    component="div"
+                <div
+                
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
+                    <div className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
                                 "mobileNo",
@@ -134,13 +134,13 @@ const Slanderers = () => {
                             data={slanderer?.data}
                             setResults={setResults}
                         />
-                    </Box>
+                    </div>
                     <ButtonComponent
                         onClick={() => setIsCreateOpen(true)}
                     >
                         <Typography variant="h4" className="px-4 py-1 text-white">ایجاد تنخواه گردان</Typography>
                     </ButtonComponent>
-                </Box>
+                </div>
                 <MuiDataGrid
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
@@ -149,32 +149,28 @@ const Slanderers = () => {
                 />
                 </ReusableCard>
                 <ReusableCard cardClassName='lg:flex gap-4 hidden'>
-                    <Box component="div">
-                        <Box component="div" className="hidden md:flex md:justify-center md:items-center">
-                          <Box className="flex flex-col flex-wrap gap-4">
+                    <div>
+                        <div className="hidden md:flex md:justify-center md:items-center">
+                          <div className="flex flex-col flex-wrap gap-4">
                             <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
-                            <Typography>هر کالایی که تعریف می شود استاندارد مخصوص به خود را دارا می باشد</Typography>
-                            <Typography>از طریق فرم مقابل می توانید تمامی استادارد ها را تعریف کرده و در فرم تعریف کالا از این استادارد ها برای اختصاص به به کالا استفاده کنید</Typography>
+                            <Typography>از طریق فرم مقابل می توانید تمامی تنخواه گردان ها را تعریف کرده و ثبت نمایید</Typography>
                             <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
-                            <Typography>امکان حذف استادارد کالا وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
+                            <Typography>امکان حذف تنخواه گردان کالا وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
                             <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
                             <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
-                          </Box>
-                        </Box>
-                    </Box>
-                    <Box component="div">
-                      <Box
-                        component="div"
-                        className="hidden md:flex md:justify-center md:items-center"
-                      >
-                        <Box component="img"
-                          src={toAbsoulteUrl("/media/logos/11089.jpg")}
+                          </div>
+                        </div>
+                    </div>
+                    <div>
+                      <div className="hidden md:flex md:justify-center md:items-center">
+                        <img
+                          src={toAbsoulteUrl("/media/logos/fund.png")}
                           width={400}
                         />
-                      </Box>
-                    </Box>
+                      </div>
+                    </div>
                 </ReusableCard>
-            </Box>
+            </div>
             <TransitionsModal
                 open={isCreateOpen}
                 isClose={() => setIsCreateOpen(false)}
