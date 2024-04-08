@@ -51,7 +51,7 @@ export const translationMapping: any = {
     transferRemittance: "ثبت مجوز ورود",
     ladingReport: "لیست مجوزهای بارگیری",
     entranceReport: "لیست مجوزهای ورود",
-    banks: "مدیریت بانک",
+    organizationBank: "مدیریت بانک و حساب",
     cashDesk: "مدیریت صندوق",
     income: "ثبت و ویرایش درآمد",
     cost: "ثبت و ویرایش هزینه",

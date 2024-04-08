@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
@@ -111,46 +111,21 @@ const OrganizationBank = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Box component="div" className="flex gap-4">
+            <div className="flex gap-4">
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
                 <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
-            </Box>
+            </div>
         );
     };
 
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
-            {/* {organizationBankLoading && <Backdrop loading={organizationBankLoading} />} */}
-            {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
-                <CardWithIcons
-                    title='تعداد سرویس های ثبت شده'
-                    icon={<DesignServices className="text-white" />}
-                    value={organizationBank?.data && +organizationBank?.data?.length}
-                    iconClassName='bg-[#3322D8]' />
-                <CardWithIcons
-                    title='میانگین حداقل موجودی'
-                    icon={<AddTask className="text-white" />}
-                    value={Math.ceil(+_.sumBy(organizationBank?.data && organizationBank?.data, 'minInventory') / +organizationBank?.data?.length)}
-                    iconClassName='bg-[#369BFD]' />
-                <CardWithIcons
-                    title='میانگین حداکثر موجودی'
-                    icon={<TextDecrease className="text-white" />}
-                    value={Math.ceil(+_.sumBy(organizationBank?.data && organizationBank?.data, 'maxInventory') / +organizationBank?.data?.length)}
-                    iconClassName='bg-[#F8B30E]' />
-                <CardWithIcons
-                    title='میانگین نقطه بحرانی'
-                    icon={<AdfScanner className="text-white" />}
-                    value={Math.ceil(+_.sumBy(organizationBank?.data && organizationBank?.data, 'inventotyCriticalPoint') / +organizationBank?.data?.length)}
-                    iconClassName='bg-[#EB5553]' />
-            </Box> */}
-
             <ReusableCard>
-                <Box
-                    component="div"
+                <div
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
+                    <div className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
                                 "id",
@@ -159,19 +134,18 @@ const OrganizationBank = () => {
                                 "accountNo",
                                 "branchName",
                             ]}
-                            // data={organizationBank?.data}
-                            data={[]}
+                            data={organizationBank?.data}
                             setResults={setResults}
                         />
-                    </Box>
+                    </div>
                     <Button
                         onClick={() => setIsCreateOpen(true)}
                         className="!bg-indigo-500"
                     >
                         <Add className="text-white" />
-                        <Typography variant="h4" className="px-4 py-1 text-white">ایجاد بانک</Typography>
+                        <Typography variant="h4" className="px-4 py-1 text-white">ایجاد بانک و حساب</Typography>
                     </Button>
-                </Box>
+                </div>
                 <MuiDataGrid
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
