@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { Search, Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import {Box, Button, Typography} from '@mui/material'
+import { Button, Typography} from '@mui/material'
 
-import { useRetrievePurchaserOrders, useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
+import {  useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { orderColumns, purchaserOrderColumns } from "../helpers/columns";
+import { purchaserOrderColumns } from "../helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
 import { Formik } from "formik";

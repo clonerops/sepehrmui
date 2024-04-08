@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography, Button, InputAdornment } from '@mui/material'
+import { IconButton, Typography, Button, InputAdornment } from '@mui/material'
 import { AddCircle, Edit, Add, Grading } from "@mui/icons-material"
 import { FormikErrors } from 'formik';
 import { UseMutationResult } from '@tanstack/react-query';
@@ -48,13 +48,13 @@ const saleOrderParseFields = (
     switch (type) {
         case "customer":
             return (
-                <Box key={index} component="div" className="flex flex-col w-full">
-                    <Box component="div" className="flex flex-col space-y-4">
+                <div key={index} className="flex flex-col w-full">
+                    <div className="flex flex-col space-y-4">
                         <Typography variant="h2">انتخاب فروشنده</Typography>
                         <Typography variant="body1" className='text-violet-800'>از طریق لیست زیر، فروشنده ای که قصد خرید کالا از آن دارید را انتخاب نمایید</Typography>
                         <FormikCustomer disabled={postSaleOrder?.data?.succeeded} onChange={(value: any) => changeCustomerFunction(value, setFieldValue)} {...rest} />
-                    </Box>
-                </Box>
+                    </div>
+                </div>
             );
         case "settlementDate":
             return <FormikDatepicker {...rest} />;
@@ -105,9 +105,9 @@ const orderDetailParseFields = (
     switch (type) {
         case "product":
             return (
-                <Box key={index} component="div" className="flex gap-x-2 w-full">
+                <div key={index} className="flex gap-x-2 w-full">
                     <FormikProductBrand disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} onChange={(value: any) => changeProductFunction(value, setFieldValue)} {...rest} />
-                </Box>
+                </div>
             );
         case "purchaserCustomer":
             return <FormikCustomer key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} {...rest} />

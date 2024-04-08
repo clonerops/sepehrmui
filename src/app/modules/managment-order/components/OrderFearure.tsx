@@ -1,5 +1,5 @@
 import { FC, memo } from 'react'
-import { Box, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { UseMutationResult } from '@tanstack/react-query'
 
 import { orderFeatureFields } from '../helpers/fields'
@@ -73,12 +73,11 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
     return (
     // <ReusableCard cardClassName='bg-gradient-to-r from-gray-100'>
     <ReusableCard cardClassName=''>
-        <Box component="div" className="">
+        <div className="">
             <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
             {orderFeatureFields.map((rowFields, index) => (
-                <Box
+                <div
                     key={index}
-                    component="div"
                     className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                 >
                     {rowFields.map((field, index) =>
@@ -88,9 +87,9 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
                             field,
                         )
                     )}
-                </Box>
+                </div>
             ))}
-        </Box>
+        </div>
     </ReusableCard>
 
   )

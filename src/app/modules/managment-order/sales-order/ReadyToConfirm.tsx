@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
-import {Button, Typography, Box} from '@mui/material'
+import {Button, Typography} from '@mui/material'
 
 import { IOrder } from "../core/_models";
 import { useRetrieveOrdersByMutation } from "../core/_hooks";
@@ -75,8 +75,8 @@ const ReadyToSalesOrderConfirm = () => {
 
     return (
         <ReusableCard>
-            <Box component="div" className="flex justify-between items-center mb-4">
-                <Box component="div" className="w-auto md:w-[40%]">
+            <div className="flex justify-between items-center mb-4">
+                <div className="w-auto md:w-[40%]">
                     <FuzzySearch
                         keys={[
                             "orderCode",
@@ -93,7 +93,7 @@ const ReadyToSalesOrderConfirm = () => {
                         threshold={0.5}
                         setResults={setResults}
                     />
-                </Box>
+                </div>
                 <Formik initialValues={{ statusId: -1 }} onSubmit={() => { }}>
                     {({ }) => {
                         return <>
@@ -101,7 +101,7 @@ const ReadyToSalesOrderConfirm = () => {
                         </>
                     }}
                 </Formik>
-            </Box>
+            </div>
             <MuiDataGrid
                 columns={salesOrderConfirm(renderAction)}
                 rows={results}

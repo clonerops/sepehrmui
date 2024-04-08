@@ -1,15 +1,13 @@
-import { FC, memo, useCallback, useState } from 'react'
-import { Form, FormikErrors, FormikProps } from "formik"
-import { Box, Button, InputAdornment, Typography } from '@mui/material'
+import { FC, memo, useState } from 'react'
+import {  FormikErrors, FormikProps } from "formik"
+import { Button, InputAdornment, Typography } from '@mui/material'
 
 import OrderProductList from './OrderProductList'
 import Backdrop from '../../../../../_cloner/components/Backdrop'
 
 import { ISaleOrderDetail, IOrderItems, IOrderPayment, IOrderService } from '../../core/_models'
-import { BUY_WAREHOUSE_TYPES, FIELD_VALUE } from '../../helpers/constants'
 import { calculateTotalAmount } from '../../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../../_cloner/helpers/sliceNumberPrice'
-import { orderFieldWhenNotWarehouseMain, orderFieldWhenWarehouseIsMain } from '../../sales-order/fields'
 import { EnqueueSnackbar } from '../../../../../_cloner/helpers/Snackebar'
 import FormikWarehouse from '../../../../../_cloner/components/FormikWarehouse'
 import FormikProduct from '../../../../../_cloner/components/FormikProductComboSelect'

@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import ReusableCard from "../../../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../../../_cloner/components/FormikInput";
 import { SearchRounded } from "@mui/icons-material";
@@ -25,14 +25,14 @@ interface IRenderProps {
 
 const RenderInfo:FC<IRenderProps> = ({value, title}) => {
     return (
-        <Box component="div" className="flex justify-between">
+        <div className="flex justify-between">
             <Typography variant="h4" className="text-gray-500">
                 {title}
             </Typography>
             <Typography variant="h3">
                 {value}
             </Typography>
-        </Box>
+        </div>
     );
 };
 
@@ -55,20 +55,20 @@ const OrderDetailBaseOrderCode: FC<IProps> = ({
     return (
         <ReusableCard cardClassName="col-span-2">
         {!postSaleOrder?.data?.succeeded &&
-            <Box component="div" className="flex mt-4 gap-4">
+            <div className="flex mt-4 gap-4">
                 <FormikInput label="شماره سفارش" name="searchOrderCode" />
                 <IconButton onClick={() => onGetOrderDetailByCode(orderCode)}>
                     <SearchRounded color="secondary" />
                 </IconButton>
-            </Box>
+            </div>
         }
-            <Box component="div" className="mt-8 space-y-8">
+            <div className="mt-8 space-y-8">
                 <RenderInfo value={detailTools?.data?.data.orderCode ? detailTools?.data?.data.orderCode : "------------------"} title="شماره سفارش" />
                 <RenderInfo value={detailTools?.data?.data.customerName ? detailTools?.data?.data.customerName : "------------------"} title="مشتری" />
                 <RenderInfo value={detailTools?.data?.data.registerDate ? detailTools?.data?.data.registerDate : "------------------"} title="تاریخ سفارش" />
                 <RenderInfo value={sliceNumberPriceRial(calculateTotalAmount(orders, orderServices))} title="قیمت کل" />
                 
-            </Box>
+            </div>
         </ReusableCard>
     );
 };

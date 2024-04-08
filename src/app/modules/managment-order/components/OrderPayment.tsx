@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { DeleteOutlineRounded } from "@mui/icons-material";
 import moment from "moment-jalaali";
 
@@ -14,7 +14,6 @@ import { calculateProximateAmount, calculateTotalAmount } from "../helpers/funct
 import { FormikProps } from "formik";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { FC, memo, useMemo } from "react";
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 
 interface IProps {
     postSaleOrder: any,

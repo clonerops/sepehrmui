@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
@@ -94,14 +94,14 @@ const PurchaserOrderConfirm = () => {
         switch (type) {
             case "product":
                 return (
-                    <Box key={index} component="div" className="flex gap-x-2 w-full">
+                    <div key={index} className="flex gap-x-2 w-full">
                         <FormikProduct
                             disabled={!values.productName}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
                             options={dropdownProductByInventory(productsByBrand?.data)}
                             {...rest}
                         />
-                    </Box>
+                    </div>
                 );
             case "price":
                 return <FormikPrice key={index} disabled={!values.productName} {...rest} />;
@@ -211,7 +211,7 @@ const PurchaserOrderConfirm = () => {
             } onSubmit={(_) => handleConfirmOrder(_, 0)}>
                 {({ values, setFieldValue, resetForm }) => {
                     return <>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
                             {orderAndAmountInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
@@ -220,12 +220,11 @@ const PurchaserOrderConfirm = () => {
                                 return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                             })}
                             <CardTitleValue key={orderAndAmountInfo.length + 1} className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
-                        </Box>
+                        </div>
                         <ReusableCard cardClassName="my-4">
                             {saleOrderFieldConfirm.map((rowFields, index) => (
-                                <Box
+                                <div
                                     key={index}
-                                    component="div"
                                     className="md:flex md:justify-between flex-warp md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"
                                 >
                                     {rowFields.map((field, index) =>
@@ -237,34 +236,34 @@ const PurchaserOrderConfirm = () => {
                                             index
                                         )
                                     )}
-                                </Box>
+                                </div>
                             ))}
                         </ReusableCard>
                         <ReusableCard cardClassName="my-4">
                             <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
-                            <Box component="div" className="flex flex-col md:flex-row gap-x-4">
+                            <div className="flex flex-col md:flex-row gap-x-4">
                                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                                 <MuiTable onDoubleClick={(_: any, rowIndex: number) => handleDoubleClick(_, setFieldValue, rowIndex)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cpData} columns={orderOrderColumnReplace} />
-                            </Box>
+                            </div>
                         </ReusableCard>
 
-                        <Box component="div" className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                            <Box component="div" className="flex flex-col">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                            <div className="flex flex-col">
                                 <ReusableCard >
                                     <Typography variant="h2" color="primary" className="pb-4">افزودن پیوست</Typography>
                                     <FileUpload files={files} setFiles={setFiles} />
                                 </ReusableCard>
-                            </Box>
-                            <Box component="div" className="flex flex-col">
+                            </div>
+                            <div className="flex flex-col">
                                 <ReusableCard>
-                                    <Box component="div" className="flex justify-between items-center">
+                                    <div className="flex justify-between items-center">
                                         <Typography variant="h2" color="primary" className="pb-4">فاکتور</Typography>
                                         <Newspaper color="secondary" />
-                                    </Box>
-                                    <Box component="div" className="flex items-center">
+                                    </div>
+                                    <div className="flex items-center">
                                         <FormikCheckbox label="" name="invoiceTypeCheck" />
                                         <Typography>آیا مایل به تغییر نوع فاکتور می باشید؟</Typography>
-                                    </Box>
+                                    </div>
                                     <FormikSelect
                                         disabeld={!values.invoiceTypeCheck}
                                         options={dropdownInvoiceType(factor)}
@@ -272,17 +271,17 @@ const PurchaserOrderConfirm = () => {
                                         defaultValue={values.invoiceTypeId}
                                     />
                                 </ReusableCard>
-                            </Box>
-                            <Box component="div" className="flex flex-col">
+                            </div>
+                            <div className="flex flex-col">
                                 <ReusableCard>
-                                    <Box component="div" className="flex justify-between items-center">
+                                    <div className="flex justify-between items-center">
                                         <Typography variant="h2" color="primary" className="pb-4">شرکت رسمی و توضیحات</Typography>
                                         <Description color="secondary" />
-                                    </Box>
-                                    <Box component="div" className="flex items-center">
+                                    </div>
+                                    <div className="flex items-center">
                                         <FormikCheckbox label="" name="customerCompanyCheck" />
                                         <Typography>آیا مایل به تغییر اسم رسمی شرکت مشتری می باشید؟</Typography>
-                                    </Box>
+                                    </div>
                                     <FormikSelect
                                         disabeld={!values.customerCompanyCheck}
                                         className="mb-4"
@@ -295,13 +294,13 @@ const PurchaserOrderConfirm = () => {
                                         label="" name="description"
                                     />
                                 </ReusableCard>
-                            </Box>
-                        </Box>
-                        <Box component="div" className="flex justify-end items-end gap-x-4 my-4 ">
+                            </div>
+                        </div>
+                        <div className="flex justify-end items-end gap-x-4 my-4 ">
                             <Button onClick={() => setApprove(true)} className="!bg-[#fcc615] !text-black">
                                 <Typography className="py-2 px-4">ثبت تایید سفارش</Typography>
                             </Button>
-                        </Box>
+                        </div>
                         <ConfirmDialog
                             open={approve}
                             hintTitle="آیا از تایید سفارش مطمئن هستید؟"

@@ -1,5 +1,5 @@
 import React, { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
+import { Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
@@ -11,7 +11,7 @@ import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumber
 import { calculateTotalAmount } from "../../helpers/functions";
 import { useGetUnits } from "../../../generic/productUnit/_hooks";
 import { IOrderService } from "../../core/_models";
-import { Form, Formik, FormikErrors, FormikProps } from "formik";
+import { Form, Formik, FormikErrors } from "formik";
 import FormikRadioGroup from "../../../../../_cloner/components/FormikRadioGroup";
 import { dropdownWarehouseType } from "../../helpers/dropdowns";
 import { useGetProductTypes, useGetWarehouseTypes } from "../../../generic/_hooks";
@@ -174,7 +174,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     const renderSubUnit = useCallback((params: any) => {
         const productId = params.row.id;
         return (
-            <Box component="div" className="flex gap-x-2">
+            <div className="flex gap-x-2">
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
@@ -216,7 +216,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         ))}
                     </Select>
                 </FormControl>{" "}
-            </Box>
+            </div>
         );
     }, [productData.proximateSubAmounts])
 
@@ -303,7 +303,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     return (
         <>
-            <Box className="mx-1">
+            <div className="mx-1">
                 <Button
                     className={`${currentFilter.ProductTypeId == -1 ? "!bg-[#fcc615] !text-black" : ""
                         }`}
@@ -344,9 +344,9 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         </Button>
                     );
                 })}
-            </Box>
+            </div>
 
-            <Box component="div" className="col-span-2 mx-4 my-2">
+            <div className="col-span-2 mx-4 my-2">
                 <Formik initialValues={{ warehouseTypeId: "1" }} onSubmit={() => { }}>
                     {({ }) => {
                         return <Form>
@@ -366,12 +366,12 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         </Form>
                     }}
                 </Formik>
-            </Box>
-            <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
-                <Box component="div">
-                    <Box className="my-2">
+            </div>
+            <div className="md:grid md:grid-cols-2 gap-x-8">
+                <div>
+                    <div className="my-2">
                         <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
-                    </Box>
+                    </div>
                     <MuiDataGrid
                         onDoubleClick={handleSelectProduct}
                         columns={columnsModalProduct()}
@@ -380,8 +380,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         data={filterTools?.data?.data}
                         height={400}
                     />
-                </Box>
-                <Box component="div">
+                </div>
+                <div>
                     <MuiSelectionDataGrid
                         selectionModel={productData.selectionModel}
                         columns={columnsSelectProduct(
@@ -396,8 +396,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         hideFooter={true}
                         columnHeaderHeight={40}
                     />
-                    <Box
-                        component="div"
+                    <div
                         className="flex justify-end items-end mt-4"
                     >
                         <Button
@@ -408,9 +407,9 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         >
                             <Typography>تایید</Typography>
                         </Button>
-                    </Box>
-                </Box>
-            </Box>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

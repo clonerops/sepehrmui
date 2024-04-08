@@ -2,7 +2,6 @@ import React, { FC, memo, useMemo } from 'react'
 import moment from 'moment-jalaali'
 import { FormikProps } from 'formik'
 import { Button, Typography } from '@mui/material'
-import { AddCircle } from '@mui/icons-material'
 
 import FormikCustomer from '../../../../../_cloner/components/FormikCustomer'
 import FormikCompany from '../../../../../_cloner/components/FormikCompany'

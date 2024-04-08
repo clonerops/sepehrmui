@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
+import { Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
@@ -143,7 +143,7 @@ const ProductsList = (props: {
     const renderSubUnit = (params: any) => {
         const productId = params.row.id;
         return (
-            <Box component="div" className="flex gap-x-2">
+            <div className="flex gap-x-2">
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
@@ -180,7 +180,7 @@ const ProductsList = (props: {
                         ))}
                     </Select>
                 </FormControl>{" "}
-            </Box>
+            </div>
         );
     };
 
@@ -393,7 +393,7 @@ const ProductsList = (props: {
     return (
         <>
 
-            <Box component="div" className="w-full">
+            <div className="w-full">
                 <TabProducts
                     handleSelectionChange={handleSelectionChange}
                     productsByBrand={filterTools?.data?.data}
@@ -404,9 +404,9 @@ const ProductsList = (props: {
                     selectedTab={productData.selectedTab}
                     tabResult={productData.tabResult}
                 />
-            </Box>
-            <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
-                <Box component="div">
+            </div>
+            <div className="md:grid md:grid-cols-2 gap-x-8">
+                <div>
                     <MuiDataGrid
                         onDoubleClick={handleSelectionChange}
                         columns={columnsModalProduct()}
@@ -415,8 +415,8 @@ const ProductsList = (props: {
                         data={productData.filteredTabs}
                         height={400}
                     />
-                </Box>
-                <Box component="div">
+                </div>
+                <div>
                     <MuiSelectionDataGrid
                         selectionModel={productData.selectionModel}
                         columns={columnsSelectProduct(
@@ -431,8 +431,7 @@ const ProductsList = (props: {
                         hideFooter={true}
                         columnHeaderHeight={40}
                     />
-                    <Box
-                        component="div"
+                    <div
                         className="flex justify-end items-end mt-4"
                     >
                         <Button
@@ -443,9 +442,9 @@ const ProductsList = (props: {
                         >
                             <Typography>تایید</Typography>
                         </Button>
-                    </Box>
-                </Box>
-            </Box>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

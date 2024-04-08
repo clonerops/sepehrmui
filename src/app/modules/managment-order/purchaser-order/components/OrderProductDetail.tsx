@@ -1,13 +1,11 @@
 import {useEffect, useState} from 'react'
 
-import { Form, FormikErrors, FormikProps } from "formik"
-import {Box, Button, InputAdornment, Typography} from '@mui/material'
+import { FormikErrors, FormikProps } from "formik"
+import {Button, InputAdornment, Typography} from '@mui/material'
 import OrderProductList from './OrderProductList'
 import { ISaleOrderDetail, IOrderItems, IOrderPayment, IOrderService } from '../../core/_models'
 import { calculateTotalAmount } from '../../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../../_cloner/helpers/sliceNumberPrice'
-import { orderField } from '../fields'
-import { orderDetailParseFields } from '../renderFields'
 import { EnqueueSnackbar } from '../../../../../_cloner/helpers/Snackebar'
 import FormikProductBrand from '../../../../../_cloner/components/FormikProductBrandComboSelect'
 import FormikProximateAmount from '../../../../../_cloner/components/FormikProximateAmount'

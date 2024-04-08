@@ -1,5 +1,4 @@
 import { FC, memo } from "react";
-import { Box } from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 import { calculateTotalAmount } from "../../helpers/functions";
@@ -7,7 +6,7 @@ import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { orderListColumns } from "../../helpers/columns";
-import { FormikErrors, FormikProps } from "formik";
+import { FormikErrors } from "formik";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
@@ -26,7 +25,6 @@ interface IProps {
     setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>
     values: any,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
-
 }
 
 const OrderProductList:FC<IProps> = (props: IProps) => {
@@ -47,13 +45,12 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         return (
             <>
                 {!disabled &&
-                    <Box
-                        component="div"
+                    <div
                         onClick={() => handleDeleteFromList(index)}
                         className="cursor-pointer"
                     >
                         <Delete className="text-red-500" />
-                    </Box>
+                    </div>
                 }
             </>
         );

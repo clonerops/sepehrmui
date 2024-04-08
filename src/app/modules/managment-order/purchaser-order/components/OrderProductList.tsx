@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 import { calculateTotalAmount } from "../../helpers/functions";
@@ -6,7 +5,6 @@ import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
-import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { orderPurchaserListColumns } from "../../helpers/columns";
 import { IProducts } from "../../../generic/products/_models";
@@ -45,13 +43,12 @@ const OrderProductList = (props: ProductProps) => {
         return (
             <>
                 {!disabled &&
-                    <Box
-                        component="div"
+                    <div
                         onClick={() => handleDeleteFromList(index)}
                         className="cursor-pointer"
                     >
                         <Delete className="text-red-500" />
-                    </Box>
+                    </div>
                 }
             </>
         );

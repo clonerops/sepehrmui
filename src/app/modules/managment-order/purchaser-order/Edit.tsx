@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { Box, Typography, IconButton } from '@mui/material'
+import { Typography, IconButton } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 
 import { orderPaymentValues, orderServiceValues, saleOrderEditInitialValues } from "./initialValues"
@@ -10,7 +10,7 @@ import OrderFeature from '../components/OrderFearure'
 import OrderService from '../components/OrderService'
 import OrderPayment from '../components/OrderPayment'
 
-import { useGetOrderDetailByCode, useGetPurchaserOrderDetailByCode, useUpdateOrder, useUpdatePurchaserOrder } from '../core/_hooks'
+import { useGetPurchaserOrderDetailByCode, useUpdatePurchaserOrder } from '../core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import Backdrop from '../../../../_cloner/components/Backdrop'
@@ -26,7 +26,6 @@ import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 import { useGetProductList } from '../../generic/products/_hooks'
 import FormikWarehouseBasedOfType from '../../../../_cloner/components/FormikWarehouseBasedOfType'
-import FormikWarehouse from '../../../../_cloner/components/FormikWarehouse'
 
 const PurchaserOrderEdit = () => {
 
@@ -278,8 +277,7 @@ const PurchaserOrderEdit = () => {
                 formikRef={formikRef}
                 setOrderPayment={setOrderPayment} />
             </div>
-            <Box
-              component="div"
+            <div
               className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
             >
               <CustomButton
@@ -294,7 +292,7 @@ const PurchaserOrderEdit = () => {
                 color="primary"
                 isLoading={postSaleOrder.isLoading}
               />
-            </Box>
+            </div>
 
           </>
         }}

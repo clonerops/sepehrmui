@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { Box } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 
 import { saleOrderInitialValues } from "./initialValues"
@@ -19,13 +18,11 @@ import PurchaserHeaderBase from './components/PurchaserHeaderBase'
 import PurchaserChoose from './components/PurchaserChoose'
 
 import { useCreatePurchaserOrder } from '../core/_hooks'
-import { useGetCustomer } from '../../customer/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 import { useGetProductList } from '../../generic/products/_hooks'
-import { useGetWarehouses } from '../../generic/_hooks'
 
 
 const PurchaserOrder = () => {
@@ -155,7 +152,7 @@ const PurchaserOrder = () => {
                                 />
                             </ReusableCard>
                         </div>
-                        <Box component="div" className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
+                        <div className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
@@ -174,8 +171,8 @@ const PurchaserOrder = () => {
                                 orders={orders}
                                 formikRef={formikRef}
                                 setOrderPayment={setOrderPayment} />
-                        </Box>
-                        <Box  component="div" className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
+                        </div>
+                        <div className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
@@ -190,7 +187,7 @@ const PurchaserOrder = () => {
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />
-                        </Box>
+                        </div>
                     </>
                 }}
             </Formik>

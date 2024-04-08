@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Box, Typography, Button } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import { AttachMoney, CheckBox, ConfirmationNumber, Description, ExitToApp, LocalShipping, Newspaper, Person } from "@mui/icons-material";
 import { Formik } from "formik";
 
@@ -105,7 +105,7 @@ const PurchaserOrderDetail = (props: Props) => {
             <Formik initialValues={initialValues} onSubmit={() => { }}>
                 {({ }) => {
                     return <>
-                        <Box component="div" className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-5"} gap-4 my-4`}>
+                        <div className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-5"} gap-4 my-4`}>
                             {renderOrderInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
@@ -116,8 +116,8 @@ const PurchaserOrderDetail = (props: Props) => {
                             {!props.isCargo &&
                                 <CardTitleValue key={renderOrderInfo.length + 1} className="md:col-span-5" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                             }
-                        </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
                             {!props.isCargo &&
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
@@ -128,9 +128,9 @@ const PurchaserOrderDetail = (props: Props) => {
                                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                                 <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                             </ReusableCard>
-                        </Box>
+                        </div>
                         {!props.isCargo && !props.isLading && 
-                            <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
                                     <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => { }} />
@@ -140,7 +140,7 @@ const PurchaserOrderDetail = (props: Props) => {
                                     <Typography variant="h2" color="primary" className="pb-4">ضمیمه ها</Typography>
                                     <ImagePreview base64Strings={data?.data?.attachments.map((i: any) => i.fileData)} />
                                 </ReusableCard>
-                            </Box>
+                            </div>
                         }
                     </>
                 }}
