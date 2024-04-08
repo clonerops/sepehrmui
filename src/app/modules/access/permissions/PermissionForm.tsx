@@ -1,17 +1,15 @@
 import { useEffect } from "react";
-import { Form, Formik } from "formik";
+import {  Formik } from "formik";
 import {
     QueryObserverResult,
     RefetchOptions,
     RefetchQueryFilters,
 } from "@tanstack/react-query";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import { Box, Button, IconButton, Typography } from "@mui/material";
-import { FieldType } from "../../../../_cloner/components/globalTypes";
+import { IconButton } from "@mui/material";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { useGetPermission, usePostPermissions, useUpdatePermissions } from "./_hooks";
 import { IPermission } from "./_models";
-import { createPermissionValidation } from "./_validation";
 import { AddCircleOutline, Edit } from "@mui/icons-material";
 import FormikApplicationMenu from "../../../../_cloner/components/FormikApplicarionMenu";
 import Backdrop from "../../../../_cloner/components/Backdrop";
@@ -113,12 +111,11 @@ const PermissionForm = (props: {
             >
                 {({ handleSubmit }) => {
                     return (
-                        <Form
+                        <form
                             onSubmit={handleSubmit}
                             className="mb-4"
                                     >
-                                        <Box
-                                            component="div"
+                                        <div
                                             className={`${isNew ? "md:flex md:justify-start md:items-start gap-x-4 " : "md:flex md:flex-col mt-8 gap-8"}`}
                                         >
                                             <FormikInput
@@ -143,8 +140,7 @@ const PermissionForm = (props: {
                                                 label="توضیحات"
                                                 boxClassName=" mt-2 md:mt-0"
                                             /> */}
-                                            <Box
-                                                component="div"
+                                            <div
                                                 className="mt-2 md:mt-0"
                                             >
                                                 {updateTools.isLoading || postPermissions.isLoading ? "درحال پردازش ..." :
@@ -157,9 +153,9 @@ const PermissionForm = (props: {
                                                         {isNew ? <AddCircleOutline color="primary" /> : <Edit color="primary" />}
                                                     </IconButton>
                                                 }
-                                            </Box>
-                                        </Box>
-                                    </Form>
+                                            </div>
+                                        </div>
+                                    </form>
                     );
                 }}
             </Formik>

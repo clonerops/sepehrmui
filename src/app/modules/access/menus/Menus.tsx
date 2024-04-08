@@ -4,8 +4,7 @@ import { TreeView } from '@mui/x-tree-view/TreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Form, Formik } from "formik";
-import { useParams, useSearchParams } from "react-router-dom";
+import {  Formik } from "formik";
 import { useEffect, useState } from "react";
 import { IRoleMenu } from "./_models";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
@@ -21,7 +20,7 @@ type Props = {
 
 const Menus = (props: Props) => {
     const {id} = props;
-    const { data: appAllMenu, isLoading: allMenuLoading } = useGetAllApplicationMenus();
+    const { data: appAllMenu } = useGetAllApplicationMenus();
     
     const postMenu = usePostRoleMenus();
     const deleteMenu = useDeleteRoleMenu();
@@ -80,19 +79,17 @@ const Menus = (props: Props) => {
             {appAllMenu?.data?.map((item: {id: string, description: string, children: any[]}) => (
                 // <TreeItem className="my-4" nodeId={item.id} label={`${item.description} ---- ${roleIds.length} منو از ${item?.children?.length} منوی موجود دسترسی داده  شده است`}>
                 <TreeItem className="my-4" nodeId={item.id} label={`${item.description}`}>
-                    <Box>
+                    <div>
                     <Formik initialValues={initialValues} onSubmit={() => {}}>
                 {({ handleSubmit }) => {
                     return (
-                        <Form>
-                            <Box
-                                component="div"
+                        <form>
+                            <div
                                 className="grid grid-cols-2 md:grid-cols-4 p-8"
                             >
                             {item?.children?.map((sub: any) => {
                                         return (
-                                            <Box
-                                                component="div"
+                                            <div
                                                 className="flex items-center"
                                             >
                                                 <FormControlLabel
@@ -112,17 +109,17 @@ const Menus = (props: Props) => {
                                                         </Typography>
                                                     }
                                                 />
-                                            </Box>
+                                            </div>
                                         );
                             })}
 
                                 
-                            </Box>
-              </Form>
+                            </div>
+                    </form>
             );
           }}
         </Formik>
-                    </Box>
+                    </div>
                 </TreeItem>
             ))}
         </TreeView>

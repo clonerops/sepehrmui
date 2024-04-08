@@ -1,6 +1,5 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import CustomizedAccordions from "../../../../_cloner/components/Accordion"
-import { Link } from "react-router-dom"
 import { useDeleteApplicationRoles, useGetApplicationRoles } from "./_hooks"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 import GroupEditForm from "./GroupEditForm"
@@ -45,11 +44,11 @@ const RoleGroups = () => {
   return (
     <>
     {deleteGroup.isLoading && <Backdrop loading={deleteGroup.isLoading} />}
-      <Box component="div" className="flex justify-end mb-4">
+      <div className="flex justify-end mb-4">
           <Button onClick={() => setIsCreateOpen(true)} color="secondary" variant="contained">
             <Typography>ایجاد گروه جدید</Typography>
           </Button>
-      </Box>
+      </div>
       {groups?.data?.data.map((item: { id: string, name: string }) => {
         return <CustomizedAccordions deleteOnClick={() => handleOpenApprove(item.id)} title={item.name} content={<GroupEditForm itemData={item} />} />
       })}

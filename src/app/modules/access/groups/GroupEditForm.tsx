@@ -1,25 +1,19 @@
 import { Formik } from "formik"
 import { useEffect, useState } from "react"
-import { Box, Button, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 
 import { useGetApplicationRole, usePutApplicationRoles } from "./_hooks"
 import { useGetAllPermissionByMenus, useGetPermissions } from "../permissions/_hooks"
-import { dropdownPermissions, dropdownPermissionsByMenu } from "../permissions/_functions"
+import { dropdownPermissionsByMenu } from "../permissions/_functions"
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
 import Backdrop from "../../../../_cloner/components/Backdrop"
-import FuzzySearch from "../../../../_cloner/helpers/Fuse"
 import FileSystemNavigator from "../../../../_cloner/components/TreeView"
 import Menus from "../menus/Menus"
-import MenusWithPermissions from "../menus/MenusWithPermissions"
 import { TreeItem, TreeView } from "@mui/x-tree-view"
 import { ChevronRight, ExpandMore } from "@mui/icons-material"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
-
-interface Item {
-    description: string;
-}
 
 type Props = {
     itemData: { id: string, name: string }
@@ -36,14 +30,9 @@ const GroupEditForm = (props: Props) => {
     const putApplicationRoles = usePutApplicationRoles();
     const detailApplicationRole = useGetApplicationRole()
     const permissions = useGetPermissions()
-    const { data: appAllMenu, isLoading: allMenuLoading } = useGetAllPermissionByMenus();
+    const { data: appAllMenu } = useGetAllPermissionByMenus();
 
-    const [results, setResults] = useState<Item[]>([]);
     const [mode, setMode] = useState<boolean>(false)
-
-    useEffect(() => {
-        setResults(permissions?.data?.data);
-    }, [permissions?.data?.data]);
 
 
     useEffect(() => {
@@ -88,29 +77,16 @@ const GroupEditForm = (props: Props) => {
                 {({ handleSubmit }) => {
                     return <>
                         <ReusableCard>
-                            {/* <Box component="div" className="flex flex-row gap-x-4">
-                                <FormikInput name="name" label="اسم گروه" />
-                                <FormikInput name="description" label="توضیحات" />
-                            </Box> */}
-                            <Box component="div" className="py-4 flex flex-row justify-between items-center">
-                                {/* <Typography className="w-full" variant="h2" color="primary">لیست مجوزها</Typography> */}
-                                {/* {!mode &&
-                                        <FuzzySearch<Item>
-                                            keys={["description"]}
-                                            data={permissions?.data?.data || []}
-                                            setResults={setResults}
-                                            threshold={0.3}
-                                        />
-                                    } */}
-                                <Box component="div" className="flex justify-end items-center gap-x-4 mt-4 w-full">
+                            <div className="py-4 flex flex-row justify-between items-center">
+                                <div className="flex justify-end items-center gap-x-4 mt-4 w-full">
                                     <Button onClick={() => setMode(false)} variant="contained" color="primary">
                                         <Typography>دسترسی مجوزها</Typography>
                                     </Button>
                                     <Button onClick={() => setMode(true)} variant="contained" color="secondary">
                                         <Typography>دسترسی منوها</Typography>
                                     </Button>
-                                </Box>
-                            </Box>
+                                </div>
+                            </div>
 
                             {!mode ? (
                                 <>
@@ -121,36 +97,28 @@ const GroupEditForm = (props: Props) => {
                                     >
                                         {appAllMenu?.data?.map((item: { applicationMenuId: string, applicationMenuName: string, description: string, permissions: any[] }) => (
                                             <TreeItem className="!my-4 !p-4 !bg-gray-100 !rounded-lg" nodeId={item.applicationMenuId} label={`${item.applicationMenuName}`}>
-                                                <Box>
-                                                    <Box
-                                                        component="div"
-                                                        className="w-full !p-4"
+                                                <div>
+                                                    <div className="w-full !p-4"
                                                     >
-                                                        <Box
-                                                            component="div"
-                                                            className="flex items-center"
+                                                        <div className="flex items-center"
                                                         >
-                                                            <FileSystemNavigator content={<Box component="div">
+                                                            <FileSystemNavigator content={<div>
                                                                 <CheckboxGroup options={dropdownPermissionsByMenu(item?.permissions)} label="" name="rolePermissions" boxClassName="grid grid-cols-3 md:grid-cols-4 gap-x-4" />
-                                                            </Box>
+                                                            </div>
                                                             } />
-                                                        </Box>
-                                                    </Box>
+                                                        </div>
+                                                    </div>
 
-                                                </Box>
+                                                </div>
                                             </TreeItem>
                                         ))}
                                     </TreeView>
 
-                                    {/* <MenusWithPermissions id={itemData.id} /> */}
-                                    {/* <FileSystemNavigator content={<Box component="div">
-                                    <CheckboxGroup  options={dropdownPermissions(results)} label="" name="rolePermissions" boxClassName="grid grid-cols-3 md:grid-cols-4 gap-x-4"/>
-                                </Box>} /> */}
-                                    <Box component="div" className="flex flex-row justify-end items-center gap-x-4">
+                                    <div className="flex flex-row justify-end items-center gap-x-4">
                                         <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white">
                                             <Typography>ثبت مجوز</Typography>
                                         </Button>
-                                    </Box>
+                                    </div>
                                 </>
                             ) : (
                                 <>

@@ -1,7 +1,6 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {
     useDeleteApplicationRoles,
     useGetApplicationRoles,
