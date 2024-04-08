@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
-import { Form, Formik, FormikErrors } from "formik"
-import { Box, Button, Typography } from "@mui/material"
+import { Formik, FormikErrors } from "formik"
+import { Button, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
 import { AttachMoney, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
@@ -85,7 +85,7 @@ const CargoEditForm = () => {
         switch (type) {
             case "checkbox":
                 return (
-                    <Box key={index} component="div" className="w-full flex items-center">
+                    <div key={index} className="w-full flex items-center">
                         <FormikCheckbox
                             name="isComplete"
                             label=""
@@ -93,7 +93,7 @@ const CargoEditForm = () => {
                         <Typography variant="h3">
                             تکمیل بارگیری
                         </Typography>
-                    </Box>
+                    </div>
                 );
             case "datepicker":
                 return <FormikDatepicker key={index} setFieldValue={setFieldValue} boxClassName="w-full" {...rest} />
@@ -146,7 +146,7 @@ const CargoEditForm = () => {
         <>
             {isLoading && <Backdrop loading={isLoading} />}
             <Typography color="primary" variant="h1" className="pb-8">ویرایش اعلام بار</Typography>
-            <Box component="div" className={`grid grid-cols-1 md:grid-cols-5 gap-4 my-4`}>
+            <div className={`grid grid-cols-1 md:grid-cols-5 gap-4 my-4`}>
                 {orderAndAmountInfoInCargo.map((item: {
                     title: string,
                     icon: React.ReactNode,
@@ -154,7 +154,7 @@ const CargoEditForm = () => {
                     }, index) => {
                         return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
                     })}
-            </Box>
+            </div>
 
             <ReusableCard cardClassName={ "col-span-3"}>
                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
@@ -186,24 +186,23 @@ const CargoEditForm = () => {
                     }}
                 validationSchema={submitCargoValidation} onSubmit={onSubmit}>
                     {({ handleSubmit, setFieldValue}) => {
-                        return <Form onSubmit={handleSubmit}>
+                        return <form onSubmit={handleSubmit}>
                             {fields.map((rowFields, index) => (
-                                <Box
+                                <div
                                     key={index}
-                                    component="div"
                                     className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
                                 >
                                     {rowFields.map((field, index) =>
                                         parseFields(field, setFieldValue, index)
                                     )}
-                                </Box>
+                                </div>
                             ))}
-                            <Box component="div" className="flex justify-end items-end">
+                            <div className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                                     <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ویرایش اعلام بار" } </Typography>
                                 </Button>
-                            </Box>
-                        </Form>
+                            </div>
+                        </form>
                     }}
                 </Formik>
             </ReusableCard>

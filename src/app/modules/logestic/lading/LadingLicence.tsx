@@ -5,7 +5,7 @@ import { Button, Typography } from '@mui/material'
 import { Delete, Person, Add } from '@mui/icons-material'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
 import { useParams } from 'react-router-dom'
-import { Formik, Form } from 'formik'
+import { Formik } from 'formik'
 import { dropdownProductLading } from '../helpers/dropdowns'
 import MuiTable from '../../../../_cloner/components/MuiTable'
 import { useCargoById, usePostLadingLicence } from '../core/_hooks'
@@ -166,7 +166,7 @@ const LadingLicence = () => {
             >
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={onSubmit}>
                     {({ values }) => {
-                        return <Form className='mt-8'>
+                        return <form className='mt-8'>
                             <div className='flex items-center justify-center gap-x-4 mb-4'>
                                 <FormikComboBox name='orderDetailId' label={"کالای سفارش"} options={dropdownProductLading(data?.data?.order.details)} />
                                 <FormikMaskInput thousandsSeparator=',' mask={Number} name='ladingAmount' label={"مقدار بارگیری"} />
@@ -185,7 +185,7 @@ const LadingLicence = () => {
                                     <Typography className='py-1'>ثبت مجوز</Typography>
                                 </Button>
                             </div>
-                        </Form>
+                        </form>
                     }}
                 </Formik>
             </TransitionsModal>

@@ -170,9 +170,6 @@ const ProductInventoriesSepehr = React.lazy(
 const ProductService = React.lazy(
     () => import("../modules/generic/productService/ProductService")
 );
-const CargoPaper = React.lazy(
-    () => import("../modules/logestic/cargo/CargoPaper")
-);
 const CustomerCompanies = React.lazy(
     () => import("../modules/generic/customerCompany/CustomerCompany")
 );
@@ -241,7 +238,6 @@ export const routes: RouteProps[] = [
     { path: "dashboard/cargoList/:id", element: <CargoEditForm /> },
     { path: "dashboard/order_ready_cargo", element: <ReadyToCargo /> },
     { path: "dashboard/order_ready_cargo/:id", element: <CargoForm /> },
-    { path: "dashboard/cargoList/paper", element: <CargoPaper /> },
     { path: "dashboard/lading/:id", element: <LadingLicence /> },
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { dropdownCustomer } from "../../generic/_functions";
 import { useGetCustomers } from "../../customer/core/_hooks";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
@@ -63,9 +63,8 @@ const ReadyToLading = () => {
                 }} onSubmit={() => {}}>
                     {({values}) => {
                         return (
-                            <Form>
-                                <Box
-                                    component="div"
+                            <form>
+                                <div
                                     className="flex gap-4 w-[50%] mb-4"
                                 >
                                     <FormikInput
@@ -84,8 +83,8 @@ const ReadyToLading = () => {
                                             <Search />
                                         </Typography>
                                     </ButtonComponent>
-                                </Box>
-                            </Form>
+                                </div>
+                            </form>
                         );
                     }}
                 </Formik>

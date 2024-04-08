@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
@@ -37,13 +37,13 @@ const ReadyToCargo = () => {
 
     return (
         <ReusableCard>
-            <Box component="div" className="w-auto md:w-[40%] mb-4">
+            <div className="w-auto md:w-[40%] mb-4">
                 <FuzzySearch
                     keys={[ "orderCode", "registerDate", "customerFirstName", "customerLastName", "fareAmount", "description"]}
                     data={cargoNotSended}
                     setResults={setResults}
                 />
-            </Box>
+            </div>
             <MuiDataGrid
                 columns={readyToCargoColumns(renderAction)}
                 rows={results}

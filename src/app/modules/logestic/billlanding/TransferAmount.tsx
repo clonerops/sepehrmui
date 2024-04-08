@@ -1,8 +1,8 @@
-import { Box, Typography } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Typography } from "@mui/material";
+import { Formik } from "formik";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 interface IProps {
@@ -44,34 +44,34 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForBilllanding, setP
 
     return (
         <>
-            <Box className="flex flex-row justify-between items-center flex-wrap gap-4 bg-slate-100 p-4 rounded-md mt-4">
-                <Box className="flex flex-col gap-y-4">
+            <div className="flex flex-row justify-between items-center flex-wrap gap-4 bg-slate-100 p-4 rounded-md mt-4">
+                <div className="flex flex-col gap-y-4">
                     <Typography variant="h4">کد کالا</Typography>
                     <Typography variant="h3" className="text-gray-500">{item.productCode}</Typography>
-                </Box>
-                <Box className="flex flex-col gap-y-4">
+                </div>
+                <div className="flex flex-col gap-y-4">
                     <Typography variant="h4">نام کالا</Typography>
                     <Typography variant="h3" className="text-gray-500">{item.productName}</Typography>
-                </Box>
-                <Box className="flex flex-col gap-y-4">
+                </div>
+                <div className="flex flex-col gap-y-4">
                     <Typography variant="h4">برند</Typography>
                     <Typography variant="h3" className="text-gray-500">{item.productBrandName}</Typography>
-                </Box>
-                <Box className="flex flex-col gap-y-4">
+                </div>
+                <div className="flex flex-col gap-y-4">
                     <Typography variant="h4">موجودی</Typography>
                     <Typography variant="h3" className="text-gray-500">{item.purchaseInventory}</Typography>
-                </Box>
-            </Box>
+                </div>
+            </div>
             <Formik initialValues={{transferAmount: ""}} onSubmit={handleSetAmountForBilllanding}>
                 {({values}) => {
-                    return <Form className="my-4">
+                    return <form className="my-4">
                         <FormikInput autoFocus={true} name="transferAmount" label="مقدار موردنظر جهت انتقال" />
-                        <Box className="flex justify-end items-end my-4">
+                        <div className="flex justify-end items-end my-4">
                             <ButtonComponent onClick={() => handleSetAmountForBilllanding(values)}>
                                 <Typography className="text-white">ثبت</Typography>
                             </ButtonComponent>
-                        </Box>
-                    </Form>;    
+                        </div>
+                    </form>;    
                 }}
             </Formik>
         </>

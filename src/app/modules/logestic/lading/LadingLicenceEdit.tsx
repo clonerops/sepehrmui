@@ -1,11 +1,11 @@
 import { useState, useRef } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import FormikInput from '../../../../_cloner/components/FormikInput'
-import { Box, Button, Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { Delete, Person, Search, Add } from '@mui/icons-material'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
 import { useParams } from 'react-router-dom'
-import { Formik, Form } from 'formik'
+import { Formik } from 'formik'
 import { dropdownProductLading } from '../helpers/dropdowns'
 import MuiTable from '../../../../_cloner/components/MuiTable'
 import { useCargoById, usePostLadingLicence } from '../core/_hooks'
@@ -118,7 +118,7 @@ const LadingLicenceEdit = () => {
     return (
         <>
             {postLadingLicence.isLoading && <Backdrop loading={postLadingLicence.isLoading} />}
-            <Box component="div" className='grid grid-cols-4 gap-x-4 gap-y-4'>
+            <div className='grid grid-cols-4 gap-x-4 gap-y-4'>
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره سفارش' value={data?.data?.order?.orderCode} />
                 <CardTitleValue icon={<Person color="secondary" />} title='نام مشتری' value={data?.data?.order?.customerName} />
                 <CardTitleValue icon={<Person color="secondary" />} title='نوع ارسال' value={data?.data?.order?.orderSendTypeDesc} />
@@ -127,15 +127,15 @@ const LadingLicenceEdit = () => {
                 <CardTitleValue icon={<Person color="secondary" />} title='نام راننده' value={data?.data?.driverName} />
                 <CardTitleValue icon={<Person color="secondary" />} title='پلاک خودروبر' value={data?.data?.carPlaque} />
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره همراه راننده' value={data?.data?.driverMobile} />
-            </Box>
+            </div>
             <ReusableCard cardClassName='mt-4'>
                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                 <MuiTable tooltipTitle={data?.data?.order.description ? <Typography>{data?.data?.order.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.order.details} columns={orderOrderColumnMain} />
-                <Box component="div" className='mt-4'>
+                <div className='mt-4'>
                     <Button onClick={() => setOpen(true)} variant='contained' color='primary'>
                         <Typography>ثبت مجوز بارگیری</Typography>
                     </Button>
-                </Box>
+                </div>
             </ReusableCard>
             <TransitionsModal
                 open={open}
@@ -146,8 +146,8 @@ const LadingLicenceEdit = () => {
             >
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={onSubmit}>
                     {({ values }) => {
-                        return <Form className='mt-8'>
-                            <Box component="div" className='flex items-center justify-center gap-x-4 mb-4'>
+                        return <form className='mt-8'>
+                            <div className='flex items-center justify-center gap-x-4 mb-4'>
                                 <FormikComboBox name='orderDetailId' label={"کالای سفارش"} options={dropdownProductLading(data?.data?.order.details)} />
                                 <FormikMaskInput thousandsSeparator=',' mask={Number} name='ladingAmount' label={"مقدار بارگیری"} />
                                 <Button onClick={() => handleLadingList(values)} className='w-[50%] !bg-fuchsia-700 !text-white'>
@@ -155,17 +155,17 @@ const LadingLicenceEdit = () => {
                                         <Add />افزودن
                                     </Typography>
                                 </Button>
-                            </Box>
+                            </div>
                             <FormikInput multiline minRows={3} name="description" label="توضیحات" />
-                            <Box component="div" className='mt-8 mx-auto'>
+                            <div className='mt-8 mx-auto'>
                                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862] !text-center" headCellTextColor="!text-white" data={ladingList} columns={lastCargoList} />
-                            </Box>
-                            <Box component="div" className='mt-8'>
+                            </div>
+                            <div className='mt-8'>
                                 <Button onClick={() => onSubmit(values)} className='!bg-green-500 !text-white'>
                                     <Typography className='py-1'>ثبت مجوز</Typography>
                                 </Button>
-                            </Box>
-                        </Form>
+                            </div>
+                        </form>
                     }}
                 </Formik>
             </TransitionsModal>

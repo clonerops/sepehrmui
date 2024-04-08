@@ -16,7 +16,7 @@ import { useGetTransferRemittanceStatus } from "../../generic/_hooks"
 import RadioGroup from "../../../../_cloner/components/RadioGroup"
 
 
-const pageSize = 20
+const pageSize = 100
 
 
 const TransferRemitancesList = () => {

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { Edit, Print, Search } from "@mui/icons-material";
-import { Box, Button, Typography } from "@mui/material";
+import {  Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -14,19 +14,12 @@ import { useGetCustomers } from "../../customer/core/_hooks";
 import { useGetCargosList } from "../core/_hooks";
 import { dropdownCustomer } from "../../generic/_functions";
 import { readyToLadingColumns } from "../../managment-order/helpers/columns";
-import ReactToPrint, { useReactToPrint } from "react-to-print";
-import CargoPaper from "./CargoPaper";
 
 const CargoList = () => {
 
     const { data: customers } = useGetCustomers();
     const cargoList = useGetCargosList();
-    const componentRef = useRef<HTMLDivElement>(null);
     
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-    });    
-
     useEffect(() => {
         let formData = {
             PageNumber: 1,
@@ -45,14 +38,11 @@ const CargoList = () => {
     
     const renderAction = (item: any) => {
         return (
-            <Box className="flex gap-x-4">
+            <div className="flex gap-x-4">
                 <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
                     <Edit color="secondary" />
                 </Link>
-                <Box onClick={handlePrint}>
-                    <Print color="primary" />
-                </Box>
-            </Box>
+            </div>
         );
     };
 
@@ -65,9 +55,8 @@ const CargoList = () => {
                 }} onSubmit={() => {}}>
                     {({values}) => {
                         return (
-                            <Form>
-                                <Box
-                                    component="div"
+                            <form>
+                                <div
                                     className="flex gap-4 w-[50%] mb-4"
                                 >
                                     <FormikInput
@@ -86,8 +75,8 @@ const CargoList = () => {
                                             <Search />
                                         </Typography>
                                     </ButtonComponent>
-                                </Box>
-                            </Form>
+                                </div>
+                            </form>
                         );
                     }}
                 </Formik>
@@ -99,9 +88,6 @@ const CargoList = () => {
                     isLoading={cargoList?.isLoading}
                 />
             </ReusableCard>
-            <div style={{ display: 'none' }}>
-                <CargoPaper contentRef={componentRef} />
-            </div>
         </>
     );
 };

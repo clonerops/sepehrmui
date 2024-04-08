@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
-import { Form, Formik, FormikErrors } from "formik"
-import { Box, Button, Typography } from "@mui/material"
+import { Formik, FormikErrors } from "formik"
+import { Button, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
 import { AttachMoney, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
@@ -98,7 +98,7 @@ const CargoForm = () => {
         switch (type) {
             case "checkbox":
                 return (
-                    <Box key={index} component="div" className="w-full flex items-center">
+                    <div key={index} className="w-full flex items-center">
                         <FormikCheckbox
                             name="isComplete"
                             label=""
@@ -106,7 +106,7 @@ const CargoForm = () => {
                         <Typography variant="h3">
                             تکمیل بارگیری
                         </Typography>
-                    </Box>
+                    </div>
                 );
             case "datepicker":
                 return <FormikDatepicker key={index} setFieldValue={setFieldValue} boxClassName="w-full" {...rest} />
@@ -180,24 +180,24 @@ const CargoForm = () => {
                 <Typography variant="h2" color="primary">مشخصات حمل</Typography>
                 <Formik initialValues={initialValues} validationSchema={submitCargoValidation} onSubmit={onSubmit}>
                     {({ handleSubmit, setFieldValue}) => {
-                        return <Form onSubmit={handleSubmit}>
+                        return <form onSubmit={handleSubmit}>
                             {fields.map((rowFields, index) => (
-                                <Box
+                                <div
                                     key={index}
-                                    component="div"
+                                
                                     className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
                                 >
                                     {rowFields.map((field, index) =>
                                         parseFields(field, setFieldValue, index)
                                     )}
-                                </Box>
+                                </div>
                             ))}
                             <div className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                                     <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ثبت اعلام بار" } </Typography>
                                 </Button>
                             </div>
-                        </Form>
+                        </form>
                     }}
                 </Formik>
             </ReusableCard>

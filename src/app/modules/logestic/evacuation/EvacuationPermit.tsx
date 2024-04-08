@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { NumbersOutlined, DateRangeRounded, TypeSpecimenTwoTone, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, Description } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
-import { Formik, Form, FormikErrors } from "formik";
+import { Formik, FormikErrors } from "formik";
 import { dropdownVehicleType } from "../helpers/dropdowns";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
@@ -300,7 +300,7 @@ const EvacuationPermit = () => {
                 >
                     {({ setFieldValue, handleSubmit }) => {
                         return (
-                            <Form className="mt-8">
+                            <form className="mt-8">
                                 {fields.map((rowFields, index) => (
                                     <div
                                         key={index}
@@ -312,31 +312,8 @@ const EvacuationPermit = () => {
                                         )}
                                     </div>
                                 ))}
-{/* 
-                                <Box
-                                    component="div"
-                                    className="grid grid-cols-1 md:grid-cols-3 gap-x-4 mb-4 md:space-y-0 space-y-4"
-                                >
-                                    <FormikInput
-                                        name="driverAccountNo"
-                                        label="شماره حساب راننده"
-                                        type="text"
-                                        />
-                                    <FormikInput
-                                        name="driverCreditCardNo"
-                                        label="شماره کارت راننده"
-                                        type="number"
-                                        />
-                                    <FormikMaskInput
-                                        thousandsSeparator=","
-                                        mask={Number}
-                                        name="otherAmount"
-                                        label={"مقدار سایر هزینه ها"}
-                                    />
-                                </Box> */}
 
-                                <Box
-                                    component="div"
+                                <div
                                     // className="flex flex-row gap-x-4"
                                     className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:space-y-0 space-y-4"
                                 >
@@ -345,8 +322,7 @@ const EvacuationPermit = () => {
                                         label="توضیحات"
                                     />
 
-                                    <Box
-                                        component="div"
+                                    <div
                                         className="flex flex-col w-full"
                                     >
                                         <Typography
@@ -360,9 +336,9 @@ const EvacuationPermit = () => {
                                             files={files}
                                             setFiles={setFiles}
                                         />
-                                    </Box>
-                                </Box>
-                                <Box component="div" className="mt-8">
+                                    </div>
+                                </div>
+                                <div className="mt-8">
                                     <Button
                                         onClick={() => handleSubmit()}
                                         className="!bg-green-500 !text-white"
@@ -371,8 +347,8 @@ const EvacuationPermit = () => {
                                             ثبت مجوز
                                         </Typography>
                                     </Button>
-                                </Box>
-                            </Form>
+                                </div>
+                            </form>
                         );
                     }}
                 </Formik>
