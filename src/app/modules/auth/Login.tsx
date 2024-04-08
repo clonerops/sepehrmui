@@ -1,11 +1,9 @@
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import LoginForm from "./LoginForm";
 import { enqueueSnackbar } from "notistack";
 import Cookies from "js-cookie";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
 import { useFormik } from "formik";
-import Backdrop from "../../../_cloner/components/Backdrop";
 
 const initialValues = {
   userName: "clonerops",
@@ -55,7 +53,7 @@ const Login = () => {
 
   return (
     <>
-      <Box
+      <div
         className="h-screen  lg:block hidden "
         style={{
           backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
@@ -64,7 +62,7 @@ const Login = () => {
           backgroundPosition: "left top ",
         }}
       >
-        <Box
+        <div
           className={
             "md:w-[70%] xl:w-[50%] mr-auto h-full flex items-center justify-center"
           }
@@ -74,10 +72,10 @@ const Login = () => {
           >
             <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
           </div>
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Box
+      <div
         className={"lg:hidden h-screen"}
         style={{
           backgroundImage: `url(${toAbsoulteUrl(
@@ -88,7 +86,7 @@ const Login = () => {
           backgroundPosition: "center center ",
         }}
       >
-        <Box
+        <div
           className={"w-full h-full mr-auto flex items-center justify-center"}
         >
           <div
@@ -96,25 +94,9 @@ const Login = () => {
           >
             <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
           </div>
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      {/* {isLoading && <Backdrop loading={isLoading} />}
-      <Box component="Box" className="md:grid md:grid-cols-2 h-screen">
-
-        <Box component="Box" className="hidden md:block">
-          <Box component="Box"
-            className="h-screen w-full flex flex-col bg-cover"
-            style={{
-              backgroundImage: `url(${toAbsoulteUrl(
-                "/media/logos/bg.png"
-              )})`,
-            }}
-          >
-            <Box className="mt-auto" />
-          </Box>
-        </Box>
-      </Box> */}
     </>
   );
 };
