@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
-import { Alert, Box, Button, Typography } from "@mui/material";
+import { Alert, Button, Typography } from "@mui/material";
 import ReusableCard from "../../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
@@ -62,28 +62,25 @@ const ProductInventoriesSepehr = () => {
         <>
             {uploadFileMethode.isLoading && <Backdrop loading={uploadFileMethode.isLoading} />}
             <Alert color="info" className="mb-4">
-                <Box>
+                <div>
                     <Typography variant="h3" color="red" className="pb-4">جهت آپلود فایل موجودی روزانه، رعایت موارد زیر الزامی باشد</Typography>
                     <ul className="space-y-4">
                         <Typography variant="h4">فرمت فایل باید بصورت اکسل (xlsx.) باشد</Typography>
                         <Typography variant="h4">ترتیب فیلدها مهم می باشد: کد کالابرند، کدانبار، موجودی تقریبی، موجودی کف، حداکثر موجودی، حداقل موجودی</Typography>
                     </ul>
-                </Box>
+                </div>
             </Alert>
             <ReusableCard>
-                <Box
-                    component="div"
-                    className="md:flex md:justify-between md:items-center space-y-2 mb-4"
+                <div className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
+                    <div className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={["productCode", "productName", "productBrandName", "warehouseName", "inventory"]}
                             data={filterTools?.data?.data}
                             setResults={setResults}
                         />
-                    </Box>
-                    <Box component="div" className="flex flex-wrap gap-x-4">
-                    {/* <FileUploadButton uploadFileMethode={uploadFileMethode} /> */}
+                    </div>
+                    <div className="flex flex-wrap gap-x-4">
                         <Button
                             onClick={() => setIsUploadOpen(true)}
                             variant="outlined"
@@ -105,10 +102,10 @@ const ProductInventoriesSepehr = () => {
                         >
                             <Typography>خروجی اکسل براساس تاریخ</Typography>
                         </Button>
-                    </Box>
-                </Box>
-                <Box className="grid grid-cols-1 lg:grid-cols-3 mt-4">
-                    <Box className="col-span-2">
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 mt-4">
+                    <div className="col-span-2">
                         <MuiDataGrid
                             columns={columnsProductInventories(renderIncreaseInventory)}
                             isLoading={filterTools.isLoading}
@@ -116,21 +113,21 @@ const ProductInventoriesSepehr = () => {
                             data={filterTools?.data?.data}
                             height={400}
                         />
-                    </Box>
-                    <Box component="div">
-                        <Box
-                            component="div"
+                    </div>
+                    <div>
+                        <div
+                        
                             className="hidden md:flex md:justify-center md:items-center"
                         >
-                            <Box component="img"
+                            <img
                                 src={toAbsoulteUrl("/media/logos/11089.jpg")}
                                 width={400}
                             />
-                        </Box>
+                        </div>
 
-                    </Box>
+                    </div>
 
-                </Box>
+                </div>
                 <TransitionsModal
                     open={isCreateOpen}
                     isClose={() => setIsCreateOpen(false)}

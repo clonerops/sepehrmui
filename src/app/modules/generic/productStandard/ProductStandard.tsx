@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography } from "@mui/material"
-import { Formik, Form } from "formik"
+import { Typography } from "@mui/material"
+import { Formik } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
 import * as Yup from 'yup'
 
@@ -106,9 +106,9 @@ const ProductStandards = () => {
     <>
       {updateLoading && <Backdrop loading={updateLoading} />}
       {postLoading && <Backdrop loading={postLoading} />}
-      <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
-          <Box component="div">
+          <div>
 
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
@@ -134,8 +134,8 @@ const ProductStandards = () => {
               }
             }>
               {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className="mb-4">
-                  <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
+                return <form onSubmit={handleSubmit} className="mb-4">
+                  <div className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد استاندارد " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="استاندارد " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <ButtonComponent onClick={() => handleSubmit()}>
@@ -143,11 +143,11 @@ const ProductStandards = () => {
                         <AddCircleOutline className='!text-white' />
                       </Typography>
                     </ButtonComponent>
-                  </Box>
-                </Form>
+                  </div>
+                </form>
               }}
             </Formik>
-            <Box component="div" className="mb-4">
+            <div className="mb-4">
               <FuzzySearch
                 keys={[
                   "id",
@@ -157,18 +157,18 @@ const ProductStandards = () => {
                 threshold={0.5}
                 setResults={setResults}
               />
-            </Box>
+            </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
               data={standards?.data}
             />
-          </Box>
+          </div>
         </ReusableCard>
         <ReusableCard cardClassName='lg:flex gap-4 hidden'>
-          <Box component="div">
-            <Box component="div" className="hidden md:flex md:justify-center md:items-center">
-              <Box className="flex flex-col flex-wrap gap-4">
+          <div>
+            <div className="hidden md:flex md:justify-center md:items-center">
+              <div className="flex flex-col flex-wrap gap-4">
                 <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
                 <Typography>هر کالایی که تعریف می شود استاندارد مخصوص به خود را دارا می باشد</Typography>
                 <Typography>از طریق فرم مقابل می توانید تمامی استادارد ها را تعریف کرده و در فرم تعریف کالا از این استادارد ها برای اختصاص به به کالا استفاده کنید</Typography>
@@ -176,23 +176,21 @@ const ProductStandards = () => {
                 <Typography>امکان حذف استادارد کالا وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
                 <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
                 <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Box component="div">
-            <Box
-              component="div"
-              className="hidden md:flex md:justify-center md:items-center"
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="hidden md:flex md:justify-center md:items-center"
             >
-              <Box component="img"
+              <img
                 src={toAbsoulteUrl("/media/logos/11089.jpg")}
                 width={400}
               />
-            </Box>
+            </div>
 
-          </Box>
+          </div>
         </ReusableCard>
-      </Box>
+      </div>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
@@ -13,7 +13,6 @@ import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { useDisableProduct, useRetrieveProducts } from "./_hooks";
 import { IProducts } from "./_models";
-import CardInformation from "../../../../_cloner/components/CardInformation";
 import _ from 'lodash'
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons";
 import { AddTask, AdfScanner, DesignServices, TextDecrease } from "@mui/icons-material";
@@ -236,10 +235,10 @@ const Products = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Box component="div" className="flex gap-4">
+            <div className="flex gap-4">
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
                 {/* <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} /> */}
-            </Box>
+            </div>
         );
     };
 
@@ -247,7 +246,7 @@ const Products = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productsLoading && <Backdrop loading={productsLoading} />}
-            <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
                 <CardWithIcons
                     title='تعداد سرویس های ثبت شده'
                     icon={<DesignServices className="text-white" />}
@@ -268,14 +267,13 @@ const Products = () => {
                     icon={<AdfScanner className="text-white" />}
                     value={Math.ceil(+_.sumBy(products?.data && products?.data, 'inventotyCriticalPoint') / +products?.data?.length)}
                     iconClassName='bg-[#EB5553]' />
-            </Box>
+            </div>
 
             <ReusableCard>
-                <Box
-                    component="div"
+                <div
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
+                    <div className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
                                 "productCode",
@@ -292,13 +290,13 @@ const Products = () => {
                             // threshold={0.5}
                             setResults={setResults}
                         />
-                    </Box>
+                    </div>
                     <ButtonComponent
                         onClick={() => setIsCreateOpen(true)}
                     >
                         <Typography variant="h4" className="px-4 py-1 text-white">ایجاد کالا</Typography>
                     </ButtonComponent>
-                </Box>
+                </div>
                 <MuiDataGrid
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}

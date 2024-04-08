@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Alert, Box, Button, Typography } from "@mui/material";
+import { Alert, Button, Typography } from "@mui/material";
 
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
@@ -81,10 +81,10 @@ const ProductPrice = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Box component="div" className="flex gap-4">
+            <div className="flex gap-4">
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
                 <DeleteGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
-            </Box>
+            </div>
         );
     };
 
@@ -112,11 +112,11 @@ const ProductPrice = () => {
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productPriceLoading && <Backdrop loading={productPriceLoading} />}
             <Alert className="mb-4">
-                <Box component="div" className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4">
+                <div className="flex flex-col md:flex-row flex-warp items-center gap-x-4 mb-4">
                     <Typography variant="h4" className="text-red-500">
                         برای بارگزاری فایل قیمت ها بایستی این موارد رعایت گردد:
                     </Typography>
-                    <Box className="flex flex-col space-y-4">
+                    <div className="flex flex-col space-y-4">
                         <Typography variant="h4">
                             1) فایل بایستی بصورت اکسل باشد
                         </Typography>
@@ -124,24 +124,23 @@ const ProductPrice = () => {
                             2) ستون های فایل بایستی شامل : کد کالا، کد برند، قیمت
                             باشد
                         </Typography>
-                    </Box>
-                </Box>
+                    </div>
+                </div>
 
             </Alert>
             <ReusableCard>
-                <Box
-                    component="div"
+                <div
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"
                 >
-                    <Box component="div" className="w-auto md:w-[40%]">
+                    <div className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={["productName", "brandName", "price"]}
                             data={productPrice?.data}
                             threshold={0.5}
                             setResults={setResults}
                         />
-                    </Box>
-                    <Box component="div" className="flex flex-wrap gap-x-4">
+                    </div>
+                    <div className="flex flex-wrap gap-x-4">
                         <FileUploadButton
                             refetch={refetch}
                             uploadFileMethode={uploadFileMethode}
@@ -160,16 +159,16 @@ const ProductPrice = () => {
                                 ایجاد قیمت کالا
                             </Typography>
                         </ButtonComponent>
-                    </Box>
-                </Box>
-                <Box>
+                    </div>
+                </div>
+                <div>
                     <ReusableRadioGroup
                         label=""
                         options={radioOption}
                         value={isActiveValue}
                         onChange={handleChangeRadio}
                     />
-                </Box>
+                </div>
                 <MuiDataGrid
                     columns={columnsProductPrice(renderAction)}
                     rows={results}

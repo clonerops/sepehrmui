@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
-import { Box, Typography } from "@mui/material"
-import { Formik, Form, FormikProps } from "formik"
+import { Typography } from "@mui/material"
+import { Formik, FormikProps } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
-import * as Yup from 'yup'
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
@@ -23,13 +22,11 @@ import EditWarehouse from './EditWarehouse'
 import ConfirmDialog from '../../../../_cloner/components/ConfirmDialog'
 import { VerticalCharts } from '../../../../_cloner/components/VerticalCharts'
 import _ from 'lodash'
-import FormikCustomer from '../../../../_cloner/components/FormikCustomer'
 
 const initialValues = {
   id: 0,
   name: "",
   warehouseTypeId: null,
-  // customerId: ""
 }
 
 const Warehouse = () => {
@@ -98,13 +95,6 @@ const Warehouse = () => {
         headerName: 'نوع انبار', headerClassName: "headerClassName", minWidth: 120,
         flex: 1,
       },
-      // {
-      //   field: 'customerName', renderCell: (params: any) => {
-      //     return <Typography variant="h4">{params.value ? params.value : <Typography variant="h4" className="text-fuchsia-700 border-2 border-dashed px-4 py-1 border-fuchsia-700">ثبت نشده</Typography>}</Typography>;
-      //   },
-      //   headerName: 'مشتری ثبت شده', headerClassName: "headerClassName", minWidth: 120,
-      //   flex: 1,
-      // },
       {
         field: "Action",
         headerName: "عملیات", flex: 1,
@@ -118,10 +108,10 @@ const Warehouse = () => {
 
   const renderAction = (item: any) => {
     return (
-      <Box component="div" className="flex gap-4">
+      <div className="flex gap-4">
         <EditGridButton onClick={() => handleEdit(item?.row)} />
         <DeleteGridButton onClick={() => handleOpenApprove(item?.row.id)} />
-      </Box>
+      </div>
     );
   };
   let groupedWarehouseTypeDesc = _.groupBy(Warehouses?.data, "warehouseTypeDesc")
@@ -157,35 +147,33 @@ const Warehouse = () => {
   return (
     <>
     {postLoading || deleteLoading && <Backdrop loading={postLoading || deleteLoading} />}
-      <Box className="lg:grid lg:grid-cols-2 lg:gap-4">
+      <div className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
-          <Box component="div">
-            <Box component="div">
+          <div>
+            <div>
               <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={onSubmit}>
                 {({ handleSubmit }) => {
-                  return <Form onSubmit={handleSubmit} className="mb-4">
-                    <Box
-                      component="div"
-                      // className="md:flex md:justify-start md:items-start gap-4 space-y-4 lg:space-y-0"
+                  return <form onSubmit={handleSubmit} className="mb-4">
+                    <div
                       className="grid grid-cols-1 lg:grid-cols-2 gap-4"
                     >
                       <FormikInput name="id" label="کد انبار " disabled={true} boxClassName=" mt-2 md:mt-0" />
                       <FormikInput name="name" label="نام انبار" autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                       <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" boxClassName=" mt-2 md:mt-0 lg:col-span-2" />
-                      {/* <FormikCustomer name="customerId" label="مشتری" boxClassName=" mt-2 md:mt-0" /> */}
-                      <Box component="div" className="mt-2 md:mt-0 flex justify-end items-end lg:col-span-2">
+                      {/* <FormikCustomer name="customerId" label="مشتری" divClassName=" mt-2 md:mt-0" /> */}
+                      <div className="mt-2 md:mt-0 flex justify-end items-end lg:col-span-2">
                         <ButtonComponent onClick={() => handleSubmit()}>
                           <Typography className="px-2 text-white">
                             <AddCircleOutline className="text-white" />
                             ایجاد انبار جدید
                           </Typography>
                         </ButtonComponent>
-                      </Box>
-                    </Box>
-                  </Form>
+                      </div>
+                    </div>
+                  </form>
                 }}
               </Formik>
-              <Box component="div" className="mb-4">
+              <div className="mb-4">
                 <FuzzySearch
                   keys={[
                     "id",
@@ -194,26 +182,26 @@ const Warehouse = () => {
                   data={Warehouses?.data}
                   setResults={setResults}
                 />
-              </Box>
+              </div>
               <MuiDataGrid
                 columns={columns(renderAction)}
                 rows={results}
                 data={Warehouses?.data}
                 getRowId={(row: {id: number}) => row.id}
               />
-            </Box>
-          </Box>
+            </div>
+          </div>
         </ReusableCard >
-        <Box className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
           <ReusableCard>
-            <Box className="flex flex-col flex-wrap gap-4">
+            <div className="flex flex-col flex-wrap gap-4">
               <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
               <Typography>انبارهای تعریف شده، شامل نوع های مختلفی هستند اعم از (امانی، مبادی و ...)</Typography>
               <Typography>از طریق فرم مقابل می توانید اقدام به تعریف انبار کنید، ابتدا نام انبار و سپس نوع انبار را مشخص کنید</Typography>
-            </Box>
+            </div>
           </ReusableCard>
           <ReusableCard>
-            <Box component="img"
+            <img
               src={toAbsoulteUrl("/media/logos/iron.png")}
               width={400}
               className='rounded-md'
@@ -227,8 +215,8 @@ const Warehouse = () => {
               data={Object.values(groupedWarehouseTypeDesc).map((item: any) => item.length)}
             />
           </ReusableCard>
-        </Box>
-      </Box >
+        </div>
+      </div >
       <TransitionsModal
         open={isOpen}
         isClose={() => setIsOpen(false)}

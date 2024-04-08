@@ -9,14 +9,13 @@ import {
     Newspaper,
     Person,
 } from "@mui/icons-material";
-import { Box, Typography } from "@mui/material";
+import {  Typography } from "@mui/material";
 import { Formik } from "formik";
 import { useParams } from "react-router-dom";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import MaskInput from "../../../../_cloner/components/MaskInput";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FormikWarehouse from "../../../../_cloner/components/FormikWarehouse";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { renderAlertGoBack } from "../../../../_cloner/helpers/SweetAlertNavigateGoBack";
@@ -102,7 +101,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
             id: 5, header: "مقدار انتقال به انبار", accessor: "transferedAmount",
             render: (params: any) =>
                 <>
-                    <Box component={"div"} className={"w-full"}>
+                    <div className={"w-full"}>
                         <MaskInput
                             key={params.id}
                             mask={Number}
@@ -113,7 +112,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                             value={valueInput[params.id]}
                             onAccept={(value, mask) => setValueInput({ ...valueInput, [params.id]: mask.unmaskedValue })}
                         />
-                    </Box>
+                    </div>
                 </>
         },
     ]
@@ -148,8 +147,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
     return (
         <>
             {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
-            <Box
-                component="div"
+            <div
                 className={`grid grid-cols-1 lg:grid-cols-4 gap-4 my-4`}
             >
                 {orderAndAmountInfo.map(
@@ -171,23 +169,23 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                         );
                     }
                 )}
-            </Box>
+            </div>
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 {({ handleSubmit }) => (
                     <>
-                        <Box className="flex flex-col lg:flex-row gap-4 mb-4">
+                        <div className="flex flex-col lg:flex-row gap-4 mb-4">
                             <ReusableCard cardClassName="flex flex-col gap-y-2">
                                 <Typography variant="h3" className="text-yellow-500">از طریق لیست زیر می توانید انبار موردنظر خود را انتخاب کنید</Typography>
                                 <Typography variant="h3" className="text-red-500">نکته:</Typography>
                                 <Typography variant="h4" >کالا های سفارش در انباری که انتخاب می کنید قرار می گیرند</Typography>
-                                <Box className="mt-4">
+                                <div className="mt-4">
                                     <FormikWarehouseBasedOfCustomer name="warehouseId" label="انبار" customerId={data?.data?.customer?.id} />
-                                </Box>
+                                </div>
                             </ReusableCard>
                             <ReusableCard cardClassName="flex justify-center items-center">
                                 <img src={toAbsoulteUrl('/media/logos/fo.png')} width={340} />
                             </ReusableCard>
-                        </Box>
+                        </div>
                         <MuiTable
                             onDoubleClick={() => { }}
                             headClassName="bg-[#272862]"
@@ -195,11 +193,11 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                             data={data?.data?.details}
                             columns={orderOrderColumnMain}
                         />
-                        <Box className="mt-4">
+                        <div className="mt-4">
                             <ButtonComponent onClick={() => handleSubmit()}>
                                 <Typography className="text-white">ثبت انتقال</Typography>
                             </ButtonComponent>
-                        </Box>
+                        </div>
                     </>
                 )}
             </Formik>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { Form, Formik } from "formik"
+import { Formik } from "formik"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-import { Box, Button, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 
 import { dropdownProduct } from "../_functions"
 import { FieldType } from "../../../../_cloner/components/globalTypes"
@@ -155,34 +155,33 @@ const ProductPriceForm = (props: Props) => {
                 }
                 validationSchema={createProductPriceValidations} onSubmit={handleSubmit}>
                 {({ handleSubmit, values }) => {
-                    return <Form onSubmit={handleSubmit}>
+                    return <form onSubmit={handleSubmit}>
                         {fields.map((rowFields) => (
-                            <Box
-                                component="div"
+                            <div
                                 className="md:flex md:justify-between md:gap-4 space-y-4 md:space-y-0 my-4"
                             >
                                 {rowFields.map((field) =>
                                     parseFields(field, values)
                                 )}
-                            </Box>
+                            </div>
                         ))}
-                        <Box component="div" className="flex flex-col">
+                        <div className="flex flex-col">
                             {!isNew &&
-                                <Box component="div" className="flex flex-row items-center">
+                                <div className="flex flex-row items-center">
 
                                     <SwitchComponent
                                         checked={checked}
                                         onChange={(e) => setChecked(e.target.checked)}
                                     />
                                     <Typography variant="h3">{checked ? "فعال" : "غیرفعال"}</Typography>
-                                </Box>
+                                </div>
                             }
                             <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">
                                 <Typography variant="h3" className="px-8 py-2">{isNew ? "ثبت قیمت" : "ویرایش قیمت"}</Typography>
                             </Button>
 
-                        </Box>
-                    </Form>
+                        </div>
+                    </form>
                 }}
             </Formik>
         </>

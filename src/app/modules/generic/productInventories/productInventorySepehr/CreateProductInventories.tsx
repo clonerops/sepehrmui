@@ -1,11 +1,10 @@
-import { Form, Formik, FormikProps } from "formik"
-import { Box, Button, Typography } from "@mui/material"
+import { Formik, FormikProps } from "formik"
+import { Button, Typography } from "@mui/material"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
 import FormikPrice from "../../../../../_cloner/components/FormikPrice"
 import { IProducts } from "../../products/_models"
 import { useEffect, useRef } from "react"
 import FormikInput from "../../../../../_cloner/components/FormikInput"
-import FormikAmount from "../../../../../_cloner/components/FormikAmount"
 import { useIncraseInventory } from "../_hooks"
 import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar"
 import Backdrop from "../../../../../_cloner/components/Backdrop"
@@ -56,24 +55,24 @@ const CreateProductInventories = (props: Props) => {
                 }
             }>
                 {({ handleSubmit }) => {
-                    return <Form onSubmit={handleSubmit}>
-                        <Box component="div" className="flex flex-col gap-y-4 mt-8 mb-4">
+                    return <form onSubmit={handleSubmit}>
+                        <div className="flex flex-col gap-y-4 mt-8 mb-4">
                         <Typography variant="h3" color="red">راهنما:</Typography>
                             <ul className="flex flex-col gap-y-2">
                                 <li><Typography color="primary" variant="h4">جهت افزایش موجودی کافیست تا مقدار موجودی را وارد نمایید</Typography></li>
                                 <li><Typography color="primary" variant="h4">2. فیلد های نام کالا و برند قابل تغییر نیستند</Typography></li>
                                 <li><Typography color="primary" variant="h4">3. بعد از"ثبت موجودی" موجودی جدید جایگزین موجودی قبلی می شود</Typography></li>
                             </ul>
-                            <Box className="flex flex-row gap-x-4">
+                            <div className="flex flex-row gap-x-4">
                                 <FormikInput  disabled label="کالا" name="productName" />
                                 <FormikInput disabled label="برند" name="productBrandName" />
-                            </Box>
+                            </div>
                             <FormikPrice  label="مقدار موجودی" name="inventory" />
-                        </Box>
+                        </div>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">
                             <Typography variant="h3" className="px-8 py-2">ثبت موجودی</Typography>
                         </Button>
-                    </Form>
+                    </form>
                 }}
             </Formik>
         </>

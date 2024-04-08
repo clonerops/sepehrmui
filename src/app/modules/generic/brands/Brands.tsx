@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
-import { Formik, Form } from "formik";
+import { Typography } from "@mui/material";
+import { Formik } from "formik";
 import { AddCircleOutline, AddTask, AdfScanner, DesignServices, TextDecrease } from "@mui/icons-material";
 import * as Yup from "yup";
 
@@ -121,9 +121,9 @@ const Brands = () => {
     };
     // const renderAction = (item: any) => {
     //     return (
-    //         <Box component="div" className="flex gap-4">
+    //         <div  className="flex gap-4">
     //             <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
-    //         </Box>
+    //         </div>
     //     );
     // };
 
@@ -135,7 +135,7 @@ const Brands = () => {
         <>
             {postLoading && <Backdrop loading={postLoading} />}
             {updateLoading && <Backdrop loading={updateLoading} />}
-            <Box className="flex flex-row gap-x-4 mb-4">
+            <div className="flex flex-row gap-x-4 mb-4">
                 <CardWithIcons
                     title='تعداد برند های ثبت شده'
                     icon={<DesignServices className="text-white" />}
@@ -156,11 +156,11 @@ const Brands = () => {
                     icon={<AdfScanner className="text-white" />}
                     value={0}
                     iconClassName='bg-[#EB5553]' />
-            </Box>
+            </div>
 
-            <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <ReusableCard>
-                    <Box component="div">
+                    <div>
                         <Formik
                             initialValues={initialValues}
                             validationSchema={validation}
@@ -191,12 +191,12 @@ const Brands = () => {
                         >
                             {({ handleSubmit }) => {
                                 return (
-                                    <Form
+                                    <form
                                         onSubmit={handleSubmit}
                                         className="mb-4"
                                     >
-                                        <Box
-                                            component="div"
+                                        <div
+                                            
                                             className="md:flex md:justify-start md:items-start gap-x-4"
                                         >
                                             <FormikInput
@@ -211,7 +211,7 @@ const Brands = () => {
                                                 boxClassName="mt-2 md:mt-0"
                                                 autoFocus={true}
                                             />
-                                            <Box component="div" className="mt-2 md:mt-0">
+                                            <div  className="mt-2 md:mt-0">
                                                 <ButtonComponent
                                                     onClick={() => handleSubmit()}
                                                 >
@@ -219,41 +219,37 @@ const Brands = () => {
                                                         <AddCircleOutline />
                                                     </Typography>
                                                 </ButtonComponent>
-                                            </Box>
-                                        </Box>
-                                    </Form>
+                                            </div>
+                                        </div>
+                                    </form>
                                 );
                             }}
                         </Formik>
-                        <Box component="div" className="mb-4">
+                        <div className="mb-4">
                             <FuzzySearch
                                 keys={["id", "name"]}
                                 data={brands?.data}
                                 threshold={0.5}
                                 setResults={setResults}
                             />
-                        </Box>
+                        </div>
                         <MuiDataGrid
                             columns={columns(renderSwitch)}
                             rows={results}
                             data={brands?.data}
                         />
 
-                    </Box>
+                    </div>
                 </ReusableCard>
                 <ReusableCard cardClassName="hidden md:flex md:justify-center md:items-center">
-                    <Box component="div">
-                        <Box
-                            component="div"
-                        >
-                            <Box component="img"
-                                src={toAbsoulteUrl("/media/logos/8595513.jpg")}
-                                width={400}
-                            />
-                        </Box>
-                    </Box>
+                    <div>
+                        <img
+                            src={toAbsoulteUrl("/media/logos/8595513.jpg")}
+                            width={400}
+                        />
+                    </div>
                 </ReusableCard>
-            </Box>
+            </div>
         </>
     );
 };

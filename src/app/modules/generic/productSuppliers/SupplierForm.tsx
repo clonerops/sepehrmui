@@ -1,5 +1,5 @@
-import { Form, Formik } from "formik";
-import { Box, Button, Typography } from "@mui/material";
+import { Formik } from "formik";
+import { Button, Typography } from "@mui/material";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 
 import { useGetCustomers } from "../../customer/core/_hooks";
@@ -137,24 +137,24 @@ const SupplierForm = (props: {
                 }
                 validationSchema={createSupplierValidations} onSubmit={handleSubmit}>
                 {({ handleSubmit, setFieldValue }) => {
-                    return <Form onSubmit={handleSubmit} className="container">
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
+                    return <form onSubmit={handleSubmit} className="container">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
                             <FormikSelect name={"customerId"} label="مشتری" options={dropdownCustomer(customers?.data)} />
                             <FormikSelect name={"productId"} label="کالا" options={dropdownProduct(products?.data)} />
-                        </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-8 my-4">
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-4">
                             <FormikInput name="price" label="قیمت" type="text" />
                             <FormikInput name="overPrice" label="قیمت تمام شده" type="text" />
                             <FormikDatepicker name="priceDate" label="تاریخ قیمت" setFieldValue={setFieldValue} />
-                        </Box>
-                        <Box component="div" className="grid grid-cols-2 md:grid-cols-2 gap-8 my-4">
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-2 gap-8 my-4">
                             <FormikInput name="rentAmount" label="کرایه" type="text" />
                             <FormikInput name="rate" label="امتیاز" type="text" />
-                        </Box>
+                        </div>
                         <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                             <Typography variant="h3" className="px-8 py-2">{isNew ? "ثبت تامین کننده" : "ویرایش تامین کننده"}</Typography>
                         </Button>
-                    </Form>
+                    </form>
                 }}
             </Formik>
         </>

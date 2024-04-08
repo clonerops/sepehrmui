@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography } from "@mui/material"
-import { Formik, Form } from "formik"
+import { Typography } from "@mui/material"
+import { Formik } from "formik"
 import { AddCircleOutline, AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
 import * as Yup from 'yup'
 
@@ -108,9 +108,9 @@ const ProductService = () => {
     <>
       {postLoading && <Backdrop loading={postLoading} />}
       {updateLoading && <Backdrop loading={updateLoading} />}
-      <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4">
         <ReusableCard cardClassName='order-2 lg:order-1'>
-          <Box component="div">
+          <div>
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
                 try {
@@ -135,8 +135,8 @@ const ProductService = () => {
               }
             }>
               {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className="mb-4">
-                  <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
+                return <form onSubmit={handleSubmit} className="mb-4">
+                  <div className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد خدمت " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="نوع خدمت " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <ButtonComponent onClick={() => handleSubmit()}>
@@ -144,11 +144,11 @@ const ProductService = () => {
                         <AddCircleOutline className='text-white' />
                       </Typography>
                     </ButtonComponent>
-                  </Box>
-                </Form>
+                  </div>
+                </form>
               }}
             </Formik>
-            <Box component="div" className="mb-4">
+            <div className="mb-4">
               <FuzzySearch
                 keys={[
                   "id",
@@ -158,15 +158,15 @@ const ProductService = () => {
                 threshold={0.5}
                 setResults={setResults}
               />
-            </Box>
+            </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
               data={Services?.data}
             />
-          </Box>
+          </div>
         </ReusableCard>
-        <Box className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:h-[240px] order-1 lg:order-2">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:h-[240px] order-1 lg:order-2">
           <CardWithIcons
             title='تعداد سرویس های ثبت شده'
             icon={<DesignServices className="text-white" />}
@@ -187,8 +187,8 @@ const ProductService = () => {
             icon={<AdfScanner className="text-white" />}
             value={0}
             iconClassName='bg-[#EB5553]' />
-        </Box>
-      </Box>
+        </div>
+      </div>
     </>
   )
 }

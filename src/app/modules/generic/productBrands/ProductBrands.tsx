@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography } from "@mui/material"
-import { Formik, Form } from "formik"
+import { Typography } from "@mui/material"
+import { Formik } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
 
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
@@ -146,10 +146,10 @@ const ProductBrands = () => {
     <>
       {postLoading && <Backdrop loading={postLoading} />}
       {updateLoading && <Backdrop loading={updateLoading} />}
-      <Box className="lg:grid lg:grid-cols-2 lg:gap-4">
+      <div className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
-          <Box component="div">
-            <Box component="div">
+          <div>
+            <div>
               <Formik initialValues={initialValues} onSubmit={
                 async (values, { setStatus, setSubmitting, setFieldValue }) => {
                   try {
@@ -175,25 +175,25 @@ const ProductBrands = () => {
                 }
               }>
                 {({ handleSubmit }) => {
-                  return <Form onSubmit={handleSubmit} className="mb-4">
-                    <Box
-                      component="div"
+                  return <form onSubmit={handleSubmit} className="mb-4">
+                    <div
+                    
                       className="md:flex md:justify-start md:items-start gap-4 space-y-4 lg:space-y-0"
                     > 
-                      <FormikProduct name="productId" label="کالا" boxClassName="mt-2 md:mt-0" />
+                      <FormikProduct name="productId" label="کالا" divClassName="mt-2 md:mt-0" />
                       <FormikBrand name='brandId' label="برند" />
-                      <Box component="div" className="mt-2 md:mt-0">
+                      <div className="mt-2 md:mt-0">
                         <ButtonComponent onClick={() => handleSubmit()}>
                           <Typography className="px-2">
                             <AddCircleOutline className="text-white" />
                           </Typography>
                         </ButtonComponent>
-                      </Box>
-                    </Box>
-                  </Form>
+                      </div>
+                    </div>
+                  </form>
                 }}
               </Formik>
-              <Box component="div" className="mb-4">
+              <div className="mb-4">
                 <FuzzySearch
                   keys={[
                     "brand.id",
@@ -204,18 +204,18 @@ const ProductBrands = () => {
                   data={productBrands?.data}
                   setResults={setResults}
                 />
-              </Box>
+              </div>
               <MuiDataGrid
                 columns={columns(renderSwitch)}
                 rows={results}
                 data={productBrands?.data}
               />
-            </Box>
-          </Box>
+            </div>
+          </div>
         </ReusableCard>
-        <Box className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
           <ReusableCard>
-            <Box className="flex flex-col flex-wrap gap-4">
+            <div className="flex flex-col flex-wrap gap-4">
               <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
               <Typography>کالاهای موجود هرکدام دارای برند های خاصی می باشد</Typography>
               <Typography>جهت اختصاص یک برند به کالا بایستی پس از انتخاب کالابرند برندی که میخواهید برای آن کالا ثبت نمایید را انتخاب کنید و اقدام به ثبت کالا برند کنید</Typography>
@@ -223,10 +223,10 @@ const ProductBrands = () => {
               <Typography>امکان حذف برند محصول وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
               <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
               <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
-            </Box>
+            </div>
           </ReusableCard>
           <ReusableCard>
-            <Box component="img"
+            <img
               src={toAbsoulteUrl("/media/logos/8595513.jpg")}
               width={400}
             />
@@ -238,8 +238,8 @@ const ProductBrands = () => {
               data={Object.values(groupedProductBrand).map((item: any) => item.length)}
              />
           </ReusableCard>
-        </Box>
-      </Box>
+        </div>
+      </div>
     </>
   )
 }

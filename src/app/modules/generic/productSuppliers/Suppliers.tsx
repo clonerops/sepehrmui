@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
@@ -162,10 +162,10 @@ const Suppliers = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Box component="div" className="flex gap-4">
+            <div className="flex gap-4">
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
                 <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
-            </Box>
+            </div>
         );
     };
 
@@ -174,11 +174,11 @@ const Suppliers = () => {
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {suppliersLoading && <Backdrop loading={suppliersLoading} />}
             <ReusableCard>
-                <Box
-                    component="div"
+                <div
+                
                     className="md:flex md:justify-between md:items-center space-y-2"
                 >
-                    <Box component="div" className="w-auto md:w-[40%] mb-4">
+                    <div className="w-auto md:w-[40%] mb-4">
                         <FuzzySearch
                             keys={[
                                 "customerFirstName",
@@ -194,13 +194,13 @@ const Suppliers = () => {
                             threshold={0.5}
                             setResults={setResults}
                         />
-                    </Box>
+                    </div>
                     <ButtonComponent
                         onClick={() => setIsCreateOpen(true)}
                     >
                         <Typography variant="h4">ایجاد تامین کننده</Typography>
                     </ButtonComponent>
-                </Box>
+                </div>
                 <MuiDataGrid
                     columns={columns(renderAction)}
                     rows={results}

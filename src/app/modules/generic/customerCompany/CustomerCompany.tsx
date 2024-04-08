@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { ICustomerCompany } from "./_models";
 import {
-    useDeleteCustomerCompanies,
     useGetCustomerCompanies,
     useUpdateCustomerCompanies,
 } from "./_hooks";
@@ -11,11 +10,10 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import CustomerCompanyForm from "./CustomerCompanyForm";
-import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import SwitchComponent from "../../../../_cloner/components/Switch";
-import { enqueueSnackbar } from "notistack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 const CustomerCompanies = () => {
     const { data: customerCompanies, refetch, isLoading: CustomerCompanyLoading, } = useGetCustomerCompanies("");
@@ -40,10 +38,7 @@ const CustomerCompanies = () => {
             };
             updateTools.mutate(formData, {
                 onSuccess: () => {
-                    enqueueSnackbar("تغییر وضعیت با موفقیت انجام شد", {
-                        variant: "success",
-                        anchorOrigin: { vertical: "top", horizontal: "center" }
-                    })
+                    EnqueueSnackbar("تغییر وضعیت با موفقیت انجام شد", "success")
                     refetch();
                 },
             });
@@ -132,13 +127,13 @@ const CustomerCompanies = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Box component="div" className="flex gap-4">
+            <div className="flex gap-4">
                 <SwitchComponent
                     checked={item?.row.isActive}
                     onChange={(_) => onUpdateStatus(item)}
                 />
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
-            </Box>
+            </div>
         );
     };
 
@@ -149,45 +144,39 @@ const CustomerCompanies = () => {
     return (
         <>
             <ReusableCard>
-                <Box component="div" >
-                    <Box component="div">
-                        <Box
-                            component="div"
-                            className="md:flex md:justify-between md:items-center space-y-2"
+                <div>
+                    <div className="md:flex md:justify-between md:items-center space-y-2">
+                        <div
+                            className="w-auto md:w-[40%] mb-2"
                         >
-                            <Box
-                                component="div"
-                                className="w-auto md:w-[40%] mb-2"
-                            >
-                                <FuzzySearch
-                                    keys={[
-                                        "companyName",
-                                        "customerFullName",
-                                        "economicId",
-                                        "nationalId",
-                                        "tel1",
-                                        "tel2",
-                                    ]}
-                                    data={customerCompanies?.data}
-                                    threshold={0.5}
-                                    setResults={setResults}
-                                />
-                            </Box>
-                            <Button
-                                onClick={() => setIsOpen(true)}
-                                variant="contained"
-                                color="secondary"
-                            >
-                                <Typography variant="h4">تعریف شرکت</Typography>
-                            </Button>
-                        </Box>
-                        <MuiDataGrid
-                            columns={columns(renderAction)}
-                            rows={results}
-                            data={customerCompanies?.data}
-                        />
-                    </Box>
-                </Box>
+                            <FuzzySearch
+                                keys={[
+                                    "companyName",
+                                    "customerFullName",
+                                    "economicId",
+                                    "nationalId",
+                                    "tel1",
+                                    "tel2",
+                                ]}
+                                data={customerCompanies?.data}
+                                threshold={0.5}
+                                setResults={setResults}
+                            />
+                        </div>
+                        <Button
+                            onClick={() => setIsOpen(true)}
+                            variant="contained"
+                            color="secondary"
+                        >
+                            <Typography variant="h4">تعریف شرکت</Typography>
+                        </Button>
+                    </div>
+                    <MuiDataGrid
+                        columns={columns(renderAction)}
+                        rows={results}
+                        data={customerCompanies?.data}
+                    />
+                </div>
             </ReusableCard>
             <TransitionsModal title="تعریف شرکت رسمی مشتری" open={open} isClose={() => setIsOpen(false)} width="50%">
                 <CustomerCompanyForm refetch={refetch} />

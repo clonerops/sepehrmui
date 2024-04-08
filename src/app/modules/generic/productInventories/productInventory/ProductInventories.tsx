@@ -1,8 +1,7 @@
-import { Form, Formik, FormikProps } from "formik";
-import { useGetWarehouseTypes } from "../../_hooks";
+import { Formik, FormikProps } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
-import { Box, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import ReusableCard from "../../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import { columnsProductInventories } from "./columns";
@@ -81,7 +80,7 @@ const ProductInventories = () => {
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 0 }} onSubmit={() => { }}>
                     {({ values }) => {
-                        return <Form className="flex flex-row lg:w-[50%] gap-4 mb-4">
+                        return <form className="flex flex-row lg:w-[50%] gap-4 mb-4">
                             <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
                             <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
                             <Button
@@ -98,10 +97,10 @@ const ProductInventories = () => {
                                     height={30}
                                 />
                             </Button>
-                        </Form>
+                        </form>
                     }}
                 </Formik>
-                <Box component="div" className="mb-4 lg:w-[50%] w-full">
+                <div className="mb-4 lg:w-[50%] w-full">
                     <FuzzySearch
                         keys={[
                             "productCode",
@@ -113,9 +112,9 @@ const ProductInventories = () => {
                         data={filterTools?.data?.data}
                         setResults={setResults}
                     />
-                </Box>
+                </div>
 
-                <Box className="grid grid-cols-2 mt-2">
+                <div className="grid grid-cols-2 mt-2">
                     <MuiDataGrid
                         columns={columnsProductInventories()}
                         isLoading={filterTools.isLoading}
@@ -123,20 +122,17 @@ const ProductInventories = () => {
                         data={filterTools?.data?.data}
                         height={400}
                     />
-                    <Box component="div">
-                        <Box
-                            component="div"
-                            className="hidden md:flex md:justify-center md:items-center"
-                        >
-                            <Box component="img"
+                    <div>
+                        <div className="hidden md:flex md:justify-center md:items-center">
+                            <img
                                 src={toAbsoulteUrl("/media/logos/11089.jpg")}
                                 width={400}
                             />
-                        </Box>
+                        </div>
 
-                    </Box>
+                    </div>
 
-                </Box>
+                </div>
             </ReusableCard>
         </>
     );

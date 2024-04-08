@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography } from "@mui/material"
-import { Formik, Form } from "formik"
+import { Typography } from "@mui/material"
+import { Formik } from "formik"
 import { AddCircleOutline, AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
 import * as Yup from 'yup'
 
@@ -111,7 +111,7 @@ const ProductState = () => {
     <>
       {postLoading && <Backdrop loading={postLoading} />}
       {updateLoading && <Backdrop loading={updateLoading} />}
-      <Box className="flex flex-row gap-x-4 mb-4">
+      <div className="flex flex-row gap-x-4 mb-4">
         <CardWithIcons
           title='تعداد حالت های ثبت شده'
           icon={<DesignServices className="text-white" />}
@@ -132,11 +132,11 @@ const ProductState = () => {
           icon={<AdfScanner className="text-white" />}
           value={0}
           iconClassName='bg-[#EB5553]' />
-      </Box>
+      </div>
 
       <ReusableCard>
-        <Box component="div" className="md:grid md:grid-cols-2 md:gap-x-4">
-          <Box component="div">
+        <div className="md:grid md:grid-cols-2 md:gap-x-4">
+          <div>
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
                 try {
@@ -161,22 +161,22 @@ const ProductState = () => {
               }
             }>
               {({ handleSubmit }) => {
-                return <Form onSubmit={handleSubmit} className='mb-4'>
-                  <Box component="div" className="md:flex md:justify-start md:items-start gap-x-4 ">
+                return <form onSubmit={handleSubmit} className='mb-4'>
+                  <div className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد حالت " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="حالت " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
-                    <Box component="div" className="mt-2 md:mt-0">
+                    <div className="mt-2 md:mt-0">
                       <ButtonComponent onClick={() => handleSubmit()}>
                         <Typography className="px-2">
                           <AddCircleOutline />
                         </Typography>
                       </ButtonComponent>
-                    </Box>
-                  </Box>
-                </Form>
+                    </div>
+                  </div>
+                </form>
               }}
             </Formik>
-            <Box component="div" className='mb-4'>
+            <div className='mb-4'>
               <FuzzySearch
                 keys={[
                   "id",
@@ -186,26 +186,22 @@ const ProductState = () => {
                 threshold={0.5}
                 setResults={setResults}
               />
-            </Box>
+            </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
               data={state?.data}
             />
-          </Box>
-          <Box component="div">
-            <Box
-              component="div"
-              className="hidden md:flex md:justify-center md:items-center"
-            >
-              <Box component="img"
+          </div>
+          <div>
+            <div className="hidden md:flex md:justify-center md:items-center" >
+              <img
                 src={toAbsoulteUrl("/media/logos/6137729.jpg")}
                 width={400}
               />
-            </Box>
-
-          </Box>
-        </Box>
+            </div>
+          </div>
+        </div>
       </ReusableCard>
     </>
   )

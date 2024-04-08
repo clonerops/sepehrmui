@@ -1,15 +1,9 @@
-import { useState } from "react";
-import { Box, LinearProgress, Typography } from "@mui/material"
-import { useUploadFileProductInventories } from "../_hooks";
-import FileUploadButton from "../../../../../_cloner/components/UploadFileButton";
-import FileUpload from "../../../../../_cloner/components/FileUploadWithoutWebService";
+import { Typography } from "@mui/material"
 import { Formik } from "formik";
 import FormikDatepicker from "../../../../../_cloner/components/FormikDatepicker";
-import FileUploadWithoutWebService from "../../../../../_cloner/components/FileUploadWithoutWebService";
-import CustomButton from "../../../../../_cloner/components/CustomButton";
-import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar";
-import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
 import { exportProductInventoriesHistory } from "../_requests";
+import CustomButton from "../../../../../_cloner/components/CustomButton";
+import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
 
 const initialValues = {
     inventoryDate: ""
@@ -32,14 +26,14 @@ const DownloadInventory = () => {
         <>
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 {({ values, handleSubmit }) => (
-                    <Box className="flex flex-col gap-y-4">
+                    <div className="flex flex-col gap-y-4">
                         <Typography variant="h3" color="red">جهت آپلود فایل موجودی روزانه انبار سپهر به نکات ذیل دقت فرمائید:</Typography>
                         <ul className="flex flex-col gap-y-2">
                             <li><Typography color="primary" variant="h4">1. ابتدا تاریخ فایل موجودی را انتخاب نمایید</Typography></li>
                         </ul>
                         <FormikDatepicker name="inventoryDate" label="تاریخ" />
                         <CustomButton onClick={() => handleSubmit()} title="دانلود فایل" color="secondary" disabled={values.inventoryDate === "" ? true : false} />
-                    </Box>
+                    </div>
                 )}
             </Formik>
         </>

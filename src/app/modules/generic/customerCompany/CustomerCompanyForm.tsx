@@ -1,17 +1,18 @@
 import { useEffect } from 'react'
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { dropdownCustomer } from "../_functions";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { customerCompanyValidation } from "./validation";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useGetCustomerCompanyMutate, usePostCustomerCompanies, useUpdateCustomerCompanies } from "./_hooks";
 import { ICustomerCompany } from './_models';
 import { enqueueSnackbar } from 'notistack';
 import FormikMaskInput from '../../../../_cloner/components/FormikMaskInput';
 import Backdrop from '../../../../_cloner/components/Backdrop';
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar';
 
 const initialValues = {
     companyName: "",
@@ -38,7 +39,7 @@ type Props = {
 
 const CustomerCompanyForm = (props: Props) => {
     const { data: customers } = useGetCustomers();
-    const { mutate: postCustomerCompany, data: postData, isLoading: postLoading } = usePostCustomerCompanies();
+    const { mutate: postCustomerCompany, isLoading: postLoading } = usePostCustomerCompanies();
     const detailTools = useGetCustomerCompanyMutate()
     const updateTools = useUpdateCustomerCompanies()
 
@@ -120,10 +121,7 @@ const CustomerCompanyForm = (props: Props) => {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
-                        enqueueSnackbar("ویرایش با موفقیت انجام شد", {
-                            variant: "success",
-                            anchorOrigin: { vertical: "top", horizontal: "center" }
-                        })
+                        EnqueueSnackbar("ویرایش با موفقیت انجام شد", "success")
                     }
                     props.refetch();
                 },
@@ -179,16 +177,13 @@ const CustomerCompanyForm = (props: Props) => {
                 validationSchema={customerCompanyValidation} onSubmit={() => { }}>
                 {({ values, setFieldValue }) => {
                     return (
-                        <Form>
+                        <form>
                             {fields.map((rowFields) => (
-                                <Box
-                                    component="div"
-                                    className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
-                                >
+                                <div className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4">
                                     {rowFields.map((field) =>
                                         parseFields(field)
                                     )}
-                                </Box>
+                                </div>
                             ))}
                             <Button
                                 onClick={() =>
@@ -204,7 +199,7 @@ const CustomerCompanyForm = (props: Props) => {
                                     ثبت
                                 </Typography>
                             </Button>
-                        </Form>
+                        </form>
                     );
                 }}
             </Formik>
