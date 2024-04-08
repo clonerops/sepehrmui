@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
@@ -131,10 +131,10 @@ const Shareholders = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Box component="div" className="flex gap-4">
+            <div className="flex gap-4">
                 <EditGridButton onClick={() => handleEdit(item?.row)} />
                 <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
-            </Box>
+            </div>
         );
     };
 
@@ -159,28 +159,6 @@ const Shareholders = () => {
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
             {shareHolderLists.isLoading && <Backdrop loading={shareHolderLists.isLoading} />}
-            {/* <Box component="div" className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
-                <CardWithIcons
-                    title='تعداد سرویس های ثبت شده'
-                    icon={<DesignServices className="text-white" />}
-                    value={products?.data && +products?.data?.length}
-                    iconClassName='bg-[#3322D8]' />
-                <CardWithIcons
-                    title='میانگین حداقل موجودی'
-                    icon={<AddTask className="text-white" />}
-                    value={Math.ceil(+_.sumBy(products?.data && products?.data, 'minInventory') / +products?.data?.length)}
-                    iconClassName='bg-[#369BFD]' />
-                <CardWithIcons
-                    title='میانگین حداکثر موجودی'
-                    icon={<TextDecrease className="text-white" />}
-                    value={Math.ceil(+_.sumBy(products?.data && products?.data, 'maxInventory') / +products?.data?.length)}
-                    iconClassName='bg-[#F8B30E]' />
-                <CardWithIcons
-                    title='میانگین نقطه بحرانی'
-                    icon={<AdfScanner className="text-white" />}
-                    value={Math.ceil(+_.sumBy(products?.data && products?.data, 'inventotyCriticalPoint') / +products?.data?.length)}
-                    iconClassName='bg-[#EB5553]' />
-            </Box> */}
             <ReusableCard>
                 <div
                     className="flex lg:flex-row flex-col lg:justify-between lg:items-center space-y-2 mb-4"
