@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDeleteCustomer, useGetCustomers } from "./core/_hooks";
 import { ICustomer } from "./core/_models";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
@@ -13,6 +13,7 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { Add } from "@mui/icons-material";
 
 const Customer = () => {
     const {
@@ -22,7 +23,6 @@ const Customer = () => {
     } = useGetCustomers();
     const {
         mutate,
-        data: deleteData,
         isLoading: deleteLoading,
     } = useDeleteCustomer();
     const [results, setResults] = useState<ICustomer[]>([]);
@@ -184,10 +184,10 @@ const Customer = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Box component="div" className="flex gap-4">
+            <div className="flex gap-4">
                 <DeleteGridButton onClick={() => handleEdit(item?.row)} />
                 <EditGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
-            </Box>
+            </div>
         );
     };
 
@@ -199,11 +199,10 @@ const Customer = () => {
         <>
             {deleteLoading || customersLoading && <Backdrop loading={deleteLoading || customersLoading} />}
             <ReusableCard>
-                <Box
-                    component="div"
+                <div
                     className="md:flex md:justify-between md:items-center space-y-2"
                 >
-                    <Box component="div" className="w-auto md:w-[40%] mb-2">
+                    <div className="w-auto md:w-[40%] mb-2">
                         <FuzzySearch
                             keys={[
                                 "firstName",
@@ -223,15 +222,16 @@ const Customer = () => {
                             threshold={0.5}
                             setResults={setResults}
                         />
-                    </Box>
+                    </div>
                     <Button
                         onClick={() => setIsCreateOpen(true)}
                         variant="contained"
-                        color="secondary"
+                        className="!bg-indigo-500 hover:!bg-indigo-700"
                     >
-                        <Typography variant="h4">ایجاد مشتری</Typography >
+                        <Add className="text-white" />
+                        <Typography variant="h4" className="text-white">ایجاد مشتری</Typography >
                     </Button>
-                </Box>
+                </div>
                 <MuiDataGrid
                     columns={columns(renderAction)}
                     rows={results}
@@ -262,7 +262,6 @@ const Customer = () => {
                     setIsCreateOpen={setIsCreateOpen}
                 />
 
-                {/* <EditCustomer refetch={refetch} item={itemForEdit} /> */}
             </TransitionsModal>
             <ConfirmDialog
                 open={approve}

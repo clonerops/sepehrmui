@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useCreateCustomer, useGetCustomer, useUpdateCustomer } from "../core/_hooks";
 import { customerType } from "../helpers/customerType";
 import { convertValueLabelCustomerValidaty } from "../helpers/convertValueLabel";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import { useGetCustomerValidities } from "../../generic/_hooks";
-import { Box, Button, Checkbox, Typography } from "@mui/material";
+import { Button, Checkbox, Typography } from "@mui/material";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import React from "react";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
@@ -14,7 +14,7 @@ import { ICustomer } from "../core/_models";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import { createValiadtion } from "../validation/validation";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
+
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -58,7 +58,6 @@ const CustomerForm = (props: {
             { label: "نام پدر", name: "fatherName", type: "input" },
         ],
         [
-            // { label: "اسم رسمی مشتری", name: "officialName", type: "input" },
             { label: "شناسه ملی", name: "nationalId2", type: "number" },
             { label: "کدملی", name: "nationalId", type: "nationalId" },
         ],
@@ -93,7 +92,7 @@ const CustomerForm = (props: {
         switch (type) {
             case "checkbox":
                 return (
-                    <Box component="div" className="w-full flex items-center">
+                    <div className="w-full flex items-center">
                         <FormikCheckbox
                             defaultChecked={detailTools?.data?.data?.isSupplier}
                             name="isSupplier"
@@ -102,7 +101,7 @@ const CustomerForm = (props: {
                         <Typography variant="h3">
                             آیا تامین کننده می باشد؟
                         </Typography>
-                    </Box>
+                    </div>
                 );
             case "customerType":
                 return <FormikSelect options={customerType} {...rest} />;
@@ -117,8 +116,8 @@ const CustomerForm = (props: {
                 );
             case "settlementDay":
                 return (
-                    <Box component="div" className="!w-full">
-                        <Box component={"div"} className="grid grid-cols-3">
+                    <div className="!w-full">
+                        <div className="grid grid-cols-3">
                             <Typography variant="h3" className="px-4 py-1 ">
                                 تسویه حساب
                             </Typography>
@@ -141,8 +140,8 @@ const CustomerForm = (props: {
                             <Typography variant="h3" className="px-4 py-1 ">
                                 روز
                             </Typography>
-                        </Box>
-                        <Box component={"div"} className="flex items-center">
+                        </div>
+                        <div className="flex items-center">
                             <Checkbox
                                 checked={isChecked || values.settlementDay}
                                 onChange={(e: any) =>
@@ -150,10 +149,8 @@ const CustomerForm = (props: {
                                 }
                             />{" "}
                             <Typography variant="h3">بعد از وزن</Typography>
-                        </Box>
-                    </Box>
-                    // <ReusableCard cardClassName="w-full">
-                    // </ReusableCard>
+                        </div>
+                    </div>
                 );
             case "description":
                 return <FormikInput multiline rows={3} {...rest} />;
@@ -259,16 +256,15 @@ const CustomerForm = (props: {
             >
                 {({ handleSubmit, values }) => {
                     return (
-                        <Form onSubmit={handleSubmit} className="container">
+                        <form onSubmit={handleSubmit} className="container">
                             {fields.map((rowFields) => (
-                                <Box
-                                    component="div"
+                                <div
                                     className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
                                 >
                                     {rowFields.map((field) =>
                                         parseFields(field, values)
                                     )}
-                                </Box>
+                                </div>
                             ))}
                             <Button
                                 onClick={() => handleSubmit()}
@@ -279,7 +275,7 @@ const CustomerForm = (props: {
                                     {isNew ? "ثبت مشتری" : "ویرایش مشتری"}
                                 </Typography>
                             </Button>
-                        </Form>
+                        </form>
                     );
                 }}
             </Formik>
