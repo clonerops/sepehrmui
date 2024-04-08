@@ -106,7 +106,7 @@ const SalesOrderDetail = (props: Props) => {
         <>
             {/* <ReusableTab /> */}
             <Formik initialValues={initialValues} onSubmit={() => { }}>
-                {({ }) => {
+                {() => {
                     return <>
                         <div className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-5"} gap-4 my-4`}>
                             {renderOrderInfo.map((item: {

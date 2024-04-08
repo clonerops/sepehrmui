@@ -34,12 +34,14 @@ const ReadyToExit = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
+    console.log(currentPage)
+
   return (
     <>
         <ReusableCard>
             
             <Formik initialValues={{}} onSubmit={() => {}}>
-                {({}) => {
+                {() => {
                     return <Form>
                         <Box component="div" className='flex gap-4 w-[50%]'>
                             <FormikInput name="orderCode" label="شماره سفارش" />

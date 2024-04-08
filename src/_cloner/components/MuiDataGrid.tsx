@@ -30,6 +30,7 @@ const MuiDataGrid = (props: Props) => {
         return calculatedHeight <= maxVisibleRows * defaultRowHeight
             ? calculatedHeight
             : maxVisibleRows * defaultRowHeight;
+             // eslint-disable-next-line
     }, [data, maxVisibleRows]);
 
     const getRowClassName = useCallback((params: any) => {
@@ -39,6 +40,7 @@ const MuiDataGrid = (props: Props) => {
             className = "custom-row-style";
         }
         return className;
+         // eslint-disable-next-line
     }, [])
 
 

@@ -1,10 +1,9 @@
-import { Button, IconButton, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import { useGetTransferRemitancesByMutation } from "../core/_hooks"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
-import { CarCrash, DateRange, DateRangeRounded, Delete, Edit, HomeMaxRounded, HomeMiniOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, Search, TypeSpecimen, TypeSpecimenTwoTone, Visibility } from "@mui/icons-material"
+import { CarCrash, DateRange, DateRangeRounded, Delete, HomeMaxRounded, HomeMiniOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, Search, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
 import Backdrop from "../../../../_cloner/components/Backdrop"
-import { Link } from "react-router-dom"
 import { Formik } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import { useEffect, useState } from "react"
@@ -128,7 +127,7 @@ const EntranceLading = () => {
                 description="چنانچه مشکلی بابت ثبت مجوز بارگیری دارید، لطفا با پشتیبانی تماس بگیرید."
             >
                 <Formik initialValues={{}} onSubmit={onSubmit}>
-                    {({ }) => {
+                    {() => {
                         return <form className='mt-8'>
                             <div className='my-8 mx-auto'>
                                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862] !text-center" headCellTextColor="!text-white" data={[]} columns={entranceLadingList} />

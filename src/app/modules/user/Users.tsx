@@ -82,7 +82,7 @@ const Users = () => {
             />
           </div>
           <div className="md:flex md:justify-center md:items-center hidden"> 
-            <img src={toAbsoulteUrl('/media/images/566.jpg')} width={400} height={400} />
+            <img alt="sepehriranian" src={toAbsoulteUrl('/media/images/566.jpg')} width={400} height={400}  />
           </div>
         </div>
       </>

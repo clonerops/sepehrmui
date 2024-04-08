@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
 import { IRole, IRoleMenu, IUpdateRole } from "./_models";
-import { AxiosError } from "axios";
 
 const useGetRoles = () => {
     return useQuery(["roles"], () => api.getRoles(), {

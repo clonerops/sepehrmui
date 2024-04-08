@@ -147,7 +147,8 @@ const Warehouse = () => {
 
   return (
     <>
-    {postLoading || deleteLoading && <Backdrop loading={postLoading || deleteLoading} />}
+    {postLoading  && <Backdrop loading={postLoading} />}
+    {deleteLoading  && <Backdrop loading={deleteLoading} />}
       <div className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
           <div>
@@ -202,7 +203,7 @@ const Warehouse = () => {
             </div>
           </ReusableCard>
           <ReusableCard>
-            <img
+            <img alt="sepehriranian"
               src={toAbsoulteUrl("/media/logos/iron.png")}
               width={400}
               className='rounded-md'

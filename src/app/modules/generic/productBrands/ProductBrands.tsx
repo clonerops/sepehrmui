@@ -227,7 +227,7 @@ const ProductBrands = () => {
             </div>
           </ReusableCard>
           <ReusableCard>
-            <img
+            <img alt="sepehriranian"
               src={toAbsoulteUrl("/media/logos/8595513.jpg")}
               width={400}
             />

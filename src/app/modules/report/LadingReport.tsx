@@ -37,7 +37,7 @@ const LadingReport = () => {
         <ReusableCard>
             
             <Formik initialValues={{}} onSubmit={() => {}}>
-                {({}) => {
+                {() => {
                     return <form>
                         <div className='flex gap-4 w-[50%]'>
                             <FormikInput name="orderCode" label="شماره سفارش" />

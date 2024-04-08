@@ -5,7 +5,6 @@ import OrganizationBank from "../modules/generic/organizationBank/OrganizationBa
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
-const Banks = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
 const Shareholders = React.lazy(() => import("../modules/generic/shareHolders/Shareholders"));
 const Slanderers = React.lazy(() => import("../modules/generic/slanderer/Slanderers"));
 const CashDesks = React.lazy(() => import("../modules/generic/cashDesk/CashDesk"));

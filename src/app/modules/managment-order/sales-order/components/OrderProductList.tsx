@@ -28,7 +28,7 @@ interface IProps {
 }
 
 const OrderProductList:FC<IProps> = (props: IProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, setOrderValid, disabled,  setIsUpdate, setOrderIndex, values, setFieldValue } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, setOrderValid, disabled,  setIsUpdate, setOrderIndex, setFieldValue } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {

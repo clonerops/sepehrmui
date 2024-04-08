@@ -95,7 +95,7 @@ const MonitoringProdcuct = () => {
         <>
             {filterTools.isLoading && <Backdrop loading={filterTools.isLoading} />}
             <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 6, productTypeId: -1, productName: "" }} onSubmit={() => { }}>
-                {({}) => {
+                {() => {
                     return <>
                         <div className="">
                             <div className="flex flex-col col-span-6">

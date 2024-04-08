@@ -17,7 +17,6 @@ const OrganizationBank = () => {
     
     const {
         mutate,
-        data: deleteData,
         isLoading: deleteLoading,
     } = useDeleteOrganizationBank();
     const [results, setResults] = useState<IOrganizationBank[]>([]);

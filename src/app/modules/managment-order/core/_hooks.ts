@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IApproveInvoice, IPurchaserOrder, IPurchaserTransferBetweenWarehouse, ISalesOrder } from "./_models";
+import { IApproveInvoice, IPurchaserOrder } from "./_models";
 import * as api from "./_requests";
 
 // Sales Order

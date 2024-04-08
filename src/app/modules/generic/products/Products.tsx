@@ -11,7 +11,7 @@ import ActiveText from "../../../../_cloner/components/ActiveText";
 import ProductForm from "./ProductForm";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { useDisableProduct, useRetrieveProducts } from "./_hooks";
+import { useRetrieveProducts } from "./_hooks";
 import { IProducts } from "./_models";
 import _ from 'lodash'
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons";
@@ -23,11 +23,6 @@ const Products = () => {
         isLoading: productsLoading,
         refetch,
     } = useRetrieveProducts();
-    const {
-        mutate,
-        data: deleteData,
-        isLoading: deleteLoading,
-    } = useDisableProduct();
     const [results, setResults] = useState<IProducts[]>([]);
 
     useEffect(() => {
@@ -245,7 +240,6 @@ const Products = () => {
 
     return (
         <>
-            {deleteLoading && <Backdrop loading={deleteLoading} />}
             {productsLoading && <Backdrop loading={productsLoading} />}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
                 <CardWithIcons

@@ -183,7 +183,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                                 </div>
                             </ReusableCard>
                             <ReusableCard cardClassName="flex justify-center items-center">
-                                <img src={toAbsoulteUrl('/media/logos/fo.png')} width={340} />
+                                <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/fo.png')} width={340} />
                             </ReusableCard>
                         </div>
                         <MuiTable

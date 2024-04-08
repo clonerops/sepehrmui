@@ -24,7 +24,6 @@ const Suppliers = () => {
     } = useRetrieveSuppliers();
     const {
         mutate,
-        data: deleteData,
         isLoading: deleteLoading,
     } = useDeleteSupplier();
     const [results, setResults] = useState<ISuppliers[]>([]);

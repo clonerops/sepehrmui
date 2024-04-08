@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { Alert, IconButton, Typography } from '@mui/material'
+import { Alert, Typography } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 import Swal from 'sweetalert2'
 
@@ -22,7 +22,6 @@ import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import OrderDetailBaseOrderCode from './components/OrderDetailBaseOrderCode'
-import { Autorenew } from '@mui/icons-material'
 import { useGetProductList } from '../../generic/products/_hooks'
 
 const SalesOrderEdit = () => {
@@ -85,8 +84,8 @@ const SalesOrderEdit = () => {
             ]);
 
             setCategories([
-                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId == 2 ? true : false },
-                { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId == 1 ? true : false },
+                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId === 2 ? true : false },
+                { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId === 1 ? true : false },
             ])
         }
          // eslint-disable-next-line
@@ -227,7 +226,7 @@ const SalesOrderEdit = () => {
                                 <OrderFeature categories={categories} postOrder={postSaleOrder} />
                             </div>
                             <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
-                                <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
+                                <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
                             </ReusableCard>
                         </div>
                         {/*The design of the main section of the order module order */}

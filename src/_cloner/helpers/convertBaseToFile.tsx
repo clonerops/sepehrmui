@@ -1,5 +1,3 @@
-import React from 'react';
-
 function useBase64toFile() {
     const base64toFile = (base64String: any, filename: any) => {
         try {

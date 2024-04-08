@@ -96,7 +96,7 @@ const ReadyToPurchaserOrderConfirm = () => {
                     />
                 </div>
                 <Formik initialValues={{ statusId: -1 }} onSubmit={() => { }}>
-                    {({ }) => {
+                    {() => {
                         return <>
                             <FormikRadioGroup onChange={handleFilterBasedofStatus} radioData={allOption} name="statusId" />
                         </>

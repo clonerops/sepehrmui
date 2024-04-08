@@ -120,7 +120,7 @@ const ProductInventoriesSepehr = () => {
                         
                             className="hidden md:flex md:justify-center md:items-center"
                         >
-                            <img
+                            <img alt="sepehriranian"
                                 src={toAbsoulteUrl("/media/logos/11089.jpg")}
                                 width={400}
                             />

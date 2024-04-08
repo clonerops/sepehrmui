@@ -40,6 +40,7 @@ const CheckRoute = () => {
     });
 
     return result?.flat();
+    // eslint-disable-next-line
   }, [data?.data, window.location.pathname]);
 
   const checkRoute = useCallback(() => {
@@ -98,6 +99,7 @@ const CheckRoute = () => {
         }
       }
     }
+     // eslint-disable-next-line
   }, [routes]);
 
   // if (isLoading) {

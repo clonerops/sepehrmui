@@ -132,10 +132,12 @@ const Roles = () => {
         );
     };
 
+    console.log(isEditOpen)
+    console.log(itemForEdit)
 
     return (
         <>
-            {postApplicationRoles.isLoading || deleteApplicationRoles.isLoading && <Backdrop loading={postApplicationRoles.isLoading || deleteApplicationRoles.isLoading} />}
+            {(postApplicationRoles.isLoading || deleteApplicationRoles.isLoading) && <Backdrop loading={postApplicationRoles.isLoading || deleteApplicationRoles.isLoading} />}
             <ReusableCard>
                 <Box
                     component="div"

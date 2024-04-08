@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Fuse from "fuse.js";
 import { InputAdornment, TextField } from "@mui/material";
 import { SearchRounded } from "@mui/icons-material";
 

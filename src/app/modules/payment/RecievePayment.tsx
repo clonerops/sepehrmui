@@ -51,23 +51,17 @@ const RecievePayment = () => {
         switch (receivePaymentSourceFromId) {
             case 1:
                return  <FormikCustomer name='ReceiveFromCustomerId' label='دریافت از' />
-                break;
             case 2:
                return  <FormikOrganzationBank name='ReceiveFromCustomerId' label='دریافت از' />
-                break;
             case 3:
                return  <FormikCashDesk name='ReceiveFromCustomerId' label='دریافت از' />
-                break;
             case 4:
                return  <FormikCashDesk name='ReceiveFromCustomerId' label='دریافت از' />
-                break;
             case 5:
                return  <FormikIncome name='ReceiveFromCustomerId' label='دریافت از' />
-                break;
         
             default:
                 return <FormikInput name='ReceiveFromCustomerId' label='دریافت از' disabled={true} />
-                break;
         }
     }
 

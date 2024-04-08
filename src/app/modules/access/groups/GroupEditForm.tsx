@@ -69,7 +69,7 @@ const GroupEditForm = (props: Props) => {
 
     return (
         <>
-            {putApplicationRoles.isLoading || permissions.isLoading && <Backdrop loading={putApplicationRoles.isLoading || permissions.isLoading} />}
+            {(putApplicationRoles.isLoading || permissions.isLoading) && <Backdrop loading={putApplicationRoles.isLoading || permissions.isLoading} />}
             <Formik enableReinitialize initialValues={{
                 ...initialValues,
                 ...detailApplicationRole?.data?.data,

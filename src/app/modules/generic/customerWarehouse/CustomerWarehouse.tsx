@@ -10,7 +10,6 @@ import { ICustomerWarehouse } from "./_models"
 import { usePostCustomerWarehouses } from './_hooks'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
-import _ from 'lodash'
 import FormikCustomer from '../../../../_cloner/components/FormikCustomer'
 import { useGetCustomers } from '../../customer/core/_hooks'
 import TransitionsModal from '../../../../_cloner/components/ReusableModal'
@@ -127,7 +126,6 @@ const CustomerWarehouse = () => {
     return col;
   };
 
-  let groupedCustomerWarehouse = _.groupBy(customers?.data?.data, "warehouses")
   if (customers.isLoading) {
     return <Backdrop loading={customers.isLoading} />;
   }
@@ -190,14 +188,14 @@ const CustomerWarehouse = () => {
             </div>
           </ReusableCard>
           <ReusableCard>
-            <img
+            <img alt="sepehriranian"
               src={toAbsoulteUrl("/media/images/WarehouseMaintenance.jpg")}
               className="rounded-md"
               width={400}
             />
           </ReusableCard>
           <ReusableCard cardClassName='col-span-2 flex justify-center items-center'>
-            <img
+            <img alt="sepehriranian"
               src={toAbsoulteUrl("/media/mainlogo/2.png")}
               className="rounded-md"
               width={100}

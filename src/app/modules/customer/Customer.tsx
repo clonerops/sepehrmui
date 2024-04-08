@@ -198,7 +198,7 @@ const Customer = () => {
 
     return (
         <>
-            {deleteLoading || customersLoading && <Backdrop loading={deleteLoading || customersLoading} />}
+            {(deleteLoading || customersLoading) && <Backdrop loading={deleteLoading || customersLoading} />}
             <ReusableCard>
                 <div
                     className="md:flex md:justify-between md:items-center space-y-2"

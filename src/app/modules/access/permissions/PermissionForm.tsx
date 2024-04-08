@@ -100,7 +100,7 @@ const PermissionForm = (props: {
 
     return (
         <>
-        {postPermissions.isLoading || updateTools.isLoading && <Backdrop loading={postPermissions.isLoading || updateTools.isLoading} />}
+        {(postPermissions.isLoading || updateTools.isLoading) && <Backdrop loading={postPermissions.isLoading || updateTools.isLoading} />}
             <Formik
                 initialValues={
                     isNew

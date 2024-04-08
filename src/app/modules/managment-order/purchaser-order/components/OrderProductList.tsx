@@ -26,7 +26,7 @@ type ProductProps = {
 }
 
 const OrderProductList = (props: ProductProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, selectedOrderIndex, products, disabled, values,setOrderIndex, setIsUpdate, setFieldValue } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, disabled ,setOrderIndex, setIsUpdate, setFieldValue } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {

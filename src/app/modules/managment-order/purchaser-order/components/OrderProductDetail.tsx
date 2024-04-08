@@ -55,8 +55,6 @@ const OrderProductDetail = (props: Props) => {
         orderPayment,
         setOrderPayment,
         orderServices,
-        setOrderServices,
-        formikRef
     } = props;
 
     const [isUpdate, setIsUpdate] = useState<boolean>(false);

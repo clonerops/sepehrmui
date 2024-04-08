@@ -233,7 +233,7 @@ const PurchaserOrderEdit = () => {
                 <OrderFeature categories={[]} isPurchaser={true} postOrder={postSaleOrder} />
               </div>
               <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
-                <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
+                <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
               </ReusableCard>
             </div>
             {/*The design of the main section of the order module order */}

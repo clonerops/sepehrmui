@@ -1,32 +1,33 @@
-import { Box, Typography, IconButton } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Box, Typography } from "@mui/material";
+// import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import FormikInput from "../../../../_cloner/components/FormikInput";
+// import FormikInput from "../../../../_cloner/components/FormikInput";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { AddCircleOutline } from "@mui/icons-material";
+// import { AddCircleOutline } from "@mui/icons-material";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
-import { useDeletePermissions, useGetPermissions, useGetPermissionsFilter, usePostPermissions } from "./_hooks";
+import { useDeletePermissions,  useGetPermissionsFilter } from "./_hooks";
 import { IPermission } from "./_models";
-import { createPermissionValidation } from "./_validation";
+// import { createPermissionValidation } from "./_validation";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import PermissionForm from "./PermissionForm";
-import Pagination from "../../../../_cloner/components/Pagination";
+// import Pagination from "../../../../_cloner/components/Pagination";
 import Backdrop from "../../../../_cloner/components/Backdrop";
+import Pagination from "../../../../_cloner/components/Pagination";
 
 interface Item {
     name: string;
     description: string;
 }
 
-const initialValues = {
-    name: "",
-    description: "",
-};
+// const initialValues = {
+//     name: "",
+//     description: "",
+// };
 
 // const validation = Yup.object({
 //   desc: Yup.string().required("فیلد الزامی می باشد")
@@ -143,6 +144,7 @@ const Permissions = () => {
     // if(Permissions.isLoading) {
     //     return <Typography>Loading ...</Typography>
     // }
+    
 
     return (
         <>
@@ -167,7 +169,7 @@ const Permissions = () => {
                                 data={Permissions?.data?.data}
                                 isLoading={Permissions.isLoading}
                             />
-                            {/* <Pagination pageCount={+Permissions?.data?.data.length / +pageSize || 200} onPageChange={handlePageChange} /> */}
+                            <Pagination pageCount={+Permissions?.data?.data.length / +pageSize || 200} onPageChange={handlePageChange} />
                         </Box>
 
                     </Box>

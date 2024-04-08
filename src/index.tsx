@@ -1,7 +1,7 @@
 import React from "react";
 import theme from "./_cloner/theme/theme";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";
-import rtlPlugin from "stylis-plugin-rtl";
+import rtlPlugin from 'stylis-plugin-rtl'
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { prefixer } from "stylis";
@@ -18,8 +18,11 @@ import { AppRoutes } from "./app/routing/AppRoutes";
 
 const cacheRtl = createCache({
     key: "muirtl",
-    stylisPlugins: [prefixer, rtlPlugin],
+    stylisPlugins: [prefixer, rtlPlugin] || [],
+    
 });
+
+
 
 const jss = create({
     plugins: [...jssPreset().plugins, rtl()],

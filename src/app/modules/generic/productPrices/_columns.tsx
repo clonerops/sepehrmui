@@ -85,8 +85,7 @@ export const columnsProductPrice = (renderAction: any) => {
       {
           field: "price",
           headerName: "قیمت",
-          renderCell: (value: any) =>
-              separateAmountWithCommas(value.row.price) + " " + "تومان",
+          renderCell: (value: any) => <Typography>{`${separateAmountWithCommas(value.row.price)} تومان`}</Typography>,
           headerClassName: "headerClassName",
           cellClassName: "font-bold text-[14px]",
           minWidth: 160,

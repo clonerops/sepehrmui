@@ -3,7 +3,6 @@ import moment from 'moment-jalaali'
 import { FormikProps } from 'formik'
 import { Typography } from '@mui/material'
 
-import ReusableCard from '../../../../../_cloner/components/ReusableCard'
 import FormikCustomer from '../../../../../_cloner/components/FormikCustomer'
 import FormikCompany from '../../../../../_cloner/components/FormikCompany'
 
@@ -12,7 +11,6 @@ import { IPurchaserOrder } from '../../core/_models'
 import { useGetCustomer } from '../../../customer/core/_hooks'
 import Backdrop from '../../../../../_cloner/components/Backdrop'
 import FormikWarehouse from '../../../../../_cloner/components/FormikWarehouse'
-import FormikWarehouseBasedOfCustomer from '../../../../../_cloner/components/FormikWarehouseBasedOfCustomer'
 import FormikWarehouseBasedOfType from '../../../../../_cloner/components/FormikWarehouseBasedOfType'
 import { useGetWarehouses } from '../../../generic/_hooks'
 

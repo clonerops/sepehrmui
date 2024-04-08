@@ -1,17 +1,17 @@
-import { useState } from "react";
+// import { useState } from "react";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { Link } from "react-router-dom";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import Pagination from "../../../../_cloner/components/Pagination";
+// import Pagination from "../../../../_cloner/components/Pagination";
 import { useGetLadingLicenceList } from "../core/_hooks";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import { ladingColumns } from "../../managment-order/helpers/columns";
 
-const pageSize = 20;
+// const pageSize = 20;
 
 const LadingList = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    // const [currentPage, setCurrentPage] = useState<number>(1);
 
     const ladingList = useGetLadingLicenceList();
 
@@ -43,9 +43,9 @@ const LadingList = () => {
         );
     };
 
-    const handlePageChange = (selectedItem: { selected: number }) => {
-        setCurrentPage(selectedItem.selected + 1);
-    };
+    // const handlePageChange = (selectedItem: { selected: number }) => {
+    //     setCurrentPage(selectedItem.selected + 1);
+    // };
 
     return (
         <>
@@ -56,10 +56,10 @@ const LadingList = () => {
                     data={ladingList?.data?.data}
                     isLoading={ladingList?.isLoading}
                 />
-                <Pagination
+                {/* <Pagination
                     pageCount={ladingList?.data?.totalCount / pageSize}
                     onPageChange={handlePageChange}
-                />
+                /> */}
             </ReusableCard>
         </>
     );

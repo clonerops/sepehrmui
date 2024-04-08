@@ -244,7 +244,7 @@ const Brands = () => {
                 </ReusableCard>
                 <ReusableCard cardClassName="hidden md:flex md:justify-center md:items-center">
                     <div>
-                        <img
+                        <img alt="sepehriranian"
                             src={toAbsoulteUrl("/media/logos/8595513.jpg")}
                             width={400}
                         />

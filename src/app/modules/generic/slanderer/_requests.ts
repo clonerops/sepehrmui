@@ -1,5 +1,4 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
-import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
 import { ISlanderer } from "./_models";
 
 const getSlandererList = async () => {

@@ -182,7 +182,7 @@ const InComs = () => {
             <div
               className="hidden md:flex md:justify-center md:items-center"
             >
-              <img
+              <img alt="sepehriranian"
                 src={toAbsoulteUrl("/media/images/8878499.jpg")}
                 width={400}
               />

@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Formik } from "formik";
-import { Edit, Print, Search } from "@mui/icons-material";
-import {  Typography } from "@mui/material";
+import { Edit, Search } from "@mui/icons-material";
+import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";

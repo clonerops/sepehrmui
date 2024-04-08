@@ -191,7 +191,7 @@ const SinglePaymentRegister = () => {
                         () => {
                         }
                 }>
-                        {({ }) => (
+                        {() => (
                             <div className="flex flex-col space-y-4">
                                 <div className="mt-8">
                                     <FormikInput name="accountDocNo" label="شماره سند" />

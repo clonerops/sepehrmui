@@ -6,7 +6,6 @@ import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { readyToCargoColumns } from "../helpers/columns";
-import Backdrop from "../../../../_cloner/components/Backdrop";
 
 import { useRetrievesNotSendedOrder } from "../core/_hooks";
 import { ICargo } from "../core/_models";

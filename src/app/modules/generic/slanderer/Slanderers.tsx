@@ -164,7 +164,7 @@ const Slanderers = () => {
                     </div>
                     <div>
                       <div className="hidden md:flex md:justify-center md:items-center">
-                        <img
+                        <img alt="sepehriranian"
                           src={toAbsoulteUrl("/media/logos/fund.png")}
                           width={400}
                         />

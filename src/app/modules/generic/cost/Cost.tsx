@@ -181,7 +181,7 @@ const Costs = () => {
             <div
               className="hidden md:flex md:justify-center md:items-center"
             >
-              <img
+              <img alt="sepehriranian"
                 src={toAbsoulteUrl("/media/images/cost.png")}
                 width={400}
               />

@@ -89,7 +89,7 @@ const ProductInventories = () => {
                                 variant="outlined"
                                 color="success"
                             >
-                                <img
+                                <img alt="sepehriranian"
                                     className={"mr-3"}
                                     src={toAbsoulteUrl(
                                         "/media/logos/excelLogo.png"
@@ -125,7 +125,8 @@ const ProductInventories = () => {
                     />
                     <div>
                         <div className="hidden md:flex md:justify-center md:items-center">
-                            <img
+                            <img 
+                                alt="sepehriranian"
                                 src={toAbsoulteUrl("/media/logos/11089.jpg")}
                                 width={400}
                             />

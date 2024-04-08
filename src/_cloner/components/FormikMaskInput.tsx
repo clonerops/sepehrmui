@@ -21,6 +21,7 @@ const FormikMaskInput = (props: FormikMaskProps) => {
     if (value && field.value !== stringValue) {
       meta.setValue(stringValue);
     }
+     // eslint-disable-next-line
   }, [value]);
 
   return (

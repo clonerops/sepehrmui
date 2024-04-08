@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, memo, useCallback, useEffect, useState } from "react";
 import { Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
@@ -123,6 +123,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         } else {
             alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
         }
+         // eslint-disable-next-line
     }, [productData.selectedProduct, productData.selectionModel]);
 
     const renderAction = useCallback((indexToDelete: any) => {
@@ -220,6 +221,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 </FormControl>{" "}
             </div>
         );
+         // eslint-disable-next-line
     }, [productData.proximateSubAmounts])
 
     const renderPrice = useCallback((params: any) => {
@@ -247,6 +249,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 />
             </>
         );
+         // eslint-disable-next-line
     }, [productData.price])
 
 
@@ -307,7 +310,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         <>
             <div className="mx-1">
                 <Button
-                    className={`${currentFilter.ProductTypeId == -1 ? "!bg-[#fcc615] !text-black" : ""
+                    className={`${currentFilter.ProductTypeId === -1 ? "!bg-[#fcc615] !text-black" : ""
                         }`}
                     onClick={() => {
                         setCurrentFilter({
@@ -325,7 +328,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 {productTypeTools?.data?.map((item: any, index: number) => {
                     return (
                         <Button key={index}
-                            className={`${currentFilter.ProductTypeId == item.id
+                            className={`${currentFilter.ProductTypeId === item.id
                                 ? "!bg-[#fcc615] !text-black"
                                 : ""
                                 }`}
@@ -350,7 +353,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
             <div className="col-span-2 mx-4 my-2">
                 <Formik initialValues={{ warehouseTypeId: "1" }} onSubmit={() => { }}>
-                    {({ }) => {
+                    {() => {
                         return <Form>
                             <FormikRadioGroup
                                 onChange={(value: number) => {

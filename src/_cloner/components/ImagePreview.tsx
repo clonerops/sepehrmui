@@ -33,7 +33,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
                 <div key={index}>
                     {imageSrcs[index] ? (
                         <Zoom>
-                            <img  
+                            <img
                                 src={imageSrcs[index]}
                                 alt={`Preview ${index + 1}`}
                                 onLoad={() => handleImageLoad(index)}

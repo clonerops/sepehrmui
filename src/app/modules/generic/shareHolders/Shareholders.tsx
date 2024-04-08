@@ -6,7 +6,6 @@ import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { IShareholder } from "./_models";
-import _ from 'lodash'
 import { Add, Search, } from "@mui/icons-material";
 import ShareholdersForm from "./ShareholdersForm";
 import { useDeleteShareHolder, useGetShareholderList } from "./_hooks";
@@ -28,7 +27,7 @@ const Shareholders = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const shareHolderLists = useGetShareholderList();
-        const { mutate, data: deleteData, isLoading: deleteLoading, } = useDeleteShareHolder();
+        const { mutate, isLoading: deleteLoading, } = useDeleteShareHolder();
 
     const getLists = () => {
         const filter = {
