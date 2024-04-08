@@ -34,7 +34,7 @@ const useDeleteRecievePaymentById = () => {
     });
 };
 const useUpdatePaymentApproved = () => {
-    return useMutation((id: string) => {
+    return useMutation((id: string[]) => {
         return api.updatePaymentApproved(id);
     });
 };

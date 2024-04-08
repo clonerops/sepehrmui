@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useGetRecievePayments } from "./core/_hooks";
+import { useGetRecievePayments, useUpdatePaymentApproved } from "./core/_hooks";
 import { Link } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { Typography } from "@mui/material";
+import { Button, Checkbox, Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { IPayment, IPaymentFilter } from "./core/_models";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
@@ -13,6 +13,9 @@ import { Formik, FormikProps } from "formik";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import moment from "moment-jalaali";
+import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 
 const pageSize = 100
 
@@ -22,19 +25,16 @@ const initialValues = {
     toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
 }
 
-// const categories = [
-//     { value: 0, title: "همه", defaultChecked: true },
-//     { value: 1, title: "تایید شده ها", defaultChecked: false },
-//     { value: 2, title: "تایید نشده ها", defaultChecked: false }
-// ]
-
-
 const PaymentAccounting = () => {
     // Fetching
     const { mutate, data, isLoading } = useGetRecievePayments();
+    const approveReceivePay = useUpdatePaymentApproved();
     // States
     const [results, setResults] = useState<IPayment[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [selectedIds, setSelectedIds] = useState<any>([]);
+    const [isSelectAll, setIsSelectAll] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const formikRef = useRef<FormikProps<any>>(null)
 
@@ -62,8 +62,24 @@ const PaymentAccounting = () => {
         // eslint-disable-next-line
     }, [currentPage]);
 
-    const columns = (renderAction: any) => {
+    const columns = (renderAction: any, renderCheckbox: any, ) => {
         const col = [
+            {
+                field: "id",
+                headerName: (
+                    <Checkbox
+                        color="primary"
+                        checked={isSelectAll}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+                    />
+                ),
+                sortable: false,
+                renderCell: renderCheckbox,
+                headerClassName: "headerClassName",
+                maxWidth: 80,
+                flex: 1
+            },
+
             {
                 field: "receivePayCode",
                 renderCell: (params: any) => {
@@ -173,32 +189,6 @@ const PaymentAccounting = () => {
                 minWidth: 100,
                 flex: 1
             },
-            // {
-            //     field: "isAccountingApproval",
-            //     headerName: "تایید حسابداری؟",
-            //     renderCell: (params: any) => {
-            //         return (
-            //             <ActiveText
-            //                 params={params}
-            //                 successTitle="بله"
-            //                 dangerTitle="خیر"
-            //             />
-            //         );
-            //     },
-            //     headerClassName: "headerClassName",
-            //     minWidth: 100,
-            //     flex: 1
-            // },
-            // {
-            //     field: "accountingApprovalDate",
-            //     renderCell: (params: any) => {
-            //         return <Typography variant="h4">{params.value}</Typography>;
-            //     },
-            //     headerName: "تاریخ تایید حسابداری",
-            //     headerClassName: "headerClassName",
-            //     minWidth: 160,
-            //     flex: 1
-            // },
             {
                 headerName: "جزئیات",
                 renderCell: renderAction,
@@ -227,9 +217,10 @@ const PaymentAccounting = () => {
             
         );
     };
+
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
-      };
+    };
     
     const handleFilter = (values: any) => {
         const filters: any = {
@@ -241,17 +232,72 @@ const PaymentAccounting = () => {
         }
         getReceivePayments(filters)
     }
-    
-    // const handleFilterChange = (event: any, values: any) => {
-    //     const filters: any = {
-    //         isApproved: +event,
-    //         fromDate: values.fromDate,
-    //         toDate: values.toDate,
-    //         pageNumber: currentPage,
-    //         pageSize: 100,
-    //     }
-    //     getReceivePayments(filters)
-    // }
+
+    const renderCheckbox = (item: any) => {
+        const isChecked = isSelectAll ?
+            selectedIds.length === results.length :
+            selectedIds.includes(item.row.id);
+
+        return (
+            <div className="flex justify-center items-center gap-x-4">
+                <Checkbox
+                    checked={isChecked}
+                    onChange={() => {
+                        if (isSelectAll) {
+                            handleHeaderCheckboxClick(isChecked);
+                        } else {
+                            handleCheckboxClick(item.row.id);
+                        }
+                    }}
+                />
+            </div>
+        );
+    };
+
+    const handleHeaderCheckboxClick = (isChecked: boolean) => {
+        const allIds = results.map((item: any) => item.id);
+        setSelectedIds(isChecked ? allIds : []);
+        setIsSelectAll(isChecked);
+    };
+
+    useEffect(() => {
+        handleHeaderCheckboxClick(isSelectAll)
+        // eslint-disable-next-line
+    }, [isSelectAll])
+
+    const handleCheckboxClick = (id: any) => {
+        const currentIndex = selectedIds.indexOf(id);
+        const newSelectedIds = [...selectedIds];
+
+        if (currentIndex === -1) {
+            newSelectedIds.push(id);
+        } else {
+            newSelectedIds.splice(currentIndex, 1);
+        }
+
+        setSelectedIds(newSelectedIds);
+    };
+
+
+    const onSubmit = () => {
+        if (selectedIds.length === 0) {
+            EnqueueSnackbar("لطفا سندی را برای ثبت انتخاب کنید", "warning")
+        } else {
+            const filters: any = {
+                ids: selectedIds,
+            }
+            approveReceivePay.mutate(filters, {
+                onSuccess: (response) => {
+                    if (response?.succeeded) {
+                        renderAlert(response.message)
+                        setIsOpen(false)
+                    } else {
+                        EnqueueSnackbar(response.data.Message, "warning")
+                    }
+                }
+            })
+        }
+    }
 
     return (
         <>
@@ -265,14 +311,6 @@ const PaymentAccounting = () => {
                                 <FormikDatepicker name="toDate" label="تا تاریخ" />
                             </div>
                             <div className="flex justify-end items-end my-4">
-                                {/* <RadioGroup
-                                    categories={categories}
-                                    onChange={(event: any)=> handleFilterChange(event, values)}
-                                    id="isApproved"
-                                    key="isApproved"
-                                    name="isApproved"
-                                /> */}
-
                                 <ButtonComponent onClick={() => handleFilter(values)}>
                                   <Typography className="!text-white">جستجو</Typography>  
                                 </ButtonComponent>
@@ -281,12 +319,27 @@ const PaymentAccounting = () => {
                     }}
                 </Formik>
                 <MuiDataGrid
-                    columns={columns(renderActions)}
+                    columns={columns(renderActions, renderCheckbox)}
                     rows={results}
                     data={data?.data}
                 />
+                <div className="flex justify-end items-end">
+                    <Button className="!bg-green-500" onClick={() => setIsOpen(true)}>
+                        <DoneAll className="text-white" />
+                        <Typography className="text-white">ثبت</Typography>
+                    </Button>
+                </div>
                 <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
             </ReusableCard>
+            <ConfirmDialog
+                open={isOpen}
+                hintTitle="آیا از تایید سند دریافت و پرداخت مطمئن هستید؟"
+                notConfirmText="لغو"
+                confirmText={approveReceivePay?.isLoading ? "درحال پردازش ..." : "تایید"}
+                onCancel={() => setIsOpen(false)}
+                onConfirm={() => onSubmit()}
+            />
+
         </>
     );
 };

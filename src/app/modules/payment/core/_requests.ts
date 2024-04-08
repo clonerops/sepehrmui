@@ -55,9 +55,9 @@ const deleteRecievePaymentById = async (id:string) => {
     }
 }
 
-const updatePaymentApproved = async (id:string) => {
+const updatePaymentApproved = async (id:string[]) => {
     try {
-        const { data } = await http.put(`/v1/ReceivePay/ReceivePayApprove`, JSON.stringify({ids: [id]}))
+        const { data } = await http.put(`/v1/ReceivePay/ReceivePayApprove`, JSON.stringify(id))
         return data
     } catch (error: any) {
         return error.response
