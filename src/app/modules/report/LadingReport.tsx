@@ -1,6 +1,6 @@
 // import { useState } from 'react'
-import { Form, Formik } from 'formik'
-import { Box, Button, Typography } from '@mui/material'
+import {  Formik } from 'formik'
+import { Button, Typography } from '@mui/material'
 import { Search, Visibility } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useGetLadingLicenceList } from '../logestic/core/_hooks'
@@ -38,12 +38,12 @@ const LadingReport = () => {
             
             <Formik initialValues={{}} onSubmit={() => {}}>
                 {({}) => {
-                    return <Form>
-                        <Box component="div" className='flex gap-4 w-[50%]'>
+                    return <form>
+                        <div className='flex gap-4 w-[50%]'>
                             <FormikInput name="orderCode" label="شماره سفارش" />
                             <Button><Typography><Search /></Typography></Button>
-                        </Box>
-                    </Form>
+                        </div>
+                    </form>
                 }}
             </Formik>
 

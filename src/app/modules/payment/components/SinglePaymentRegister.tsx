@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import { useParams } from "react-router-dom"
-import { Badge, Box, Button, Typography } from "@mui/material"
+import { Badge, Button, Typography } from "@mui/material"
 import { useGetRecievePaymentById, usePutRecievePaymentRegister } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
@@ -157,7 +157,7 @@ const SinglePaymentRegister = () => {
                 </Badge>
             </div>
 
-            <Box component="div" className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
                 {fieldsValue.map((item: any) =>
                     <CardWithIcons
                         title={item.title}
@@ -174,12 +174,12 @@ const SinglePaymentRegister = () => {
                         iconClassName="bg-[#ECEFF3]"
                     />
                 </div>
-            </Box>
-            <Box component="div" className="md:flex md:justify-end md:items-end gap-x-4 py-4">
+            </div>
+            <div className="md:flex md:justify-end md:items-end gap-x-4 py-4">
                 <Button variant="contained" disabled={data?.data?.receivePayStatusId >= 3} onClick={() => setIsOpen(true)} className='mb-2' color="secondary">
                     <Typography>{"ثبت سند حسابداری"}</Typography>
                 </Button>
-            </Box>
+            </div>
             <TransitionsModal
                 open={isOpen}
                 isClose={() => setIsOpen(false)}

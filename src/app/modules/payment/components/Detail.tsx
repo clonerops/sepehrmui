@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { Badge, Box, Button, Typography } from "@mui/material"
+import { Badge, Button, Typography } from "@mui/material"
 import { useDisApprovePaymentApproved, useGetRecievePaymentById, useUpdatePaymentApproved } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
@@ -12,7 +12,6 @@ import { useState } from "react"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import { Formik } from "formik"
 import FormikDescription from "../../../../_cloner/components/FormikDescription"
-import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 
 const Detail = () => {
     const [approve, setApprove] = useState<boolean>(false);
@@ -165,7 +164,7 @@ const Detail = () => {
         <>
             {fetchingLaoding && <Backdrop loading={fetchingLaoding} />}
             <Typography color="primary" variant="h1" className="pb-8">جزئیات و ثبت تایید دریافت و پرداخت</Typography>
-            <Box component="div" className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
                 {fieldsValue.map((item: any) =>
                     <CardWithIcons
                         title={item.title}
@@ -190,8 +189,8 @@ const Detail = () => {
                         iconClassName="bg-[#ECEFF3]"
                     />
                 </div>
-            </Box>
-            <Box component="div" className="md:flex md:justify-end md:items-end gap-x-4 py-4">
+            </div>
+            <div className="md:flex md:justify-end md:items-end gap-x-4 py-4">
                 <Badge badgeContent={data?.data?.attachments.length || 0} color="secondary">
                     <Button variant="contained" onClick={hadelDownload} className='mb-2' color="primary">
                         <Typography>{"دانلود ضمیمه ها"}</Typography>
@@ -203,7 +202,7 @@ const Detail = () => {
                 <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
                     <Typography>{rejectLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
                 </Button>
-            </Box>
+            </div>
             <ConfirmDialog
                 open={approve}
                 hintTitle="آیا از تایید سند دریافت و پرداخت مطمئن هستید؟"

@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import {  Formik } from "formik";
 import { useGetUpdateUser, useGetUserDetail, useRegisterUser } from "../core/_hooks";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
@@ -179,17 +179,15 @@ const UserForm = (props: Props) => {
                                     return (
                                         <>
                                             {fields.map((rowFields) => (
-                                                <Box
-                                                    component="div"
+                                                <div
                                                     className="flex items-start gap-x-4 my-4 justify-between"
                                                 >
                                                     {rowFields.map((field) =>
                                                         parseFields(field)
                                                     )}
-                                                </Box>
+                                                </div>
                                             ))}
-                                            <Box
-                                                component="div"
+                                            <div
                                                 className="flex justify-end items-end"
                                             >
                                                 <Button
@@ -204,7 +202,7 @@ const UserForm = (props: Props) => {
                                                         {isNew ? "ثبت کاربر جدید" : "ویرایش کاربر"}
                                                     </Typography>
                                                 </Button>
-                                            </Box>
+                                            </div>
                                         </>
                                     );
                                 }}

@@ -1,5 +1,4 @@
-import { Container, Typography, Button, TextField, Box } from "@mui/material";
-import React from "react";
+import { Container, Typography, Button, TextField } from "@mui/material";
 
 const ChangePassword = () => {
     return (
@@ -9,7 +8,7 @@ const ChangePassword = () => {
                     تغییر کلمه عبور
                 </Typography>
                 <Container className="my-8">
-                    <Box component="div" className="mt-4">
+                    <div className="mt-4">
                         <TextField
                             fullWidth
                             color="primary"
@@ -17,8 +16,8 @@ const ChangePassword = () => {
                             label={"کد فعالسازی"}
                             variant="outlined"
                         />
-                    </Box>
-                    <Box component="div" className="mt-4">
+                    </div>
+                    <div className="mt-4">
                         <TextField
                             fullWidth
                             color="primary"
@@ -26,8 +25,8 @@ const ChangePassword = () => {
                             label={"کلمه عبور"}
                             variant="outlined"
                         />
-                    </Box>
-                    <Box component="div" className="mt-4">
+                    </div>
+                    <div className="mt-4">
                         <TextField
                             fullWidth
                             color="primary"
@@ -35,7 +34,7 @@ const ChangePassword = () => {
                             label={"تکرار کلمه عبور "}
                             variant="outlined"
                         />
-                    </Box>
+                    </div>
                     <Button color="primary" className="mt-4 text-black font-bold font-boldpx-8 py-2">
                         {"تغییر کلمه عبور"}
                     </Button>

@@ -1,8 +1,7 @@
 import * as Yup from "yup";
-import { useState } from "react";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useRegisterUser } from "../core/_hooks";
-import { Box, Button, Card, Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
@@ -61,21 +60,21 @@ const CreateUser = () => {
                         }
                     }}>
                         {({ handleSubmit }) => {
-                            return <Form onSubmit={handleSubmit}>
-                                <Box component="div" className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
+                            return <form onSubmit={handleSubmit}>
+                                <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
                                     <FormikInput boxClassName="m-2" name="firstName" label="نام" />
                                     <FormikInput boxClassName="m-2" name="lastName" label="نام خانوادگی" />
                                     <FormikInput boxClassName="m-2" name="email" label="ایمیل" />
                                     <FormikInput boxClassName="m-2" name="userName" label="نام کاربری" />
                                     <FormikInput boxClassName="m-2" name="password" label="کلمه عبور" type="password" />
                                     <FormikInput boxClassName="m-2" name="confirmPassword" label="تکرار کلمه عبور" type="password" />
-                                </Box>
-                                <Box component="div" className="flex justify-end items-end">
+                                </div>
+                                <div className="flex justify-end items-end">
                                     <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                                         <Typography variant="h3" className="px-8 py-1">ثبت کاربر</Typography>
                                     </Button>
-                                </Box>
-                            </Form>
+                                </div>
+                            </form>
                         }}
                     </Formik>
                 </ReusableCard>

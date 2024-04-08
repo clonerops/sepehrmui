@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { Button, Modal, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ShieldIcon from "@mui/icons-material/Shield";
 import { Link } from "react-router-dom";
@@ -34,7 +34,7 @@ const Users = () => {
 
   const renderActions = (item: {row: {id: string, firstName: string, lastName: string}}) => {
     return (
-      <Box component="div">
+      <>
         <Button onClick={() => onHandleUpdateModal(item.row.id)}>
           <EditIcon color="warning" />
         </Button>
@@ -48,15 +48,14 @@ const Users = () => {
           </Button>
         </Link>
         {/* <Switch /> */}
-      </Box>
+      </>
     );
   };
 
   return (
     <ReusableCard>
       <>
-        <Box
-          component="div"
+        <div
           className="flex flex-col md:flex-row justify-center items-center gap-x-8 py-4 md:space-y-0 space-y-4 "
         >
           <FuzzySearch<IUser>
@@ -71,20 +70,20 @@ const Users = () => {
             >
               <Typography variant="body1">ایجاد کاربر جدید</Typography>
             </Button>
-        </Box>
-        <Box component="div" className="md:grid grid-cols-1 md:grid-cols-3 gap-x-4">
-          <Box component="div" className="md:col-span-2"> 
+        </div>
+        <div className="md:grid grid-cols-1 md:grid-cols-3 gap-x-4">
+          <div className="md:col-span-2"> 
             <MuiDataGrid
               columns={userListColumns(renderActions)}
               rows={results}
               data={usersTools?.data?.data}
               isLoading={usersTools.isLoading}
             />
-          </Box>
-          <Box component="div" className="md:flex md:justify-center md:items-center hidden"> 
+          </div>
+          <div className="md:flex md:justify-center md:items-center hidden"> 
             <img src={toAbsoulteUrl('/media/images/566.jpg')} width={400} height={400} />
-          </Box>
-        </Box>
+          </div>
+        </div>
       </>
       {/* Create User Modal */}
       {createUserOpen &&
