@@ -1,9 +1,9 @@
 import { Box, FormControlLabel, Switch, Typography } from "@mui/material"
 import { useDeleteRoleMenu, useGetAllApplicationMenus, useGetRoleMenusById, usePostRoleMenus } from "./_hooks"
-import { TreeView } from '@mui/x-tree-view/TreeView';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import {  Formik } from "formik";
 import { useEffect, useState } from "react";
 import { IRoleMenu } from "./_models";
@@ -72,14 +72,14 @@ const Menus = (props: Props) => {
   return (
     <>
         <Box sx={{ minHeight: 180, flexGrow: 1}}>
-        <TreeView
+        <SimpleTreeView
             aria-label="file system navigator"
-            defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultExpandIcon={<ChevronRightIcon />}
+            // defaultCollapseIcon={<ExpandMoreIcon />}
+            // defaultExpandIcon={<ChevronRightIcon />}
         >
             {appAllMenu?.data?.map((item: {id: string, description: string, children: any[]}) => (
                 // <TreeItem className="my-4" nodeId={item.id} label={`${item.description} ---- ${roleIds.length} منو از ${item?.children?.length} منوی موجود دسترسی داده  شده است`}>
-                <TreeItem className="my-4" nodeId={item.id} label={`${item.description}`}>
+                <TreeItem className="my-4" itemId={item.id} label={`${item.description}`}>
                     <div>
                     <Formik initialValues={initialValues} onSubmit={() => {}}>
                 {({ handleSubmit }) => {
@@ -123,7 +123,7 @@ const Menus = (props: Props) => {
                     </div>
                 </TreeItem>
             ))}
-        </TreeView>
+        </SimpleTreeView>
         </Box>
 
     </>

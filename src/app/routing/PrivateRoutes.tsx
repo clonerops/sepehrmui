@@ -2,6 +2,7 @@ import React from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
 import OrganizationBank from "../modules/generic/organizationBank/OrganizationBank";
+import ExitList from "../modules/logestic/exit/ExitList";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -243,6 +244,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/exit/:id", element: <ExitRemittance /> },
     { path: "dashboard/ladingReport", element: <LadingReport /> },
     { path: "dashboard/lading_list", element: <LadingList /> },
+    { path: "dashboard/exit_list", element: <ExitList /> },
     { path: "dashboard/exitRemittanceList", element: <ExitRemittanceList /> },
     { path: "dashboard/payment", element: <RecievePayment /> },
     { path: "dashboard/payment/accounting", element: <PaymentAccounting /> },

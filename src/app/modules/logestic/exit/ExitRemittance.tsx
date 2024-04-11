@@ -226,20 +226,21 @@ const ExitRemiitance = () => {
         const formData: IExitRemittance = {
             ladingLicenseId: +id,
             bankAccountNo: values.bankAccountNo,
-            bankAccountOwnerName: "",
+            bankAccountOwnerName: values.bankAccountOwnerName,
             creditCardNo: values.creditCardNo,
-            fareAmount: values.fareAmount,
-            otherAmount: values.otherAmount,
+            fareAmount: +values.fareAmount,
+            otherAmount: +values.otherAmount,
+            hasExitPermit: true,
             description: values.description,
             attachments: attachments,
-            cargoExitPermitDetails: ladingList.map((item: any) => ({
+            ladingExitPermitDetails: ladingList.map((item: any) => ({
                 ladingLicenseDetailId: +item?.id,
                 realAmount: +item.realAmount,
                 productSubUnitId: +item.productSubUnitId,
                 productSubUnitAmount: +item.productSubUnitAmount,
             })),
         };
-
+        console.log(JSON.stringify(formData))
         postExitRemittance.mutate(formData, {
             onSuccess: (res) => {
                 if (res.succeeded) {
@@ -339,11 +340,15 @@ const ExitRemiitance = () => {
                             <Form className="mt-8">
                                 <div
                                     // className="flex items-center justify-center gap-x-4 mb-4"
-                                    className="grid grid-cols-1 md:grid-cols-4 gap-x-4 mb-4 md:space-y-0 space-y-4"
+                                    className="grid grid-cols-1 md:grid-cols-5 gap-x-4 mb-4 md:space-y-0 space-y-4"
                                 >
                                     <FormikInput
                                         name="bankAccountNo"
                                         label="شماره حساب راننده"
+                                    />
+                                    <FormikInput
+                                        name="bankAccountOwnerName"
+                                        label="صاحب حساب"
                                     />
                                     <FormikInput
                                         name="creditCardNo"

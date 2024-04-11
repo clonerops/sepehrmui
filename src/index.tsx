@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import React from "react";
 import theme from "./_cloner/theme/theme";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";

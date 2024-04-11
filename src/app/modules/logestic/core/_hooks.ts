@@ -89,6 +89,15 @@ const useDeleteLadingLicenceById = () => {
     });
 };
 
+// Exit Remittance
+const useGetExitRemittanceList = () => {
+    return useQuery(["ExitRemiitance"], () => api.getExitRemittanceList(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
+};
+
 const usePostExitRemiitance = () => {
     return useMutation((formData: IExitRemittance) => {
         return api.postExitRemittance(formData);
@@ -166,6 +175,7 @@ export {
     useGetLadingLicenceById,
     useEditLadingLicence,
     useDeleteLadingLicenceById,
+    useGetExitRemittanceList,
     usePostExitRemiitance,
     usePostTransferRemittance,
     useGetTransferRemitances,

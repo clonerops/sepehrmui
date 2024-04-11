@@ -11,8 +11,8 @@ import CheckboxGroup from "../../../../_cloner/components/CheckboxGroup"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import FileSystemNavigator from "../../../../_cloner/components/TreeView"
 import Menus from "../menus/Menus"
-import { TreeItem, TreeView } from "@mui/x-tree-view"
-import { ChevronRight, ExpandMore } from "@mui/icons-material"
+import { TreeItem, SimpleTreeView } from "@mui/x-tree-view"
+// import { ChevronRight, ExpandMore } from "@mui/icons-material"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 
 type Props = {
@@ -91,13 +91,13 @@ const GroupEditForm = (props: Props) => {
 
                             {!mode ? (
                                 <>
-                                    <TreeView
+                                    <SimpleTreeView
                                         aria-label="file system navigator"
-                                        defaultCollapseIcon={<ExpandMore />}
-                                        defaultExpandIcon={<ChevronRight />}
+                                        // defaultCollapseIcon={<ExpandMore />}
+                                        // defaultExpandIcon={<ChevronRight />}
                                     >
                                         {appAllMenu?.data?.map((item: { applicationMenuId: string, applicationMenuName: string, description: string, permissions: any[] }) => (
-                                            <TreeItem className="!my-4 !p-4 !bg-gray-100 !rounded-lg" nodeId={item.applicationMenuId} label={`${item.applicationMenuName}`}>
+                                            <TreeItem className="!my-4 !p-4 !bg-gray-100 !rounded-lg" itemId={item.applicationMenuId} label={`${item.applicationMenuName}`}>
                                                 <div>
                                                     <div className="w-full !p-4"
                                                     >
@@ -113,7 +113,7 @@ const GroupEditForm = (props: Props) => {
                                                 </div>
                                             </TreeItem>
                                         ))}
-                                    </TreeView>
+                                    </SimpleTreeView>
 
                                     <div className="flex flex-row justify-end items-center gap-x-4">
                                         <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white">

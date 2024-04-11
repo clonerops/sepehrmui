@@ -111,6 +111,8 @@
 
 .MuiDataGrid-cell {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .MuiSelect-root {

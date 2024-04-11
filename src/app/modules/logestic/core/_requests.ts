@@ -125,10 +125,15 @@ const deleteLadingLicenceById = async (id: string) => {
 };
 
 // exit remittance
+const getExitRemittanceList = async () => {
+    const { data } = await http.get("/v1/LadingExitPermit");
+    return data;
+};
+
 const postExitRemittance = async (formdata: IExitRemittance) => {
     try {
-        const { data } = await http.put(
-            `/v1/LadingLicense/LadingExitPermit/${formdata.ladingLicenseId}`,
+        const { data } = await http.post(
+            `/v1/LadingExitPermit`,
             JSON.stringify(formdata)
         );
         return data;
@@ -228,6 +233,7 @@ export {
     getLadingLicenceById,
     editLadingLicence,
     deleteLadingLicenceById,
+    getExitRemittanceList,
     postExitRemittance,
     postTransferRemittance,
     getTransferRemitances,

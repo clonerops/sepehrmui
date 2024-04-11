@@ -387,6 +387,41 @@ export const ladingColumns = (renderAction: any) => {
     ]
     return col
 }
+export const exitColumns = (renderAction: any) => {
+    const col = [
+        {
+            field: 'ladingLicenseId', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 100,  flex: 1
+        },
+        {
+            field: 'bankAccountNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره حساب', headerClassName: "headerClassName", minWidth: 100,  flex: 1
+        },
+        {
+            field: 'bankAccountOwnerName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'صاحب حساب', headerClassName: "headerClassName", minWidth: 100,  flex: 1
+        },
+        {
+            field: 'fareAmount', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نرخ کرایه', headerClassName: "headerClassName", minWidth: 100,  flex: 1
+        },
+        {
+            field: 'otherAmount', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 100,  flex: 1
+        },
+    ]
+    return col
+}
 
 export const ladingReportColumns = (renderAction: any) => {
     const col = [
