@@ -7,7 +7,7 @@ import ExitList from "../modules/logestic/exit/ExitList";
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
 const Shareholders = React.lazy(() => import("../modules/generic/shareHolders/Shareholders"));
-const Slanderers = React.lazy(() => import("../modules/generic/slanderer/Slanderers"));
+const PettyCashs = React.lazy(() => import("../modules/generic/pettyCash/PettyCashes"));
 const CashDesks = React.lazy(() => import("../modules/generic/cashDesk/CashDesk"));
 const InComs = React.lazy(() => import("../modules/generic/inCome/InCome"));
 const Costs = React.lazy(() => import("../modules/generic/cost/Cost"));
@@ -227,7 +227,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/products", element: <Products /> },
     { path: "dashboard/organizationBank", element: <OrganizationBank /> },
     { path: "dashboard/shareholders", element: <Shareholders /> },
-    { path: "dashboard/slanderer", element: <Slanderers /> },
+    { path: "dashboard/pettyCash", element: <PettyCashs /> },
     { path: "dashboard/cashDesk", element: <CashDesks /> },
     { path: "dashboard/income", element: <InComs /> },
     { path: "dashboard/cost", element: <Costs /> },

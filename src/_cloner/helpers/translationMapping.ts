@@ -56,7 +56,7 @@ export const translationMapping: any = {
     income: "ثبت و ویرایش درآمد",
     cost: "ثبت و ویرایش هزینه",
     shareholders: "ثبت و ویرایش سهامداران",
-    slanderer: "ثبت و ویرایش تنخواه گردان",
+    PettyCash: "ثبت و ویرایش تنخواه گردان",
 
     // Add more translations as needed
   };

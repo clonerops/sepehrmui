@@ -9,17 +9,17 @@ import FormikInput from "../../../../_cloner/components/FormikInput";
 import { Button, Typography } from "@mui/material";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import { ISlanderer } from "./_models";
+import { IPettyCash } from "./_models";
 import { createProductValidations } from "./_validations";
 import Backdrop from "../../../../_cloner/components/Backdrop";
-import { useGetSlandererById, usePostSlanderer, usePutSlanderer } from "./_hooks";
+import { useGetPettyCashById, usePostPettyCash, usePutPettyCash } from "./_hooks";
 
 const initialValues = {
     mobileNo: "", 
-    slandererDescription: "", 
+    PettyCashDescription: "", 
 };
 
-const SlandererForm = (props: {
+const PettyCashForm = (props: {
     id?: number | undefined
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
     refetch: <TPageData>(
@@ -27,15 +27,15 @@ const SlandererForm = (props: {
     ) => Promise<QueryObserverResult<any, unknown>>;
 }) => {
     // Fetchig
-    const { mutate, isLoading: postLoading } = usePostSlanderer();
-    const updateTools = usePutSlanderer();
-    const detailTools = useGetSlandererById()
+    const { mutate, isLoading: postLoading } = usePostPettyCash();
+    const updateTools = usePutPettyCash();
+    const detailTools = useGetPettyCashById()
 
     const isNew = !props.id
 
     const fields: FieldType[][] = [
         [
-            { label: "نام تنخواه گردان", name: "slandererDescription", type: "input" },
+            { label: "نام تنخواه گردان", name: "PettyCashDescription", type: "input" },
             { label: "شماره موبایل", name: "mobileNo", type: "input" },
         ],
        
@@ -67,7 +67,7 @@ const SlandererForm = (props: {
     }, [props.id]);
 
 
-    const onUpdate = (values: ISlanderer) => {
+    const onUpdate = (values: IPettyCash) => {
         try {
             return updateTools.mutate(values, {
                 onSuccess: (response) => {
@@ -87,7 +87,7 @@ const SlandererForm = (props: {
         }
     };
 
-    const onAdd = (values: ISlanderer) => {
+    const onAdd = (values: IPettyCash) => {
         try {
             return mutate(values, {
                 onSuccess: (response) => {
@@ -107,7 +107,7 @@ const SlandererForm = (props: {
         }
     };
 
-    const handleSubmit = (values: ISlanderer) => {
+    const handleSubmit = (values: IPettyCash) => {
         if (props.id) onUpdate(values);
         else onAdd(values);
     };
@@ -157,4 +157,4 @@ const SlandererForm = (props: {
     );
 };
 
-export default SlandererForm;
+export default PettyCashForm;

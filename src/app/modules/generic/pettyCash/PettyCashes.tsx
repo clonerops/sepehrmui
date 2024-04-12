@@ -7,34 +7,34 @@ import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { ISlanderer } from "./_models";
-import { useDeleteSlanderer, useGetSlandererList, usePutSlanderer } from "./_hooks";
+import { IPettyCash } from "./_models";
+import { useDeletePettyCash, useGetPettyCashList, usePutPettyCash } from "./_hooks";
 import DeleteGridButton from "../../../../_cloner/components/DeleteGridButton";
-import SlandererForm from "./SlandererForm";
+import PettyCashForm from "./PettyCashForm";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import SwitchComponent from "../../../../_cloner/components/Switch";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 
-const Slanderers = () => {
-    const { data: slanderer, refetch } = useGetSlandererList();
-    const { mutate, isLoading: deleteLoading } = useDeleteSlanderer();
-    const updateTools = usePutSlanderer();
+const PettyCashs = () => {
+    const { data: PettyCash, refetch } = useGetPettyCashList();
+    const { mutate, isLoading: deleteLoading } = useDeletePettyCash();
+    const updateTools = usePutPettyCash();
 
-    const [results, setResults] = useState<ISlanderer[]>([]);
+    const [results, setResults] = useState<IPettyCash[]>([]);
 
     useEffect(() => {
-        setResults(slanderer?.data);
+        setResults(PettyCash?.data);
          // eslint-disable-next-line
-    }, [slanderer]);
+    }, [PettyCash]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-    const [itemForEdit, setItemForEdit] = useState<ISlanderer>();
+    const [itemForEdit, setItemForEdit] = useState<IPettyCash>();
 
     const columns = (renderAction: any) => {
         const col = [
             {
-                field: "slandererDescription",
+                field: "pettyCashDescription",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },
@@ -67,7 +67,7 @@ const Slanderers = () => {
         return col;
     };
 
-    const handleEdit = (item: ISlanderer) => {
+    const handleEdit = (item: IPettyCash) => {
         setIsEditOpen(true);
         setItemForEdit(item);
     };
@@ -84,7 +84,7 @@ const Slanderers = () => {
           const formData = {
             id: rowData.row.id,
             mobileNo: rowData.row.mobileNo,
-            slandererDescription: rowData.row.slandererDescription,
+            PettyCashDescription: rowData.row.PettyCashDescription,
             isActive: !rowData.row.isActive
           }
           updateTools.mutate(formData, {
@@ -130,9 +130,9 @@ const Slanderers = () => {
                         <FuzzySearch
                             keys={[
                                 "mobileNo",
-                                "slandererDescription",
+                                "PettyCashDescription",
                             ]}
-                            data={slanderer?.data}
+                            data={PettyCash?.data}
                             setResults={setResults}
                         />
                     </div>
@@ -146,7 +146,7 @@ const Slanderers = () => {
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
-                    data={slanderer?.data}
+                    data={PettyCash?.data}
                 />
                 </ReusableCard>
                 <ReusableCard cardClassName='lg:flex gap-4 hidden'>
@@ -179,7 +179,7 @@ const Slanderers = () => {
                 width="60%"
                 description="لطفاً مشخصات تنخواه گردان را با دقت وارد کنید اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
-                <SlandererForm
+                <PettyCashForm
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
@@ -191,7 +191,7 @@ const Slanderers = () => {
                 width="60%"
                 description=" درصورتی که تنخواه گردانی نیاز به ویرایش داشته باشد می توانید از طریق فرم زیر اقدام به ویرایش تنخواه گردان نمایید"
             >
-                <SlandererForm
+                <PettyCashForm
                     id={itemForEdit?.id}
                     refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
@@ -201,4 +201,4 @@ const Slanderers = () => {
     );
 };
 
-export default Slanderers;
+export default PettyCashs;

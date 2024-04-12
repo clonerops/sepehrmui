@@ -24,6 +24,12 @@ import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount
 import useBase64toFile from '../../../_cloner/helpers/convertBaseToFile'
 import ConfirmDialog from '../../../_cloner/components/ConfirmDialog'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'
+import FormikOrganzationBank from '../../../_cloner/components/FormikOrganzationBank'
+import FormikCashDesk from '../../../_cloner/components/FormikCashDesk'
+import FormikIncome from '../../../_cloner/components/FormikIncome'
+import FormikPettyCash from '../../../_cloner/components/FormikPettyCash'
+import FormikCost from '../../../_cloner/components/FormikCost'
+import FormikShareholders from '../../../_cloner/components/FormikShareholders'
 
 
 const RecievePaymentEdit = () => {
@@ -65,10 +71,14 @@ const RecievePaymentEdit = () => {
 
     const formData = new FormData()
     formData.append("Id", id)
-    formData.append("ReceiveFromCustomerId", formikRef?.current?.values?.receiveFromCustomerId.value ? formikRef?.current?.values?.receiveFromCustomerId.value : formikRef?.current?.values?.receiveFromCustomerIdForm === "" ? "" : formikRef?.current?.values?.receiveFromCustomerIdForm)
-    formData.append("PayToCustomerId", formikRef?.current?.values?.payToCustomerId.value ? formikRef?.current?.values?.payToCustomerId.value : formikRef?.current?.values?.payToCustomerIdForm === "" ? "" : formikRef?.current?.values?.payToCustomerIdForm)
-    formData.append("ReceivePaymentSourceFromId", formikRef?.current?.values?.receivePaymentSourceFromId ? +formikRef?.current?.values?.receivePaymentSourceFromId : detailTools?.data?.data?.receivePaymentSourceFromId)
-    formData.append("ReceivePaymentSourceToId", formikRef?.current?.values?.receivePaymentSourceToId ? formikRef?.current?.values?.receivePaymentSourceToId : detailTools?.data?.data?.receivePaymentSourceToId)
+    // formData.append("ReceiveFromCustomerId", formikRef?.current?.values?.receiveFromCustomerId.value ? formikRef?.current?.values?.receiveFromCustomerId.value : formikRef?.current?.values?.receiveFromCustomerIdForm === "" ? "" : formikRef?.current?.values?.receiveFromCustomerIdForm)
+    // formData.append("PayToCustomerId", formikRef?.current?.values?.payToCustomerId.value ? formikRef?.current?.values?.payToCustomerId.value : formikRef?.current?.values?.payToCustomerIdForm === "" ? "" : formikRef?.current?.values?.payToCustomerIdForm)
+    // formData.append("ReceivePaymentSourceFromId", formikRef?.current?.values?.receivePaymentSourceFromId ? +formikRef?.current?.values?.receivePaymentSourceFromId : detailTools?.data?.data?.receivePaymentSourceFromId)
+    // formData.append("ReceivePaymentSourceToId", formikRef?.current?.values?.receivePaymentSourceToId ? formikRef?.current?.values?.receivePaymentSourceToId : detailTools?.data?.data?.receivePaymentSourceToId)
+    formData.append("ReceivePaymentTypeFromId", formikRef?.current?.values.receivePaymentTypeFromId)
+    formData.append("ReceivePaymentTypeToId", formikRef?.current?.values.receivePaymentTypeToId)
+    formData.append("ReceiveFromId", formikRef?.current?.values.receivePaymentTypeFromId === 1 ? formikRef?.current?.values.receiveFromId.value : formikRef?.current?.values.receiveFromId)
+    formData.append("PayToId", formikRef?.current?.values.receivePaymentTypeToId === 1 ? formikRef?.current?.values.payToId.value : formikRef?.current?.values.payToId)
     formData.append("Amount", formikRef?.current?.values?.amount ? +formikRef?.current?.values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
     formData.append("AccountOwner", formikRef?.current?.values?.accountOwner ? formikRef?.current?.values?.accountOwner : detailTools?.data?.data?.accountOwner)
     formData.append("TrachingCode", formikRef?.current?.values?.trachingCode ? formikRef?.current?.values?.trachingCode : detailTools?.data?.data?.trachingCode)
@@ -126,6 +136,31 @@ const RecievePaymentEdit = () => {
 
     }
 
+    const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
+        switch (receivePaymentSourceId) {
+            case 1:
+                return <FormikCustomer name={customerIdFieldName} label={label} />;
+            case 2:
+                return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
+            case 3:
+                return <FormikCashDesk name={customerIdFieldName} label={label} />;
+            case 4:
+                return <FormikIncome name={customerIdFieldName} label={label} />;
+            case 5:
+                return <FormikPettyCash name={customerIdFieldName} label={label} />;
+            case 6:
+                return <FormikCost name={customerIdFieldName} label={label} />;
+            case 7:
+                return <FormikShareholders name={customerIdFieldName} label={label} />;
+            case 8:
+                return <FormikShareholders name={customerIdFieldName} label={label} />;
+            default:
+                return <FormikInput name={customerIdFieldName} label={label} disabled={true} />;
+        }
+    };
+
+
+
     const handleDisApproveConfirm = (values: any) => {
         const formData = {
             id: id,
@@ -179,16 +214,16 @@ const RecievePaymentEdit = () => {
                         ...initialValues,
                         ...detailTools?.data?.data,
                         amount: detailTools?.data?.data?.amount ? separateAmountWithCommas(detailTools?.data?.data?.amount) : "",
-                        receiveFromCustomerId: detailTools?.data?.data?.receiveFromCustomerName || "",
-                        receiveFromCustomerIdForm: detailTools?.data?.data?.receiveFromCustomerId || "",
-                        payToCustomerId: detailTools?.data?.data?.payToCustomerName || "",
-                        payToCustomerIdForm: detailTools?.data?.data?.payToCustomerId || "",
+                        // receiveFromCustomerId: detailTools?.data?.data?.receiveFromCustomerName || "",
+                        // receiveFromCustomerIdForm: detailTools?.data?.data?.receiveFromCustomerId || "",
+                        // payToCustomerId: detailTools?.data?.data?.payToCustomerName || "",
+                        // payToCustomerIdForm: detailTools?.data?.data?.payToCustomerId || "",
 
                     }} onSubmit={onSubmit}>
                         {({ handleSubmit, values }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
-                                    <FormikSelect name='receivePaymentSourceFromId' label='دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    {/* <FormikSelect name='receivePaymentSourceFromId' label='دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {Number(values.receivePaymentSourceFromId) === 1 &&
                                         // <FormikSelect name='ReceiveFromCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
                                         <FormikCustomer name='receiveFromCustomerId' label='نام مشتری' />
@@ -197,7 +232,12 @@ const RecievePaymentEdit = () => {
                                     {Number(values.receivePaymentSourceToId) === 1 &&
                                         <FormikCustomer name='payToCustomerId' label='نام مشتری' />
                                         // <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
-                                    }
+                                    } */}
+                                    <FormikSelect name='receivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    {renderFields("receiveFromId", "دریافت از", values.receivePaymentTypeFromId)}
+                                    <FormikSelect name='receivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    {renderFields("payToId", "پرداخت به", values.receivePaymentTypeToId)}
+
                                     <FormikInput name='accountOwner' label='صاحب حساب' type='text' />
                                     <div className='flex flex-col'>
                                         <FormikPrice name='amount' label='مبلغ' type='text' />

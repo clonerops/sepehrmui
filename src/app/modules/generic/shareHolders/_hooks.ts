@@ -1,7 +1,15 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { IShareholder, IShareholderFilter } from "./_models";
 import * as api from './_requests'
 
+const useGetShareholderListWithQuery = () => {
+    return useQuery(['shareHolders'], () => api.getShareholderList({pageNumber: 1, pageSize: 100}), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+
+};
 const useGetShareholderList = () => {
     return useMutation((formdata: IShareholderFilter) => api.getShareholderList(formdata));
 };
@@ -27,5 +35,6 @@ export {
     usePostShareHolder,
     usePutShareHolder,
     useGetShareHolderById,
-    useDeleteShareHolder
+    useDeleteShareHolder,
+    useGetShareholderListWithQuery
 }

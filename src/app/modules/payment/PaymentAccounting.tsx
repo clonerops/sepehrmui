@@ -90,16 +90,49 @@ const PaymentAccounting = () => {
                 minWidth: 80,
                 flex: 1
             },
+            // {
+            //     field: "receivePaymentSourceFromDesc",
+            //     headerName: "دریافت از",
+            //     renderCell: (value: any) => (
+            //         <Typography variant="h4">
+            //             {value.row.receivePaymentSourceFromDesc +
+            //                 " " +
+            //                 (value.row?.receivePaymentSourceFromId !== 1
+            //                     ? ""
+            //                     : value.row?.receiveFromCustomerName)}
+            //         </Typography>
+            //     ),
+            //     headerClassName: "headerClassName",
+            //     minWidth: 240,
+            //     flex: 1
+            // },
+            // {
+            //     field: "receivePaymentSourceToDesc",
+            //     renderCell: (value: any) => (
+            //         <Typography variant="h4">
+            //             {value.row.receivePaymentSourceToDesc +
+            //                 " " +
+            //                 (value.row?.receivePaymentSourceToId !== 1
+            //                     ? ""
+            //                     : value.row?.payToCustomerName)}
+            //         </Typography>
+            //     ),
+            //     headerName: "پرداخت به",
+            //     headerClassName: "headerClassName",
+            //     minWidth: 240,
+            //     flex: 1
+            // },
             {
-                field: "receivePaymentSourceFromDesc",
+                field: "receiveFromDesc",
                 headerName: "دریافت از",
                 renderCell: (value: any) => (
                     <Typography variant="h4">
-                        {value.row.receivePaymentSourceFromDesc +
-                            " " +
-                            (value.row?.receivePaymentSourceFromId !== 1
-                                ? ""
-                                : value.row?.receiveFromCustomerName)}
+                        {value.row.receiveFromDesc
+                            // " " +
+                            // (value.row?.receivePaymentTypeFromId !== 1
+                            //     ? ""
+                            //     : value.row?.receiveFromCustomerName)
+                                }
                     </Typography>
                 ),
                 headerClassName: "headerClassName",
@@ -107,10 +140,10 @@ const PaymentAccounting = () => {
                 flex: 1
             },
             {
-                field: "receivePaymentSourceToDesc",
+                field: "payToDesc",
                 renderCell: (value: any) => (
                     <Typography variant="h4">
-                        {value.row.receivePaymentSourceToDesc +
+                        {value.row.payToDesc +
                             " " +
                             (value.row?.receivePaymentSourceToId !== 1
                                 ? ""
