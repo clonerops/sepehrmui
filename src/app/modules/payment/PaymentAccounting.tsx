@@ -356,10 +356,10 @@ const PaymentAccounting = () => {
                     rows={results}
                     data={data?.data}
                 />
-                <div className="flex justify-end items-end">
-                    <Button className="!bg-green-500" onClick={() => setIsOpen(true)}>
+                <div className="flex justify-end items-end mt-8">
+                    <Button className="!bg-green-500 !px-8" onClick={() => setIsOpen(true)}>
                         <DoneAll className="text-white" />
-                        <Typography className="text-white">ثبت</Typography>
+                        <Typography className="text-white">ثبت تایید</Typography>
                     </Button>
                 </div>
                 <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
