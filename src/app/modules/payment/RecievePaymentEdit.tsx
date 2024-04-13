@@ -71,12 +71,8 @@ const RecievePaymentEdit = () => {
 
     const formData = new FormData()
     formData.append("Id", id)
-    // formData.append("ReceiveFromCustomerId", formikRef?.current?.values?.receiveFromCustomerId.value ? formikRef?.current?.values?.receiveFromCustomerId.value : formikRef?.current?.values?.receiveFromCustomerIdForm === "" ? "" : formikRef?.current?.values?.receiveFromCustomerIdForm)
-    // formData.append("PayToCustomerId", formikRef?.current?.values?.payToCustomerId.value ? formikRef?.current?.values?.payToCustomerId.value : formikRef?.current?.values?.payToCustomerIdForm === "" ? "" : formikRef?.current?.values?.payToCustomerIdForm)
-    // formData.append("ReceivePaymentSourceFromId", formikRef?.current?.values?.receivePaymentSourceFromId ? +formikRef?.current?.values?.receivePaymentSourceFromId : detailTools?.data?.data?.receivePaymentSourceFromId)
-    // formData.append("ReceivePaymentSourceToId", formikRef?.current?.values?.receivePaymentSourceToId ? formikRef?.current?.values?.receivePaymentSourceToId : detailTools?.data?.data?.receivePaymentSourceToId)
-    formData.append("ReceivePaymentTypeFromId", formikRef?.current?.values.receivePaymentTypeFromId)
-    formData.append("ReceivePaymentTypeToId", formikRef?.current?.values.receivePaymentTypeToId)
+    formData.append("ReceivePaymentTypeFromId", formikRef?.current?.values.receivePaymentTypeFromId ? formikRef?.current?.values.receivePaymentTypeFromId : detailTools?.data?.data?.receivePaymentTypeFromId)
+    formData.append("ReceivePaymentTypeToId", formikRef?.current?.values.receivePaymentTypeToId ? formikRef?.current?.values.receivePaymentTypeToId : detailTools?.data?.data?.receivePaymentTypeToId)
     formData.append("ReceiveFromId", formikRef?.current?.values.receivePaymentTypeFromId === 1 ? formikRef?.current?.values.receiveFromId.value : formikRef?.current?.values.receiveFromId)
     formData.append("PayToId", formikRef?.current?.values.receivePaymentTypeToId === 1 ? formikRef?.current?.values.payToId.value : formikRef?.current?.values.payToId)
     formData.append("Amount", formikRef?.current?.values?.amount ? +formikRef?.current?.values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
@@ -137,9 +133,14 @@ const RecievePaymentEdit = () => {
     }
 
     const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
+        let fieldName = "receiveFromId";
+        if (receivePaymentSourceId === 1 && detailTools?.data?.data?.receivePaymentTypeFromId === 1) {
+            fieldName = "receiveFromDesc"; 
+        }
+    
         switch (receivePaymentSourceId) {
             case 1:
-                return <FormikCustomer name={customerIdFieldName} label={label} />;
+                return <FormikCustomer name={fieldName} label={label}  />;
             case 2:
                 return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
             case 3:
@@ -214,26 +215,12 @@ const RecievePaymentEdit = () => {
                         ...initialValues,
                         ...detailTools?.data?.data,
                         amount: detailTools?.data?.data?.amount ? separateAmountWithCommas(detailTools?.data?.data?.amount) : "",
-                        // receiveFromCustomerId: detailTools?.data?.data?.receiveFromCustomerName || "",
-                        // receiveFromCustomerIdForm: detailTools?.data?.data?.receiveFromCustomerId || "",
-                        // payToCustomerId: detailTools?.data?.data?.payToCustomerName || "",
-                        // payToCustomerIdForm: detailTools?.data?.data?.payToCustomerId || "",
 
                     }} onSubmit={onSubmit}>
                         {({ handleSubmit, values }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
-                                    {/* <FormikSelect name='receivePaymentSourceFromId' label='دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {Number(values.receivePaymentSourceFromId) === 1 &&
-                                        // <FormikSelect name='ReceiveFromCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
-                                        <FormikCustomer name='receiveFromCustomerId' label='نام مشتری' />
-                                    }
-                                    <FormikSelect name='receivePaymentSourceToId' label='پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {Number(values.receivePaymentSourceToId) === 1 &&
-                                        <FormikCustomer name='payToCustomerId' label='نام مشتری' />
-                                        // <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
-                                    } */}
-                                    <FormikSelect name='receivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    <FormikSelect  name='receivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {renderFields("receiveFromId", "دریافت از", values.receivePaymentTypeFromId)}
                                     <FormikSelect name='receivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {renderFields("payToId", "پرداخت به", values.receivePaymentTypeToId)}
@@ -241,14 +228,12 @@ const RecievePaymentEdit = () => {
                                     <FormikInput name='accountOwner' label='صاحب حساب' type='text' />
                                     <div className='flex flex-col'>
                                         <FormikPrice name='amount' label='مبلغ' type='text' />
-                                        {/* <Typography variant='subtitle1' color="secondary">{separateAmountWithCommas(values.Amount)}</Typography> */}
                                         <Typography variant='subtitle1' color="primary">{convertToPersianWord(Number(values.Amount?.replace(/,/g, "")))} تومان</Typography>
                                     </div>
 
                                     <FormikInput name='trachingCode' label='کد پیگیری' type='text' />
                                     <FormikInput name='companyName' label='نام شرکت' type='text' />
                                     <FormikInput name='contractCode' label='کد قرارداد' type='text' />
-                                    {/* <FormikInput name='accountingDocNo' label='شماره سند حسابداری' type='text' /> */}
                                 </div>
                                 <div className='grid grid-cols-1 my-8'>
                                     <FormikDescription name='accountingDescription' label='توضیحات حسابداری' type='text' />
