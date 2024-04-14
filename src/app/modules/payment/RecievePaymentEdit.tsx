@@ -81,7 +81,7 @@ const RecievePaymentEdit = () => {
     formData.append("CompanyName", formikRef?.current?.values?.companyName ? formikRef?.current?.values?.companyName : detailTools?.data?.data?.companyName)
     formData.append("ContractCode", formikRef?.current?.values?.contractCode ? formikRef?.current?.values?.contractCode : detailTools?.data?.data?.contractCode)
     formData.append("AccountingDocNo", formikRef?.current?.values?.accountingDocNo ? +formikRef?.current?.values?.accountingDocNo : detailTools?.data?.data?.accountingDocNo)
-    formData.append("AccountingDescription", formikRef?.current?.values?.accountingDescription ? formikRef?.current?.values?.accountingDescription : detailTools?.data?.data?.accountingDescription)
+    formData.append("AccountingDescription",  formikRef?.current?.values?.accountingDescription ? formikRef?.current?.values?.accountingDescription : (detailTools?.data?.data?.accountingDescription === "" || detailTools?.data?.data?.accountingDescription === null) ? "ندارد" : detailTools?.data?.data?.accountingDescription)
     formData.append("Description", formikRef?.current?.values?.description ? formikRef?.current?.values?.description : detailTools?.data?.data?.description)
     formData.append("ReceivedFrom", "")
     formData.append("PayTo", "")
@@ -133,14 +133,30 @@ const RecievePaymentEdit = () => {
     }
 
     const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
-        let fieldName = "receiveFromId";
+        let fieldNameFrom = "receiveFromId";
+        
         if (receivePaymentSourceId === 1 && detailTools?.data?.data?.receivePaymentTypeFromId === 1) {
-            fieldName = "receiveFromDesc"; 
+            fieldNameFrom = "receiveFromDesc"; 
         }
+
+        let fieldNameTo = "payToId";
+        if (receivePaymentSourceId === 1 && detailTools?.data?.data?.receivePaymentTypeToId === 1) {
+            fieldNameTo = "payToDesc"; 
+        }
+    
+        // Check if customerIdFieldName matches "receiveFromId" or "payToId"
+        const isReceiveFrom = customerIdFieldName === "receiveFromId";
+        const isPayTo = customerIdFieldName === "payToId";
     
         switch (receivePaymentSourceId) {
             case 1:
-                return <FormikCustomer name={fieldName} label={label}  />;
+                if (isReceiveFrom) {
+                    return <FormikCustomer name={fieldNameFrom} label={label} />;
+                }
+                if (isPayTo) {
+                    return <FormikCustomer name={fieldNameTo} label={label} />;
+                }
+                break;
             case 2:
                 return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
             case 3:
@@ -152,15 +168,13 @@ const RecievePaymentEdit = () => {
             case 6:
                 return <FormikCost name={customerIdFieldName} label={label} />;
             case 7:
-                return <FormikShareholders name={customerIdFieldName} label={label} />;
             case 8:
                 return <FormikShareholders name={customerIdFieldName} label={label} />;
             default:
                 return <FormikInput name={customerIdFieldName} label={label} disabled={true} />;
         }
     };
-
-
+    
 
     const handleDisApproveConfirm = (values: any) => {
         const formData = {
