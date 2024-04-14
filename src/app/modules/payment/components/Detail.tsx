@@ -56,8 +56,14 @@ const Detail = () => {
             bgColor: "bg-[#ECEFF3]"
         },
         {
-            title: "صاحب شرکت",
-            value: data?.data?.companyName,
+            title: "شرکت دریافت از",
+            value: data?.data?.receiveFromCompanyName,
+            icon: <AddHomeWork className="text-black" />,
+            bgColor: "bg-[#ECEFF3]"
+        },
+        {
+            title: "شرکت پرداخت به",
+            value: data?.data?.payToCompanyName,
             icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
@@ -175,7 +181,7 @@ const Detail = () => {
                         iconClassName={item.bgColor}
                     />
                 )}
-                <div className="col-span-3">
+                <div className="col-span-2">
                     <CardWithIcons
                         title="توضیحات حسابداری"
                         icon={<Description className="text-black" />}

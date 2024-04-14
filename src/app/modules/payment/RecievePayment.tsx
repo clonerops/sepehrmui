@@ -24,6 +24,7 @@ import FormikPrice from '../../../_cloner/components/FormikPrice'
 import FormikCost from '../../../_cloner/components/FormikCost'
 import FormikPettyCash from '../../../_cloner/components/FormikPettyCash'
 import FormikShareholders from '../../../_cloner/components/FormikShareholders'
+import FormikCompany from '../../../_cloner/components/FormikCompany'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -38,10 +39,8 @@ const initialValues = {
     CompanyName: "",
     ContractCode: "",
     Description: "",
-    // ReceivePaymentSourceFromId: "",
-    // ReceiveFromCustomerId: "",
-    // ReceivePaymentSourceToId: "",
-    // PayToCustomerId: "",
+    ReceiveFromCompanyId: "",
+    PayToCompanyId: "",
     AccountingDocNo: "",
     AccountingDescription: ""
 
@@ -105,7 +104,9 @@ const RecievePayment = () => {
                             formData.append("ReceivePaymentTypeToId", values.ReceivePaymentTypeToId)
                             formData.append("AccountOwner", values.AccountOwner)
                             formData.append("TrachingCode", values.TrachingCode)
-                            formData.append("CompanyName", values.CompanyName)
+                            // formData.append("CompanyName", values.CompanyName)
+                            formData.append("ReceiveFromCompanyId", values.ReceiveFromCompanyId)
+                            formData.append("PayToCompanyId", values.PayToCompanyId)
                             formData.append("ContractCode", values.ContractCode)
                             formData.append("Amount", Number(values.Amount?.replace(/,/g, "")))
                             formData.append("Description", values.Description)
@@ -136,45 +137,17 @@ const RecievePayment = () => {
                                     <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
                                     <div className='flex flex-col'>
                                         <FormikPrice name='Amount' label='مبلغ' type='text' />
-                                        {/* <Typography variant='subtitle1' color="secondary">{separateAmountWithCommas(values.Amount)}</Typography>
-                                        <Typography variant='subtitle1' color="primary">{convertToPersianWord(Number(values.Amount?.replace(/,/g, "")))} تومان</Typography> */}
                                     </div>
 
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
-                                    <FormikInput name='CompanyName' label='نام شرکت' type='text' />
-                                    <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
-                                    {/* <FormikInput name='AccountingDocNo' label='شماره سند حسابداری' type='text' /> */}
-
-
-
-
-
-
-
-
-                                    {/* <FormikSelect 
-                                        name='ReceivePaymentSourceFromId' 
-                                        label='دریافت از' 
-                                        options={dropdownReceivePaymentResource(paymentResource)} /> */}
-                                    {/* {Number(values.ReceivePaymentSourceFromId) === 1 &&
-                                        <FormikCustomer name='ReceiveFromCustomerId' label='دریافت از' />
-                                    } */}
-                                    {/* <FormikSelect name='ReceivePaymentSourceToId' label='پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {Number(values.ReceivePaymentSourceToId) === 1 &&
-                                        <FormikCustomer name='PayToCustomerId' label='نام مشتری' />
-                                        <FormikSelect name='PayToCustomerId' label='نام مشتری' options={dropdownCustomer(customers?.data)} />
+                                    {values.ReceiveFromId.value &&
+                                        <FormikCompany customerid={values.ReceiveFromId.value} name="ReceiveFromCompanyId" label="نام شرکت دریافت از" />
                                     }
-                                    <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
-                                    <div className='flex flex-col'>
-                                        <FormikPrice name='Amount' label='مبلغ' type='text' />
-                                        <Typography variant='subtitle1' color="secondary">{separateAmountWithCommas(values.Amount)}</Typography>
-                                        <Typography variant='subtitle1' color="primary">{convertToPersianWord(Number(values.Amount?.replace(/,/g, "")))} تومان</Typography>
-                                    </div>
-
-                                    <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
-                                    <FormikInput name='CompanyName' label='نام شرکت' type='text' />
+                                    {values.PayToId.value &&
+                                        <FormikCompany customerid={values.PayToId.value} name="PayToCompanyId" label="نام شرکت پرداخت به" />
+                                    }
+                                    
                                     <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
-                                    <FormikInput name='AccountingDocNo' label='شماره سند حسابداری' type='text' /> */}
                                 </div>
                                 <div className='grid grid-cols-1 my-8'>
                                     <FormikDescription name='Description' label='توضیحات' type='text' />

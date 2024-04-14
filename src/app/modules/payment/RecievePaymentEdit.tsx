@@ -30,6 +30,7 @@ import FormikIncome from '../../../_cloner/components/FormikIncome'
 import FormikPettyCash from '../../../_cloner/components/FormikPettyCash'
 import FormikCost from '../../../_cloner/components/FormikCost'
 import FormikShareholders from '../../../_cloner/components/FormikShareholders'
+import FormikCompany from '../../../_cloner/components/FormikCompany'
 
 
 const RecievePaymentEdit = () => {
@@ -70,27 +71,29 @@ const RecievePaymentEdit = () => {
     const [files, setFiles] = useState<File[]>([]);
 
     const formData = new FormData()
-    formData.append("Id", id)
-    formData.append("ReceivePaymentTypeFromId", formikRef?.current?.values.receivePaymentTypeFromId ? formikRef?.current?.values.receivePaymentTypeFromId : detailTools?.data?.data?.receivePaymentTypeFromId)
-    formData.append("ReceivePaymentTypeToId", formikRef?.current?.values.receivePaymentTypeToId ? formikRef?.current?.values.receivePaymentTypeToId : detailTools?.data?.data?.receivePaymentTypeToId)
-    formData.append("ReceiveFromId", formikRef?.current?.values.receivePaymentTypeFromId === 1 ? formikRef?.current?.values.receiveFromId.value : formikRef?.current?.values.receiveFromId)
-    formData.append("PayToId", formikRef?.current?.values.receivePaymentTypeToId === 1 ? formikRef?.current?.values.payToId.value : formikRef?.current?.values.payToId)
-    formData.append("Amount", formikRef?.current?.values?.amount ? +formikRef?.current?.values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
-    formData.append("AccountOwner", formikRef?.current?.values?.accountOwner ? formikRef?.current?.values?.accountOwner : detailTools?.data?.data?.accountOwner)
-    formData.append("TrachingCode", formikRef?.current?.values?.trachingCode ? formikRef?.current?.values?.trachingCode : detailTools?.data?.data?.trachingCode)
-    formData.append("CompanyName", formikRef?.current?.values?.companyName ? formikRef?.current?.values?.companyName : detailTools?.data?.data?.companyName)
-    formData.append("ContractCode", formikRef?.current?.values?.contractCode ? formikRef?.current?.values?.contractCode : detailTools?.data?.data?.contractCode)
-    formData.append("AccountingDocNo", formikRef?.current?.values?.accountingDocNo ? +formikRef?.current?.values?.accountingDocNo : detailTools?.data?.data?.accountingDocNo)
-    formData.append("AccountingDescription",  formikRef?.current?.values?.accountingDescription ? formikRef?.current?.values?.accountingDescription : (detailTools?.data?.data?.accountingDescription === "" || detailTools?.data?.data?.accountingDescription === null) ? "ندارد" : detailTools?.data?.data?.accountingDescription)
-    formData.append("Description", formikRef?.current?.values?.description ? formikRef?.current?.values?.description : detailTools?.data?.data?.description)
-    formData.append("ReceivedFrom", "")
-    formData.append("PayTo", "")
-    files.forEach((file) => {
-        formData.append('Attachments', file);
-    });
-
-
-    const onSubmit = async () => {
+    
+    const onSubmit = async (values: any) => {
+        formData.append("Id", id)
+        formData.append("ReceivePaymentTypeFromId", values.receivePaymentTypeFromId ? values.receivePaymentTypeFromId : detailTools?.data?.data?.receivePaymentTypeFromId)
+        formData.append("ReceivePaymentTypeToId", values.receivePaymentTypeToId ? values.receivePaymentTypeToId : detailTools?.data?.data?.receivePaymentTypeToId)
+        formData.append("ReceiveFromId", values.receivePaymentTypeFromId === 1 ? values.receiveFromId.value : values.receiveFromId)
+        formData.append("PayToId", values.receivePaymentTypeToId === 1 ? values.payToId.value : values.payToId)
+        formData.append("Amount", values?.amount ? +values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
+        formData.append("AccountOwner", values?.accountOwner ? values?.accountOwner : detailTools?.data?.data?.accountOwner)
+        formData.append("TrachingCode", values?.trachingCode ? values?.trachingCode : detailTools?.data?.data?.trachingCode)
+        formData.append("CompanyName", values?.companyName ? values?.companyName : detailTools?.data?.data?.companyName)
+        formData.append("ContractCode", values?.contractCode ? values?.contractCode : detailTools?.data?.data?.contractCode)
+        formData.append("AccountingDocNo", values?.accountingDocNo ? +values?.accountingDocNo : detailTools?.data?.data?.accountingDocNo)
+        formData.append("AccountingDescription",  values?.accountingDescription ? values?.accountingDescription : (detailTools?.data?.data?.accountingDescription === "" || detailTools?.data?.data?.accountingDescription === null) ? "ندارد" : detailTools?.data?.data?.accountingDescription)
+        formData.append("Description", values?.description ? values?.description : detailTools?.data?.data?.description)
+        formData.append("ReceivedFrom", "")
+        formData.append("ReceiveFromCompanyId", values?.receiveFromCompanyId ? values?.receiveFromCompanyId : detailTools?.data?.data?.receiveFromCompanyId)
+        formData.append("PayToCompanyId", values?.payToCompanyId ? values?.payToCompanyId : detailTools?.data?.data?.payToCompanyId)
+        formData.append("PayTo", "")
+            files.forEach((file) => {
+                formData.append('Attachments', file);
+        });
+        console.log(values)
         mutate(formData, {
             onSuccess: (response) => {
                 if (response?.succeeded) {
@@ -246,7 +249,14 @@ const RecievePaymentEdit = () => {
                                     </div>
 
                                     <FormikInput name='trachingCode' label='کد پیگیری' type='text' />
-                                    <FormikInput name='companyName' label='نام شرکت' type='text' />
+                                    {/* <FormikInput name='companyName' label='نام شرکت' type='text' /> */}
+                                    {(values?.receiveFromId?.value || detailTools?.data?.data?.receivePaymentTypeFromId === 1) &&
+                                        <FormikCompany customerid={values?.receiveFromId?.value ? values?.receiveFromId?.value : detailTools?.data?.data?.receiveFromId} name="receiveFromCompanyId" label="نام شرکت دریافت از" />
+                                    }
+                                    {(values?.payToId?.value  || detailTools?.data?.data?.receivePaymentTypeToId  === 1) && 
+                                        <FormikCompany customerid={values?.payToId?.value ? values?.payToId?.value : detailTools?.data?.data?.payToId} name="payToCompanyId" label="نام شرکت پرداخت به" />
+                                    }
+
                                     <FormikInput name='contractCode' label='کد قرارداد' type='text' />
                                 </div>
                                 <div className='grid grid-cols-1 my-8'>
