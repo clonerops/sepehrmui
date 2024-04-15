@@ -65,6 +65,8 @@ const RecievePaymentEdit = () => {
         payToCustomerIdForm: "",
         payToCustomerId: "",
         accountingDocNo: "",
+        receiveFromId: "",
+        payToId: "",
         accountingDescription: "",
 
     }
@@ -76,8 +78,8 @@ const RecievePaymentEdit = () => {
         formData.append("Id", id)
         formData.append("ReceivePaymentTypeFromId", values.receivePaymentTypeFromId ? values.receivePaymentTypeFromId : detailTools?.data?.data?.receivePaymentTypeFromId)
         formData.append("ReceivePaymentTypeToId", values.receivePaymentTypeToId ? values.receivePaymentTypeToId : detailTools?.data?.data?.receivePaymentTypeToId)
-        formData.append("ReceiveFromId", values.receivePaymentTypeFromId === 1 ? values.receiveFromId.value : values.receiveFromId)
-        formData.append("PayToId", values.receivePaymentTypeToId === 1 ? values.payToId.value : values.payToId)
+        formData.append("ReceiveFromId", values.receiveFromDesc ? values.receiveFromDesc.value : detailTools?.data?.data?.receiveFromId)
+        formData.append("PayToId", values.payToDesc ? values.payToDesc.value : detailTools?.data?.data?.payToId)
         formData.append("Amount", values?.amount ? +values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
         formData.append("AccountOwner", values?.accountOwner ? values?.accountOwner : detailTools?.data?.data?.accountOwner)
         formData.append("TrachingCode", values?.trachingCode ? values?.trachingCode : detailTools?.data?.data?.trachingCode)
@@ -87,13 +89,12 @@ const RecievePaymentEdit = () => {
         formData.append("AccountingDescription",  values?.accountingDescription ? values?.accountingDescription : (detailTools?.data?.data?.accountingDescription === "" || detailTools?.data?.data?.accountingDescription === null) ? "ندارد" : detailTools?.data?.data?.accountingDescription)
         formData.append("Description", values?.description ? values?.description : detailTools?.data?.data?.description)
         formData.append("ReceivedFrom", "")
-        formData.append("ReceiveFromCompanyId", values?.receiveFromCompanyId ? values?.receiveFromCompanyId : detailTools?.data?.data?.receiveFromCompanyId)
-        formData.append("PayToCompanyId", values?.payToCompanyId ? values?.payToCompanyId : detailTools?.data?.data?.payToCompanyId)
+        formData.append("ReceiveFromCompanyId", values?.receiveFromCompanyId ? values?.receiveFromCompanyId : detailTools?.data?.data?.receiveFromCompanyId === null ? "" : detailTools?.data?.data?.receiveFromCompanyId)
+        formData.append("PayToCompanyId", values?.payToCompanyId ? values?.payToCompanyId : detailTools?.data?.data?.payToCompanyId === null ? "" : detailTools?.data?.data?.payToCompanyId)
         formData.append("PayTo", "")
             files.forEach((file) => {
                 formData.append('Attachments', file);
         });
-        console.log(values)
         mutate(formData, {
             onSuccess: (response) => {
                 if (response?.succeeded) {
@@ -228,18 +229,19 @@ const RecievePaymentEdit = () => {
 
             <ReusableCard>
                 <div className='mt-2'>
-                    <Formik innerRef={formikRef} enableReinitialize initialValues={{
+                    <Formik enableReinitialize initialValues={{
                         ...initialValues,
                         ...detailTools?.data?.data,
                         amount: detailTools?.data?.data?.amount ? separateAmountWithCommas(detailTools?.data?.data?.amount) : "",
 
                     }} onSubmit={onSubmit}>
                         {({ handleSubmit, values }) => {
+                            console.log("values", values)
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
-                                    <FormikSelect  name='receivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    <FormikSelect disabeld  name='receivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {renderFields("receiveFromId", "دریافت از", values.receivePaymentTypeFromId)}
-                                    <FormikSelect name='receivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    <FormikSelect disabled name='receivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {renderFields("payToId", "پرداخت به", values.receivePaymentTypeToId)}
 
                                     <FormikInput name='accountOwner' label='صاحب حساب' type='text' />
@@ -250,11 +252,11 @@ const RecievePaymentEdit = () => {
 
                                     <FormikInput name='trachingCode' label='کد پیگیری' type='text' />
                                     {/* <FormikInput name='companyName' label='نام شرکت' type='text' /> */}
-                                    {(values?.receiveFromId?.value || detailTools?.data?.data?.receivePaymentTypeFromId === 1) &&
-                                        <FormikCompany customerid={values?.receiveFromId?.value ? values?.receiveFromId?.value : detailTools?.data?.data?.receiveFromId} name="receiveFromCompanyId" label="نام شرکت دریافت از" />
+                                    {detailTools?.data?.data?.receivePaymentTypeFromId === 1 &&
+                                        <FormikCompany customerid={values?.receiveFromDesc ? values?.receiveFromDesc?.value : detailTools?.data?.data?.receiveFromId} name="receiveFromCompanyId" label="نام شرکت دریافت از" />
                                     }
-                                    {(values?.payToId?.value  || detailTools?.data?.data?.receivePaymentTypeToId  === 1) && 
-                                        <FormikCompany customerid={values?.payToId?.value ? values?.payToId?.value : detailTools?.data?.data?.payToId} name="payToCompanyId" label="نام شرکت پرداخت به" />
+                                    {detailTools?.data?.data?.receivePaymentTypeToId  === 1 && 
+                                        <FormikCompany customerid={values.payToDesc?.value} name="payToCompanyId" label="نام شرکت پرداخت به" />
                                     }
 
                                     <FormikInput name='contractCode' label='کد قرارداد' type='text' />
