@@ -1,10 +1,21 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig"
-import { IRentPayment } from "./_models";
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
+import { IRentFilter, IRentPayment } from "./_models";
 
 const getRentPayments = async () => {
     try {
 
         const { data } = await http.get('/v1/RentPayment')
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
+const getAllRents = async (formData: IRentFilter) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/RentPayment/GetAllRents', formData)}`)
         return data;
 
     } catch (error: any) {
@@ -58,6 +69,7 @@ const deleteRentPayment = async (id: number) => {
 
 export {
     getRentPayments,
+    getAllRents,
     postRentPayments,
     getRentPayment,
     updateRentPayments,

@@ -1,12 +1,18 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { IRentPayment } from "./_models"
+import { IRentFilter, IRentPayment } from "./_models"
 
 const useGetRentPayments = () => {
     return useQuery(['RentPayments'], () => api.getRentPayments(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
+    })
+}
+
+const useGetAllRents = () => {
+    return useMutation((formData: IRentFilter) => {
+        return api.getAllRents(formData)
     })
 }
 
@@ -35,6 +41,7 @@ const useDeleteRentPayments = () => {
 
 export {
     useGetRentPayments,
+    useGetAllRents,
     usePostRentPayments,
     useGetRentPayment,
     useUpdateRentPayments,

@@ -1,125 +1,98 @@
-// import { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
-// import { Formik } from "formik";
-// import {Button, Typography } from '@mui/material'
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import {Button, Typography } from '@mui/material'
 
-// import { IOrder } from "../core/_models";
-// import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
+import { useGetAllRents } from "./core/_hooks";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import { rentsColumns } from "./helpers/columns";
+import { Formik } from "formik";
+import FormikInput from "../../../_cloner/components/FormikInput";
+import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
+import FormikSelect from "../../../_cloner/components/FormikSelect";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import { Search } from "@mui/icons-material";
 
-// import ReusableCard from "../../../../_cloner/components/ReusableCard";
-// import FuzzySearch from "../../../../_cloner/helpers/Fuse";
-// import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
-// import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-// import { purchaserOrderConfirm } from "../helpers/columns";
-
-
-// const ReadyToRent = () => {
-    
-//     const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
-//     const [results, setResults] = useState<IOrder[]>([]);
-
-//     useEffect(() => {
-//         const formData = {
-//             InvoiceTypeId: [1, 2], 
-//         }
-//         mutate(formData, {
-//             onSuccess: (message) => {
-//                 setResults(message?.data);
-//             }
-//         })
-//          // eslint-disable-next-line
-//     }, []);
-
-
-
-//     const renderAction = (item: any) => {
-//         return (
-//             <Link
-//                 to={`${item.row.orderStatusId !== 2 ? `/dashboard/purchaser_order/ready-to-confirm/${item?.row?.id}` : ""}`}
-//                 state={{ isConfirmed: true }}
-//             >
-//                 <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId === 2}> 
-//                     <Typography variant="h4" color="primary">اقدام به ثبت تایید</Typography>
-//                 </Button>
-//             </Link>
-//         );
-//     };
-
-//     const allOption = [
-//         { value: -1, label: "همه" },
-//         { value: 2, label: "تایید شده حسابداری" },
-//         { value: 1, label: "جدید" }];
-
-//     const handleFilterBasedofStatus = (values: any) => {
-//         if(+values === -1) {
-//             const formData = {
-//                 InvoiceTypeId: [1, 2],
-//             };
-//             mutate(formData, {
-//                 onSuccess: (message) => {
-//                     setResults(message?.data);
-//                 },
-//             });
-
-//         } else {
-//             const formData = {
-//                 InvoiceTypeId: [1, 2],
-//                 OrderStatusId: +values,
-//             };
-//             mutate(formData, {
-//                 onSuccess: (message) => {
-//                     setResults(message?.data);
-//                 },
-//             });
-//         }
-//     };
-
-//     return (
-//         <ReusableCard>
-//             <div className="flex justify-between items-center mb-4">
-//                 <div className="w-auto md:w-[40%]">
-//                     <FuzzySearch
-//                         keys={[
-//                             "orderCode",
-//                             "registerDate",
-//                             "customerFirstName",
-//                             "customerLastName",
-//                             "orderSendTypeDesc",
-//                             "paymentTypeDesc",
-//                             "invoiceTypeDesc",
-//                             "totalAmount",
-//                             "exitType",
-//                         ]}
-//                         data={orders?.data}
-//                         threshold={0.5}
-//                         setResults={setResults}
-//                     />
-//                 </div>
-//                 <Formik initialValues={{ statusId: -1 }} onSubmit={() => { }}>
-//                     {() => {
-//                         return <>
-//                             <FormikRadioGroup onChange={handleFilterBasedofStatus} radioData={allOption} name="statusId" />
-//                         </>
-//                     }}
-//                 </Formik>
-//             </div>
-//             <MuiDataGrid
-//                 columns={purchaserOrderConfirm(renderAction)}
-//                 rows={results}
-//                 data={orders?.data}
-//                 isLoading={isLoading}
-//             />
-//         </ReusableCard>
-//     );
-// };
-
-// export default ReadyToRent;
-
-
-const ReadyToRent = () => {
-  return (
-    <div>ReadyToRent</div>
-  )
+const initialValues = {
+    refrenceCode: "",
+    driverName: "",
+    fromDate: "",
+    toDate: "",
+    orderType: ""
 }
 
-export default ReadyToRent
+const ReadyToRent = () => {
+    
+    const { mutate, data: rents, isLoading } = useGetAllRents();
+
+    useEffect(() => {
+        const formData = {}
+        mutate(formData, {
+            onSuccess: (response) => {
+            }
+        })
+         // eslint-disable-next-line
+    }, []);
+
+
+
+    const renderAction = (item: any) => {
+        return (
+            <Link to="/dashboard/rentPayment">
+                <Button variant="contained" color="secondary"> 
+                    <Typography variant="h4" color="primary">اقدام به ثبت کرایه</Typography>
+                </Button>
+            </Link>
+        );
+    };
+
+
+    const handleFilterBasedofStatus = (values: any) => {
+        if(+values === -1) {
+            const formData = {};
+            mutate(formData, {
+                onSuccess: (response) => {
+                },
+            });
+
+        } else {
+            const formData = {};
+            mutate(formData, {
+                onSuccess: (response) => {
+                },
+            });
+        }
+    };
+
+    return (
+        <ReusableCard>
+            <div className="mb-4">
+                <Formik initialValues={initialValues} onSubmit={() => { }}>
+                    {() => {
+                        return <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                            <FormikInput name='refrenceCode' label="شماره مرجع" />
+                            <FormikInput name='driverName' label="نام راننده" />
+                            <FormikSelect name='orderType' label="نوع سفارش" options={[{value: 1, label: "سفارش خرید"}, {value: 2, label: "سفارش فروش"}]} />
+                            <FormikDatepicker name='fromDate' label="از تاریخ" />
+                            <FormikDatepicker name='toDate' label="تا تاریخ" />
+                            <ButtonComponent>
+                                <Search className="text-white" />
+                                <Typography className="text-white">جستجو</Typography>
+                            </ButtonComponent>
+                        </div>
+                    }}
+                </Formik>
+            </div>
+            <MuiDataGrid
+                columns={rentsColumns(renderAction)}
+                rows={rents?.data}
+                data={rents?.data}
+                isLoading={isLoading}
+            />
+        </ReusableCard>
+    );
+};
+
+export default ReadyToRent;
+
+

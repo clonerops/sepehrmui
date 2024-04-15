@@ -8,3 +8,10 @@ export interface IRentPayment {
     description: string
   }
   
+
+export interface IRentFilter {
+    ladingExitPermitId?: string
+    purchaseOrderTransferRemittanceUnloadingPermitId?: string
+    pageNumber?: number
+    pageSize?: number
+}

@@ -1,11 +1,13 @@
 import React from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
-import OrganizationBank from "../modules/generic/organizationBank/OrganizationBank";
-import ExitList from "../modules/logestic/exit/ExitList";
-import RentPayment from "../modules/rent-payment/RentPayment";
+
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
+const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
+const ExitList = React.lazy(() => import("../modules/logestic/exit/ExitList"));
+const RentPayment = React.lazy(() => import("../modules/rent-payment/RentPayment"));
+const ReadyToRent = React.lazy(() => import("../modules/rent-payment/ReadyToRent"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
 const Shareholders = React.lazy(() => import("../modules/generic/shareHolders/Shareholders"));
 const PettyCashs = React.lazy(() => import("../modules/generic/pettyCash/PettyCashes"));
@@ -281,6 +283,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/evacuation", element: <EvacuationPermit /> },
     
     { path: "dashboard/rentPayment", element: <RentPayment /> },
+    { path: "dashboard/ready_to_rent", element: <ReadyToRent /> },
 
 
     { path: "dashboard/users", element: <Users /> },

@@ -58,6 +58,7 @@ export const translationMapping: any = {
     shareholders: "ثبت و ویرایش سهامداران",
     PettyCash: "ثبت و ویرایش تنخواه گردان",
     rentPayment: "پرداخت کرایه",
+    ready_to_rent: "کرایه های پرداخت نشده",
 
     // Add more translations as needed
   };
