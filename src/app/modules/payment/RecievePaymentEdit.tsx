@@ -252,12 +252,11 @@ const RecievePaymentEdit = () => {
                                     </div>
 
                                     <FormikInput name='trachingCode' label='کد پیگیری' type='text' />
-                                    {/* <FormikInput name='companyName' label='نام شرکت' type='text' /> */}
                                     {detailTools?.data?.data?.receivePaymentTypeFromId === 1 &&
                                         <FormikCompany customerid={values?.receiveFromDesc ? values?.receiveFromDesc?.value : detailTools?.data?.data?.receiveFromId} name="receiveFromCompanyId" label="نام شرکت دریافت از" />
                                     }
                                     {detailTools?.data?.data?.receivePaymentTypeToId  === 1 && 
-                                        <FormikCompany customerid={values.payToDesc?.value} name="payToCompanyId" label="نام شرکت پرداخت به" />
+                                        <FormikCompany customerid={values?.payToDesc ? values?.payToDesc?.value : detailTools?.data?.data?.payToId} name="payToCompanyId" label="نام شرکت پرداخت به" />
                                     }
 
                                     <FormikInput name='contractCode' label='کد قرارداد' type='text' />
