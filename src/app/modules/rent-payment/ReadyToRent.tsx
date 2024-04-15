@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {Button, Checkbox, Typography } from '@mui/material'
+import { Button, Checkbox, Typography } from '@mui/material'
 
 import { useGetAllRents } from "./core/_hooks";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
@@ -30,8 +30,10 @@ const ReadyToRent = () => {
     const [isOpenSelected, setIsOpenSelected] = useState<boolean>(false)
     const [item, setItem] = useState<IRentPaymentFields>()
     const [isSelectAll, setIsSelectAll] = useState<boolean>(false)
-    const [selectedIds, setSelectedIds] = useState<any>([]);
-
+    
+    const [selectedLadingIds, setSelectedLadingIds] = useState<any>([]);
+    const [selectedTransferRemittanceIds, setSelectedTransferRemittanceIds] = useState<any>([]);
+    
     const { mutate, data: rents, isLoading } = useGetAllRents();
 
 
@@ -41,104 +43,187 @@ const ReadyToRent = () => {
             onSuccess: (response) => {
             }
         })
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
 
 
     const renderAction = (item: any) => {
         return (
-            <Button onClick={() => handleOpen(item.row)} variant="contained" color="secondary"> 
-                <ApprovalTwoTone  />
-            </Button>
+            <Typography onClick={() => handleOpen(item.row)}>
+                <ApprovalTwoTone className="!text-yellow-500" />
+            </Typography>
         );
     };
 
-    const renderCheckbox = (item: any) => {
-        const isChecked = isSelectAll ?
-            selectedIds.length === rents?.data.length :
-            selectedIds.includes(item.row.ladingExitPermitId);
+    // const renderCheckbox = (item: any) => {
+    //     const isLadingChecked =
+    //     isSelectAll ?
+    //         selectedLadingIds.length === rents?.data.length :
+    //         selectedLadingIds.includes(item.row.ladingExitPermitId);
 
+    //     const isTransferRemittanceChecked =
+    //         isSelectAll ?
+    //             selectedTransferRemittanceIds.length === rents?.data.length :
+    //             selectedTransferRemittanceIds.includes(item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
+
+    //     const id = item.row.ladingExitPermitId === null ? item.row.purchaseOrderTransferRemittanceUnloadingPermitId : item.row.ladingExitPermitId;
+
+    //     return (
+    //         <div className="flex justify-center items-center gap-x-4">
+    //             <Checkbox
+    //                 checked={isLadingChecked || isTransferRemittanceChecked}
+    //                 onChange={() => {
+    //                     if (isSelectAll) {
+    //                         handleHeaderCheckboxClick(isLadingChecked || isTransferRemittanceChecked);
+    //                     } else {
+    //                         handleCheckboxClick(id, item.row.ladingExitPermitId, item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
+    //                     }
+    //                 }}
+    //             />
+    //         </div>
+    //     );
+    // };
+
+
+    const renderCheckbox = (item: any) => {
+        const isLadingChecked =
+        isSelectAll ?
+            selectedLadingIds.length === rents?.data.length :
+            selectedLadingIds.includes(item.row.ladingExitPermitId);
+    
+        const isTransferRemittanceChecked =
+            isSelectAll ?
+                selectedTransferRemittanceIds.length === rents?.data.length :
+                selectedTransferRemittanceIds.includes(item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
+    
+        const id = item.row.ladingExitPermitId === null ? item.row.purchaseOrderTransferRemittanceUnloadingPermitId : item.row.ladingExitPermitId;
+    
         return (
             <div className="flex justify-center items-center gap-x-4">
                 <Checkbox
-                    checked={isChecked}
+                    checked={isSelectAll ? true : isLadingChecked || isTransferRemittanceChecked}
                     onChange={() => {
                         if (isSelectAll) {
-                            handleHeaderCheckboxClick(isChecked);
+                            handleHeaderCheckboxClick(isLadingChecked || isTransferRemittanceChecked);
                         } else {
-                            handleCheckboxClick(item.row.ladingExitPermitId);
+                            handleCheckboxClick(id, item.row.ladingExitPermitId, item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
                         }
                     }}
                 />
             </div>
         );
     };
-
-
-    const handleHeaderCheckboxClick = (isChecked: boolean) => {
-        const allIds = rents?.data.map((item: any) => item.ladingExitPermitId);
-        setSelectedIds(isChecked ? allIds : []);
+    
+    const handleHeaderCheckboxClick = (isChecked: boolean) => {    
+        const ladingIds = rents?.data
+            .filter((item: {ladingExitPermitId: string}) => item.ladingExitPermitId !== null)
+            .map((item: {ladingExitPermitId: string}) => item.ladingExitPermitId);
+        
+        const transferRemittanceIds = rents?.data
+            .filter((item: {purchaseOrderTransferRemittanceUnloadingPermitId: string}) => item.purchaseOrderTransferRemittanceUnloadingPermitId !== null)
+            .map((item: {purchaseOrderTransferRemittanceUnloadingPermitId: string}) => item.purchaseOrderTransferRemittanceUnloadingPermitId);
+        
+        setSelectedLadingIds(isChecked ? ladingIds : []);
+        setSelectedTransferRemittanceIds(isChecked ? transferRemittanceIds : []);
         setIsSelectAll(isChecked);
     };
 
+        
+        
     useEffect(() => {
         handleHeaderCheckboxClick(isSelectAll)
         // eslint-disable-next-line
     }, [isSelectAll])
 
 
-    const handleCheckboxClick = (id: any) => {
-        const currentIndex = selectedIds.indexOf(id);
-        const newSelectedIds = [...selectedIds];
+    // const handleCheckboxClick = (id: any) => {
+    //     const currentIndex = selectedIds.indexOf(id);
+    //     const newSelectedIds = [...selectedIds];
+    //     console.log("newSelectedIds", newSelectedIds)
+    //     // const currentIndexTransferRemittance = selectedIdsTransferRemittance.indexOf(id);
+    //     // const newSelectedIdsTransferRemittance = [...selectedIdsTransferRemittance];
 
-        if (currentIndex === -1) {
-            newSelectedIds.push(id);
+    //     if (currentIndex === -1) {
+    //         newSelectedIds.push(id);
+    //     } else {
+    //         newSelectedIds.splice(currentIndex, 1);
+    //     }
+
+    //     // if (currentIndexTransferRemittance === -1) {
+    //     //     newSelectedIdsTransferRemittance.push(id);
+    //     // } else {
+    //     //     newSelectedIdsTransferRemittance.splice(currentIndexTransferRemittance, 1);
+    //     // }
+
+    //     setSelectedIds(newSelectedIds);
+    //     // setSelectedIdsTransferRemittance(newSelectedIdsTransferRemittance);
+    // };
+
+
+    const handleCheckboxClick = (id: any, ladingExitPermitId: any, purchaseOrderTransferRemittanceUnloadingPermitId: any) => {
+        if (ladingExitPermitId === null) {
+            const currentIndex = selectedTransferRemittanceIds.indexOf(id);
+            const newSelectedIds = [...selectedTransferRemittanceIds];
+    
+            if (currentIndex === -1) {
+                newSelectedIds.push(id);
+            } else {
+                newSelectedIds.splice(currentIndex, 1);
+            }
+    
+            setSelectedTransferRemittanceIds(newSelectedIds);
         } else {
-            newSelectedIds.splice(currentIndex, 1);
+            const currentIndex = selectedLadingIds.indexOf(id);
+            const newSelectedIds = [...selectedLadingIds];
+    
+            if (currentIndex === -1) {
+                newSelectedIds.push(id);
+            } else {
+                newSelectedIds.splice(currentIndex, 1);
+            }
+    
+            setSelectedLadingIds(newSelectedIds);
         }
-
-        setSelectedIds(newSelectedIds);
     };
-
-
-
+    
     const handleOpen = (item: IRentPaymentFields) => {
         setItem(item)
         setIsOpen(true);
-        
+
     }
 
     const handleFilterBasedofStatus = (values: any) => {
-        if(+values === -1) {
-            const formData = {};
-            mutate(formData, {
-                onSuccess: (response) => {
-                },
-            });
-
-        } else {
-            const formData = {};
-            mutate(formData, {
-                onSuccess: (response) => {
-                },
-            });
-        }
+        mutate(values, {
+            onSuccess: (response) => {
+            },
+        });
     };
+
+
+    const handleSubmit = () => {
+        const formData = {
+            puOrderTransRemittUnloadingPermitIds: selectedTransferRemittanceIds,
+            ladingExitPermitIds: selectedLadingIds,
+
+        }
+
+        console.log("formData", formData)
+    }
 
     return (
         <>
             <ReusableCard>
                 <div className="mb-4">
-                    <Formik initialValues={initialValues} onSubmit={() => { }}>
-                        {() => {
+                    <Formik initialValues={initialValues} onSubmit={handleFilterBasedofStatus}>
+                        {({handleSubmit}) => {
                             return <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                                 <FormikInput name='refrenceCode' label="شماره مرجع" />
                                 <FormikInput name='driverName' label="نام راننده" />
-                                <FormikSelect name='orderType' label="نوع سفارش" options={[{value: 1, label: "سفارش خرید"}, {value: 2, label: "سفارش فروش"}]} />
+                                <FormikSelect name='orderType' label="نوع سفارش" options={[{ value: 1, label: "سفارش خرید" }, { value: 2, label: "سفارش فروش" }]} />
                                 <FormikDatepicker name='fromDate' label="از تاریخ" />
                                 <FormikDatepicker name='toDate' label="تا تاریخ" />
-                                <ButtonComponent>
+                                <ButtonComponent onClick={() => handleSubmit()}>
                                     <Search className="text-white" />
                                     <Typography className="text-white">جستجو</Typography>
                                 </ButtonComponent>
@@ -177,7 +262,10 @@ const ReadyToRent = () => {
                 title="ثبت کرایه"
                 description="درصورتی که مغایرتی در اطلاعات مشتری ثبت شده وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <RentPaymentSelected item={item} />
+                <RentPaymentSelected 
+                    selectedLadingIds={selectedLadingIds}
+                    selectedTransferRemittanceIds={selectedTransferRemittanceIds} 
+                    item={item} />
             </TransitionsModal>
 
         </>

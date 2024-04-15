@@ -18,6 +18,9 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent"
 import moment from "moment-jalaali"
 import { IRentPaymentFields } from "./core/_models"
 import { FC } from "react"
+import { usePostRentPayments } from "./core/_hooks"
+import { renderAlert } from "../../../_cloner/helpers/SweetAlert"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
 
 const initialValues = {
     receivePaymentTypeId: "",
@@ -27,11 +30,13 @@ const initialValues = {
 
 interface IProps {
     item: IRentPaymentFields | undefined
+    selectedLadingIds: any
+    selectedTransferRemittanceIds: any
 }
 
-const RentPaymentSelected:FC<IProps> = ({item}) => {
+const RentPaymentSelected:FC<IProps> = ({item, selectedLadingIds, selectedTransferRemittanceIds}) => {
     const { data: paymentResource } = useGetReceivePaymentSources()
-    console.log(item)
+    const postRentPayment = usePostRentPayments()
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره مرجع", icon: <Person color="secondary" />, value: item?.referenceCode },
@@ -71,13 +76,31 @@ const RentPaymentSelected:FC<IProps> = ({item}) => {
         }
     };
 
+    const onSubmit = (values: any) => {
+        const formData = {
+            receivePaymentOriginId: values.receivePaymentOriginId,
+            puOrderTransRemittUnloadingPermitIds: selectedTransferRemittanceIds,
+            ladingExitPermitIds: selectedLadingIds,
+            totalFareAmount: values.totalFareAmount,
+            description: "string"
+        }
+        postRentPayment.mutate(formData, {
+            onSuccess: (response) => {
+                if(response.succeeded) {
+                    renderAlert("کرایه با موفقیت ثبت شد")
+                } else {
+                    EnqueueSnackbar(response.data.Message, "error")
+                }
+            }
+        })
+    }
 
   return (
     <>
-        <Formik initialValues={initialValues} onSubmit={() => {}}>
-            {({values}) => (
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            {({values, handleSubmit}) => (
                 <form>
-                    <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 my-4`}>
+                    {/* <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 my-4`}>
                         {orderAndAmountInfo.map((item: {
                             title: string,
                             icon: React.ReactNode,
@@ -87,24 +110,19 @@ const RentPaymentSelected:FC<IProps> = ({item}) => {
                                 <Typography>{item.title}:</Typography>
                                 <Typography variant="h3">{item.value}</Typography>
                             </div>
-                            // return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                         })}
-                        {/* <div className="lg:col-span-4">
-                            <CardTitleValue key={11} title={"توضیحات"} value={"ندارد"} icon={<Description color="secondary" />} />
-                        </div> */}
-                    </div>
+                    </div> */}
                     <ReusableCard>
                         <div className="my-4">
                             <Typography variant="h3">لطفا اطلاعات زیر را جهت پرداخت کرایه وارد نمایید</Typography>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <FormikSelect name='receivePaymentTypeId' label='نوع پرداخت' options={dropdownReceivePaymentResource(paymentResource)} />
-                            {renderFields("receivePaymentOriginId", "پرداخت از", +values.receivePaymentTypeId)}
+                        <FormikOrganzationBank name="receivePaymentOriginId" label="دریافت از" />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
                             <FormikInput name="totalFareAmount" label="مجموع مبلغ قابل پرداخت" />
-                            <FormikDatepicker name="date" label="تاریخ پرداخت" />
+                            <FormikDatepicker disabled name="date" label="تاریخ پرداخت" />
                         </div>
                         <div className="flex justify-end items-end mt-4">
-                            <ButtonComponent>
+                            <ButtonComponent onClick={() => handleSubmit()}>
                                 <ApprovalRounded className="text-white" />
                                 <Typography className="text-white">ثبت کرایه</Typography>
                             </ButtonComponent>

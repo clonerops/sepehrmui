@@ -1,17 +1,20 @@
 export interface IRentPayment {
     id?: string
     receivePaymentOriginId?: number
-    cargoExitPermitId?: number
-    purchaseOrderTransferRemittanceUnloadingPermitId?: string
-    ladingExitPermitId?: string
+    puOrderTransRemittUnloadingPermitIds?: any
+    ladingExitPermitIds?: any
     totalFareAmount?: number
     description?: string
 }
   
 
 export interface IRentFilter {
-    ladingExitPermitId?: string
-    purchaseOrderTransferRemittanceUnloadingPermitId?: string
+    referenceCode?: string
+    driverName?: string
+    driverMobile?: string
+    orderType?: string
+    fromDate?: string
+    toDate?: string
     pageNumber?: number
     pageSize?: number
 }
