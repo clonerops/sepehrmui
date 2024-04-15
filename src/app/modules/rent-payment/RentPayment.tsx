@@ -23,9 +23,10 @@ import Backdrop from "../../../_cloner/components/Backdrop"
 
 interface IProps {
     item: IRentPaymentFields | undefined
+    setIsOpen:  React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const RentPayment:FC<IProps> = ({item}) => {
+const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
 
     const initialValues = {
         receivePaymentTypeId: "",
@@ -66,6 +67,7 @@ const RentPayment:FC<IProps> = ({item}) => {
             onSuccess: (response) => {
                 if(response.succeeded) {
                     renderAlert("کرایه با موفقیت ثبت شد")
+                    setIsOpen(false)
                 } else {
                     EnqueueSnackbar(response.data.Message, "error")
                 }

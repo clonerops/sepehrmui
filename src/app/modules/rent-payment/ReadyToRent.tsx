@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Button, Checkbox, Typography } from '@mui/material'
 
 import { useGetAllRents } from "./core/_hooks";
@@ -14,11 +13,11 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import { Approval, ApprovalTwoTone, Search } from "@mui/icons-material";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import RentPayment from "./RentPayment";
-import { IRentPayment, IRentPaymentFields } from "./core/_models";
+import { IRentPaymentFields } from "./core/_models";
 import RentPaymentSelected from "./RentPaymentSelected";
 
 const initialValues = {
-    refrenceCode: "",
+    referenceCode: "",
     driverName: "",
     fromDate: "",
     toDate: "",
@@ -218,7 +217,7 @@ const ReadyToRent = () => {
                     <Formik initialValues={initialValues} onSubmit={handleFilterBasedofStatus}>
                         {({handleSubmit}) => {
                             return <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                                <FormikInput name='refrenceCode' label="شماره مرجع" />
+                                <FormikInput name='referenceCode' label="شماره مرجع" />
                                 <FormikInput name='driverName' label="نام راننده" />
                                 <FormikSelect name='orderType' label="نوع سفارش" options={[{ value: 1, label: "سفارش خرید" }, { value: 2, label: "سفارش فروش" }]} />
                                 <FormikDatepicker name='fromDate' label="از تاریخ" />
@@ -253,7 +252,7 @@ const ReadyToRent = () => {
                 title="ثبت کرایه"
                 description="درصورتی که مغایرتی در اطلاعات مشتری ثبت شده وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <RentPayment item={item} />
+                <RentPayment item={item} setIsOpen={setIsOpen} />
             </TransitionsModal>
 
             <TransitionsModal
@@ -264,7 +263,8 @@ const ReadyToRent = () => {
             >
                 <RentPaymentSelected 
                     selectedLadingIds={selectedLadingIds}
-                    selectedTransferRemittanceIds={selectedTransferRemittanceIds} 
+                    selectedTransferRemittanceIds={selectedTransferRemittanceIds}
+                    setIsOpenSelected={setIsOpenSelected} 
                     item={item} />
             </TransitionsModal>
 

@@ -32,9 +32,10 @@ interface IProps {
     item: IRentPaymentFields | undefined
     selectedLadingIds: any
     selectedTransferRemittanceIds: any
+    setIsOpenSelected: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const RentPaymentSelected:FC<IProps> = ({item, selectedLadingIds, selectedTransferRemittanceIds}) => {
+const RentPaymentSelected:FC<IProps> = ({item, selectedLadingIds, selectedTransferRemittanceIds, setIsOpenSelected}) => {
     const { data: paymentResource } = useGetReceivePaymentSources()
     const postRentPayment = usePostRentPayments()
 
@@ -84,15 +85,17 @@ const RentPaymentSelected:FC<IProps> = ({item, selectedLadingIds, selectedTransf
             totalFareAmount: values.totalFareAmount,
             description: "string"
         }
-        postRentPayment.mutate(formData, {
-            onSuccess: (response) => {
-                if(response.succeeded) {
-                    renderAlert("کرایه با موفقیت ثبت شد")
-                } else {
-                    EnqueueSnackbar(response.data.Message, "error")
-                }
-            }
-        })
+        console.log(JSON.stringify(formData))
+        // postRentPayment.mutate(formData, {
+        //     onSuccess: (response) => {
+        //         if(response.succeeded) {
+        //             renderAlert("کرایه با موفقیت ثبت شد")
+        //             setIsOpenSelected(false)
+        //         } else {
+        //             EnqueueSnackbar(response.data.Message, "error")
+        //         }
+        //     }
+        // })
     }
 
   return (
