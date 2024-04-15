@@ -1,7 +1,23 @@
-import { Typography } from "@mui/material";
+import { Checkbox, Typography } from "@mui/material";
+import React from "react";
 
-export const rentsColumns = (renderAction: any) => {
+export const rentsColumns = (renderAction: any, renderCheckbox: any,  isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
     const col = [
+        {
+            field: "ladingExitPermitId",
+            headerName: (
+                <Checkbox
+                    color="primary"
+                    checked={isSelectAll}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+                />
+            ),
+            sortable: false,
+            renderCell: renderCheckbox,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
         {
             field: 'referenceCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;

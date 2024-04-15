@@ -19,20 +19,17 @@ import moment from "moment-jalaali"
 import { IRentPaymentFields } from "./core/_models"
 import { FC } from "react"
 
+const initialValues = {
+    receivePaymentTypeId: "",
+    receivePaymentOriginId: 0,
+    date: moment(new Date(Date.now())).format("jYYYY/jMM/jDD")
+}
 
 interface IProps {
     item: IRentPaymentFields | undefined
 }
 
-const RentPayment:FC<IProps> = ({item}) => {
-
-    const initialValues = {
-        receivePaymentTypeId: "",
-        receivePaymentOriginId: 0,
-        date: moment(new Date(Date.now())).format("jYYYY/jMM/jDD"),
-        totalFareAmount: ""
-    }
-    
+const RentPaymentSelected:FC<IProps> = ({item}) => {
     const { data: paymentResource } = useGetReceivePaymentSources()
     console.log(item)
 
@@ -104,7 +101,7 @@ const RentPayment:FC<IProps> = ({item}) => {
                             <FormikSelect name='receivePaymentTypeId' label='نوع پرداخت' options={dropdownReceivePaymentResource(paymentResource)} />
                             {renderFields("receivePaymentOriginId", "پرداخت از", +values.receivePaymentTypeId)}
                             <FormikInput name="totalFareAmount" label="مجموع مبلغ قابل پرداخت" />
-                            <FormikDatepicker disabled name="date" label="تاریخ پرداخت" />
+                            <FormikDatepicker name="date" label="تاریخ پرداخت" />
                         </div>
                         <div className="flex justify-end items-end mt-4">
                             <ButtonComponent>
@@ -120,4 +117,4 @@ const RentPayment:FC<IProps> = ({item}) => {
   )
 }
 
-export default RentPayment
+export default RentPaymentSelected
