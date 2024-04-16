@@ -59,7 +59,7 @@ export const translationMapping: any = {
     PettyCash: "ثبت و ویرایش تنخواه گردان",
     rentPayment: "پرداخت کرایه",
     ready_to_rent: "کرایه های پرداخت نشده",
-
+    rents: "کرایه های پرداخت شده"
     // Add more translations as needed
   };
   

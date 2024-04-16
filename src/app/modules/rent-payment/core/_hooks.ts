@@ -9,6 +9,11 @@ const useGetRentPayments = () => {
         refetchIntervalInBackground: false
     })
 }
+const useGetRentPaymentsByMutation = () => {
+    return useMutation((filters: IRentFilter) => {
+        return api.getRentPaymentsByMutation(filters)
+    })
+}
 
 const useGetAllRents = () => {
     return useMutation((formData: IRentFilter) => {
@@ -41,6 +46,7 @@ const useDeleteRentPayments = () => {
 
 export {
     useGetRentPayments,
+    useGetRentPaymentsByMutation,
     useGetAllRents,
     usePostRentPayments,
     useGetRentPayment,

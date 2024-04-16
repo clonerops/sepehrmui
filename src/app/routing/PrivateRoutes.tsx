@@ -2,11 +2,11 @@ import React from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
 
-
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
 const ExitList = React.lazy(() => import("../modules/logestic/exit/ExitList"));
 const ReadyToRent = React.lazy(() => import("../modules/rent-payment/ReadyToRent"));
+const RentPaymentList = React.lazy(() => import("../modules/rent-payment/RentPaymentList"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
 const Shareholders = React.lazy(() => import("../modules/generic/shareHolders/Shareholders"));
 const PettyCashs = React.lazy(() => import("../modules/generic/pettyCash/PettyCashes"));
@@ -282,6 +282,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/evacuation", element: <EvacuationPermit /> },
     
     { path: "dashboard/ready_to_rent", element: <ReadyToRent /> },
+    { path: "dashboard/rents", element: <RentPaymentList /> },
 
 
     { path: "dashboard/users", element: <Users /> },

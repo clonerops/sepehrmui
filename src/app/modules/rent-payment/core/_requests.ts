@@ -12,6 +12,18 @@ const getRentPayments = async () => {
         return error.response
     }
 }
+
+const getRentPaymentsByMutation = async (filters: IRentFilter) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/RentPayment', filters)}`)
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
+
 const getAllRents = async (formData: IRentFilter) => {
     try {
 
@@ -69,6 +81,7 @@ const deleteRentPayment = async (id: number) => {
 
 export {
     getRentPayments,
+    getRentPaymentsByMutation,
     getAllRents,
     postRentPayments,
     getRentPayment,
