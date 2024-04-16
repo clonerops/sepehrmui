@@ -30,7 +30,8 @@ const ReadyToRent = () => {
     const [isOpenSelected, setIsOpenSelected] = useState<boolean>(false)
     const [item, setItem] = useState<IRentPaymentFields>()
     const [isSelectAll, setIsSelectAll] = useState<boolean>(false)
-    const [selectedIds, setSelectedIds] = useState<any>([]);
+    const [selectedIdsLading, setSelectedIdsLading] = useState<any>([]);
+    const [selectedIdsTransferRemittance, setSelectedIdsTransferRemittance] = useState<any>([]);
 
     const { mutate, data: rents, isLoading } = useGetAllRents();
 
@@ -55,9 +56,14 @@ const ReadyToRent = () => {
     };
 
     const renderCheckbox = (item: any) => {
-        const isChecked = isSelectAll ?
-            selectedIds.length === rents?.data.length :
-            selectedIds.includes(item.row.ladingExitPermitId);
+        const isChecked = 
+            isSelectAll ?
+            selectedIdsLading.length === rents?.data.length :
+            selectedIdsLading.includes(item.row.ladingExitPermitId) 
+                && 
+            isSelectAll ?
+            selectedIdsTransferRemittance.length === rents?.data.length :
+            selectedIdsTransferRemittance.includes(item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
 
         return (
             <div className="flex justify-center items-center gap-x-4">
@@ -67,7 +73,7 @@ const ReadyToRent = () => {
                         if (isSelectAll) {
                             handleHeaderCheckboxClick(isChecked);
                         } else {
-                            handleCheckboxClick(item.row.ladingExitPermitId);
+                            handleCheckboxClick(item.row.ladingExitPermitId ? item.row.ladingExitPermitId : item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
                         }
                     }}
                 />
@@ -77,8 +83,12 @@ const ReadyToRent = () => {
 
 
     const handleHeaderCheckboxClick = (isChecked: boolean) => {
-        const allIds = rents?.data.map((item: any) => item.ladingExitPermitId);
-        setSelectedIds(isChecked ? allIds : []);
+        const allIdsLading = rents?.data.map((item: any) => item.ladingExitPermitId);
+        const allIdsTransferRemittance = rents?.data.map((item: any) => item.purchaseOrderTransferRemittanceUnloadingPermitId);
+
+        setSelectedIdsLading(isChecked ? allIdsLading : []);
+        setSelectedIdsTransferRemittance(isChecked ? allIdsTransferRemittance : []);
+        
         setIsSelectAll(isChecked);
     };
 
@@ -89,16 +99,26 @@ const ReadyToRent = () => {
 
 
     const handleCheckboxClick = (id: any) => {
-        const currentIndex = selectedIds.indexOf(id);
-        const newSelectedIds = [...selectedIds];
+        const currentIndexLading = selectedIdsLading.indexOf(id);
+        const newSelectedIdsLading = [...selectedIdsLading];
 
-        if (currentIndex === -1) {
-            newSelectedIds.push(id);
+        const currentIndexTransferRemittance = selectedIdsTransferRemittance.indexOf(id);
+        const newSelectedIdsTransferRemittance = [...selectedIdsTransferRemittance];
+
+        if (currentIndexLading === -1) {
+            newSelectedIdsLading.push(id);
         } else {
-            newSelectedIds.splice(currentIndex, 1);
+            newSelectedIdsLading.splice(currentIndexLading, 1);
         }
 
-        setSelectedIds(newSelectedIds);
+        if (currentIndexTransferRemittance === -1) {
+            newSelectedIdsTransferRemittance.push(id);
+        } else {
+            newSelectedIdsTransferRemittance.splice(currentIndexTransferRemittance, 1);
+        }
+
+        setSelectedIdsLading(newSelectedIdsLading);
+        setSelectedIdsTransferRemittance(newSelectedIdsTransferRemittance);
     };
 
 
@@ -125,6 +145,17 @@ const ReadyToRent = () => {
             });
         }
     };
+
+
+    const handleSubmit = () => {
+        const formData = {
+            puOrderTransRemittUnloadingPermitIds: selectedIdsTransferRemittance,
+            ladingExitPermitIds: selectedIdsLading,
+
+        }
+
+        console.log("formData", formData)
+    }
 
     return (
         <>
@@ -153,7 +184,7 @@ const ReadyToRent = () => {
                     isLoading={isLoading}
                 />
                 <div>
-                    <Button onClick={() => setIsOpenSelected(true)} variant="contained" color="primary" className="!my-8">
+                    <Button onClick={() => handleSubmit()} variant="contained" color="primary" className="!my-8">
                         <div className="flex flex-row gap-x-2 px-8">
                             <Approval className="text-white" />
                             <Typography className="text-white">ثبت کرایه</Typography>
