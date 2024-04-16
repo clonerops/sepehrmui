@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
+import RentPrint from "../modules/prints/RentPrint";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
@@ -292,6 +293,11 @@ export const routes: RouteProps[] = [
     { path: "dashboard/groups", element: <RoleGroups /> },
     // { path: "dashboard/groups/form", element: <GroupForm /> },
     { path: "dashboard/permissions", element: <Permissions /> },
+    
+    // prints
+    { path: "dashboard/rent_print", element: <RentPrint /> },
+
+
     { path: "*", element: <Navigate to="/error/404" /> },
 
 ];
