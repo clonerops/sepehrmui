@@ -237,7 +237,6 @@ const RecievePaymentEdit = () => {
 
                     }} onSubmit={onSubmit}>
                         {({ handleSubmit, values }) => {
-                            console.log("values", values)
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
                                     <FormikSelect disabeld  name='receivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
