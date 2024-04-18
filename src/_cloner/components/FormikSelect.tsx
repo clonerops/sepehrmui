@@ -1,5 +1,6 @@
 import {
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -9,7 +10,8 @@ import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
 import cx from "classnames";
-import { memo } from "react";
+import { ElementType, memo } from "react";
+import { Clear } from "@mui/icons-material";
 
 export type FormikSelectPropsType<Value> = {
   name: string;
@@ -46,6 +48,11 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
     formikProps.setFieldValue(name, selectedValue);
   };
 
+  const handleClear = () => {
+    formikProps.setFieldValue(name, ''); // Clear the field value
+  };
+
+
   return (
     <div className={cx("w-full", boxClassName)}>
       <FormControl fullWidth size={"small"} error={getFormikFieldValidationProps(formikProps, name).error}>
@@ -56,6 +63,16 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
           labelId={label + "-label"}
           id={label}
           label={label}
+          IconComponent={field.value ? null : undefined as any}
+          endAdornment={field.value && (
+            <IconButton
+              aria-label="clear selection"
+              onClick={handleClear}
+              edge="end"
+            >
+              <Clear />
+            </IconButton>
+          )}
           disabled={disabeld}
           {...field}
           {...rest}

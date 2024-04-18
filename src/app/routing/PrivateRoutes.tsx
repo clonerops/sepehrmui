@@ -209,19 +209,19 @@ export const routes: RouteProps[] = [
     { path: "dashboard/sales_order/presale-to-urgentsale/:id", element: <ConvertPreSaleToUrgentSale /> },
     { path: "dashboard/purchaser_order/lists/:id", element: <PurchaserOrderDetail /> },
     {
-        path: "dashboard/sales_order/ready-to-confirm/:id",
+        path: "dashboard/sales_order/ready_to_confirm/:id",
         element: <SalesOrderConfirm />,
     },
     {
-        path: "dashboard/purchaser_order/ready-to-confirm/:id",
+        path: "dashboard/purchaser_order/ready_to_confirm/:id",
         element: <PurchaserOrderConfirm />,
     },
     {
-        path: "dashboard/sales_order/ready-to-confirm",
+        path: "dashboard/sales_order/ready_to_confirm",
         element: <ReadyToSalesOrderConfirm />,
     },
     {
-        path: "dashboard/purchaser_order/ready-to-confirm",
+        path: "dashboard/purchaser_order/ready_to_confirm",
         element: <ReadyToPurchaserOrderConfirm />,
     },
     { path: "dashboard/sales_order/edit", element: <SalesOrderEdit /> },

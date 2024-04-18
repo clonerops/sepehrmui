@@ -71,8 +71,8 @@ const FormikComboBox = (props: Props) => {
                 // renderOption={renderOption}
                 renderOption={renderOption ? renderOption : (props, option: any) => {
                     return (
-                      <li {...props} key={option.value}>
-                        {option.label}
+                      <li {...props} key={option?.value}>
+                        {option?.label}
                       </li>
                     );
                   }}                

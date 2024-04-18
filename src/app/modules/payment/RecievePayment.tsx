@@ -140,11 +140,11 @@ const RecievePayment = () => {
                                     </div>
 
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
-                                    {values.ReceiveFromId.value &&
-                                        <FormikCompany customerid={values.ReceiveFromId.value} name="ReceiveFromCompanyId" label="نام شرکت دریافت از" />
+                                    {values?.ReceiveFromId?.value &&
+                                        <FormikCompany customerid={values?.ReceiveFromId?.value} name="ReceiveFromCompanyId" label="نام شرکت دریافت از" />
                                     }
-                                    {values.PayToId.value &&
-                                        <FormikCompany customerid={values.PayToId.value} name="PayToCompanyId" label="نام شرکت پرداخت به" />
+                                    {values?.PayToId?.value &&
+                                        <FormikCompany customerid={values?.PayToId?.value} name="PayToCompanyId" label="نام شرکت پرداخت به" />
                                     }
                                     
                                     <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
