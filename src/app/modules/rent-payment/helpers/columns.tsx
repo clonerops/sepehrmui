@@ -20,6 +20,8 @@ export const rentsColumns = (renderAction: any, renderCheckbox: any,  isSelectAl
             flex: 1
         },
         {
+            field: "Action", headerName: 'جزئیات و تایید', flex: 1, minWidth: 120, maxWidth: 120, renderCell: renderAction, headerClassName: "headerClassName" },
+        {
             field: 'referenceCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -58,7 +60,7 @@ export const rentsColumns = (renderAction: any, renderCheckbox: any,  isSelectAl
             field: 'totalAmount', renderCell: (params: any) => {
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
             },
-            headerName: 'نرخ کرایه', headerClassName: "headerClassName", minWidth: 100, flex: 1
+            headerName: 'کرایه(ریال)', headerClassName: "headerClassName", minWidth: 100, flex: 1
         },
         {
             field: 'otherCosts', renderCell: (params: any) => {
@@ -88,8 +90,8 @@ export const rentsColumns = (renderAction: any, renderCheckbox: any,  isSelectAl
             headerName: 'موبایل راننده', headerClassName: "headerClassName", minWidth: 160, flex: 1
         },
       
-        {
-            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+        // {
+        //     field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
 }
