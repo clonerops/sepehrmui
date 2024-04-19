@@ -190,6 +190,7 @@ const Warehouse = () => {
                 rows={results}
                 data={Warehouses?.data}
                 getRowId={(row: {id: number}) => row.id}
+                onDoubleClick={(item: any) => handleEdit(item?.row)}
               />
             </div>
           </div>

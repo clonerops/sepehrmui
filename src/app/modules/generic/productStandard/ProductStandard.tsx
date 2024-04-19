@@ -163,6 +163,8 @@ const ProductStandards = () => {
               columns={columns(renderSwitch)}
               rows={results}
               data={standards?.data}
+              onDoubleClick={(item: any) => onUpdateStatus(item)}
+
             />
           </div>
         </ReusableCard>

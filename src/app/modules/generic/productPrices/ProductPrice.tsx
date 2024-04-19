@@ -174,6 +174,7 @@ const ProductPrice = () => {
                     columns={columnsProductPrice(renderAction)}
                     rows={results}
                     data={productPrice?.data}
+                    onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
                 <TransitionsModal
                     open={isCreateOpen}

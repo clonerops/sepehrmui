@@ -164,6 +164,7 @@ const ProductService = () => {
               columns={columns(renderSwitch)}
               rows={results}
               data={Services?.data}
+              onDoubleClick={(item: any) => onUpdateStatus(item)}
             />
           </div>
         </ReusableCard>

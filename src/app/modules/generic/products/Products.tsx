@@ -233,12 +233,9 @@ const Products = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Tooltip title={<Typography variant='h3'>ویرایش کالا</Typography>}>
                 <Fab size="small" color="secondary">
                     <EditGridButton onClick={() => handleEdit(item?.row)} />
                 </Fab>
-                {/* <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} /> */}
-            </Tooltip>
         );
     };
 
@@ -301,6 +298,7 @@ const Products = () => {
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
                     data={products?.data}
+                    onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
             </ReusableCard>
             <TransitionsModal

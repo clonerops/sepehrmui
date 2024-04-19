@@ -188,6 +188,7 @@ const ProductTypes = () => {
               columns={columns(renderAction, renderSwitch)}
               rows={results}
               data={types?.data}
+              onDoubleClick={(item: any) => handleEdit(item?.row)}
             />
           </Box>
           <Box component="div">

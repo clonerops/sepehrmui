@@ -192,6 +192,7 @@ const ProductState = () => {
               columns={columns(renderSwitch)}
               rows={results}
               data={state?.data}
+              onDoubleClick={(item: any) => onUpdateStatus(item)}
             />
           </div>
           <div>

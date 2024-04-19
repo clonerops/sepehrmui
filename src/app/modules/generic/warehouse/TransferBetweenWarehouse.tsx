@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Fab, Tooltip, Typography } from "@mui/material";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -16,6 +16,7 @@ import { ApprovalRounded } from "@mui/icons-material";
 const pageSize = 20;
 
 const TransferBetweenWarehouse = () => {
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     let formData = {
@@ -125,6 +126,7 @@ const TransferBetweenWarehouse = () => {
                     )}
                     rows={results || [{}]}
                     data={orders?.data || [{}]}
+                    onDoubleClick={(item: any) => navigate(item.row.purchaseOrderStatusId === 4 ? '' : `/dashboard/transferBetweenWarehouse/${item?.row?.id}`)}
                     isLoading={isLoading}
                 />
                 <Pagination

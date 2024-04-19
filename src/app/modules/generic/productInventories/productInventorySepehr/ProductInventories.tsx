@@ -116,6 +116,7 @@ const ProductInventoriesSepehr = () => {
                             rows={results}
                             data={filterTools?.data?.data}
                             height={400}
+                            onDoubleClick={(item: any) => handleOpenModal(item)}
                         />
                     </div>
                     <div>

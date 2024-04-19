@@ -238,6 +238,7 @@ const Brands = () => {
                             columns={columns(renderSwitch)}
                             rows={results}
                             data={brands?.data}
+                            onDoubleClick={(item: any) => onUpdateStatus(item)}
                         />
 
                     </div>
