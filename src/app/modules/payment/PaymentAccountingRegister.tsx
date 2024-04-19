@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useGetRecievePayments, usePutRecievePaymentRegister } from "./core/_hooks";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { Button, Typography, Checkbox, Tooltip } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
@@ -51,6 +51,7 @@ const PaymentAccountingRegister = () => {
 
     const formikRef = useRef<FormikProps<any>>(null)
     const formikRefAccountDocNo = useRef<FormikProps<any>>(null)
+    const navigate = useNavigate()
 
     const getReceivePayments = (filters: IPaymentFilter) => {
         mutate(filters, {
@@ -427,6 +428,7 @@ const PaymentAccountingRegister = () => {
                     columns={columns(renderCheckbox, renderActions)}
                     rows={results}
                     data={data?.data}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/payment/accounting/register/${item?.row?.id}`)}
                 />
                 <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
                 <div className="flex justify-end items-end mt-8">

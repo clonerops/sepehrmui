@@ -188,6 +188,7 @@ const Shareholders = () => {
                     getRowId={(row: { id: string }) => row.id}
                     rows={shareHolderLists?.data?.data}
                     data={shareHolderLists?.data?.data}
+                    onDoubleClick={(item: any) => handleEdit(item?.row)}
                     hideFooter={true}
                 />
                 <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />

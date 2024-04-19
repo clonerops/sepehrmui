@@ -162,6 +162,7 @@ const Costs = () => {
               columns={columns(renderSwitch)}
               rows={results}
               data={Costs?.data}
+              onDoubleClick={(item: any) => onUpdateStatus(item)}
             />
           </div>
         </ReusableCard>

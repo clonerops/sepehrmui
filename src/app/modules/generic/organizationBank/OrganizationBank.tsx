@@ -151,6 +151,7 @@ const OrganizationBank = () => {
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
                     data={organizationBank?.data}
+                    onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
             </ReusableCard>
             <TransitionsModal

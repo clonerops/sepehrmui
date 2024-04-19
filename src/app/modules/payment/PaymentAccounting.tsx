@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useGetRecievePayments, useUpdatePaymentApproved } from "./core/_hooks";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { Button, Checkbox, Tooltip, Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
@@ -37,6 +37,7 @@ const PaymentAccounting = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const formikRef = useRef<FormikProps<any>>(null)
+    const navigate = useNavigate()
 
     const getReceivePayments = (filters: IPaymentFilter) => {
         mutate(filters, {
@@ -342,6 +343,7 @@ const PaymentAccounting = () => {
                     columns={columns(renderActions, renderCheckbox)}
                     rows={results}
                     data={data?.data}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/payment/edit/${item?.row?.id}`)}
                 />
                 <div className="flex justify-end items-end mt-8">
                     <Button className="!bg-green-500 !px-8" onClick={() => setIsOpen(true)}>

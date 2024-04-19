@@ -163,6 +163,7 @@ const InComs = () => {
               columns={columns(renderSwitch)}
               rows={results}
               data={Incomes?.data}
+              onDoubleClick={(item: any) => onUpdateStatus(item)}
             />
           </div>
         </ReusableCard>
