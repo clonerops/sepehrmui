@@ -6,7 +6,7 @@ import { billlandingColumns } from "./_columns"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { Search } from "@mui/icons-material"
 import Backdrop from "../../../../_cloner/components/Backdrop"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Formik } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import { useEffect, useState } from "react"
@@ -20,6 +20,7 @@ const pageSize = 100
 
 
 const TransferRemitancesList = () => {
+  const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const transferRemittanceStatus = useGetTransferRemittanceStatus()
@@ -113,6 +114,7 @@ return (
           columns={billlandingColumns(renderAction)}
           rows={transferList?.data?.data || [{}]}
           data={transferList?.data?.data || [{}]}
+          onDoubleClick={(item: any) => navigate(item.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${item.row.id}`)}
           hideFooter={true}
           
         />

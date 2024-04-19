@@ -152,9 +152,9 @@ const Permissions = () => {
             <ReusableCard>
                 <Box
                     component="div"
-                    className="md:grid md:grid-cols-2 md:gap-x-4"
+                    className="md:grid md:grid-cols-3 md:gap-x-4"
                 >
-                    <Box component="div">
+                    <Box component="div" className="lg:col-span-2">
                         <PermissionForm refetch={Permissions.refetch} />
                         <FuzzySearch<Item>
                             keys={["permissionName", "description"]}
@@ -168,6 +168,7 @@ const Permissions = () => {
                                 rows={results}
                                 data={Permissions?.data?.data}
                                 isLoading={Permissions.isLoading}
+                                onDoubleClick={(item: any) => handleEdit(item?.row)}
                             />
                             <Pagination pageCount={+Permissions?.data?.data.length / +pageSize || 200} onPageChange={handlePageChange} />
                         </Box>

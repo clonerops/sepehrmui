@@ -79,6 +79,7 @@ const Users = () => {
               rows={results}
               data={usersTools?.data?.data}
               isLoading={usersTools.isLoading}
+              onDoubleClick={(item: any) => onHandleUpdateModal(item.row.id)}
             />
           </div>
           <div className="md:flex md:justify-center md:items-center hidden"> 

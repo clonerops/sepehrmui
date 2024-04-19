@@ -7,7 +7,7 @@ import { dropdownCustomer } from "../../generic/_functions";
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { Button, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
 import { useGetCargosList } from "../core/_hooks";
@@ -17,6 +17,7 @@ import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 const pageSize = 20;
 
 const ReadyToLading = () => {
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const { data: customers } = useGetCustomers();
@@ -95,6 +96,7 @@ const ReadyToLading = () => {
                     rows={cargoList?.data?.data}
                     data={cargoList?.data?.data}
                     isLoading={cargoList?.isLoading}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/lading/${item?.row?.id}`)}
                 />
                 <Pagination
                     pageCount={cargoList?.data?.totalCount / pageSize}

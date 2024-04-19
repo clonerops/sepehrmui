@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import FormikInput from '../../../../_cloner/components/FormikInput'
 import { Button, Typography } from '@mui/material'
 import { Search } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../../_cloner/components/Pagination'
 import { useGetTransferRemitancesByMutation } from '../core/_hooks'
@@ -14,6 +14,8 @@ import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 const pageSize = 20
 
 const ReadyToEvacuation = () => {
+    const navigate = useNavigate()
+    
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const transferList = useGetTransferRemitancesByMutation()
@@ -84,6 +86,7 @@ const ReadyToEvacuation = () => {
                     rows={transferList?.data?.data}
                     data={transferList?.data?.data}
                     isLoading={transferList.isLoading}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/evacuation/${item?.row?.id}/${item?.row?.entrancePermitId}`)}
                 />
                 <Pagination pageCount={transferList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 

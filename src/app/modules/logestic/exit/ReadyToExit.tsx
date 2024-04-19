@@ -4,7 +4,7 @@ import { Form, Formik } from 'formik'
 import FormikInput from '../../../../_cloner/components/FormikInput'
 import { Box, Button, Typography } from '@mui/material'
 import { Search } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../../_cloner/components/Pagination'
 import { useGetLadingLicenceList } from '../core/_hooks'
@@ -13,6 +13,8 @@ import { ladingColumns } from '../../managment-order/helpers/columns'
 const pageSize = 20
 
 const ReadyToExit = () => {
+    const navigate = useNavigate()
+
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const ladingList = useGetLadingLicenceList();
@@ -56,6 +58,7 @@ const ReadyToExit = () => {
                 rows={ladingList?.data?.data}
                 data={ladingList?.data?.data}
                 isLoading={ladingList.isLoading}
+                onDoubleClick={(item: any) => navigate(`/dashboard/exit/${item?.row?.id}`)}
             />
             <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 
