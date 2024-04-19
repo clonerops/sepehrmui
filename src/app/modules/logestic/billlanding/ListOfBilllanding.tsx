@@ -1,4 +1,4 @@
-import { IconButton, Typography } from "@mui/material"
+import { IconButton, Tooltip, Typography } from "@mui/material"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import { useGetTransferRemitancesByMutation } from "../core/_hooks"
@@ -28,21 +28,25 @@ const ListOfBilllanding = () => {
       PageSize: 100,
     }
     transferList.mutate(filter)
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [currentPage])
 
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
-      <Link to={`/dashboard/billlandingList/${params.row.id}`}>
-        <IconButton size="small" color="primary">
-          <Visibility />
-        </IconButton>
-      </Link>
-      <Link to={`/dashboard/billlandingEdit/${params.row.id}`}>
-        <IconButton size="small" color="secondary">
-          <Edit />
-        </IconButton>
-      </Link>
+      <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+        <Link to={`/dashboard/billlandingList/${params.row.id}`}>
+          <IconButton size="small" color="primary">
+            <Visibility />
+          </IconButton>
+        </Link>
+      </Tooltip>
+      <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
+        <Link to={`/dashboard/billlandingEdit/${params.row.id}`}>
+          <IconButton size="small" color="secondary">
+            <Edit />
+          </IconButton>
+        </Link>
+      </Tooltip>
     </div>
   }
   const handleFilter = (values: any) => {
@@ -62,7 +66,7 @@ const ListOfBilllanding = () => {
     let formData = {
       PageNumber: currentPage,
       PageSize: 100,
-      TransferRemittStatusId: id, 
+      TransferRemittStatusId: id,
     };
     transferList.mutate(formData);
   }
@@ -93,12 +97,12 @@ const ListOfBilllanding = () => {
                     disabled={false}
                     categories={
                       transferRemittanceStatus?.data === undefined
-                          ? [{ value: null, title: "همه", defaultChecked: true }]
-                          : dropdownTransferRemittanceStatus([
-                                { id: null, statusDesc: "همه", defaultChecked: true },
-                                ...transferRemittanceStatus?.data,
-                            ])
-                  }
+                        ? [{ value: null, title: "همه", defaultChecked: true }]
+                        : dropdownTransferRemittanceStatus([
+                          { id: null, statusDesc: "همه", defaultChecked: true },
+                          ...transferRemittanceStatus?.data,
+                        ])
+                    }
                     name="TransferRemittStatusId"
                     id="TransferRemittStatusId"
                     onChange={(id: number) => handleChangeStatus(id)}

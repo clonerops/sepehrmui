@@ -22,8 +22,9 @@ import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 import { useGetProductList } from '../../generic/products/_hooks'
 
-const categories = [{ value: 2, title: "پیش فروش", defaultChecked: true },
-{ value: 1, title: "فروش فوری", defaultChecked: false }
+const categories = [
+    { value: 2, title: "پیش فروش", defaultChecked: false },
+{ value: 1, title: "فروش فوری", defaultChecked: true }
 ]
 
 const SalesOrder = () => {

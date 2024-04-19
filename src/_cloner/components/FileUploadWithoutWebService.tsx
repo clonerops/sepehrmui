@@ -2,6 +2,7 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { EnqueueSnackbar } from '../helpers/Snackebar';
+import Zoom from 'react-medium-image-zoom'
 
 interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')
@@ -54,11 +55,13 @@ const FileUploadWithoutWebService: React.FC<FileUploadProps> = ({ files, setFile
           {files.map((file, index) => (
             <li className="text-xl " key={index}>
               {/* {file.name} */}
-              <img
-                src={URL.createObjectURL(file)}
-                alt={file.name}
-                style={{ maxWidth: '50%', maxHeight: '50px' }}
-              />
+              <Zoom>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={file.name}
+                  style={{ maxWidth: '50%', maxHeight: '50px' }}
+                />
+              </Zoom>
               <Button
                 className="pr-16"
                 onClick={() => removeFile(file)}

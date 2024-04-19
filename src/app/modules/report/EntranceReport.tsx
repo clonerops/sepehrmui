@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import { Typography } from '@mui/material'
+import { Tooltip, Typography } from '@mui/material'
 import { Search, Visibility } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useGetTransferRemitancesByMutation } from '../logestic/core/_hooks'
@@ -24,17 +24,19 @@ const EntranceReport = () => {
             IsEntranced: true
         }
         transferList.mutate(filter)
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [currentPage])
 
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`/dashboard/billlandingList/${item?.row?.id}`}
-            >
-                <Visibility color='secondary' />
-            </Link>
+            <Tooltip title={<Typography variant='h3'>نمایش جزئیات</Typography>}>
+                <Link
+                    to={`/dashboard/billlandingList/${item?.row?.id}`}
+                >
+                    <Visibility color='secondary' />
+                </Link>
+            </Tooltip>
         );
     };
 

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Formik } from "formik";
 import { Edit, Search } from "@mui/icons-material";
-import { Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -19,14 +19,14 @@ const CargoList = () => {
 
     const { data: customers } = useGetCustomers();
     const cargoList = useGetCargosList();
-    
+
     useEffect(() => {
         let formData = {
             PageNumber: 1,
             PageSize: 20,
         };
         cargoList.mutate(formData);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
     const handleFilter = (values: any) => {
@@ -36,14 +36,16 @@ const CargoList = () => {
         };
         cargoList.mutate(formData);
     }
-    
+
     const renderAction = (item: any) => {
         return (
-            <div className="flex gap-x-4">
-                <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
-                    <Edit color="secondary" />
-                </Link>
-            </div>
+            <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
+                <div className="flex gap-x-4">
+                    <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
+                        <Edit color="secondary" />
+                    </Link>
+                </div>
+            </Tooltip>
         );
     };
 
@@ -53,8 +55,8 @@ const CargoList = () => {
                 <Formik initialValues={{
                     orderCode: "",
                     customerId: ""
-                }} onSubmit={() => {}}>
-                    {({values}) => {
+                }} onSubmit={() => { }}>
+                    {({ values }) => {
                         return (
                             <form>
                                 <div

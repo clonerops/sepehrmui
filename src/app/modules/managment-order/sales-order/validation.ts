@@ -6,6 +6,7 @@ const saleOrderValidation = Yup.object().shape({
     orderSendTypeId: Yup.string().required("نوع ارسال الزامی است"),
     paymentTypeId: Yup.string().required("نوع پرداخت الزامی است"),
     invoiceTypeId: Yup.string().required("نوع فاکتور الزامی است"),
+    deliverDate: Yup.string().required("تاریخ تحویل الزامی است"),
     rowId: Yup.number().typeError("مقدار باید عددی باشد"),
     proximateAmount: Yup.mixed(),
 
