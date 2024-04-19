@@ -180,18 +180,18 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     <FormikWarehouse
                         name={!isUpdate ? "warehouseId" : "warehouseName"}
                         label="انبار"
-                        disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 }
                         onChange={changeWarehouseFunction} />
                     <FormikProduct
                         name={!isUpdate ? "productId" : "productName"}
                         label="کالا/محصول"
-                        disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
                         options={dropdownProductByBrandName(products?.data?.data)} />
 
                     <FormikProximateAmount
                         name="proximateAmount"
                         label="مقدار"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 }
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
@@ -202,7 +202,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     <FormikInput
                         name="productSubUnitAmount"
                         label="مقدار واحد فرعی"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
@@ -213,33 +213,33 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     <FormikPrice
                         name="price"
                         label="قیمت (ریال)"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
                     <FormikInput
                         name="detailDescription"
                         label="توضیحات"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
                     <FormikInput
                         name="rowId"
                         label="ردیف فروش"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
                     {values.warehouseTypeId === 5 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 1 ?
                          <></> : <>
                          <FormikCustomer
                              name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
                              label="خرید از"
-                             disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
+                             disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
                          <FormikPrice
                              name="purchasePrice"
                              label="قیمت خرید (ریال)"
-                             disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
+                             disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
                          <FormikPurchaserInvoiceType
                              name="purchaseInvoiceTypeId"
                              label="نوع فاکتور خرید"
-                             disabeld={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
+                             disabeld={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
                          <FormikDatepicker
                              name="purchaseSettlementDate"
                              label="تاریخ تسویه خرید"
-                             disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />    
+                             disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />    
                      </>
                     }
                     {isUpdate ? (

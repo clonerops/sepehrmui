@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { Button, Tooltip, Typography } from '@mui/material'
 
@@ -15,7 +15,8 @@ import { Approval } from "@mui/icons-material";
 
 
 const ReadyToSalesOrderConfirm = () => {
-
+    const navigate = useNavigate()
+    
     const { mutate, data: orders, isLoading } = useRetrieveOrdersByMutation();
     const [results, setResults] = useState<IOrder[]>([]);
 
@@ -37,7 +38,7 @@ const ReadyToSalesOrderConfirm = () => {
         return (
             <Tooltip title={<Typography variant='h3'>اقدام به ثبت تایید</Typography>}>
                 <Link
-                    to={`${item.row.orderStatusId === 1 ? `/dashboard/sales_order/ready-to-confirm/${item?.row?.id}` : ""}`}
+                    to={`${item.row.orderStatusId === 1 ? `/dashboard/sales_order/ready_to_confirm/${item?.row?.id}` : ""}`}
                     state={{ isConfirmed: true }}
                 >
                     <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId >= 2}>
@@ -111,6 +112,7 @@ const ReadyToSalesOrderConfirm = () => {
                 rows={results}
                 data={orders?.data}
                 isLoading={isLoading}
+                onDoubleClick={(item: any) => navigate(`${item.row.orderStatusId === 1 ? `/dashboard/sales_order/ready_to_confirm/${item?.row?.id}` : ""}`)}
             />
         </ReusableCard>
     );

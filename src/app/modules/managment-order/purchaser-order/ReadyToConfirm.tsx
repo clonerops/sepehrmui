@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { Button, Tooltip, Typography } from '@mui/material'
 
@@ -15,6 +15,7 @@ import { Approval } from "@mui/icons-material";
 
 
 const ReadyToPurchaserOrderConfirm = () => {
+    const navigate = useNavigate()
 
     const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
     const [results, setResults] = useState<IOrder[]>([]);
@@ -94,7 +95,6 @@ const ReadyToPurchaserOrderConfirm = () => {
                             "exitType",
                         ]}
                         data={orders?.data}
-                        threshold={0.5}
                         setResults={setResults}
                     />
                 </div>
@@ -111,6 +111,7 @@ const ReadyToPurchaserOrderConfirm = () => {
                 rows={results}
                 data={orders?.data}
                 isLoading={isLoading}
+                onDoubleClick={(item: any) => navigate(`${item.row.orderStatusId === 1 ? `/dashboard/purchaser_order/ready-to-confirm/${item?.row?.id}` : ""}`)}
             />
         </ReusableCard>
     );

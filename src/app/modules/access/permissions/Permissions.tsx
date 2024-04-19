@@ -160,7 +160,6 @@ const Permissions = () => {
                             keys={["permissionName", "description"]}
                             data={Permissions?.data?.data || []}
                             setResults={setResults}
-                            threshold={0.3}
                         />
                         <Box component="div" className="my-4">
                             <MuiDataGrid

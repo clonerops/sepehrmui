@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Search, Visibility } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Tooltip, Typography } from '@mui/material'
 
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
@@ -17,8 +17,9 @@ import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 const pageSize = 100
 
 const PurchaserOrderList = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const navigate = useNavigate()
 
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const orderLists = useRetrievePurchaserOrdersByMutation()
 
@@ -93,6 +94,7 @@ const PurchaserOrderList = () => {
                 rows={results || [{}]}
                 data={orderLists?.data?.data || [{}]}
                 isLoading={orderLists?.isLoading}
+                onDoubleClick={(item: any) => navigate(`/dashboard/purchaser_order/lists/${item?.row?.id}`)}
             />
             <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
         </ReusableCard>

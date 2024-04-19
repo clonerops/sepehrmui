@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Button, Tooltip, Typography } from '@mui/material'
+import { Link, useNavigate } from "react-router-dom";
+import { Tooltip, Typography } from '@mui/material'
 
 import { useRetrieveOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
@@ -17,6 +17,8 @@ import { Search, Visibility } from "@mui/icons-material";
 const pageSize = 100
 
 const SalesOrderList = () => {
+    const navigate = useNavigate()
+
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const orderLists = useRetrieveOrdersByMutation()
@@ -90,6 +92,7 @@ const SalesOrderList = () => {
                 rows={results}
                 data={orderLists?.data?.data}
                 isLoading={orderLists.isLoading}
+                onDoubleClick={(item: any) => navigate(`/dashboard/sales_order/lists/${item?.row?.id}`)}
             />
             <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
         </ReusableCard>
