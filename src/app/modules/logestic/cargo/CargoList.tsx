@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Formik } from "formik";
 import { Edit, Search } from "@mui/icons-material";
 import { Tooltip, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../../_cloner/components/FormikInput";
@@ -16,6 +16,7 @@ import { dropdownCustomer } from "../../generic/_functions";
 import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 
 const CargoList = () => {
+    const navigate = useNavigate()
 
     const { data: customers } = useGetCustomers();
     const cargoList = useGetCargosList();
@@ -89,6 +90,7 @@ const CargoList = () => {
                     rows={cargoList?.data?.data}
                     data={cargoList?.data?.data}
                     isLoading={cargoList?.isLoading}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/cargoList/${item?.row?.id}`)}
                 />
             </ReusableCard>
         </>

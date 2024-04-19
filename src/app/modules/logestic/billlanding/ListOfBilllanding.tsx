@@ -6,7 +6,7 @@ import { billlandingColumns } from "./_columns"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { Edit, Search, Visibility } from "@mui/icons-material"
 import Backdrop from "../../../../_cloner/components/Backdrop"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Formik } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import { useEffect, useState } from "react"
@@ -18,6 +18,7 @@ import { dropdownTransferRemittanceStatus } from "../helpers/dropdowns"
 const pageSize = 100
 
 const ListOfBilllanding = () => {
+  const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const transferRemittanceStatus = useGetTransferRemittanceStatus()
@@ -117,6 +118,7 @@ const ListOfBilllanding = () => {
           columns={billlandingColumns(renderAction)}
           rows={transferList?.data?.data || [{}]}
           data={transferList?.data?.data || [{}]}
+          onDoubleClick={(item: any) => navigate(`/dashboard/billlandingEdit/${item.row.id}`)}
           hideFooter={true}
         />
         <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { Tooltip, Typography } from '@mui/material'
 import { Search, Visibility } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useGetTransferRemitancesByMutation } from '../logestic/core/_hooks'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import FormikInput from '../../../_cloner/components/FormikInput'
@@ -14,6 +14,7 @@ import Pagination from '../../../_cloner/components/Pagination'
 const pageSize = 20
 
 const EntranceReport = () => {
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const transferList = useGetTransferRemitancesByMutation()
@@ -84,6 +85,7 @@ const EntranceReport = () => {
                     rows={transferList?.data?.data}
                     data={transferList?.data?.data}
                     isLoading={transferList.isLoading}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/billlandingList/${item?.row?.id}`)}
                 />
                 <Pagination pageCount={transferList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 
