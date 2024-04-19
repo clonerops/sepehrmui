@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DownloadExcelBase64File } from "../../../../../_cloner/helpers/DownloadFiles";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
-import { Alert, Button, Typography } from "@mui/material";
+import { Alert, Button, Fab, Tooltip, Typography } from "@mui/material";
 import ReusableCard from "../../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
@@ -15,6 +15,7 @@ import { useGetProductList } from "../../products/_hooks";
 import { IProducts } from "../../products/_models";
 import UploadFileInventorySepehr from "./UploadFileInventorySepehr";
 import DownloadInventory from "./DownloadInventory";
+import { Add, AddAlarm, PlusOne } from "@mui/icons-material";
 
 const ProductInventoriesSepehr = () => {
     const uploadFileMethode = useUploadFileProductInventories();
@@ -49,9 +50,11 @@ const ProductInventoriesSepehr = () => {
     };
 
     const renderIncreaseInventory = (item: {row: IProducts}) => {
-        return <Button variant="contained" color="secondary" onClick={() => handleOpenModal(item)}>
-            <Typography>افزایش موجودی</Typography>
-        </Button>
+        return <Tooltip title={<Typography variant='h3'>افزایش موجودی</Typography>}>
+            <Fab size="small" color="secondary" onClick={() => handleOpenModal(item)}>
+                <AddAlarm /> 
+            </Fab>
+        </Tooltip>
     }
 
     const handleOpenModal = (item: {row: IProducts}) => {

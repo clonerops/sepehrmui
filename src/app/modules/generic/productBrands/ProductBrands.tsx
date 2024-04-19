@@ -147,8 +147,8 @@ const ProductBrands = () => {
     <>
       {postLoading && <Backdrop loading={postLoading} />}
       {updateLoading && <Backdrop loading={updateLoading} />}
-      <div className="lg:grid lg:grid-cols-2 lg:gap-4">
-        <ReusableCard>
+      <div className="lg:grid lg:grid-cols-3 lg:gap-4">
+        <ReusableCard cardClassName='col-span-2'>
           <div>
             <div>
               <Formik initialValues={initialValues} onSubmit={
@@ -214,8 +214,15 @@ const ProductBrands = () => {
             </div>
           </div>
         </ReusableCard>
-        <div className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
-          <ReusableCard>
+        <ReusableCard>
+            <VerticalCharts 
+              text='تعداد برندها برحسب کالا'  
+              categories={Object.keys(groupedProductBrand) || [{}]} 
+              data={Object.values(groupedProductBrand).map((item: any) => item.length)}
+             />
+          </ReusableCard>
+
+          {/* <ReusableCard>
             <div className="flex flex-col flex-wrap gap-4">
               <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
               <Typography>کالاهای موجود هرکدام دارای برند های خاصی می باشد</Typography>
@@ -226,6 +233,7 @@ const ProductBrands = () => {
               <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
             </div>
           </ReusableCard>
+        <div className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
           <ReusableCard>
             <img alt="sepehriranian"
               src={toAbsoulteUrl("/media/logos/8595513.jpg")}
@@ -239,7 +247,7 @@ const ProductBrands = () => {
               data={Object.values(groupedProductBrand).map((item: any) => item.length)}
              />
           </ReusableCard>
-        </div>
+        </div> */}
       </div>
     </>
   )

@@ -115,14 +115,16 @@ const ProductInventories = () => {
                     />
                 </div>
 
-                <div className="grid grid-cols-2 mt-2">
-                    <MuiDataGrid
-                        columns={columnsProductInventories()}
-                        isLoading={filterTools.isLoading}
-                        rows={results}
-                        data={filterTools?.data?.data}
-                        height={400}
-                    />
+                <div className="grid grid-cols-3 mt-2">
+                    <div className="col-span-2">
+                        <MuiDataGrid
+                            columns={columnsProductInventories()}
+                            isLoading={filterTools.isLoading}
+                            rows={results}
+                            data={filterTools?.data?.data}
+                            height={400}
+                        />
+                    </div>
                     <div>
                         <div className="hidden md:flex md:justify-center md:items-center">
                             <img 

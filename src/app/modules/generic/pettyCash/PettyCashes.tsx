@@ -120,8 +120,8 @@ const PettyCashs = () => {
     return (
         <>
             {deleteLoading && <Backdrop loading={deleteLoading} />}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <ReusableCard>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <ReusableCard cardClassName="col-span-2">
                 <div
                 
                     className="md:flex md:justify-between md:items-center space-y-2 mb-4"

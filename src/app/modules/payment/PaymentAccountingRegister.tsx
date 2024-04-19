@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useGetRecievePayments, usePutRecievePaymentRegister } from "./core/_hooks";
 import { Link } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { Button, Typography, Checkbox } from "@mui/material";
+import { Button, Typography, Checkbox, Tooltip } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { IPayment, IPaymentFilter } from "./core/_models";
 import React from "react";
@@ -62,7 +62,7 @@ const PaymentAccountingRegister = () => {
 
     useEffect(() => {
         setResults(data?.data);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [data?.data]);
     useEffect(() => {
         const filters = {
@@ -91,6 +91,13 @@ const PaymentAccountingRegister = () => {
                 renderCell: renderCheckbox,
                 headerClassName: "headerClassName",
                 minWidth: 80,
+                flex: 1
+            },
+            {
+                headerName: "جزئیات و ثبت",
+                renderCell: renderAction,
+                headerClassName: "headerClassName",
+                minWidth: 120,
                 flex: 1
             },
             {
@@ -145,7 +152,7 @@ const PaymentAccountingRegister = () => {
                             // (value.row?.receivePaymentTypeFromId !== 1
                             //     ? ""
                             //     : value.row?.receiveFromCustomerName)
-                                }
+                        }
                     </Typography>
                 ),
                 headerClassName: "headerClassName",
@@ -170,10 +177,10 @@ const PaymentAccountingRegister = () => {
             },
             {
                 field: "amount",
-                headerName: "مبلغ",
+                headerName: "مبلغ(ریال)",
                 renderCell: (value: any) => (
                     <Typography color="primary" variant="h4">
-                        {separateAmountWithCommas(value.row.amount) + "تومان"}
+                        {separateAmountWithCommas(value.row.amount)}
                     </Typography>
                 ),
                 headerClassName: "headerClassName",
@@ -270,27 +277,28 @@ const PaymentAccountingRegister = () => {
             //     minWidth: 160,
             //     flex: 1
             // },
-            {
-                headerName: "جزئیات و ثبت",
-                renderCell: renderAction,
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
+            // {
+            //     headerName: "جزئیات و ثبت",
+            //     renderCell: renderAction,
+            //     headerClassName: "headerClassName",
+            //     minWidth: 120,
+            //     flex: 1
+            // },
         ];
         return col;
     };
 
     const renderActions = (item: any) => {
         return (
-            <div className="flex justify-center items-center gap-x-4">
-                <Link to={`/dashboard/payment/accounting/register/${item?.row?.id}`}>
-                    <Typography variant="h4">
-                        <Visibility color="primary" />
-                    </Typography>
-                </Link>
-            </div>
-
+            <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                <div className="flex justify-center items-center gap-x-4">
+                    <Link to={`/dashboard/payment/accounting/register/${item?.row?.id}`}>
+                        <Typography variant="h4">
+                            <Visibility color="primary" />
+                        </Typography>
+                    </Link>
+                </div>
+            </Tooltip>
         );
     };
     const renderCheckbox = (item: any) => {
@@ -437,8 +445,8 @@ const PaymentAccountingRegister = () => {
                         initialValues={{ accountDocNo: "" }}
                         onSubmit={(actions) => {
                             actions.setSubmitting(false);
-                          }}
-                        >
+                        }}
+                    >
                         {({ setSubmitting }) => (
                             <div className="flex flex-col space-y-4">
                                 <div className="mt-8">

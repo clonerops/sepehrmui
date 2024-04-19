@@ -6,6 +6,15 @@ import { IProducts } from "../../products/_models";
 export const columnsProductInventories = (renderIncreaseInventory: (item: {row: IProducts}) => void) => {
     const col = [
         {
+            field: "increase",
+            minWidth: 140,
+            maxWidth: 140,
+            headerName: "افزایش موجودی",
+            flex: 1,
+            renderCell: renderIncreaseInventory,
+            headerClassName: "headerClassName",
+        },
+        {
             field: "productCode",
             headerName: "کدکالا",
             headerClassName: "headerClassName",
@@ -74,14 +83,7 @@ export const columnsProductInventories = (renderIncreaseInventory: (item: {row: 
         //         <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
         //     headerClassName: "headerClassName",
         // },
-        {
-            field: "increase",
-            minWidth: 140,
-            headerName: "افزایش موجودی",
-            flex: 1,
-            renderCell: renderIncreaseInventory,
-            headerClassName: "headerClassName",
-        },
+       
     ];
     return col;
 };

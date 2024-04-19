@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Typography } from "@mui/material";
+import { Fab, Tooltip, Typography } from "@mui/material";
 
 
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
@@ -27,7 +27,7 @@ const Products = () => {
 
     useEffect(() => {
         setResults(products?.data);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [products]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
@@ -36,6 +36,14 @@ const Products = () => {
 
     const columns = (renderAction: any) => {
         const col = [
+            {
+                headerName: "ویرایش کالا",
+                flex: 1,
+                renderCell: renderAction,
+                headerClassName: "headerClassName w-full",
+                minWidth: 100,
+                maxWidth: 160,
+            },
             {
                 field: "productCode",
                 renderCell: (params: any) => {
@@ -205,13 +213,7 @@ const Products = () => {
 
                 flex: 1,
             },
-            {
-                headerName: "عملیات",
-                flex: 1,
-                renderCell: renderAction,
-                headerClassName: "headerClassName w-full",
-                minWidth: 160,
-            },
+
         ];
         return col;
     };
@@ -231,10 +233,12 @@ const Products = () => {
 
     const renderAction = (item: any) => {
         return (
-            <div className="flex gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
+            <Tooltip title={<Typography variant='h3'>ویرایش کالا</Typography>}>
+                <Fab size="small" color="secondary">
+                    <EditGridButton onClick={() => handleEdit(item?.row)} />
+                </Fab>
                 {/* <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} /> */}
-            </div>
+            </Tooltip>
         );
     };
 

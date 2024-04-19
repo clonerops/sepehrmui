@@ -19,6 +19,14 @@ export const columns = (renderAction: any) => {
 export const purchaserOrderListsForBetweenWarehouseColumns = (renderAction: any) => {
     const col = [
         {
+            field: "Action",
+            headerName: 'اقدام به تایید',
+            flex: 1,
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            maxWidth: 120
+        },
+        {
             field: 'orderCode',
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -89,14 +97,7 @@ export const purchaserOrderListsForBetweenWarehouseColumns = (renderAction: any)
             minWidth: 120,
             flex: 1
         },
-        {
-            field: "Action",
-            headerName: 'جزئیات',
-            flex: 1,
-            renderCell: renderAction,
-            headerClassName: "headerClassName",
-            minWidth: 220
-        }
+        
     ]
     return col
 }

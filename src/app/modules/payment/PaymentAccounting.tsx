@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useGetRecievePayments, useUpdatePaymentApproved } from "./core/_hooks";
 import { Link } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { Button, Checkbox, Typography } from "@mui/material";
+import { Button, Checkbox, Tooltip, Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { IPayment, IPaymentFilter } from "./core/_models";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
@@ -48,7 +48,7 @@ const PaymentAccounting = () => {
 
     useEffect(() => {
         setResults(data?.data);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [data?.data]);
     useEffect(() => {
         const filters = {
@@ -62,7 +62,7 @@ const PaymentAccounting = () => {
         // eslint-disable-next-line
     }, [currentPage]);
 
-    const columns = (renderAction: any, renderCheckbox: any, ) => {
+    const columns = (renderAction: any, renderCheckbox: any,) => {
         const col = [
             {
                 field: "id",
@@ -79,7 +79,13 @@ const PaymentAccounting = () => {
                 maxWidth: 80,
                 flex: 1
             },
-
+            {
+                headerName: "جزئیات",
+                renderCell: renderAction,
+                headerClassName: "headerClassName",
+                minWidth: 80,
+                flex: 1
+            },
             {
                 field: "receivePayCode",
                 renderCell: (params: any) => {
@@ -100,7 +106,7 @@ const PaymentAccounting = () => {
                             // (value.row?.receivePaymentTypeFromId !== 1
                             //     ? ""
                             //     : value.row?.receiveFromCustomerName)
-                                }
+                        }
                     </Typography>
                 ),
                 headerClassName: "headerClassName",
@@ -128,7 +134,7 @@ const PaymentAccounting = () => {
                 headerName: "مبلغ",
                 renderCell: (value: any) => (
                     <Typography color="primary" variant="h4">
-                        {separateAmountWithCommas(value.row.amount)+ "تومان"}
+                        {separateAmountWithCommas(value.row.amount) + "تومان"}
                     </Typography>
                 ),
                 headerClassName: "headerClassName",
@@ -139,10 +145,9 @@ const PaymentAccounting = () => {
                 field: "receivePayStatusDesc",
                 headerName: "وضعیت",
                 renderCell: (value: any) => (
-                    <Typography className={`${
-                        value.row.receivePayStatusId === 1 ? "text-yellow-500" :
-                        value.row.receivePayStatusId === 2 ? "text-green-500" : 
-                        value.row.receivePayStatusId === 3 ? "text-violet-500" : ""   }`} variant="h4">
+                    <Typography className={`${value.row.receivePayStatusId === 1 ? "text-yellow-500" :
+                        value.row.receivePayStatusId === 2 ? "text-green-500" :
+                            value.row.receivePayStatusId === 3 ? "text-violet-500" : ""}`} variant="h4">
                         {value.row.receivePayStatusDesc}
                     </Typography>
                 ),
@@ -200,13 +205,13 @@ const PaymentAccounting = () => {
                 minWidth: 100,
                 flex: 1
             },
-            {
-                headerName: "جزئیات",
-                renderCell: renderAction,
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                flex: 1
-            },
+            // {
+            //     headerName: "جزئیات",
+            //     renderCell: renderAction,
+            //     headerClassName: "headerClassName",
+            //     minWidth: 80,
+            //     flex: 1
+            // },
         ];
         return col;
     };
@@ -214,25 +219,29 @@ const PaymentAccounting = () => {
     const renderActions = (item: any) => {
         return (
             <div className="flex justify-center items-center gap-x-4">
-                <Link to={`/dashboard/payment/accounting/${item?.row?.id}`}>
-                    <Typography variant="h4">
-                        <Visibility color="primary" />
-                    </Typography>
-                </Link>
-                <Link to={`/dashboard/payment/edit/${item?.row?.id}`}>
-                    <Typography variant="h4">
-                        <DoneAll color="secondary" />
-                    </Typography>
-                </Link>
+                <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                    <Link to={`/dashboard/payment/accounting/${item?.row?.id}`}>
+                        <Typography variant="h4">
+                            <Visibility color="primary" />
+                        </Typography>
+                    </Link>
+                </Tooltip>
+                <Tooltip title={<Typography variant='h3'>ویرایش و تایید</Typography>}>
+                    <Link to={`/dashboard/payment/edit/${item?.row?.id}`}>
+                        <Typography variant="h4">
+                            <DoneAll color="secondary" />
+                        </Typography>
+                    </Link>
+                </Tooltip>
             </div>
-            
+
         );
     };
 
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
-    
+
     const handleFilter = (values: any) => {
         const filters: any = {
             isApproved: +values.isApproved,
@@ -315,15 +324,15 @@ const PaymentAccounting = () => {
             {isLoading && <Backdrop loading={isLoading} />}
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={handleFilter}>
-                    {({values}) => {
-                       return <form>
+                    {({ values }) => {
+                        return <form>
                             <div className="flex justify-center items-center gap-8">
                                 <FormikDatepicker name="fromDate" label="از تاریخ" />
                                 <FormikDatepicker name="toDate" label="تا تاریخ" />
                             </div>
                             <div className="flex justify-end items-end my-4">
                                 <ButtonComponent onClick={() => handleFilter(values)}>
-                                  <Typography className="!text-white">جستجو</Typography>  
+                                    <Typography className="!text-white">جستجو</Typography>
                                 </ButtonComponent>
                             </div>
                         </form>
