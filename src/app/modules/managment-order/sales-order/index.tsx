@@ -130,21 +130,21 @@ const SalesOrder = () => {
                 validationSchema={saleOrderValidation}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
-                        <div className="">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <SaleHeaderBase 
                                 postSaleOrder={postSaleOrder} 
                                 orders={orders} 
                                 orderServices={orderServices} />
-                        </div>
-
-                        <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
                             <ReusableCard>
                                 <CustomerChoose 
                                 formikRef={formikRef} 
                                 openModalState={setIsOpen} 
                                 postSaleOrder={postSaleOrder} />
                             </ReusableCard>
-                            <ReusableCard cardClassName='lg:col-span-3'>
+                        </div>
+
+                        <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
+                            <ReusableCard cardClassName='lg:col-span-4'>
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
                                     products={products}

@@ -15,7 +15,8 @@ interface IProps {
 const PurchaserHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => {
 
     return (
-        <div className="flex flex-col lg:flex-row flex-warp  gap-4">
+        // <div className="flex flex-col lg:flex-row flex-warp  gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {saleBaseOrderInformation(postSaleOrder?.data?.data?.orderCode, calculateTotalAmount(orders, orderServices)).map((item: any, index: number) => {
                 return <CardWithIcons 
                 title={item.title} 

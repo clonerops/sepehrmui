@@ -76,7 +76,7 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
                     </div>
                     <div className='mt-4 flex justify-end items-end'>
                         <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalState(true)} variant="contained" className="w-full">
-                            <Typography>ایجاد مشتری</Typography>
+                            <Typography>ایجاد مشتری جدید</Typography>
                         </Button>
                     </div>
                     <div className='flex flex-col space-y-4 mt-8'>

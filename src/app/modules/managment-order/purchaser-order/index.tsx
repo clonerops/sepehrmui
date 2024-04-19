@@ -38,9 +38,10 @@ const PurchaserOrder = () => {
     const products = useGetProductList();
 
 
-    useEffect(() => { calculateTotalAmount(orders, orderServices) 
-         // eslint-disable-next-line
-     }, [orders, orderServices]);
+    useEffect(() => {
+        calculateTotalAmount(orders, orderServices)
+        // eslint-disable-next-line
+    }, [orders, orderServices]);
 
 
     const onSubmit = (values: any) => {
@@ -61,34 +62,34 @@ const PurchaserOrder = () => {
                     invoiceTypeId: +values.invoiceTypeId,
                     isTemporary: +values.isTemporary === 1 ? false : true,
                     details: orders?.map(({ id, ...item }) => ({
-                      rowId: item.rowId ? +item.rowId : 0,
-                      productBrandId: item.productBrandId ? +item.productBrandId : 25,
-                      numberInPackage: 1,
-                      productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
-                      productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
-                      proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
-                      price: item.price ? +item.price?.replace(/,/g, "") : null,
-                      description: item.description,
-                      deliverDate: item.deliverDate,
+                        rowId: item.rowId ? +item.rowId : 0,
+                        productBrandId: item.productBrandId ? +item.productBrandId : 25,
+                        numberInPackage: 1,
+                        productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                        productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                        proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
+                        price: item.price ? +item.price?.replace(/,/g, "") : null,
+                        description: item.description,
+                        deliverDate: item.deliverDate,
 
-                  })),
+                    })),
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
-                      return {
-                          amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
-                          paymentDate: item.orderPaymentDate,
-                          daysAfterExit: item.orderPaymentDaysAfterExit,
-                          paymentType: item.orderPaymentType
-                    
-                      }
-                  }),
-                  orderServices: orderServices?.map((item: IOrderService) => {
-                      return {
-                          id: item.orderServiceMainId,
-                          serviceId: item.orderServiceId,
-                          description: item?.orderServiceDescription &&  item.orderServiceDescription.replace(/,/g, "")
-                      } 
-                  })
-              };
+                        return {
+                            amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
+                            paymentDate: item.orderPaymentDate,
+                            daysAfterExit: item.orderPaymentDaysAfterExit,
+                            paymentType: item.orderPaymentType
+
+                        }
+                    }),
+                    orderServices: orderServices?.map((item: IOrderService) => {
+                        return {
+                            id: item.orderServiceMainId,
+                            serviceId: item.orderServiceId,
+                            description: item?.orderServiceDescription && item.orderServiceDescription.replace(/,/g, "")
+                        }
+                    })
+                };
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
 
@@ -113,33 +114,33 @@ const PurchaserOrder = () => {
     return (
         <>
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
-            <Formik 
-                enableReinitialize 
+            <Formik
+                enableReinitialize
                 validateOnChange={false}
                 validateOnBlur={true}
                 validateOnMount={true}
-                innerRef={formikRef} 
-                initialValues={saleOrderInitialValues} 
-                onSubmit={onSubmit} 
+                innerRef={formikRef}
+                initialValues={saleOrderInitialValues}
+                onSubmit={onSubmit}
                 validationSchema={saleOrderValidation}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
-                        <div className="">
-                        <PurchaserHeaderBase 
-                            postSaleOrder={postSaleOrder} 
-                            orders={orders} 
-                            orderServices={orderServices} />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <PurchaserHeaderBase
+                                postSaleOrder={postSaleOrder}
+                                orders={orders}
+                                orderServices={orderServices} />
+                            <ReusableCard>
+                                <PurchaserChoose
+                                    formikRef={formikRef}
+                                    openModalState={setIsOpen}
+                                    postSaleOrder={postSaleOrder} />
+                            </ReusableCard>
                         </div>
 
                         <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
-                            <ReusableCard>
-                              <PurchaserChoose 
-                                formikRef={formikRef}
-                                openModalState={setIsOpen} 
-                                postSaleOrder={postSaleOrder} />
-                            </ReusableCard>
-                            <ReusableCard cardClassName='lg:col-span-3'>
-                              <OrderProductDetail
+                            <ReusableCard cardClassName='lg:col-span-4'>
+                                <OrderProductDetail
                                     setFieldValue={setFieldValue}
                                     values={values}
                                     postSaleOrder={postSaleOrder}
@@ -165,7 +166,7 @@ const PurchaserOrder = () => {
                             <OrderFeature
                                 categories={[]}
                                 isPurchaser={true}
-                                postOrder={postSaleOrder}  />
+                                postOrder={postSaleOrder} />
                             <OrderPayment
                                 orderPayment={orderPayment}
                                 orderService={orderServices}

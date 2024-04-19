@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Search, Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { Button, Typography} from '@mui/material'
+import { Button, Tooltip, Typography } from '@mui/material'
 
-import {  useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
+import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
 import { purchaserOrderColumns } from "../helpers/columns";
 
@@ -27,29 +27,28 @@ const PurchaserOrderList = () => {
     useEffect(() => {
         const formData = {
             pageNumber: currentPage,
-            pageSize: 100,        
+            pageSize: 100,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
                 setResults(response?.data);
             }
         })
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [currentPage]);
 
 
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
-                state={{ isConfirmed: false }}
-            >
-                <Button variant="contained"  color="secondary">
-                    <Visibility color="primary" />
-                    <Typography className="px-2" variant="h5">مشاهده جزئیات</Typography>
-                </Button>
-            </Link>
+            <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                <Link
+                    to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
+                    state={{ isConfirmed: false }}
+                >
+                        <Visibility color="primary" />
+                </Link>
+            </Tooltip>
         );
     };
 
@@ -61,7 +60,7 @@ const PurchaserOrderList = () => {
         const formData = values?.orderCode ? {
             pageNumber: currentPage,
             pageSize: 100,
-            OrderCode: +values?.orderCode  
+            OrderCode: +values?.orderCode
         } : {
             pageNumber: currentPage,
             pageSize: 100,
@@ -73,14 +72,14 @@ const PurchaserOrderList = () => {
         })
     }
 
-    
+
     return (
         <ReusableCard>
-            <Formik initialValues={{orderCode: ""}} onSubmit={onSubmit}> 
-                {({handleSubmit}) => {
+            <Formik initialValues={{ orderCode: "" }} onSubmit={onSubmit}>
+                {({ handleSubmit }) => {
                     return <div className="w-[50%] mb-4">
                         <div className="flex justify-center items-center gap-4">
-                            <FormikInput name="orderCode" label="شماره سفارش"  />
+                            <FormikInput name="orderCode" label="شماره سفارش" />
                             <ButtonComponent onClick={handleSubmit}>
                                 <Search className="text-white" />
                                 <Typography className="text-white">جستجو</Typography>

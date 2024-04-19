@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Typography} from '@mui/material'
+import { Button, Tooltip, Typography } from '@mui/material'
 
-import {  useRetrieveOrdersByMutation } from "../core/_hooks";
+import { useRetrieveOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
 import { orderColumns } from "../helpers/columns";
 
@@ -12,7 +12,7 @@ import Pagination from "../../../../_cloner/components/Pagination";
 import { Formik } from "formik";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
-import { Search } from "@mui/icons-material";
+import { Search, Visibility } from "@mui/icons-material";
 
 const pageSize = 100
 
@@ -26,28 +26,27 @@ const SalesOrderList = () => {
     useEffect(() => {
         const formData = {
             pageNumber: currentPage,
-            pageSize: 100,        
+            pageSize: 100,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
                 setResults(response?.data);
             }
         })
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [currentPage]);
 
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`/dashboard/sales_order/lists/${item?.row?.id}`}
-                state={{ isConfirmed: false }}
-            >
-                <Button variant="contained" color="secondary"> 
-                    <Typography variant="h4" color="primary">نمایش جزئیات</Typography>
-                </Button>
-
-            </Link>
+            <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                <Link
+                    to={`/dashboard/sales_order/lists/${item?.row?.id}`}
+                    state={{ isConfirmed: false }}
+                >
+                    <Visibility color="secondary" />
+                </Link>
+            </Tooltip>
         );
     };
 
@@ -59,7 +58,7 @@ const SalesOrderList = () => {
         const formData = values?.orderCode ? {
             pageNumber: currentPage,
             pageSize: 100,
-            OrderCode: +values?.orderCode  
+            OrderCode: +values?.orderCode
         } : {
             pageNumber: currentPage,
             pageSize: 100,
@@ -70,14 +69,14 @@ const SalesOrderList = () => {
             }
         })
     }
-    
+
     return (
         <ReusableCard>
-            <Formik initialValues={{orderCode: ""}} onSubmit={onSubmit}> 
-                {({handleSubmit}) => {
+            <Formik initialValues={{ orderCode: "" }} onSubmit={onSubmit}>
+                {({ handleSubmit }) => {
                     return <div className="w-[50%] mb-4">
                         <div className="flex justify-center items-center gap-4">
-                            <FormikInput name="orderCode" label="شماره سفارش"  />
+                            <FormikInput name="orderCode" label="شماره سفارش" />
                             <ButtonComponent onClick={handleSubmit}>
                                 <Search className="text-white" />
                                 <Typography className="text-white">جستجو</Typography>

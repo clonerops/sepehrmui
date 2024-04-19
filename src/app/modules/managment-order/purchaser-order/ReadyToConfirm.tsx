@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
-import {Button, Typography } from '@mui/material'
+import { Button, Tooltip, Typography } from '@mui/material'
 
 import { IOrder } from "../core/_models";
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
@@ -11,37 +11,40 @@ import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { purchaserOrderConfirm } from "../helpers/columns";
+import { Approval } from "@mui/icons-material";
 
 
 const ReadyToPurchaserOrderConfirm = () => {
-    
+
     const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
         const formData = {
-            InvoiceTypeId: [1, 2], 
+            InvoiceTypeId: [1, 2],
         }
         mutate(formData, {
             onSuccess: (message) => {
                 setResults(message?.data);
             }
         })
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
 
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`${item.row.orderStatusId !== 2 ? `/dashboard/purchaser_order/ready-to-confirm/${item?.row?.id}` : ""}`}
-                state={{ isConfirmed: true }}
-            >
-                <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId === 2}> 
-                    <Typography variant="h4" color="primary">اقدام به ثبت تایید</Typography>
-                </Button>
-            </Link>
+            <Tooltip title={<Typography variant='h3'>اقدام به ثبت تایید</Typography>}>
+                <Link
+                    to={`${item.row.orderStatusId === 1 ? `/dashboard/purchaser_order/ready-to-confirm/${item?.row?.id}` : ""}`}
+                    state={{ isConfirmed: true }}
+                >
+                    <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId >= 2}>
+                        <Approval />
+                    </Button>
+                </Link>
+            </Tooltip>
         );
     };
 
@@ -51,7 +54,7 @@ const ReadyToPurchaserOrderConfirm = () => {
         { value: 1, label: "جدید" }];
 
     const handleFilterBasedofStatus = (values: any) => {
-        if(+values === -1) {
+        if (+values === -1) {
             const formData = {
                 InvoiceTypeId: [1, 2],
             };
