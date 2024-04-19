@@ -15,9 +15,9 @@ type Props = {
 export default function MuiSelectionDataGrid(props: Props) {
     const { rows, columns, onRowDoubleClick, getRowId, hideFooter, className, columnHeaderHeight } = props;
     return (
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ height: 340, width: "100%" }}>
             <DataGrid
-                rows={rows || []}
+                rows={rows ? rows : []}
                 sx={{
                     ".MuiDataGrid-columnHeaderTitle": {
                         overflow: "visible !important",

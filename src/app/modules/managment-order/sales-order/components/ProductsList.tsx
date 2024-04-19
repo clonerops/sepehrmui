@@ -18,6 +18,8 @@ import { useGetProductTypes, useGetWarehouseTypes } from "../../../generic/_hook
 import Backdrop from "../../../../../_cloner/components/Backdrop";
 import { useGetProductList } from "../../../generic/products/_hooks";
 import SearchBackendInput from "../../../../../_cloner/components/SearchBackendInput";
+import CustomTabs from "../../../../../_cloner/components/Tabs";
+import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar";
 
 interface IProps {
     setOrders?: any
@@ -86,7 +88,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     useEffect(() => {
         handleFilterProduct(currentFilter)
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -100,30 +102,36 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         }, 1000)
 
         return () => clearTimeout(delayDebounceFn)
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [searchTerm])
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
-        const selectedRow = newSelectionModel.row;
-        setProductData((prevState) => ({
-            ...prevState,
-            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
-            price: productData.price,
-        }))
-        const isDuplicate = productData.selectedProduct.some((item) => {
-            return item.id === selectedRow.id;
-        });
-        if (!isDuplicate) {
+        console.log(currentFilter.WarehouseTypeId)
+        if(currentFilter.WarehouseTypeId === 5) {
+            EnqueueSnackbar("امکان انتخاب کالا از انبار رسمی وجود ندارد", 'warning')
+        } else {
+            const selectedRow = newSelectionModel.row;
             setProductData((prevState) => ({
                 ...prevState,
-                selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
-                selectionModel: newSelectionModel
+                productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
+                price: productData.price,
             }))
-
-        } else {
-            alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
+            const isDuplicate = productData.selectedProduct.some((item) => {
+                return item.id === selectedRow.id;
+            });
+            if (!isDuplicate) {
+                setProductData((prevState) => ({
+                    ...prevState,
+                    selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
+                    selectionModel: newSelectionModel
+                }))
+                EnqueueSnackbar("کالا به لیست اضافه گردید", 'success')
+    
+            } else {
+                alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
+            }
         }
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [productData.selectedProduct, productData.selectionModel]);
 
     const renderAction = useCallback((indexToDelete: any) => {
@@ -191,7 +199,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     inputProps={{
                         style: {
                             textAlign: "center",
-                            width: 28,
                         },
                     }}
                 />
@@ -221,7 +228,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 </FormControl>{" "}
             </div>
         );
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [productData.proximateSubAmounts])
 
     const renderPrice = useCallback((params: any) => {
@@ -249,7 +256,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 />
             </>
         );
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [productData.price])
 
 
@@ -305,6 +312,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     if (warehouseTypeTools?.isLoading || productTypeTools?.isLoading) {
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
+
+    console.log(currentFilter.WarehouseTypeId)
 
     return (
         <>
@@ -372,7 +381,55 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     }}
                 </Formik>
             </div>
-            <div className="md:grid md:grid-cols-2 gap-x-8">
+            <CustomTabs
+                tabs={["لیست کالاهای موجود در انبار", "لیست کالاهای انتخاب شده"]}
+                tabContents={[
+                    <div style={{direction: "rtl"}}>
+                        <div className="my-2">
+                            <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
+                        </div>
+                        <MuiDataGrid
+                            onDoubleClick={handleSelectProduct}
+                            columns={columnsModalProduct()}
+                            isLoading={filterTools.isLoading}
+                            rows={filterTools?.data?.data}
+                            data={filterTools?.data?.data}
+                            height={340}
+                        />
+                    </div>,
+                    <div style={{direction: "rtl"}}>
+                        <MuiSelectionDataGrid
+                            selectionModel={productData.selectionModel}
+                            columns={columnsSelectProduct(
+                                renderAction,
+                                renderInput,
+                                renderSubUnit,
+                                renderPrice
+                            )}
+                            rows={productData.selectedProduct}
+                            data={productData.selectedProduct}
+                            getRowId={(row: { id: string }) => row.id.toString()}
+                            hideFooter={true}
+                            columnHeaderHeight={40}
+                        />
+                        <div
+                            className="flex justify-end items-end mt-4"
+                        >
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className=""
+                                onClick={handleSubmitSelectedProduct}
+                            >
+                                <Typography>تایید</Typography>
+                            </Button>
+                        </div>
+                    </div>
+
+
+                ]}
+            />
+            {/* <div className="md:grid md:grid-cols-2 gap-x-8">
                 <div>
                     <div className="my-2">
                         <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
@@ -414,7 +471,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         </Button>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };
