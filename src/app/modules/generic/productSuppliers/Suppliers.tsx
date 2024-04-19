@@ -205,6 +205,7 @@ const Suppliers = () => {
                     columns={columns(renderAction)}
                     rows={results}
                     data={suppliers?.data}
+                    onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
             </ReusableCard>
             <TransitionsModal

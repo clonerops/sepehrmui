@@ -171,6 +171,10 @@ const CustomerWarehouse = () => {
                 columns={columns()}
                 rows={results}
                 data={customers?.data?.data}
+                onDoubleClick={(item: any) => {
+                  setSelectedItems(item.row)
+                  setIsOpen(true)
+                }}
               />
             </div>
           </div>

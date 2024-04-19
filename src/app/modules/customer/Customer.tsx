@@ -233,10 +233,11 @@ const Customer = () => {
                         <Typography variant="h4" className="text-white">ایجاد مشتری</Typography >
                     </Button>
                 </div>
-                <MuiDataGrid
+                <MuiDataGrid    
                     columns={columns(renderAction)}
                     rows={results}
                     data={customers?.data}
+                    onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
             </ReusableCard>
             <TransitionsModal

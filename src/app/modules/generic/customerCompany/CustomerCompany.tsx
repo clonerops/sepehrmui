@@ -175,6 +175,7 @@ const CustomerCompanies = () => {
                         columns={columns(renderAction)}
                         rows={results}
                         data={customerCompanies?.data}
+                        onDoubleClick={(item: any) => handleEdit(item?.row)}
                     />
                 </div>
             </ReusableCard>

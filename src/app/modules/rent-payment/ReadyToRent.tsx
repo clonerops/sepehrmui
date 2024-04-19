@@ -201,17 +201,6 @@ const ReadyToRent = () => {
         });
     };
 
-
-    const handleSubmit = () => {
-        const formData = {
-            puOrderTransRemittUnloadingPermitIds: selectedTransferRemittanceIds,
-            ladingExitPermitIds: selectedLadingIds,
-
-        }
-
-        console.log("formData", formData)
-    }
-
     return (
         <>
             <ReusableCard>
@@ -237,6 +226,7 @@ const ReadyToRent = () => {
                     rows={rents?.data}
                     data={rents?.data}
                     isLoading={isLoading}
+                    onDoubleClick={(item: any) => handleOpen(item.row)}
                 />
                 <div>
                     <Button onClick={() => setIsOpenSelected(true)} variant="contained" color="primary" className="!my-8">
