@@ -28,6 +28,7 @@ import { useRetrieveOrder } from "../../managment-order/core/_hooks"
 import { useState } from "react"
 import ReusableAccordion from "../../../../_cloner/components/ReusableAccordion"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
+import MaskInput from "../../../../_cloner/components/MaskInput"
 
 const initialValues = {
     driverName: "",
@@ -40,7 +41,7 @@ const initialValues = {
     description: "",
     vehicleTypeId: null,
     deliveryDate: "",
-    unloadingPlaceAddress: ""    
+    unloadingPlaceAddress: ""
 }
 
 
@@ -54,7 +55,7 @@ const CargoForm = () => {
 
     // states
     const [ladingOrderDetail, setLadingOrderDetail] = useState<any>([])
-    const [ladingAmount, setLadingAmount] = useState<{[key: string]: string}>({})
+    const [ladingAmount, setLadingAmount] = useState<{ [key: string]: string }>({})
 
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
@@ -64,39 +65,46 @@ const CargoForm = () => {
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
     ]
     const orderOrderColumnMain = [
-        { id: 1, header: "افزودن به لیست", accessor: "add", render: (params: any) => {
-            return <Button onClick={() => handleSelectProduct(params)} variant="contained" color="secondary">
-                <Add className="text-white" />
-                <Typography className="text-white">افزودن</Typography>
-            </Button>
-        } },
-        { id: 2, header: "نام کالا", accessor: "productName" },
-        { id: 3, header: "انبار", accessor: "warehouseName" },
-        { id: 4, header: "مقدار", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
-        { id: 5, header: "قیمت(ریال)", accessor: "price", render: (params: any) => separateAmountWithCommas(params.price) },
-        { id: 5, header: "مقدار بارگیری قبلی", accessor: "totalLoadedAmount", render: (params: any) => separateAmountWithCommas(params.totalLoadedAmount) },
+        {
+            id: 1, header: "افزودن به لیست", accessor: "add", render: (params: any) => {
+                return <Button onClick={() => handleSelectProduct(params)} variant="contained" color="secondary">
+                    <Add className="text-white" />
+                    <Typography className="text-white">افزودن</Typography>
+                </Button>
+            }
+        },
+        { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params.product.productCode },
+        { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params.product.productName} ${params.brandName}` },
+        { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
+        { id: 5, header: "مجموع مقدار بارگیریهای قبلی", accessor: "remainingAmountToLadingLicence", render: (params: any) => separateAmountWithCommas(params.remainingAmountToLadingLicence) },
+        { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingAmountToLadingLicence", render: (params: any) => separateAmountWithCommas(params.remainingAmountToLadingLicence) },
+        // { id: 7, header: "مقدار قابل بارگیری", accessor: "totalLoadedAmount"},
     ]
     const orderOrderColumn = [
-        { id: 1, header: "حذف", accessor: "add", render: (params: any) => {
-            return <Close onClick={() => handleDeleteFromList(params.id)} className="text-red-500" />
-        } },
+        {
+            id: 1, header: "حذف", accessor: "add", render: (params: any) => {
+                return <Close onClick={() => handleDeleteFromList(params.id)} className="text-red-500" />
+            }
+        },
         { id: 2, header: "نام کالا", accessor: "productName" },
         { id: 3, header: "انبار", accessor: "warehouseName" },
         { id: 4, header: "مقدار", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
-        { id: 5, header: "مقدار بارگیری", accessor: "proximateAmountTransfer", render: (params: any) => {
-            return <OutlinedInput 
-                id={params.id} 
-                size="small" 
-                value={ladingAmount[params.id]} 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>                 
-                    setLadingAmount((prevState) => ({
-                        ...prevState,
-                        [params.id]: e.target.value
-                    }))}
+        {
+            id: 5, header: "مقدار بارگیری", accessor: "proximateAmountTransfer", render: (params: any) => {
+                return <MaskInput
+                    key={params.id}
+                    mask={Number}
+                    thousandsSeparator=","
+                    label=""
+                    color={+params.proximateAmount < +ladingAmount[params.id] ? "error" : "primary"}
+                    error={+params.proximateAmount < +ladingAmount[params.id]}
+                    value={ladingAmount[params.id]}
+                    onAccept={(value, mask) => setLadingAmount({ ...ladingAmount, [params.id]: mask.unmaskedValue })}
                 />
-            }},
+            }
+        },
     ]
-    
+
     const lastCargoList: any = [
         { id: 1, header: "شماره بارنامه", accessor: "cargoAnnounceNo" },
         { id: 1, header: "راننده", accessor: "driverName" },
@@ -127,7 +135,7 @@ const CargoForm = () => {
         ]
     ];
 
-    const parseFields = (fields: FieldType, setFieldValue:  (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>, index: number) => {
+    const parseFields = (fields: FieldType, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>, index: number) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "checkbox":
@@ -158,7 +166,7 @@ const CargoForm = () => {
 
     const handleSelectProduct = (item: any) => {
         const isExist = ladingOrderDetail.some((l: any) => l.id === item.id)
-        if(isExist) {
+        if (isExist) {
             EnqueueSnackbar("کالا قبلا به لیست اضافه شده است", "warning")
         } else {
             const formData = {
@@ -179,42 +187,51 @@ const CargoForm = () => {
         setLadingOrderDetail(filtered);
     }
 
-    const onSubmit = (values: ICargo) => {        
+    const onSubmit = (values: ICargo) => {
         try {
-            const formData: ICargo = { 
-                ...values, orderId: id, 
+            const formData: ICargo = {
+                ...values, orderId: id,
                 fareAmount: values?.fareAmount.includes(',') ? +values?.fareAmount.replace(/,/g, "") : +values?.fareAmount,
                 cargoAnnounceDetails: ladingOrderDetail.map((item: any) => ({
-                    ...item,
+                    cargoAnnounceId: item.cargoAnnounceId,
+                    orderDetailId: item.orderDetailId,
+                    realAmount: item.realAmount,
                     ladingAmount: +ladingAmount[item.id],
                     packageCount: 0
                 }))
             }
-            mutate(formData, {
-                onSuccess: (message) => {
-                    if (message.succeeded) {
-                        renderSwal(`اعلام بار با شماره ${message?.data.cargoAnnounceNo} ثبت گردید`)
+            if(ladingOrderDetail.some((item: any) => +item.proximateAmount < +ladingAmount[item.id])) {
+                EnqueueSnackbar("مقدار بارگیری را به درستی وارد کنید", "warning")
+            } else {
+                mutate(formData, {
+                    onSuccess: (message) => {
+                        if(message.data.Errors && message.data.Errors.length > 0) {
+                            EnqueueSnackbar(message.data.Errors[0], "error")
+                        } else {
+                            if (message.succeeded) {
+                                renderSwal(`اعلام بار با شماره ${message?.data.cargoAnnounceNo} ثبت گردید`)
+                            }
+        
+                            if (!message?.data?.Succeeded) {
+                                enqueueSnackbar(message.data.Message, {
+                                    variant: `error`,
+                                    anchorOrigin: { vertical: "top", horizontal: "center" }
+                                })
+                            }    
+                        }
+    
+    
                     }
-
-                    if (!message?.data?.Succeeded) {
-                        enqueueSnackbar(message.data.Message, {
-                            variant: `error`,
-                            anchorOrigin: { vertical: "top", horizontal: "center" }
-                        })
-                    }
-
-                    
-                }
-
-            })
+    
+                })
+            }
         } catch (error) {
             console.log(error)
         }
 
     }
 
-    
-    if(orderLoading) {
+    if (orderLoading) {
         return <Backdrop loading={orderLoading} />
     }
 
@@ -227,44 +244,26 @@ const CargoForm = () => {
                     title: string,
                     icon: React.ReactNode,
                     value: any
-                    }, index) => {
-                        return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
-                    })}
+                }, index) => {
+                    return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
+                })}
             </div>
-            {/* <ReusableAccordion 
-                content={
-                    <ReusableCard cardClassName={ "col-span-3"}>
-                        <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
-                        <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={(item: any) => handleSelectProduct(item)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
-                    </ReusableCard>
-                }
-                title="اقلام سفارش"
-            />
-            <ReusableAccordion 
-                content={
-                    <ReusableCard cardClassName={ "col-span-3"}>
-                        <Typography variant="h2" color="primary" className="pb-4">کالا بارگیری</Typography>
-                        <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={ladingOrderDetail} columns={orderOrderColumnMain} />
-                    </ReusableCard>
-                    }
-                title="کالاهای بارگیری"
-            /> */}
-            <ReusableAccordion 
+            <ReusableAccordion
                 content={
                     <ReusableCard cardClassName="p-4 mt-4">
                         {/* <Typography variant="h2" color="primary" className="pb-4">اعلام بارهای قبلی</Typography> */}
                         <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
                     </ReusableCard>
-                    }
+                }
                 title="نمایش اعلام بارهای قبلی"
             />
 
             <div className="flex flex-col gap-4 mt-4">
-                <ReusableCard cardClassName={ "col-span-3"}>
+                <ReusableCard cardClassName={"col-span-3"}>
                     <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                     <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={(item: any) => handleSelectProduct(item)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                 </ReusableCard>
-                <ReusableCard cardClassName={ "col-span-3"}>
+                <ReusableCard cardClassName={"col-span-3"}>
                     <Typography variant="h2" color="primary" className="pb-4">کالا بارگیری</Typography>
                     <MuiTable tooltipTitle={""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={ladingOrderDetail} columns={orderOrderColumn} />
                 </ReusableCard>
@@ -274,12 +273,11 @@ const CargoForm = () => {
             <ReusableCard cardClassName="mt-8">
                 <Typography variant="h2" color="primary">مشخصات حمل</Typography>
                 <Formik initialValues={initialValues} validationSchema={submitCargoValidation} onSubmit={onSubmit}>
-                    {({ handleSubmit, setFieldValue}) => {
+                    {({ handleSubmit, setFieldValue }) => {
                         return <form onSubmit={handleSubmit}>
                             {fields.map((rowFields, index) => (
                                 <div
                                     key={index}
-                                
                                     className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
                                 >
                                     {rowFields.map((field, index) =>
@@ -289,7 +287,7 @@ const CargoForm = () => {
                             ))}
                             <div className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                    <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ثبت اعلام بار" } </Typography>
+                                    <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ثبت اعلام بار"} </Typography>
                                 </Button>
                             </div>
                         </form>

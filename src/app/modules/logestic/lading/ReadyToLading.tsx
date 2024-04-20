@@ -36,7 +36,7 @@ const ReadyToLading = () => {
         let formData = {
             PageNumber: currentPage,
             PageSize: pageSize,
-            OrderCode: values.orderCode ? values.orderCode : "",
+            OrderCode: values?.orderCode ? values?.orderCode : "",
             CustomerId: values.customerId ? values.customerId : "",
         };
         cargoList.mutate(formData);

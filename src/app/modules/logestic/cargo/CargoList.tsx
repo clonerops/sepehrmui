@@ -32,7 +32,7 @@ const CargoList = () => {
 
     const handleFilter = (values: any) => {
         let formData = {
-            OrderCode: values.orderCode ? values.orderCode : "",
+            OrderCode: values?.orderCode ? values?.orderCode : "",
             CustomerId: values.customerId ? values.customerId : "",
         };
         cargoList.mutate(formData);

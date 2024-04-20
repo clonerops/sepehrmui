@@ -12,6 +12,7 @@ import { IconComponent } from "../../../../_cloner/components/DynamicIcon";
 
 const MenuItems = (props: { menuItems: any }) => {
   const [openSubMenu, setOpenSubMenu] = useState<boolean[]>(new Array(props?.menuItems?.length).fill(false));
+  const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
 
   const toggleSubMenu = (index: number) => {
     const updatedOpenSubMenu = [...openSubMenu];
@@ -22,14 +23,16 @@ const MenuItems = (props: { menuItems: any }) => {
     }
     updatedOpenSubMenu[index] = !updatedOpenSubMenu[index];
     setOpenSubMenu(updatedOpenSubMenu);
+    setActiveMenuIndex(openSubMenu[index] ? null : index);
   };
-  
 
   return props?.menuItems?.map((menuItem: any, index: number) => {
+    const isActive = activeMenuIndex === index;
+
     if (menuItem.children?.length > 0) {
       return (
         <div key={menuItem.id} className="cursor-pointer">
-         <ListItem className={`hover:bg-white hover:rounded-tr-full hover:rounded-br-full hover:text-[#272862] ${openSubMenu[index] && "text-[#272862] font-bold " } ${openSubMenu[index] && "bg-white rounded-tr-3xl rounded-br-3xl " }`} onClick={() => toggleSubMenu(index)}>
+         <ListItem className={`hover:bg-white hover:rounded-tr-full ${isActive && "text-red-500"} hover:rounded-br-full hover:text-[#272862] ${openSubMenu[index] && "text-[#272862] font-bold " } ${openSubMenu[index] && "bg-white rounded-tr-3xl rounded-br-3xl " }`} onClick={() => toggleSubMenu(index)}>
              <ListItemIcon className="text-white hover:!text-[#272862] font-bold">
               <div className="text-[#fcc615] hover:!text-[#272862] font-bold">
                 <IconComponent iconName={menuItem.icon} />
@@ -59,7 +62,7 @@ const MenuItems = (props: { menuItems: any }) => {
     } else {
       return (
         <Link id="RouterLink" key={menuItem.id} to={`${menuItem.to}`}>
-          <ListItem className="!ml-2" key={menuItem.id}>
+          <ListItem className={`!ml-2 ${isActive ? "bg-yellow-500" : ""}`} key={menuItem.id}>
             <ListItemIcon className="text-white">
               <div className="text-white">
                 <IconComponent className="!w-4 !h-4" iconName={menuItem.icon} />
@@ -71,9 +74,6 @@ const MenuItems = (props: { menuItems: any }) => {
       );
     }
   });
-
 };
 
 export default MenuItems;
-
-

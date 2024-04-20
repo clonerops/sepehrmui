@@ -283,6 +283,7 @@ export const orderPurchaserListColumns = (renderActions: any) => {
 
 export const readyToLadingColumns = (renderAction: any) => {
     const col = [
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 140 },
         {
             field: 'cargoAnnounceNo', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -305,7 +306,7 @@ export const readyToLadingColumns = (renderAction: any) => {
             field: 'customerName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.row.order.customerFirstName + " " + params.row.order.customerLastName}</Typography>;
             },
-            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 160, flex: 1
+            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 180, flex: 1
         },
         {
             field: 'invoiceTypeDesc', renderCell: (params: any) => {
@@ -320,18 +321,18 @@ export const readyToLadingColumns = (renderAction: any) => {
             headerName: 'نوع ثبت', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: 'orderStatusId', renderCell: (params: any) => {
-                return params.row.order.orderStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography>
-            },
-            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
-        },
-        {
             field: 'totalAmount', renderCell: (params: any) => {
                 return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.row.order.totalAmount)}</Typography>;
             },
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120 },
+        {
+            field: 'orderStatusId', renderCell: (params: any) => {
+                return params.row.order.orderStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+       
     ]
     return col
 }

@@ -93,10 +93,8 @@ const SalesOrder = () => {
 
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
-                        if (response.data.Errors && response.data.Errors.length > 0) {
-                            response.data.Errors.forEach((item: any) => {
-                                EnqueueSnackbar(item, "error")
-                            })
+                        if (response.data.Errors.length > 0) {
+                            EnqueueSnackbar(response.data.Errors[0], "error")
                         } else {
                             if (response.succeeded) {
                                 renderAlert(response.message)
