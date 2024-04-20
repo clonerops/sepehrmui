@@ -12,6 +12,7 @@ export interface ICargo {
     vehicleTypeId?: number | null
     deliveryDate?: string | null | undefined
     description?: string | null | undefined 
+    cargoAnnounceDetails?: any
 }
 
 export interface ILadingLicence {

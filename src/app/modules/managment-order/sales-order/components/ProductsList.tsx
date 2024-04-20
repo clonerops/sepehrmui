@@ -106,7 +106,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [searchTerm])
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
-        console.log(currentFilter.WarehouseTypeId)
         if(currentFilter.WarehouseTypeId === 5) {
             EnqueueSnackbar("امکان انتخاب کالا از انبار رسمی وجود ندارد", 'warning')
         } else {
