@@ -74,6 +74,7 @@ const CargoForm = () => {
         { id: 3, header: "انبار", accessor: "warehouseName" },
         { id: 4, header: "مقدار", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
         { id: 5, header: "قیمت(ریال)", accessor: "price", render: (params: any) => separateAmountWithCommas(params.price) },
+        { id: 5, header: "مقدار بارگیری قبلی", accessor: "totalLoadedAmount", render: (params: any) => separateAmountWithCommas(params.totalLoadedAmount) },
     ]
     const orderOrderColumn = [
         { id: 1, header: "حذف", accessor: "add", render: (params: any) => {
