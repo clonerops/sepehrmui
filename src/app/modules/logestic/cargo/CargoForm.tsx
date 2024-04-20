@@ -76,8 +76,8 @@ const CargoForm = () => {
         { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params.product.productCode },
         { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params.product.productName} ${params.brandName}` },
         { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
-        { id: 5, header: "مجموع مقدار بارگیریهای قبلی", accessor: "remainingAmountToLadingLicence", render: (params: any) => separateAmountWithCommas(params.remainingAmountToLadingLicence) },
-        { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingAmountToLadingLicence", render: (params: any) => separateAmountWithCommas(params.remainingAmountToLadingLicence) },
+        { id: 5, header: "مجموع مقدار بارگیریهای قبلی", accessor: "totalLoadedAmount", render: (params: any) => separateAmountWithCommas(params.totalLoadedAmount) },
+        { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
         // { id: 7, header: "مقدار قابل بارگیری", accessor: "totalLoadedAmount"},
     ]
     const orderOrderColumn = [
@@ -88,16 +88,18 @@ const CargoForm = () => {
         },
         { id: 2, header: "نام کالا", accessor: "productName" },
         { id: 3, header: "انبار", accessor: "warehouseName" },
-        { id: 4, header: "مقدار", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
+        { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
+        { id: 4, header: "مقدار قابل بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
         {
-            id: 5, header: "مقدار بارگیری", accessor: "proximateAmountTransfer", render: (params: any) => {
+            id: 5, header: "مقدار بارگیری", accessor: "remainingLadingAmount", render: (params: any) => {
+               console.log(params)
                 return <MaskInput
                     key={params.id}
                     mask={Number}
                     thousandsSeparator=","
                     label=""
-                    color={+params.proximateAmount < +ladingAmount[params.id] ? "error" : "primary"}
-                    error={+params.proximateAmount < +ladingAmount[params.id]}
+                    color={+params.remainingLadingAmount < +ladingAmount[params.id] ? "error" : "primary"}
+                    error={+params.remainingLadingAmount < +ladingAmount[params.id]}
                     value={ladingAmount[params.id]}
                     onAccept={(value, mask) => setLadingAmount({ ...ladingAmount, [params.id]: mask.unmaskedValue })}
                 />
@@ -174,6 +176,7 @@ const CargoForm = () => {
                 productName: item.productName,
                 warehouseName: item.warehouseName,
                 proximateAmount: item.proximateAmount,
+                remainingLadingAmount: item.remainingLadingAmount,
                 cargoAnnounceId: id,
                 orderDetailId: item.id,
                 realAmount: item.proximateAmount,
@@ -200,7 +203,7 @@ const CargoForm = () => {
                     packageCount: 0
                 }))
             }
-            if(ladingOrderDetail.some((item: any) => +item.proximateAmount < +ladingAmount[item.id])) {
+            if(ladingOrderDetail.some((item: any) => +item.remainingLadingAmount < +ladingAmount[item.id])) {
                 EnqueueSnackbar("مقدار بارگیری را به درستی وارد کنید", "warning")
             } else {
                 mutate(formData, {
