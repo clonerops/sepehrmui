@@ -295,7 +295,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/permissions", element: <Permissions /> },
     
     // prints
-    { path: "dashboard/rent_print", element: <RentPrint /> },
+    { path: "dashboard/rent_print/:id", element: <RentPrint /> },
 
 
     { path: "*", element: <Navigate to="/error/404" /> },

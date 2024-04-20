@@ -172,7 +172,7 @@ const CargoForm = () => {
             </ReusableCard>
 
             <ReusableCard cardClassName="p-4 mt-4">
-                <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
+                <Typography variant="h2" color="primary" className="pb-4">اعلام بارهای قبلی</Typography>
                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
             </ReusableCard>
 

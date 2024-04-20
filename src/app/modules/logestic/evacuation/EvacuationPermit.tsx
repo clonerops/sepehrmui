@@ -230,7 +230,7 @@ const EvacuationPermit = () => {
         //      });
         //      return ;
         //  } 
-
+         console.log(JSON.stringify(formData))
          postEvacuation.mutate(formData, {
             onSuccess: (res) => {
                 if (res.succeeded) {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Typography } from "@mui/material"
 import Backdrop from '../../../_cloner/components/Backdrop'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
@@ -7,10 +7,12 @@ import { useGetRentPaymentsByMutation } from './core/_hooks'
 import Pagination from '../../../_cloner/components/Pagination'
 import { Formik } from 'formik'
 import FormikInput from '../../../_cloner/components/FormikInput'
-import FormikSelect from '../../../_cloner/components/FormikSelect'
 import FormikDatepicker from '../../../_cloner/components/FormikDatepicker'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
-import { Search } from '@mui/icons-material'
+import { Print, Search } from '@mui/icons-material'
+import { useReactToPrint } from 'react-to-print'
+import RentPrint from '../prints/RentPrint'
+import { Link } from 'react-router-dom'
 
 let pageSize = 100;
 
@@ -28,6 +30,7 @@ const RentPaymentList = () => {
   const rentPayments = useGetRentPaymentsByMutation()
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+
   useEffect(() => {
     const formData ={
         pageSize: pageSize,
@@ -38,7 +41,7 @@ const RentPaymentList = () => {
   }, [currentPage]);
 
 
-  const columns = () => {
+  const columns = (renderPrint: any) => {
     const col = [
       {
         field: 'id', renderCell: (params: any) => {
@@ -96,6 +99,11 @@ const RentPaymentList = () => {
         headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120,
         flex: 1,
       },
+      {
+        field: 'print', renderCell: renderPrint,
+        headerName: 'پرینت رسید پرداخت', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
       
     ]
     return col
@@ -112,7 +120,13 @@ const handleFilterBasedofStatus = (values: any) => {
     });
 };
 
-
+const renderPrint = (item: any) => {
+  return <div>
+    <Link to={`/dashboard/rent_print/${item.row.id}`}>
+      <Print />
+    </Link>
+  </div>
+}
 
   return (
     <>
@@ -140,7 +154,7 @@ const handleFilterBasedofStatus = (values: any) => {
 
           <div>
             <MuiDataGrid
-              columns={columns()}
+              columns={columns(renderPrint)}
               rows={rentPayments?.data?.data}
               data={rentPayments?.data?.data}
               hideFooter
