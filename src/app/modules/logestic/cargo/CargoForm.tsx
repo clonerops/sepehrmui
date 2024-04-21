@@ -170,6 +170,8 @@ const CargoForm = () => {
         const isExist = ladingOrderDetail.some((l: any) => l.id === item.id)
         if (isExist) {
             EnqueueSnackbar("کالا قبلا به لیست اضافه شده است", "warning")
+        } else if(item.remainingLadingAmount === 0) {
+            EnqueueSnackbar("مقدار باقیمانده جهت بارگیری صفر می باشد و امکان بارگیری ندارد", "warning") 
         } else {
             const formData = {
                 id: item.id,
@@ -181,6 +183,7 @@ const CargoForm = () => {
                 orderDetailId: item.id,
                 realAmount: item.proximateAmount,
             }
+            setLadingAmount({...ladingAmount, [item.id]: item.remainingLadingAmount.toString()})
             setLadingOrderDetail([...ladingOrderDetail, formData])
         }
     }
