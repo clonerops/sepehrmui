@@ -1,21 +1,23 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
-import FormikInput from '../../../../_cloner/components/FormikInput'
+// import FormikInput from '../../../../_cloner/components/FormikInput'
 import { Button, Typography } from '@mui/material'
-import { Delete, Person, Add } from '@mui/icons-material'
-import TransitionsModal from '../../../../_cloner/components/ReusableModal'
+import { Person } from '@mui/icons-material'
+// import TransitionsModal from '../../../../_cloner/components/ReusableModal'
 import { useParams } from 'react-router-dom'
-import { Formik } from 'formik'
-import { dropdownProductLading } from '../helpers/dropdowns'
+// import { Formik } from 'formik'
+// import { dropdownProductLading } from '../helpers/dropdowns'
 import MuiTable from '../../../../_cloner/components/MuiTable'
 import { useCargoById, usePostLadingPermit } from '../core/_hooks'
-import FormikMaskInput from '../../../../_cloner/components/FormikMaskInput'
+// import FormikMaskInput from '../../../../_cloner/components/FormikMaskInput'
 import CardTitleValue from '../../../../_cloner/components/CardTitleValue'
 import { ILadingPermit } from '../core/_models'
 import { enqueueSnackbar } from 'notistack'
-import FormikComboBox from '../../../../_cloner/components/FormikComboBox'
+// import FormikComboBox from '../../../../_cloner/components/FormikComboBox'
 import Backdrop from '../../../../_cloner/components/Backdrop'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+// import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
+import ConfirmDialog from '../../../../_cloner/components/ConfirmDialog'
 
 interface ILadingList {
     id?: number
@@ -29,23 +31,25 @@ interface ILadingList {
     ladingAmount?: any
 }
 
-const initialValues: ILadingList = {
-    id: 0,
-    description: "",
-    orderDetailId: {
-        value: 0,
-        label: "",
-        productId: ""
-    },
-    orderDetailName: "",
-    ladingAmount: 0
-}
+// const initialValues: ILadingList = {
+//     id: 0,
+//     description: "",
+//     orderDetailId: {
+//         value: 0,
+//         label: "",
+//         productId: ""
+//     },
+//     orderDetailName: "",
+//     ladingAmount: 0
+// }
 
 const orderOrderColumnMain = [
-    { id: 1, header: "نام کالا", accessor: "productName" },
-    { id: 2, header: "انبار", accessor: "warehouseName" },
-    { id: 3, header: "مقدار", accessor: "proximateAmount", },
-    { id: 4, header: "قیمت", accessor: "price" },
+    { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params.product.productCode },
+    { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params.product.productName} ${params.brandName}` },
+    { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
+    { id: 5, header: "مجموع مقدار بارگیریهای قبلی", accessor: "totalLoadedAmount", render: (params: any) => separateAmountWithCommas(params.totalLoadedAmount) },
+    { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
+    // { id: 7, header: "مقدار قابل بارگیری", accessor: "totalLoadedAmount"},
 ]
 
 
@@ -54,57 +58,59 @@ const LadingPermit = () => {
     const { data, isLoading } = useCargoById(id)
     const postLadingPermit = usePostLadingPermit()
 
+    const [approve, setApprove] = useState<boolean>(false);
+
     let formikRef: any = useRef()
 
-    const [ladingList, setLadingList] = useState<ILadingList[]>([])
-    useEffect(() => {
-        if(data?.data?.order.details.length > 0) {
-            const renameOrderDetails: any = data?.data?.order.details.map((item: any) => ({
-                orderDetailId: item.id,
-                orderDetailName: item.productName,
-                ladingAmount: item.proximateAmount
-              })) || [];
-              setLadingList(renameOrderDetails)
-        }
-         // eslint-disable-next-line
-        }, [data?.data?.order.details])
+    // const [ladingList, setLadingList] = useState<ILadingList[]>([])
+    // useEffect(() => {
+    //     if(data?.data?.order.details.length > 0) {
+    //         const renameOrderDetails: any = data?.data?.order.details.map((item: any) => ({
+    //             orderDetailId: item.id,
+    //             orderDetailName: item.productName,
+    //             ladingAmount: item.proximateAmount
+    //           })) || [];
+    //           setLadingList(renameOrderDetails)
+    //     }
+    //      // eslint-disable-next-line
+    //     }, [data?.data?.order.details])
 
-    const [open, setOpen] = useState<boolean>(false)
-    const lastCargoList: any = [
-        { id: 1, header: "کالا", flex: 1, accessor: "orderDetailName" },
-        { id: 2, header: "مقدار بارگیری", flex: 1, accessor: "ladingAmount" },
-        {
-            id: 3, header: "حذف", flex: 1, accessor: "", render: (params: any) => {
-                return <Button onClick={() => handleDeleteProductInList(params)}>
-                    <Delete className='!text-red-500' />
-                </Button>
-            }
-        },
-    ]
+    // const lastCargoList: any = [
+    //     { id: 1, header: "کالا", flex: 1, accessor: "orderDetailName" },
+    //     { id: 2, header: "مقدار بارگیری", flex: 1, accessor: "ladingAmount" },
+    //     {
+    //         id: 3, header: "حذف", flex: 1, accessor: "", render: (params: any) => {
+    //             return <Button onClick={() => handleDeleteProductInList(params)}>
+    //                 <Delete className='!text-red-500' />
+    //             </Button>
+    //         }
+    //     },
+    // ]
 
-    const handleLadingList = (values: ILadingList) => {
-        const newList: any = {
-            orderDetailName: data?.data?.order.details.find((i: any) => i.productId === values?.orderDetailId?.productId).productName,
-            orderDetailId: values?.orderDetailId?.value,
-            ladingAmount: +values.ladingAmount
-        }
+    // const handleLadingList = (values: ILadingList) => {
+    //     const newList: any = {
+    //         orderDetailName: data?.data?.order.details.find((i: any) => i.productId === values?.orderDetailId?.productId).productName,
+    //         orderDetailId: values?.orderDetailId?.value,
+    //         ladingAmount: +values.ladingAmount
+    //     }
 
-        const isHasOrderDetail = ladingList.some((item) => {
-                return item.orderDetailId === values?.orderDetailId?.value
-        }) 
-        if(isHasOrderDetail) {
-            EnqueueSnackbar("این کالا قبلا در لیست بارگیری ها اضافه شده است", "error")
-        } else {
-            setLadingList(prev => [...prev, newList])
-        }
-    }
+    //     const isHasOrderDetail = ladingList.some((item) => {
+    //             return item.orderDetailId === values?.orderDetailId?.value
+    //     }) 
 
-    const handleDeleteProductInList = (rowData: any) => {
-        const filtered = ladingList.filter((item) => item.orderDetailId !== rowData.orderDetailId)
-        setLadingList(filtered)
-    }
+    //     if(isHasOrderDetail) {
+    //         EnqueueSnackbar("این کالا قبلا در لیست بارگیری ها اضافه شده است", "error")
+    //     } else {
+    //         setLadingList(prev => [...prev, newList])
+    //     }
+    // }
 
-    const onSubmit = async (values: any) => {
+    // const handleDeleteProductInList = (rowData: any) => {
+    //     const filtered = ladingList.filter((item) => item.orderDetailId !== rowData.orderDetailId)
+    //     setLadingList(filtered)
+    // }
+
+    const onSubmit = async () => {
         const formData: ILadingPermit | any = {
             cargoAnnounceId: id,
             // description: values.description,
@@ -120,7 +126,7 @@ const LadingPermit = () => {
                         variant: "success",
                         anchorOrigin: { vertical: "top", horizontal: "center" }
                     })
-                    setOpen(false)
+                    setApprove(false)
                 } else {
                     enqueueSnackbar(res.data.Message, {
                         variant: "error",
@@ -153,12 +159,21 @@ const LadingPermit = () => {
                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                 <MuiTable tooltipTitle={data?.data?.order.description ? <Typography>{data?.data?.order.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.order.details} columns={orderOrderColumnMain} />
                 <div className='mt-4'>
-                    <Button onClick={() => setOpen(true)} variant='contained' color='primary'>
+                    <Button onClick={() => setApprove(true)} variant='contained' color='primary'>
                         <Typography>ثبت مجوز بارگیری</Typography>
                     </Button>
                 </div>
             </ReusableCard>
-            <TransitionsModal
+            <ConfirmDialog
+                open={approve}
+                hintTitle="آیا از ثبت مجوز مطمئن هستید؟"
+                notConfirmText="لغو"
+                confirmText={postLadingPermit.isLoading ? "درحال پردازش ..." : "تایید"}
+                onCancel={() => setApprove(false)}
+                onConfirm={() => onSubmit()}
+            />
+
+            {/* <TransitionsModal
                 open={open}
                 isClose={() => setOpen(false)}
                 title="ثبت مجوز بارگیری"
@@ -189,7 +204,7 @@ const LadingPermit = () => {
                         </form>
                     }}
                 </Formik>
-            </TransitionsModal>
+            </TransitionsModal> */}
         </>
     )
 }

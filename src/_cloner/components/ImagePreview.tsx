@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "react-medium-image-zoom/dist/styles.css";
-import Zoom from "react-medium-image-zoom";
 import { Typography } from "@mui/material";
 
 interface ImagePreviewProps {
@@ -32,7 +30,6 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
             {dataURLs.map((dataURL, index) => (
                 <div key={index}>
                     {imageSrcs[index] ? (
-                        <Zoom>
                             <img
                                 src={imageSrcs[index]}
                                 alt={`Preview ${index + 1}`}
@@ -41,7 +38,6 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
                                 height={200}
                                 className="rounded-md cursor-pointer"
                             />
-                        </Zoom>
                     ) : (
                         <Typography variant="h3">درحال بارگزاری...</Typography>
                     )}

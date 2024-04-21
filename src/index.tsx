@@ -15,7 +15,6 @@ import ReactDOM from "react-dom/client";
 import { SnackbarProvider } from "notistack";
 
 import "./_cloner/assets/css/index.css";
-import 'react-medium-image-zoom/dist/styles.css'
 import { AppRoutes } from "./app/routing/AppRoutes";
 
 const cacheRtl = createCache({
