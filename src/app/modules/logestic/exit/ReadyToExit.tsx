@@ -7,7 +7,7 @@ import { Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../../_cloner/components/Pagination'
-import { useGetLadingLicenceList } from '../core/_hooks'
+import { useGetLadingPermitList } from '../core/_hooks'
 import { ladingColumns } from '../../managment-order/helpers/columns'
 
 const pageSize = 20
@@ -17,7 +17,7 @@ const ReadyToExit = () => {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const ladingList = useGetLadingLicenceList();
+    const ladingList = useGetLadingPermitList();
 
 
     const renderAction = (item: any) => {

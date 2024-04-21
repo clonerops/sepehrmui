@@ -4,7 +4,7 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { Link } from "react-router-dom";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 // import Pagination from "../../../../_cloner/components/Pagination";
-import { useGetLadingLicenceList } from "../core/_hooks";
+import { useGetLadingPermitList } from "../core/_hooks";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
 import { ladingColumns } from "../../managment-order/helpers/columns";
 
@@ -13,7 +13,7 @@ import { ladingColumns } from "../../managment-order/helpers/columns";
 const LadingList = () => {
     // const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const ladingList = useGetLadingLicenceList();
+    const ladingList = useGetLadingPermitList();
 
 
     // useEffect(() => {

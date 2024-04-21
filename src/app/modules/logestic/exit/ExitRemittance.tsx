@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
-    useGetLadingLicenceById,
+    useGetLadingPermitById,
     usePostExitRemiitance,
 } from "../core/_hooks";
 import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
@@ -45,7 +45,7 @@ const initialValues: ILadingList = {
 
 const ExitRemiitance = () => {
     const { id }: any = useParams();
-    const { data, isLoading } = useGetLadingLicenceById(id);
+    const { data, isLoading } = useGetLadingPermitById(id);
     const postExitRemittance = usePostExitRemiitance();
 
     let formikRef: any = useRef();

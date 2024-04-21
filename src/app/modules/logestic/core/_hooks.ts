@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ICargo, IEvacuationPermit, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
+import { ICargo, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
 import * as api from "./_requests";
 
 const useRetrievesNotSendedOrder = () => {
@@ -55,37 +55,37 @@ const useEditCargo = () => {
 
 // Lading Licence
 
-const useGetLadingLicenceList = () => {
-    return useQuery(["ladingLicence"], () => api.getLadingLicenceList(), {
+const useGetLadingPermitList = () => {
+    return useQuery(["LadingPermit"], () => api.getLadingPermitList(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
     });
 };
 
-const usePostLadingLicence = () => {
-    return useMutation((formData: ILadingLicence) => {
-        return api.postLadingLicence(formData);
+const usePostLadingPermit = () => {
+    return useMutation((formData: ILadingPermit) => {
+        return api.postLadingPermit(formData);
     });
 };
 
-const useGetLadingLicenceById = (id: string) => {
-    return useQuery(["ladingLicenceById", id], () => api.getLadingLicenceById(id), {
+const useGetLadingPermitById = (id: string) => {
+    return useQuery(["LadingPermitById", id], () => api.getLadingPermitById(id), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
     });
 };
 
-const useEditLadingLicence = () => {
-    return useMutation((formData: ILadingLicence) => {
-        return api.editLadingLicence(formData);
+const useEditLadingPermit = () => {
+    return useMutation((formData: ILadingPermit) => {
+        return api.editLadingPermit(formData);
     });
 };
 
-const useDeleteLadingLicenceById = () => {
+const useDeleteLadingPermitById = () => {
     return useMutation((id: string) => {
-        return api.deleteLadingLicenceById(id);
+        return api.deleteLadingPermitById(id);
     });
 };
 
@@ -170,11 +170,11 @@ export {
     useCargoById,
     useEditCargo,
     useRetrieveCargos,
-    useGetLadingLicenceList,
-    usePostLadingLicence,
-    useGetLadingLicenceById,
-    useEditLadingLicence,
-    useDeleteLadingLicenceById,
+    useGetLadingPermitList,
+    usePostLadingPermit,
+    useGetLadingPermitById,
+    useEditLadingPermit,
+    useDeleteLadingPermitById,
     useGetExitRemittanceList,
     usePostExitRemiitance,
     usePostTransferRemittance,

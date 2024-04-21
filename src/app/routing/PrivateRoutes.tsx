@@ -2,6 +2,7 @@ import React from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
 import RentPrint from "../modules/prints/RentPrint";
+import LadingPermitPrint from "../modules/prints/LadingPermitPrint";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
@@ -176,7 +177,7 @@ const ProductService = React.lazy(
 const CustomerCompanies = React.lazy(
     () => import("../modules/generic/customerCompany/CustomerCompany")
 );
-const LadingLicence = React.lazy(
+const LadingPermit = React.lazy(
     () => import("../modules/logestic/lading/LadingLicence")
 );
 const LadingList = React.lazy(
@@ -241,7 +242,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/cargoList/:id", element: <CargoEditForm /> },
     { path: "dashboard/order_ready_cargo", element: <ReadyToCargo /> },
     { path: "dashboard/order_ready_cargo/:id", element: <CargoForm /> },
-    { path: "dashboard/lading/:id", element: <LadingLicence /> },
+    { path: "dashboard/lading/:id", element: <LadingPermit /> },
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },
     { path: "dashboard/exit/:id", element: <ExitRemittance /> },
@@ -296,6 +297,7 @@ export const routes: RouteProps[] = [
     
     // prints
     { path: "dashboard/rent_print/:id", element: <RentPrint /> },
+    { path: "dashboard/ladingPermit_print", element: <LadingPermitPrint /> },
 
 
     { path: "*", element: <Navigate to="/error/404" /> },

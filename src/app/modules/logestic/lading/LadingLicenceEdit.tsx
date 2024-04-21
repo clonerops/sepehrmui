@@ -8,10 +8,10 @@ import { useParams } from 'react-router-dom'
 import { Formik } from 'formik'
 import { dropdownProductLading } from '../helpers/dropdowns'
 import MuiTable from '../../../../_cloner/components/MuiTable'
-import { useCargoById, usePostLadingLicence } from '../core/_hooks'
+import { useCargoById, usePostLadingPermit } from '../core/_hooks'
 import FormikMaskInput from '../../../../_cloner/components/FormikMaskInput'
 import CardTitleValue from '../../../../_cloner/components/CardTitleValue'
-import { ILadingLicence } from '../core/_models'
+import { ILadingPermit } from '../core/_models'
 import { enqueueSnackbar } from 'notistack'
 import FormikComboBox from '../../../../_cloner/components/FormikComboBox'
 import Backdrop from '../../../../_cloner/components/Backdrop'
@@ -48,10 +48,10 @@ const orderOrderColumnMain = [
 ]
 
 
-const LadingLicenceEdit = () => {
+const LadingPermitEdit = () => {
     const { id }: any = useParams()
     const { data, isLoading } = useCargoById(id)
-    const postLadingLicence = usePostLadingLicence()
+    const postLadingPermit = usePostLadingPermit()
 
     let formikRef: any = useRef()
 
@@ -85,7 +85,7 @@ const LadingLicenceEdit = () => {
     }
 
     const onSubmit = async (values: any) => {
-        const formData: ILadingLicence | any = {
+        const formData: ILadingPermit | any = {
             cargoAnnounceId: id,
             description: values.description,
             ladingLicenseDetails: ladingList.map((item: any) => ({
@@ -93,7 +93,7 @@ const LadingLicenceEdit = () => {
                 ladingAmount: item.ladingAmount
             }))
         }
-        postLadingLicence.mutate(formData, {
+        postLadingPermit.mutate(formData, {
             onSuccess: (res) => {
                 if(res.succeeded) {
                     enqueueSnackbar(res.message, {
@@ -117,7 +117,7 @@ const LadingLicenceEdit = () => {
 
     return (
         <>
-            {postLadingLicence.isLoading && <Backdrop loading={postLadingLicence.isLoading} />}
+            {postLadingPermit.isLoading && <Backdrop loading={postLadingPermit.isLoading} />}
             <div className='grid grid-cols-4 gap-x-4 gap-y-4'>
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره سفارش' value={data?.data?.order?.orderCode} />
                 <CardTitleValue icon={<Person color="secondary" />} title='نام مشتری' value={data?.data?.order?.customerName} />
@@ -173,4 +173,4 @@ const LadingLicenceEdit = () => {
     )
 }
 
-export default LadingLicenceEdit
+export default LadingPermitEdit

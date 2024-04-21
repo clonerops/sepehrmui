@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { ICargo, IEvacuationPermit, IExitRemittance, ILadingLicence, ITransferRemittance } from "./_models";
+import { ICargo, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
 
 const getCargosList = async (formData: {
     PageNumber?: number,
@@ -78,15 +78,15 @@ const editCargo = async (formData: ICargo) => {
 
 
 // Lading Licence
-const getLadingLicenceList = async () => {
-    const { data } = await http.get("/v1/LadingLicense");
+const getLadingPermitList = async () => {
+    const { data } = await http.get("/v1/LadingPermit");
     return data;
 };
 
-const postLadingLicence = async (formdata: ILadingLicence) => {
+const postLadingPermit = async (formdata: ILadingPermit) => {
     try {
         const { data } = await http.post(
-            "/v1/LadingLicense",
+            "/v1/LadingPermit",
             JSON.stringify(formdata)
         );
         return data;
@@ -94,19 +94,19 @@ const postLadingLicence = async (formdata: ILadingLicence) => {
         return error.response;
     }
 };
-const getLadingLicenceById = async (id: string) => {
+const getLadingPermitById = async (id: string) => {
     try {
-        const { data } = await http.get(`/v1/LadingLicense/${id}`);
+        const { data } = await http.get(`/v1/LadingPermit/${id}`);
         return data;
     } catch (error: any) {
         return error.response;
     }
 };
 
-const editLadingLicence = async (formdata: ILadingLicence) => {
+const editLadingPermit = async (formdata: ILadingPermit) => {
     try {
         const { data } = await http.put(
-            `/v1/LadingLicence/${formdata.id}`,
+            `/v1/LadingPermit/${formdata.id}`,
             JSON.stringify(formdata)
         );
         return data;
@@ -115,9 +115,9 @@ const editLadingLicence = async (formdata: ILadingLicence) => {
     }
 };
 
-const deleteLadingLicenceById = async (id: string) => {
+const deleteLadingPermitById = async (id: string) => {
     try {
-        const { data } = await http.delete(`/v1/LadingLicense/${id}`);
+        const { data } = await http.delete(`/v1/LadingPermit/${id}`);
         return data;
     } catch (error: any) {
         return error.response;
@@ -228,11 +228,11 @@ export {
     getCargoById,
     retrievesCargos,
     editCargo,
-    getLadingLicenceList,
-    postLadingLicence,
-    getLadingLicenceById,
-    editLadingLicence,
-    deleteLadingLicenceById,
+    getLadingPermitList,
+    postLadingPermit,
+    getLadingPermitById,
+    editLadingPermit,
+    deleteLadingPermitById,
     getExitRemittanceList,
     postExitRemittance,
     postTransferRemittance,

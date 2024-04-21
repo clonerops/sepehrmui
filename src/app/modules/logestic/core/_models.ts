@@ -15,16 +15,16 @@ export interface ICargo {
     cargoAnnounceDetails?: any
 }
 
-export interface ILadingLicence {
+export interface ILadingPermit {
     id?: string | null | undefined
     cargoAnnounceId?: string | null | undefined
-    description?: string | null | undefined
-    ladingLicenseDetails?: [
-      {
-        orderDetailId?: string | null | undefined
-        ladingAmount?: number | null | undefined
-      }
-    ]
+    // description?: string | null | undefined
+    // ladingLicenseDetails?: [
+    //   {
+    //     orderDetailId?: string | null | undefined
+    //     ladingAmount?: number | null | undefined
+    //   }
+    // ]
 }
 
 export interface IExitRemittance {

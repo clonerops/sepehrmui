@@ -8,10 +8,10 @@ import { useParams } from 'react-router-dom'
 import { Formik } from 'formik'
 import { dropdownProductLading } from '../helpers/dropdowns'
 import MuiTable from '../../../../_cloner/components/MuiTable'
-import { useCargoById, usePostLadingLicence } from '../core/_hooks'
+import { useCargoById, usePostLadingPermit } from '../core/_hooks'
 import FormikMaskInput from '../../../../_cloner/components/FormikMaskInput'
 import CardTitleValue from '../../../../_cloner/components/CardTitleValue'
-import { ILadingLicence } from '../core/_models'
+import { ILadingPermit } from '../core/_models'
 import { enqueueSnackbar } from 'notistack'
 import FormikComboBox from '../../../../_cloner/components/FormikComboBox'
 import Backdrop from '../../../../_cloner/components/Backdrop'
@@ -49,10 +49,10 @@ const orderOrderColumnMain = [
 ]
 
 
-const LadingLicence = () => {
+const LadingPermit = () => {
     const { id }: any = useParams()
     const { data, isLoading } = useCargoById(id)
-    const postLadingLicence = usePostLadingLicence()
+    const postLadingPermit = usePostLadingPermit()
 
     let formikRef: any = useRef()
 
@@ -105,15 +105,15 @@ const LadingLicence = () => {
     }
 
     const onSubmit = async (values: any) => {
-        const formData: ILadingLicence | any = {
+        const formData: ILadingPermit | any = {
             cargoAnnounceId: id,
-            description: values.description,
-            ladingLicenseDetails: ladingList.map((item: any) => ({
-                orderDetailId: item?.orderDetailId,
-                ladingAmount: item.ladingAmount
-            }))
+            // description: values.description,
+            // ladingLicenseDetails: ladingList.map((item: any) => ({
+            //     orderDetailId: item?.orderDetailId,
+            //     ladingAmount: item.ladingAmount
+            // }))
         }
-        postLadingLicence.mutate(formData, {
+        postLadingPermit.mutate(formData, {
             onSuccess: (res) => {
                 if(res.succeeded) {
                     enqueueSnackbar(res.message, {
@@ -137,7 +137,7 @@ const LadingLicence = () => {
 
     return (
         <>
-            {postLadingLicence.isLoading && <Backdrop loading={postLadingLicence.isLoading} />}
+            {postLadingPermit.isLoading && <Backdrop loading={postLadingPermit.isLoading} />}
             <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز بارگیری</Typography>
             <div className='grid grid-cols-4 gap-x-4 gap-y-4'>
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره سفارش' value={data?.data?.order?.orderCode} />
@@ -194,4 +194,4 @@ const LadingLicence = () => {
     )
 }
 
-export default LadingLicence
+export default LadingPermit
