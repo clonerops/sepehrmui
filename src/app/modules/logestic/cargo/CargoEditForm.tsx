@@ -47,7 +47,6 @@ const CargoEditForm = () => {
     const detailsCargo = useCargoById(id);
     const vehicleList = useGetVehicleTypes()
     const { mutate, isLoading } = useEditCargo();
-
     // states
     const [ladingOrderDetail, setLadingOrderDetail] = useState<any>([])
     const [ladingAmount, setLadingAmount] = useState<{ [key: string]: string }>({})
@@ -69,9 +68,6 @@ const CargoEditForm = () => {
     
          // eslint-disable-next-line
     }, [detailsCargo?.data?.data])
-
-    console.log(detailsCargo?.data?.data?.cargoAnnounceDetails)
-
 
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: detailsCargo?.data?.data?.order?.orderCode },

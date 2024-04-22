@@ -46,7 +46,7 @@ const ReadyToLading = () => {
         return (
             <Link to={`/dashboard/lading/${item?.row?.id}`}>
                 <Button variant="contained" color="secondary">
-                    <Typography>صدور مجوز بارگیری</Typography>
+                    <Typography>صدور مجوز</Typography>
                 </Button>
             </Link>
         );
