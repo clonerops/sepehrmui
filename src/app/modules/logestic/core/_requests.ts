@@ -76,6 +76,15 @@ const editCargo = async (formData: ICargo) => {
     }
 };
 
+const deleteCargoById = async (id: string) => {
+    try {
+        const { data } = await http.delete(`/v1/CargoAnnouncement/${id}`);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
 
 // Lading Licence
 const getLadingPermitList = async () => {
@@ -228,6 +237,7 @@ export {
     getCargoById,
     retrievesCargos,
     editCargo,
+    deleteCargoById,
     getLadingPermitList,
     postLadingPermit,
     getLadingPermitById,
