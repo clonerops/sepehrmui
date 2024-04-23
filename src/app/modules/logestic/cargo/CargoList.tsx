@@ -11,7 +11,7 @@ import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 
 import { useGetCustomers } from "../../customer/core/_hooks";
-import { useDeleteCargoById, useGetCargosList } from "../core/_hooks";
+import { useGetCargosList, useRevokeCargoById } from "../core/_hooks";
 import { dropdownCustomer } from "../../generic/_functions";
 import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
@@ -24,7 +24,7 @@ const CargoList = () => {
 
     const { data: customers } = useGetCustomers();
     const cargoList = useGetCargosList();
-    const deleteCargo = useDeleteCargoById()
+    const revokeCargo = useRevokeCargoById()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -45,8 +45,8 @@ const CargoList = () => {
         cargoList.mutate(formData);
     }
 
-    const handleDeleteCargo = (id: string) => {
-        deleteCargo.mutate(id, {
+    const handleRevokeCargo = (id: string) => {
+        revokeCargo.mutate(id, {
             onSuccess: (response) => {
                 if(response.message) {
                     EnqueueSnackbar("ابطال بارنامه با موفقیت انجام پذیرفت", 'success')
@@ -74,7 +74,7 @@ const CargoList = () => {
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>ابطال اعلام بار</Typography>}>
                     <div className="flex gap-x-4">
-                        <LayersClear onClick={() => handleDeleteCargo(item?.row?.id)} className="text-red-500" />
+                        <LayersClear onClick={() => handleRevokeCargo(item?.row?.id)} className="text-red-500" />
                     </div>
                 </Tooltip>
             </div>

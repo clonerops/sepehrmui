@@ -52,9 +52,9 @@ const useEditCargo = () => {
     });
 };
 
-const useDeleteCargoById = () => {
+const useRevokeCargoById = () => {
     return useMutation((id: string) => {
-        return api.deleteCargoById(id);
+        return api.revokeCargoById(id);
     });
 };
 
@@ -175,7 +175,7 @@ export {
     useCargoById,
     useEditCargo,
     useRetrieveCargos,
-    useDeleteCargoById,
+    useRevokeCargoById,
     useGetLadingPermitList,
     usePostLadingPermit,
     useGetLadingPermitById,

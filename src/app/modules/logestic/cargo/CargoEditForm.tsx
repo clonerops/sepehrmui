@@ -58,6 +58,8 @@ const CargoEditForm = () => {
             orderDetailId: item.orderDetailId,
             proximateAmount: item.realAmount,
             remainingLadingAmount: (+item.realAmount) - (+item.ladingAmount),
+            productCode: item.orderDetail.product.productCode,
+            productName: item.orderDetail.product.productName
         })))
         detailsCargo?.data?.data?.cargoAnnounceDetails.forEach((element: any) => {
             setLadingAmount(prevLadingAmount => {
@@ -77,8 +79,8 @@ const CargoEditForm = () => {
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: detailsCargo?.data?.data?.order?.paymentTypeDesc },
     ]
     const orderOrderColumn = [
-        { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params?.product?.productCode },
-        { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params?.product?.productName} ${params?.brandName}` },
+        { id: 2, header: "کد کالا", accessor: "productCode" },
+        { id: 3, header: "نام کالا", accessor: "productName" },
         { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
         { id: 4, header: "مقدار قابل بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
         {
@@ -223,7 +225,8 @@ const CargoEditForm = () => {
                 <Typography variant="h2" color="primary">مشخصات حمل</Typography>
                 <Formik initialValues={{
                     ...initialValues,
-                    ...detailsCargo?.data?.data
+                    ...detailsCargo?.data?.data,
+                    fareAmount: detailsCargo?.data?.data?.fareAmount.toString()
                     }} validationSchema={submitCargoValidation} onSubmit={onSubmit}>
                     {({ handleSubmit, setFieldValue }) => {
                         return <form onSubmit={handleSubmit}>

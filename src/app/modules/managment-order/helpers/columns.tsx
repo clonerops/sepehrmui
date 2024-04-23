@@ -297,6 +297,12 @@ export const readyToLadingColumns = (renderAction: any) => {
             headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
         },
         {
+            field: 'creatorName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.creatorName}</Typography>;
+            },
+            headerName: 'ثبت کننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
             field: 'deliveryDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -314,12 +320,7 @@ export const readyToLadingColumns = (renderAction: any) => {
             },
             headerName: 'نوع فاکتور', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        {
-            field: 'isTemporary', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.order.isTemporary === false ? "ثبت نهایی" : "ثبت موقت"}</Typography>;
-            },
-            headerName: 'نوع ثبت', headerClassName: "headerClassName", minWidth: 120, flex: 1
-        },
+       
         {
             field: 'totalAmount', renderCell: (params: any) => {
                 return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.row.order.totalAmount)}</Typography>;
