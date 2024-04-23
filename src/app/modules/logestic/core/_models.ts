@@ -2,6 +2,7 @@ export interface ICargo {
     id?: string | null | undefined
     orderId?: string | null | undefined
     unloadingPlaceAddress?: string | null | undefined
+    shippingName?: string | null | undefined
     driverName?: string | null | undefined
     carPlaque?: string | null | undefined
     driverMobile?: string | null | undefined

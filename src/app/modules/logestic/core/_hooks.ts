@@ -52,6 +52,11 @@ const useEditCargo = () => {
     });
 };
 
+const useDeleteCargoById = () => {
+    return useMutation((id: string) => {
+        return api.deleteCargoById(id);
+    });
+};
 
 // Lading Licence
 
@@ -170,6 +175,7 @@ export {
     useCargoById,
     useEditCargo,
     useRetrieveCargos,
+    useDeleteCargoById,
     useGetLadingPermitList,
     usePostLadingPermit,
     useGetLadingPermitById,

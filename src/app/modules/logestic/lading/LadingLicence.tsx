@@ -18,6 +18,7 @@ import Backdrop from '../../../../_cloner/components/Backdrop'
 // import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
 import ConfirmDialog from '../../../../_cloner/components/ConfirmDialog'
+import { sep } from 'path'
 
 interface ILadingList {
     id?: number
@@ -44,18 +45,17 @@ interface ILadingList {
 // }
 
 const orderOrderColumnMain = [
-    { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params.product.productCode },
-    { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params.product.productName} ${params.brandName}` },
-    { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
-    { id: 5, header: "مجموع مقدار بارگیریهای قبلی", accessor: "totalLoadedAmount", render: (params: any) => separateAmountWithCommas(params.totalLoadedAmount) },
-    { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
-    // { id: 7, header: "مقدار قابل بارگیری", accessor: "totalLoadedAmount"},
+    { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params?.product?.productCode },
+    { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params?.product?.productName} ${params?.brandName}` },
+    { id: 4, header: "مقدار اولیه", accessor: "realAmount", render: (params: any) => separateAmountWithCommas(params.property) },
+    { id: 5, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: any) => separateAmountWithCommas(params.ladingAmount) },
 ]
 
 
 const LadingPermit = () => {
     const { id }: any = useParams()
     const { data, isLoading } = useCargoById(id)
+    
     const postLadingPermit = usePostLadingPermit()
 
     const [approve, setApprove] = useState<boolean>(false);
@@ -114,10 +114,6 @@ const LadingPermit = () => {
         const formData: ILadingPermit | any = {
             cargoAnnounceId: id,
             // description: values.description,
-            // ladingLicenseDetails: ladingList.map((item: any) => ({
-            //     orderDetailId: item?.orderDetailId,
-            //     ladingAmount: item.ladingAmount
-            // }))
         }
         postLadingPermit.mutate(formData, {
             onSuccess: (res) => {
@@ -146,6 +142,7 @@ const LadingPermit = () => {
             {postLadingPermit.isLoading && <Backdrop loading={postLadingPermit.isLoading} />}
             <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز بارگیری</Typography>
             <div className='grid grid-cols-4 gap-x-4 gap-y-4'>
+                <CardTitleValue icon={<Person color="secondary" />} title='شماره بارنامه' value={data?.data?.cargoAnnounceNo} />
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره سفارش' value={data?.data?.order?.orderCode} />
                 <CardTitleValue icon={<Person color="secondary" />} title='نام مشتری' value={data?.data?.order?.customerName} />
                 <CardTitleValue icon={<Person color="secondary" />} title='نوع ارسال' value={data?.data?.order?.orderSendTypeDesc} />
@@ -154,10 +151,13 @@ const LadingPermit = () => {
                 <CardTitleValue icon={<Person color="secondary" />} title='نام راننده' value={data?.data?.driverName} />
                 <CardTitleValue icon={<Person color="secondary" />} title='پلاک خودروبر' value={data?.data?.carPlaque} />
                 <CardTitleValue icon={<Person color="secondary" />} title='شماره همراه راننده' value={data?.data?.driverMobile} />
+                <CardTitleValue icon={<Person color="secondary" />} title='تاریخ تحویل' value={data?.data?.deliveryDate} />
+                <CardTitleValue icon={<Person color="secondary" />} title='مبلغ کرایه(ریال)' value={separateAmountWithCommas(data?.data?.fareAmount)} />
+                <CardTitleValue icon={<Person color="secondary" />} title='توضیحات ثبت شده' value={data?.data?.description} />
             </div>
             <ReusableCard cardClassName='mt-4'>
-                <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
-                <MuiTable tooltipTitle={data?.data?.order.description ? <Typography>{data?.data?.order.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.order.details} columns={orderOrderColumnMain} />
+                <Typography variant="h2" color="primary" className="pb-4">اقلام اعلام بارشده</Typography>
+                <MuiTable tooltipTitle={data?.data?.order.description ? <Typography>{data?.data?.order.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.cargoAnnounceDetails} columns={orderOrderColumnMain} />
                 <div className='mt-4'>
                     <Button onClick={() => setApprove(true)} variant='contained' color='primary'>
                         <Typography>ثبت مجوز بارگیری</Typography>

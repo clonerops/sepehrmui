@@ -5,7 +5,7 @@ import { enqueueSnackbar } from "notistack"
 import { AttachMoney, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
-import { useCargoById, useEditCargo, useRetrieveCargos } from "../core/_hooks"
+import { useCargoById, useEditCargo } from "../core/_hooks"
 import { useGetVehicleTypes } from "../../generic/_hooks"
 
 import FormikInput from "../../../../_cloner/components/FormikInput"
@@ -24,34 +24,50 @@ import { ICargo } from "../core/_models"
 import { renderSwal } from "../../../../_cloner/helpers/swal"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
 import { submitCargoValidation } from "./validations"
+import { useEffect, useState } from "react"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
+import MaskInput from "../../../../_cloner/components/MaskInput"
 
-
-const orderOrderColumnMain = [
-    { id: 1, header: "نام کالا", accessor: "productName" },
-    { id: 2, header: "انبار", accessor: "warehouseName" },
-    { id: 3, header: "مقدار", accessor: "proximateAmount", },
-    { id: 4, header: "قیمت", accessor: "price" },
-]
-
-const lastCargoList: any = [
-    { id: 1, header: "شماره بارنامه", accessor: "cargoAccounceNo" },
-    { id: 1, header: "راننده", accessor: "driverName" },
-    { id: 2, header: "شماره موبایل راننده", accessor: "driverMobile" },
-    { id: 3, header: "شماره پلاک", accessor: "carPlaque" },
-    { id: 4, header: "کرایه(ریال)", accessor: "rentAmount", render: (params: any) => separateAmountWithCommas(params.rentAmount) },
-    { id: 4, header: "باربری", accessor: "shippingName" },
-    { id: 4, header: "تاریخ تحویل", accessor: "deliveryDate" },
-    { id: 4, header: "آدرس محل تخلیه", accessor: "unloadingPlaceAddress" },
-]
-
+const initialValues = {
+    driverName: "",
+    approvedUserName: "",
+    carPlaque: "",
+    driverMobile: "",
+    approvedDate: moment(new Date()).format('jYYYY/jMM/jDD'),
+    fareAmount: "",
+    isComplete: false,
+    description: "",
+    vehicleTypeId: null,
+    deliveryDate: "",
+    unloadingPlaceAddress: ""
+}
 
 const CargoEditForm = () => {
     const { id }: any = useParams()
-
-    const { mutate, isLoading } = useEditCargo();
     const detailsCargo = useCargoById(id);
-    const cargosList = useRetrieveCargos(id)
     const vehicleList = useGetVehicleTypes()
+    const { mutate, isLoading } = useEditCargo();
+    // states
+    const [ladingOrderDetail, setLadingOrderDetail] = useState<any>([])
+    const [ladingAmount, setLadingAmount] = useState<{ [key: string]: string }>({})
+
+    useEffect(() => {
+        setLadingOrderDetail(detailsCargo?.data?.data?.cargoAnnounceDetails.map((item: any) => ({
+            id: item.orderDetailId,
+            cargoAnnounceId: item.cargoAnnounceId,
+            orderDetailId: item.orderDetailId,
+            proximateAmount: item.realAmount,
+            remainingLadingAmount: (+item.realAmount) - (+item.ladingAmount),
+        })))
+        detailsCargo?.data?.data?.cargoAnnounceDetails.forEach((element: any) => {
+            setLadingAmount(prevLadingAmount => {
+                const updatedLadingAmount = {...prevLadingAmount, [element.orderDetailId]: element.ladingAmount.toString()};
+                return updatedLadingAmount; 
+            });
+        });
+    
+         // eslint-disable-next-line
+    }, [detailsCargo?.data?.data])
 
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: detailsCargo?.data?.data?.order?.orderCode },
@@ -59,6 +75,25 @@ const CargoEditForm = () => {
         { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: detailsCargo?.data?.data?.order?.exitType === 1 ? "عادی" : "بعد از تسویه" },
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: detailsCargo?.data?.data?.order?.orderSendTypeDesc },
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: detailsCargo?.data?.data?.order?.paymentTypeDesc },
+    ]
+    const orderOrderColumn = [
+        { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params?.product?.productCode },
+        { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params?.product?.productName} ${params?.brandName}` },
+        { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
+        { id: 4, header: "مقدار قابل بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
+        {
+            id: 5, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: any) => {
+                return <MaskInput
+                    key={params.id}
+                    mask={Number}
+                    thousandsSeparator=","
+                    label=""
+                    color={+params.remainingLadingAmount < +ladingAmount[params.id] ? "error" : "primary"}
+                    value={ladingAmount[params.id]}
+                    onAccept={(value, mask) => setLadingAmount({ ...ladingAmount, [params.id]: mask.unmaskedValue })}
+                />
+            }
+        },
     ]
 
     const fields: FieldType[][] = [
@@ -80,7 +115,7 @@ const CargoEditForm = () => {
         ]
     ];
 
-    const parseFields = (fields: FieldType, setFieldValue:  (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>, index: number) => {
+    const parseFields = (fields: FieldType, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>, index: number) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "checkbox":
@@ -100,7 +135,7 @@ const CargoEditForm = () => {
             case "select":
                 return <FormikSelect key={index} options={dropdownVehicleType(vehicleList.data)} {...rest} />
             case "amount":
-                return <FormikAmount disabled={detailsCargo?.data?.data?.order?.orderSendTypeId === 3} key={index} {...rest} />;
+                return <FormikAmount disabled={detailsCargo?.data?.data?.order?.orderSendTypeId !== 1} key={index} {...rest} />;
             case "desc":
                 return <FormikInput key={index} multiline minRows={3} {...rest} />;
 
@@ -112,35 +147,55 @@ const CargoEditForm = () => {
     const onSubmit = (values: ICargo) => {
         try {
             const formData: ICargo = {
-                ...values,
                 id: id,
-                approvedUserName: "",
-            };
-            console.log(JSON.stringify(formData))
+                unloadingPlaceAddress: values.unloadingPlaceAddress,
+                driverName: values.driverName,
+                carPlaque: values.carPlaque,
+                driverMobile: values.driverMobile,
+                approvedUserName: values.approvedUserName,
+                approvedDate: values.approvedDate,
+                fareAmount: values.fareAmount,
+                isComplete: values.isComplete,
+                vehicleTypeId: values.vehicleTypeId,
+                shippingName: values.shippingName,
+                deliveryDate: values.deliveryDate,
+                description: values.description,
+                cargoAnnounceDetails: ladingOrderDetail.map((item: any) => ({
+                    cargoAnnounceId: item.cargoAnnounceId,
+                    orderDetailId: item.orderDetailId,
+                    realAmount: item.proximateAmount,
+                    ladingAmount: +ladingAmount[item.id],
+                    packageCount: 0
+                }))
+            }
             mutate(formData, {
                 onSuccess: (message) => {
-                    if (message.succeeded) {
-                        renderSwal(`ویرایش با موفقیت انجام گردید`)
+                    if(message.data.Errors && message.data.Errors.length > 0) {
+                        EnqueueSnackbar(message.data.Errors[0], "error")
                     } else {
-                        enqueueSnackbar(message.data.Message, {
-                            variant: `error`,
-                            anchorOrigin: { vertical: "top", horizontal: "center" }
-                        })
-
+                        if (message.succeeded) {
+                            renderSwal(`اعلام بار با موفقیت ویرایش گردید`)
+                        }
+    
+                        if (!message?.data?.Succeeded) {
+                            enqueueSnackbar(message.data.Message, {
+                                variant: `error`,
+                                anchorOrigin: { vertical: "top", horizontal: "center" }
+                            })
+                        }    
                     }
                 }
-
             })
+
         } catch (error) {
             console.log(error)
         }
 
     }
 
-    if (detailsCargo.isLoading) {
-        return <Backdrop loading={isLoading} />;
+    if (detailsCargo?.isLoading) {
+        return <Backdrop loading={detailsCargo?.isLoading} />
     }
-
 
     return (
         <>
@@ -151,41 +206,26 @@ const CargoEditForm = () => {
                     title: string,
                     icon: React.ReactNode,
                     value: any
-                    }, index) => {
-                        return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
-                    })}
+                }, index) => {
+                    return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
+                })}
+            </div>
+            
+            <div className="flex flex-col gap-4 mt-4">
+                <ReusableCard cardClassName={"col-span-3"}>
+                    <Typography variant="h2" color="primary" className="pb-4">کالا بارگیری</Typography>
+                    <MuiTable tooltipTitle={""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={ladingOrderDetail} columns={orderOrderColumn} />
+                </ReusableCard>
             </div>
 
-            <ReusableCard cardClassName={ "col-span-3"}>
-                <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
-                <MuiTable tooltipTitle={detailsCargo?.data?.data?.order?.description ? <Typography>{detailsCargo?.data?.data?.order?.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={detailsCargo?.data?.data?.order.details} columns={orderOrderColumnMain} />
-            </ReusableCard>
-
-            <ReusableCard cardClassName="p-4 mt-4">
-                <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
-                <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
-            </ReusableCard>
 
             <ReusableCard cardClassName="mt-8">
                 <Typography variant="h2" color="primary">مشخصات حمل</Typography>
-                <Formik
-                    enableReinitialize
-                    initialValues={{
-                        driverName: detailsCargo?.data?.data.driverName,
-                        approvedUserName: detailsCargo?.data?.data.approvedUserName,
-                        carPlaque: detailsCargo?.data?.data.carPlaque,
-                        driverMobile: detailsCargo?.data?.data.driverMobile,
-                        approvedDate: moment(new Date()).format("jYYYY/jMM/jDD"),
-                        fareAmount: detailsCargo?.data?.data.fareAmount,
-                        isComplete: detailsCargo?.data?.data.isComplete,
-                        description: detailsCargo?.data?.data.description,
-                        vehicleTypeId: detailsCargo?.data?.data.vehicleTypeId,
-                        shippingName: detailsCargo?.data?.data.shippingName,
-                        deliveryDate: detailsCargo?.data?.data.deliveryDate,
-                        unloadingPlaceAddress: detailsCargo?.data?.data.unloadingPlaceAddress,
-                    }}
-                validationSchema={submitCargoValidation} onSubmit={onSubmit}>
-                    {({ handleSubmit, setFieldValue}) => {
+                <Formik initialValues={{
+                    ...initialValues,
+                    ...detailsCargo?.data?.data
+                    }} validationSchema={submitCargoValidation} onSubmit={onSubmit}>
+                    {({ handleSubmit, setFieldValue }) => {
                         return <form onSubmit={handleSubmit}>
                             {fields.map((rowFields, index) => (
                                 <div
@@ -199,7 +239,7 @@ const CargoEditForm = () => {
                             ))}
                             <div className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                    <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ویرایش اعلام بار" } </Typography>
+                                    <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ویرایش اعلام بار"} </Typography>
                                 </Button>
                             </div>
                         </form>

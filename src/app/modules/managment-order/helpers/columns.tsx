@@ -283,7 +283,7 @@ export const orderPurchaserListColumns = (renderActions: any) => {
 
 export const readyToLadingColumns = (renderAction: any) => {
     const col = [
-        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 140 },
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120 },
         {
             field: 'cargoAnnounceNo', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -297,10 +297,10 @@ export const readyToLadingColumns = (renderAction: any) => {
             headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
         },
         {
-            field: 'registerDate', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.order.registerDate}</Typography>;
+            field: 'deliveryDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'تاریخ تحویل', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'customerName', renderCell: (params: any) => {
