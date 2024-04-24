@@ -102,7 +102,7 @@ const CargoList = () => {
                                         options={dropdownCustomer(
                                             customers?.data
                                         )}
-                                        label="مشتری"
+                                        label="سفارش دهنده"
                                         name="customerId"
                                     />
                                     <ButtonComponent onClick={() => handleFilter(values)}>

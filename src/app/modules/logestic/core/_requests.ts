@@ -78,7 +78,7 @@ const editCargo = async (formData: ICargo) => {
 
 const revokeCargoById = async (id: string) => {
     try {
-        const { data } = await http.put(`/v1/CargoAnnouncement/RevokeCargoAnnouncement/${id}`);
+        const { data } = await http.put(`/v1/CargoAnnouncement/RevokeCargoAnnouncement/${id}`, JSON.stringify({id: id}));
         return data;
     } catch (error: any) {
         return error.response;
