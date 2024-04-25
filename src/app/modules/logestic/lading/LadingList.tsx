@@ -10,11 +10,14 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import Pagination from "../../../../_cloner/components/Pagination";
+import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 
 const pageSize = 100;
 
 const LadingList = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [approve, setApprove] = useState<boolean>(false);
+    const [selecetdId, setSelectedId] = useState<number>(0)
 
     const ladingList = useGetLadingPermitListByMutation();
     const revokeLading = useRevokeLadingById()
@@ -26,14 +29,22 @@ const LadingList = () => {
             pageSize: pageSize,
         };
         ladingList.mutate(formData);
-    //  eslint-disable-next-line
+        //  eslint-disable-next-line
     }, [currentPage]);
+
+    const handleOpenApprove = (id: number) => {
+        setApprove(true)
+        setSelectedId(id)
+      }
+    
 
     const handleRevokeLading = (id: number) => {
         revokeLading.mutate(id, {
             onSuccess: (response) => {
-                if(response.succeeded) {
-                    EnqueueSnackbar("ابطال بارنامه با موفقیت انجام پذیرفت", 'success')
+                if (response.message) {
+                    EnqueueSnackbar(response.message, 'success')
+                    ladingList.mutate({});
+                    setApprove(false)
                 } else {
                     EnqueueSnackbar(response.data.Message, 'error')
                 }
@@ -41,7 +52,7 @@ const LadingList = () => {
         })
     }
 
-    
+
     const renderAction = (item: any) => {
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
@@ -54,8 +65,8 @@ const LadingList = () => {
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>ابطال بارگیری</Typography>}>
                     <div className="flex gap-x-4">
-                        <LayersClear onClick={() => handleRevokeLading(item?.row?.id)} className="text-red-500" />
-                    </div>  
+                        <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
+                    </div>
                 </Tooltip>
             </div>
         );
@@ -81,6 +92,16 @@ const LadingList = () => {
                     onPageChange={handlePageChange}
                 />
             </ReusableCard>
+            <ConfirmDialog
+                open={approve}
+                hintTitle="آیا از ابطال مطمئن هستید؟"
+                notConfirmText="لغو"
+                confirmText={revokeLading.isLoading ? "درحال پردازش ..." : "تایید"}
+                onCancel={() => setApprove(false)}
+                onConfirm={() => handleRevokeLading(selecetdId)}
+
+            />
+
         </>
     );
 };

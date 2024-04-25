@@ -17,6 +17,7 @@ import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import Pagination from "../../../../_cloner/components/Pagination";
 import Backdrop from "../../../../_cloner/components/Backdrop";
+import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 
 const pageSize = 100
 
@@ -28,6 +29,8 @@ const CargoList = () => {
     const revokeCargo = useRevokeCargoById()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [approve, setApprove] = useState<boolean>(false);
+    const [selecetdId, setSelectedId] = useState<string>("")
 
     useEffect(() => {
         let formData = {
@@ -46,12 +49,18 @@ const CargoList = () => {
         cargoList.mutate(formData);
     }
     
+    const handleOpenApprove = (id: string) => {
+        setApprove(true)
+        setSelectedId(id)
+      }
+
     const handleRevokeCargo = (id: string) => {
         revokeCargo.mutate(id, {
             onSuccess: (response) => {
                 if(response.succeeded) {
                     EnqueueSnackbar("ابطال بارنامه با موفقیت انجام پذیرفت", 'success')
                     handleFilter({})
+                    setApprove(false)
                 } else {
                     EnqueueSnackbar(response.data.Message, 'error')
                 }
@@ -76,7 +85,7 @@ const CargoList = () => {
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>ابطال اعلام بار</Typography>}>
                     <div className="flex gap-x-4">
-                        <LayersClear onClick={() => handleRevokeCargo(item?.row?.id)} className="text-red-500" />
+                        <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
                     </div>
                 </Tooltip>
             </div>
@@ -129,6 +138,16 @@ const CargoList = () => {
                 />
                 <Pagination pageCount={+cargoList?.data?.totalCount / +pageSize || 1} onPageChange={handlePageChange} />
             </ReusableCard>
+            <ConfirmDialog
+                open={approve}
+                hintTitle="آیا از ابطال مطمئن هستید؟"
+                notConfirmText="لغو"
+                confirmText={revokeCargo.isLoading ? "درحال پردازش ..." : "تایید"}
+                onCancel={() => setApprove(false)}
+                onConfirm={() => handleRevokeCargo(selecetdId)}
+
+            />
+
         </>
     );
 };

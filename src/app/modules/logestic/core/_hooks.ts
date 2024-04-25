@@ -69,8 +69,8 @@ const useGetLadingPermitList = () => {
 };
 const useGetLadingPermitListByMutation = () => {
     return useMutation((filters: {
-        pageNumber: number,
-        pageSize: number
+        pageNumber?: number,
+        pageSize?: number
     }) => {
         return api.getLadingPermitListByMutation(filters);
     });
