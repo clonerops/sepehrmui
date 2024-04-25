@@ -91,6 +91,13 @@ const getLadingPermitList = async () => {
     const { data } = await http.get("/v1/LadingPermit");
     return data;
 };
+const getLadingPermitListByMutation = async (filters: {
+    pageNumber: number,
+    pageSize: number
+}) => {
+    const { data } = await http.get(`${generateURLQueryParam('/v1/LadingPermit', filters)}`);
+    return data;
+};
 
 const postLadingPermit = async (formdata: ILadingPermit) => {
     try {
@@ -132,6 +139,16 @@ const deleteLadingPermitById = async (id: string) => {
         return error.response;
     }
 };
+
+const revokeLadingById = async (id: number) => {
+    try {
+        const { data } = await http.put(`/v1/CargoAnnouncement/RevokeLadingPermit/${id}`, JSON.stringify({id: id}));
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
+
 
 // exit remittance
 const getExitRemittanceList = async () => {
@@ -239,10 +256,12 @@ export {
     editCargo,
     revokeCargoById,
     getLadingPermitList,
+    getLadingPermitListByMutation,
     postLadingPermit,
     getLadingPermitById,
     editLadingPermit,
     deleteLadingPermitById,
+    revokeLadingById,
     getExitRemittanceList,
     postExitRemittance,
     postTransferRemittance,

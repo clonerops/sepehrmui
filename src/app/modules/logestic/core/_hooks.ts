@@ -67,6 +67,14 @@ const useGetLadingPermitList = () => {
         refetchIntervalInBackground: false
     });
 };
+const useGetLadingPermitListByMutation = () => {
+    return useMutation((filters: {
+        pageNumber: number,
+        pageSize: number
+    }) => {
+        return api.getLadingPermitListByMutation(filters);
+    });
+};
 
 const usePostLadingPermit = () => {
     return useMutation((formData: ILadingPermit) => {
@@ -93,6 +101,13 @@ const useDeleteLadingPermitById = () => {
         return api.deleteLadingPermitById(id);
     });
 };
+
+const useRevokeLadingById = () => {
+    return useMutation((id: number) => {
+        return api.revokeLadingById(id);
+    });
+};
+
 
 // Exit Remittance
 const useGetExitRemittanceList = () => {
@@ -177,8 +192,10 @@ export {
     useRetrieveCargos,
     useRevokeCargoById,
     useGetLadingPermitList,
+    useGetLadingPermitListByMutation,
     usePostLadingPermit,
     useGetLadingPermitById,
+    useRevokeLadingById,
     useEditLadingPermit,
     useDeleteLadingPermitById,
     useGetExitRemittanceList,

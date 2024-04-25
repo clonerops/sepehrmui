@@ -345,6 +345,7 @@ export const readyToLadingColumns = (renderAction: any) => {
 
 export const ladingColumns = (renderAction: any) => {
     const col = [
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120 },
         {
             field: 'id', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -381,7 +382,6 @@ export const ladingColumns = (renderAction: any) => {
             },
             headerName: 'شماره پلاک خودروبر', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        { field: "Action", headerName: 'ویرایش', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
 }
