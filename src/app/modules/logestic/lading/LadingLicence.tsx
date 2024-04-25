@@ -45,10 +45,10 @@ interface ILadingList {
 // }
 
 const orderOrderColumnMain = [
-    { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params?.product?.productCode },
-    { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params?.product?.productName} ${params?.brandName}` },
-    { id: 4, header: "مقدار اولیه", accessor: "realAmount", render: (params: any) => separateAmountWithCommas(params.property) },
-    { id: 5, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: any) => separateAmountWithCommas(params.ladingAmount) },
+    { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params?.orderDetail?.product?.productCode },
+    { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params?.orderDetail?.product?.productName} ${params?.orderDetail?.brandName}` },
+    { id: 4, header: "مقدار اولیه", accessor: "realAmount", render: (params: any) => `${separateAmountWithCommas(params.realAmount)} ${params?.orderDetail?.product?.productMainUnitDesc}`  },
+    { id: 5, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: any) => <Typography variant="h3" className='text-green-500'>{`${separateAmountWithCommas(params.ladingAmount)} ${params?.orderDetail?.product?.productMainUnitDesc}`} </Typography> },
 ]
 
 

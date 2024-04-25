@@ -96,6 +96,13 @@ const useGetOfficialBank = () => {
         refetchIntervalInBackground: false,
     });
 };
+const useGetOrderExitTypes = () => {
+    return useQuery(["orderExitTypes"], () => api.getOrderExitTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 
 export {
     useGetSendTypes,
@@ -110,5 +117,6 @@ export {
     useGetProductTypes,
     useGetVehicleTypes,
     useGetTransferRemittanceStatus,
-    useGetOfficialBank
+    useGetOfficialBank,
+    useGetOrderExitTypes
 };

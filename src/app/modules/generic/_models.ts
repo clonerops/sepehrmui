@@ -62,3 +62,8 @@ export interface IOfficialBank {
     isActive: boolean
   }
   
+  export interface IOrderExitTypes {
+    exitTypeDesc: string
+    id: number
+    isActive: boolean
+}

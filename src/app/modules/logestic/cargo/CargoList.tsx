@@ -16,6 +16,7 @@ import { dropdownCustomer } from "../../generic/_functions";
 import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import Pagination from "../../../../_cloner/components/Pagination";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const pageSize = 100
 
@@ -44,12 +45,13 @@ const CargoList = () => {
         };
         cargoList.mutate(formData);
     }
-
+    
     const handleRevokeCargo = (id: string) => {
         revokeCargo.mutate(id, {
             onSuccess: (response) => {
-                if(response.message) {
+                if(response.succeeded) {
                     EnqueueSnackbar("ابطال بارنامه با موفقیت انجام پذیرفت", 'success')
+                    handleFilter({})
                 } else {
                     EnqueueSnackbar(response.data.Message, 'error')
                 }
@@ -83,6 +85,7 @@ const CargoList = () => {
 
     return (
         <>
+            {revokeCargo?.isLoading && <Backdrop loading={revokeCargo?.isLoading} />}
             <ReusableCard>
                 <Formik initialValues={{
                     orderCode: "",

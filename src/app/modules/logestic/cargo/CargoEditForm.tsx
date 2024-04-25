@@ -59,7 +59,8 @@ const CargoEditForm = () => {
             proximateAmount: item.realAmount,
             remainingLadingAmount: (+item.realAmount) - (+item.ladingAmount),
             productCode: item.orderDetail.product.productCode,
-            productName: item.orderDetail.product.productName
+            productName: item.orderDetail.productName,
+            brandName: item.orderDetail.brandName
         })))
         detailsCargo?.data?.data?.cargoAnnounceDetails.forEach((element: any) => {
             setLadingAmount(prevLadingAmount => {
@@ -80,7 +81,7 @@ const CargoEditForm = () => {
     ]
     const orderOrderColumn = [
         { id: 2, header: "کد کالا", accessor: "productCode" },
-        { id: 3, header: "نام کالا", accessor: "productName" },
+        { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params.productName} ${params.brandName}` },
         { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
         { id: 4, header: "مقدار قابل بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
         {

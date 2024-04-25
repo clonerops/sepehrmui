@@ -10,12 +10,12 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import FormikOrderSend from '../../../../_cloner/components/FormikOrderSend'
 import FormikInvoiceType from '../../../../_cloner/components/FormikInvoiceType'
 import FormikPaymentType from '../../../../_cloner/components/FormikPaymentType'
-import FormikExitType from '../../../../_cloner/components/FormikExitType'
 import FormikTemporary from '../../../../_cloner/components/FormikTemporary'
 import FormikDescription from '../../../../_cloner/components/FormikDescription'
 import FormikInput from '../../../../_cloner/components/FormikInput'
 import RadioGroup from '../../../../_cloner/components/RadioGroup'
 import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker'
+import FormikOrderExitType from '../../../../_cloner/components/FormikOrderExitType'
 
 interface IProps {
     postOrder: any,
@@ -48,7 +48,7 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
             case "paymentTypeId":
                 return <FormikPaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "exitType":
-                return <FormikExitType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+                return <FormikOrderExitType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "temporary":
                 return <FormikTemporary key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "description":

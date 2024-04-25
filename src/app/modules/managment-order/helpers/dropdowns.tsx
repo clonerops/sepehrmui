@@ -70,6 +70,15 @@ export const dropdownExitType = (data: any) => {
         })
     );
 };
+export const dropdownOrderExitType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, exitTypeDesc:string }): any => {
+            const { exitTypeDesc, id } = obj;
+            return { value: id, label: exitTypeDesc };
+        })
+    );
+};
 export const dropdownTemporaryType = (data: any) => {
     return (
         data &&
