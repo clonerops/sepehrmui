@@ -210,7 +210,7 @@ export interface IPurchaserOrder {
     customerId: string | undefined | null;
     totalAmount: number | undefined | null;
     description: string | undefined | null;
-    exitType: number | undefined | null;
+    orderExitTypeId: number | undefined | null;
     purchaseOrderSendTypeId: number | undefined | null;
     paymentTypeId: number | undefined | null;
     customerOfficialCompanyId: number | undefined | null;

@@ -107,7 +107,7 @@ const PurchaserOrderEdit = () => {
         customerId: detailTools?.data?.data.customer.id, //ok
         totalAmount: calculateTotalAmount(orders, orderServices),
         description: values.description ? values.description : detailTools?.data?.data.description, //ok
-        exitType: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
+        orderExitTypeId: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
         purchaseOrderSendTypeId: Number(values.orderSendTypeId),
         paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
         productBrandId: 40,

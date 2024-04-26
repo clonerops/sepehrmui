@@ -53,7 +53,7 @@ const PurchaserOrder = () => {
                     customerId: values.customerId.value,
                     totalAmount: calculateTotalAmount(orders, orderServices),
                     description: values.description,
-                    exitType: +values.exitType,
+                    orderExitTypeId: +values.exitType,
                     purchaseOrderSendTypeId: +values.orderSendTypeId,
                     paymentTypeId: +values.paymentTypeId,
                     originWarehouseId: +values.originWarehouseId,

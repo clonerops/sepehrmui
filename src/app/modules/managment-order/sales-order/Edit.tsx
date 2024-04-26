@@ -103,7 +103,7 @@ const SalesOrderEdit = () => {
                 totalAmount: calculateTotalAmount(orders, orderServices), //ok
                 description: values.description ? values.description : detailTools?.data?.data.description, //ok
                 deliverDate: values.deliverDate ? values.deliverDate : detailTools?.data?.data.deliverDate, //ok
-                exitType: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
+                orderExitTypeId: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
                 orderTypeId: values.orderType ? +values.orderType : detailTools?.data?.data.orderTypeId, //ok
                 orderSendTypeId: values.orderSendTypeId ? Number(values.orderSendTypeId) : detailTools?.data?.data.orderSendTypeId,//ok
                 paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok

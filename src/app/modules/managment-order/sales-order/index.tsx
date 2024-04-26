@@ -48,7 +48,7 @@ const SalesOrder = () => {
                     customerId: values.customerId,
                     totalAmount: calculateTotalAmount(orders, orderServices),
                     description: values.description,
-                    exitType: values.exitType,
+                    orderExitTypeId: values.exitType,
                     orderSendTypeId: values.orderSendTypeId,
                     paymentTypeId: values.paymentTypeId,
                     orderTypeId: values.orderType ? +values.orderType : 2,
@@ -90,7 +90,6 @@ const SalesOrder = () => {
                         } 
                     })
                 }
-
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors&&response.data.Errors.length > 0) {
