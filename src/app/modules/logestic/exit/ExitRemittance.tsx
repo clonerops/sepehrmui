@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
+    useCargoById,
     useGetLadingPermitById,
     usePostExitRemiitance,
 } from "../core/_hooks";
@@ -45,8 +46,11 @@ const initialValues: ILadingList = {
 
 const ExitRemiitance = () => {
     const { id }: any = useParams();
-    const { data, isLoading } = useGetLadingPermitById(id);
+    const { data, isLoading } = useGetLadingPermitById("13");
+    const cargoDetailTools = useCargoById(id)
     const postExitRemittance = usePostExitRemiitance();
+
+    console.log("cargoDetailTools", cargoDetailTools)
 
     let formikRef: any = useRef();
     let realAmount = useRef<HTMLInputElement>(null);
@@ -269,12 +273,13 @@ const ExitRemiitance = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-4">
                 <CardTitleValue
                     icon={<Person color="secondary" />}
-                    title="شماره مجوز"
-                    value={data?.data?.id}
+                    title="شماره مجوز بارگیری"
+                    // value={data?.data?.id}
+                    value={cargoDetailTools?.data?.data?.cargoAnnounceNo}
                 />
                 <CardTitleValue
                     icon={<Person color="secondary" />}
-                    title="تاریخ ثبت مجوز"
+                    title="تاریخ ثبت مجوز بارگیری"
                     value={data?.data?.createDate}
                 />
                 <CardTitleValue

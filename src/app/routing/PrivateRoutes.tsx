@@ -50,9 +50,9 @@ const RecievePaymentEdit = React.lazy(
 const EntranceReport = React.lazy(
     () => import("../modules/report/EntranceReport")
 );
-const LadingReport = React.lazy(
-    () => import("../modules/report/LadingReport")
-);
+// const LadingReport = React.lazy(
+//     () => import("../modules/report/LadingReport")
+// );
 const PaymentAccountingRegister = React.lazy(
     () => import("../modules/payment/PaymentAccountingRegister")
 );
@@ -246,7 +246,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },
     { path: "dashboard/exit/:id", element: <ExitRemittance /> },
-    { path: "dashboard/ladingReport", element: <LadingReport /> },
+    // { path: "dashboard/ladingReport", element: <LadingReport /> },
     { path: "dashboard/lading_list", element: <LadingList /> },
     { path: "dashboard/exit_list", element: <ExitList /> },
     { path: "dashboard/exitRemittanceList", element: <ExitRemittanceList /> },

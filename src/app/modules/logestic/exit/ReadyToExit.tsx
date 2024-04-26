@@ -23,7 +23,7 @@ const ReadyToExit = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/exit/${item?.row?.id}`}
+                to={`/dashboard/exit/${item?.row?.cargoAnnounceId}`}
             >
                 <Button variant="contained" color="secondary">
                     <Typography>صدور مجوز خروج</Typography>
@@ -58,7 +58,7 @@ const ReadyToExit = () => {
                 rows={ladingList?.data?.data}
                 data={ladingList?.data?.data}
                 isLoading={ladingList.isLoading}
-                onDoubleClick={(item: any) => navigate(`/dashboard/exit/${item?.row?.id}`)}
+                onDoubleClick={(item: any) => navigate(`/dashboard/exit/${item?.row?.cargoAnnounceId}`)}
             />
             <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 
