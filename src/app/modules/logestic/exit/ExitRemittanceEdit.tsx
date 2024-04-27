@@ -53,7 +53,7 @@ const initialValues: ILadingList = {
     ladingAmount: 0,
 };
 
-const ExitRemiitance = () => {
+const ExitRemiitanceEdit = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay }: any = useParams();
     const { data, isLoading } = useGetLadingPermitById("13");
     const cargoDetailTools = useCargoById(id)
@@ -350,6 +350,7 @@ const ExitRemiitance = () => {
                     innerRef={formikRef}
                     initialValues={{
                         ...initialValues,
+                        ...cargoDetailTools?.data?.data,
                         fareAmount: cargoDetailTools?.data?.data?.fareAmount.toString()
                     }}
                     onSubmit={onSubmit}
@@ -431,4 +432,4 @@ const ExitRemiitance = () => {
     );
 };
 
-export default ExitRemiitance;
+export default ExitRemiitanceEdit;

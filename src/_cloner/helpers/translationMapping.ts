@@ -61,6 +61,7 @@ export const translationMapping: any = {
     rents: "کرایه های تایید و پرداخت شده",
     pettyCash: "تنخواه گردان",
     ready_to_confirm: "تایید سفارشات",
+    exit_list: "لیست مجوزهای خروج",
     
     // Add more translations as needed
   };

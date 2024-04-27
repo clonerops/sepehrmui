@@ -23,10 +23,11 @@ const ReadyToExit = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/exit/${item?.row?.cargoAnnounceId}`}
+                // to={`/dashboard/exit/${item?.row?.cargoAnnounceId}`}
+                to={`/dashboard/exit/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}
             >
                 <Button variant="contained" color="secondary">
-                    <Typography>صدور مجوز خروج</Typography>
+                    <Typography>صدور مجوز</Typography>
                 </Button>
             </Link>
         );
@@ -35,8 +36,6 @@ const ReadyToExit = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
-
-    console.log(currentPage)
 
   return (
     <>

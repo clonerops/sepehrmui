@@ -350,13 +350,13 @@ export const ladingColumns = (renderAction: any) => {
             field: 'id', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'شماره مجوز', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+            headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, maxWidth: 140, flex: 1
         },
         {
             field: 'createDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ ثبت مجوز', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'تاریخ ثبت مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, flex: 1
         },
         {
             field: 'cargoAnnounceNo', renderCell: (params: any) => {
@@ -387,6 +387,7 @@ export const ladingColumns = (renderAction: any) => {
 }
 export const exitColumns = (renderAction: any) => {
     const col = [
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120 },
         {
             field: 'ladingLicenseId', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;

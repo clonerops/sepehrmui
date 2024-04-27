@@ -118,6 +118,16 @@ const useGetExitRemittanceList = () => {
     });
 };
 
+const useGetExitPermitListByMutation = () => {
+    return useMutation((filters: {
+        pageNumber?: number,
+        pageSize?: number
+    }) => {
+        return api.getExitPermitListByMutation(filters);
+    });
+};
+
+
 const usePostExitRemiitance = () => {
     return useMutation((formData: IExitRemittance) => {
         return api.postExitRemittance(formData);
@@ -199,6 +209,7 @@ export {
     useEditLadingPermit,
     useDeleteLadingPermitById,
     useGetExitRemittanceList,
+    useGetExitPermitListByMutation,
     usePostExitRemiitance,
     usePostTransferRemittance,
     useGetTransferRemitances,

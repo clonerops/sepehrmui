@@ -1,66 +1,107 @@
-// import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useGetExitPermitListByMutation, useGetLadingPermitListByMutation, useRevokeLadingById } from "../core/_hooks";
+import { exitColumns } from "../../managment-order/helpers/columns";
+import { Tooltip, Typography } from "@mui/material";
+import { LayersClear, Print } from "@mui/icons-material";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { Link } from "react-router-dom";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-// import Pagination from "../../../../_cloner/components/Pagination";
-import { useGetExitRemittanceList } from "../core/_hooks";
-import EditGridButton from "../../../../_cloner/components/EditGridButton";
-import { exitColumns } from "../../managment-order/helpers/columns";
+import Backdrop from "../../../../_cloner/components/Backdrop";
+import Pagination from "../../../../_cloner/components/Pagination";
+import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 
-// const pageSize = 20;
+const pageSize = 100;
 
 const ExitList = () => {
-    // const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [approve, setApprove] = useState<boolean>(false);
+    const [selecetdId, setSelectedId] = useState<number>(0)
 
-    const exitRemittanceList = useGetExitRemittanceList();
+    const exitListTools = useGetExitPermitListByMutation();
+    const revokeLading = useRevokeLadingById()
 
 
-    // useEffect(() => {
-    //     let formData = {
-    //         PageNumber: currentPage,
-    //         PageSize: pageSize,
-    //     };
-    //     ladingList.mutate(formData);
-     // eslint-disable-next-line
-    // }, []);
+    useEffect(() => {
+        let formData = {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+        };
+        exitListTools.mutate(formData);
+        //  eslint-disable-next-line
+    }, [currentPage]);
 
-    // const handleFilter = (values: any) => {
-    //     let formData = {
-    //         PageNumber: currentPage,
-    //         PageSize: pageSize,
-    //         OrderCode: values.orderCode ? values.orderCode : "",
-    //         CustomerId: values.customerId ? values.customerId : "",
-    //     };
-    //     ladingList.mutate(formData);
-    // }
+    const handleOpenApprove = (id: number) => {
+        setApprove(true)
+        setSelectedId(id)
+      }
     
+
+    const handleRevokeLading = (id: number) => {
+        revokeLading.mutate(id, {
+            onSuccess: (response) => {
+                if (response.message) {
+                    EnqueueSnackbar(response.message, 'success')
+                    exitListTools.mutate({});
+                    setApprove(false)
+                } else {
+                    EnqueueSnackbar(response.data.Message, 'error')
+                }
+            }
+        })
+    }
+
+
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/lading/${item?.row?.id}`}>
-                <EditGridButton onClick={() => {}} />
-            </Link>
+            <div className="flex flex-row items-center justify-center gap-x-4">
+                <Tooltip title={<Typography variant='h3'>پرینت</Typography>}>
+                    <div className="flex gap-x-4">
+                        <Link to={`/dashboard/ladingPermit_print/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}>
+                            <Print color="primary" />
+                        </Link>
+                    </div>
+                </Tooltip>
+                <Tooltip title={<Typography variant='h3'>ابطال بارگیری</Typography>}>
+                    <div className="flex gap-x-4">
+                        <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
+                    </div>
+                </Tooltip>
+            </div>
         );
     };
 
-    // const handlePageChange = (selectedItem: { selected: number }) => {
-    //     setCurrentPage(selectedItem.selected + 1);
-    // };
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
 
     return (
         <>
+            {revokeLading?.isLoading && <Backdrop loading={revokeLading?.isLoading} />}
             <ReusableCard>
                 <MuiDataGrid
                     columns={exitColumns(renderAction)}
-                    rows={exitRemittanceList?.data?.data}
-                    data={exitRemittanceList?.data?.data}
-                    isLoading={exitRemittanceList?.isLoading}
+                    rows={exitListTools?.data?.data}
+                    data={exitListTools?.data?.data}
+                    isLoading={exitListTools?.isLoading}
+                    hideFooter
                 />
-                {/* <Pagination
-                    pageCount={ladingList?.data?.totalCount / pageSize}
+                <Pagination
+                    pageCount={+exitListTools?.data?.totalCount / pageSize}
                     onPageChange={handlePageChange}
-                /> */}
+                />
             </ReusableCard>
+            <ConfirmDialog
+                open={approve}
+                hintTitle="آیا از ابطال مطمئن هستید؟"
+                notConfirmText="لغو"
+                confirmText={revokeLading.isLoading ? "درحال پردازش ..." : "تایید"}
+                onCancel={() => setApprove(false)}
+                onConfirm={() => handleRevokeLading(selecetdId)}
+
+            />
+
         </>
     );
 };

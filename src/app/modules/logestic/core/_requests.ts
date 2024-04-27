@@ -156,6 +156,15 @@ const getExitRemittanceList = async () => {
     return data;
 };
 
+const getExitPermitListByMutation = async (filters: {
+    pageNumber?: number,
+    pageSize?: number
+}) => {
+    const { data } = await http.get(`${generateURLQueryParam('/v1/LadingExitPermit', filters)}`);
+    return data;
+};
+
+
 const postExitRemittance = async (formdata: IExitRemittance) => {
     try {
         const { data } = await http.post(
@@ -263,6 +272,7 @@ export {
     deleteLadingPermitById,
     revokeLadingById,
     getExitRemittanceList,
+    getExitPermitListByMutation,
     postExitRemittance,
     postTransferRemittance,
     getTransferRemitances,

@@ -29,12 +29,13 @@ export interface ILadingPermit {
 }
 
 export interface IExitRemittance {
-  ladingLicenseId?: number | null | undefined
+  ladingPermitId?: number | null | undefined
   bankAccountNo?: string | null | undefined
   bankAccountOwnerName?: string | null | undefined
   creditCardNo?: string | null | undefined
   fareAmount?: number | null | undefined
   otherAmount?: number | null | undefined
+  exitPermitDescription?: string | null | undefined
   description?: string | null | undefined
   hasExitPermit?: boolean | null | undefined
   attachments: any
