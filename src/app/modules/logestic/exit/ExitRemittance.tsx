@@ -247,7 +247,7 @@ const ExitRemiitance = () => {
             exitPermitDescription: values.description,
             attachments: attachments,
             ladingExitPermitDetails: ladingList.map((item: any) => ({
-                ladingLicenseDetailId: +item?.id,
+                cargoAnnounceDetailId: +item?.id,
                 realAmount: +item.realAmount,
                 productSubUnitId: +item.productSubUnitId,
                 productSubUnitAmount: +item.productSubUnitAmount,
@@ -273,8 +273,6 @@ const ExitRemiitance = () => {
     if (cargoDetailTools?.isLoading) {
         return <Backdrop loading={cargoDetailTools?.isLoading} />;
     }
-
-    console.log(cargoDetailTools?.data?.data)
 
     return (
         <>

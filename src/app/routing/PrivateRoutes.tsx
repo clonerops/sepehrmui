@@ -3,6 +3,7 @@ import React from "react";
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
 import RentPrint from "../modules/prints/RentPrint";
 import LadingPermitPrint from "../modules/prints/LadingPermitPrint";
+import ExitRemiitanceEdit from "../modules/logestic/exit/ExitRemittanceEdit";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
@@ -245,7 +246,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/lading/:id", element: <LadingPermit /> },
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },
-    { path: "dashboard/exit/:id", element: <ExitRemittance /> },
+    // { path: "dashboard/exit/:id", element: <ExitRemittance /> },
     // { path: "dashboard/ladingReport", element: <LadingReport /> },
     { path: "dashboard/lading_list", element: <LadingList /> },
     { path: "dashboard/exit_list", element: <ExitList /> },
@@ -299,6 +300,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/rent_print/:id", element: <RentPrint /> },
     { path: "dashboard/ladingPermit_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingPermitPrint /> },
     { path: "dashboard/exit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemittance /> },
+    { path: "dashboard/exitEdit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemiitanceEdit /> },
 
 
     { path: "*", element: <Navigate to="/error/404" /> },

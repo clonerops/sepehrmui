@@ -55,7 +55,7 @@ const initialValues: ILadingList = {
 
 const ExitRemiitanceEdit = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay }: any = useParams();
-    const { data, isLoading } = useGetLadingPermitById("13");
+    const { data, isLoading } = useGetLadingPermitById(ladingCode);
     const cargoDetailTools = useCargoById(id)
     const postExitRemittance = usePostExitRemiitance();
 
@@ -247,7 +247,7 @@ const ExitRemiitanceEdit = () => {
             exitPermitDescription: values.description,
             attachments: attachments,
             ladingExitPermitDetails: ladingList.map((item: any) => ({
-                ladingLicenseDetailId: +item?.id,
+                cargoAnnounceDetailId: +item?.id,
                 realAmount: +item.realAmount,
                 productSubUnitId: +item.productSubUnitId,
                 productSubUnitAmount: +item.productSubUnitAmount,
