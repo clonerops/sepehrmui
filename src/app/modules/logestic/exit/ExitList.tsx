@@ -84,6 +84,10 @@ const ExitList = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
+    if(exitListTools.isLoading) {
+        return <Backdrop loading={exitListTools.isLoading} />
+    }
+
     return (
         <>
             {revokeLading?.isLoading && <Backdrop loading={revokeLading?.isLoading} />}

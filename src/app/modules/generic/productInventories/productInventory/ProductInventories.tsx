@@ -81,7 +81,7 @@ const ProductInventories = () => {
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 0 }} onSubmit={() => { }}>
                     {({ values }) => {
-                        return <form className="flex flex-row lg:w-[50%] gap-4 mb-4">
+                        return <form className="flex flex-col lg:flex-row lg:w-[50%] gap-4 mb-4">
                             <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
                             <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
                             <Button
@@ -115,7 +115,7 @@ const ProductInventories = () => {
                     />
                 </div>
 
-                <div className="grid grid-cols-3 mt-2">
+                <div className="grid grid-cols-1 lg:grid-cols-3 mt-2">
                     <div className="col-span-2">
                         <MuiDataGrid
                             columns={columnsProductInventories()}

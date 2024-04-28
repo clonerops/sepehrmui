@@ -20,6 +20,7 @@ import { useGetProductList } from "../../../generic/products/_hooks";
 import SearchBackendInput from "../../../../../_cloner/components/SearchBackendInput";
 import CustomTabs from "../../../../../_cloner/components/Tabs";
 import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar";
+import ReusableAccordion from "../../../../../_cloner/components/ReusableAccordion";
 
 interface IProps {
     setOrders?: any
@@ -380,7 +381,59 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     }}
                 </Formik>
             </div>
-            <CustomTabs
+            {/* <ReusableAccordion
+                title="لیست کالاها قابل انتخاب"
+                content={
+                    <div style={{direction: "rtl"}}>
+                        <div className="my-2">
+                            <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
+                        </div>
+                        <MuiDataGrid
+                            onDoubleClick={handleSelectProduct}
+                            columns={columnsModalProduct()}
+                            isLoading={filterTools.isLoading}
+                            rows={filterTools?.data?.data}
+                            data={filterTools?.data?.data}
+                            height={340}
+                        />
+                    </div>
+                }
+            />
+            <ReusableAccordion
+                title="لیست کالاهای انتخاب شده"
+                content={
+                    <div style={{direction: "rtl"}}>
+                        <MuiSelectionDataGrid
+                            selectionModel={productData.selectionModel}
+                            columns={columnsSelectProduct(
+                                renderAction,
+                                renderInput,
+                                renderSubUnit,
+                                renderPrice
+                            )}
+                            rows={productData.selectedProduct}
+                            data={productData.selectedProduct}
+                            getRowId={(row: { id: string }) => row.id.toString()}
+                            hideFooter={true}
+                            columnHeaderHeight={40}
+                        />
+                        <div
+                            className="flex justify-end items-end mt-4"
+                        >
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className=""
+                                onClick={handleSubmitSelectedProduct}
+                            >
+                                <Typography>تایید</Typography>
+                            </Button>
+                        </div>
+                    </div>
+                }
+            /> */}
+
+            {/* <CustomTabs
                 tabs={["لیست کالاهای موجود در انبار", "لیست کالاهای انتخاب شده"]}
                 tabContents={[
                     <div style={{direction: "rtl"}}>
@@ -427,10 +480,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
 
                 ]}
-            />
-            {/* <div className="md:grid md:grid-cols-2 gap-x-8">
-                <div>
-                    <div className="my-2">
+            /> */}
+            {/* <div className="md:grid md:grid-cols-3 gap-x-8"> */}
+            <div className="flex flex-row gap-4">
+                <div className="!w-[40%]">
+                    <div className="my-2 w-[]">
                         <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
                     </div>
                     <MuiDataGrid
@@ -442,7 +496,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         height={400}
                     />
                 </div>
-                <div>
+                <div className="!w-[60%]">
                     <MuiSelectionDataGrid
                         selectionModel={productData.selectionModel}
                         columns={columnsSelectProduct(
@@ -470,7 +524,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         </Button>
                     </div>
                 </div>
-            </div> */}
+            </div>
         </>
     );
 };
