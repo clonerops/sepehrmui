@@ -107,30 +107,31 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [searchTerm])
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
-        if(currentFilter.WarehouseTypeId === 5) {
-            EnqueueSnackbar("امکان انتخاب کالا از انبار رسمی وجود ندارد", 'warning')
-        } else {
-            const selectedRow = newSelectionModel.row;
+        // if(currentFilter.WarehouseTypeId === 5) {
+        //     EnqueueSnackbar("امکان انتخاب کالا از انبار رسمی وجود ندارد", 'warning')
+        // } else {
+        // }
+        const selectedRow = newSelectionModel.row;
+        setProductData((prevState) => ({
+            ...prevState,
+            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
+            price: productData.price,
+        }))
+        const isDuplicate = productData.selectedProduct.some((item) => {
+            return item.id === selectedRow.id;
+        });
+        if (!isDuplicate) {
             setProductData((prevState) => ({
                 ...prevState,
-                productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
-                price: productData.price,
+                selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
+                selectionModel: newSelectionModel
             }))
-            const isDuplicate = productData.selectedProduct.some((item) => {
-                return item.id === selectedRow.id;
-            });
-            if (!isDuplicate) {
-                setProductData((prevState) => ({
-                    ...prevState,
-                    selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
-                    selectionModel: newSelectionModel
-                }))
-                EnqueueSnackbar("کالا به لیست اضافه گردید", 'success')
-    
-            } else {
-                alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
-            }
+            EnqueueSnackbar("کالا به لیست اضافه گردید", 'success')
+
+        } else {
+            alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
         }
+
         // eslint-disable-next-line
     }, [productData.selectedProduct, productData.selectionModel]);
 
