@@ -599,15 +599,15 @@ export const columnsModalProduct = () => {
     const col = [
         {
             field: "productCode",
-            headerName: "کدکالا",
+            headerName: "کد",
             headerClassName: "headerClassName",
             renderCell: (params: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
 
             flex: 1,
-            minWidth: 80,
-            maxWidth: 80
+            minWidth: 40,
+            maxWidth: 40
         },
         {
             field: "productName",
@@ -618,8 +618,8 @@ export const columnsModalProduct = () => {
             },
 
             flex: 1,
-            minWidth: 180,
-            maxWidth: 180,
+            minWidth: 140,
+            maxWidth: 140,
         },
         {
             field: "productBrandName",
@@ -629,8 +629,8 @@ export const columnsModalProduct = () => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
             flex: 1,
-            minWidth: 100,
-            maxWidth: 100
+            minWidth: 80,
+            maxWidth: 80
         },
         {
             field: "warehouseName",
@@ -642,8 +642,8 @@ export const columnsModalProduct = () => {
 
             headerClassName: "headerClassName",
             flex: 1,
-            minWidth: 100,
-            maxWidth: 100,
+            minWidth: 80,
+            maxWidth: 80,
 
         },
         {
@@ -817,8 +817,8 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any, render
             renderCell: renderAction,
             headerName: "حذف",
             flex: 1,
-            minWidth: 100,
-            maxWidth: 100,
+            minWidth: 60,
+            maxWidth: 60,
             headerClassName: "headerClassName",
         },
     ];

@@ -229,7 +229,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
             </div>
         );
         // eslint-disable-next-line
-    }, [productData.proximateSubAmounts])
+    }, [productData.proximateSubAmounts, productData.productSubUnitDesc])
 
     const renderPrice = useCallback((params: any) => {
         const productId = params.row.id;
@@ -482,9 +482,9 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 ]}
             /> */}
             {/* <div className="md:grid md:grid-cols-3 gap-x-8"> */}
-            <div className="flex flex-row gap-4">
-                <div className="!w-[40%]">
-                    <div className="my-2 w-[]">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                <div className="lg:col-span-2">
+                    <div className="my-2">
                         <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
                     </div>
                     <MuiDataGrid
@@ -496,7 +496,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         height={400}
                     />
                 </div>
-                <div className="!w-[60%]">
+                <div className="lg:col-span-3">
                     <MuiSelectionDataGrid
                         selectionModel={productData.selectionModel}
                         columns={columnsSelectProduct(

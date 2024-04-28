@@ -6,6 +6,7 @@ export const saleOrderInitialValues = {
     paymentTypeId: 2,
     customerOfficialName: "",
     customerOfficialCompanyId: 0,
+    deliverDate: "",
     invoiceTypeId: "",
     freightName: "",
     isTemporary: 1,
