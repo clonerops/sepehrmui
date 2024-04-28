@@ -55,7 +55,7 @@ const initialValues: ILadingList = {
 
 const ExitRemiitance = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay }: any = useParams();
-    const { data, isLoading } = useGetLadingPermitById("13");
+    const { data } = useGetLadingPermitById(ladingCode);
     const cargoDetailTools = useCargoById(id)
     const postExitRemittance = usePostExitRemiitance();
 
