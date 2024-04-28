@@ -387,12 +387,24 @@ export const ladingColumns = (renderAction: any) => {
 }
 export const exitColumns = (renderAction: any) => {
     const col = [
-        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120 },
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160, maxWidth: 160 },
         {
-            field: 'ladingLicenseId', renderCell: (params: any) => {
+            field: 'ladingExitPermitCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 100, flex: 1
+            headerName: 'شماره مجوز خروج', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'createdDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت خروج', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'ladingPermitId', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, flex: 1
         },
         {
             field: 'bankAccountNo', renderCell: (params: any) => {
@@ -417,6 +429,12 @@ export const exitColumns = (renderAction: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'exitPermitDescription', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'توضیحات', headerClassName: "headerClassName", minWidth: 100, flex: 1
         },
     ]
     return col
@@ -588,6 +606,8 @@ export const columnsModalProduct = () => {
             },
 
             flex: 1,
+            minWidth: 80,
+            maxWidth: 80
         },
         {
             field: "productName",
@@ -598,6 +618,8 @@ export const columnsModalProduct = () => {
             },
 
             flex: 1,
+            minWidth: 180,
+            maxWidth: 180,
         },
         {
             field: "productBrandName",
@@ -607,6 +629,8 @@ export const columnsModalProduct = () => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
             flex: 1,
+            minWidth: 100,
+            maxWidth: 100
         },
         {
             field: "warehouseName",
@@ -618,6 +642,9 @@ export const columnsModalProduct = () => {
 
             headerClassName: "headerClassName",
             flex: 1,
+            minWidth: 100,
+            maxWidth: 100,
+
         },
         {
             field: "inventory",
@@ -630,11 +657,15 @@ export const columnsModalProduct = () => {
 
             headerClassName: "headerClassName",
             flex: 1,
+            minWidth: 100,
+            maxWidth: 100,
         },
         {
             field: "price",
             headerName: "قیمت",
             flex: 1,
+            minWidth: 100,
+            // maxWidth: 100,
             renderCell: (value: any) =>
                 <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
             headerClassName: "headerClassName",
@@ -726,16 +757,9 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any, render
             renderCell: (params: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
-
             flex: 1,
-        },
-        {
-            field: "thickness",
-            headerName: "مقدار",
-            renderCell: renderInput,
-            headerAlign: "center",
-            headerClassName: "headerClassName",
-            flex: 1
+            minWidth: 150,
+            maxWidth: 150,
         },
         {
             field: "productBrandName",
@@ -745,6 +769,8 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any, render
                 return <Typography variant="h5">{params.value}</Typography>;
             },
             flex: 1,
+            minWidth: 100,
+            maxWidth: 100,
         },
         {
             field: "warehouseName",
@@ -755,6 +781,18 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any, render
 
             headerClassName: "headerClassName",
             flex: 1,
+            minWidth: 100,
+            maxWidth: 100,
+        },
+        {
+            field: "thickness",
+            headerName: "مقدار",
+            renderCell: renderInput,
+            headerAlign: "center",
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 110,
+            maxWidth: 110,
         },
         {
             field: "productSubUnitDesc",
@@ -762,11 +800,15 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any, render
             renderCell: renderSubUnit,
             headerClassName: "headerClassName",
             flex: 1,
+            minWidth: 200,
+            // maxWidth: 200,
         },
         {
             field: "price",
             headerName: "قیمت",
             flex: 1,
+            minWidth: 120,
+            maxWidth: 120,
             renderCell: renderPrice,
             headerClassName: "headerClassName",
         },
@@ -775,6 +817,8 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any, render
             renderCell: renderAction,
             headerName: "حذف",
             flex: 1,
+            minWidth: 100,
+            maxWidth: 100,
             headerClassName: "headerClassName",
         },
     ];

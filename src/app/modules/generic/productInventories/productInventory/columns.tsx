@@ -66,7 +66,7 @@ export const columnsProductInventories = () => {
         },
         {
             field: "price",
-            minWidth: 60,
+            minWidth: 180,
             headerName: "موجودی مجازی",
             flex: 1,
             renderCell: (value: any) =>

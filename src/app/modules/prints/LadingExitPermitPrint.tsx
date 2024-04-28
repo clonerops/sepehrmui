@@ -8,7 +8,7 @@ import { useCargoById } from "../logestic/core/_hooks";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { Print } from "@mui/icons-material";
 
-const LadingPermitPrint = () => {
+const LadingExitPermitPrint = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay}: any = useParams()
     const detailTools = useCargoById(id)
     const printComponentRef = useRef<HTMLDivElement>(null);
@@ -46,7 +46,7 @@ const LadingPermitPrint = () => {
                         className="text-center"
                     />
                 </div>
-                <h2 className="text-center font-bold text-xl print:text-lg py-2">حواله مجوز بارگیری</h2>
+                <h2 className="text-center font-bold text-xl print:text-lg py-2">حواله مجوز خروج</h2>
                 <div className="border-[1px] border-b-0 px-4 border-black">
                     <div className="grid grid-cols-2 gap-y-4 print:grid-cols-2">
                         <div className="border-l-[1px] border-black py-1">
@@ -176,4 +176,4 @@ const LadingPermitPrint = () => {
     );
 };
 
-export default LadingPermitPrint;
+export default LadingExitPermitPrint;

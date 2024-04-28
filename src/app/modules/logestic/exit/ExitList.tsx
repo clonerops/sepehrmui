@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useGetExitPermitListByMutation, useGetLadingPermitListByMutation, useRevokeLadingById } from "../core/_hooks";
 import { exitColumns } from "../../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
-import { LayersClear, Print } from "@mui/icons-material";
+import { Edit, LayersClear, Print } from "@mui/icons-material";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -54,19 +54,27 @@ const ExitList = () => {
 
 
     const renderAction = (item: any) => {
+        console.log(item)
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>پرینت</Typography>}>
                     <div className="flex gap-x-4">
-                        <Link to={`/dashboard/ladingPermit_print/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}>
+                        {/* <Link to={`/dashboard/ladingPermit_print/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}> */}
+                        <Link to={`/dashboard/ladingExitPermit_print/b5228dc8-2d0e-4fa8-3adf-08dc67526a7e/${item?.row?.id}/1403/02/25`}>
                             <Print color="primary" />
                         </Link>
                     </div>
                 </Tooltip>
-                <Tooltip title={<Typography variant='h3'>ابطال بارگیری</Typography>}>
+                <Tooltip title={<Typography variant='h3'>ابطال خروج</Typography>}>
                     <div className="flex gap-x-4">
                         <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
                     </div>
+                </Tooltip>
+                <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
+                    {/* <Link to={`/dashboard/exitEdit/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}> */}
+                    <Link to={`/dashboard/exitEdit/b5228dc8-2d0e-4fa8-3adf-08dc67526a7e/${item?.row?.id}/1403/02/25`}>
+                        <Edit className="text-yellow-500" />
+                    </Link>
                 </Tooltip>
             </div>
         );
@@ -75,6 +83,10 @@ const ExitList = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
+
+    if(exitListTools.isLoading) {
+        return <Backdrop loading={exitListTools.isLoading} />
+    }
 
     return (
         <>
