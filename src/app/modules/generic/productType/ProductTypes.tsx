@@ -137,7 +137,7 @@ const ProductTypes = () => {
 
   return (
     <>
-      <Box className="flex flex-row gap-x-4 mb-4">
+      <Box className="flex flex-col lg:flex-row gap-4 mb-4">
         <CardWithIcons
           title='تعداد نوع کالا های ثبت شده'
           icon={<DesignServices className="text-white" />}

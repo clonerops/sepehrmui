@@ -112,7 +112,7 @@ const ProductState = () => {
     <>
       {postLoading && <Backdrop loading={postLoading} />}
       {updateLoading && <Backdrop loading={updateLoading} />}
-      <div className="flex flex-row gap-x-4 mb-4">
+      <div className="flex flex-col lg:flex-row gap-4 mb-4">
         <CardWithIcons
           title='تعداد حالت های ثبت شده'
           icon={<DesignServices className="text-white" />}

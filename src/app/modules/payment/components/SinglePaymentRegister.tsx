@@ -171,7 +171,7 @@ const SinglePaymentRegister = () => {
                 </Badge>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 text-right gap-4">
                 {fieldsValue.map((item: any) =>
                     <CardWithIcons
                         title={item.title}

@@ -172,7 +172,7 @@ const Detail = () => {
         <>
             {fetchingLaoding && <Backdrop loading={fetchingLaoding} />}
             <Typography color="primary" variant="h1" className="pb-8">جزئیات و ثبت تایید دریافت و پرداخت</Typography>
-            <div className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
+            <div className="lg:grid lg:grid-cols-3 text-right lg:gap-4 lg:space-y-0 space-y-4">
                 {fieldsValue.map((item: any) =>
                     <CardWithIcons
                         title={item.title}

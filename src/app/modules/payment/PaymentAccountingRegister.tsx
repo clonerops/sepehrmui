@@ -404,7 +404,7 @@ const PaymentAccountingRegister = () => {
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={handleFilter}>
                     {({ values }) => {
                         return <form>
-                            <div className="flex justify-center items-center gap-8">
+                            <div className="flex flex-col lg:flex-row justify-center items-center gap-8">
                                 <FormikDatepicker name="fromDate" label="از تاریخ" />
                                 <FormikDatepicker name="toDate" label="تا تاریخ" />
                             </div>
