@@ -313,7 +313,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
 
-    console.log(currentFilter.WarehouseTypeId)
 
     return (
         <>

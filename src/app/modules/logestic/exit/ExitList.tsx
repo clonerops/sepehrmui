@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetExitPermitListByMutation, useGetLadingPermitListByMutation, useRevokeLadingById } from "../core/_hooks";
+import { useGetExitPermitListByMutation, useGetLadingPermitListByMutation, useRevokeExitById, useRevokeLadingById } from "../core/_hooks";
 import { exitColumns } from "../../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
 import { Edit, LayersClear, Print } from "@mui/icons-material";
@@ -20,7 +20,7 @@ const ExitList = () => {
     const [selecetdId, setSelectedId] = useState<number>(0)
 
     const exitListTools = useGetExitPermitListByMutation();
-    const revokeLading = useRevokeLadingById()
+    const revokeExit = useRevokeExitById()
 
 
     useEffect(() => {
@@ -38,8 +38,8 @@ const ExitList = () => {
       }
     
 
-    const handleRevokeLading = (id: number) => {
-        revokeLading.mutate(id, {
+    const handleRevokeExit = (id: number) => {
+        revokeExit.mutate(id, {
             onSuccess: (response) => {
                 if (response.message) {
                     EnqueueSnackbar(response.message, 'success')
@@ -54,13 +54,12 @@ const ExitList = () => {
 
 
     const renderAction = (item: any) => {
-        console.log(item)
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>پرینت</Typography>}>
                     <div className="flex gap-x-4">
                         {/* <Link to={`/dashboard/ladingPermit_print/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}> */}
-                        <Link to={`/dashboard/ladingExitPermit_print/b5228dc8-2d0e-4fa8-3adf-08dc67526a7e/${item?.row?.id}/1403/02/25`}>
+                        <Link to={`/dashboard/ladingExitPermit_print/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                             <Print color="primary" />
                         </Link>
                     </div>
@@ -72,7 +71,7 @@ const ExitList = () => {
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
                     {/* <Link to={`/dashboard/exitEdit/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}> */}
-                    <Link to={`/dashboard/exitEdit/b5228dc8-2d0e-4fa8-3adf-08dc67526a7e/${item?.row?.id}/1403/02/25`}>
+                    <Link to={`/dashboard/exitEdit/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                         <Edit className="text-yellow-500" />
                     </Link>
                 </Tooltip>
@@ -90,7 +89,7 @@ const ExitList = () => {
 
     return (
         <>
-            {revokeLading?.isLoading && <Backdrop loading={revokeLading?.isLoading} />}
+            {revokeExit?.isLoading && <Backdrop loading={revokeExit?.isLoading} />}
             <ReusableCard>
                 <MuiDataGrid
                     columns={exitColumns(renderAction)}
@@ -108,9 +107,9 @@ const ExitList = () => {
                 open={approve}
                 hintTitle="آیا از ابطال مطمئن هستید؟"
                 notConfirmText="لغو"
-                confirmText={revokeLading.isLoading ? "درحال پردازش ..." : "تایید"}
+                confirmText={revokeExit.isLoading ? "درحال پردازش ..." : "تایید"}
                 onCancel={() => setApprove(false)}
-                onConfirm={() => handleRevokeLading(selecetdId)}
+                onConfirm={() => handleRevokeExit(selecetdId)}
 
             />
 

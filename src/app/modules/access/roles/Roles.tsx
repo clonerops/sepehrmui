@@ -132,8 +132,6 @@ const Roles = () => {
         );
     };
 
-    console.log(isEditOpen)
-    console.log(itemForEdit)
 
     return (
         <>

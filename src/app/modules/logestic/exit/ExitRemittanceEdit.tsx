@@ -273,9 +273,7 @@ const ExitRemiitanceEdit = () => {
     if (cargoDetailTools?.isLoading) {
         return <Backdrop loading={cargoDetailTools?.isLoading} />;
     }
-
-    console.log(cargoDetailTools?.data?.data)
-
+    
     return (
         <>
             {postExitRemittance.isLoading && <Backdrop loading={postExitRemittance.isLoading} />}

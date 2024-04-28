@@ -54,7 +54,6 @@ const LadingList = () => {
 
 
     const renderAction = (item: any) => {
-        console.log(item?.row?.createDate)
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>پرینت</Typography>}>

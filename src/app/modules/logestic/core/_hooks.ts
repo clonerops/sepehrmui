@@ -127,12 +127,27 @@ const useGetExitPermitListByMutation = () => {
     });
 };
 
+const useGetLadingExitPermitById = (id: string) => {
+    return useQuery(["LadingExitPermitById", id], () => api.getLadingExitPermitById(id), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    });
+};
+
 
 const usePostExitRemiitance = () => {
     return useMutation((formData: IExitRemittance) => {
         return api.postExitRemittance(formData);
     });
 };
+
+const useRevokeExitById = () => {
+    return useMutation((id: number) => {
+        return api.revokeExitById(id);
+    });
+};
+
 
 //Transfer Remittance 
 const usePostTransferRemittance = () => {
@@ -210,7 +225,9 @@ export {
     useDeleteLadingPermitById,
     useGetExitRemittanceList,
     useGetExitPermitListByMutation,
+    useGetLadingExitPermitById,
     usePostExitRemiitance,
+    useRevokeExitById,
     usePostTransferRemittance,
     useGetTransferRemitances,
     useGetTransferRemitancesByMutation,

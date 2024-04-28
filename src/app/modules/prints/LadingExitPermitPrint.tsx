@@ -4,13 +4,14 @@ import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import { Container } from "@mui/material";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import { useParams } from "react-router-dom";
-import { useCargoById } from "../logestic/core/_hooks";
+import {  useGetLadingExitPermitById, useGetLadingPermitById } from "../logestic/core/_hooks";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { Print } from "@mui/icons-material";
 
 const LadingExitPermitPrint = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay}: any = useParams()
-    const detailTools = useCargoById(id)
+    const detailTools = useGetLadingExitPermitById(id)
+    const ladingDetailTools = useGetLadingPermitById(detailTools?.data?.data?.ladingPermitId || "")
     const printComponentRef = useRef<HTMLDivElement>(null);
 
     const handlePrint = useReactToPrint({
@@ -28,6 +29,9 @@ const LadingExitPermitPrint = () => {
 
     if (detailTools?.isLoading) {
         return <Backdrop loading={detailTools?.isLoading} />
+    }
+    if (ladingDetailTools?.isLoading) {
+        return <Backdrop loading={ladingDetailTools?.isLoading} />
     }
 
     return (
@@ -58,34 +62,37 @@ const LadingExitPermitPrint = () => {
                     </div>
                 </div>
                 <div className="border-[1px] border-b-0 px-4 border-black">
-                    <div className="grid grid-cols-2 gap-y-4 print:grid-cols-2">
+                    <div className="grid grid-cols-3 gap-y-4 print:grid-cols-2">
                         <div className="border-l-[1px] border-black py-1">
-                            <RendertextValue title="شماره سفارش فروش" value={detailTools?.data?.data?.order?.orderCode} />
+                            <RendertextValue title="شماره سفارش فروش" value={ladingDetailTools?.data?.data?.cargoAnnounce?.order?.orderCode} />
+                        </div>
+                        <div className="border-l-[1px] border-black px-4 py-1">
+                            <RendertextValue title="شماره اعلام بار" value={ladingDetailTools?.data?.data?.cargoAnnounce?.cargoAnnounceNo} />
                         </div>
                         <div className="px-4 py-1">
-                            <RendertextValue title="شماره اعلام بار" value={detailTools?.data?.data?.cargoAnnounceNo} />
+                            <RendertextValue title="شماره مجوز بارگیری" value={detailTools?.data?.data?.ladingPermitId} />
                         </div>
                     </div>
                 </div>
                 <div className="border-[1px] border-b-0 px-4 border-black">
                     <div className="grid grid-cols-4 gap-y-4 print:grid-cols-2">
                         <div className="border-l-[1px] print:border-0 border-black py-1">
-                            <RendertextValue title="نام و نام خانوادگی راننده" value={detailTools?.data?.data?.driverName} />
+                            <RendertextValue title="نام و نام خانوادگی راننده" value={ladingDetailTools?.data?.data?.cargoAnnounce?.driverName} />
                         </div>
                         <div className="border-l-[1px] print:border-0 border-black px-4 py-1">
-                            <RendertextValue title="شماره همراه راننده" value={detailTools?.data?.data?.driverMobile} />
+                            <RendertextValue title="شماره همراه راننده" value={ladingDetailTools?.data?.data?.cargoAnnounce?.driverMobile} />
                         </div>
                         <div className="border-l-[1px] print:border-0 border-black px-4 py-1">
-                            <RendertextValue title="پلاک خودرو" value={detailTools?.data?.data?.carPlaque} />
+                            <RendertextValue title="پلاک خودرو" value={ladingDetailTools?.data?.data?.cargoAnnounce?.carPlaque} />
                         </div> 
                         <div className="px-4 py-1">
-                            <RendertextValue title="مبلغ کرایه(ریال)" value={separateAmountWithCommas(detailTools?.data?.data?.fareAmount)} />
+                            <RendertextValue title="مبلغ کرایه(ریال)" value={separateAmountWithCommas(ladingDetailTools?.data?.data?.cargoAnnounce?.fareAmount)} />
                         </div>
                     </div>
                 </div>
                 <div className="border-[1px] border-b-0 px-4 py-1 border-black">
                     <div className="grid grid-cols-1">
-                        <RendertextValue title="توضیحات" value={detailTools?.data?.data?.description} />
+                        <RendertextValue title="توضیحات" value={detailTools?.data?.data?.exitPermitDescription} />
                     </div>
                 </div>
                 <div className="border-[1px] border-b-0 px-4 py-1 border-black">
@@ -123,32 +130,32 @@ const LadingExitPermitPrint = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {detailTools?.data?.data?.cargoAnnounceDetails.map((item: any, index: number) => (
+                        {detailTools?.data?.data?.ladingExitPermitDetails?.map((item: any, index: number) => (
 
                             <tr className="!border-[1px] !border-black">
                                 <td className="border-l-[1px] border-black text-center">
                                     <span className="text-[12px]">{index + 1}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.orderDetail?.product?.productCode}</span>
+                                    <span className="text-[12px]">{item?.productCode}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.orderDetail?.product?.productName}</span>
+                                    <span className="text-[12px]">{item?.productName}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.orderDetail?.brandName}</span>
+                                    <span className="text-[12px]">{item?.productBrandName}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{separateAmountWithCommas(+item?.orderDetail?.totalLoadedAmount)}</span>
+                                    <span className="text-[12px]">{separateAmountWithCommas(+item?.ladingAmount)}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.orderDetail?.product?.productMainUnitDesc}</span>
+                                    <span className="text-[12px]">{item?.productMainUnitDesc}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]"></span>
+                                    <span className="text-[12px]">{separateAmountWithCommas(item?.realAmount)}</span>
                                 </td>
                                 <td className="text-center">
-                                    <span className="text-[12px]"></span>
+                                    <span className="text-[12px]">{separateAmountWithCommas(item?.productSubUnitAmount)}</span>
                                 </td>
                             </tr>
                         ))}

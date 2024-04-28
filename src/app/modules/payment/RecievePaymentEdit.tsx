@@ -107,7 +107,6 @@ const RecievePaymentEdit = () => {
 
     }
 
-    console.log("detailTools?.data?.data", detailTools?.data?.data)
 
     const handleConfirm = () => {
         if (id)

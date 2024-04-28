@@ -92,7 +92,6 @@ const CargoForm = () => {
         { id: 4, header: "مقدار قابل بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
         {
             id: 5, header: "مقدار بارگیری", accessor: "remainingLadingAmount", render: (params: any) => {
-               console.log(params)
                 return <MaskInput
                     key={params.id}
                     mask={Number}

@@ -85,7 +85,6 @@ const RentPaymentSelected:FC<IProps> = ({item, selectedLadingIds, selectedTransf
             totalFareAmount: values.totalFareAmount,
             description: "string"
         }
-        console.log(JSON.stringify(formData))
         postRentPayment.mutate(formData, {
             onSuccess: (response) => {
                 if(response.succeeded) {

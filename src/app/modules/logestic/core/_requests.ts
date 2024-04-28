@@ -164,6 +164,14 @@ const getExitPermitListByMutation = async (filters: {
     return data;
 };
 
+const getLadingExitPermitById = async (id: string) => {
+    try {
+        const { data } = await http.get(`/v1/LadingExitPermit/${id}`);
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
 
 const postExitRemittance = async (formdata: IExitRemittance) => {
     try {
@@ -176,6 +184,16 @@ const postExitRemittance = async (formdata: IExitRemittance) => {
         return error.response;
     }
 }
+
+
+const revokeExitById = async (id: number) => {
+    try {
+        const { data } = await http.put(`/v1/LadingExitPermit/RevokeLadingExitPermit/${id}`, JSON.stringify({id: id}));
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+};
 
 
 // Transfer Remittance
@@ -273,7 +291,9 @@ export {
     revokeLadingById,
     getExitRemittanceList,
     getExitPermitListByMutation,
+    getLadingExitPermitById,
     postExitRemittance,
+    revokeExitById,
     postTransferRemittance,
     getTransferRemitances,
     getTransferRemitancesFilter,

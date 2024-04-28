@@ -19,12 +19,11 @@ const ReadyToExit = () => {
 
     const ladingList = useGetLadingPermitList();
 
-
     const renderAction = (item: any) => {
         return (
             <Link
                 // to={`/dashboard/exit/${item?.row?.cargoAnnounceId}`}
-                to={`/dashboard/exit/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}
+                to={`/dashboard/exit/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createdDate}`}
             >
                 <Button variant="contained" color="secondary">
                     <Typography>صدور مجوز</Typography>
