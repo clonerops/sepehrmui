@@ -837,10 +837,10 @@ export const salesOrderConfirm = (renderAction: any) => {
             field: 'registerDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", maxWidth: 120, flex: 1
+            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", maxWidth: 120, minWidth: 120, flex: 1
         },
         {
-            field: "Action", headerName: 'ثبت تایید', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", maxWidth: 120
+            field: "Action", headerName: 'ثبت تایید', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120
         },
 
         {
@@ -880,7 +880,7 @@ export const salesOrderConfirm = (renderAction: any) => {
 export const purchaserOrderConfirm = (renderAction: any) => {
     const col = [
         {
-            field: "Action", headerName: 'ثبت تایید', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", maxWidth: 120
+            field: "Action", headerName: 'ثبت تایید', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", maxWidth: 120, minWidth: 120
         },
         {
             field: 'orderCode', renderCell: (params: any) => {
@@ -892,7 +892,7 @@ export const purchaserOrderConfirm = (renderAction: any) => {
             field: 'registerDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", maxWidth: 120, flex: 1
+            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'customerName', renderCell: (params: any) => {

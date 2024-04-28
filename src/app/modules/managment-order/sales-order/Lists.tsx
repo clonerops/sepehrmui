@@ -76,8 +76,8 @@ const SalesOrderList = () => {
         <ReusableCard>
             <Formik initialValues={{ orderCode: "" }} onSubmit={onSubmit}>
                 {({ handleSubmit }) => {
-                    return <div className="w-[50%] mb-4">
-                        <div className="flex justify-center items-center gap-4">
+                    return <div className="lg:w-[50%] mb-4">
+                        <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
                             <FormikInput name="orderCode" label="شماره سفارش" />
                             <ButtonComponent onClick={handleSubmit}>
                                 <Search className="text-white" />

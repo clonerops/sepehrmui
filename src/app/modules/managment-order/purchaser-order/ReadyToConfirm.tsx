@@ -80,8 +80,8 @@ const ReadyToPurchaserOrderConfirm = () => {
 
     return (
         <ReusableCard>
-            <div className="flex justify-between items-center mb-4">
-                <div className="w-auto md:w-[40%]">
+            <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 mb-4">
+                <div className="w-full lg:w-[40%]">
                     <FuzzySearch
                         keys={[
                             "orderCode",

@@ -43,7 +43,7 @@ const ReadyToExit = () => {
             <Formik initialValues={{}} onSubmit={() => {}}>
                 {() => {
                     return <Form>
-                        <Box component="div" className='flex gap-4 w-[50%]'>
+                        <Box component="div" className='flex gap-4 w-full lg:w-[50%]'>
                             <FormikInput name="orderCode" label="شماره سفارش" />
                             <Button><Typography><Search /></Typography></Button>
                         </Box>
