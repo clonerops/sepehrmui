@@ -69,12 +69,11 @@ const ExitList = () => {
                         <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
                     </div>
                 </Tooltip>
-                <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
-                    {/* <Link to={`/dashboard/exitEdit/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}> */}
+                {/* <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
                     <Link to={`/dashboard/exitEdit/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                         <Edit className="text-yellow-500" />
                     </Link>
-                </Tooltip>
+                </Tooltip> */}
             </div>
         );
     };
