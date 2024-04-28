@@ -20,6 +20,7 @@ import FormikDescription from "../../../../_cloner/components/FormikDescription"
 import FileUpload from "../../payment/components/FileUpload";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import { renderAlert } from "../../../../_cloner/helpers/SweetAlert";
 
 interface ILadingList {
     id?: number;
@@ -256,10 +257,7 @@ const ExitRemiitance = () => {
         postExitRemittance.mutate(formData, {
             onSuccess: (res) => {
                 if (res.succeeded) {
-                    enqueueSnackbar(res.message, {
-                        variant: "success",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
+                    renderAlert(`مجوز خروج بارنامه با شماره ${res.data.ladingExitPermitCode} با موفقیت ثبت شد`)
                 } else {
                     enqueueSnackbar(res.data.Message, {
                         variant: "error",

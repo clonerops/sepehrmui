@@ -387,12 +387,18 @@ export const ladingColumns = (renderAction: any) => {
 }
 export const exitColumns = (renderAction: any) => {
     const col = [
-        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120 },
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160, maxWidth: 160 },
         {
-            field: 'ladingLicenseId', renderCell: (params: any) => {
+            field: 'ladingExitPermitCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 100, flex: 1
+            headerName: 'شماره مجوز خروج', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'ladingPermitId', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, flex: 1
         },
         {
             field: 'bankAccountNo', renderCell: (params: any) => {
@@ -417,6 +423,12 @@ export const exitColumns = (renderAction: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'exitPermitDescription', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'توضیحات', headerClassName: "headerClassName", minWidth: 100, flex: 1
         },
     ]
     return col

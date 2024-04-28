@@ -4,6 +4,7 @@ import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
 import RentPrint from "../modules/prints/RentPrint";
 import LadingPermitPrint from "../modules/prints/LadingPermitPrint";
 import ExitRemiitanceEdit from "../modules/logestic/exit/ExitRemittanceEdit";
+import LadingExitPermitPrint from "../modules/prints/LadingExitPermitPrint";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
@@ -299,6 +300,7 @@ export const routes: RouteProps[] = [
     // prints
     { path: "dashboard/rent_print/:id", element: <RentPrint /> },
     { path: "dashboard/ladingPermit_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingPermitPrint /> },
+    { path: "dashboard/ladingExitPermit_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingExitPermitPrint /> },
     { path: "dashboard/exit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemittance /> },
     { path: "dashboard/exitEdit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemiitanceEdit /> },
 
