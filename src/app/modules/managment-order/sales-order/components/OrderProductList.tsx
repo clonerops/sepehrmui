@@ -32,8 +32,11 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
+            // const updatedOrders = orders.filter((order) =>
+            //         order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
+            // );
             const updatedOrders = orders.filter((order) =>
-                    order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
+                    order.productBrandId !== indexToDelete.row.productBrandId
             );
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
@@ -58,7 +61,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
 
     const onDoubleClick = (params: any) => {
         if (orders) {
-            const selectedRow: any = orders.find(order => order.id === params.row.id);
+            const selectedRow: any = orders.find(order => order.productBrandId === params.row.productBrandId);
             const rowIndex = orders.indexOf(selectedRow);
             setOrderIndex(rowIndex)
             const fieldValue = [

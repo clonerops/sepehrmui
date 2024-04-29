@@ -214,7 +214,8 @@ const SalesOrderEdit = () => {
                     ...saleOrderEditInitialValues,
                     ...detailTools?.data?.data,
                     paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
-                    isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
+                    isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2,
+                    exitType: detailTools?.data?.data?.orderExitType
                 }
             } onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {

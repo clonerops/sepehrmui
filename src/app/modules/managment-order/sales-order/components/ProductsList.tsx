@@ -107,18 +107,14 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [searchTerm])
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
-        // if(currentFilter.WarehouseTypeId === 5) {
-        //     EnqueueSnackbar("امکان انتخاب کالا از انبار رسمی وجود ندارد", 'warning')
-        // } else {
-        // }
         const selectedRow = newSelectionModel.row;
         setProductData((prevState) => ({
             ...prevState,
-            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
+            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.productBrandId]: newSelectionModel.row.productSubUnitId },
             price: productData.price,
         }))
         const isDuplicate = productData.selectedProduct.some((item) => {
-            return item.id === selectedRow.id;
+            return item.productBrandId === selectedRow.productBrandId;
         });
         if (!isDuplicate) {
             setProductData((prevState) => ({
@@ -142,7 +138,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     onClick={() => {
                         if (productData.selectedProduct) {
                             const updatedOrders = productData.selectedProduct.filter(
-                                (item: any) => item.id !== indexToDelete.id
+                                (item: any) => +item.productBrandId !== +indexToDelete.id
                             );
                             setProductData((prevState) => ({
                                 ...prevState,
@@ -157,7 +153,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.selectedProduct]);
 
     const renderInput = useCallback((params: any) => {
-        const productId = params.row.id;
+        const productId = params.row.productBrandId;
         return (
             <>
                 <OutlinedInput
@@ -184,7 +180,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.proximateAmounts])
 
     const renderSubUnit = useCallback((params: any) => {
-        const productId = params.row.id;
+        const productId = params.row.productBrandId;
         return (
             <div className="flex gap-x-2">
                 <OutlinedInput
@@ -233,7 +229,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.proximateSubAmounts, productData.productSubUnitDesc])
 
     const renderPrice = useCallback((params: any) => {
-        const productId = params.row.id;
+        const productId = params.row.productBrandId;
         return (
             <>
                 <MaskInput
@@ -264,21 +260,21 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
-            const { id, warehouseId, productBrandId, productName, exchangeRate, productBrandName, warehouseName, productDesc = "", purchasePrice = "", purchaseSettlementDate = "", purchaseInvoiceTypeId = 0, sellerCompanyRow = "string", productMainUnitDesc, rowId = 0, proximateAmount = productData.proximateAmounts[product.id] || "", warehouseTypeId = 0 } = product;
-            const productSubUnitDesc = productData.productSubUnitDesc[product.id]
-                ? units.find((i: any) => i.id === productData.productSubUnitDesc[product.id]).unitName
+            const { id, warehouseId, productBrandId, productName, exchangeRate, productBrandName, warehouseName, productDesc = "", purchasePrice = "", purchaseSettlementDate = "", purchaseInvoiceTypeId = 0, sellerCompanyRow = "string", productMainUnitDesc, rowId = 0, proximateAmount = productData.proximateAmounts[product.productBrandId] || "", warehouseTypeId = 0 } = product;
+            const productSubUnitDesc = productData.productSubUnitDesc[product.productBrandId]
+                ? units.find((i: any) => i.id === productData.productSubUnitDesc[product.productBrandId]).unitName
                 : product.productSubUnitDesc;
 
-            const productSubUnitId = productData.productSubUnitId[product.id]
-                ? units.find((i: any) => i.id === productData.productSubUnitId[product.id]).unitName
+            const productSubUnitId = productData.productSubUnitId[product.productBrandId]
+                ? units.find((i: any) => i.id === productData.productSubUnitId[product.productBrandId]).unitName
                 : product.productSubUnitId;
 
-            const price = productData.price[product.id] ? productData.price[product.id].replace(/,/g, "") : ""
+            const price = productData.price[product.productBrandId] ? productData.price[product.productBrandId].replace(/,/g, "") : ""
 
             const proximateSubUnit =
-                productData.proximateSubAmounts[product.id] === undefined
+                productData.proximateSubAmounts[product.productBrandId] === undefined
                     ? 0
-                    : productData.proximateSubAmounts[product.id];
+                    : productData.proximateSubAmounts[product.productBrandId];
 
             return { id, productId: id, warehouseId, productBrandId, productName, productBrandName, warehouseName, productDesc, purchasePrice, exchangeRate, purchaseSettlementDate, purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId), purchaseInvoiceTypeDesc: "", sellerCompanyRow, purchaserCustomerId: "", purchaserCustomerName: "", productMainUnitDesc, productSubUnitDesc, productSubUnitId, rowId, proximateAmount, warehouseTypeId, price, proximateSubUnit };
         });
@@ -286,7 +282,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
             orders.some(
                 (existingProduct: any) =>
-                    existingProduct.id === newProduct.id &&
+                    existingProduct.productBrandId === newProduct.productBrandId &&
                     existingProduct.warehouseId === newProduct.warehouseId &&
                     existingProduct.productBrandId === newProduct.productBrandId
             )
@@ -337,7 +333,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 {productTypeTools?.data?.map((item: any, index: number) => {
                     return (
                         <Button key={index}
-                            className={`${currentFilter.ProductTypeId === item.id
+                            className={`${currentFilter.ProductTypeId === item.productBrandId
                                 ? "!bg-[#fcc615] !text-black"
                                 : ""
                                 }`}
@@ -345,11 +341,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             onClick={() => {
                                 setCurrentFilter({
                                     ...currentFilter,
-                                    ProductTypeId: item.id
+                                    ProductTypeId: item.productBrandId
                                 })
                                 handleFilterProduct({
                                     ...currentFilter,
-                                    ProductTypeId: item.id
+                                    ProductTypeId: item.productBrandId
                                 })
 
                             }}
@@ -507,7 +503,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         )}
                         rows={productData.selectedProduct}
                         data={productData.selectedProduct}
-                        getRowId={(row: { id: string }) => row.id.toString()}
+                        getRowId={(row: { productBrandId: string }) => row.productBrandId.toString()}
                         hideFooter={true}
                         columnHeaderHeight={40}
                     />
