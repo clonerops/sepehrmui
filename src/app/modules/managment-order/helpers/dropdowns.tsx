@@ -138,3 +138,13 @@ export const dropdownOfficialBank = (data: any) => {
     );
 };
 
+export const dropdownProductType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, desc:string }): any => {
+            const { desc, id } = obj;
+            return { value: id, label: desc };
+        })
+    );
+};
+

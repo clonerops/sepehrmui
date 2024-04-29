@@ -173,7 +173,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                         variant="contained"
                         color="primary"
                         disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}>
-                        <Typography >انتخاب کالا</Typography>
+                        <Typography>انتخاب کالا</Typography>
                     </Button>
                 </div>
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">

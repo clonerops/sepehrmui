@@ -68,7 +68,7 @@ const Login = () => {
           }
         >
           <div
-            className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] hadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit "
+            className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] shadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit "
           >
             <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
           </div>

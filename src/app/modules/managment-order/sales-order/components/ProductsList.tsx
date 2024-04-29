@@ -13,14 +13,13 @@ import { useGetUnits } from "../../../generic/productUnit/_hooks";
 import { IOrderService } from "../../core/_models";
 import { Form, Formik, FormikErrors } from "formik";
 import FormikRadioGroup from "../../../../../_cloner/components/FormikRadioGroup";
-import { dropdownWarehouseType } from "../../helpers/dropdowns";
+import { dropdownProductType, dropdownWarehouseType } from "../../helpers/dropdowns";
 import { useGetProductTypes, useGetWarehouseTypes } from "../../../generic/_hooks";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
 import { useGetProductList } from "../../../generic/products/_hooks";
 import SearchBackendInput from "../../../../../_cloner/components/SearchBackendInput";
-import CustomTabs from "../../../../../_cloner/components/Tabs";
 import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar";
-import ReusableAccordion from "../../../../../_cloner/components/ReusableAccordion";
+import FormikSelect from "../../../../../_cloner/components/FormikSelect";
 
 interface IProps {
     setOrders?: any
@@ -313,7 +312,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     return (
         <>
-            <div className="mx-1">
+            <div className="mx-1 hidden lg:block">
                 <Button
                     className={`${currentFilter.ProductTypeId === -1 ? "!bg-[#fcc615] !text-black" : ""
                         }`}
@@ -355,7 +354,30 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     );
                 })}
             </div>
-
+            
+            <div className="lg:hidden mt-4">
+                <Formik initialValues={{productTypeId: ""}} onSubmit={() => { }}>
+                    {({}) => {
+                        return <Form>
+                            <FormikSelect 
+                                name="productTypeId" 
+                                label="نوع محصول" 
+                                options={dropdownProductType(productTypeTools?.data)}
+                                onChange={(e: any) => {
+                                    console.log(e)
+                                    setCurrentFilter({
+                                        ...currentFilter,
+                                        ProductTypeId: e
+                                    })
+                                    handleFilterProduct({
+                                        ...currentFilter,
+                                        ProductTypeId: e
+                                    })
+                                }} />
+                        </Form>
+                    }}
+                </Formik>
+            </div>
             <div className="col-span-2 mx-4 my-2">
                 <Formik initialValues={{ warehouseTypeId: "1" }} onSubmit={() => { }}>
                     {() => {
