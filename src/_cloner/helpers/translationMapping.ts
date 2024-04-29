@@ -62,6 +62,7 @@ export const translationMapping: any = {
     pettyCash: "تنخواه گردان",
     ready_to_confirm: "تایید سفارشات",
     exit_list: "لیست مجوزهای خروج",
+    approvedRent: "تایید کرایه",
     
     // Add more translations as needed
   };

@@ -5,6 +5,7 @@ import RentPrint from "../modules/prints/RentPrint";
 import LadingPermitPrint from "../modules/prints/LadingPermitPrint";
 import ExitRemiitanceEdit from "../modules/logestic/exit/ExitRemittanceEdit";
 import LadingExitPermitPrint from "../modules/prints/LadingExitPermitPrint";
+import ApprovedRentPayment from "../modules/rent-payment/ApprovedRentPayment";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
@@ -287,6 +288,7 @@ export const routes: RouteProps[] = [
     
     { path: "dashboard/ready_to_rent", element: <ReadyToRent /> },
     { path: "dashboard/rents", element: <RentPaymentList /> },
+    { path: "dashboard/approvedRent", element: <ApprovedRentPayment /> },
 
 
     { path: "dashboard/users", element: <Users /> },
