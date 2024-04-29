@@ -48,7 +48,7 @@ const SalesOrder = () => {
                     customerId: values.customerId,
                     totalAmount: calculateTotalAmount(orders, orderServices),
                     description: values.description,
-                    orderExitTypeId: values.exitType,
+                    orderExitTypeId: values.orderExitTypeId,
                     orderSendTypeId: values.orderSendTypeId,
                     paymentTypeId: values.paymentTypeId,
                     orderTypeId: values.orderType ? +values.orderType : 2,

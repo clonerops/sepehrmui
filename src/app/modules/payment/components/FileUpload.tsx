@@ -41,7 +41,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
       'image/png': ['.png', '.Png', '.PNG'],
       'application/pdf': ['.pdf']
     },
-    maxSize: 1540000, // 60KB in bytes (1KB = 1024 bytes)
+    maxSize: 1000000, // 60KB in bytes (1KB = 1024 bytes)
   });
 
   return (

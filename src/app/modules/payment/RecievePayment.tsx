@@ -117,11 +117,16 @@ const RecievePayment = () => {
                             });
                             mutate(formData, {
                                 onSuccess: (response) => {
-                                    if (response?.succeeded) {
-                                        setTrachingCode(response?.data?.receivePayCode)
-                                        EnqueueSnackbar(response.message, "success")
+                                    console.log(response)
+                                    if(response.data.Errors && response.data.Errors.length > 0) {
+                                        EnqueueSnackbar(response.data.Errors[0], "error")
                                     } else {
-                                        EnqueueSnackbar(response.data.Message, "warning")
+                                        if (response?.succeeded) {
+                                            setTrachingCode(response?.data?.receivePayCode)
+                                            EnqueueSnackbar(response.message, "success")
+                                        } else {
+                                            EnqueueSnackbar(response.data.Message, "warning")
+                                        }
                                     }
                                 }
                             })

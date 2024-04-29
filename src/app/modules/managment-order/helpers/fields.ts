@@ -19,7 +19,7 @@ export const orderFeatureFields: FieldType[][] = [
             name: "paymentTypeId",
             type: "paymentTypeId",
         },
-        { label: "نوع خروج", name: "exitType", type: "exitType" },
+        { label: "نوع خروج", name: "orderExitTypeId", type: "orderExitTypeId" },
     ],
     [
         { label: "نوع ثبت", name: "isTemporary", type: "temporary" },

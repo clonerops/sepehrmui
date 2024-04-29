@@ -92,7 +92,6 @@ const SalesOrderEdit = () => {
     }, [detailTools?.data?.data])
 
     const onSubmit = (values: any) => {
-
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد.", "error")
         } else {
@@ -103,14 +102,13 @@ const SalesOrderEdit = () => {
                 totalAmount: calculateTotalAmount(orders, orderServices), //ok
                 description: values.description ? values.description : detailTools?.data?.data.description, //ok
                 deliverDate: values.deliverDate ? values.deliverDate : detailTools?.data?.data.deliverDate, //ok
-                orderExitTypeId: values.exitType ? Number(values.exitType) : detailTools?.data?.data.orderExitTypeId, //ok
+                orderExitTypeId: values.orderExitTypeId ? Number(values.orderExitTypeId) : detailTools?.data?.data.orderExitTypeId, //ok
                 orderTypeId: values.orderType ? +values.orderType : detailTools?.data?.data.orderTypeId, //ok
                 orderSendTypeId: values.orderSendTypeId ? Number(values.orderSendTypeId) : detailTools?.data?.data.orderSendTypeId,//ok
                 paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
                 customerOfficialName: "string",
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
                 invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId, //ok
-                // isTemporary: values.isTemporary === ? values.isTemporary : detailTools?.data?.data.isTemporary, //ok
                 isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
                 freightName: "string", //ok
                 settlementDate: "1402/02/02", //ok
@@ -118,6 +116,7 @@ const SalesOrderEdit = () => {
                 freightDriverName: "string", //ok
                 carPlaque: "string", //ok
                 details: orders?.map((item: any) => {
+                    console.log("orders", orders)
                     const orderDetails: any = {
                         rowId: item.rowId ? Number(item.rowId) : 0, //ok
                         productId: item.productId, //ok
@@ -132,8 +131,8 @@ const SalesOrderEdit = () => {
                         description: item.description,
                         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                        purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : item.purchaserCustomerId,
-                        purchaserCustomerName: item.purchaserCustomerName.label ? item.purchaserCustomerName.label : item.purchaserCustomerName,
+                        purchaserCustomerId: item.purchaserCustomerId,
+                        purchaserCustomerName: item.purchaserCustomerName,
                         purchaseSettlementDate: item.purchaseSettlementDate,
                         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                     };
@@ -198,9 +197,12 @@ const SalesOrderEdit = () => {
         }
     }
 
+    if(detailTools.isLoading) {
+        return <Backdrop loading={detailTools.isLoading} />
+    }
+
     return (
         <>
-            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
             {postSaleOrder?.data?.succeeded &&
                 <Alert>
@@ -215,7 +217,6 @@ const SalesOrderEdit = () => {
                     ...detailTools?.data?.data,
                     paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
                     isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2,
-                    exitType: detailTools?.data?.data?.orderExitType
                 }
             } onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {

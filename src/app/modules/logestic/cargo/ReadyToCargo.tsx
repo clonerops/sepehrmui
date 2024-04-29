@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
@@ -12,6 +12,7 @@ import { ICargo } from "../core/_models";
 
 
 const ReadyToCargo = () => {
+    const navigate = useNavigate()
     const { data: cargoNotSended, isLoading } = useRetrievesNotSendedOrder();
 
     const [results, setResults] = useState<ICargo[]>([]);
@@ -22,6 +23,7 @@ const ReadyToCargo = () => {
     }, [cargoNotSended]);
 
     const renderAction = (item: any) => {
+        console.log(item)
         return (
             <Link to={`/dashboard/order_ready_cargo/${item?.row?.id}`}>
                 <Button variant="contained" color="secondary">
@@ -49,6 +51,7 @@ const ReadyToCargo = () => {
                 rows={results}
                 data={cargoNotSended}
                 isLoading={isLoading}
+                onDoubleClick={(item: any) => navigate(`/dashboard/order_ready_cargo/${item?.row?.id}`)}
             />
         </ReusableCard>
     );

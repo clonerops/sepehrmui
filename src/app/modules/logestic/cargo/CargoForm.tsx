@@ -156,7 +156,7 @@ const CargoForm = () => {
             case "select":
                 return <FormikSelect key={index} options={dropdownVehicleType(vehicleList.data)} {...rest} />
             case "amount":
-                return <FormikAmount disabled={data?.data?.orderSendTypeId !== 1} key={index} {...rest} />;
+                return <FormikAmount key={index} {...rest} />;
             case "desc":
                 return <FormikInput key={index} multiline minRows={3} {...rest} />;
 
