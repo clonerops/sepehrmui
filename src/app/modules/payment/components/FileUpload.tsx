@@ -16,8 +16,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
 
 
   const onDrop = (acceptedFiles: File[]) => {
-    if (files.length > 1) {
-      EnqueueSnackbar("امکان آپلود بیش از 2 ضمیمه وجود ندارد", "error")
+    if (files.length > 3) {
+      EnqueueSnackbar("امکان آپلود بیش از 4 ضمیمه وجود ندارد", "error")
     } else {
         setFiles([...files, ...acceptedFiles]);
 

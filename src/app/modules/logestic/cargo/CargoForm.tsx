@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { Formik, FormikErrors } from "formik"
 import { Button, OutlinedInput, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
-import { Add, AttachMoney, Close, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
+import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
 import { useCreateCargo, useRetrieveCargos } from "../core/_hooks"
@@ -60,7 +60,7 @@ const CargoForm = () => {
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
+        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.orderExitTypeDesc },
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
     ]
@@ -244,7 +244,7 @@ const CargoForm = () => {
         <>
             {isLoading && <Backdrop loading={isLoading} />}
             <Typography color="primary" variant="h1" className="pb-8">ثبت اعلام بار</Typography>
-            <div className={`grid grid-cols-1 md:grid-cols-5 gap-4 my-4`}>
+            <div className={`grid grid-cols-1 lg:grid-cols-5 gap-4 my-4`}>
                 {orderAndAmountInfoInCargo.map((item: {
                     title: string,
                     icon: React.ReactNode,
@@ -252,6 +252,9 @@ const CargoForm = () => {
                 }, index) => {
                     return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
                 })}
+                <div className="lg:col-span-5">
+                    <CardTitleValue index={6} title={"توضیحات سفارش"} value={data?.data?.description} icon={<Description color="secondary" />} />
+                </div>
             </div>
             <ReusableAccordion
                 content={

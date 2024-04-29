@@ -267,7 +267,7 @@ const RecievePaymentEdit = () => {
                                     <FileUpload files={files} setFiles={setFiles} />
                                 </div>
                                 <div className='flex gap-x-4'>
-                                    <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 3} onClick={() => handleSubmit()} variant="contained" color="secondary">
+                                    <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 2} onClick={() => handleSubmit()} variant="contained" color="secondary">
                                         <Typography variant="h3" className="px-8 py-2">ویرایش دریافت و پرداخت</Typography>
                                     </Button>
                                     <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 2} variant="contained" onClick={() => setApprove(true)} className='mb-2' color="primary">

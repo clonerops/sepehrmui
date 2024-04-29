@@ -23,7 +23,6 @@ const ReadyToCargo = () => {
     }, [cargoNotSended]);
 
     const renderAction = (item: any) => {
-        console.log(item)
         return (
             <Link to={`/dashboard/order_ready_cargo/${item?.row?.id}`}>
                 <Button variant="contained" color="secondary">

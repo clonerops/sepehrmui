@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { Formik, FormikErrors } from "formik"
 import { Button, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
-import { AttachMoney, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
+import { AttachMoney, Description, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
 import { useCargoById, useEditCargo } from "../core/_hooks"
@@ -75,7 +75,7 @@ const CargoEditForm = () => {
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: detailsCargo?.data?.data?.order?.orderCode },
         { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: detailsCargo?.data?.data?.order?.customerFirstName + " " + detailsCargo?.data?.data?.order?.customerLastName },
-        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: detailsCargo?.data?.data?.order?.exitType === 1 ? "عادی" : "بعد از تسویه" },
+        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: detailsCargo?.data?.data?.order?.orderExitTypeDesc },
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: detailsCargo?.data?.data?.order?.orderSendTypeDesc },
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: detailsCargo?.data?.data?.order?.paymentTypeDesc },
     ]
@@ -212,6 +212,9 @@ const CargoEditForm = () => {
                 }, index) => {
                     return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
                 })}
+            </div>
+            <div className="lg:col-span-5">
+                <CardTitleValue index={6} title={"توضیحات سفارش"} value={detailsCargo?.data?.data?.description} icon={<Description color="secondary" />} />
             </div>
             
             <div className="flex flex-col gap-4 mt-4">

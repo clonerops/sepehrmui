@@ -22,6 +22,12 @@ export const readyToCargoColumns = (renderAction: any) => {
             headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 160, flex: 1
         },
         {
+            field: 'orderExitTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع خروج', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
             field: 'invoiceTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
