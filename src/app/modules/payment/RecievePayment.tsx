@@ -132,20 +132,19 @@ const RecievePayment = () => {
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
                                     <FormikSelect name='ReceivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {renderFields("ReceiveFromId", "دریافت از", values.ReceivePaymentTypeFromId)}
+                                    {values?.ReceiveFromId?.value &&
+                                        <FormikCompany customerid={values?.ReceiveFromId?.value} name="ReceiveFromCompanyId" label="نام شرکت دریافت از" />
+                                    }
                                     <FormikSelect name='ReceivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {renderFields("PayToId", "پرداخت به", values.ReceivePaymentTypeToId)}
+                                    {values?.PayToId?.value &&
+                                        <FormikCompany customerid={values?.PayToId?.value} name="PayToCompanyId" label="نام شرکت پرداخت به" />
+                                    }
                                     <FormikInput name='AccountOwner' label='صاحب حساب' type='text' />
                                     <div className='flex flex-col'>
                                         <FormikPrice name='Amount' label='مبلغ' type='text' />
                                     </div>
-
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
-                                    {values?.ReceiveFromId?.value &&
-                                        <FormikCompany customerid={values?.ReceiveFromId?.value} name="ReceiveFromCompanyId" label="نام شرکت دریافت از" />
-                                    }
-                                    {values?.PayToId?.value &&
-                                        <FormikCompany customerid={values?.PayToId?.value} name="PayToCompanyId" label="نام شرکت پرداخت به" />
-                                    }
                                     
                                     <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
                                 </div>

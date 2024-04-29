@@ -239,9 +239,14 @@ const RecievePaymentEdit = () => {
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
                                     <FormikSelect disabeld  name='receivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {renderFields("receiveFromId", "دریافت از", values.receivePaymentTypeFromId)}
+                                    {detailTools?.data?.data?.receivePaymentTypeFromId === 1 &&
+                                        <FormikCompany customerid={values?.receiveFromDesc ? values?.receiveFromDesc?.value : detailTools?.data?.data?.receiveFromId} name="receiveFromCompanyId" label="نام شرکت دریافت از" />
+                                    }
                                     <FormikSelect disabled name='receivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
                                     {renderFields("payToId", "پرداخت به", values.receivePaymentTypeToId)}
-
+                                    {detailTools?.data?.data?.receivePaymentTypeToId  === 1 && 
+                                        <FormikCompany customerid={values?.payToDesc ? values?.payToDesc?.value : detailTools?.data?.data?.payToId} name="payToCompanyId" label="نام شرکت پرداخت به" />
+                                    }
                                     <FormikInput name='accountOwner' label='صاحب حساب' type='text' />
                                     <div className='flex flex-col'>
                                         <FormikPrice name='amount' label='مبلغ' type='text' />
@@ -249,12 +254,6 @@ const RecievePaymentEdit = () => {
                                     </div>
 
                                     <FormikInput name='trachingCode' label='کد پیگیری' type='text' />
-                                    {detailTools?.data?.data?.receivePaymentTypeFromId === 1 &&
-                                        <FormikCompany customerid={values?.receiveFromDesc ? values?.receiveFromDesc?.value : detailTools?.data?.data?.receiveFromId} name="receiveFromCompanyId" label="نام شرکت دریافت از" />
-                                    }
-                                    {detailTools?.data?.data?.receivePaymentTypeToId  === 1 && 
-                                        <FormikCompany customerid={values?.payToDesc ? values?.payToDesc?.value : detailTools?.data?.data?.payToId} name="payToCompanyId" label="نام شرکت پرداخت به" />
-                                    }
 
                                     <FormikInput name='contractCode' label='کد قرارداد' type='text' />
                                 </div>

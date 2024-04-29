@@ -37,10 +37,22 @@ const Detail = () => {
             bgColor: "bg-[#ECEFF3]"
         },
         {
+            title: "شرکت دریافت از",
+            value: data?.data?.receiveFromCompanyName,
+            icon: <AddHomeWork className="text-black" />,
+            bgColor: "bg-[#ECEFF3]"
+        },
+        {
             title: "پرداخت به",
             // value: data?.data?.receivePaymentSourceToDesc + " " + (data?.data?.payToCustomerName === null ? "" : data?.data?.payToCustomerName),
             value: data?.data?.payToDesc,
             icon: <AddCard className="text-black" />,
+            bgColor: "bg-[#ECEFF3]"
+        },
+        {
+            title: "شرکت پرداخت به",
+            value: data?.data?.payToCompanyName,
+            icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
@@ -54,19 +66,7 @@ const Detail = () => {
             value: data?.data?.trachingCode,
             icon: <Source className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
-        },
-        {
-            title: "شرکت دریافت از",
-            value: data?.data?.receiveFromCompanyName,
-            icon: <AddHomeWork className="text-black" />,
-            bgColor: "bg-[#ECEFF3]"
-        },
-        {
-            title: "شرکت پرداخت به",
-            value: data?.data?.payToCompanyName,
-            icon: <AddHomeWork className="text-black" />,
-            bgColor: "bg-[#ECEFF3]"
-        },
+        },        
         {
             title: "شماره قرارداد",
             value: data?.data?.contractCode,

@@ -2,7 +2,8 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar';
-import ReactPanZoom from "react-image-pan-zoom-rotate";
+// import ReactPanZoom from "react-image-pan-zoom-rotate";
+import Zoom from 'react-medium-image-zoom'
 
 interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')
@@ -21,7 +22,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
         setFiles([...files, ...acceptedFiles]);
 
         if (acceptedFiles.length === 0) {
-          EnqueueSnackbar("سایز فایل بیش از 200kb می باشد", "error")
+          EnqueueSnackbar("سایز فایل بیش از 1.5 مگابایت می باشد", "error")
         }    
     }
 
@@ -40,7 +41,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
       'image/png': ['.png', '.Png', '.PNG'],
       'application/pdf': ['.pdf']
     },
-    maxSize: 209600, // 60KB in bytes (1KB = 1024 bytes)
+    maxSize: 1540000, // 60KB in bytes (1KB = 1024 bytes)
   });
 
   return (
@@ -59,19 +60,19 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
             <li className="text-xl " key={index}>
               {/* {file.name} */}
 
-              <div style={{ maxWidth: '50%', position:'relative' }}>
+              {/* <div style={{ maxWidth: '50%', position:'relative' }}>
                 <ReactPanZoom 
                       image={URL.createObjectURL(file)}
                       alt={file.name}            
                   />
-              </div>
-              {/* <Zoom>
+              </div> */}
+              <Zoom>
                 <img
                   src={URL.createObjectURL(file)}
                   alt={file.name}
                   style={{ maxWidth: '50%', maxHeight: '50px' }}
                 />
-              </Zoom> */}
+              </Zoom>
               <Button
                 className="pr-16"
                 onClick={() => removeFile(file)}

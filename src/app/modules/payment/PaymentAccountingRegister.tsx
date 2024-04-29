@@ -161,6 +161,16 @@ const PaymentAccountingRegister = () => {
                 flex: 1
             },
             {
+                field: "receiveFromCompanyName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+                headerName: "شرکت دریافت از",
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1
+            },
+            {
                 field: "payToDesc",
                 renderCell: (value: any) => (
                     <Typography variant="h4">
@@ -174,6 +184,16 @@ const PaymentAccountingRegister = () => {
                 headerName: "پرداخت به",
                 headerClassName: "headerClassName",
                 minWidth: 240,
+                flex: 1
+            },
+            {
+                field: "payToCompanyName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+                headerName: "شرکت پرداخت به",
+                headerClassName: "headerClassName",
+                minWidth: 120,
                 flex: 1
             },
             {
@@ -222,26 +242,8 @@ const PaymentAccountingRegister = () => {
                 minWidth: 120,
                 flex: 1
             },
-            {
-                field: "receiveFromCompanyName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "شرکت دریافت از",
-                headerClassName: "headerClassName",
-                minWidth: 100,
-                flex: 1
-            },
-            {
-                field: "payToCompanyName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "شرکت پرداخت به",
-                headerClassName: "headerClassName",
-                minWidth: 100,
-                flex: 1
-            },
+           
+           
             {
                 field: "contractCode",
                 renderCell: (params: any) => {

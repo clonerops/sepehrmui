@@ -115,6 +115,16 @@ const PaymentAccounting = () => {
                 flex: 1
             },
             {
+                field: "receiveFromCompanyName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+                headerName: "شرکت دریافت از",
+                headerClassName: "headerClassName",
+                minWidth: 120,
+                flex: 1
+            },
+            {
                 field: "payToDesc",
                 renderCell: (value: any) => (
                     <Typography variant="h4">
@@ -128,6 +138,16 @@ const PaymentAccounting = () => {
                 headerName: "پرداخت به",
                 headerClassName: "headerClassName",
                 minWidth: 240,
+                flex: 1
+            },
+            {
+                field: "payToCompanyName",
+                renderCell: (params: any) => {
+                    return <Typography variant="h5">{params.value}</Typography>;
+                },
+                headerName: "شرکت پرداخت به",
+                headerClassName: "headerClassName",
+                minWidth: 120,
                 flex: 1
             },
             {
@@ -174,26 +194,6 @@ const PaymentAccounting = () => {
                 headerName: "کد پیگیری",
                 headerClassName: "headerClassName",
                 minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "receiveFromCompanyName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "شرکت دریافت از",
-                headerClassName: "headerClassName",
-                minWidth: 100,
-                flex: 1
-            },
-            {
-                field: "payToCompanyName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "شرکت پرداخت به",
-                headerClassName: "headerClassName",
-                minWidth: 100,
                 flex: 1
             },
             {
