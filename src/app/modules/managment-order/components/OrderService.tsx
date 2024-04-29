@@ -76,7 +76,17 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
         { id: 2, header: "هزینه(ریال)", accessor: "orderServiceDescription", render: (params: any) => {
             return <Typography variant="h4" className='text-green-500'>{params.orderServiceDescription}</Typography>
         }},
-    ]    
+    ]
+    
+    const handleCheckIsHasFare = (orderServiceId: number) => {
+        if(orderServiceId === 6)  {
+            formikRef.current?.setFieldValue('orderSendTypeId', "2")
+            formikRef.current?.setFieldValue('paymentTypeId', "1")
+        } else {
+            formikRef.current?.setFieldValue('orderSendTypeId', "1")
+            formikRef.current?.setFieldValue('paymentTypeId', "2")
+        }
+    }
 
     let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit
 
@@ -84,7 +94,7 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
     <ReusableCard cardClassName="mt-4 md:mt-0 bg-gradient-to-r from-gray-100">
         <Typography variant="h2" color="primary">بسته خدمت</Typography>
         <div className="flex flex-wrap md:flex-nowrap gap-4 my-4 ">
-            <FormikService label="نوع خدمت" name="orderServiceId" disabled={postSaleOrder?.data?.succeeded} />
+            <FormikService label="نوع خدمت" name="orderServiceId" disabled={postSaleOrder?.data?.succeeded} onChange={(e: any) => handleCheckIsHasFare(e)} />
             <FormikPrice name="orderServiceDescription" label="هزینه" disabled={postSaleOrder?.data?.succeeded} />
             <Button disabled={postSaleOrder?.data?.succeeded} onClick={handleSetServices} className="!w-[120px]" variant="contained">
                 <Typography>افزودن</Typography>
