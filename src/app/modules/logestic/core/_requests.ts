@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { ICargo, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
+import { IApproveDriveFareAmount, ICargo, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
 
 const getCargosList = async (formData: {
     PageNumber?: number,
@@ -195,6 +195,18 @@ const revokeExitById = async (id: number) => {
     }
 };
 
+const postApproveDriverFareAmount = async (formdata: IApproveDriveFareAmount) => {
+    try {
+        const { data } = await http.post(
+            `/v1/LadingExitPermit/ApproveDriverFareAmount`,
+            JSON.stringify(formdata)
+        );
+        return data;
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
 
 // Transfer Remittance
 const postTransferRemittance = async (formdata: ITransferRemittance) => {
@@ -294,6 +306,7 @@ export {
     getLadingExitPermitById,
     postExitRemittance,
     revokeExitById,
+    postApproveDriverFareAmount,
     postTransferRemittance,
     getTransferRemitances,
     getTransferRemitancesFilter,

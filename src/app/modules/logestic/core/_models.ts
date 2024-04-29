@@ -48,6 +48,11 @@ export interface IExitRemittance {
 
 }
 
+export interface IApproveDriveFareAmount {
+  ladingExitPermitId: string
+  description: string
+}
+
 export interface ITransferRemittance {
   id?: string | null | undefined
   originWarehouseId: number | null | undefined,

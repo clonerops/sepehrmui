@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useGetExitPermitListByMutation, useGetLadingPermitListByMutation, useRevokeExitById, useRevokeLadingById } from "../core/_hooks";
 import { exitColumns } from "../../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
-import { Edit, LayersClear, Print } from "@mui/icons-material";
+import { Approval, Edit, LayersClear, Print } from "@mui/icons-material";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -68,6 +68,11 @@ const ExitList = () => {
                     <div className="flex gap-x-4">
                         <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
                     </div>
+                </Tooltip>
+                <Tooltip title={<Typography variant='h3'>تایید کرایه</Typography>}>
+                    <Link to={`/dashboard/approveDriverFareAmount/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                        <Approval className="text-yellow-500" />
+                    </Link>
                 </Tooltip>
                 {/* <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
                     <Link to={`/dashboard/exitEdit/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>

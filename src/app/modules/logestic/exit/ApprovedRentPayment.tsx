@@ -4,70 +4,82 @@ import { Alert, Badge, Button, Typography } from "@mui/material"
 import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, PaymentOutlined, Person, Source } from "@mui/icons-material"
 import { useState } from "react"
 import { Formik } from "formik"
-import Backdrop from "../../../_cloner/components/Backdrop"
-import CardWithIcons from "../../../_cloner/components/CardWithIcons"
-import TransitionsModal from "../../../_cloner/components/ReusableModal"
-import ConfirmDialog from "../../../_cloner/components/ConfirmDialog"
-import FormikDescription from "../../../_cloner/components/FormikDescription"
+import Backdrop from "../../../../_cloner/components/Backdrop"
+import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
+import TransitionsModal from "../../../../_cloner/components/ReusableModal"
+import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog"
+import FormikDescription from "../../../../_cloner/components/FormikDescription"
+import { useGetLadingExitPermitById, useGetLadingPermitById, usePostApproveDriverFareAmount } from "../core/_hooks"
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
+import { sliceNumberPrice } from "../../../../_cloner/helpers/sliceNumberPrice"
+import { convertToPersianWord } from "../../../../_cloner/helpers/convertPersian"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 
 const ApprovedRentPayment = () => {
+    const {id}: any = useParams()
     const [approve, setApprove] = useState<boolean>(false);
     const [disApprove, setDisApprove] = useState<boolean>(false);
+    
+    const exitDetailTools = useGetLadingExitPermitById(id)
+    const ladingDetailTools = useGetLadingPermitById(exitDetailTools?.data?.data?.ladingPermitId)
+
+    const postApprove = usePostApproveDriverFareAmount()
+
 
     const fieldsValue = [
         {
             title: "شماره مجوز خروج",
-            value: 112,
+            value: exitDetailTools?.data?.data?.ladingExitPermitCode,
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شماره مجوز بارگیری",
             // value: data?.data?.receivePaymentSourceFromDesc + " " + (data?.data?.receiveFromCustomerName === null ? "" : data?.data?.receiveFromCustomerName),
-            value: 13,
+            value: exitDetailTools?.data?.data?.ladingPermitId,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شماره اعلام بار",
             // value: data?.data?.receivePaymentSourceToDesc + " " + (data?.data?.payToCustomerName === null ? "" : data?.data?.payToCustomerName),
-            value: 10002,
+            value: ladingDetailTools?.data?.data?.cargoAnnounce?.cargoAnnounceNo,
             icon: <AddCard className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شماره سفارش فروش",
-            value: 1295,
+            value: ladingDetailTools?.data?.data?.cargoAnnounce?.order?.orderCode,
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "تاریخ ثبت مجوز خروج",
-            value: "1403/02/01",
+            value: exitDetailTools?.data?.data?.createdDate,
             icon: <Source className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "نام راننده",
-            value: "رضا حسنی",
+            value: ladingDetailTools?.data?.data?.cargoAnnounce?.driverName,
             icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شماره همراه راننده",
-            value: "09217767345",
+            value: ladingDetailTools?.data?.data?.cargoAnnounce?.driverMobile,
             icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "نوع خودرو",
-            value: "نیسان",
+            value: ladingDetailTools?.data?.data?.cargoAnnounce?.vehicleTypeName,
             icon: <Filter1 className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "باربری",
-            value: "حامدبار",
+            value: ladingDetailTools?.data?.data?.cargoAnnounce?.shippingName,
             icon: <Numbers className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
@@ -117,23 +129,22 @@ const ApprovedRentPayment = () => {
     // };
 
 
-    // const handleConfirm = () => {
-    //     const formData ={
-    //         ids: [id]
-    //     }
-    //     mutate(formData, {
-    //         onSuccess: (response) => {
-    //             if (response?.succeeded) {
-    //                 EnqueueSnackbar(response.message, "success")
-    //                 refetch()
-    //                 setApprove(false)
+    const handleConfirm = (values: any) => {
+        const formData ={
+            ladingExitPermitId: id,
+            description: values.description
+        }
+        postApprove.mutate(formData, {
+            onSuccess: (response) => {
+                if (response?.succeeded) {
+                    EnqueueSnackbar(response.message, "success")
 
-    //             } else {
-    //                 EnqueueSnackbar(response.data.Message, "warning")
-    //             }
-    //         }
-    //     })
-    // }
+                } else {
+                    EnqueueSnackbar(response.data.Message, "warning")
+                }
+            }
+        })
+    }
 
     // const handleDisApproveConfirm = (values: any) => {
     //     const formData = {
@@ -156,21 +167,28 @@ const ApprovedRentPayment = () => {
 
     // }
 
+    if(exitDetailTools.isLoading) {
+        return <Backdrop loading={exitDetailTools?.isLoading} />
+    }
+    if(ladingDetailTools.isLoading) {
+        return <Backdrop loading={ladingDetailTools?.isLoading} />
+    }
+
     return (
         <>
-            {/* {fetchingLaoding && <Backdrop loading={fetchingLaoding} />} */}
-            <Typography color="primary" variant="h1" className="pb-8">جزئیات و ثبت تایید کرایه</Typography>
+            {postApprove?.isLoading && <Backdrop loading={postApprove?.isLoading} />}
+            <Typography color="primary" variant="h1" className="pb-8">جزئیات و ثبت تایید کرایه خروج</Typography>
             <div className="mb-4">
                 <Alert icon={<PaymentOutlined fontSize="inherit" />} severity="info">
                     <Typography variant="h2">مبلغ کرایه</Typography>
                     <div className="flex flex-col gap-y-4 mt-8">
                         <div className="flex flex-row items-center gap-x-4">
                             <Typography variant="h4" className="text-red-500">به عدد:</Typography>
-                            <Typography variant="h1">125,000,000 ریال</Typography>
+                            <Typography variant="h1">{separateAmountWithCommas(exitDetailTools?.data?.data.fareAmount)} ریال</Typography>
                         </div>
                         <div className="flex flex-row items-center gap-x-4">
                             <Typography variant="h4" className="text-red-500">به حروف:</Typography>
-                            <Typography variant="h1">صد و بیست و پنج میلیون تومان</Typography>
+                            <Typography variant="h1">{convertToPersianWord(exitDetailTools?.data?.data.fareAmount)} تومان</Typography>
                         </div>
                     </div>
                 </Alert>            
@@ -188,7 +206,7 @@ const ApprovedRentPayment = () => {
                     <CardWithIcons
                         title={"توضیحات مجوز خروج"}
                         icon={<Numbers className="text-black" />}
-                        value={"خروج بلامانع می باشد"}
+                        value={exitDetailTools?.data?.data?.exitPermitDescription}
                         iconClassName={"bg-[#ECEFF3]"}
                     />
 
@@ -201,21 +219,44 @@ const ApprovedRentPayment = () => {
                     </Button>
                 </Badge>
                 <Button variant="contained" onClick={() => setApprove(true)} className='mb-2' color="secondary">
-                    {/* <Typography>{isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography> */}
+                    <Typography>{postApprove?.isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
                 </Button>
-                <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
-                    {/* <Typography>{rejectLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography> */}
-                </Button>
+                {/* <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
+                    <Typography>{rejectLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
+                </Button> */}
             </div>
-            <ConfirmDialog
+            {/* <ConfirmDialog
                 open={approve}
                 hintTitle="آیا از تایید سند دریافت و پرداخت مطمئن هستید؟"
                 notConfirmText="لغو"
                 // confirmText={fetchingLaoding ? "درحال پردازش ..." : "تایید"}
                 onCancel={() => setApprove(false)}
                 onConfirm={() => {}}
-            />
+            /> */}
             <TransitionsModal
+                open={approve}
+                isClose={() => setApprove(false)}
+                title="تایید کرایه"
+                width="60%"
+                description=" درصورتی که کرایه مورد تایید نمی باشد می توانید از طریق فرم زیر اقدام به عدم تایید آن نمایید"
+            >
+                <div className="flex flex-col space-y-4 mt-4">
+                    <Typography variant="h3"> شماره مجوز خروح: {exitDetailTools?.data?.data?.ladingExitPermitCode}</Typography>
+                    <Formik initialValues={{description: ""}} onSubmit={handleConfirm}>
+                        {({handleSubmit}) => (
+                            <form>
+                                <FormikDescription name="description" label="توضیحات تایید کننده" />
+                                <div className="flex gap-x-4 justify-end items-end mt-2">
+                                    <Button onClick={() => handleSubmit()} className='!bg-yellow-500 hover:!bg-yellow-700'>
+                                        <Typography variant="h3" className="text-white">ثبت تایید کرایه</Typography>
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                </div>
+            </TransitionsModal>
+            {/* <TransitionsModal
                 open={disApprove}
                 isClose={() => setDisApprove(false)}
                 title="عدم تایید دریافت و پرداخت"
@@ -240,7 +281,7 @@ const ApprovedRentPayment = () => {
                         )}
                     </Formik>
                 </div>
-            </TransitionsModal>
+            </TransitionsModal> */}
         </>
     )
 }
