@@ -73,28 +73,28 @@ const RecievePaymentEdit = () => {
     const [files, setFiles] = useState<File[]>([]);
 
     const formData = new FormData()
+    formData.append("Id", id)
+    formData.append("ReceivePaymentTypeFromId", formikRef.current?.values?.receivePaymentTypeFromId ? formikRef.current?.values?.receivePaymentTypeFromId : detailTools?.data?.data?.receivePaymentTypeFromId)
+    formData.append("ReceivePaymentTypeToId", formikRef.current?.values?.receivePaymentTypeToId ? formikRef.current?.values?.receivePaymentTypeToId : detailTools?.data?.data?.receivePaymentTypeToId)
+    formData.append("ReceiveFromId", formikRef.current?.values?.receiveFromDesc?.value ? formikRef.current?.values?.receiveFromDesc?.value : formikRef.current?.values?.receiveFromId ? formikRef.current?.values?.receiveFromId : detailTools?.data?.data?.receiveFromId)
+    formData.append("PayToId", formikRef.current?.values?.payToDesc?.value ? formikRef.current?.values?.payToDesc?.value : formikRef.current?.values?.payToId ? formikRef.current?.values?.payToId : detailTools?.data?.data?.payToId)
+    formData.append("Amount", formikRef.current?.values?.amount ? +formikRef.current?.values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
+    formData.append("AccountOwner", formikRef.current?.values?.accountOwner ? formikRef.current?.values?.accountOwner : detailTools?.data?.data?.accountOwner)
+    formData.append("TrachingCode", formikRef.current?.values?.trachingCode ? formikRef.current?.values?.trachingCode : detailTools?.data?.data?.trachingCode)
+    formData.append("CompanyName", formikRef.current?.values?.companyName ? formikRef.current?.values?.companyName : detailTools?.data?.data?.companyName)
+    formData.append("ContractCode", formikRef.current?.values?.contractCode ? formikRef.current?.values?.contractCode : detailTools?.data?.data?.contractCode)
+    formData.append("AccountingDocNo", formikRef.current?.values?.accountingDocNo ? +formikRef.current?.values?.accountingDocNo : detailTools?.data?.data?.accountingDocNo)
+    formData.append("AccountingDescription",  formikRef.current?.values?.accountingDescription ? formikRef.current?.values?.accountingDescription : (detailTools?.data?.data?.accountingDescription === "" || detailTools?.data?.data?.accountingDescription === null) ? "ندارد" : detailTools?.data?.data?.accountingDescription)
+    formData.append("Description", formikRef.current?.values?.description ? formikRef.current?.values?.description : detailTools?.data?.data?.description)
+    formData.append("ReceivedFrom", "")
+    formData.append("ReceiveFromCompanyId", formikRef.current?.values?.receiveFromCompanyId ? formikRef.current?.values?.receiveFromCompanyId : detailTools?.data?.data?.receiveFromCompanyId === null ? "" : detailTools?.data?.data?.receiveFromCompanyId)
+    formData.append("PayToCompanyId", formikRef.current?.values?.payToCompanyId ? formikRef.current?.values?.payToCompanyId : detailTools?.data?.data?.payToCompanyId === null ? "" : detailTools?.data?.data?.payToCompanyId)
+    formData.append("PayTo", "")
+        files.forEach((file) => {
+            formData.append('Attachments', file);
+    });
     
     const onSubmit = async (values: any) => {
-        formData.append("Id", id)
-        formData.append("ReceivePaymentTypeFromId", values.receivePaymentTypeFromId ? values.receivePaymentTypeFromId : detailTools?.data?.data?.receivePaymentTypeFromId)
-        formData.append("ReceivePaymentTypeToId", values.receivePaymentTypeToId ? values.receivePaymentTypeToId : detailTools?.data?.data?.receivePaymentTypeToId)
-        formData.append("ReceiveFromId", values?.receiveFromDesc?.value ? values?.receiveFromDesc?.value : values.receiveFromId ? values.receiveFromId : detailTools?.data?.data?.receiveFromId)
-        formData.append("PayToId", values?.payToDesc?.value ? values?.payToDesc?.value : values.payToId ? values.payToId : detailTools?.data?.data?.payToId)
-        formData.append("Amount", values?.amount ? +values?.amount?.replace(/,/g, "") : detailTools?.data?.data?.amount)
-        formData.append("AccountOwner", values?.accountOwner ? values?.accountOwner : detailTools?.data?.data?.accountOwner)
-        formData.append("TrachingCode", values?.trachingCode ? values?.trachingCode : detailTools?.data?.data?.trachingCode)
-        formData.append("CompanyName", values?.companyName ? values?.companyName : detailTools?.data?.data?.companyName)
-        formData.append("ContractCode", values?.contractCode ? values?.contractCode : detailTools?.data?.data?.contractCode)
-        formData.append("AccountingDocNo", values?.accountingDocNo ? +values?.accountingDocNo : detailTools?.data?.data?.accountingDocNo)
-        formData.append("AccountingDescription",  values?.accountingDescription ? values?.accountingDescription : (detailTools?.data?.data?.accountingDescription === "" || detailTools?.data?.data?.accountingDescription === null) ? "ندارد" : detailTools?.data?.data?.accountingDescription)
-        formData.append("Description", values?.description ? values?.description : detailTools?.data?.data?.description)
-        formData.append("ReceivedFrom", "")
-        formData.append("ReceiveFromCompanyId", values?.receiveFromCompanyId ? values?.receiveFromCompanyId : detailTools?.data?.data?.receiveFromCompanyId === null ? "" : detailTools?.data?.data?.receiveFromCompanyId)
-        formData.append("PayToCompanyId", values?.payToCompanyId ? values?.payToCompanyId : detailTools?.data?.data?.payToCompanyId === null ? "" : detailTools?.data?.data?.payToCompanyId)
-        formData.append("PayTo", "")
-            files.forEach((file) => {
-                formData.append('Attachments', file);
-        });
         mutate(formData, {
             onSuccess: (response) => {
                 if (response?.succeeded) {
@@ -109,14 +109,16 @@ const RecievePaymentEdit = () => {
 
 
     const handleConfirm = () => {
-        if (id)
         mutate(formData, {
             onSuccess: (response) => {
                 if (response?.succeeded) {
                     EnqueueSnackbar("ویرایش با موفقیت انجام پذیرفت", "success")
                     if(approve) {
                         setApprove(false)
-                        updateApprove.mutate(id, {
+                        const approveSendData = {
+                            ids: [id]
+                        }
+                        updateApprove.mutate(approveSendData, {
                             onSuccess: (response) => {
                                 if (response?.succeeded) {
                                     EnqueueSnackbar(response.message, "success")
@@ -131,9 +133,6 @@ const RecievePaymentEdit = () => {
                 }
             }
         })
-
-
-
     }
 
     const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
@@ -229,7 +228,7 @@ const RecievePaymentEdit = () => {
 
             <ReusableCard>
                 <div className='mt-2'>
-                    <Formik enableReinitialize initialValues={{
+                    <Formik innerRef={formikRef} enableReinitialize initialValues={{
                         ...initialValues,
                         ...detailTools?.data?.data,
                         amount: detailTools?.data?.data?.amount ? separateAmountWithCommas(detailTools?.data?.data?.amount) : "",

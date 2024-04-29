@@ -38,6 +38,7 @@ const getRecievePaymentById = async (id:string) => {
     }
 }
 const updateRecievePaymentById = async (formData: any) => {
+    console.log(formData.get("Id"))
     try {
         const { data } = await httpFormData.put(`/v1/ReceivePay/${formData.get("Id")}`, formData)
         return data
@@ -55,9 +56,9 @@ const deleteRecievePaymentById = async (id:string) => {
     }
 }
 
-const updatePaymentApproved = async (id:string[]) => {
+const updatePaymentApproved = async (formData: {ids: string[]}) => {
     try {
-        const { data } = await http.put(`/v1/ReceivePay/ReceivePayApprove`, JSON.stringify(id))
+        const { data } = await http.put(`/v1/ReceivePay/ReceivePayApprove`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response

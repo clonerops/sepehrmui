@@ -131,20 +131,21 @@ const Detail = () => {
 
 
     const handleConfirm = () => {
-        if (id)
-            mutate(id, {
-                onSuccess: (response) => {
-                    if (response?.succeeded) {
-                        EnqueueSnackbar(response.message, "success")
-                        refetch()
-                        setApprove(false)
+        const formData ={
+            ids: [id]
+        }
+        mutate(formData, {
+            onSuccess: (response) => {
+                if (response?.succeeded) {
+                    EnqueueSnackbar(response.message, "success")
+                    refetch()
+                    setApprove(false)
 
-                    } else {
-                        EnqueueSnackbar(response.data.Message, "warning")
-                    }
+                } else {
+                    EnqueueSnackbar(response.data.Message, "warning")
                 }
-            })
-
+            }
+        })
     }
 
     const handleDisApproveConfirm = (values: any) => {
