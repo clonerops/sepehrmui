@@ -39,9 +39,10 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
         }
 
         const currentTotalPayment = orderPayment.reduce((accumulator: any, currentValue: any) => accumulator + parseInt(currentValue?.orderPaymentAmount.replace(/,/g, ""), 10), 0);
-
-        if(formikRef.current?.values?.orderPaymentDate === undefined || formikRef.current?.values?.orderPaymentDate === null || formikRef.current?.values?.orderPaymentDate === "") {
-            EnqueueSnackbar("تاریخ نمی تواند خالی باشد.", "error")
+        if((formikRef.current?.values?.orderPaymentDate === undefined || formikRef.current?.values?.orderPaymentDate === null || formikRef.current?.values?.orderPaymentDate === "" )
+             && 
+            (formikRef.current?.values?.orderPaymentDaysAfterExit === undefined || formikRef.current?.values?.orderPaymentDaysAfterExit === null || formikRef.current?.values?.orderPaymentDaysAfterExit === 0 || formikRef.current?.values?.orderPaymentDaysAfterExit === "")) {
+            EnqueueSnackbar("یکی از فیلدهای روز یا تاریخ باید مقدار داشته باشد.", "error")
         } else if(formikRef.current?.values?.orderPaymentAmount === undefined || formikRef.current?.values?.orderPaymentAmount === null) {
             EnqueueSnackbar("مبلغ نمی تواند خالی باشد.", "error")
         } else if (Number(formikRef.current?.values?.orderPaymentAmount.replace(/,/g, "")) > calculateTotalAmount(orders, orderService)) {
@@ -72,6 +73,8 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
         { id: 1, header: "مبلغ(ریال)", accessor: "orderPaymentAmount", render: (params: any) => {
             return <Typography variant="h4" className='text-green-500'>{params.orderPaymentAmount}</Typography>
         } },
+        { id: 4, header: "روز", accessor: "orderPaymentDaysAfterExit" },
+
         { id: 2, header: "تاریخ تسویه", accessor: "orderPaymentDate" },
         {
             id: 3, header: "حذف", accessor: "", render: (params: any) => {
@@ -85,6 +88,7 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
         { id: 1, header: "مبلغ(ریال)", accessor: "orderPaymentAmount", render: (params: any) => {
             return <Typography variant="h4" className='text-green-500'>{params.orderPaymentAmoun}</Typography>
         } },
+        { id: 3, header: "روز", accessor: "orderPaymentDaysAfterExit" },
         { id: 2, header: "تاریخ تسویه", accessor: "orderPaymentDate" },
     ]
 
