@@ -43,7 +43,6 @@ const EntranceList = () => {
         }} onSubmit={() => { }}>
           {({ values }) => {
             return (
-              <form>
                 <div
                   className="flex gap-4 w-[50%] mb-4"
                 >
@@ -56,7 +55,6 @@ const EntranceList = () => {
                     <Typography className="px-2 text-white">جستجو</Typography>
                   </ButtonComponent>
                 </div>
-              </form>
             );
           }}
         </Formik>

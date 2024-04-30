@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Formik, FormikProps } from "formik"
+import { Formik, FormikProps, FormikState } from "formik"
 import { saleOrderInitialValues } from "./initialValues"
 import { saleOrderValidation } from "./validation"
 
@@ -109,6 +109,14 @@ const SalesOrder = () => {
         }
     }
 
+    const handleReset = (resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void) => {
+        window.location.reload();
+        // resetForm()
+        // setOrderPayment([])
+        // setOrderServices([])
+        // setOrders([])
+    }
+
     useEffect(() => {
         calculateTotalAmount(orders, orderServices)
          // eslint-disable-next-line
@@ -126,7 +134,7 @@ const SalesOrder = () => {
                 initialValues={saleOrderInitialValues}
                 onSubmit={onSubmit}
                 validationSchema={saleOrderValidation}>
-                {({ values, setFieldValue, handleSubmit }) => {
+                {({ values, setFieldValue, handleSubmit, resetForm }) => {
                     return <>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <SaleHeaderBase 
@@ -192,6 +200,12 @@ const SalesOrder = () => {
                                     !orderValid
                                 }
                                 color="primary"
+                                isLoading={postSaleOrder.isLoading}
+                            />
+                            <CustomButton
+                                title={"خالی کردن فرم"}
+                                onClick={() => handleReset(resetForm)}
+                                color="secondary"
                                 isLoading={postSaleOrder.isLoading}
                             />
                         </div>
