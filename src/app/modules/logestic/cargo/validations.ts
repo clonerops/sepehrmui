@@ -1,8 +1,10 @@
 import * as Yup from "yup";
 
 const submitCargoValidation = Yup.object().shape({
-    driverName: Yup.string().required("فیلد راننده الزامی می باشد"),
-    carPlaque: Yup.string().required("فیلد پلاک خودروبر الزامی می باشد"),
+    vehicleTypeId: Yup.string().required("فیلد الزامی می باشد"),
+    driverMobile: Yup.string().required("فیلد الزامی می باشد"),
+    deliveryDate: Yup.string().required("فیلد الزامی می باشد"),
+    fareAmount: Yup.string().required("فیلد الزامی می باشد"),
 
 });
 

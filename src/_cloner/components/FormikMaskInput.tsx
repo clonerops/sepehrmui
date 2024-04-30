@@ -36,6 +36,7 @@ const FormikMaskInput = (props: FormikMaskProps) => {
         }}
         value={field.value || ""}
         label={label}
+        autoComplete="off"
       />
       {getFormikFieldValidationProps(formikProps, name).helpertext?.props.children &&
         <Typography className="text-red-500">
