@@ -13,6 +13,7 @@ import { Print, Search } from '@mui/icons-material'
 import { useReactToPrint } from 'react-to-print'
 import RentPrint from '../prints/RentPrint'
 import { Link } from 'react-router-dom'
+import moment from 'moment-jalaali'
 
 let pageSize = 100;
 
@@ -20,8 +21,8 @@ const initialValues = {
     rentPaymentCode: "",
     referenceCode: "",
     driverName: "",
-    fromDate: "",
-    toDate: "",
+    fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
     orderType: ""
 }
 
@@ -34,7 +35,9 @@ const RentPaymentList = () => {
   useEffect(() => {
     const formData ={
         pageSize: pageSize,
-        pageNumber: currentPage
+        pageNumber: currentPage,
+        fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+        toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
     }
     rentPayments.mutate(formData)
      // eslint-disable-next-line

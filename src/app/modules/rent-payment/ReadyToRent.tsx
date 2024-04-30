@@ -15,12 +15,15 @@ import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import RentPayment from "./RentPayment";
 import { IRentPaymentFields } from "./core/_models";
 import RentPaymentSelected from "./RentPaymentSelected";
+import moment from "moment-jalaali";
 
 const initialValues = {
     referenceCode: "",
     driverName: "",
-    fromDate: "",
-    toDate: "",
+    // fromDate: "",
+    // toDate: "",
+    fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
     orderType: ""
 }
 
@@ -37,7 +40,10 @@ const ReadyToRent = () => {
 
 
     useEffect(() => {
-        const formData = {}
+        const formData = {
+            fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+            toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
+        }
         mutate(formData, {
             onSuccess: (response) => {
             }

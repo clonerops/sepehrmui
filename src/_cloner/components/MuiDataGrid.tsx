@@ -24,7 +24,10 @@ const MuiDataGrid = (props: Props) => {
         const defaultRowHeight = numRows  < 6 && numRows > 2 ? 76 : numRows < 2 ? 92 : 52;
         const headerHeight = 56;
         const scrollbarHeight = 0;
-
+        if (!data || data.length === 0) {
+            // Set a minimum height to display the header
+            return 100; // Adjust this value as needed
+        }
         const calculatedHeight =
             numRows * defaultRowHeight + headerHeight + scrollbarHeight;
         return calculatedHeight <= maxVisibleRows * defaultRowHeight
@@ -42,7 +45,6 @@ const MuiDataGrid = (props: Props) => {
         return className;
          // eslint-disable-next-line
     }, [])
-
 
     const uniqueData = rows?.map((row: any, index: number) => ({ ...row, uniqueId: `${row.id}${index}` }));
     const getRowIdFunc = (row: any) => row.uniqueId;
@@ -70,11 +72,13 @@ const MuiDataGrid = (props: Props) => {
                 pageSize={data?.length}
                 hideFooter={hideFooter} 
                 onRowDoubleClick={onDoubleClick}
+                
                 getRowClassName={getRowClassName}
                 loading={isLoading}
                 columnHeaderHeight={32}
                 onCellEditCommit={onCellEditCommit}
                 localeText={{
+                    noRowsLabel: "هیچ ردیفی موجود نیست",
                     MuiTablePagination: {
                       labelDisplayedRows: ({ from, to, count }) =>`${from} - ${to} تعداد کل: ${count}`,
                       labelRowsPerPage: "تعداد سطر قابل نمایش"

@@ -238,14 +238,18 @@ const Billlanding = () => {
             }),
             description: values.description
         }
+
         transfer.mutate(formData, {
             onSuccess: (response) => {
-                if (response.succeeded) {
-                    renderAlert(`حواله انتقال با شماره ${response.data.id} با موفقیت انجام پذیرفت`)                        
-
-                } else {
+                if(response.data.Errors && response.data.Errors.length > 0) {
                     EnqueueSnackbar(response.data.Errors[0], "error")
-                    EnqueueSnackbar(response.data.Message, "error")
+                } else {
+                    if (response.succeeded) {
+                        renderAlert(`حواله انتقال با شماره ${response.data.id} با موفقیت انجام پذیرفت`)                        
+    
+                    } else {
+                        EnqueueSnackbar(response.data.Message, "error")
+                    }
                 }
             }
         })
