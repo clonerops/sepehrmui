@@ -1,39 +1,34 @@
 import React, { FC, useState } from "react";
-import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
 import { usePurchaseOrderTransfer, useRetrievePurchaserOrder } from "../../managment-order/core/_hooks";
-import {
-    AttachMoney,
-    CheckBox,
-    ExitToApp,
-    LocalShipping,
-    Newspaper,
-    Person,
-} from "@mui/icons-material";
+import { AttachMoney, CheckBox, ExitToApp, LocalShipping, Newspaper, Person } from "@mui/icons-material";
 import {  Typography } from "@mui/material";
 import { Formik } from "formik";
 import { useParams } from "react-router-dom";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { renderAlertGoBack } from "../../../../_cloner/helpers/SweetAlertNavigateGoBack";
+
+import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import MaskInput from "../../../../_cloner/components/MaskInput";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import { renderAlertGoBack } from "../../../../_cloner/helpers/SweetAlertNavigateGoBack";
 import FormikWarehouseBasedOfCustomer from "../../../../_cloner/components/FormikWarehouseBasedOfCustomer";
 import Backdrop from "../../../../_cloner/components/Backdrop";
-interface IProps {
-}
+import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 
 const initialValues = {
     warehouseId: 0,
 }
 
-const TransferBetweenWarehouseAction: FC<IProps> = () => {
+const TransferBetweenWarehouseAction = () => {
     const { id } = useParams()
 
     const postTools = usePurchaseOrderTransfer()
 
     const [valueInput, setValueInput] = useState<{ [key: number]: string }>({})
+    const [approve, setApprove] = useState<boolean>(false);
+
     const { data, isLoading } = useRetrievePurchaserOrder(id);
     const orderAndAmountInfo = [
         {
@@ -67,7 +62,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
             id: 5,
             title: "وضعیت",
             icon: <CheckBox color="secondary" />,
-            value: data?.data?.purchaseOrderStatusDesc,
+            value: data?.data?.orderStatusDesc,
         },
         {
             id: 6,
@@ -133,7 +128,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
             onSuccess: (response) => {
                 if (response.succeeded) {
                     renderAlertGoBack(response.message)
-                    
+                    setApprove(false)
                 } else {
                     EnqueueSnackbar(response.data.Message, "error")
                 }
@@ -183,7 +178,7 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                                 </div>
                             </ReusableCard>
                             <ReusableCard cardClassName="flex justify-center items-center">
-                                <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/fo.png')} width={340} />
+                                <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/follad.png')} width={120} />
                             </ReusableCard>
                         </div>
                         <MuiTable
@@ -194,10 +189,18 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
                             columns={orderOrderColumnMain}
                         />
                         <div className="mt-4">
-                            <ButtonComponent onClick={() => handleSubmit()}>
+                            <ButtonComponent onClick={() => setApprove(true)}>
                                 <Typography className="text-white">ثبت انتقال</Typography>
                             </ButtonComponent>
                         </div>
+                        <ConfirmDialog
+                            open={approve}
+                            hintTitle="آیا از ثبت انتقال مطمئن هستید؟"
+                            notConfirmText="لغو"
+                            confirmText={postTools.isLoading ? "درحال پردازش ..." : "تایید"}
+                            onCancel={() => setApprove(false)}
+                            onConfirm={() => handleSubmit()}
+                        />
                     </>
                 )}
             </Formik>

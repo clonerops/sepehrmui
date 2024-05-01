@@ -24,6 +24,7 @@ export const purchaserOrderListsForBetweenWarehouseColumns = (renderAction: any)
             flex: 1,
             renderCell: renderAction,
             headerClassName: "headerClassName",
+            minWidth: 120,
             maxWidth: 120
         },
         {
@@ -78,9 +79,9 @@ export const purchaserOrderListsForBetweenWarehouseColumns = (renderAction: any)
             flex: 1
         },
         {
-            field: 'purchaseOrderStatusDesc',
+            field: 'orderStatusDesc',
             renderCell: (params: any) => {
-                return params.value === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.purchaseOrderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.purchaseOrderStatusDesc}</Typography>
+                return params.value === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.orderStatusDesc}</Typography>
             },
             headerName: 'وضعیت',
             headerClassName: "headerClassName",

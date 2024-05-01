@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react'
 import { Typography } from "@mui/material"
 import { Formik } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
+import { IProductBrand } from "./_models"
+import { useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { VerticalCharts } from '../../../../_cloner/components/VerticalCharts'
 
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../../_cloner/helpers/Fuse"
@@ -9,14 +13,9 @@ import FormikBrand from '../../../../_cloner/components/FormikBrand'
 import SwitchComponent from '../../../../_cloner/components/Switch'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
-
-import { IProductBrand } from "./_models"
-import { useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
 import Backdrop from '../../../../_cloner/components/Backdrop'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import FormikProduct from '../../../../_cloner/components/FormikProductComboSelect'
-import { VerticalCharts } from '../../../../_cloner/components/VerticalCharts'
+
 import _ from 'lodash'
 
 const initialValues: any = {
@@ -197,9 +196,10 @@ const ProductBrands = () => {
               <div className="mb-4">
                 <FuzzySearch
                   keys={[
-                    "brand.id",
-                    "product.productCode",
+                    "id",
+                    "productCode",
                     "productName",
+                    "brandId",
                     "brandName",
                   ]}
                   data={productBrands?.data}
@@ -222,33 +222,6 @@ const ProductBrands = () => {
               data={Object.values(groupedProductBrand).map((item: any) => item.length)}
              />
           </ReusableCard>
-
-          {/* <ReusableCard>
-            <div className="flex flex-col flex-wrap gap-4">
-              <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
-              <Typography>کالاهای موجود هرکدام دارای برند های خاصی می باشد</Typography>
-              <Typography>جهت اختصاص یک برند به کالا بایستی پس از انتخاب کالابرند برندی که میخواهید برای آن کالا ثبت نمایید را انتخاب کنید و اقدام به ثبت کالا برند کنید</Typography>
-              <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
-              <Typography>امکان حذف برند محصول وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
-              <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
-              <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
-            </div>
-          </ReusableCard>
-        <div className="lg:grid lg:grid-cols-2 lg:gap-4 hidden">
-          <ReusableCard>
-            <img alt="sepehriranian"
-              src={toAbsoulteUrl("/media/logos/8595513.jpg")}
-              width={400}
-            />
-          </ReusableCard>
-          <ReusableCard cardClassName='col-span-2'>
-            <VerticalCharts 
-              text='تعداد برندها برحسب کالا'  
-              categories={Object.keys(groupedProductBrand) || [{}]} 
-              data={Object.values(groupedProductBrand).map((item: any) => item.length)}
-             />
-          </ReusableCard>
-        </div> */}
       </div>
     </>
   )
