@@ -8,8 +8,22 @@ const useGetSendTypes = () => {
         refetchIntervalInBackground: false,
     });
 };
+const useGetPurchaseSendTypes = () => {
+    return useQuery(["purchaseSendTypes"], () => api.getPurchaseSendTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetPaymentTypes = () => {
     return useQuery(["paymentTypes"], () => api.getPaymentTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
+const useGetPurchasePaymentTypes = () => {
+    return useQuery(["purchasePaymentTypes"], () => api.getPurchasePaymentTypes(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -106,7 +120,9 @@ const useGetOrderExitTypes = () => {
 
 export {
     useGetSendTypes,
+    useGetPurchaseSendTypes,
     useGetPaymentTypes,
+    useGetPurchasePaymentTypes,
     useGetPurchaseInvoice,
     useGetInvoiceType,
     useGetCustomerValidities,

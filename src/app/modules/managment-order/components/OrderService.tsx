@@ -84,9 +84,11 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
         })
         if(isExists)  {
             formikRef.current?.setFieldValue('orderSendTypeId', "2")
+            formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "2")
             formikRef.current?.setFieldValue('paymentTypeId', "1")
         } else {
             formikRef.current?.setFieldValue('orderSendTypeId', "1")
+            formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "1")
             formikRef.current?.setFieldValue('paymentTypeId', "2")
         }
 

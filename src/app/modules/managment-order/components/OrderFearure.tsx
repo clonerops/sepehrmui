@@ -2,7 +2,7 @@ import { FC, memo } from 'react'
 import { Typography } from '@mui/material'
 import { UseMutationResult } from '@tanstack/react-query'
 
-import { orderFeatureFields } from '../helpers/fields'
+import { orderFeatureFields, purchaseOrderFeatureFields } from '../helpers/fields'
 import { ISalesOrder } from '../core/_models'
 import { FieldType } from '../../../../_cloner/components/globalTypes'
 
@@ -16,6 +16,8 @@ import FormikInput from '../../../../_cloner/components/FormikInput'
 import RadioGroup from '../../../../_cloner/components/RadioGroup'
 import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker'
 import FormikOrderExitType from '../../../../_cloner/components/FormikOrderExitType'
+import FormikPurchaseOrderSend from '../../../../_cloner/components/FormikPurchaseOrderSend'
+import FormikPurchasePaymentType from '../../../../_cloner/components/FormikPurchasePaymentType'
 
 interface IProps {
     postOrder: any,
@@ -41,12 +43,14 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
         fields: FieldType) => {
         const { type, ...rest } = fields;
         switch (type) {
-            case "orderSendTypeId":
-                return <FormikOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            // case "orderSendTypeId":
+            //     return <FormikOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case `${isPurchaser ? 'purchaseOrderSendTypeId' : 'orderSendTypeId'}`:
+                return isPurchaser ?  <FormikPurchaseOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} /> : <FormikOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "invoiceTypeId":
                 return <FormikInvoiceType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
-            case "paymentTypeId":
-                return <FormikPaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            case `${isPurchaser ? 'purchasePaymentTypeId' : 'paymentTypeId'}`:
+                return isPurchaser ?  <FormikPurchasePaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} /> : <FormikPaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "orderExitTypeId":
                 return <FormikOrderExitType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "temporary":
@@ -69,13 +73,14 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
         }
     };
     
+    let renderFields = isPurchaser ? purchaseOrderFeatureFields : orderFeatureFields
 
     return (
     // <ReusableCard cardClassName='bg-gradient-to-r from-gray-100'>
     <ReusableCard cardClassName=''>
         <div className="">
             <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>
-            {orderFeatureFields.map((rowFields, index) => (
+            {renderFields.map((rowFields, index) => (
                 <div
                     key={index}
                     className="md:flex md:justify-between md:items-center gap-4 space-y-4 md:space-y-0 mb-4 md:my-4"

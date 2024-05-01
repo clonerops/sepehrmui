@@ -4,8 +4,16 @@ const getSendTypes = async () => {
     const { data } = await http.get('/v1/GenericApi/GetOrderSendTypes')
     return data
 }
+const getPurchaseSendTypes = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetPurchaseOrderSendTypes')
+    return data
+}
 const getPaymentTypes = async () => {
     const { data } = await http.get('/v1/GenericApi/GetRentPaymentTypes')
+    return data
+}
+const getPurchasePaymentTypes = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetPurchaseFarePaymentTypes')
     return data
 }
 const getPurchaseInvoice = async () => {
@@ -59,7 +67,9 @@ const getOrderExitTypes = async () => {
 
 export {
     getSendTypes,
+    getPurchaseSendTypes,
     getPaymentTypes,
+    getPurchasePaymentTypes,
     getPurchaseInvoice,
     getInvoiceType,
     getCustomerValidities,

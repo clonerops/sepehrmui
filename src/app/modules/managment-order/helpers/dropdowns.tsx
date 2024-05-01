@@ -16,12 +16,30 @@ export const dropdownOrderSendType = (data: any) => {
         })
     );
 };
+export const dropdownPurchaseOrderSendType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, sendTypeDesc:string }): any => {
+            const { sendTypeDesc, id } = obj;
+            return { value: id, label: sendTypeDesc };
+        })
+    );
+};
 export const dropdownRentPaymentType = (data: any) => {
     return (
         data &&
         data?.map((obj: { id: number, desc:string }): any => {
             const { desc, id } = obj;
             return { value: id, label: desc };
+        })
+    );
+};
+export const dropdownPurchaseRentPaymentType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, typeDesc:string }): any => {
+            const { typeDesc, id } = obj;
+            return { value: id, label: typeDesc };
         })
     );
 };
