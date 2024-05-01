@@ -107,7 +107,7 @@ const PettyCashForm = (props: {
         }
     };
 
-    const handleSubmit = (values: IPettyCash) => {
+    const onSubmit = (values: IPettyCash) => {
         if (props.id) onUpdate(values);
         else onAdd(values);
     };
@@ -127,11 +127,11 @@ const PettyCashForm = (props: {
                         : { ...initialValues, ...detailTools?.data?.data }
                 }
                 validationSchema={createProductValidations}
-                onSubmit={handleSubmit}
+                onSubmit={onSubmit}
             >
                 {({ handleSubmit }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             {fields.map((rowFields) => (
                                 <div className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4"
                                 >
@@ -141,7 +141,7 @@ const PettyCashForm = (props: {
                                 </div>
                             ))}
                             <Button
-                                onClick={() => handleSubmit()}
+                                type="submit"
                                 variant="contained"
                                 color="secondary"
                             >

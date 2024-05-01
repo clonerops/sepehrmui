@@ -138,7 +138,7 @@ const CashDesks = () => {
                   <div className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد صندوق " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="cashDeskDescription" label="صندوق " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
-                    <ButtonComponent onClick={() => handleSubmit()}>
+                    <ButtonComponent>
                       <Typography className="px-2">
                         <AddCircleOutline className='!text-white' />
                       </Typography>

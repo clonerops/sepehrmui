@@ -73,7 +73,12 @@ const PettyCashs = () => {
     };
     const handleDelete = (id: string | undefined) => {
         if (id) mutate(id, {
-            onSuccess: (message) => {
+            onSuccess: (response) => {
+                if(response.message) {
+                    EnqueueSnackbar(response.message, "success")
+                } else {
+                    EnqueueSnackbar(response.data.Message, "error")
+                }
                 refetch()
             }
         });
