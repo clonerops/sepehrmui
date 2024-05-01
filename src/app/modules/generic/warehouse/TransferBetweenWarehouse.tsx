@@ -16,14 +16,9 @@ const pageSize = 100;
 
 const TransferBetweenWarehouse = () => {
     const navigate = useNavigate()
+
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [results, setResults] = useState<IOrder[]>([]);
-
-    let formData = {
-        pageNumber: currentPage,
-        pageSize: pageSize,
-        IsNotTransferedToWarehouse: true
-    };
 
     const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
 
@@ -46,13 +41,18 @@ const TransferBetweenWarehouse = () => {
     }
 
     useEffect(() => {
+        let formData = {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+            IsNotTransferedToWarehouse: true
+        };    
         mutate(formData, {
             onSuccess: (response) => {
                 setResults(response?.data);
             }
         })
         // eslint-disable-next-line
-    }, []);
+    }, [currentPage]);
 
     const renderAction = (item: any) => {
         return (
@@ -78,7 +78,7 @@ const TransferBetweenWarehouse = () => {
             <ReusableCard>
                 <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between items-center mb-4">
                     <div className="w-full lg:w-[50%]">
-                        <SearchFromBack initialValues={{orderCode: ""}} onSubmit={handleFilter} />
+                        <SearchFromBack initialValues={{orderCode: ""}} onSubmit={handleFilter} label="شماره سفارش" />
                     </div>
                     <div className="flex flex-col lg:flex-row gap-4">
                         <Button onClick={() => handleFilter(null, true)} variant="contained" className={"!bg-pink-800"}>

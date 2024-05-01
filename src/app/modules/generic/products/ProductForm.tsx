@@ -1,23 +1,20 @@
 import { useEffect } from "react";
 import { Formik } from "formik";
-import {
-    QueryObserverResult,
-    RefetchOptions,
-    RefetchQueryFilters,
-} from "@tanstack/react-query";
-import FormikInput from "../../../../_cloner/components/FormikInput";
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 import { Button, Typography } from "@mui/material";
-import { FieldType } from "../../../../_cloner/components/globalTypes";
-import { useGetUnits } from "../productUnit/_hooks";
-import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import FormikType from "../../../../_cloner/components/FormikType";
-import FormikStandard from "../../../../_cloner/components/FormikStandard";
-import FormikState from "../../../../_cloner/components/FormikState";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import { useCreateProduct, useRetrieveProduct, useUpdateProduct } from "./_hooks";
 import { IProducts } from "./_models";
 import { createProductValidations } from "./_validations";
 import { dropdownUnit } from "../productUnit/convertDropdown";
+import { FieldType } from "../../../../_cloner/components/globalTypes";
+import { useGetUnits } from "../productUnit/_hooks";
+
+import FormikState from "../../../../_cloner/components/FormikState";
+import FormikSelect from "../../../../_cloner/components/FormikSelect";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+import FormikType from "../../../../_cloner/components/FormikType";
+import FormikStandard from "../../../../_cloner/components/FormikStandard";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const initialValues = {
@@ -202,7 +199,7 @@ const ProductForm = (props: {
         }
     };
 
-    const handleSubmit = (values: IProducts) => {
+    const onSubmit = (values: IProducts) => {
         const formData = {
             ...values,
             numberInPackage: values.numberInPackage ? values.numberInPackage : 0
@@ -228,11 +225,11 @@ const ProductForm = (props: {
                         : { ...initialValues, ...detailTools?.data?.data }
                 }
                 validationSchema={createProductValidations}
-                onSubmit={handleSubmit}
+                onSubmit={onSubmit}
             >
                 {({ handleSubmit }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             {fields.map((rowFields) => (
                                 <div
                                     className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4"
