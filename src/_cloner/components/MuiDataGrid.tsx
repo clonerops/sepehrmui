@@ -67,7 +67,7 @@ const MuiDataGrid = (props: Props) => {
                 }}
                 rows={uniqueData ? uniqueData : []}
                 columns={columns}
-                getRowId={getRowId ? getRowId :getRowIdFunc}
+                getRowId={getRowId ? getRowId : getRowIdFunc}
                 rowHeight={42}
                 pageSize={data?.length}
                 hideFooter={hideFooter} 

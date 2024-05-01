@@ -140,7 +140,7 @@ const ProductService = () => {
                   <div className="md:flex md:justify-start md:items-start gap-x-4 ">
                     <FormikInput name="id" label="کد خدمت " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="نوع خدمت " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
-                    <ButtonComponent onClick={() => handleSubmit()}>
+                    <ButtonComponent>
                       <Typography className="px-2">
                         <AddCircleOutline className='text-white' />
                       </Typography>
@@ -162,6 +162,7 @@ const ProductService = () => {
             </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
+              getRowId={(item: { id: number }) => item.id}
               rows={results}
               data={Services?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}

@@ -106,7 +106,7 @@ const ProductTypeForm = (props: Props) => {
                   <FormikInput name="desc" label="نوع کالا " boxClassName=" mt-2 md:mt-0" />
                   {/* {!isNew && <ImagePreview base64Strings={detailTools?.data?.data?.image || ""} />} */}
                   <div className="mt-2 md:mt-0">
-                    <ButtonComponent onClick={() => handleSubmit()}>
+                    <ButtonComponent>
                       <Typography className="px-2">
                         {isNew ? "ثبت نوع کالا" : "ویرایش"}
                       </Typography>

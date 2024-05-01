@@ -177,7 +177,7 @@ const ProductPriceForm = (props: Props) => {
                                     <Typography variant="h3">{checked ? "فعال" : "غیرفعال"}</Typography>
                                 </div>
                             }
-                            <Button onClick={() => handleSubmit()} variant="contained" color="secondary" className="mt-4">
+                            <Button type="submit" variant="contained" color="secondary" className="mt-4">
                                 <Typography variant="h3" className="px-8 py-2">{isNew ? "ثبت قیمت" : "ویرایش قیمت"}</Typography>
                             </Button>
 

@@ -98,6 +98,7 @@ const TransferBetweenWarehouse = () => {
                     data={orders?.data || [{}]}
                     onDoubleClick={(item: any) => navigate(item.row.purchaseOrderStatusId === 4 ? '' : `/dashboard/transferBetweenWarehouse/${item?.row?.id}`)}
                     isLoading={isLoading}
+                    getRowId={(item: { id: string }) => item.id}
                     hideFooter
                 />
                 <Pagination

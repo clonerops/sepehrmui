@@ -164,7 +164,7 @@ const Warehouse = () => {
                       <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" boxClassName=" mt-2 md:mt-0 lg:col-span-2" />
                       {/* <FormikCustomer name="customerId" label="مشتری" divClassName=" mt-2 md:mt-0" /> */}
                       <div className="mt-2 md:mt-0 flex justify-end items-end lg:col-span-2">
-                        <ButtonComponent onClick={() => handleSubmit()}>
+                        <ButtonComponent>
                           <Typography className="px-2 text-white">
                             <AddCircleOutline className="text-white" />
                             ایجاد انبار جدید

@@ -167,7 +167,7 @@ const ProductState = () => {
                     <FormikInput name="id" label="کد حالت " disabled={true} boxClassName=" mt-2 md:mt-0" />
                     <FormikInput name="desc" label="حالت " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <div className="mt-2 md:mt-0">
-                      <ButtonComponent onClick={() => handleSubmit()}>
+                      <ButtonComponent>
                         <Typography className="px-2">
                           <AddCircleOutline />
                         </Typography>

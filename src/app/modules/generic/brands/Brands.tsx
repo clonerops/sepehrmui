@@ -213,9 +213,7 @@ const Brands = () => {
                                                 autoFocus={true}
                                             />
                                             <div  className="mt-2 md:mt-0">
-                                                <ButtonComponent
-                                                    onClick={() => handleSubmit()}
-                                                >
+                                                <ButtonComponent>
                                                     <Typography className="px-2">
                                                         <AddCircleOutline />
                                                     </Typography>

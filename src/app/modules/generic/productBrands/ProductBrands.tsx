@@ -211,6 +211,7 @@ const ProductBrands = () => {
                 rows={results}
                 data={productBrands?.data}
                 onDoubleClick={(item: any) => onUpdateStatus(item)}
+                getRowId={(item: { id: number }) => item.id}
               />
             </div>
           </div>
