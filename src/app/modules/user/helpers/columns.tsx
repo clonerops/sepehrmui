@@ -4,13 +4,13 @@ export const userListColumns = (renderAction: any) => {
     const col = [
         { field: 'firstName', flex: 1, headerName: 'نام', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        }, minWidth: 80 },
+        }, minWidth: 130 },
         { field: 'lastName', flex: 1, headerName: 'نام خانوادگی', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        }, minWidth: 120 },
+        }, minWidth: 140 },
         { field: 'userName', flex: 1, headerName: 'نام کاربری', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
-        }, minWidth: 120 },
+        }, minWidth: 140 },
         { field: 'phoneNumber', flex: 1, headerName: 'موبایل', headerClassName: "headerClassName", renderCell: (params: any) => {
             return <Typography variant="h4">{params.value}</Typography>
         }, minWidth: 120 },
