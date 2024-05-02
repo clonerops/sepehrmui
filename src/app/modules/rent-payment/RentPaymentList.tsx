@@ -10,9 +10,7 @@ import FormikInput from '../../../_cloner/components/FormikInput'
 import FormikDatepicker from '../../../_cloner/components/FormikDatepicker'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import { Print, Search } from '@mui/icons-material'
-import { useReactToPrint } from 'react-to-print'
-import RentPrint from '../prints/RentPrint'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment-jalaali'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 
@@ -29,8 +27,10 @@ const initialValues = {
 
 
 const RentPaymentList = () => {
+  const navigate = useNavigate()
   const rentPayments = useGetRentPaymentsByMutation()
   const [currentPage, setCurrentPage] = useState<number>(1);
+
 
 
   useEffect(() => {
@@ -161,6 +161,7 @@ const renderPrint = (item: any) => {
               columns={columns(renderPrint)}
               rows={rentPayments?.data?.data}
               data={rentPayments?.data?.data}
+              onDoubleClick={(item: any) => navigate(`/dashboard/rent_print/${item.row.id}`)}
               hideFooter
             />
           </div>
