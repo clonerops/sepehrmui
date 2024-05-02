@@ -353,7 +353,7 @@ export const ladingColumns = (renderAction: any) => {
             headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, maxWidth: 140, flex: 1
         },
         {
-            field: 'createDate', renderCell: (params: any) => {
+            field: 'createdDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'تاریخ ثبت مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, flex: 1

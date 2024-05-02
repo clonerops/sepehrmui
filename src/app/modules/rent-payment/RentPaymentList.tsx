@@ -14,6 +14,7 @@ import { useReactToPrint } from 'react-to-print'
 import RentPrint from '../prints/RentPrint'
 import { Link } from 'react-router-dom'
 import moment from 'moment-jalaali'
+import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 
 let pageSize = 100;
 
@@ -50,21 +51,21 @@ const RentPaymentList = () => {
         field: 'id', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'شماره پرداخت', headerClassName: "headerClassName", minWidth: 120,
+        headerName: 'شماره پرداخت', headerClassName: "headerClassName", minWidth: 130,
         flex: 1,
       },
       {
         field: 'referenceCode', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 120,
+        headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 130,
         flex: 1,
       },
       {
         field: 'totalFareAmount', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
+          return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
         },
-        headerName: 'مبلغ پرداخت شده', headerClassName: "headerClassName", minWidth: 120,
+        headerName: 'مبلغ پرداخت شده(ریال)', headerClassName: "headerClassName", minWidth: 120,
         flex: 1,
       },
       {
