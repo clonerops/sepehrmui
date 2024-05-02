@@ -37,10 +37,7 @@ const ReadyToPurchaserOrderConfirm = () => {
     const renderAction = (item: any) => {
         return (
             <Tooltip title={<Typography variant='h3'>اقدام به ثبت تایید</Typography>}>
-                <Link
-                    to={`${item.row.orderStatusId === 1 ? `/dashboard/purchaser_order/ready_to_confirm/${item?.row?.id}` : ""}`}
-                    state={{ isConfirmed: true }}
-                >
+                <Link to={`${item.row.orderStatusId === 1 ? `/dashboard/purchaser_order/ready_to_confirm/${item?.row?.id}` : ""}`} state={{ isConfirmed: true }}>
                     <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId >= 2}>
                         <Approval />
                     </Button>
