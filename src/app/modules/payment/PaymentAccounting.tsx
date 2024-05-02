@@ -325,14 +325,14 @@ const PaymentAccounting = () => {
             {isLoading && <Backdrop loading={isLoading} />}
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={handleFilter}>
-                    {({ values }) => {
-                        return <form>
+                    {({ handleSubmit }) => {
+                        return <form onSubmit={handleSubmit}>
                             <div className="flex justify-center items-center gap-8">
                                 <FormikDatepicker name="fromDate" label="از تاریخ" />
                                 <FormikDatepicker name="toDate" label="تا تاریخ" />
                             </div>
                             <div className="flex justify-end items-end my-4">
-                                <ButtonComponent onClick={() => handleFilter(values)}>
+                                <ButtonComponent>
                                     <Typography className="!text-white">جستجو</Typography>
                                 </ButtonComponent>
                             </div>
