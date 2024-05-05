@@ -33,7 +33,7 @@ const ProductBrands = () => {
 
   useEffect(() => {
     setResults(productBrands?.data);
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [productBrands?.data]);
 
 
@@ -47,12 +47,12 @@ const ProductBrands = () => {
       }
       updateProductBrand(formData, {
         onSuccess: (response) => {
-          if(response.succeeded) {
+          if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-        refetch()
+          refetch()
         }
       })
     } catch (e) {
@@ -77,9 +77,9 @@ const ProductBrands = () => {
         renderCell: (params: any) => {
           return <Typography variant="h4">{params?.value}</Typography>;
         },
-        headerClassName:"headerClassName",
-        minWidth: 80,
-        maxWidth: 80,
+        headerClassName: "headerClassName",
+        minWidth: 130,
+        maxWidth: 130,
         flex: 1,
       },
       {
@@ -88,9 +88,9 @@ const ProductBrands = () => {
         renderCell: (params: any) => {
           return <Typography variant="h4">{params?.row?.product?.productCode}</Typography>;
         },
-        headerClassName:"headerClassName",
-        minWidth: 80,
-        maxWidth: 80,
+        headerClassName: "headerClassName",
+        minWidth: 130,
+        maxWidth: 130,
         flex: 1,
       },
       {
@@ -112,8 +112,8 @@ const ProductBrands = () => {
         },
         headerClassName: "headerClassName",
         flex: 1,
-        minWidth: 80,
-        maxWidth: 80,
+        minWidth: 130,
+        maxWidth: 130,
       },
       {
         field: "brandName",
@@ -146,83 +146,78 @@ const ProductBrands = () => {
     <>
       {postLoading && <Backdrop loading={postLoading} />}
       {updateLoading && <Backdrop loading={updateLoading} />}
-      <div className="lg:grid lg:grid-cols-3 lg:gap-4">
+      <div className="lg:grid lg:grid-cols-3 lg:gap-4 space-y-4 lg:space-y-0">
         <ReusableCard cardClassName='col-span-2'>
           <div>
-            <div>
-              <Formik initialValues={initialValues} onSubmit={
-                async (values, { setStatus, setSubmitting, setFieldValue }) => {
-                  try {
-                    const formData = {
-                      productId: values.productId?.value,
-                      brandId: Number(values.brandId)
-                    }
-                    postProductBrand(formData, {
-                      onSuccess: (response: any) => {
-                        if(response.succeeded) {
-                          EnqueueSnackbar(response.message, "success")
-                          setFieldValue('id', response.data.id)
-                          refetch();
-                        } else {
-                          EnqueueSnackbar(response.data.Message, "warning")
-                        }                        
-  }
-                    })
-                  } catch (error) {
-                    setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
-                    setSubmitting(false);
+            <Formik initialValues={initialValues} onSubmit={
+              async (values, { setStatus, setSubmitting, setFieldValue }) => {
+                try {
+                  const formData = {
+                    productId: values.productId?.value,
+                    brandId: Number(values.brandId)
                   }
+                  postProductBrand(formData, {
+                    onSuccess: (response: any) => {
+                      if (response.succeeded) {
+                        EnqueueSnackbar(response.message, "success")
+                        setFieldValue('id', response.data.id)
+                        refetch();
+                      } else {
+                        EnqueueSnackbar(response.data.Message, "warning")
+                      }
+                    }
+                  })
+                } catch (error) {
+                  setStatus("اطلاعات ثبت نوع کالا نادرست می باشد");
+                  setSubmitting(false);
                 }
-              }>
-                {({ handleSubmit }) => {
-                  return <form onSubmit={handleSubmit} className="mb-4">
-                    <div
-                    
-                      className="md:flex md:justify-start md:items-start gap-4 space-y-4 lg:space-y-0"
-                    > 
-                      <FormikProduct name="productId" label="کالا" divClassName="mt-2 md:mt-0" />
-                      <FormikBrand name='brandId' label="برند" />
-                      <div className="mt-2 md:mt-0">
-                        <ButtonComponent onClick={() => handleSubmit()}>
-                          <Typography className="px-2">
-                            <AddCircleOutline className="text-white" />
-                          </Typography>
-                        </ButtonComponent>
-                      </div>
+              }
+            }>
+              {({ handleSubmit }) => {
+                return <form onSubmit={handleSubmit} className="mb-4">
+                  <div className="md:flex md:justify-start md:items-start gap-4 space-y-4 lg:space-y-0">
+                    <FormikProduct name="productId" label="کالا" divClassName="mt-2 md:mt-0" />
+                    <FormikBrand name='brandId' label="برند" />
+                    <div className="mt-2 md:mt-0">
+                      <ButtonComponent>
+                        <Typography className="px-2">
+                          <AddCircleOutline className="text-white" />
+                        </Typography>
+                      </ButtonComponent>
                     </div>
-                  </form>
-                }}
-              </Formik>
-              <div className="mb-4">
-                <FuzzySearch
-                  keys={[
-                    "id",
-                    "productCode",
-                    "productName",
-                    "brandId",
-                    "brandName",
-                  ]}
-                  data={productBrands?.data}
-                  setResults={setResults}
-                />
-              </div>
-              <MuiDataGrid
-                columns={columns(renderSwitch)}
-                rows={results}
+                  </div>
+                </form>
+              }}
+            </Formik>
+            <div className="mb-4">
+              <FuzzySearch
+                keys={[
+                  "id",
+                  "productCode",
+                  "productName",
+                  "brandId",
+                  "brandName",
+                ]}
                 data={productBrands?.data}
-                onDoubleClick={(item: any) => onUpdateStatus(item)}
-                getRowId={(item: { id: number }) => item.id}
+                setResults={setResults}
               />
             </div>
+            <MuiDataGrid
+              columns={columns(renderSwitch)}
+              rows={results}
+              data={productBrands?.data}
+              onDoubleClick={(item: any) => onUpdateStatus(item)}
+              getRowId={(item: { id: number }) => item.id}
+            />
           </div>
         </ReusableCard>
         <ReusableCard>
-            <VerticalCharts 
-              text='تعداد برندها برحسب کالا'  
-              categories={Object.keys(groupedProductBrand) || [{}]} 
-              data={Object.values(groupedProductBrand).map((item: any) => item.length)}
-             />
-          </ReusableCard>
+          <VerticalCharts
+            text='تعداد برندها برحسب کالا'
+            categories={Object.keys(groupedProductBrand) || [{}]}
+            data={Object.values(groupedProductBrand).map((item: any) => item.length)}
+          />
+        </ReusableCard>
       </div>
     </>
   )

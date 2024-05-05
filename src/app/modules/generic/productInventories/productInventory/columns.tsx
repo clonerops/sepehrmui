@@ -12,7 +12,7 @@ export const columnsProductInventories = () => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
 
-            maxWidth: 80,
+            minWidth: 100,
             flex: 1,
         },
         {
@@ -28,8 +28,8 @@ export const columnsProductInventories = () => {
         },
         {
             field: "productBrandName",
-            minWidth: 80,
-            maxWidth: 80,
+            minWidth: 130,
+            maxWidth: 130,
             headerName: "برند",
             headerClassName: "headerClassName",
             renderCell: (params: any) => {
@@ -40,8 +40,8 @@ export const columnsProductInventories = () => {
         {
             field: "warehouseName",
 
-            minWidth: 80,
-            maxWidth: 80,
+            minWidth: 120,
+            maxWidth: 120,
             headerName: "انبار",
             renderCell: (params: any) => {
                 return <Typography variant="h5">{params.value}</Typography>;

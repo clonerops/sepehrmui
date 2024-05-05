@@ -404,8 +404,8 @@ const PaymentAccountingRegister = () => {
             {putRecievePayRegister.isLoading && <Backdrop loading={putRecievePayRegister.isLoading} />}
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={handleFilter}>
-                    {({ values }) => {
-                        return <form>
+                    {({ values, handleSubmit }) => {
+                        return <form onSubmit={handleSubmit}>
                             <div className="flex flex-col lg:flex-row justify-center items-center gap-8">
                                 <FormikDatepicker name="fromDate" label="از تاریخ" />
                                 <FormikDatepicker name="toDate" label="تا تاریخ" />
@@ -419,7 +419,7 @@ const PaymentAccountingRegister = () => {
                                     name="isApproved"
                                 />
  */}
-                                <ButtonComponent onClick={() => handleFilter(values)}>
+                                <ButtonComponent>
                                     <Typography className="!text-white">جستجو</Typography>
                                 </ButtonComponent>
                             </div>

@@ -152,7 +152,7 @@ const UserForm = (props: Props) => {
         }
     };
 
-    const handleSubmit = (values: IUser) => {
+    const onSubmit = (values: IUser) => {
         if (id) onUpdate(values);
         else onAdd(values);
     };
@@ -174,11 +174,11 @@ const UserForm = (props: Props) => {
                                     roleId:  detailTools?.data?.data.userRoles.map((item: {roleId: string}) => item.roleId) || [] 
                                 }}
                                 validationSchema={isNew && registerValidation}
-                                onSubmit={handleSubmit}
+                                onSubmit={onSubmit}
                             >
                                 {({ handleSubmit }) => {
                                     return (
-                                        <>
+                                        <form onSubmit={handleSubmit}>
                                             {fields.map((rowFields) => (
                                                 <div
                                                     className="flex items-start gap-x-4 my-4 justify-between"
@@ -192,7 +192,7 @@ const UserForm = (props: Props) => {
                                                 className="flex justify-end items-end"
                                             >
                                                 <Button
-                                                    onClick={() => handleSubmit()}
+                                                    type="submit"
                                                     variant="contained"
                                                     color="secondary"
                                                 >
@@ -204,7 +204,7 @@ const UserForm = (props: Props) => {
                                                     </Typography>
                                                 </Button>
                                             </div>
-                                        </>
+                                        </form>
                                     );
                                 }}
                             </Formik>

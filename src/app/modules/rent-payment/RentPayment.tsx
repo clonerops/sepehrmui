@@ -2,13 +2,7 @@ import { Formik } from "formik"
 import { ApprovalRounded, AttachMoney, CheckBox, DateRangeSharp, LocalShipping, Newspaper, Person } from "@mui/icons-material"
 import ReusableCard from "../../../_cloner/components/ReusableCard"
 import FormikInput from "../../../_cloner/components/FormikInput"
-import FormikCustomer from "../../../_cloner/components/FormikCustomer"
 import FormikOrganzationBank from "../../../_cloner/components/FormikOrganzationBank"
-import FormikCashDesk from "../../../_cloner/components/FormikCashDesk"
-import FormikIncome from "../../../_cloner/components/FormikIncome"
-import FormikPettyCash from "../../../_cloner/components/FormikPettyCash"
-import FormikCost from "../../../_cloner/components/FormikCost"
-import FormikShareholders from "../../../_cloner/components/FormikShareholders"
 import { Typography } from "@mui/material"
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker"
 import ButtonComponent from "../../../_cloner/components/ButtonComponent"
@@ -80,7 +74,7 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
         {postRentPayment.isLoading && <Backdrop loading={postRentPayment.isLoading} />}
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({handleSubmit}) => (
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 my-4`}>
                         {orderAndAmountInfo.map((item: {
                             title: string,
@@ -107,7 +101,7 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
                             <FormikDatepicker disabled name="date" label="تاریخ پرداخت" />
                         </div>
                         <div className="flex justify-end items-end mt-4">
-                            <ButtonComponent onClick={() => handleSubmit()}>
+                            <ButtonComponent>
                                 <ApprovalRounded className="text-white" />
                                 <Typography className="text-white">ثبت کرایه</Typography>
                             </ButtonComponent>

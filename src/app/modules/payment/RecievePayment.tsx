@@ -117,7 +117,6 @@ const RecievePayment = () => {
                             });
                             mutate(formData, {
                                 onSuccess: (response) => {
-                                    console.log(response)
                                     if(response.data.Errors && response.data.Errors.length > 0) {
                                         EnqueueSnackbar(response.data.Errors[0], "error")
                                     } else {

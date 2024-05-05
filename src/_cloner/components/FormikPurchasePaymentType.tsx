@@ -11,7 +11,6 @@ const FormikPurchasePaymentType = (props: any) => {
     if(isLoading) {
         return <span>درحال بارگزاری ....</span>
     }
-console.log("dropdownPurchaseRentPaymentType(payment)", dropdownPurchaseRentPaymentType(payment))
     return (
         <FormikSelect
             options={dropdownPurchaseRentPaymentType(payment)}

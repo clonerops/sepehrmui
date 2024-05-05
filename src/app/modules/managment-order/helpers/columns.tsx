@@ -353,7 +353,7 @@ export const ladingColumns = (renderAction: any) => {
             headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, maxWidth: 140, flex: 1
         },
         {
-            field: 'createDate', renderCell: (params: any) => {
+            field: 'createdDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'تاریخ ثبت مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, flex: 1
@@ -913,8 +913,8 @@ export const purchaserOrderConfirm = (renderAction: any) => {
             headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: 'purchaseOrderStatusDesc', renderCell: (params: any) => {
-                return params.value === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.purchaseOrderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.purchaseOrderStatusDesc}</Typography>
+            field: 'orderStatusDesc', renderCell: (params: any) => {
+                return params.value === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.orderStatusDesc}</Typography>
             },
             headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
         },

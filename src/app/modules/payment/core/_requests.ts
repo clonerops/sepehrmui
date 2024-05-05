@@ -38,7 +38,6 @@ const getRecievePaymentById = async (id:string) => {
     }
 }
 const updateRecievePaymentById = async (formData: any) => {
-    console.log(formData.get("Id"))
     try {
         const { data } = await httpFormData.put(`/v1/ReceivePay/${formData.get("Id")}`, formData)
         return data

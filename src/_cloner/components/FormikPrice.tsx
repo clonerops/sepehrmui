@@ -17,7 +17,7 @@ const FormikPrice = (props: any) => {
         }
     };
 
-    return <FormikInput disabled={props.disabled} InputProps={props.InputProps} onInput={onInput} {...props} />;
+    return <FormikInput autoComplete="off" disabled={props.disabled} InputProps={props.InputProps} onInput={onInput} {...props} />;
 };
 
 export default FormikPrice;

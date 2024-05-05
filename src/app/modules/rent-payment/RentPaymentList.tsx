@@ -10,10 +10,9 @@ import FormikInput from '../../../_cloner/components/FormikInput'
 import FormikDatepicker from '../../../_cloner/components/FormikDatepicker'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import { Print, Search } from '@mui/icons-material'
-import { useReactToPrint } from 'react-to-print'
-import RentPrint from '../prints/RentPrint'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment-jalaali'
+import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
 
 let pageSize = 100;
 
@@ -28,8 +27,10 @@ const initialValues = {
 
 
 const RentPaymentList = () => {
+  const navigate = useNavigate()
   const rentPayments = useGetRentPaymentsByMutation()
   const [currentPage, setCurrentPage] = useState<number>(1);
+
 
 
   useEffect(() => {
@@ -50,21 +51,21 @@ const RentPaymentList = () => {
         field: 'id', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'شماره پرداخت', headerClassName: "headerClassName", minWidth: 120,
+        headerName: 'شماره پرداخت', headerClassName: "headerClassName", minWidth: 130,
         flex: 1,
       },
       {
         field: 'referenceCode', renderCell: (params: any) => {
           return <Typography variant="h4">{params.value}</Typography>;
         },
-        headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 120,
+        headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 130,
         flex: 1,
       },
       {
         field: 'totalFareAmount', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
+          return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
         },
-        headerName: 'مبلغ پرداخت شده', headerClassName: "headerClassName", minWidth: 120,
+        headerName: 'مبلغ پرداخت شده(ریال)', headerClassName: "headerClassName", minWidth: 120,
         flex: 1,
       },
       {
@@ -160,6 +161,7 @@ const renderPrint = (item: any) => {
               columns={columns(renderPrint)}
               rows={rentPayments?.data?.data}
               data={rentPayments?.data?.data}
+              onDoubleClick={(item: any) => navigate(`/dashboard/rent_print/${item.row.id}`)}
               hideFooter
             />
           </div>
