@@ -6,7 +6,7 @@ import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmo
 import { useGetTransferRemitanceById } from "../core/_hooks"
 import { useParams } from "react-router-dom"
 import Backdrop from "../../../../_cloner/components/Backdrop"
-import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
+import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePDF, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
 
 var signatures: any = {
     JVBERi0: "application/pdf",
@@ -84,6 +84,11 @@ const BilllandingDetails = () => {
                         const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
                         DownloadFileJPEG(element.fileData, outputFilenameJpeg)
                         break;
+                    case "application/pdf":
+                        const outputFilenamePdf = `filesattachments${Date.now()}.pdf`;
+                        DownloadFilePDF(element.fileData, outputFilenamePdf)
+                        break;
+    
 
                     default:
                         break;
@@ -109,6 +114,11 @@ const BilllandingDetails = () => {
                         const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
                         DownloadFileJPEG(element.fileData, outputFilenameJpeg)
                         break;
+                    case "application/pdf":
+                        const outputFilenamePdf = `filesattachments${Date.now()}.pdf`;
+                        DownloadFilePDF(element.fileData, outputFilenamePdf)
+                        break;
+    
 
                     default:
                         break;

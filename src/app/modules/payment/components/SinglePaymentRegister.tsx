@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom"
 import { Badge, Button, Typography } from "@mui/material"
 import { useGetRecievePaymentById, usePutRecievePaymentRegister } from "../core/_hooks"
-import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
+import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePDF, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import Backdrop from "../../../../_cloner/components/Backdrop"
@@ -129,7 +129,11 @@ const SinglePaymentRegister = () => {
                         const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
                         DownloadFileJPEG(element.fileData, outputFilenameJpeg)
                         break;
-
+                    case "application/pdf":
+                        const outputFilenamePdf = `filesattachments${Date.now()}.pdf`;
+                        DownloadFilePDF(element.fileData, outputFilenamePdf)
+                        break;
+    
                     default:
                         break;
                 }
