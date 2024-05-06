@@ -261,7 +261,7 @@ const Billlanding = () => {
             <Formik initialValues={initialValues} validationSchema={billlandingValidation} onSubmit={handleTransferRemittance}>
                 {({ setFieldValue, handleSubmit }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
                                 <CardWithIcons
                                     title='شماره حواله'
@@ -328,7 +328,7 @@ const Billlanding = () => {
                                 ))}
                             </ReusableCard>
                             <div className="flex justify-end items-end mt-8">
-                                <ButtonComponent onClick={() => handleSubmit()} disabled={productForBilllanding.length < 0}>
+                                <ButtonComponent disabled={productForBilllanding.length < 0}>
                                     <Typography variant="h4" className="px-4 py-2 text-white">ثبت صدور حواله</Typography>
                                 </ButtonComponent>
                             </div>

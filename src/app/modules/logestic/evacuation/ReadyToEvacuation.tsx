@@ -62,16 +62,16 @@ const ReadyToEvacuation = () => {
 
                 <Formik initialValues={{
                     id: "",
-                }} onSubmit={() => { }}>
-                    {({ values }) => {
+                }} onSubmit={handleFilter}>
+                    {({ handleSubmit }) => {
                         return (
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
                                     <FormikInput
                                         name="TransferEntransePermitNo"
                                         label="شماره ورود"
                                     />
-                                    <ButtonComponent onClick={() => handleFilter(values)}>
+                                    <ButtonComponent>
                                         <Search className="text-white" />
                                         <Typography className="px-2 text-white">جستجو</Typography>
                                     </ButtonComponent>
