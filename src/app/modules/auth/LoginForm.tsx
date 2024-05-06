@@ -6,7 +6,7 @@ import { Autorenew } from "@mui/icons-material";
 const LoginForm = (props: any) => {
     const { formik, loading, refetch, captcha } = props;
     return (
-        <>
+        <form className="!w-full flex flex-col justify-center items-center" onSubmit={formik.handleSubmit}>
             <div className={"mb-4 space-y-4"}>
                 <img
                     src={`${toAbsoulteUrl("/media/mainlogo/2.png")}`}
@@ -95,7 +95,7 @@ const LoginForm = (props: any) => {
             <div className="w-[60%] md:w-[80%] my-4 mb-8">
                 <Button
                     fullWidth
-                    onClick={formik.handleSubmit}
+                    // onClick={formik.handleSubmit}
                     variant="contained"
                     type="submit"
                     color="secondary"
@@ -110,7 +110,7 @@ const LoginForm = (props: any) => {
                     </Typography>
                 </Button>
             </div>
-        </>
+        </form>
         
     );
 };
