@@ -73,7 +73,7 @@ const PurchaserOrderConfirm = () => {
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
         { id: 3, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
-        { id: 3, title: "وضعیت", icon: <LocalShipping color="secondary" />, value: data?.data?.purchaseOrderStatusDesc },
+        { id: 3, title: "وضعیت", icon: <LocalShipping color="secondary" />, value: data?.data?.orderStatusDesc },
     ]
 
     const orderOrderColumnMain = [

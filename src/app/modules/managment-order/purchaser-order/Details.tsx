@@ -37,10 +37,10 @@ const PurchaserOrderDetail = (props: Props) => {
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.orderExitTypeDesc},
+        { id: 3, title: "تاریخ ثبت سفارش", icon: <ExitToApp color="secondary" />, value: data?.data?.registerDate},
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 4, title: "مبدا", icon: <LocalShipping color="secondary" />, value: data?.data?.originWarehouseDesc },
-        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.purchaseOrderStatusDesc },
+        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc },
         { id: 6, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc },
         { id: 7, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
         { id: 8, title: "وضعیت تایید حسابداری", icon: <CheckBox color="secondary" />, value: data?.data?.confirmedStatus === false ? "تایید نشده" : "تایید شده" },

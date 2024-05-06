@@ -52,7 +52,7 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
             case `${isPurchaser ? 'purchasePaymentTypeId' : 'paymentTypeId'}`:
                 return isPurchaser ?  <FormikPurchasePaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} /> : <FormikPaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "orderExitTypeId":
-                return <FormikOrderExitType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+                return !isPurchaser ? <FormikOrderExitType key={index} disabled={postOrder?.data?.succeeded} {...rest} /> : null
             case "temporary":
                 return <FormikTemporary key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "description":
