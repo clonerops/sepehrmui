@@ -3,7 +3,7 @@ import ReusableCard from "../../../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../../../_cloner/components/FormikInput";
 import { SearchRounded } from "@mui/icons-material";
 import { UseMutationResult } from "@tanstack/react-query";
-import { FC } from "react";
+import React, { FC } from "react";
 import { FormikProps } from "formik";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
@@ -44,7 +44,8 @@ const OrderDetailBaseOrderCode: FC<IProps> = ({
     orders,
     orderServices
 }) => {
-    const onGetOrderDetailByCode = (orderCode: number) => {
+    const onGetOrderDetailByCode = (e: React.ChangeEvent<HTMLInputElement>,  orderCode: number) => {
+        e.preventDefault()
         detailTools.mutate(orderCode, {
             onSuccess: () => {
                 formikRef.current?.setFieldValue("searchOrderCode", 545);
@@ -55,12 +56,12 @@ const OrderDetailBaseOrderCode: FC<IProps> = ({
     return (
         <ReusableCard cardClassName="col-span-2">
         {!postSaleOrder?.data?.succeeded &&
-            <div className="flex mt-4 gap-4">
+            <form onSubmit={(e: any) => onGetOrderDetailByCode(e, orderCode)} className="flex mt-4 gap-4">
                 <FormikInput label="شماره سفارش" name="searchOrderCode" />
-                <IconButton onClick={() => onGetOrderDetailByCode(orderCode)}>
+                <IconButton type="submit">
                     <SearchRounded color="secondary" />
                 </IconButton>
-            </div>
+            </form>
         }
             <div className="mt-8 space-y-8">
                 <RenderInfo value={detailTools?.data?.data.orderCode ? detailTools?.data?.data.orderCode : "------------------"} title="شماره سفارش" />

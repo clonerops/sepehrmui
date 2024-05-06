@@ -90,7 +90,8 @@ const PurchaserOrderEdit = () => {
      // eslint-disable-next-line
   }, [detailTools?.data?.data])
 
-  const onGetOrderDetailByCode = (orderCode: number) => {
+  const onGetOrderDetailByCode = (e: React.ChangeEvent<HTMLInputElement>, orderCode: number) => {
+    e.preventDefault()
     detailTools.mutate(orderCode, {
       onSuccess: () => {
         formikRef.current?.setFieldValue("searchOrderCode", 545)
@@ -196,12 +197,12 @@ const PurchaserOrderEdit = () => {
             <div className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
               <ReusableCard cardClassName="col-span-2">
                 {!postSaleOrder?.data?.succeeded &&
-                  <div className="flex mt-4 gap-4">
+                  <form onSubmit={(e: any) => onGetOrderDetailByCode(e, values.searchOrderCode)} className="flex mt-4 gap-4">
                     <FormikInput label="شماره سفارش" name="searchOrderCode" />
-                    <IconButton onClick={() => onGetOrderDetailByCode(values.searchOrderCode)}>
+                    <IconButton type="submit">
                       <SearchRounded color="secondary" />
                     </IconButton>
-                  </div>
+                  </form>
                 }
                 <div className="mt-8 space-y-8">
                   <div className="flex justify-between">
