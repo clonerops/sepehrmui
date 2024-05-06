@@ -16,7 +16,6 @@ import { AddCircleOutline } from "@mui/icons-material";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
 import { roleCreateValidation } from "./helpers/validations";
 import EditGridButton from "../../../../_cloner/components/EditGridButton";
-import { IRole } from "./core/_models";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 
 interface Item {
@@ -35,8 +34,8 @@ const initialValues = {
 
 const Roles = () => {
     const [results, setResults] = useState<Item[]>([]);
-    const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-    const [itemForEdit, setItemForEdit] = useState<IRole>();
+    // const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+    // const [itemForEdit, setItemForEdit] = useState<IRole>();
 
     const postApplicationRoles = usePostApplicationRoles();
     const deleteApplicationRoles = useDeleteApplicationRoles();
@@ -99,10 +98,10 @@ const Roles = () => {
         });
     };
 
-    const handleEdit = (item: IRole) => {
-        setItemForEdit(item);
-        setIsEditOpen(true);
-    };
+    // const handleEdit = (item: IRole) => {
+    //     setItemForEdit(item);
+    //     setIsEditOpen(true);
+    // };
 
     const handleDelete = (id: number) => {
         deleteApplicationRoles.mutate(id, {
@@ -126,7 +125,8 @@ const Roles = () => {
     const renderAction = (item: any) => {
         return (
             <Box component="div" className="flex gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
+                {/* <EditGridButton onClick={() => handleEdit(item?.row)} /> */}
+                <EditGridButton onClick={() => {}} />
                 <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
             </Box>
         );

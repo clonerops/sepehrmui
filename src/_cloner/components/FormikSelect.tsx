@@ -10,7 +10,7 @@ import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
 import cx from "classnames";
-import { ElementType, memo } from "react";
+import { memo } from "react";
 import { Clear } from "@mui/icons-material";
 
 export type FormikSelectPropsType<Value> = {

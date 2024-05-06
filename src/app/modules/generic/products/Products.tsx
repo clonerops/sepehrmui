@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Fab, Tooltip, Typography } from "@mui/material";
+import { Fab, Typography } from "@mui/material";
 
 
 import EditGridButton from "../../../../_cloner/components/EditGridButton";

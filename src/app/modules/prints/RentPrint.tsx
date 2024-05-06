@@ -1,19 +1,17 @@
-import { useGetRentPayment } from "../rent-payment/core/_hooks"
-import { useParams } from "react-router-dom"
-import { Button, Checkbox, Typography } from "@mui/material"
-import { FC, useRef } from "react"
+// import { useGetRentPayment } from "../rent-payment/core/_hooks"
+// import { useParams } from "react-router-dom"
+import { Button, Typography } from "@mui/material"
+import { useRef } from "react"
 import { useReactToPrint } from "react-to-print"
 
-interface IProps {}
-
-const RentPrint:FC<IProps> = ({}) => {
+const RentPrint= () => {
     const printComponentRef = useRef<HTMLDivElement>(null);
     const handlePrint = useReactToPrint({
       content: () => printComponentRef.current,
   });
   
-    const { id }:any = useParams()
-    const rentDetail = useGetRentPayment(id)
+    // const { id }:any = useParams()
+    // const rentDetail = useGetRentPayment(id)
 
     const RendertextValue = (props: {title: string, value: any}) => {
         return (

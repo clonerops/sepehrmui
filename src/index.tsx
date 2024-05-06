@@ -23,7 +23,7 @@ const cacheRtl = createCache({
     key: "muirtl",
     stylisPlugins: [prefixer, rtlPlugin] || [],
     
-});
+} as any);
 
 
 

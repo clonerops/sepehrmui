@@ -2,7 +2,6 @@ import FormikSelect from './FormikSelect'
 import { dropdownCustomerCompanies } from '../../app/modules/managment-order/helpers/dropdowns';
 import { useGetCustomerCompaniesMutate } from '../../app/modules/generic/customerCompany/_hooks';
 import { useEffect } from 'react';
-import FormikInput from './FormikInput';
 
 
 const FormikCompany = (props: any) => {

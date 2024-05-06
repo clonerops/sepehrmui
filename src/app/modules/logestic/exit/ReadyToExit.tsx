@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import { Form, Formik } from 'formik'
 import FormikInput from '../../../../_cloner/components/FormikInput'
@@ -6,16 +6,16 @@ import { Box, Button, Typography } from '@mui/material'
 import { Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
-import Pagination from '../../../../_cloner/components/Pagination'
+// import Pagination from '../../../../_cloner/components/Pagination'
 import { useGetLadingPermitList } from '../core/_hooks'
 import { ladingColumns } from '../../managment-order/helpers/columns'
 
-const pageSize = 20
+// const pageSize = 20
 
 const ReadyToExit = () => {
     const navigate = useNavigate()
 
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    // const [currentPage, setCurrentPage] = useState<number>(1);
 
     const ladingList = useGetLadingPermitList();
 
@@ -32,9 +32,9 @@ const ReadyToExit = () => {
         );
     };
     
-    const handlePageChange = (selectedItem: { selected: number }) => {
-        setCurrentPage(selectedItem.selected + 1);
-    };
+    // const handlePageChange = (selectedItem: { selected: number }) => {
+    //     setCurrentPage(selectedItem.selected + 1);
+    // };
 
   return (
     <>
@@ -58,7 +58,7 @@ const ReadyToExit = () => {
                 isLoading={ladingList.isLoading}
                 onDoubleClick={(item: any) => navigate(`/dashboard/exit/${item?.row?.cargoAnnounceId}`)}
             />
-            <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
+            {/* <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} /> */}
 
         </ReusableCard>
     </>

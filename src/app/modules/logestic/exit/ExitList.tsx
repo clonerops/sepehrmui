@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetExitPermitListByMutation, useGetLadingPermitListByMutation, useRevokeExitById, useRevokeLadingById } from "../core/_hooks";
+import { useGetExitPermitListByMutation, useRevokeExitById } from "../core/_hooks";
 import { exitColumns } from "../../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
-import { Approval, Edit, LayersClear, Print } from "@mui/icons-material";
+import { Approval, LayersClear, Print } from "@mui/icons-material";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -54,7 +54,6 @@ const ExitList = () => {
 
 
     const renderAction = (item: any) => {
-        console.log(item)
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>پرینت</Typography>}>

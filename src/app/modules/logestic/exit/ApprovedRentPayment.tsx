@@ -1,24 +1,21 @@
 import { useParams } from "react-router-dom"
 import { Alert, Badge, Button, Typography } from "@mui/material"
 
-import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, PaymentOutlined, Person, Source } from "@mui/icons-material"
+import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, PaymentOutlined, Person, Source } from "@mui/icons-material"
 import { useState } from "react"
 import { Formik } from "formik"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
-import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog"
 import FormikDescription from "../../../../_cloner/components/FormikDescription"
 import { useGetLadingExitPermitById, useGetLadingPermitById, usePostApproveDriverFareAmount } from "../core/_hooks"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
-import { sliceNumberPrice } from "../../../../_cloner/helpers/sliceNumberPrice"
 import { convertToPersianWord } from "../../../../_cloner/helpers/convertPersian"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 
 const ApprovedRentPayment = () => {
     const {id}: any = useParams()
     const [approve, setApprove] = useState<boolean>(false);
-    const [disApprove, setDisApprove] = useState<boolean>(false);
     
     const exitDetailTools = useGetLadingExitPermitById(id)
     const ladingDetailTools = useGetLadingPermitById(exitDetailTools?.data?.data?.ladingPermitId)
@@ -86,21 +83,21 @@ const ApprovedRentPayment = () => {
         
     ]
 
-    var signatures: any = {
-        JVBERi0: "application/pdf",
-        R0lGODdh: "image/gif",
-        R0lGODlh: "image/gif",
-        iVBORw0KGgo: "image/png",
-        "/9j/": "image/jpg"
-    };
+    // var signatures: any = {
+    //     JVBERi0: "application/pdf",
+    //     R0lGODdh: "image/gif",
+    //     R0lGODlh: "image/gif",
+    //     iVBORw0KGgo: "image/png",
+    //     "/9j/": "image/jpg"
+    // };
 
-    function detectMimeType(b64: any) {
-        for (var s in signatures) {
-            if (b64.indexOf(s) === 0) {
-                return signatures[s];
-            }
-        }
-    }
+    // function detectMimeType(b64: any) {
+    //     for (var s in signatures) {
+    //         if (b64.indexOf(s) === 0) {
+    //             return signatures[s];
+    //         }
+    //     }
+    // }
 
     // const hadelDownload = () => {
     //     if (data?.data.attachments?.length === 0) {

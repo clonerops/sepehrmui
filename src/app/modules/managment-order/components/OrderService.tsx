@@ -91,7 +91,7 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
             formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "1")
             formikRef.current?.setFieldValue('paymentTypeId', "2")
         }
-
+    // eslint-disable-next-line
     }, [orderService])
 
     let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit

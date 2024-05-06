@@ -357,7 +357,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
             
             <div className="lg:hidden mt-4">
                 <Formik initialValues={{productTypeId: ""}} onSubmit={() => { }}>
-                    {({}) => {
+                    {() => {
                         return <Form>
                             <FormikSelect 
                                 name="productTypeId" 

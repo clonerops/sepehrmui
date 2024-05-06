@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { usePurchaseOrderTransfer, useRetrievePurchaserOrder } from "../../managment-order/core/_hooks";
 import { AttachMoney, CheckBox, ExitToApp, LocalShipping, Newspaper, Person } from "@mui/icons-material";
 import {  Typography } from "@mui/material";

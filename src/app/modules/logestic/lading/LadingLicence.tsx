@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 // import FormikInput from '../../../../_cloner/components/FormikInput'
 import { Button, Typography } from '@mui/material'
@@ -18,19 +18,18 @@ import Backdrop from '../../../../_cloner/components/Backdrop'
 // import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
 import ConfirmDialog from '../../../../_cloner/components/ConfirmDialog'
-import { sep } from 'path'
 
-interface ILadingList {
-    id?: number
-    description?: string
-    orderDetailId?: {
-        value: number,
-        label: string,
-        productId: string
-    } 
-    orderDetailName?: string
-    ladingAmount?: any
-}
+// interface ILadingList {
+//     id?: number
+//     description?: string
+//     orderDetailId?: {
+//         value: number,
+//         label: string,
+//         productId: string
+//     } 
+//     orderDetailName?: string
+//     ladingAmount?: any
+// }
 
 // const initialValues: ILadingList = {
 //     id: 0,
@@ -60,7 +59,6 @@ const LadingPermit = () => {
 
     const [approve, setApprove] = useState<boolean>(false);
 
-    let formikRef: any = useRef()
 
     // const [ladingList, setLadingList] = useState<ILadingList[]>([])
     // useEffect(() => {
