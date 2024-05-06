@@ -1,34 +1,30 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Formik } from "formik";
+// import { Formik } from "formik";
 import { Button, Tooltip, Typography } from '@mui/material'
 
 import { IOrder } from "../core/_models";
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
-import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
+// import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+// import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { purchaserOrderConfirm } from "../helpers/columns";
 import { Approval } from "@mui/icons-material";
+import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 
 
 const ReadyToPurchaserOrderConfirm = () => {
     const navigate = useNavigate()
 
     const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
-    const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
         const formData = {
             InvoiceTypeId: [1, 2],
         }
-        mutate(formData, {
-            onSuccess: (message) => {
-                setResults(message?.data);
-            }
-        })
+        mutate(formData)
         // eslint-disable-next-line
     }, []);
 
@@ -46,39 +42,35 @@ const ReadyToPurchaserOrderConfirm = () => {
         );
     };
 
-    const allOption = [
-        { value: -1, label: "همه" },
-        { value: 2, label: "تایید شده حسابداری" },
-        { value: 1, label: "جدید" }];
+    // const allOption = [
+    //     { value: -1, label: "همه" },
+    //     { value: 2, label: "تایید شده حسابداری" },
+    //     { value: 1, label: "جدید" }];
 
     const handleFilterBasedofStatus = (values: any) => {
         if (+values === -1) {
             const formData = {
                 InvoiceTypeId: [1, 2],
+                OrderCode: +values?.orderCode
             };
-            mutate(formData, {
-                onSuccess: (message) => {
-                    setResults(message?.data);
-                },
-            });
+            mutate(formData);
 
         } else {
             const formData = {
                 InvoiceTypeId: [1, 2],
                 OrderStatusId: +values,
+                OrderCode: +values?.orderCode
             };
-            mutate(formData, {
-                onSuccess: (message) => {
-                    setResults(message?.data);
-                },
-            });
+            mutate(formData);
         }
     };
 
     return (
         <ReusableCard>
-            <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 mb-4">
-                <div className="w-full lg:w-[40%]">
+            {/* <div className="flex flex-col justify-between items-center space-y-4 lg:space-y-0 mb-4"> */}
+            <div>
+                <SearchFromBack initialValues={{orderCode: ""}} onSubmit={handleFilterBasedofStatus} label="شماره سفارش" />
+                {/* <div className="w-full lg:w-[40%]">
                     <FuzzySearch
                         keys={[
                             "orderCode",
@@ -94,19 +86,19 @@ const ReadyToPurchaserOrderConfirm = () => {
                         data={orders?.data}
                         setResults={setResults}
                     />
-                </div>
-                <Formik initialValues={{ statusId: -1 }} onSubmit={() => { }}>
+                </div> */}
+                {/* <Formik initialValues={{ statusId: -1 }} onSubmit={() => { }}>
                     {() => {
                         return <>
                             <FormikRadioGroup onChange={handleFilterBasedofStatus} radioData={allOption} name="statusId" />
                         </>
                     }}
-                </Formik>
+                </Formik> */}
             </div>
             <MuiDataGrid
                 columns={purchaserOrderConfirm(renderAction)}
-                rows={results}
-                data={orders?.data}
+                rows={orders?.data || [{}]}
+                data={orders?.data || [{}]}
                 isLoading={isLoading}
                 onDoubleClick={(item: any) => navigate(`${item.row.orderStatusId === 1 ? `/dashboard/purchaser_order/ready-to-confirm/${item?.row?.id}` : ""}`)}
             />

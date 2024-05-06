@@ -13,6 +13,7 @@ import Pagination from "../../../../_cloner/components/Pagination";
 import { Formik } from "formik";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 
 const pageSize = 100
 
@@ -76,19 +77,7 @@ const PurchaserOrderList = () => {
 
     return (
         <ReusableCard>
-            <Formik initialValues={{ orderCode: "" }} onSubmit={onSubmit}>
-                {({ handleSubmit }) => {
-                    return <div className="w-[50%] mb-4">
-                        <div className="flex justify-center items-center gap-4">
-                            <FormikInput name="orderCode" label="شماره سفارش" />
-                            <ButtonComponent onClick={handleSubmit}>
-                                <Search className="text-white" />
-                                <Typography className="text-white">جستجو</Typography>
-                            </ButtonComponent>
-                        </div>
-                    </div>
-                }}
-            </Formik>
+            <SearchFromBack initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
             <MuiDataGrid
                 columns={purchaserOrderColumns(renderAction)}
                 rows={results || [{}]}
