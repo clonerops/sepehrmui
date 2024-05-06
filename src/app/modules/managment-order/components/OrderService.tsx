@@ -10,7 +10,7 @@ import { DeleteOutlineRounded } from '@mui/icons-material'
 import MuiTable from '../../../../_cloner/components/MuiTable'
 import { FormikProps } from 'formik'
 import { useGetServices } from '../../generic/_hooks'
-import { calculateProximateAmount, calculateTotalAmount } from '../helpers/functions'
+import { calculateTotalAmount } from '../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { FC, memo, useEffect } from 'react'
@@ -22,9 +22,10 @@ interface IProps {
     setOrderPayment: React.Dispatch<React.SetStateAction<IOrderPayment[]>>
     orders: IOrderItems[]
     formikRef: React.RefObject<FormikProps<any>>
+    isEdit?: boolean | undefined
 }
 
-const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders}) => {
+const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders, isEdit}) => {
     const { data: productService } = useGetServices();
 
     const handleSetServices = () => {
@@ -81,20 +82,20 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
     // useEffect(() => {
     //     let isExists = orderService.some((item: any) => {
     //         return item.orderServiceId === 6
-    //     })
-    //     if(isExists)  {
-    //         formikRef.current?.setFieldValue('orderSendTypeId', "2")
-    //         formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "2")
-    //         formikRef.current?.setFieldValue('paymentTypeId', "1")
-    //     } else if(isEdit) {
+    //     }) 
+    //     if(isEdit) {
     //         formikRef.current?.setFieldValue('orderSendTypeId', "")
     //         formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "")
     //         formikRef.current?.setFieldValue('paymentTypeId', "")
-    //     } else {
-    //         formikRef.current?.setFieldValue('orderSendTypeId', "1")
-    //         formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "1")
-    //         formikRef.current?.setFieldValue('paymentTypeId', "2")
-    //     }
+    //     } else if(!isEdit) {
+    //             formikRef.current?.setFieldValue('orderSendTypeId', "1")
+    //             formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "1")
+    //             formikRef.current?.setFieldValue('paymentTypeId', "2")
+    //     } else if(!isEdit && isExists) {
+    //             formikRef.current?.setFieldValue('orderSendTypeId', "2")
+    //             formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "2")
+    //             formikRef.current?.setFieldValue('paymentTypeId', "1")
+    //     } 
     // // eslint-disable-next-line
     // }, [orderService])
 
