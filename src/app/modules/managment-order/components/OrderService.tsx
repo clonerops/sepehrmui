@@ -54,8 +54,8 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
     const handleDeleteService = (params: {orderServiceMainId: number}) => {
         const filterServices = orderService.filter((item: IOrderService) => item.orderServiceMainId !== params.orderServiceMainId)
         setOrderService(filterServices)
-        formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateProximateAmount(orders, filterServices, filterServices)))
-
+        setOrderPayment([])
+        formikRef.current?.setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(orders, filterServices)))
     }
 
 
@@ -78,21 +78,25 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
         }},
     ]
     
-    useEffect(() => {
-        let isExists = orderService.some((item: any) => {
-            return item.orderServiceId === 6
-        })
-        if(isExists)  {
-            formikRef.current?.setFieldValue('orderSendTypeId', "2")
-            formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "2")
-            formikRef.current?.setFieldValue('paymentTypeId', "1")
-        } else {
-            formikRef.current?.setFieldValue('orderSendTypeId', "1")
-            formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "1")
-            formikRef.current?.setFieldValue('paymentTypeId', "2")
-        }
-    // eslint-disable-next-line
-    }, [orderService])
+    // useEffect(() => {
+    //     let isExists = orderService.some((item: any) => {
+    //         return item.orderServiceId === 6
+    //     })
+    //     if(isExists)  {
+    //         formikRef.current?.setFieldValue('orderSendTypeId', "2")
+    //         formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "2")
+    //         formikRef.current?.setFieldValue('paymentTypeId', "1")
+    //     } else if(isEdit) {
+    //         formikRef.current?.setFieldValue('orderSendTypeId', "")
+    //         formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "")
+    //         formikRef.current?.setFieldValue('paymentTypeId', "")
+    //     } else {
+    //         formikRef.current?.setFieldValue('orderSendTypeId', "1")
+    //         formikRef.current?.setFieldValue('purchaseOrderSendTypeId', "1")
+    //         formikRef.current?.setFieldValue('paymentTypeId', "2")
+    //     }
+    // // eslint-disable-next-line
+    // }, [orderService])
 
     let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit
 

@@ -45,6 +45,7 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
         switch (type) {
             // case "orderSendTypeId":
             //     return <FormikOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+            // case `${isPurchaser ? 'purchaseOrderSendTypeId' : 'orderSendTypeId'}`:
             case `${isPurchaser ? 'purchaseOrderSendTypeId' : 'orderSendTypeId'}`:
                 return isPurchaser ?  <FormikPurchaseOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} /> : <FormikOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "invoiceTypeId":

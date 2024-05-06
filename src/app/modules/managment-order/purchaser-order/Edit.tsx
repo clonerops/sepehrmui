@@ -107,9 +107,9 @@ const PurchaserOrderEdit = () => {
         customerId: detailTools?.data?.data.customer.id, //ok
         totalAmount: calculateTotalAmount(orders, orderServices),
         description: values.description ? values.description : detailTools?.data?.data.description, //ok
-        orderExitTypeId: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
-        purchaseOrderSendTypeId: Number(values.orderSendTypeId),
-        paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
+        orderExitTypeId: values.exitType ? +values.exitType : detailTools?.data?.data.exitType, //ok
+        purchaseOrderSendTypeId: values.purchaseOrderSendTypeId ? +values.purchaseOrderSendTypeId : detailTools?.data?.data.orderSendTypeId ,
+        paymentTypeId: values.paymentTypeId ? +values.paymentTypeId : detailTools?.data?.data.purchaseOrderSendTypeId, //ok
         productBrandId: 40,
         originWarehouseId: values.originWarehouseId ? +values.originWarehouseId : detailTools?.data?.data?.originWarehouseId,
         destinationWarehouseId: values.destinationWarehouseId ? values.destinationWarehouseId : detailTools?.data?.data?.destinationWarehouseId,
@@ -154,7 +154,7 @@ const PurchaserOrderEdit = () => {
           }
         }) //ok
       };
-
+      console.log(formData)
       try {
         postSaleOrder.mutate(formData, {
           onSuccess: (response) => {
@@ -187,6 +187,7 @@ const PurchaserOrderEdit = () => {
         ...detailTools?.data?.data,
         paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
         destinationWarehouseId: detailTools?.data?.data.destinationWarehouseId,
+        purchaseOrderSendTypeId: detailTools?.data?.data.orderSendTypeId,
         isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
       }} onSubmit={onSubmit}>
         {({ values, setFieldValue, handleSubmit }) => {
