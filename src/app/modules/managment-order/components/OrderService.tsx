@@ -13,7 +13,7 @@ import { useGetServices } from '../../generic/_hooks'
 import { calculateTotalAmount } from '../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
-import { FC, memo, useEffect } from 'react'
+import { FC, memo } from 'react'
 
 interface IProps {
     postSaleOrder: any,
@@ -22,10 +22,9 @@ interface IProps {
     setOrderPayment: React.Dispatch<React.SetStateAction<IOrderPayment[]>>
     orders: IOrderItems[]
     formikRef: React.RefObject<FormikProps<any>>
-    isEdit?: boolean | undefined
 }
 
-const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders, isEdit}) => {
+const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders}) => {
     const { data: productService } = useGetServices();
 
     const handleSetServices = () => {
