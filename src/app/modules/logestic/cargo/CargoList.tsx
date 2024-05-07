@@ -99,32 +99,30 @@ const CargoList = () => {
                 <Formik initialValues={{
                     orderCode: "",
                     customerId: ""
-                }} onSubmit={handleFilter}>
-                    {() => {
+                }} onSubmit={() => { }}>
+                    {({ values }) => {
                         return (
-                            <form onSubmit={handleFilter}>
-                                <div
-                                    className="flex gap-4 w-[50%] mb-4"
-                                >
-                                    <FormikInput
-                                        name="orderCode"
-                                        label="شماره سفارش"
-                                    />
-                                    <FormikSelect
-                                        options={dropdownCustomer(
-                                            customers?.data
-                                        )}
-                                        label="سفارش دهنده"
-                                        name="customerId"
-                                    />
-                                    <ButtonComponent>
-                                            <Search className="text-white" />
-                                            <Typography className="text-white">
-                                                جستجو
-                                            </Typography>
-                                    </ButtonComponent>
-                                </div>
-                            </form>
+                            <div
+                                className="flex gap-4 w-[50%] mb-4"
+                            >
+                                <FormikInput
+                                    name="orderCode"
+                                    label="شماره سفارش"
+                                />
+                                <FormikSelect
+                                    options={dropdownCustomer(
+                                        customers?.data
+                                    )}
+                                    label="سفارش دهنده"
+                                    name="customerId"
+                                />
+                                <ButtonComponent onClick={() => handleFilter(values)}>
+                                    <Search className="text-white" />
+                                    <Typography className="text-white">
+                                        جستجو
+                                    </Typography>
+                                </ButtonComponent>
+                            </div>
                         );
                     }}
                 </Formik>
