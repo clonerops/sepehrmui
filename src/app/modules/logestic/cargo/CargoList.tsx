@@ -99,10 +99,10 @@ const CargoList = () => {
                 <Formik initialValues={{
                     orderCode: "",
                     customerId: ""
-                }} onSubmit={() => { }}>
-                    {({ values }) => {
+                }} onSubmit={handleFilter}>
+                    {() => {
                         return (
-                            <form>
+                            <form onSubmit={handleFilter}>
                                 <div
                                     className="flex gap-4 w-[50%] mb-4"
                                 >
@@ -117,10 +117,11 @@ const CargoList = () => {
                                         label="سفارش دهنده"
                                         name="customerId"
                                     />
-                                    <ButtonComponent onClick={() => handleFilter(values)}>
-                                        <Typography>
-                                            <Search />
-                                        </Typography>
+                                    <ButtonComponent>
+                                            <Search className="text-white" />
+                                            <Typography className="text-white">
+                                                جستجو
+                                            </Typography>
                                     </ButtonComponent>
                                 </div>
                             </form>
