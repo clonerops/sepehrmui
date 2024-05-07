@@ -8,6 +8,12 @@ export const http = axios.create({
         Authorization: `Bearer ${Cookies.get("token")}`,
     },
 });
+export const httpAuth = axios.create({
+    baseURL: "https://iraniansepehr.com/api/",
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
 export const httpFormData = axios.create({
     baseURL: "https://iraniansepehr.com/api/",
     headers: {
