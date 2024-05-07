@@ -63,6 +63,7 @@ export const translationMapping: any = {
     ready_to_confirm: "تایید سفارشات",
     exit_list: "لیست مجوزهای خروج",
     approvedRent: "تایید کرایه",
+    entranceList: "لیست مجوزهای ورود",
     
     // Add more translations as needed
   };

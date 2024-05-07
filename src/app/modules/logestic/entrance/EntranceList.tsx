@@ -1,72 +1,77 @@
-import { Typography } from "@mui/material"
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
-import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import { useGetTransferRemitancesByMutation } from "../core/_hooks"
-import { entranceColumns } from "./_columns"
-import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
-import { Search } from "@mui/icons-material"
-import Backdrop from "../../../../_cloner/components/Backdrop"
-import { Formik } from "formik"
-import FormikInput from "../../../../_cloner/components/FormikInput"
-import { useEffect } from "react"
+import { useEffect, useState } from 'react'
+import { Formik } from 'formik'
+import { Tooltip, Typography } from '@mui/material'
+import { Search, Visibility } from '@mui/icons-material'
+import { Link, useNavigate } from 'react-router-dom'
+import { useGetTransferRemitancesByMutation } from '../core/_hooks'
+import { entranceReportColumns } from '../../managment-order/helpers/columns'
+
+import ReusableCard from '../../../../_cloner/components/ReusableCard'
+import FormikInput from '../../../../_cloner/components/FormikInput'
+import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
+import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
+import Pagination from '../../../../_cloner/components/Pagination'
+import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
+
+const pageSize = 100
 
 const EntranceList = () => {
-  const transferList = useGetTransferRemitancesByMutation()
-  useEffect(() => {
-    const filter = {}
-    transferList.mutate(filter)
-     // eslint-disable-next-line
-  }, [])
+    const navigate = useNavigate()
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const renderAction = (params: any) => {
-    return <div className="flex gap-x-4">
-      {/* <Link to={`/dashboard/entranceLading/${params.row.id}`}>
-        <Button variant="contained" color="secondary">
-          <Visibility />
-          <Typography className="px-2">صدور مجوز بارگیری</Typography>
-        </Button>
-      </Link> */}
-    </div>
-  }
-  const handleFilter = (values: any) => {
-    let formData = {
-      id: values.id ? values.id : "",
-    };
-    transferList.mutate(formData);
-  }
-  return (
-    <>
-      {transferList.isLoading && <Backdrop loading={transferList.isLoading} />}
-      <ReusableCard>
-        <Formik initialValues={{
-          id: "",
-        }} onSubmit={() => { }}>
-          {({ values }) => {
-            return (
-                <div
-                  className="flex gap-4 w-[50%] mb-4"
+    const transferList = useGetTransferRemitancesByMutation()
+    useEffect(() => {
+        const filter = {
+            PageNumber: currentPage,
+            PageSize: pageSize,
+            IsEntranced: true
+        }
+        transferList.mutate(filter)
+        // eslint-disable-next-line
+    }, [currentPage])
+
+
+    const renderAction = (item: any) => {
+        return (
+            <Tooltip title={<Typography variant='h3'>نمایش جزئیات</Typography>}>
+                <Link
+                    to={`/dashboard/billlandingList/${item?.row?.id}`}
                 >
-                  <FormikInput
-                    name="id"
-                    label="شماره ورود"
-                  />
-                  <ButtonComponent onClick={() => handleFilter(values)}>
-                    <Search className="text-white" />
-                    <Typography className="px-2 text-white">جستجو</Typography>
-                  </ButtonComponent>
-                </div>
-            );
-          }}
-        </Formik>
+                    <Visibility color='secondary' />
+                </Link>
+            </Tooltip>
+        );
+    };
 
-        <MuiDataGrid
-          columns={entranceColumns(renderAction)}
-          rows={transferList?.data?.data || [{}]}
-          data={transferList?.data?.data || [{}]}
-        />
-      </ReusableCard>
-    </>
-  )
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
+
+    const handleFilter = (values: any) => {
+        let formData = {
+            TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
+            PageNumber: currentPage,
+            PageSize: 100,
+            IsEntranced: true
+        };
+        transferList.mutate(formData);
+    }
+
+    return (
+        <>
+            <ReusableCard>
+              <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{TransferEntransePermitNo: ""}} onSubmit={handleFilter} label="شماره ورود" />
+              <MuiDataGrid
+                  columns={entranceReportColumns(renderAction)}
+                  rows={transferList?.data?.data}
+                  data={transferList?.data?.data}
+                  isLoading={transferList.isLoading}
+                  onDoubleClick={(item: any) => navigate(`/dashboard/billlandingList/${item?.row?.id}`)}
+              />
+              <Pagination pageCount={transferList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
+            </ReusableCard>
+        </>
+    )
 }
 
 export default EntranceList

@@ -35,7 +35,6 @@ const BilllandingDetails = () => {
         { id: 11, title: "تاریخ تحویل", icon: <DateRange color="secondary" />, value: detailTools?.data?.data?.deliverDate },
         { id: 12, title: "باربری", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.shippingName },
         { id: 12, title: "شماره حساب راننده", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.driverAccountNo },
-        // { id: 12, title: "شماره کارت راننده", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.driverCreditCardNo },
         { id: 12, title: "سایر هزینه ها", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.otherCosts },
     ]
 
@@ -132,12 +131,12 @@ const BilllandingDetails = () => {
         <>
             <Typography color="primary" variant="h1" className="pb-8">جزئیات حواله</Typography>
             <div className='flex justify-end items-end mb-2 gap-x-4' >
-                <Badge badgeContent={detailTools?.data?.data?.entrancePermit?.attachments.length || 0} color="secondary">
+                <Badge badgeContent={detailTools?.data?.data?.entrancePermit?.attachments?.length || 0} color="secondary">
                     <Button variant="contained" onClick={hadelDownloadEntrance} color="primary">
                         <Typography>{"دانلود ضمیمه ثبت برای حواله ورود"}</Typography>
                     </Button>
                 </Badge>
-                <Badge badgeContent={detailTools?.data?.data?.entrancePermit?.unloadingPermits[0].attachments.length || 0} color="primary">
+                <Badge badgeContent={detailTools?.data?.data?.entrancePermit?.unloadingPermits[0]?.attachments.length || 0} color="primary">
                     <Button variant="contained" onClick={hadelDownloadEvacuation} color="secondary">
                         <Typography>{"دانلود ضمیمه ثبت برای مجوز تخلیه"}</Typography>
                     </Button>
