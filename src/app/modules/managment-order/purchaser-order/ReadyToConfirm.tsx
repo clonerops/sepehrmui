@@ -69,7 +69,7 @@ const ReadyToPurchaserOrderConfirm = () => {
         <ReusableCard>
             {/* <div className="flex flex-col justify-between items-center space-y-4 lg:space-y-0 mb-4"> */}
             <div>
-                <SearchFromBack initialValues={{orderCode: ""}} onSubmit={handleFilterBasedofStatus} label="شماره سفارش" />
+                <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={handleFilterBasedofStatus} label="شماره سفارش" />
                 {/* <div className="w-full lg:w-[40%]">
                     <FuzzySearch
                         keys={[

@@ -78,7 +78,7 @@ const TransferBetweenWarehouse = () => {
             <ReusableCard>
                 <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between items-center mb-4">
                     <div className="w-full lg:w-[50%]">
-                        <SearchFromBack initialValues={{orderCode: ""}} onSubmit={handleFilter} label="شماره سفارش" />
+                        <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={handleFilter} label="شماره سفارش" />
                     </div>
                     <div className="flex flex-col lg:flex-row gap-4">
                         <Button onClick={() => handleFilter(null, true)} variant="contained" className={"!bg-pink-800"}>

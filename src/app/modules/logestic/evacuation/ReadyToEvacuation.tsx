@@ -10,6 +10,7 @@ import Pagination from '../../../../_cloner/components/Pagination'
 import { useGetTransferRemitancesByMutation } from '../core/_hooks'
 import { evacuationColumns } from '../../managment-order/helpers/columns'
 import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
+import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
 
 const pageSize = 20
 
@@ -59,28 +60,7 @@ const ReadyToEvacuation = () => {
     return (
         <>
             <ReusableCard>
-
-                <Formik initialValues={{
-                    id: "",
-                }} onSubmit={handleFilter}>
-                    {({ handleSubmit }) => {
-                        return (
-                            <form onSubmit={handleSubmit}>
-                                <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
-                                    <FormikInput
-                                        name="TransferEntransePermitNo"
-                                        label="شماره ورود"
-                                    />
-                                    <ButtonComponent>
-                                        <Search className="text-white" />
-                                        <Typography className="px-2 text-white">جستجو</Typography>
-                                    </ButtonComponent>
-                                </div>
-                            </form>
-                        );
-                    }}
-                </Formik>
-
+                <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{TransferEntransePermitNo: ""}} onSubmit={handleFilter} label="شماره ورود" />
                 <MuiDataGrid
                     columns={evacuationColumns(renderAction)}
                     rows={transferList?.data?.data}

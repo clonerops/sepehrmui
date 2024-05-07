@@ -196,7 +196,7 @@ const PurchaserOrderEdit = () => {
             <div className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
               <ReusableCard cardClassName="col-span-2">
                 {!postSaleOrder?.data?.succeeded &&
-                    <SearchFromBack initialValues={{searchOrderCode: ""}} onSubmit={onGetOrderDetailByCode} label="شماره سفارش" />
+                    <SearchFromBack inputName='orderCode' initialValues={{searchOrderCode: ""}} onSubmit={onGetOrderDetailByCode} label="شماره سفارش" />
                   // <form onSubmit={(e: any) => onGetOrderDetailByCode(e, values.searchOrderCode)} className="flex mt-4 gap-4">
                   //   <FormikInput label="شماره سفارش" name="searchOrderCode" />
                   //   <IconButton type="submit">

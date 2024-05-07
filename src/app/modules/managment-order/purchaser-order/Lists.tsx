@@ -77,7 +77,7 @@ const PurchaserOrderList = () => {
 
     return (
         <ReusableCard>
-            <SearchFromBack initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
+            <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
             <MuiDataGrid
                 columns={purchaserOrderColumns(renderAction)}
                 rows={results || [{}]}
