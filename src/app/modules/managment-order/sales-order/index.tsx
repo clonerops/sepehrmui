@@ -90,6 +90,7 @@ const SalesOrder = () => {
                         } 
                     })
                 }
+                console.log(JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors&&response.data.Errors.length > 0) {

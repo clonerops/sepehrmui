@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 // import { Formik } from "formik";
 import { Button, Tooltip, Typography } from '@mui/material'
 
-import { IOrder } from "../core/_models";
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";

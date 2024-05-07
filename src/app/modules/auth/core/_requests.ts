@@ -1,4 +1,4 @@
-import { http } from "../../../../_cloner/helpers/axiosConfig";
+import { httpAuth } from "../../../../_cloner/helpers/axiosConfig";
 import {
     ILoginUser,
 } from "./_models";
@@ -6,7 +6,7 @@ import {
 
 const loginUser = async (formData: ILoginUser) => {
     try {
-        const { data } = await http.post("/Auth",JSON.stringify(formData));
+        const { data } = await httpAuth.post("/Auth",JSON.stringify(formData));
         return data;
         
     } catch (error: any) {
@@ -16,7 +16,7 @@ const loginUser = async (formData: ILoginUser) => {
 
 const getCaptcha = async () => {
     try {
-        const { data } = await http.get('/v1/Captcha')
+        const { data } = await httpAuth.get('/v1/Captcha')
         return data    
     } catch (error: any) {
         return error.response

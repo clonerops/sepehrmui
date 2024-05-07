@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
-import { Formik } from 'formik'
-import FormikInput from '../../../../_cloner/components/FormikInput'
 import { Button, Typography } from '@mui/material'
-import { Search } from '@mui/icons-material'
-import { Link, useNavigate } from 'react-router-dom'
+    import { Link, useNavigate } from 'react-router-dom'
 import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../../_cloner/components/Pagination'
 import { useGetTransferRemitancesByMutation } from '../core/_hooks'
 import { evacuationColumns } from '../../managment-order/helpers/columns'
-import ButtonComponent from '../../../../_cloner/components/ButtonComponent'
 import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
 
 const pageSize = 20
