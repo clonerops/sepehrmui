@@ -160,6 +160,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    className="w-[200px] lg:w-full"
                     value={productData.proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
@@ -188,6 +189,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    className="w-[200px] lg:w-full"
                     value={productData.proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
@@ -213,10 +215,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             }))
                         }
                         size="small"
+                        className="w-[200px] lg:w-full"
                         inputProps={{
                             "aria-label": "weight",
                             style: {
-                                width: 28,
+                                width: 48,
                             },
                         }}
                     >
@@ -245,6 +248,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         }))
                     }
                     thousandsSeparator=","
+                    className="!w-[200px] lg:!w-full"
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     inputProps={{
