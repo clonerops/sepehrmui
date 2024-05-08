@@ -21,6 +21,7 @@ import FormikCustomer from '../../../../../_cloner/components/FormikCustomer'
 import FormikPurchaserInvoiceType from '../../../../../_cloner/components/FormikPurchaserInvoiceType'
 import FormikDatepicker from '../../../../../_cloner/components/FormikDatepicker'
 import { Add, Edit } from '@mui/icons-material'
+import BottomDrawer from '../../../../../_cloner/components/BottomSheetDrawer'
 
 const fields = [
     "warehouseId",
@@ -276,11 +277,11 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                 />
             </form>
             {isOpen &&
-                <TransitionsModal
+                // <TransitionsModal
+                <BottomDrawer
                     title="انتخاب محصول"
                     open={isOpen}
-                    width='99%'
-                    isClose={() => setIsOpen(false)}>
+                    onClose={() => setIsOpen(false)}>
                     <ProductsList
                         setIsOpen={setIsOpen}
                         setFieldValue={setFieldValue}
@@ -289,7 +290,8 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                         setOrderPayment={setOrderPayment}
                         orderService={orderServices}
                     />
-                </TransitionsModal>
+                 </BottomDrawer>
+                // </TransitionsModal>
             }
         </>
     )

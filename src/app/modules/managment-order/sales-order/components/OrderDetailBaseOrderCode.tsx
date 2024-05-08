@@ -1,13 +1,12 @@
-import { IconButton, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import ReusableCard from "../../../../../_cloner/components/ReusableCard";
-import FormikInput from "../../../../../_cloner/components/FormikInput";
-import { SearchRounded } from "@mui/icons-material";
 import { UseMutationResult } from "@tanstack/react-query";
 import React, { FC } from "react";
 import { FormikProps } from "formik";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderItems, IOrderService } from "../../core/_models";
+import SearchFromBack from "../../../../../_cloner/components/SearchFromBack";
 
 interface IProps {
     postSaleOrder: any
@@ -39,14 +38,12 @@ const RenderInfo:FC<IRenderProps> = ({value, title}) => {
 const OrderDetailBaseOrderCode: FC<IProps> = ({
     postSaleOrder,
     detailTools,
-    orderCode,
     formikRef,
     orders,
     orderServices
 }) => {
-    const onGetOrderDetailByCode = (e: React.ChangeEvent<HTMLInputElement>,  orderCode: number) => {
-        e.preventDefault()
-        detailTools.mutate(orderCode, {
+    const onGetOrderDetailByCode = (values: any) => {
+        detailTools.mutate(values.orderCode, {
             onSuccess: () => {
                 formikRef.current?.setFieldValue("searchOrderCode", 545);
             },
@@ -56,12 +53,7 @@ const OrderDetailBaseOrderCode: FC<IProps> = ({
     return (
         <ReusableCard cardClassName="col-span-2">
         {!postSaleOrder?.data?.succeeded &&
-            <form onSubmit={(e: any) => onGetOrderDetailByCode(e, orderCode)} className="flex mt-4 gap-4">
-                <FormikInput label="شماره سفارش" name="searchOrderCode" />
-                <IconButton type="submit">
-                    <SearchRounded color="secondary" />
-                </IconButton>
-            </form>
+                    <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onGetOrderDetailByCode} label="شماره سفارش" />
         }
             <div className="mt-8 space-y-8">
                 <RenderInfo value={detailTools?.data?.data.orderCode ? detailTools?.data?.data.orderCode : "------------------"} title="شماره سفارش" />

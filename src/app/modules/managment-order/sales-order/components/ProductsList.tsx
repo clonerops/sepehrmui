@@ -6,7 +6,7 @@ import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import MaskInput from "../../../../../_cloner/components/MaskInput";
 
-import { columnsModalProduct, columnsSelectProduct } from "../../helpers/columns";
+import { columnsModalProduct, columnsSelectProduct, columnsSelectProductMuiTable } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
 import { useGetUnits } from "../../../generic/productUnit/_hooks";
@@ -20,6 +20,7 @@ import { useGetProductList } from "../../../generic/products/_hooks";
 import SearchBackendInput from "../../../../../_cloner/components/SearchBackendInput";
 import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar";
 import FormikSelect from "../../../../../_cloner/components/FormikSelect";
+import MuiTable from "../../../../../_cloner/components/MuiTable";
 
 interface IProps {
     setOrders?: any
@@ -109,11 +110,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const selectedRow = newSelectionModel.row;
         setProductData((prevState) => ({
             ...prevState,
-            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.productBrandId]: newSelectionModel.row.productSubUnitId },
+            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow?.productBrandId]: newSelectionModel.row.productSubUnitId },
             price: productData.price,
         }))
         const isDuplicate = productData.selectedProduct.some((item) => {
-            return item.productBrandId === selectedRow.productBrandId;
+            return item?.productBrandId === selectedRow?.productBrandId;
         });
         if (!isDuplicate) {
             setProductData((prevState) => ({
@@ -152,7 +153,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.selectedProduct]);
 
     const renderInput = useCallback((params: any) => {
-        const productId = params.row.productBrandId;
+        // const productId = params?.row?.productBrandId;
+        const productId = params?.productBrandId;
         return (
             <>
                 <OutlinedInput
@@ -163,7 +165,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         setProductData((prevState) => ({
                             ...prevState,
                             proximateAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
-                            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.row.exchangeRate)).toString() },
+                            // proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.row.exchangeRate)).toString() },
+                            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.exchangeRate)).toString() },
                         }))
                     }
                     autoFocus={true}
@@ -179,7 +182,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.proximateAmounts])
 
     const renderSubUnit = useCallback((params: any) => {
-        const productId = params.row.productBrandId;
+        const productId = params.productBrandId;
         return (
             <div className="flex gap-x-2">
                 <OutlinedInput
@@ -228,7 +231,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.proximateSubAmounts, productData.productSubUnitDesc])
 
     const renderPrice = useCallback((params: any) => {
-        const productId = params.row.productBrandId;
+        // const productId = params.row.productBrandId;
+        const productId = params.productBrandId;
         return (
             <>
                 <MaskInput
@@ -254,8 +258,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         );
         // eslint-disable-next-line
     }, [productData.price])
-
-
 
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
@@ -308,7 +310,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     if (warehouseTypeTools?.isLoading || productTypeTools?.isLoading) {
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
-
 
     return (
         <>
@@ -511,11 +512,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         isLoading={filterTools.isLoading}
                         rows={filterTools?.data?.data}
                         data={filterTools?.data?.data}
-                        height={400}
+                        height={580}
                     />
                 </div>
                 <div className="lg:col-span-3">
-                    <MuiSelectionDataGrid
+                    {/* <MuiSelectionDataGrid
                         selectionModel={productData.selectionModel}
                         columns={columnsSelectProduct(
                             renderAction,
@@ -528,6 +529,15 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         getRowId={(row: { productBrandId: string }) => row.productBrandId.toString()}
                         hideFooter={true}
                         columnHeaderHeight={40}
+                    /> */}
+                    <MuiTable
+                        columns={columnsSelectProductMuiTable(
+                            renderAction,
+                            renderInput,
+                            renderSubUnit,
+                            renderPrice
+                        )}
+                        data={productData.selectedProduct}
                     />
                     <div
                         className="flex justify-end items-end mt-4"

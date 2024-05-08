@@ -102,10 +102,10 @@ const SalesOrderEdit = () => {
                 totalAmount: calculateTotalAmount(orders, orderServices), //ok
                 description: values.description ? values.description : detailTools?.data?.data.description, //ok
                 deliverDate: values.deliverDate ? values.deliverDate : detailTools?.data?.data.deliverDate, //ok
-                orderExitTypeId: values.orderExitTypeId ? Number(values.orderExitTypeId) : detailTools?.data?.data.orderExitTypeId, //ok
+                orderExitTypeId: values.orderExitTypeId ? +values.orderExitTypeId : detailTools?.data?.data.orderExitTypeId, //ok
                 orderTypeId: values.orderType ? +values.orderType : detailTools?.data?.data.orderTypeId, //ok
-                orderSendTypeId: values.orderSendTypeId ? Number(values.orderSendTypeId) : detailTools?.data?.data.orderSendTypeId,//ok
-                paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
+                orderSendTypeId: values.orderSendTypeId ? +values.orderSendTypeId : detailTools?.data?.data.orderSendTypeId,//ok
+                paymentTypeId: values.paymentTypeId ? +values.paymentTypeId : detailTools?.data?.data.paymentTypeId, //ok
                 customerOfficialName: "string",
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
                 invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId, //ok
@@ -130,7 +130,7 @@ const SalesOrderEdit = () => {
                         description: item.description,
                         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                        purchaserCustomerId: item.purchaserCustomerId,
+                        purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
                         purchaserCustomerName: item.purchaserCustomerName,
                         purchaseSettlementDate: item.purchaseSettlementDate,
                         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",

@@ -9,10 +9,8 @@ import { orderColumns } from "../helpers/columns";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
-import { Formik } from "formik";
-import FormikInput from "../../../../_cloner/components/FormikInput";
-import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
-import { Search, Visibility } from "@mui/icons-material";
+import { Visibility } from "@mui/icons-material";
+import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 
 const pageSize = 100
 
@@ -74,19 +72,7 @@ const SalesOrderList = () => {
 
     return (
         <ReusableCard>
-            <Formik initialValues={{ orderCode: "" }} onSubmit={onSubmit}>
-                {({ handleSubmit }) => {
-                    return <div className="lg:w-[50%] mb-4">
-                        <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
-                            <FormikInput name="orderCode" label="شماره سفارش" />
-                            <ButtonComponent onClick={handleSubmit}>
-                                <Search className="text-white" />
-                                <Typography className="text-white">جستجو</Typography>
-                            </ButtonComponent>
-                        </div>
-                    </div>
-                }}
-            </Formik>
+            <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
             <MuiDataGrid
                 columns={orderColumns(renderAction)}
                 rows={results}

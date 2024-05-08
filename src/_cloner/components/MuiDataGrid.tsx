@@ -50,6 +50,7 @@ const MuiDataGrid = (props: Props) => {
     const getRowIdFunc = (row: any) => row.uniqueId;
 
     return (
+        // <div style={{ width: width }}>
         <div style={{ width: width }}>
             <DataGrid
                 {...data}
@@ -71,8 +72,7 @@ const MuiDataGrid = (props: Props) => {
                 rowHeight={42}
                 pageSize={data?.length}
                 hideFooter={hideFooter} 
-                onRowDoubleClick={onDoubleClick}
-                
+                onRowDoubleClick={onDoubleClick}                
                 getRowClassName={getRowClassName}
                 loading={isLoading}
                 columnHeaderHeight={32}

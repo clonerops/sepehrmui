@@ -825,6 +825,83 @@ export const columnsSelectProduct = (renderAction: any, renderInput: any, render
     return col;
 };
 
+export const columnsSelectProductMuiTable = (renderAction: any, renderInput: any, renderSubUnit: any, renderPrice: any) => {
+    const col = [
+        {
+            accessor: "productName",
+            header: "کالا",
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h5">{params.productName}</Typography>;
+            },
+            flex: 1,
+            minWidth: 150,
+            maxWidth: 150,
+        },
+        {
+            accessor: "productBrandName",
+            header: "برند",
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h5">{params.productBrandName}</Typography>;
+            },
+            flex: 1,
+            minWidth: 100,
+            maxWidth: 100,
+        },
+        {
+            accessor: "warehouseName",
+            header: "انبار",
+            render: (params: any) => {
+                return <Typography variant="h5">{params.warehouseName}</Typography>;
+            },
+
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 100,
+            maxWidth: 100,
+        },
+        {
+            accessor: "thickness",
+            header: "مقدار",
+            render: renderInput,
+            headerAlign: "center",
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 110,
+            maxWidth: 110,
+        },
+        {
+            accessor: "productSubUnitDesc",
+            header: "واحد فرعی",
+            render: renderSubUnit,
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 200,
+            // maxWidth: 200,
+        },
+        {
+            accessor: "price",
+            header: "قیمت",
+            flex: 1,
+            minWidth: 120,
+            maxWidth: 120,
+            render: renderPrice,
+            headerClassName: "headerClassName",
+        },
+        {
+            accessor: "Action",
+            render: renderAction,
+            header: "حذف",
+            flex: 1,
+            minWidth: 60,
+            maxWidth: 60,
+            headerClassName: "headerClassName",
+        },
+    ];
+    return col;
+};
+
 export const salesOrderConfirm = (renderAction: any) => {
     const col = [
         {
