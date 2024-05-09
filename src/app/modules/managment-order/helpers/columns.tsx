@@ -882,7 +882,7 @@ export const columnsSelectProductMuiTable = (renderAction: any, renderInput: any
         },
         {
             accessor: "price",
-            header: "قیمت",
+            header: "قیمت(ریال)",
             flex: 1,
             minWidth: 120,
             maxWidth: 120,

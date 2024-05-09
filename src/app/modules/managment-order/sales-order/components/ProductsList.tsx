@@ -111,7 +111,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         setProductData((prevState) => ({
             ...prevState,
             productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow?.productBrandId]: newSelectionModel.row.productSubUnitId },
-            price: productData.price,
         }))
         const isDuplicate = productData.selectedProduct.some((item) => {
             return item?.productBrandId === selectedRow?.productBrandId;
@@ -138,7 +137,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     onClick={() => {
                         if (productData.selectedProduct) {
                             const updatedOrders = productData.selectedProduct.filter(
-                                (item: any) => +item.productBrandId !== +indexToDelete.id
+                                (item: any) => +item.productBrandId !== +indexToDelete.productBrandId
                             );
                             setProductData((prevState) => ({
                                 ...prevState,
@@ -160,14 +159,13 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
-                    className="w-[200px] lg:w-full"
+                    className="w-[140px] lg:w-[80px]"
                     value={productData.proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
                             ...prevState,
                             proximateAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
-                            // proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.row.exchangeRate)).toString() },
-                            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.exchangeRate)).toString() },
+                            proximateSubAmounts: { ...prevState.proximateSubAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.exchangeRate)).toString() },
                         }))
                     }
                     autoFocus={true}
@@ -189,7 +187,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
-                    className="w-[200px] lg:w-full"
+                    className="w-[140px] lg:w-[120px]"
                     value={productData.proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
@@ -215,7 +213,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             }))
                         }
                         size="small"
-                        className="w-[200px] lg:w-full"
+                        className="w-[140px] lg:w-[80px]"
                         inputProps={{
                             "aria-label": "weight",
                             style: {
@@ -238,21 +236,24 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const productId = params.productBrandId;
         return (
             <>
-                <MaskInput
-                    label=""
-                    mask={Number}
-                    onAccept={(value: any) =>
-                        setProductData((prevState) => ({
-                            ...prevState,
-                            price: { ...prevState.price, [productId]: value },
-                        }))
-                    }
-                    thousandsSeparator=","
-                    className="!w-[200px] lg:!w-full"
+                <OutlinedInput
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    className="w-[140px] lg:w-[120px]"
+                    value={productData.price[productId] || ""}
+                    onChange={(e: any) =>
+                        setProductData((prevState) => ({
+                            ...prevState,
+                            price: { ...prevState.price, [productId]: e.target.value },
+                        }))
+                    }
+                    onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        const inputValue = event.target.value.replace(/[^0-9]/g, "");
+                        const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        event.target.value = formattedValue;
+                    }}
+
                     inputProps={{
-                        "aria-label": "weight",
                         style: {
                             textAlign: "center",
                         },
@@ -266,6 +267,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
             const { id, warehouseId, productBrandId, productName, exchangeRate, productBrandName, warehouseName, productDesc = "", purchasePrice = "", purchaseSettlementDate = "", purchaseInvoiceTypeId = 0, sellerCompanyRow = "string", productMainUnitDesc, rowId = 0, proximateAmount = productData.proximateAmounts[product.productBrandId] || "", warehouseTypeId = 0 } = product;
+
             const productSubUnitDesc = productData.productSubUnitDesc[product.productBrandId]
                 ? units.find((i: any) => i.id === productData.productSubUnitDesc[product.productBrandId]).unitName
                 : product.productSubUnitDesc;
@@ -285,17 +287,15 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         });
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
-            orders.some(
-                (existingProduct: any) =>
-                    existingProduct.productBrandId === newProduct.productBrandId &&
-                    existingProduct.warehouseId === newProduct.warehouseId &&
-                    existingProduct.productBrandId === newProduct.productBrandId
-            )
+            orders.some((existingProduct: any) => existingProduct.productBrandId === newProduct.productBrandId)
         );
 
 
         if (!duplicatesExist) {
             const updatedOrders = [...orders, ...selectedProductWithAmounts];
+
+            console.log("selectedProductWithAmounts", selectedProductWithAmounts)
+            console.log("updatedOrders", updatedOrders)
 
             setOrders(updatedOrders);
             setOrderPayment([]);
@@ -359,14 +359,14 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     );
                 })}
             </div>
-            
+
             <div className="lg:hidden mt-4">
-                <Formik initialValues={{productTypeId: ""}} onSubmit={() => { }}>
+                <Formik initialValues={{ productTypeId: "" }} onSubmit={() => { }}>
                     {() => {
                         return <Form>
-                            <FormikSelect 
-                                name="productTypeId" 
-                                label="نوع محصول" 
+                            <FormikSelect
+                                name="productTypeId"
+                                label="نوع محصول"
                                 options={dropdownProductType(productTypeTools?.data)}
                                 onChange={(e: any) => {
                                     console.log(e)
@@ -516,7 +516,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         isLoading={filterTools.isLoading}
                         rows={filterTools?.data?.data}
                         data={filterTools?.data?.data}
-                        height={580}
+                        height={420}
                     />
                 </div>
                 <div className="lg:col-span-3">
