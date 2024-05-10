@@ -1,12 +1,10 @@
 import React, { FC, memo, useCallback, useEffect, useState } from "react";
 import { Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
-import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
-import MaskInput from "../../../../../_cloner/components/MaskInput";
 
-import { columnsModalProduct, columnsSelectProduct, columnsSelectProductMuiTable } from "../../helpers/columns";
+import { columnsModalProduct, columnsSelectProductMuiTable } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
 import { useGetUnits } from "../../../generic/productUnit/_hooks";
