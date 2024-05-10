@@ -58,7 +58,7 @@ const LadingList = () => {
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>پرینت</Typography>}>
                     <div className="flex gap-x-4">
-                        <Link to={`/dashboard/ladingPermit_print/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createDate}`}>
+                        <Link to={`/dashboard/ladingPermit_print/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createdDate}`}>
                             <Print color="primary" />
                         </Link>
                     </div>
