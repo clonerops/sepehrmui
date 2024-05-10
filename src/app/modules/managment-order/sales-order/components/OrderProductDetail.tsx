@@ -180,12 +180,14 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     <FormikWarehouse
                         name={!isUpdate ? "warehouseId" : "warehouseName"}
                         label="انبار"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 }
+                        // disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 }
+                        disabled={true}
                         onChange={changeWarehouseFunction} />
                     <FormikProduct
                         name={!isUpdate ? "productId" : "productName"}
                         label="کالا/محصول"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        // disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        disabled={true}
                         options={dropdownProductByBrandName(products?.data?.data)} />
 
                     <FormikProximateAmount

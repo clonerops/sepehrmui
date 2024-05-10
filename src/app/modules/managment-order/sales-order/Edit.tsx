@@ -116,6 +116,7 @@ const SalesOrderEdit = () => {
                 freightDriverName: "string", //ok
                 carPlaque: "string", //ok
                 details: orders?.map((item: any) => {
+                    console.log(item)
                     const orderDetails: any = {
                         rowId: item.rowId ? Number(item.rowId) : 0, //ok
                         productId: item.productId, //ok
@@ -130,10 +131,13 @@ const SalesOrderEdit = () => {
                         description: item.description,
                         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                        purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
-                        purchaserCustomerName: item.purchaserCustomerName,
+                        // purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                        // purchaserCustomerName: item.purchaserCustomerName,
                         purchaseSettlementDate: item.purchaseSettlementDate,
                         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
+                        purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                        purchaserCustomerName: item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : item.purchaserCustomerName ? item.purchaserCustomerName : null,
+
                     };
 
                     // Conditionally include id if it exists
@@ -160,7 +164,7 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
-            console.log(JSON.stringify(formData))
+            console.log(formData)
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {

@@ -40,7 +40,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
             );
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
-            if (setFieldValue) setFieldValue('orderPaymentAmount', calculateTotalAmount(updatedOrders, orderServices))
+            if (setFieldValue) setFieldValue('orderPaymentAmount', separateAmountWithCommas(calculateTotalAmount(updatedOrders, orderServices)))
         }
     };
 
