@@ -292,9 +292,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         if (!duplicatesExist) {
             const updatedOrders = [...orders, ...selectedProductWithAmounts];
 
-            console.log("selectedProductWithAmounts", selectedProductWithAmounts)
-            console.log("updatedOrders", updatedOrders)
-
             setOrders(updatedOrders);
             setOrderPayment([]);
             setFieldValue(

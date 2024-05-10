@@ -116,7 +116,6 @@ const SalesOrderEdit = () => {
                 freightDriverName: "string", //ok
                 carPlaque: "string", //ok
                 details: orders?.map((item: any) => {
-                    console.log(item)
                     const orderDetails: any = {
                         rowId: item.rowId ? Number(item.rowId) : 0, //ok
                         productId: item.productId, //ok
@@ -164,7 +163,6 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
-            console.log(formData)
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
