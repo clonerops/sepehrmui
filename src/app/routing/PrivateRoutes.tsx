@@ -7,6 +7,7 @@ import ExitRemiitanceEdit from "../modules/logestic/exit/ExitRemittanceEdit";
 import LadingExitPermitPrint from "../modules/prints/LadingExitPermitPrint";
 import ApprovedRentPayment from "../modules/logestic/exit/ApprovedRentPayment";
 import LadingExitPermitPrintOfficial from "../modules/prints/LadingExitPermitPrintOfficial";
+import InvoiceOfficial from "../modules/prints/InvoiceOfficial";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
@@ -308,7 +309,8 @@ export const routes: RouteProps[] = [
     { path: "dashboard/approveDriverFareAmount/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ApprovedRentPayment /> },
     { path: "dashboard/exit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemittance /> },
     { path: "dashboard/exitEdit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemiitanceEdit /> },
-
+    
+    { path: "dashboard/invoiceOfficial", element: <InvoiceOfficial /> },
 
     { path: "*", element: <Navigate to="/error/404" /> },
 

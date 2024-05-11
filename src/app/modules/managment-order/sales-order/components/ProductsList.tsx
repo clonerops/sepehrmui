@@ -515,20 +515,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     />
                 </div>
                 <div className="lg:col-span-3">
-                    {/* <MuiSelectionDataGrid
-                        selectionModel={productData.selectionModel}
-                        columns={columnsSelectProduct(
-                            renderAction,
-                            renderInput,
-                            renderSubUnit,
-                            renderPrice
-                        )}
-                        rows={productData.selectedProduct}
-                        data={productData.selectedProduct}
-                        getRowId={(row: { productBrandId: string }) => row.productBrandId.toString()}
-                        hideFooter={true}
-                        columnHeaderHeight={40}
-                    /> */}
                     <MuiTable
                         columns={columnsSelectProductMuiTable(
                             renderAction,
