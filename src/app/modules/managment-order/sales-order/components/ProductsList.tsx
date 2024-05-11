@@ -310,6 +310,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
 
+    console.log("productTypeTools", productTypeTools?.data)
+
     return (
         <>
             <div className="mx-1 hidden lg:block">
@@ -332,7 +334,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 {productTypeTools?.data?.map((item: any, index: number) => {
                     return (
                         <Button key={index}
-                            className={`${currentFilter.ProductTypeId === item.productBrandId
+                            className={`${currentFilter.ProductTypeId === item.id
                                 ? "!bg-[#fcc615] !text-black"
                                 : ""
                                 }`}
@@ -340,11 +342,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             onClick={() => {
                                 setCurrentFilter({
                                     ...currentFilter,
-                                    ProductTypeId: item.productBrandId
+                                    ProductTypeId: item.id
                                 })
                                 handleFilterProduct({
                                     ...currentFilter,
-                                    ProductTypeId: item.productBrandId
+                                    ProductTypeId: item.id
                                 })
 
                             }}
