@@ -149,6 +149,15 @@ input[type="radio"]:checked+span {
  .trapezoid {
     display: flex;
     justify-content: center;
+	border-bottom: 20px solid #272862;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	height: 0;
+	width: 280px;
+}
+ .trapezoidColor {
+    display: flex;
+    justify-content: center;
 	border-bottom: 20px solid #fcc615;
 	border-left: 10px solid transparent;
 	border-right: 10px solid transparent;

@@ -9,7 +9,7 @@ import { orderColumns } from "../helpers/columns";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
-import { Visibility } from "@mui/icons-material";
+import { Print, Visibility } from "@mui/icons-material";
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 
 const pageSize = 100
@@ -39,14 +39,21 @@ const SalesOrderList = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-                <Link
-                    to={`/dashboard/sales_order/lists/${item?.row?.id}`}
-                    state={{ isConfirmed: false }}
-                >
-                    <Visibility color="secondary" />
-                </Link>
-            </Tooltip>
+            <>
+                <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                    <Link
+                        to={`/dashboard/sales_order/lists/${item?.row?.id}`}
+                        state={{ isConfirmed: false }}
+                    >
+                        <Visibility color="secondary" />
+                    </Link>
+                </Tooltip>
+                <Tooltip title={<Typography variant='h3'>فاکتور رسمی</Typography>}>
+                    <Link to="/dashboard/invoiceOfficial">
+                        <Print color="primary" />
+                    </Link>
+                </Tooltip>
+            </>
         );
     };
 

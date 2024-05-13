@@ -1,9 +1,9 @@
 import { Print } from "@mui/icons-material"
-import ReusableCard from "../../../_cloner/components/ReusableCard"
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper"
 import { useRef } from "react"
 import { useReactToPrint } from "react-to-print"
-import { Card } from "@mui/material"
+import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import NumberDisplay from "../../../_cloner/components/NumberWithBorder"
 
 const RendertextValue = (props: { title: string, value: any }) => {
     return (
@@ -21,6 +21,73 @@ const InvoiceOfficial = () => {
     const handlePrint = useReactToPrint({
         content: () => printComponentRef.current,
     });
+    const productsDetail: any = [
+        { id: "1", header: "ردیف", accessor: "id" },
+        { id: "2", header: "کدکالا", accessor: "radif" },
+        { id: "3", header: "شرح کالا یا خدمات", accessor: "productCode" },
+        { id: "4", header: "تعداد", accessor: "productName" },
+        { id: "5", header: "واحد", accessor: "proximateAmount" },
+        { id: "6", header: "مبلغ واحد(ریال)", accessor: "price" },
+        { id: "7", header: "مبلغ کل(واحد)", accessor: "allPrice" },
+    ]
+
+    const fakeData: any = [
+        {
+            id: "1", 
+            radif: '132', 
+            productCode: "2321", 
+            productName: "نبشی 18 نیمه سبک", 
+            proximateAmount: "12,000", 
+            price: '568,787,877', 
+            allPrice: "748,757,452", 
+        },
+        {
+            id: "1", 
+            radif: '1342', 
+            productCode: "2321", 
+            productName: "نبشی 18 نیمه سبک", 
+            proximateAmount: "12,000", 
+            price: '568,787,877', 
+            allPrice: "748,757,452", 
+        },
+        {
+            id: "1", 
+            radif: '14353', 
+            productCode: "2321", 
+            productName: "نبشی 18 نیمه سبک", 
+            proximateAmount: "12,000", 
+            price: '568,787,877', 
+            allPrice: "748,757,452", 
+        },
+        {
+            id: "1", 
+            radif: '1214', 
+            productCode: "2321", 
+            productName: "نبشی 18 نیمه سبک", 
+            proximateAmount: "12,000", 
+            price: '568,787,877', 
+            allPrice: "748,757,452", 
+        },
+        {
+            id: "1", 
+            radif: '15434', 
+            productCode: "2321", 
+            productName: "نبشی 18 نیمه سبک", 
+            proximateAmount: "12,000", 
+            price: '568,787,877', 
+            allPrice: "748,757,452", 
+        },
+        {
+            id: "1", 
+            radif: '1564', 
+            productCode: "2321", 
+            productName: "نبشی 18 نیمه سبک", 
+            proximateAmount: "12,000", 
+            price: '568,787,877', 
+            allPrice: "748,757,452", 
+        },
+    ]
+
 
   return (
     <>
@@ -30,113 +97,99 @@ const InvoiceOfficial = () => {
             </span>
             <span className="text-white">پرینت</span>
         </button>
-        <div ref={printComponentRef} style={{ direction: "rtl", paddingLeft: "8px", paddingRight: "8px", }}>
-            {/* <Card className="m-8 px-4 py-4"> */}
-            <Card>
-                <div className="ml-auto mr-auto pl-[128px] pr-[128px] print:pl-[10px] print:pr-[10px]">
-                    <header className="flex justify-between items-center">
-                        <div className="flex items-center gap-x-2">
-                            <img src={toAbsoulteUrl('/media/logos/follad.png')} width={30} height={30} />
-                            <span className="font-bold text-[16px] text-[#272862] print:text-[14px]">شرکت مهفام پولاد ویانا</span>
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-[14px] print:text-[12px]">صورت حساب فروش کالا و خدمات</h3>
-                        </div>
-                        <div className="flex justify-center items-center gap-x-2">
-                            <span className="font-bold text-[14px] print:text-[12px]">تاریخ</span>
-                            <span className="border-2 border-black w-[120px] rounded-md px-8 py-1 font-bold">
-                                1402/20/12
-                            </span>
-                        </div>
-                    </header>
+        <Container>
 
-                    <section className="flex flex-col justify-center items-center">
-                        <div className="trapezoid">
-                            <span className="font-bold">مشخصات فروشنده</span>
-                        </div>
-                        <section className="boxInfo border-2 w-full border-black rounded-md bg-gradient-to-l from-[#ebebeb]">
-                            <div className="grid grid-cols-4 gap-y-2 p-4">
-                                <div className="col-span-2">
-                                    <RendertextValue title="نام شخص حقیقی/حقوقی" value="ابوالفضل معصومی اسنقی" />
+            <div ref={printComponentRef} style={{direction: "rtl", width: "100%"}}>
+                    <div className="relative">
+                        <header> 
+                            <img src={toAbsoulteUrl('/media/mainlogo/headerInvoice1.png')} className="!w-full" />  
+                        </header>
+                        <strong className="block text-center print:text-[14px]">صورت حساب فروش کالا و خدمات</strong>
+                        <main className="flex flex-col space-y-2">
+                            {/* Main Customer */}
+                            <section className="flex flex-col justify-center items-center">
+                                <div className="trapezoid">
+                                    <span className="font-bold text-white">مشخصات فروشنده</span>
                                 </div>
-                                <RendertextValue title="کداقتصادی" value="12402547985478" />
-                                <RendertextValue title="شماره ثبت" value="3698" />
-                                <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
-                                <RendertextValue title="شهرستان" value="بهارستان" />
-                                <RendertextValue title="کدپستی" value="369654778548" />
-                                <RendertextValue title="شناسه ملی" value="6660089985" />
-                                <div className="col-span-3">
-                                    <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
+                                <section className="boxInfo border-2 w-full border-black rounded-md bg-gradient-to-l from-[#ebebeb]">
+                                    {/* <div className="grid grid-cols-4 gap-y-2 p-4"> */}
+                                    <div className="flex flex-row flex-wrap gap-x-8 gap-y-4 px-4 py-2">
+                                        <div>
+                                            <RendertextValue title="نام شخص حقیقی/حقوقی" value="ابوالفضل معصومی اسنقی" />
+                                        </div>
+                                        <RendertextValue title="کداقتصادی" value={<NumberDisplay number={67232163} />} />
+                                        <RendertextValue title="شماره ثبت" value={<NumberDisplay number={673} />} />
+                                        <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
+                                        <RendertextValue title="شهرستان" value="بهارستان" />
+                                        <RendertextValue title="کدپستی" value={<NumberDisplay number={3698571256} />} />
+                                        <RendertextValue title="شناسه ملی" value={<NumberDisplay number={6660089985} />} />
+                                        <div className="col-span-3">
+                                            <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
+                                        </div>
+                                        <RendertextValue title="تلفن/نمابر" value="02156766117895" />
+                                    </div>
+                                </section>
+                            </section>
+                            {/* Main Purchaser */}
+                            <section className="flex flex-col justify-center items-center">
+                                <div className="trapezoid">
+                                    <span className="font-bold text-white">مشخصات خریدار</span>
                                 </div>
-                                <RendertextValue title="تلفن/نمابر" value="02156766117895" />
+                                <section className="boxInfo border-2 w-full border-black rounded-md bg-gradient-to-l from-[#ebebeb]">
+                                    <div className="flex flex-row flex-wrap gap-x-8 gap-y-4 px-4 py-2">
+                                        <div className="col-span-2">
+                                            <RendertextValue title="نام شخص حقیقی/حقوقی" value="ابوالفضل معصومی اسنقی" />
+                                        </div>
+                                        <RendertextValue title="کداقتصادی" value={<NumberDisplay number={67232163} />} />
+                                        <RendertextValue title="شماره ثبت" value={<NumberDisplay number={673} />} />
+                                        <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
+                                        <RendertextValue title="شهرستان" value="بهارستان" />
+                                        <RendertextValue title="کدپستی" value={<NumberDisplay number={3698571256} />} />
+                                        <RendertextValue title="شناسه ملی" value={<NumberDisplay number={6660089985} />} />
+                                        <div className="col-span-3">
+                                            <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
+                                        </div>
+                                        <RendertextValue title="تلفن/نمابر" value="02156766117895" />
+                                    </div>
+                                </section>
+                            </section>
+                            {/* Products */}
+                            <section className="flex flex-col justify-center items-center">
+                            <div className="flex flex-row flex-wrap gap-x-8 gap-y-4 px-4">
+                                <div className="trapezoidColor">
+                                    <span className="font-bold">مشخصات کالا یا خدمات مورد معامله</span>
+                                </div>
                             </div>
-                        </section>
-                    </section>
-                    <section className="flex flex-col justify-center items-center">
-                        <div className="trapezoid">
-                            <span className="font-bold">مشخصات خریدار</span>
-                        </div>
-                        <section className="boxInfo border-2 w-full border-black rounded-md bg-gradient-to-l from-[#ebebeb]">
-                            <div className="grid grid-cols-4 gap-y-2 p-4">
-                                <div className="col-span-2">
-                                    <RendertextValue title="نام شخص حقیقی/حقوقی" value="ابوالفضل معصومی اسنقی" />
-                                </div>
-                                <RendertextValue title="کداقتصادی" value="12402547985478" />
-                                <RendertextValue title="شماره ثبت" value="3698" />
-                                <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
-                                <RendertextValue title="شهرستان" value="بهارستان" />
-                                <RendertextValue title="کدپستی" value="369654778548" />
-                                <RendertextValue title="شناسه ملی" value="6660089985" />
-                                <div className="col-span-3">
-                                    <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
-                                </div>
-                                <RendertextValue title="تلفن/نمابر" value="02156766117895" />
-                            </div>
-                        </section>
-                    </section>
+                                <TableContainer component={Paper}>
+                                    <Table>
+                                        <TableHead className="bg-[#E2E8F0]" >
+                                        <TableRow >
+                                        {productsDetail?.map((column: {accessor: string, header: string}) => (
+                                            <TableCell className="flex flex-wrap !font-bold !m-0 !py-1 !px-4" key={column?.accessor}>{column?.header}</TableCell>
+                                        ))}
+                                        </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                        {fakeData.map((row: any, rowIndex: any) => (
+                                            <TableRow key={rowIndex} className='cursor-pointer hover:bg-blue-200 transition !h-[10px]'>
+                                                {productsDetail?.map((column: any) => (
+                                                <TableCell size='small' >
+                                                    <Typography>{row[column?.accessor]}</Typography>
+                                                </TableCell>
+                                            ))}
+                                            </TableRow>
+                                        ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </section>
+                        </main>
+                        <footer> 
+                            <img src={toAbsoulteUrl('/media/mainlogo/footerInvoice1.png')} className="!w-full" />  
+                        </footer>
                 </div>
-
-                {/* <section className="container">
-                    <header className="flex justify-between items-center">
-                        <div className="flex items-center gap-x-2">
-                            <img src={toAbsoulteUrl('/media/logos/follad.png')} width={30} height={30} />
-                            <span className="font-bold text-[16px] text-[#272862]">شرکت مهفام پولاد ویانا</span>
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-[14px]">صورت حساب فروش کالا و خدمات</h3>
-                        </div>
-                        <div className="flex justify-center items-center gap-x-2">
-                            <span className="font-bold text-[14px]">تاریخ</span>
-                            <span className="border-2 border-black w-[120px] rounded-md px-8 py-1 font-bold">
-                                1402/20/12
-                            </span>
-                        </div>
-                    </header>
-                    <section className="flex flex-col justify-center items-center">
-                        <div className="trapezoid">
-                            <span className="font-bold">مشخصات فروشنده</span>
-                        </div>
-                        <section className="boxInfo border-2 w-full border-black rounded-md bg-gradient-to-l from-[#ebebeb]">
-                            <div className="grid grid-cols-4 gap-y-2 p-4">
-                                <div className="col-span-2">
-                                    <RendertextValue title="نام شخص حقیقی/حقوقی" value="ابوالفضل معصومی اسنقی" />
-                                </div>
-                                <RendertextValue title="کداقتصادی" value="12402547985478" />
-                                <RendertextValue title="شماره ثبت" value="3698" />
-                                <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
-                                <RendertextValue title="شهرستان" value="بهارستان" />
-                                <RendertextValue title="کدپستی" value="369654778548" />
-                                <RendertextValue title="شناسه ملی" value="6660089985" />
-                                <div className="col-span-3">
-                                    <RendertextValue title="نشانی کامل" value="استان تهران، خیابان انقلاب" />
-                                </div>
-                                <RendertextValue title="تلفن/نمابر" value="02156766117895" />
-                            </div>
-                        </section>
-                    </section>
-                </section>     */}
-            </Card>   
-        </div>
+            </div>
+        </Container>
     </>
   )
 }
