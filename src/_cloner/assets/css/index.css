@@ -61,7 +61,7 @@
     src: url("../fonts/IRANSansWeb\(FaNum\)_Bold.ttf");
     font-style: normal;
 } */
-@font-face {
+/* @font-face {
     font-family: Yekan_reqular;
     src: url("../fonts/Vazir-FD-WOL.ttf");
     font-style: normal;
@@ -82,6 +82,30 @@
 @font-face {
     font-family: Yekan_bold;
     src: url("../fonts/Vazir-Bold-FD-WOL.ttf");
+    font-style: normal;
+} */
+
+@font-face {
+    font-family: Yekan_reqular;
+    src: url("../fonts/PeydaFaNum-Regular.ttf");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Yekan_medium;
+    src: url("../fonts/PeydaFaNum-Medium.ttf");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Yekan_light;
+    src: url("../fonts/PeydaFaNum-Light.ttf");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Yekan_bold;
+    src: url("../fonts/PeydaFaNum-Bold.ttf");
     font-style: normal;
 }
 
