@@ -239,10 +239,10 @@ const InvoiceOfficial = () => {
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{item?.product?.productMainUnitDesc}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">{separateAmountWithCommas(item?.price)}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[12%]">{separateAmountWithCommas((+item?.proximateAmount) * (+item?.price))}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%]">360000</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[15%]">3625874159856</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%]"></td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[15%]"></td>
                                                 </tr>
                                             ))}
                                                 <tr>
