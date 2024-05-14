@@ -629,8 +629,8 @@ export const columnsModalProduct = () => {
                 return <Typography variant="h5">{params.value}</Typography>;
             },
             flex: 1,
-            minWidth: 80,
-            maxWidth: 80
+            minWidth: 70,
+            maxWidth: 70
         },
         {
             field: "warehouseName",
@@ -642,8 +642,8 @@ export const columnsModalProduct = () => {
 
             headerClassName: "headerClassName",
             flex: 1,
-            minWidth: 80,
-            maxWidth: 80,
+            minWidth: 70,
+            maxWidth: 70,
 
         },
         {
@@ -664,7 +664,7 @@ export const columnsModalProduct = () => {
             field: "price",
             headerName: "قیمت",
             flex: 1,
-            minWidth: 100,
+            minWidth: 80,
             // maxWidth: 100,
             renderCell: (value: any) =>
                 <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
