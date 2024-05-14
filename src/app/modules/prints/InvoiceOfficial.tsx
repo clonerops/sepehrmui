@@ -2,19 +2,12 @@ import { Print } from "@mui/icons-material";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import {
-    Card,
-    Container,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-} from "@mui/material";
+import { Card, Container } from "@mui/material";
 import NumberDisplay from "../../../_cloner/components/NumberWithBorder";
+import { useRetrieveOrder } from "../managment-order/core/_hooks";
+import { useParams } from "react-router-dom";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 
 const RendertextValue = (props: { title: string; value: any }) => {
     return (
@@ -28,78 +21,21 @@ const RendertextValue = (props: { title: string; value: any }) => {
 };
 
 const InvoiceOfficial = () => {
+    const { id } = useParams()
+    const { data, isLoading } = useRetrieveOrder(id)
+
     const printComponentRef = useRef<HTMLDivElement>(null);
 
     const handlePrint = useReactToPrint({
         content: () => printComponentRef.current,
     });
-    const productsDetail: any = [
-        { id: "1", header: "ردیف", accessor: "id" },
-        { id: "2", header: "کدکالا", accessor: "radif" },
-        { id: "3", header: "شرح کالا یا خدمات", accessor: "productCode" },
-        { id: "4", header: "تعداد", accessor: "productName" },
-        { id: "5", header: "واحد", accessor: "proximateAmount" },
-        { id: "6", header: "مبلغ واحد(ریال)", accessor: "price" },
-        { id: "7", header: "مبلغ کل(واحد)", accessor: "allPrice" },
-        { id: "7", header: "مبلغ تخفیف", accessor: "allPrice" },
-    ];
 
-    const fakeData: any = [
-        {
-            id: "1",
-            radif: "132",
-            productCode: "2321",
-            productName: "نبشی 18 نیمه سبک",
-            proximateAmount: "12,000",
-            price: "568,787,877",
-            allPrice: "748,757,452",
-        },
-        {
-            id: "1",
-            radif: "1342",
-            productCode: "2321",
-            productName: "نبشی 18 نیمه سبک",
-            proximateAmount: "12,000",
-            price: "568,787,877",
-            allPrice: "748,757,452",
-        },
-        {
-            id: "1",
-            radif: "14353",
-            productCode: "2321",
-            productName: "نبشی 18 نیمه سبک",
-            proximateAmount: "12,000",
-            price: "568,787,877",
-            allPrice: "748,757,452",
-        },
-        {
-            id: "1",
-            radif: "1214",
-            productCode: "2321",
-            productName: "نبشی 18 نیمه سبک",
-            proximateAmount: "12,000",
-            price: "568,787,877",
-            allPrice: "748,757,452",
-        },
-        {
-            id: "1",
-            radif: "15434",
-            productCode: "2321",
-            productName: "نبشی 18 نیمه سبک",
-            proximateAmount: "12,000",
-            price: "568,787,877",
-            allPrice: "748,757,452",
-        },
-        {
-            id: "1",
-            radif: "1564",
-            productCode: "2321",
-            productName: "نبشی 18 نیمه سبک",
-            proximateAmount: "12,000",
-            price: "568,787,877",
-            allPrice: "748,757,452",
-        },
-    ];
+    if (isLoading) {
+        return <Backdrop loading={isLoading} />
+    }
+
+    console.log("data", data?.data)
+
 
     return (
         <>
@@ -116,7 +52,15 @@ const InvoiceOfficial = () => {
                 <Card>
                     <div
                         ref={printComponentRef}
-                        style={{ direction: "rtl", width: "100%" }}
+                        style={{ 
+                            direction: "rtl", 
+                            width: "100%",
+                            flexGrow: 1,
+                            padding: 3,
+                            backgroundColor: "#eceff3",
+                            backgroundImage: `url(${toAbsoulteUrl(
+                              "/media/mainlogo/watermark.png",
+                            )})`, }}
                     >
                         <div className="relative">
                             <header>
@@ -144,14 +88,14 @@ const InvoiceOfficial = () => {
                                             <div>
                                                 <RendertextValue
                                                     title="نام شخص حقیقی/حقوقی"
-                                                    value="ابوالفضل معصومی اسنقی"
+                                                    value="شرکت مهفام پولاد ویانا"
                                                 />
                                             </div>
                                             <RendertextValue
                                                 title="کداقتصادی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={67232163}
+                                                        number={14009783097}
                                                     />
                                                 }
                                             />
@@ -159,23 +103,23 @@ const InvoiceOfficial = () => {
                                                 title="شماره ثبت"
                                                 value={
                                                     <NumberDisplay
-                                                        number={673}
+                                                        number={3947}
                                                     />
                                                 }
                                             />
                                             <RendertextValue
                                                 title="نشانی کامل"
-                                                value="استان تهران، خیابان انقلاب"
+                                                value="استان تهران"
                                             />
                                             <RendertextValue
                                                 title="شهرستان"
-                                                value="بهارستان"
+                                                value="ساوه"
                                             />
                                             <RendertextValue
-                                                title="کدپستی"
+                                                title="کدپستی 10رقمی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={3698571256}
+                                                        number={3764131272}
                                                     />
                                                 }
                                             />
@@ -183,19 +127,19 @@ const InvoiceOfficial = () => {
                                                 title="شناسه ملی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={6660089985}
+                                                        number={14009783097}
                                                     />
                                                 }
                                             />
                                             <div className="col-span-3">
                                                 <RendertextValue
-                                                    title="نشانی کامل"
-                                                    value="استان تهران، خیابان انقلاب"
+                                                    title="نشانی"
+                                                    value="تهران،اتوبان ساوه،سه راه آدران،شهرک زواره ای،خیابان صنعت هشتم،کوچه فرعی دوم،پلاک66،طبقه دوم"
                                                 />
                                             </div>
                                             <RendertextValue
                                                 title="تلفن/نمابر"
-                                                value="02156766117895"
+                                                value="021-91005040"
                                             />
                                         </div>
                                     </section>
@@ -212,14 +156,14 @@ const InvoiceOfficial = () => {
                                             <div className="col-span-2">
                                                 <RendertextValue
                                                     title="نام شخص حقیقی/حقوقی"
-                                                    value="ابوالفضل معصومی اسنقی"
+                                                    value={data?.data?.customerOfficialCompany?.companyName}
                                                 />
                                             </div>
                                             <RendertextValue
                                                 title="کداقتصادی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={67232163}
+                                                        number={data?.data?.customerOfficialCompany?.economicId}
                                                     />
                                                 }
                                             />
@@ -227,23 +171,15 @@ const InvoiceOfficial = () => {
                                                 title="شماره ثبت"
                                                 value={
                                                     <NumberDisplay
-                                                        number={673}
+                                                        number={data?.data?.customerOfficialCompany?.economicId}
                                                     />
                                                 }
-                                            />
-                                            <RendertextValue
-                                                title="نشانی کامل"
-                                                value="استان تهران، خیابان انقلاب"
-                                            />
-                                            <RendertextValue
-                                                title="شهرستان"
-                                                value="بهارستان"
                                             />
                                             <RendertextValue
                                                 title="کدپستی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={3698571256}
+                                                        number={data?.data?.customerOfficialCompany?.postalCode}
                                                     />
                                                 }
                                             />
@@ -251,19 +187,19 @@ const InvoiceOfficial = () => {
                                                 title="شناسه ملی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={6660089985}
+                                                        number={data?.data?.customerOfficialCompany?.nationalId}
                                                     />
                                                 }
                                             />
                                             <div className="col-span-3">
                                                 <RendertextValue
                                                     title="نشانی کامل"
-                                                    value="استان تهران، خیابان انقلاب"
+                                                    value={`${data?.data?.customerOfficialCompany?.address}`}
                                                 />
                                             </div>
                                             <RendertextValue
                                                 title="تلفن/نمابر"
-                                                value="02156766117895"
+                                                value={data?.data?.customerOfficialCompany?.tel1}
                                             />
                                         </div>
                                     </section>
@@ -294,83 +230,47 @@ const InvoiceOfficial = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {data?.data?.details?.map((item: any, index: number) => (
                                                 <tr>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">1</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">1295</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">نبشی 8 12 متری فولاد مبارکه</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">1400</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">کیلوگرم</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">125000</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[12%]">12587994564</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">{index + 1}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">{item?.product?.productCode}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">{`${item?.product?.productName} ${item?.brandName}`}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{separateAmountWithCommas(item?.proximateAmount)}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{item?.product?.productMainUnitDesc}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">{separateAmountWithCommas(item?.price)}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[12%]">{separateAmountWithCommas((+item?.proximateAmount) * (+item?.price))}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[7%]">360000</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[15%]">3625874159856</td>
                                                 </tr>
+                                            ))}
                                                 <tr>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">1</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">1295</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">نبشی 8 12 متری فولاد مبارکه</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">1400</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">کیلوگرم</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">125000</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[12%]">12587994564</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%]">360000</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[15%]">3625874159856</td>
+                                                    <td className="print:text-[10px] border border-black bg-white" rowSpan={6} colSpan={6}>جمع کل</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%] font-bold">{separateAmountWithCommas(+data?.data?.totalAmount)}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%]"></td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[15%]"></td>
                                                 </tr>
-                                                <tr>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">1</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">1295</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">نبشی 8 12 متری فولاد مبارکه</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">1400</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">کیلوگرم</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">125000</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[12%]">12587994564</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%]">360000</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[15%]">3625874159856</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">1</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">1295</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">نبشی 8 12 متری فولاد مبارکه</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">1400</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">کیلوگرم</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">125000</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[12%]">12587994564</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%]">360000</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">369852147</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[15%]">3625874159856</td>
-                                                </tr>
+
                                         </tbody>
                                     </table>
-                                    {/* <TableContainer component={Paper}>
-                                        <Table>
-                                            <TableHead className="bg-[#E2E8F0]" >
-                                            <TableRow >
-                                            {productsDetail?.map((column: {accessor: string, header: string}) => (
-                                                <TableCell className="flex flex-wrap !font-bold !m-0 !py-1 !px-4" key={column?.accessor}>{column?.header}</TableCell>
-                                            ))}
-                                            </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                            {fakeData.map((row: any, rowIndex: any) => (
-                                                <TableRow key={rowIndex} className='!bg-transparent !h-[10px]'>
-                                                    {productsDetail?.map((column: any) => (
-                                                    <TableCell size='small' >
-                                                        <Typography className="!font-bold !text-[12px]">{row[column?.accessor]}</Typography>
-                                                    </TableCell>
-                                                ))}
-                                                </TableRow>
-                                            ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer> */}
                                 </section>
+                                <section className="flex flex-col justify-center items-center">
+                                    <div className="grid grid-cols-4 gap-x-4 w-full">
+                                        <div className="col-span-2 border border-black rounded-md bg-slate-100 h-[80px]">
+                                            <span className="p-2">توضیحات</span>
+                                        </div>
+                                        <div className="border border-black rounded-md bg-slate-100 h-[80px]">
+                                            <span className="p-2">مهر و امضا خریدار</span>
+                                        </div>
+                                        <div className="border border-black rounded-md bg-slate-100 h-[80px]">
+                                            <span className="p-2">مهر و امضا فروشنده</span>
+                                        </div>
+                                    </div>
+                                </section>
+
                             </main>
                             <footer>
                                 <img

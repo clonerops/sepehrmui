@@ -310,7 +310,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/exit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemittance /> },
     { path: "dashboard/exitEdit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemiitanceEdit /> },
     
-    { path: "dashboard/invoiceOfficial", element: <InvoiceOfficial /> },
+    { path: "dashboard/invoiceOfficial/:id", element: <InvoiceOfficial /> },
 
     { path: "*", element: <Navigate to="/error/404" /> },
 

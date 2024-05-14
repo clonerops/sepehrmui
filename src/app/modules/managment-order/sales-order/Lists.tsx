@@ -39,7 +39,7 @@ const SalesOrderList = () => {
 
     const renderAction = (item: any) => {
         return (
-            <>
+            <div className="flex flex-row gap-x-4">
                 <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
                     <Link
                         to={`/dashboard/sales_order/lists/${item?.row?.id}`}
@@ -49,11 +49,11 @@ const SalesOrderList = () => {
                     </Link>
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>فاکتور رسمی</Typography>}>
-                    <Link to="/dashboard/invoiceOfficial">
+                    <Link to={`/dashboard/invoiceOfficial/${item?.row?.id}`}>
                         <Print color="primary" />
                     </Link>
                 </Tooltip>
-            </>
+            </div>
         );
     };
 
