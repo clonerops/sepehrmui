@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
+import { Button, TextField, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
@@ -89,7 +89,7 @@ const ProductsList = (props: {
         const productId = params.row.id;
         return (
             <>
-                <OutlinedInput
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     value={productData.proximateAmounts[productId] || ""}
@@ -100,12 +100,14 @@ const ProductsList = (props: {
                             params.row.exchangeRate
                         )
                     }
+                    type="number"
                     autoFocus={true}
                     inputProps={{
                         "aria-label": "weight",
                         style: {
                             textAlign: "center",
                         },
+                        type:"number"
                     }}
                 />
             </>
@@ -122,11 +124,13 @@ const ProductsList = (props: {
                     thousandsSeparator=","
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    type="number"
                     inputProps={{
                         "aria-label": "weight",
                         style: {
                             textAlign: "center",
                         },
+                        type:"number"
                     }}
                 />
             </>
@@ -144,19 +148,21 @@ const ProductsList = (props: {
         const productId = params.row.id;
         return (
             <div className="flex gap-x-2">
-                <OutlinedInput
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     value={productData.proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
                         handleInputSubUnitChange(productId, e.target.value)
                     }
+                    type="number"
                     inputProps={{
                         "aria-label": "weight",
                         style: {
                             textAlign: "center",
                             width: 28,
                         },
+                        type: 'number'
                     }}
                 />
                 <FormControl fullWidth>

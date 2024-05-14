@@ -1,5 +1,5 @@
 import React, { FC, memo, useCallback, useEffect, useState } from "react";
-import { Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
+import { Button, TextField, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
@@ -154,9 +154,10 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const productId = params?.productBrandId;
         return (
             <>
-                <OutlinedInput
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    type="number"
                     className="w-[140px] lg:w-[80px]"
                     value={productData.proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
@@ -182,9 +183,10 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const productId = params.productBrandId;
         return (
             <div className="flex gap-x-2">
-                <OutlinedInput
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    type="number"
                     className="w-[140px] lg:w-[120px]"
                     value={productData.proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
@@ -234,7 +236,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const productId = params.productBrandId;
         return (
             <>
-                <OutlinedInput
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     className="w-[140px] lg:w-[120px]"
@@ -245,16 +247,18 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             price: { ...prevState.price, [productId]: e.target.value },
                         }))
                     }
-                    onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        const inputValue = event.target.value.replace(/[^0-9]/g, "");
-                        const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        event.target.value = formattedValue;
-                    }}
+                    // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    //     const inputValue = event.target.value.replace(/[^0-9]/g, "");
+                    //     const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    //     event.target.value = formattedValue;
+                    // }}
 
                     inputProps={{
+                        type: "number", // Add the type attribute
                         style: {
                             textAlign: "center",
                         },
+                        
                     }}
                 />
             </>

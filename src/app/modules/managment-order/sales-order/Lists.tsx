@@ -49,9 +49,9 @@ const SalesOrderList = () => {
                     </Link>
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>فاکتور رسمی</Typography>}>
-                    <Link to={`/dashboard/invoiceOfficial/${item?.row?.id}`}>
+                    <a target='_blank'  href={`/dashboard/invoiceOfficial/${item?.row?.id}`}>
                         <Print color="primary" />
-                    </Link>
+                    </a>
                 </Tooltip>
             </div>
         );
