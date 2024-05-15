@@ -79,54 +79,16 @@ const InvoiceNotOfficial = () => {
                                         </span>
                                     </div>
                                     <section className="boxInfo border-2 w-full border-black rounded-md bg-gradient-to-l from-[#ebebeb]">
-                                        <div className="flex flex-row flex-wrap gap-x-8 gap-y-4 px-4 py-2">
+                                        <div className="flex flex-col flex-wrap gap-x-8 gap-y-4 px-4 py-2">
                                             <div className="col-span-2">
                                                 <RendertextValue
-                                                    title="نام شخص حقیقی/حقوقی"
-                                                    value={data?.data?.customerOfficialCompany?.companyName}
-                                                />
-                                            </div>
-                                            <RendertextValue
-                                                title="کداقتصادی"
-                                                value={
-                                                    <NumberDisplay
-                                                        number={data?.data?.customerOfficialCompany?.economicId}
-                                                    />
-                                                }
-                                            />
-                                            <RendertextValue
-                                                title="شماره ثبت"
-                                                value={
-                                                    <NumberDisplay
-                                                        number={data?.data?.customerOfficialCompany?.economicId}
-                                                    />
-                                                }
-                                            />
-                                            <RendertextValue
-                                                title="کدپستی"
-                                                value={
-                                                    <NumberDisplay
-                                                        number={data?.data?.customerOfficialCompany?.postalCode}
-                                                    />
-                                                }
-                                            />
-                                            <RendertextValue
-                                                title="شناسه ملی"
-                                                value={
-                                                    <NumberDisplay
-                                                        number={data?.data?.customerOfficialCompany?.nationalId}
-                                                    />
-                                                }
-                                            />
-                                            <div className="col-span-3">
-                                                <RendertextValue
-                                                    title="نشانی کامل"
-                                                    value={`${data?.data?.customerOfficialCompany?.address}`}
+                                                    title="نام خریدار"
+                                                    value={`${data?.data?.customer?.firstName} ${data?.data?.customer?.lastName}`}
                                                 />
                                             </div>
                                             <RendertextValue
                                                 title="تلفن/نمابر"
-                                                value={data?.data?.customerOfficialCompany?.tel1}
+                                                value={data?.data?.customer?.tel1}
                                             />
                                         </div>
                                     </section>

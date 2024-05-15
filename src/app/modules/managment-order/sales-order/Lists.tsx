@@ -38,6 +38,7 @@ const SalesOrderList = () => {
 
 
     const renderAction = (item: any) => {
+        console.log("item", item)
         return (
             <div className="flex flex-row gap-x-4">
                 <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
@@ -49,7 +50,7 @@ const SalesOrderList = () => {
                     </Link>
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>فاکتور رسمی</Typography>}>
-                    <a target='_blank'  href={`/dashboard/invoiceNotOfficial/${item?.row?.id}`}>
+                    <a target='_blank'  href={`/dashboard/${[1, 2].includes(+item.row.invoiceTypeId) ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
                         <Print color="primary" />
                     </a>
                 </Tooltip>
