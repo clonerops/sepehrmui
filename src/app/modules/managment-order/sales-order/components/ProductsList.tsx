@@ -192,7 +192,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
                             ...prevState,
-                            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
+                            proximateSubAmounts: { ...prevState.proximateSubAmounts, [productId]: e.target.value },
                         }))
                     }
                     inputProps={{
@@ -201,6 +201,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         },
                     }}
                 />
+
                 <FormControl fullWidth>
                     <Select
                         labelId={`demo-simple-select-label-${productId}`}
