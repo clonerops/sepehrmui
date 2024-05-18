@@ -186,7 +186,7 @@ const SalesOrder = () => {
                                 formikRef={formikRef}
                                 setOrderPayment={setOrderPayment} />
                         </div>
-                        <div className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
+                        <div className="flex gap-x-8 my-4 justify-between items-center lg:justify-between lg:items-center">
                             <CustomButton
                                 title={"خالی کردن فرم"}
                                 onClick={() => handleReset(resetForm)}

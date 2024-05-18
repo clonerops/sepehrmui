@@ -83,12 +83,13 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
                         <div className='flex flex-row justify-between items-center'>
                             <RenderInformation
                                 title='معرف'
+                                valueClassName={postSaleOrder?.data?.succeeded && "!text-gray-300"}
                                 value={detailCustomer.data?.data?.representative} />
                             <div className="flex flex-row pt-2">
                                 <Typography
                                     sx={{ backgroundColor: `#${detailCustomer.data?.data?.customerValidityColorCode}` }}
                                     variant="h3"
-                                    className={`text-white px-4 rounded-md py-1`}>
+                                    className={`text-white ${postSaleOrder?.data?.succeeded && "!text-gray-300"} px-4 rounded-md py-1`}>
                                     {detailCustomer.data?.data?.customerValidityDesc}
                                 </Typography>
                             </div>
@@ -96,11 +97,11 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
                         <div className='flex flex-col space-y-4 w-full'>
                             <RenderInformation
                                 title='بدهی جاری(ریال)'
-                                valueClassName='text-red-500'
+                                valueClassName={postSaleOrder?.data?.succeeded ? "!text-gray-300" : "text-red-500"}
                                 value={detailCustomer.data?.data?.customerCurrentDept ? customerCurrentDept : 0} />
                             <RenderInformation
                                 title='بدهی کل(ریال)'
-                                valueClassName='text-red-500'
+                                valueClassName={postSaleOrder?.data?.succeeded ? "!text-gray-300" : "text-red-500"}
                                 value={detailCustomer.data?.data?.customerDept ? customerDept : 0} />
                         </div>
                     </div>
