@@ -360,10 +360,12 @@ const ExitRemiitance = () => {
                                     <FormikInput
                                         name="bankAccountNo"
                                         label="شماره حساب/کارت راننده"
+                                        disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2}
                                     />
                                     <FormikInput
                                         name="bankAccountOwnerName"
                                         label="صاحب حساب"
+                                        disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2}
                                     />
                                     {/* <FormikInput
                                         name="creditCardNo"
@@ -374,12 +376,14 @@ const ExitRemiitance = () => {
                                         mask={Number}
                                         name="otherAmount"
                                         label={"مقدار سایر هزینه ها"}
+                                        disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2}
                                     />
                                     <FormikMaskInput
                                         thousandsSeparator=","
                                         mask={Number}
                                         name="fareAmount"
                                         label={"مقدار کرایه"}
+                                        disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2}
                                     />
                                 </div>
 

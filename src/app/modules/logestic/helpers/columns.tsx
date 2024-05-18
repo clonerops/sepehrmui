@@ -28,6 +28,12 @@ export const readyToCargoColumns = (renderAction: any) => {
             headerName: 'نوع خروج', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
+            field: 'paymentTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع کرایه', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
             field: 'invoiceTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },

@@ -53,6 +53,8 @@ const CargoForm = () => {
     const cargosList = useRetrieveCargos(id)
     const vehicleList = useGetVehicleTypes()
 
+    console.log(data?.data)
+
     // states
     const [ladingOrderDetail, setLadingOrderDetail] = useState<any>([])
     const [ladingAmount, setLadingAmount] = useState<{ [key: string]: string }>({})
@@ -156,7 +158,7 @@ const CargoForm = () => {
             case "select":
                 return <FormikSelect key={index} options={dropdownVehicleType(vehicleList.data)} {...rest} />
             case "amount":
-                return <FormikAmount key={index} {...rest} />;
+                return <FormikAmount disabled={data?.data?.farePaymentTypeId === 2} key={index} {...rest} />;
             case "desc":
                 return <FormikInput key={index} multiline minRows={3} {...rest} />;
 
