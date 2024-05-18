@@ -163,7 +163,7 @@ const InvoiceOfficial = () => {
                                                 title="کداقتصادی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={data?.data?.customerOfficialCompany?.economicId}
+                                                        number={data?.data?.customerOfficialCompany?.economicId || 0}
                                                     />
                                                 }
                                             />
@@ -171,7 +171,7 @@ const InvoiceOfficial = () => {
                                                 title="شماره ثبت"
                                                 value={
                                                     <NumberDisplay
-                                                        number={data?.data?.customerOfficialCompany?.economicId}
+                                                        number={data?.data?.customerOfficialCompany?.economicId || 0}
                                                     />
                                                 }
                                             />
@@ -179,7 +179,7 @@ const InvoiceOfficial = () => {
                                                 title="کدپستی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={data?.data?.customerOfficialCompany?.postalCode}
+                                                        number={data?.data?.customerOfficialCompany?.postalCode || 0}
                                                     />
                                                 }
                                             />
@@ -187,7 +187,7 @@ const InvoiceOfficial = () => {
                                                 title="شناسه ملی"
                                                 value={
                                                     <NumberDisplay
-                                                        number={data?.data?.customerOfficialCompany?.nationalId}
+                                                        number={data?.data?.customerOfficialCompany?.nationalId || 0}
                                                     />
                                                 }
                                             />
