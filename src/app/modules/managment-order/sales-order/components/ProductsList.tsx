@@ -248,14 +248,14 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             price: { ...prevState.price, [productId]: e.target.value },
                         }))
                     }
-                    // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    //     const inputValue = event.target.value.replace(/[^0-9]/g, "");
-                    //     const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    //     event.target.value = formattedValue;
-                    // }}
+                    onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        const inputValue = event.target.value.replace(/[^0-9]/g, "");
+                        const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        event.target.value = formattedValue;
+                    }}
 
                     inputProps={{
-                        type: "number", // Add the type attribute
+                        type: "text", // Add the type attribute
                         style: {
                             textAlign: "center",
                         },
