@@ -188,6 +188,13 @@ const SalesOrder = () => {
                         </div>
                         <div className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
                             <CustomButton
+                                title={"خالی کردن فرم"}
+                                onClick={() => handleReset(resetForm)}
+                                color="secondary"
+                                isLoading={postSaleOrder.isLoading}
+                            />
+
+                            <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
                                 disabled={
@@ -200,12 +207,6 @@ const SalesOrder = () => {
                                     !orderValid
                                 }
                                 color="primary"
-                                isLoading={postSaleOrder.isLoading}
-                            />
-                            <CustomButton
-                                title={"خالی کردن فرم"}
-                                onClick={() => handleReset(resetForm)}
-                                color="secondary"
                                 isLoading={postSaleOrder.isLoading}
                             />
                         </div>
