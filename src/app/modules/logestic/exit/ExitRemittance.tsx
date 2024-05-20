@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import { Button, OutlinedInput, Typography } from "@mui/material";
-import { Person } from "@mui/icons-material";
-import { useParams } from "react-router-dom";
+import { Person, Print } from "@mui/icons-material";
+import { Link, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
@@ -21,6 +21,7 @@ import FileUpload from "../../payment/components/FileUpload";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import { renderAlert } from "../../../../_cloner/helpers/SweetAlert";
+import moment from "moment-jalaali";
 
 interface ILadingList {
     id?: number;
@@ -180,6 +181,8 @@ const ExitRemiitance = () => {
         ];
     };
 
+    console.log(cargoDetailTools?.data?.data?.cargoAnnounceDetails)
+
     useEffect(() => {
         if (cargoDetailTools?.data?.data?.cargoAnnounceDetails?.length > 0) {
             const destructureData = cargoDetailTools?.data?.data?.cargoAnnounceDetails?.map(
@@ -271,6 +274,8 @@ const ExitRemiitance = () => {
     if (cargoDetailTools?.isLoading) {
         return <Backdrop loading={cargoDetailTools?.isLoading} />;
     }
+
+    console.log(postExitRemittance?.data?.data)
 
     return (
         <>
@@ -412,7 +417,7 @@ const ExitRemiitance = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="mt-8">
+                                <div className="mt-8 flex gap-x-4">
                                     <Button
                                         onClick={() => onSubmit(values)}
                                         className="!bg-green-500 !text-white"
@@ -421,6 +426,14 @@ const ExitRemiitance = () => {
                                             ثبت مجوز
                                         </Typography>
                                     </Button>
+                                    {postExitRemittance?.data?.data?.id && 
+                                        <Link to={`/dashboard/ladingExitPermitOfficial_print/${postExitRemittance?.data?.data?.id}/${postExitRemittance?.data?.data?.ladingExitPermitCode}/${moment(postExitRemittance?.data?.data?.created).format('jYYYY/jMM/jDD')}`}>
+                                            <Button className="flex gap-x-4" variant="contained" color="secondary">
+                                                <Print color="primary" />
+                                            </Button>
+                                        </Link>
+                                    }
+
                                 </div>
                             </Form>
                         );
