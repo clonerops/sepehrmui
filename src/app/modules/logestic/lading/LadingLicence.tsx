@@ -2,9 +2,9 @@ import { useState } from 'react'
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 // import FormikInput from '../../../../_cloner/components/FormikInput'
 import { Button, Typography } from '@mui/material'
-import { Person } from '@mui/icons-material'
+import { Person, Print } from '@mui/icons-material'
 // import TransitionsModal from '../../../../_cloner/components/ReusableModal'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 // import { Formik } from 'formik'
 // import { dropdownProductLading } from '../helpers/dropdowns'
 import MuiTable from '../../../../_cloner/components/MuiTable'
@@ -18,6 +18,7 @@ import Backdrop from '../../../../_cloner/components/Backdrop'
 // import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
 import ConfirmDialog from '../../../../_cloner/components/ConfirmDialog'
+import moment from 'moment-jalaali'
 
 // interface ILadingList {
 //     id?: number
@@ -134,6 +135,7 @@ const LadingPermit = () => {
     if(isLoading) {
         return <Backdrop loading={isLoading} />
     }
+    console.log(postLadingPermit?.data?.data, "postLadingPermit")
 
     return (
         <>
@@ -156,10 +158,17 @@ const LadingPermit = () => {
             <ReusableCard cardClassName='mt-4'>
                 <Typography variant="h2" color="primary" className="pb-4">اقلام اعلام بارشده</Typography>
                 <MuiTable tooltipTitle={data?.data?.order.description ? <Typography>{data?.data?.order.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.cargoAnnounceDetails} columns={orderOrderColumnMain} />
-                <div className='mt-4'>
+                <div className='mt-4 flex gap-x-4'>
                     <Button onClick={() => setApprove(true)} variant='contained' color='primary'>
                         <Typography>ثبت مجوز بارگیری</Typography>
                     </Button>
+                    {postLadingPermit?.data?.data?.cargoAnnounceId &&
+                        <Button variant='contained' color='secondary' className="flex gap-x-4">
+                            <Link to={`/dashboard/ladingPermit_print/${postLadingPermit?.data?.data?.cargoAnnounceId}/${postLadingPermit?.data?.data?.id}/${moment(postLadingPermit?.data?.data?.created).format('jYYYY/jMM/jDD')}`}>
+                                <Print color="primary" />
+                            </Link>
+                        </Button>
+                    }
                 </div>
             </ReusableCard>
             <ConfirmDialog
