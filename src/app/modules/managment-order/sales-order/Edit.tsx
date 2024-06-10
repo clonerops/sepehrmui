@@ -163,6 +163,7 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
+            console.log(JSON.stringify(formData))
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {

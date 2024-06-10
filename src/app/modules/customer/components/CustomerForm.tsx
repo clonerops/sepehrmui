@@ -31,7 +31,7 @@ const initialValues = {
     tel2: "",
     address2: "",
     representative: "",
-    settlementDay: "0",
+    settlementDay: "",
     settlementType: 0,
 };
 
@@ -237,7 +237,7 @@ const CustomerForm = (props: {
     if (props.id && detailTools?.isLoading) {
         return <Typography>Loading ...</Typography>;
     }
-    
+
     return (
         <>
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
@@ -259,9 +259,7 @@ const CustomerForm = (props: {
                     return (
                         <form onSubmit={handleSubmit} className="container">
                             {fields.map((rowFields) => (
-                                <div
-                                    className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
-                                >
+                                <div className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4">
                                     {rowFields.map((field) =>
                                         parseFields(field, values)
                                     )}
