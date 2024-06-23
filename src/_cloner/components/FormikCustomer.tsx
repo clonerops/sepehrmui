@@ -6,7 +6,6 @@ import { dropdownCustomer } from '../../app/modules/managment-order/helpers/drop
 
 const FormikCustomer = (props: any) => {
     const { data: customers } = useGetCustomers();
-
     return (
         <FormikComboBox
             options={dropdownCustomer(customers?.data)}

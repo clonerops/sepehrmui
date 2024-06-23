@@ -1,4 +1,4 @@
-import React, { FC, memo, useMemo } from 'react'
+import React, { FC, memo, useEffect, useMemo, useState } from 'react'
 import moment from 'moment-jalaali'
 import { FormikProps } from 'formik'
 import { Button, Typography } from '@mui/material'
@@ -16,6 +16,8 @@ interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>
     formikRef: React.RefObject<FormikProps<any>>
     openModalState: React.Dispatch<React.SetStateAction<boolean>>
+    detailCustomer: UseMutationResult<any, unknown, string, unknown>
+
 }
 
 interface IRenderInfoProps {
@@ -32,9 +34,7 @@ const RenderInformation: FC<IRenderInfoProps> = ({ title, value, valueClassName 
 
 }
 
-const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }) => {
-
-    const detailCustomer = useGetCustomer();
+const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, detailCustomer }) => {
 
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
         if (item?.value) {
@@ -68,7 +68,7 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }
                             <FormikCustomer
                                 disabled={postSaleOrder?.data?.succeeded}
                                 onChange={changeCustomerFunction}
-                                isLabelSetValue
+                                isLabelSetValue={true}
                                 name="customerId"
                                 label="مشتری" />
                         </div>

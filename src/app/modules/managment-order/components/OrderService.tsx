@@ -103,7 +103,7 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
   return (
     <ReusableCard cardClassName="mt-4 md:mt-0 bg-gradient-to-r from-gray-100">
         <Typography variant="h2" color="primary">بسته خدمت</Typography>
-        <div className="flex flex-wrap md:flex-nowrap gap-4 my-4 ">
+        <div className="flex flex-wrap gap-4 my-4 ">
             <FormikService label="نوع خدمت" name="orderServiceId" disabled={postSaleOrder?.data?.succeeded} />
             <FormikPrice name="orderServiceDescription" label="هزینه" disabled={postSaleOrder?.data?.succeeded} />
             <Button disabled={postSaleOrder?.data?.succeeded} onClick={handleSetServices} className="!w-[120px]" variant="contained">

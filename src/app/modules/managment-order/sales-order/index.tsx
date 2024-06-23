@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Formik, FormikProps, FormikState } from "formik"
+import { Formik, FormikErrors, FormikProps, FormikState } from "formik"
 import { saleOrderInitialValues } from "./initialValues"
 import { saleOrderValidation } from "./validation"
 
@@ -21,6 +21,7 @@ import { calculateTotalAmount } from '../helpers/functions'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 import { useGetProductList } from '../../generic/products/_hooks'
+import { useGetCustomer } from '../../customer/core/_hooks'
 
 const categories = [
     { value: 2, title: "پیش فروش", defaultChecked: false },
@@ -36,6 +37,8 @@ const SalesOrder = () => {
 
     const postSaleOrder = useCreateOrder();
     const products = useGetProductList();
+    const detailCustomer = useGetCustomer();
+
 
     let formikRef = useRef<FormikProps<any>>(null);
 
@@ -90,7 +93,6 @@ const SalesOrder = () => {
                         } 
                     })
                 }
-                console.log("formData", JSON.stringify(formData))
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors&&response.data.Errors.length > 0) {
@@ -110,16 +112,18 @@ const SalesOrder = () => {
         }
     }
 
-    const handleReset = (resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void) => {
-        window.location.reload();
+    const handleReset = (resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void, 
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
+        window.location.reload()
         // resetForm()
         // setOrderPayment([])
         // setOrderServices([])
         // setOrders([])
+        // detailCustomer.reset()
     }
 
     useEffect(() => {
-        calculateTotalAmount(orders, orderServices)
+        calculateTotalAmount(   orders, orderServices)
          // eslint-disable-next-line
     }, [orders, orderServices]);
 
@@ -146,7 +150,8 @@ const SalesOrder = () => {
                                 <CustomerChoose 
                                 formikRef={formikRef} 
                                 openModalState={setIsOpen} 
-                                postSaleOrder={postSaleOrder} />
+                                postSaleOrder={postSaleOrder}
+                                detailCustomer={detailCustomer} />
                             </ReusableCard>
                         </div>
 
@@ -190,7 +195,7 @@ const SalesOrder = () => {
                         <div className="flex gap-x-8 my-4 justify-between items-center lg:justify-between lg:items-center">
                             <CustomButton
                                 title={"خالی کردن فرم"}
-                                onClick={() => handleReset(resetForm)}
+                                onClick={() => handleReset(resetForm, setFieldValue)}
                                 color="secondary"
                                 isLoading={postSaleOrder.isLoading}
                             />
