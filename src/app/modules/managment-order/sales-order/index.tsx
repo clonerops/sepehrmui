@@ -174,7 +174,7 @@ const SalesOrder = () => {
                                 />
                             </ReusableCard>
                         </div>
-                        <div className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
+                        <div className="lg:grid lg:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
