@@ -186,6 +186,7 @@ const SalesOrderConfirm = () => {
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
+        console.log(JSON.stringify(formData))
         approveTools.mutate(formData, {
             onSuccess: (message) => {
                 if (message.succeeded) {

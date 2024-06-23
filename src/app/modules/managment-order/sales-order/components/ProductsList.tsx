@@ -158,7 +158,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     type="number"
-                    className="w-[140px] lg:w-[80px]"
+                    className="w-[140px] lg:w-[120px]"
                     value={productData.proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({

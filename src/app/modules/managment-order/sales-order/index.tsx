@@ -43,6 +43,7 @@ const SalesOrder = () => {
     let formikRef = useRef<FormikProps<any>>(null);
 
     const onSubmit = (values: any) => {
+        console.log(values.orderType)
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", "error")
         } else {
@@ -54,7 +55,7 @@ const SalesOrder = () => {
                     orderExitTypeId: values.orderExitTypeId,
                     orderSendTypeId: values.orderSendTypeId,
                     paymentTypeId: values.paymentTypeId,
-                    orderTypeId: values.orderType ? +values.orderType : 2,
+                    orderTypeId: values.orderType !== undefined ? +values.orderType : 1,
                     customerOfficialName: "string",
                     customerOfficialCompanyId: values.customerOfficialCompanyId && +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
                     invoiceTypeId: values.invoiceTypeId,
@@ -148,10 +149,10 @@ const SalesOrder = () => {
                                 orderServices={orderServices} />
                             <ReusableCard>
                                 <CustomerChoose 
-                                formikRef={formikRef} 
-                                openModalState={setIsOpen} 
-                                postSaleOrder={postSaleOrder}
-                                detailCustomer={detailCustomer} />
+                                    formikRef={formikRef} 
+                                    openModalState={setIsOpen} 
+                                    postSaleOrder={postSaleOrder}
+                                    detailCustomer={detailCustomer} />
                             </ReusableCard>
                         </div>
 
@@ -209,7 +210,7 @@ const SalesOrder = () => {
                                     orderPayment.length <= 0 ||
                                     formikRef.current?.values.customerId === "" ||
                                     formikRef.current?.values.invoiceTypeId === "" ||
-                                    postSaleOrder?.data?.succeeded === "" ||
+                                    postSaleOrder?.data?.succeeded ||
                                     !orderValid
                                 }
                                 color="primary"
