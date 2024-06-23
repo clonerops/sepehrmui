@@ -1,5 +1,5 @@
 import FormikComboBox from "./FormikComboBox";
-import { dropdownProductBrand } from "../../app/modules/generic/_functions";
+import { dropdownProduct, dropdownProductBrand } from "../../app/modules/generic/_functions";
 import { useGetProductBrands } from "../../app/modules/generic/productBrands/_hooks";
 
 

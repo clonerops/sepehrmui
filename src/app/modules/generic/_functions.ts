@@ -27,7 +27,7 @@ export const dropdownBrandName = (data: any) => {
         })
     );
 };
-export const    dropdownProduct = (data: any) => {
+export const dropdownProduct = (data: any) => {
     return (
         data &&
         data?.map((obj: { id: any; productName: any }): any => {
@@ -82,12 +82,24 @@ export const dropdownProductBrandName = (data: any) => {
         })
     );
 };
+
+
 export const dropdownProductBrand = (data: any) => {
     return (
         data &&
-        data?.map((obj: { productId: any; productName: any, brandName: string, exchangeRate: any, productSubUnitId: number, productSubUnitDesc: string, productMainUnitId: number, productMainUnitDesc: string, productBrandId: number, productBrandName: string, product: any, brand: any, id: number }): any => {
-            const { productId, productName, brandName } = obj;
-            return { value: productId, label: `${productName}-(${brandName})`, exchangeRate: obj.product.exchangeRate, productSubUnitId: obj.product.productSubUnitId, productSubUnitDesc: obj.product.productSubUnitDesc, productMainUnitId: obj.product.productMainUnitId, productMainUnitDesc: obj.product.productMainUnitDesc, productBrandId: obj.id, productBrandName: obj.brand.name  };
+        data?.map((obj: { id: any; productName: any, brandName: string, exchangeRate: any, productSubUnitId: number, productSubUnitDesc: string, productMainUnitId: number, productMainUnitDesc: string, productBrandId: number, productBrandName: string, product: any, brand: any, }): any => {
+            const { id, productName, brandName } = obj;
+            return { value: id, label: `${productName}-(${brandName})`, exchangeRate: obj.product.exchangeRate, productSubUnitId: obj.product.productSubUnitId, productSubUnitDesc: obj.product.productSubUnitDesc, productMainUnitId: obj.product.productMainUnitId, productMainUnitDesc: obj.product.productMainUnitDesc, productBrandId: obj.id, productBrandName: obj.brand.name };
         })
     );
 };
+
+// export const dropdownProductBrand = (data: any) => {
+//     return (
+//         data &&
+//         data?.map((obj: { productId: any; productName: any, brandName: string, exchangeRate: any, productSubUnitId: number, productSubUnitDesc: string, productMainUnitId: number, productMainUnitDesc: string, productBrandId: number, productBrandName: string, product: any, brand: any, id: number }): any => {
+//             const { productId, productName, brandName } = obj;
+//             return { value: productId, label: `${productName}-(${brandName})`, exchangeRate: obj.product.exchangeRate, productSubUnitId: obj.product.productSubUnitId, productSubUnitDesc: obj.product.productSubUnitDesc, productMainUnitId: obj.product.productMainUnitId, productMainUnitDesc: obj.product.productMainUnitDesc, productBrandId: obj.id, productBrandName: obj.brand.name  };
+//         })
+//     );
+// };

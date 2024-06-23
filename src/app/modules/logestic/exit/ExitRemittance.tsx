@@ -305,8 +305,8 @@ const ExitRemiitance = () => {
                 />
                 <CardTitleValue
                     icon={<Person color="secondary" />}
-                    title="پلاک خودروبر"
-                    value={cargoDetailTools?.data?.data?.carPlaque}
+                    title="نوع پرداخت کرایه"
+                    value={cargoDetailTools?.data?.data?.order?.paymentTypeDesc}
                 />
                 <CardTitleValue
                     icon={<Person color="secondary" />}

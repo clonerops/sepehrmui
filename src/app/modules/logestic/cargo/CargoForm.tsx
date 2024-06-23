@@ -49,11 +49,9 @@ const initialValues = {
 const CargoForm = () => {
     const { id } = useParams()
     const { mutate, isLoading } = useCreateCargo()
-    const { data, isLoading: orderLoading } = useRetrieveOrder(id)
+    const { data, isLoading: orderLoading, refetch } = useRetrieveOrder(id)
     const cargosList = useRetrieveCargos(id)
     const vehicleList = useGetVehicleTypes()
-
-    console.log(data?.data)
 
     // states
     const [ladingOrderDetail, setLadingOrderDetail] = useState<any>([])
@@ -217,6 +215,8 @@ const CargoForm = () => {
                         } else {
                             if (message.succeeded) {
                                 renderSwal(`اعلام بار با شماره ${message?.data.cargoAnnounceNo} ثبت گردید`)
+                                refetch()
+                                cargosList.refetch()
                             }
 
                             if (!message?.data?.Succeeded) {
