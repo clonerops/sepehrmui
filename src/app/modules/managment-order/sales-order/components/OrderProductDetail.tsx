@@ -177,7 +177,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     </Button>
                 </div>
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">
-                    <FormikWarehouse
+                    {/* <FormikWarehouse
                         name={!isUpdate ? "warehouseId" : "warehouseName"}
                         label="انبار"
                         // disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 }
@@ -219,11 +219,11 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     <FormikInput
                         name="detailDescription"
                         label="توضیحات"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
-                    <FormikInput
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} /> */}
+                    {/* <FormikInput
                         name="rowId"
                         label="ردیف فروش"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} /> */}
                     {values.warehouseTypeId === 5 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 1 ?
                          <></> : <>
                          <FormikCustomer

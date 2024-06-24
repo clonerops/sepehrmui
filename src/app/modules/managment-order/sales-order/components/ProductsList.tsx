@@ -19,6 +19,7 @@ import SearchBackendInput from "../../../../../_cloner/components/SearchBackendI
 import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar";
 import FormikSelect from "../../../../../_cloner/components/FormikSelect";
 import MuiTable from "../../../../../_cloner/components/MuiTable";
+import { NumericFormat } from "react-number-format";
 
 interface IProps {
     setOrders?: any
@@ -237,10 +238,9 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const productId = params.productBrandId;
         return (
             <>
-                <TextField
+                <NumericFormat
                     id={`outlined-adornment-weight-${productId}`}
-                    size="small"
-                    className="w-[140px] lg:w-[120px]"
+                    className="numeric-input"
                     value={productData.price[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
@@ -248,19 +248,14 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             price: { ...prevState.price, [productId]: e.target.value },
                         }))
                     }
-                    onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        const inputValue = event.target.value.replace(/[^0-9]/g, "");
-                        const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        event.target.value = formattedValue;
-                    }}
+                    // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    //     const inputValue = event.target.value.replace(/[^0-9]/g, "");
+                    //     const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    //     event.target.value = formattedValue;
+                    // }}
 
-                    inputProps={{
-                        type: "text", // Add the type attribute
-                        style: {
-                            textAlign: "center",
-                        },
-                        
-                    }}
+                    thousandSeparator
+
                 />
             </>
         );
