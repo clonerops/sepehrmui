@@ -86,7 +86,8 @@ const SalesOrderConfirm = () => {
 
     const orderOrderColumnReplace = [
         { id: 5, header: "کالا رسمی", accessor: "productName", render: (params: any) => {
-            return params.alternativeProductAmount === 0 ? `${params.productName}-(${params.brandName})` : params.alternativeProductBrandName
+            console.log(params)
+            return params.alternativeProductAmount === 0 ? `${params.productName}-(${params.brandName})` : params.alternativeProductName
          }},
         { id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
            return params.alternativeProductAmount === 0 ? params.proximateAmount : params.alternativeProductAmount
@@ -202,20 +203,22 @@ const SalesOrderConfirm = () => {
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
-        approveTools.mutate(formData, {
-            onSuccess: (message) => {
-                if (message.succeeded) {
-                    setApprove(false)
-                    EnqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", "info")
+        console.log(JSON.stringify(formData))
+        // approveTools.mutate(formData, {
+        //     onSuccess: (message) => {
+        //         if (message.succeeded) {
+        //             setApprove(false)
+        //             EnqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", "info")
                     
-                }
-                if (!message?.data?.Succeeded) {
-                    EnqueueSnackbar( message.data.Message , "error")
-                }
-            },
+        //         }
+        //         if (!message?.data?.Succeeded) {
+        //             EnqueueSnackbar( message.data.Message , "error")
+        //         }
+        //     },
 
-        })
+        // })
     }
+
 
     if (isLoading) {
         return <Backdrop loading={isLoading} />

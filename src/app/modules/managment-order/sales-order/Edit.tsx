@@ -40,8 +40,9 @@ const SalesOrderEdit = () => {
     const detailTools = useGetOrderDetailByCode()
     const { data: warehouse } = useGetWarehouses();
 
-    useEffect(() => { calculateTotalAmount(orders, orderServices) 
-         // eslint-disable-next-line
+    useEffect(() => {
+        calculateTotalAmount(orders, orderServices)
+        // eslint-disable-next-line
     }, [orders, orderServices]);
 
 
@@ -66,6 +67,8 @@ const SalesOrderEdit = () => {
                 })) || []
             ]);
 
+            console.log("detailTools?.data?.data?.details", detailTools?.data?.data?.details)
+
             setOrders([
                 ...detailTools?.data?.data?.details?.map((i: any) => ({
                     ...i,
@@ -73,6 +76,7 @@ const SalesOrderEdit = () => {
                     productMainUnitDesc: i.product.productMainUnitDesc,
                     subUnit: i.product.productSubUnitDesc,
                     exchangeRate: +i.product.exchangeRate,
+                    deliverDate: i.purchaseSettlementDate,
                     purchasePrice: +i.purchasePrice,
                     warehouseId: warehouse.find((item: any) => item.name === i.warehouseName).id,
                     price: ~~i.price,
@@ -88,7 +92,7 @@ const SalesOrderEdit = () => {
                 { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId === 1 ? true : false },
             ])
         }
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [detailTools?.data?.data])
 
     const onSubmit = (values: any) => {
@@ -136,20 +140,46 @@ const SalesOrderEdit = () => {
                         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
                         purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId ? item.purchaserCustomerId : null,
                         purchaserCustomerName: item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : item.purchaserCustomerName ? item.purchaserCustomerName : null,
+                        warehouseTypeId: item.warehouseTypeId,
+                        
+                        purchaseOrder: item.warehouseTypeId === 2 ? {
+                            customerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                            totalAmount: 
+                            +(item.purchasePrice ? Number(item.purchasePrice) : 0)
+                             * 
+                            +(item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0),
+                            description: "string",
+                            purchaseOrderSendTypeId: values.orderSendTypeId ? +values.orderSendTypeId : detailTools?.data?.data.orderSendTypeId,
+                            invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId,
+
+                            details: [
+                                {
+                                    rowId: 0,
+                                    proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0,
+                                    numberInPackage: 0,
+                                    price: item.purchasePrice ? Number(item.purchasePrice) : 0,
+                                    productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
+                                    productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                                    productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                                    description: "string",
+                                    deliverDate: item.deliverDate
+                                }
+                            ],
+                        } : null
 
                     };
 
                     // Conditionally include id if it exists
-                    if (Number.isInteger(item.id)) {
-                        orderDetails.id = item.id;
-                    }
+                    // if (Number.isInteger(item.id)) {
+                    //     orderDetails.id = item.id;
+                    // }
 
                     return orderDetails;
                 }),
                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
                     return {
                         id: item.orderPaymentId ? item.orderPaymentId : null,
-                        amount:item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
+                        amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
                         paymentDate: item.orderPaymentDate,
                         daysAfterExit: item.orderPaymentDaysAfterExit && +item.orderPaymentDaysAfterExit,
                         paymentType: item.orderPaymentType
@@ -163,7 +193,6 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
-            console.log(JSON.stringify(formData))
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
@@ -200,7 +229,7 @@ const SalesOrderEdit = () => {
         }
     }
 
-    if(detailTools.isLoading) {
+    if (detailTools.isLoading) {
         return <Backdrop loading={detailTools.isLoading} />
     }
 

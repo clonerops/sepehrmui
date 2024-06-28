@@ -43,7 +43,6 @@ const SalesOrder = () => {
     let formikRef = useRef<FormikProps<any>>(null);
 
     const onSubmit = (values: any) => {
-        console.log(values.orderType)
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", "error")
         } else {
@@ -76,7 +75,39 @@ const SalesOrder = () => {
                         purchaserCustomerName: item.purchaserCustomerName && item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : null,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                         warehouseId: item.warehouseId ? +item.warehouseId : null,
+                        warehouseTypeId: item.warehouseTypeId,
+                        
+                        purchaseOrder:  item?.warehouseTypeId == 2 ? {
+                            customerId: item.purchaserCustomerName && item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
+                            totalAmount: 
+                            +(item.purchasePrice ? Number(item.purchasePrice) : 0)
+                             * 
+                            +(item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0),
+                            description: "string",
+                            purchaseOrderSendTypeId: values.orderSendTypeId,
+                            invoiceTypeId: values.invoiceTypeId,
+
+                            details: [
+                                {
+                                    rowId: 0,
+                                    proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0,
+                                    numberInPackage: 0,
+                                    price: item.purchasePrice ? Number(item.purchasePrice) : 0,
+                                    productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
+                                    productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                                    productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                                    description: "string",
+                                    deliverDate: item.deliverDate
+                                }
+                            ],
+                        } : null
                     })),
+
+
+
+
+
+
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
                         return {
                             amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),

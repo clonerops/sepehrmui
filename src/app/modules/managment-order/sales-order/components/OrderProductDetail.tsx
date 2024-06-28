@@ -73,6 +73,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
     }
 
     const handleOrder = () => {
+        console.log("values", values)
         const productOrder: any = {
             id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,
@@ -98,6 +99,9 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
             purchaserCustomerName: values.purchaserCustomerId?.label ? values.purchaserCustomerId?.label : values.purchaserCustomerName,
             productMainUnitDesc: values.productId.productMainUnitDesc ? values.productId.productMainUnitDesc : values.productMainUnitDesc,
             productSubUnitDesc: values.productId.productSubUnitDesc ? values.productId.productSubUnitDesc : values.productSubUnitDesc,
+            
+            deliverDate: values.deliverDate
+        
         };
 
         if (!isUpdate) {

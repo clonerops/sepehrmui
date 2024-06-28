@@ -81,7 +81,7 @@ const OrderProductDetail = (props: Props) => {
 
     const handleOrder = () => {
         const productOrder: any = {
-            id: values?.productId?.value ? values?.productId?.value : values.id,
+            // id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,
             productId: values?.productId?.value ? values?.productId?.value : values.productId,
             warehouseId: values?.productId?.warehouseId ? values?.productId?.warehouseId : values.warehouseId,

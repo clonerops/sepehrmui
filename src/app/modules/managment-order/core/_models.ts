@@ -136,7 +136,7 @@ export interface IOrderItems {
     warehouseId?: string | null | undefined;
     productBrandName?: string | null | undefined;
     productBrandId?: string | null | undefined;
-    warehouseTypeId?: string | null | undefined;
+    warehouseTypeId?: any;
     warehouseName?: string | null | undefined;
     productDesc?: string | null | undefined;
     purchasePrice?: number | null | undefined;

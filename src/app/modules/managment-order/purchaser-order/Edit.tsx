@@ -97,6 +97,8 @@ const PurchaserOrderEdit = () => {
     })
   }
 
+  console.log(orders)
+
   const onSubmit = (values: any) => {
     if (orders?.length === 0) {
       EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد.", "error")
@@ -118,7 +120,7 @@ const PurchaserOrderEdit = () => {
         details: orders?.map((item: any) => {
           const orderDetails: any = {
             rowId: item.rowId ? +item.rowId : 0,
-            productId: item.id,
+            productId: item.productId,
             productBrandId: item.productBrandId ? +item.productBrandId : 40,
             proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
             productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
@@ -153,6 +155,7 @@ const PurchaserOrderEdit = () => {
           }
         }) //ok
       };
+      console.log(JSON.stringify(formData))
       try {
         postSaleOrder.mutate(formData, {
           onSuccess: (response) => {

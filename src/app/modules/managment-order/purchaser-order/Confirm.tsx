@@ -180,11 +180,12 @@ const PurchaserOrderConfirm = () => {
             // details: data?.data?.details
             details: cpData.map((element: any) => ({
                 id: element.id,
-                alternativeProductId: element.alternativeProductId,
+                alternativeProductBrandId: element.alternativeProductId,
                 alternativeProductAmount: element.alternativeProductAmount,
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
+        console.log(JSON.stringify(formData))
         approveTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
