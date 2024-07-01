@@ -9,6 +9,7 @@ import ApprovedRentPayment from "../modules/logestic/exit/ApprovedRentPayment";
 import LadingExitPermitPrintOfficial from "../modules/prints/LadingExitPermitPrintOfficial";
 import InvoiceOfficial from "../modules/prints/InvoiceOfficial";
 import InvoiceNotOfficial from "../modules/prints/InvoiceNotOfficial";
+import CustomerLabels from "../modules/generic/customerLabel/CustomerLabel";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
@@ -267,6 +268,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },
     { path: "dashboard/productState", element: <ProductState /> },
     { path: "dashboard/productStandard", element: <ProductStandards /> },
+    { path: "dashboard/labels", element: <CustomerLabels /> },
     { path: "dashboard/warehouses", element: <Warehouse /> },
     { path: "dashboard/productInventories", element: <ProductInventories /> },
     { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
