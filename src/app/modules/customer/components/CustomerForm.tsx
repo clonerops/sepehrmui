@@ -85,6 +85,9 @@ const CustomerForm = (props: {
                 type: "settlementDay",
             },
         ],
+        [
+            { label: "ویژگی های مشتری", name: "address1", type: "description" },
+        ],
     ];
 
     const parseFields = (fields: FieldType, values: any) => {
@@ -143,7 +146,8 @@ const CustomerForm = (props: {
                         </div>
                         <div className="flex items-center">
                             <Checkbox
-                                checked={isChecked || values.settlementDay}
+                                // checked={isChecked || values.settlementDay}
+                                checked={isChecked}
                                 onChange={(e: any) =>
                                     setIsChecked(e.target.checked)
                                 }

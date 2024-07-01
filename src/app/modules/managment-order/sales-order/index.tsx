@@ -22,6 +22,7 @@ import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
 import { useGetProductList } from '../../generic/products/_hooks'
 import { useGetCustomer } from '../../customer/core/_hooks'
+import CustomerFeatcure from './components/CustomerFeatcure'
 
 const categories = [
     { value: 2, title: "پیش فروش", defaultChecked: false },
@@ -30,6 +31,7 @@ const categories = [
 
 const SalesOrder = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpenCustomerFeacture, setIsOpenCustomerFeacture] = useState<boolean>(false);
     const [orders, setOrders] = useState<IOrderItems[]>([]);
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]);
@@ -183,6 +185,7 @@ const SalesOrder = () => {
                                 <CustomerChoose 
                                     formikRef={formikRef} 
                                     openModalState={setIsOpen} 
+                                    openModalStateCustomerFeatcure={setIsOpenCustomerFeacture} 
                                     postSaleOrder={postSaleOrder}
                                     detailCustomer={detailCustomer} />
                             </ReusableCard>
@@ -262,6 +265,16 @@ const SalesOrder = () => {
                     <CustomerForm
                         setIsCreateOpen={setIsOpen}
                     />
+                </TransitionsModal >
+            }
+            {isOpenCustomerFeacture &&
+                <TransitionsModal
+                    title="نمایش ویژگی های مشتری"
+                    open={isOpenCustomerFeacture}
+                    isClose={() => setIsOpenCustomerFeacture(false)}
+                    width="50%"
+                >
+                    <CustomerFeatcure detailCustomer={detailCustomer}  />
                 </TransitionsModal >
             }
         </>
