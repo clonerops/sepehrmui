@@ -10,6 +10,7 @@ import LadingExitPermitPrintOfficial from "../modules/prints/LadingExitPermitPri
 import InvoiceOfficial from "../modules/prints/InvoiceOfficial";
 import InvoiceNotOfficial from "../modules/prints/InvoiceNotOfficial";
 import CustomerLabels from "../modules/generic/customerLabel/CustomerLabel";
+import ExitDetail from "../modules/logestic/exit/ExitDetail";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
@@ -310,6 +311,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/ladingExitPermit_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingExitPermitPrint /> },
     { path: "dashboard/ladingExitPermitOfficial_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingExitPermitPrintOfficial /> },
     { path: "dashboard/approveDriverFareAmount/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ApprovedRentPayment /> },
+    { path: "dashboard/ladingExitPermitDetail/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitDetail /> },
     { path: "dashboard/exit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemittance /> },
     { path: "dashboard/exitEdit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemiitanceEdit /> },
     

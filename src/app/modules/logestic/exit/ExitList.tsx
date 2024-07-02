@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useGetExitPermitListByMutation, useRevokeExitById } from "../core/_hooks";
 import { exitColumns } from "../../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
-import { Approval, LayersClear, Print } from "@mui/icons-material";
+import { Approval, LayersClear, Print, Visibility } from "@mui/icons-material";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -70,7 +70,12 @@ const ExitList = () => {
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>تایید کرایه</Typography>}>
                     <Link to={`/dashboard/approveDriverFareAmount/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
-                        <Approval className="text-yellow-500" />
+                        <Approval className="text-green-500" />
+                    </Link>
+                </Tooltip>
+                <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                    <Link to={`/dashboard/ladingExitPermitDetail/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                        <Visibility className="text-yellow-500" />
                     </Link>
                 </Tooltip>
                 {/* <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
