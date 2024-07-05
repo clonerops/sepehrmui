@@ -204,19 +204,19 @@ const SalesOrderConfirm = () => {
             }))
         }
         console.log(JSON.stringify(formData))
-        // approveTools.mutate(formData, {
-        //     onSuccess: (message) => {
-        //         if (message.succeeded) {
-        //             setApprove(false)
-        //             EnqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", "info")
+        approveTools.mutate(formData, {
+            onSuccess: (message) => {
+                if (message.succeeded) {
+                    setApprove(false)
+                    EnqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", "info")
                     
-        //         }
-        //         if (!message?.data?.Succeeded) {
-        //             EnqueueSnackbar( message.data.Message , "error")
-        //         }
-        //     },
+                }
+                if (!message?.data?.Succeeded) {
+                    EnqueueSnackbar( message.data.Message , "error")
+                }
+            },
 
-        // })
+        })
     }
 
 
