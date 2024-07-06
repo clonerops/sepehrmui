@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { Badge, Button, Card, Typography } from "@mui/material"
 
-import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, Person, Source, UploadFile } from "@mui/icons-material"
+import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, Person, Source } from "@mui/icons-material"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
 import { useGetLadingExitPermitById, useGetLadingPermitById, usePostApproveDriverFareAmount } from "../core/_hooks"
