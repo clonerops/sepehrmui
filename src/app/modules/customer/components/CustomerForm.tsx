@@ -33,6 +33,7 @@ const initialValues = {
     representative: "",
     settlementDay: "",
     settlementType: 0,
+    customerCharacteristics: ""
 };
 
 const CustomerForm = (props: {
@@ -86,7 +87,7 @@ const CustomerForm = (props: {
             },
         ],
         [
-            { label: "ویژگی های مشتری", name: "address1", type: "description" },
+            { label: "ویژگی های مشتری", name: "customerCharacteristics", type: "description" },
         ],
     ];
 
