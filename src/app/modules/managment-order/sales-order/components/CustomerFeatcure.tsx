@@ -7,7 +7,6 @@ interface IProps {
 }
 
 const CustomerFeatcure: FC<IProps> = ({ detailCustomer }) => {
-    console.log(detailCustomer.data)
     if(
         !detailCustomer.data?.data || 
         detailCustomer.data?.data === null || 
@@ -23,7 +22,7 @@ const CustomerFeatcure: FC<IProps> = ({ detailCustomer }) => {
             <div  className="lg:col-span-2">
                 <TextwithValue
                     title="ویژگی ها"
-                    value={"خوش حساب، یکم خالی بند"}
+                    value={detailCustomer.data?.data?.customerCharacteristics || "ویژگی ثبت نشده است"}
                 />
             </div>
         </div>
