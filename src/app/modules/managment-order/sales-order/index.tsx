@@ -43,7 +43,7 @@ const SalesOrder = () => {
 
 
     let formikRef = useRef<FormikProps<any>>(null);
-
+console.log(orders)
     const onSubmit = (values: any) => {
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", "error")
@@ -99,7 +99,7 @@ const SalesOrder = () => {
                                     productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
                                     productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
                                     description: "string",
-                                    deliverDate: item.deliverDate
+                                    deliverDate: item.purchaseSettlementDate
                                 }
                             ],
                         } : null

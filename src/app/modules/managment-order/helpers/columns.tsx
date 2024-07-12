@@ -647,8 +647,8 @@ export const columnsModalProduct = () => {
 
         },
         {
-            field: "inventory",
-            headerName: "موجودی واقعی",
+            field: "approximateInventory",
+            headerName: "موجودی تقریبی",
             renderCell: (params: any) => {
                 return <Typography variant="h4" color={params.value < 0 ? "red" : params.value > 0 ? "green" : "black"}>
                     {separateAmountWithCommas(params.value)} {params.value < 0 ? (<CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? (<CallMade className="text-green-500" fontSize="small" />) : null}

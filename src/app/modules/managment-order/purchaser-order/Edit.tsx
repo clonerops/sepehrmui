@@ -53,7 +53,8 @@ const PurchaserOrderEdit = () => {
           orderServiceMainId: i.id,
           serviceName: i?.serviceDesc,
           orderServiceId: i?.serviceId,
-          orderServiceDescription: i?.description
+          orderServiceDescription: i?.description,
+          
         })) || []
       ]);
 

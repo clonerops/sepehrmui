@@ -170,9 +170,9 @@ const SalesOrderEdit = () => {
                     };
 
                     // Conditionally include id if it exists
-                    // if (Number.isInteger(item.id)) {
-                    //     orderDetails.id = item.id;
-                    // }
+                    if (Number.isInteger(item.id)) {
+                        orderDetails.id = item.id;
+                    }
 
                     return orderDetails;
                 }),
@@ -193,6 +193,7 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
+            console.log(JSON.stringify(formData))
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {

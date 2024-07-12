@@ -119,7 +119,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                 rows={orders}
                 data={orders}
                 getRowClassName={(params: any) => {
-                    if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseId) && (
+                    if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseTypeId) && (
                         params.row.purchaseSettlementDate === "" ||
                         params.row.purchasePrice === "" ||
                         params.row.proximateAmount === "" ||
@@ -128,7 +128,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                     )) {
                         setOrderValid(false)
                         return 'custom-row-style'
-                    } else if ([2, 6].includes(params.row.warehouseId) && (
+                    } else if ([2].includes(params.row.warehouseTypeId) && (
                         params.row.proximateAmount === "" ||
                         params.row.price === "0" ||
                         params.row.price === 0 ||

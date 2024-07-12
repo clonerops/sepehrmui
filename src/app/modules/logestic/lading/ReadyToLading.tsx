@@ -63,9 +63,9 @@ const ReadyToLading = () => {
                     orderCode: "",
                     customerId: ""
                 }} onSubmit={() => {}}>
-                    {({values}) => {
+                    {({values, handleSubmit}) => {
                         return (
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div
                                     className="flex gap-4 w-[50%] mb-4"
                                 >
