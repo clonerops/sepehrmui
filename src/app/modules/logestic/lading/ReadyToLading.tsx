@@ -30,7 +30,7 @@ const ReadyToLading = () => {
         };
         cargoList.mutate(formData);
          // eslint-disable-next-line
-    }, []);
+    }, [currentPage]);
 
     const handleFilter = (values: any) => {
         let formData = {
