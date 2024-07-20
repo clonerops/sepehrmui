@@ -170,9 +170,9 @@ const SalesOrderEdit = () => {
                     };
 
                     // Conditionally include id if it exists
-                    // if (Number.isInteger(item.id)) {
-                    //     orderDetails.id = item.id;
-                    // }
+                    if (Number.isInteger(item.id)) {
+                        orderDetails.id = item.id;
+                    }
 
                     return orderDetails;
                 }),

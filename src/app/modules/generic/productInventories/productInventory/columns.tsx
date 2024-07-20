@@ -51,7 +51,7 @@ export const columnsProductInventories = () => {
             flex: 1,
         },
         {
-            field: "inventory",
+            field: "floorInventory",
             minWidth: 140,
             maxWidth: 180,
             headerName: "موجودی واقعی",
@@ -60,17 +60,21 @@ export const columnsProductInventories = () => {
                     {separateAmountWithCommas(params.value)} {params.value < 0 ? ( <CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? ( <CallMade className="text-green-500" fontSize="small" />) : null}
                 </Typography>;
             },
-
             headerClassName: "headerClassName",
             flex: 1,
         },
+
         {
-            field: "price",
+            field: "approximateInventory",
             minWidth: 180,
-            headerName: "موجودی مجازی",
+            headerName: "موجودی تقریبی",
             flex: 1,
-            renderCell: (value: any) =>
-                <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
+            renderCell: (params: any) => {
+                return <Typography variant="h4" color={params.value < 0 ?  "red" : params.value > 0 ? "green" : "black"}>
+                    {separateAmountWithCommas(params.value)} {params.value < 0 ? ( <CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? ( <CallMade className="text-green-500" fontSize="small" />) : null}
+                </Typography>;
+            },
+
             headerClassName: "headerClassName",
         },
     ];

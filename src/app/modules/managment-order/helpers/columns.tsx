@@ -297,6 +297,12 @@ export const readyToLadingColumns = (renderAction: any) => {
             headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
         },
         {
+            field: 'orderStatusId', renderCell: (params: any) => {
+                return params.row.order.orderStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت سفارش', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+        {
             field: 'creatorName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.row.creatorName}</Typography>;
             },
@@ -332,12 +338,7 @@ export const readyToLadingColumns = (renderAction: any) => {
             },
             headerName: 'کرایه(ریال)', headerClassName: "headerClassName", minWidth: 180, flex: 1
         },
-        {
-            field: 'orderStatusId', renderCell: (params: any) => {
-                return params.row.order.orderStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography>
-            },
-            headerName: 'وضعیت سفارش', headerClassName: "headerClassName", minWidth: 180, flex: 1
-        },
+        
        
     ]
     return col
@@ -647,8 +648,8 @@ export const columnsModalProduct = () => {
 
         },
         {
-            field: "inventory",
-            headerName: "موجودی واقعی",
+            field: "approximateInventory",
+            headerName: "موجودی تقریبی",
             renderCell: (params: any) => {
                 return <Typography variant="h4" color={params.value < 0 ? "red" : params.value > 0 ? "green" : "black"}>
                     {separateAmountWithCommas(params.value)} {params.value < 0 ? (<CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? (<CallMade className="text-green-500" fontSize="small" />) : null}

@@ -75,6 +75,7 @@ const ProductInventories = () => {
 
     }
 
+    console.log("filterTools?.data?.data", filterTools?.data?.data)
 
     return (
         <>

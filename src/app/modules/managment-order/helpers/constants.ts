@@ -1,4 +1,5 @@
-export const BUY_WAREHOUSE_TYPES = [1, 3, 4, 5, 7];
+// export const BUY_WAREHOUSE_TYPES = [1, 3, 4, 5, 7];
+export const BUY_WAREHOUSE_TYPES = [2];
 
 export const FIELD_VALUE = [
     { title: "productName", value: "" },
