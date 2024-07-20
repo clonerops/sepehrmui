@@ -207,6 +207,7 @@ const PurchaserOrderConfirm = () => {
 
     return (
         <>
+            <Typography color="primary" variant="h1" className="pb-8">تایید سفارش خرید</Typography>
             <Formik initialValues={{
                 ...initialValues,
                 invoiceTypeId: data?.data?.invoiceTypeId,

@@ -28,16 +28,14 @@ const Menus = (props: Props) => {
 
     const [roleIds, setRoleIds] = useState<string[]>([]);
 
-    useEffect(() => {
-        let roleId: any = [];
-        roleMenuTools?.data?.data?.forEach((item: any) => {
-            roleId = roleId.concat(item.applicationMenuId);
-        })
-        setRoleIds(roleId);
-         // eslint-disable-next-line
-    }, [id, roleMenuTools?.data]);
 
+    useEffect(() => {
+        let roleId = roleMenuTools?.data?.data.map((item: {applicationMenuId: string}) => item.applicationMenuId)
+        setRoleIds(roleId)
+      }, [id, roleMenuTools?.data])
+        
     const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean) => {
+
         if (checked) {
             setRoleIds((prevIds) => [...prevIds, subId]);
             const formData = {
@@ -52,6 +50,7 @@ const Menus = (props: Props) => {
                     } else {
                         EnqueueSnackbar(res?.data.Message, "error")
                     }
+                    roleMenuTools.refetch()
                 }
             })
         } else {
@@ -65,6 +64,7 @@ const Menus = (props: Props) => {
                     } else {
                         EnqueueSnackbar(message?.data.Message, "error")
                     }
+                    roleMenuTools.refetch()
                 }
             })
         }
