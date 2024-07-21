@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Tooltip, Typography } from '@mui/material'
+import { Button, Tooltip, Typography } from '@mui/material'
 import { Visibility } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGetTransferRemitancesByMutation } from '../core/_hooks'
@@ -34,7 +34,9 @@ const EntranceList = () => {
                 <Link
                     to={`/dashboard/billlandingList/${item?.row?.id}`}
                 >
-                    <Visibility color='secondary' />
+                    <Button variant='contained' color="secondary">
+                       <Typography>جزئیات</Typography> <Visibility />
+                    </Button>
                 </Link>
             </Tooltip>
         );

@@ -206,18 +206,16 @@ const Customer = () => {
                     <div className="w-auto md:w-[40%] mb-2">
                         <FuzzySearch
                             keys={[
+                                "customerCode",
                                 "firstName",
                                 "lastName",
-                                "nationalId",
-                                "customerType",
-                                "customerValidityId",
                                 "mobile",
-                                "tel1",
-                                "tel2",
-                                "isSupplier",
-                                "address1",
-                                "address2",
                                 "representative",
+                                "customerValidityDesc",
+                                "tel1",
+                                "isSupplier",
+                                "fatherName",
+                                "nationalId",
                             ]}
                             data={customers?.data}
                             threshold={0.5}

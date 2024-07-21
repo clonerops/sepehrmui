@@ -162,9 +162,12 @@ const CustomerForm = (props: {
             case "firstName":
                 return <FormikInput  {...rest} />;
             case "nationalId":
-                return <FormikInput placeholder="0079999999" {...rest} />;
+                return <FormikInput placeholder="0079999999" 
+                    inputProps={{pattern: "[0-9]*", inputMode: "numeric", maxLength: 10}}
+                    onInput={(e: any) =>  e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+          {...rest} />;
             case "mobile":
-                return <FormikInput placeholder="09129999999" {...rest} />;
+                return <FormikInput placeholder="09129999999" inputProps={{maxLength: 11}} {...rest} />;
 
             default:
                 return <FormikInput {...rest} />;

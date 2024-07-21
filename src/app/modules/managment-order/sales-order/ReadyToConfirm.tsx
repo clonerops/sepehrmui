@@ -22,7 +22,9 @@ const ReadyToSalesOrderConfirm = () => {
 
     useEffect(() => {
         const formData = {
-            InvoiceTypeId: [1, 2],
+            // InvoiceTypeId: [1, 2],
+            InvoiceTypeId: [2],
+            OrderStatusId: 1
         }
         mutate(formData, {
             onSuccess: (message) => {
@@ -57,7 +59,8 @@ const ReadyToSalesOrderConfirm = () => {
     const handleFilterBasedofStatus = (values: any) => {
         if (+values === -1) {
             const formData = {
-                InvoiceTypeId: [1, 2],
+                // InvoiceTypeId: [1, 2],
+                InvoiceTypeId: [2],
             };
             mutate(formData, {
                 onSuccess: (message) => {
@@ -67,7 +70,8 @@ const ReadyToSalesOrderConfirm = () => {
 
         } else {
             const formData = {
-                InvoiceTypeId: [1, 2],
+                // InvoiceTypeId: [1, 2],
+                InvoiceTypeId: [2],
                 OrderStatusId: +values,
             };
             mutate(formData, {
@@ -99,7 +103,7 @@ const ReadyToSalesOrderConfirm = () => {
                         setResults={setResults}
                     />
                 </div>
-                <Formik initialValues={{ statusId: -1 }} onSubmit={() => { }}>
+                <Formik initialValues={{ statusId: 1 }} onSubmit={() => { }}>
                     {() => {
                         return <>
                             <FormikRadioGroup onChange={handleFilterBasedofStatus} radioData={allOption} name="statusId" />

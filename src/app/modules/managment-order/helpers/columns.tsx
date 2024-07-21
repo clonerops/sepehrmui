@@ -65,22 +65,22 @@ export const purchaserOrderColumns = (renderAction: any) => {
             field: 'registerDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 80, flex: 1
+            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 160, maxWidth: 160, flex: 1
         },
         {
-            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", maxWidth: 120
+            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120
         },
         {
             field: 'originWarehouseDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'انبار مبدا', headerClassName: "headerClassName", minWidth: 80, flex: 1
+            headerName: 'انبار مبدا', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'destinationWarehouseDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 80, flex: 1
+            headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'customerName', renderCell: (params: any) => {
@@ -98,7 +98,7 @@ export const purchaserOrderColumns = (renderAction: any) => {
             field: 'totalAmount', renderCell: (params: any) => {
                 return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.value)}</Typography>;
             },
-            headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
+            headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 140, flex: 1
         },
         {
             field: 'orderStatusDesc', renderCell: (params: any) => {
@@ -554,6 +554,7 @@ export const entranceReportColumns = (renderAction: any) => {
             },
             headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120 },
         {
             field: 'id', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -590,7 +591,6 @@ export const entranceReportColumns = (renderAction: any) => {
             },
             headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
     ]
     return col
 }

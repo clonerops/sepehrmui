@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import { Tooltip, Typography } from '@mui/material'
+import { Button, Tooltip, Typography } from '@mui/material'
 import { Search, Visibility } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGetTransferRemitancesByMutation } from '../logestic/core/_hooks'
@@ -31,13 +31,13 @@ const EntranceReport = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Tooltip title={<Typography variant='h3'>نمایش جزئیات</Typography>}>
                 <Link
                     to={`/dashboard/billlandingList/${item?.row?.id}`}
                 >
-                    <Visibility color='secondary' />
+                    <Button variant='contained' color="secondary">
+                        <Typography variant='h5'>جزئیات</Typography> 
+                    </Button>
                 </Link>
-            </Tooltip>
         );
     };
 

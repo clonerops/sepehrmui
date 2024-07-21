@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Visibility } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { Tooltip, Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
@@ -26,7 +26,7 @@ const PurchaserOrderList = () => {
     useEffect(() => {
         const formData = {
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -40,14 +40,14 @@ const PurchaserOrderList = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
                 <Link
                     to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
                     state={{ isConfirmed: false }}
                 >
-                        <Visibility color="primary" />
+                    <Button variant="contained" color="secondary">
+                        <Visibility color="primary" /> <Typography variant="h5">جزئیات</Typography>
+                    </Button>
                 </Link>
-            </Tooltip>
         );
     };
 
@@ -58,11 +58,11 @@ const PurchaserOrderList = () => {
     const onSubmit = (values: any) => {
         const formData = values?.orderCode ? {
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
             OrderCode: +values?.orderCode
         } : {
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -81,6 +81,7 @@ const PurchaserOrderList = () => {
                 data={orderLists?.data?.data || [{}]}
                 isLoading={orderLists?.isLoading}
                 onDoubleClick={(item: any) => navigate(`/dashboard/purchaser_order/lists/${item?.row?.id}`)}
+                hideFooter
             />
             <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
         </ReusableCard>
