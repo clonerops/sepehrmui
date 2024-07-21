@@ -8,6 +8,7 @@ import {  Formik } from "formik";
 import { useEffect, useState } from "react";
 import { IRoleMenu } from "./_models";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const initialValues: IRoleMenu = {
     roleId: "",
@@ -20,7 +21,7 @@ type Props = {
 
 const Menus = (props: Props) => {
     const {id} = props;
-    const { data: appAllMenu } = useGetAllApplicationMenus();
+    const { data: appAllMenu, isLoading } = useGetAllApplicationMenus();
     
     const postMenu = usePostRoleMenus();
     const deleteMenu = useDeleteRoleMenu();
@@ -69,8 +70,16 @@ const Menus = (props: Props) => {
             })
         }
     };
+
+    if(isLoading) {
+        return  <Backdrop loading={isLoading} />
+    }
+
   return (
     <>
+        {postMenu.isLoading && <Backdrop loading={postMenu.isLoading} />}
+        {deleteMenu.isLoading && <Backdrop loading={deleteMenu.isLoading} />}
+        {roleMenuTools.isLoading && <Backdrop loading={roleMenuTools.isLoading} />}
         <Box sx={{ minHeight: 180, flexGrow: 1}}>
         <SimpleTreeView
             aria-label="file system navigator"

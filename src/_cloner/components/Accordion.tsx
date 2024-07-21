@@ -24,9 +24,9 @@ const Accordion = (props: Props) => {
                 <IconButton onClick={() => setState({show: false, showDelete: !state.showDelete})}>
                     <DeleteOutline className='text-red-500' />
                 </IconButton>
-                <IconButton onClick={() => setState({show: !state.show, showDelete: false})}>
-                    {state.show ? <KeyboardArrowUp color='secondary' />  : <KeyboardArrowDown color='secondary' />}       
-                </IconButton>
+                <Button variant="contained" color='primary' onClick={() => setState({show: !state.show, showDelete: false})}>
+                   <Typography>مدیریت دسترسی</Typography> {state.show ? <KeyboardArrowUp color='secondary' />  : <KeyboardArrowDown color='secondary' />}       
+                </Button>
             </div>
         </div>
         {state.showDelete &&
