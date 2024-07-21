@@ -14,6 +14,8 @@ export interface ICargo {
     deliveryDate?: string | null | undefined
     description?: string | null | undefined 
     cargoAnnounceDetails?: any
+    attachments?: any
+  
 }
 
 export interface ILadingPermit {

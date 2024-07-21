@@ -25,10 +25,12 @@ import { renderSwal } from "../../../../_cloner/helpers/swal"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
 import { submitCargoValidation } from "./validations"
 import { useRetrieveOrder } from "../../managment-order/core/_hooks"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ReusableAccordion from "../../../../_cloner/components/ReusableAccordion"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 import MaskInput from "../../../../_cloner/components/MaskInput"
+import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64"
+import FileUpload from "../../payment/components/FileUpload"
 
 const initialValues = {
     driverName: "",
@@ -56,6 +58,15 @@ const CargoForm = () => {
     // states
     const [ladingOrderDetail, setLadingOrderDetail] = useState<any>([])
     const [ladingAmount, setLadingAmount] = useState<{ [key: string]: string }>({})
+    const [files, setFiles] = useState<File[]>([]);
+    const [base64Attachments, setBase64Attachments] = useState<string[]>([])
+
+    useEffect(() => {
+        if (files.length > 0) {
+            convertFilesToBase64(files, setBase64Attachments);
+        }
+        // eslint-disable-next-line
+    }, [files]);
 
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
@@ -193,10 +204,18 @@ const CargoForm = () => {
     }
 
     const onSubmit = (values: ICargo) => {
+        let attachments = base64Attachments.map((i) => {
+            let convert = {
+                fileData: i,
+            }
+            return convert
+        })
+
         try {
             const formData: ICargo = {
                 ...values, orderId: id,
                 fareAmount: values?.fareAmount.includes(',') ? +values?.fareAmount.replace(/,/g, "") : +values?.fareAmount,
+                attachments: attachments,
                 cargoAnnounceDetails: ladingOrderDetail.map((item: any) => ({
                     cargoAnnounceId: item.cargoAnnounceId,
                     orderDetailId: item.orderDetailId,
@@ -295,6 +314,22 @@ const CargoForm = () => {
                                     )}
                                 </div>
                             ))}
+                            <div
+                                className="flex flex-col w-full"
+                            >
+                                <Typography
+                                    variant="h2"
+                                    color="primary"
+                                    className="pb-4"
+                                >
+                                    افزودن پیوست
+                                </Typography>
+                                <FileUpload
+                                    files={files}
+                                    setFiles={setFiles}
+                                />
+                            </div>
+
                             <div className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
                                     <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ثبت اعلام بار"} </Typography>

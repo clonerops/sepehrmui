@@ -35,7 +35,7 @@ const CargoList = () => {
     useEffect(() => {
         let formData = {
             PageNumber: currentPage,
-            PageSize: 20,
+            PageSize: pageSize,
         };
         cargoList.mutate(formData);
         // eslint-disable-next-line
@@ -135,7 +135,7 @@ const CargoList = () => {
                     onDoubleClick={(item: any) => navigate(`/dashboard/cargoList/${item?.row?.id}`)}
                     hideFooter
                 />
-                <Pagination pageCount={+cargoList?.data?.totalCount / +pageSize || 1} onPageChange={handlePageChange} />
+                <Pagination pageCount={+cargoList?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
             </ReusableCard>
             <ConfirmDialog
                 open={approve}
