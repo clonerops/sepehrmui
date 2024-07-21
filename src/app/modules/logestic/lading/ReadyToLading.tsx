@@ -3,7 +3,6 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { Formik } from "formik";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import { dropdownCustomer } from "../../generic/_functions";
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { Button, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
@@ -13,6 +12,7 @@ import Pagination from "../../../../_cloner/components/Pagination";
 import { useGetCargosList } from "../core/_hooks";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import { readyToLadingColumns } from "../../managment-order/helpers/columns";
+import { dropdownCustomer } from "../../../../_cloner/helpers/Dropdowns";
 
 const pageSize = 20;
 

@@ -118,6 +118,15 @@ const useGetOrderExitTypes = () => {
     });
 };
 
+const useGetUnits = () => {
+    return useQuery(['units'], () => api.getUnits(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+}
+
+
 export {
     useGetSendTypes,
     useGetPurchaseSendTypes,
@@ -134,5 +143,6 @@ export {
     useGetVehicleTypes,
     useGetTransferRemittanceStatus,
     useGetOfficialBank,
-    useGetOrderExitTypes
+    useGetOrderExitTypes,
+    useGetUnits
 };

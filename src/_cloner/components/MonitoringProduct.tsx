@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState } from "react";
-import { useGetProductList } from "../../app/modules/generic/products/_hooks";
+import { useGetProductList } from "../../app/modules/products/_hooks";
 import { Form, Formik, FormikProps } from "formik";
 import MuiDataGrid from "./MuiDataGrid";
 import { columnsModalProduct } from "../../app/modules/managment-order/helpers/columns";
 import FormikWarehouseType from "./FormikWarehouseType";
 import FormikWarehouseBasedOfType from "./FormikWarehouseBasedOfType";
-import { useGetWarehousesByFilter } from "../../app/modules/generic/warehouse/_hooks";
+import { useGetWarehousesByFilter } from "../../app/modules/warehouse/_hooks";
 import FormikPeoductType from "./FormikProductType";
 import Backdrop from "./Backdrop";
 import SearchBackendInput from "./SearchBackendInput";

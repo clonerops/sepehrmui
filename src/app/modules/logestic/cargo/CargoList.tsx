@@ -12,12 +12,12 @@ import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 
 import { useGetCustomers } from "../../customer/core/_hooks";
 import { useGetCargosList, useRevokeCargoById } from "../core/_hooks";
-import { dropdownCustomer } from "../../generic/_functions";
 import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import Pagination from "../../../../_cloner/components/Pagination";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
+import { dropdownCustomer } from "../../../../_cloner/helpers/Dropdowns";
 
 const pageSize = 100
 

@@ -22,7 +22,7 @@ import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import OrderDetailBaseOrderCode from './components/OrderDetailBaseOrderCode'
-import { useGetProductList } from '../../generic/products/_hooks'
+import { useGetProductList } from '../../products/_hooks'
 
 const SalesOrderEdit = () => {
 

@@ -1,6 +1,6 @@
 import FormikComboBox from "./FormikComboBox";
-import { dropdownProduct } from "../../app/modules/generic/_functions";
-import { useRetrieveProducts } from "../../app/modules/generic/products/_hooks";
+import { useRetrieveProducts } from "../../app/modules/products/_hooks";
+import { dropdownProduct } from "../helpers/Dropdowns";
 
 
 const FormikProduct = (props: any) => {

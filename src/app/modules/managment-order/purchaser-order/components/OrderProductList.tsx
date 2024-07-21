@@ -7,7 +7,7 @@ import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { orderPurchaserListColumns } from "../../helpers/columns";
-import { IProducts } from "../../../generic/products/_models";
+import { IProducts } from "../../../products/_models";
 import { FormikErrors } from "formik";
 
 type ProductProps = {

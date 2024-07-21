@@ -1,6 +1,6 @@
 import FormikSelect from './FormikSelect'
-import { useGetServices } from '../../app/modules/generic/productService/_hooks';
-import { IService } from '../../app/modules/generic/productService/_models';
+import { useGetServices } from '../../app/modules/productService/_hooks';
+import { IService } from '../../app/modules/productService/_models';
 import { dropdownServices } from '../../app/modules/managment-order/helpers/dropdowns';
 
 const FormikService = (props: any) => {

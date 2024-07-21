@@ -1,6 +1,6 @@
 import FormikComboBox from "./FormikComboBox";
-import { dropdownProduct, dropdownProductBrand } from "../../app/modules/generic/_functions";
-import { useGetProductBrands } from "../../app/modules/generic/productBrands/_hooks";
+import { useGetProductBrands } from "../../app/modules/productBrands/_hooks";
+import { dropdownProductBrand } from "../helpers/Dropdowns";
 
 
 const FormikProductBrand = (props: any) => {

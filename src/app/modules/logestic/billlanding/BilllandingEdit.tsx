@@ -13,7 +13,7 @@ import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import { useEffect, useState } from "react";
 import TransferAmount from "./TransferAmount";
 import FormikWarehouseBasedOfType from "../../../../_cloner/components/FormikWarehouseBasedOfType";
-import { useGetProductList } from "../../generic/products/_hooks";
+import { useGetProductList } from "../../products/_hooks";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import { useGetTransferRemitanceByIdByMutation, useUpdateTransferRemitance } from "../core/_hooks";
 import Backdrop from "../../../../_cloner/components/Backdrop";

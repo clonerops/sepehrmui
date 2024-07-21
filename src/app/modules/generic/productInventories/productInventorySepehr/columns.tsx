@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
 import { CallMade, CallReceived } from "@mui/icons-material";
-import { IProducts } from "../../products/_models";
+import { IProducts } from "../../../products/_models";
 
 export const columnsProductInventories = (renderIncreaseInventory: (item: {row: IProducts}) => void) => {
     const col = [

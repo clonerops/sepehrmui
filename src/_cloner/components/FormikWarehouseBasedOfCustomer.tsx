@@ -3,7 +3,7 @@ import FormikSelect from './FormikSelect'
 import { dropdownWarehouses } from '../../app/modules/managment-order/helpers/dropdowns';
 
 import { useEffect } from 'react';
-import { useGetWarehousesByFilter } from '../../app/modules/generic/warehouse/_hooks';
+import { useGetWarehousesByFilter } from '../../app/modules/warehouse/_hooks';
 
 const FormikWarehouseBasedOfCustomer = (props: any) => {
     const data = useGetWarehousesByFilter();

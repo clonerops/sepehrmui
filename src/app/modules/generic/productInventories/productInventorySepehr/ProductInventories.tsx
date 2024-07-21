@@ -5,8 +5,8 @@ import { columnsProductInventories } from "./columns";
 import { toAbsoulteUrl } from "../../../../../_cloner/helpers/AssetsHelper";
 import { useUploadFileProductInventories } from "../_hooks";
 import { exportProductInventories } from "../_requests";
-import { useGetProductList } from "../../products/_hooks";
-import { IProducts } from "../../products/_models";
+import { useGetProductList } from "../../../products/_hooks";
+import { IProducts } from "../../../products/_models";
 import { AddAlarm } from "@mui/icons-material";
 
 import ReusableCard from "../../../../../_cloner/components/ReusableCard";

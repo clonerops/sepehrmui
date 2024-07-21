@@ -14,16 +14,16 @@ import { Formik } from "formik";
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikPrice from "../../../../_cloner/components/FormikPrice";
-import { dropdownProductByInventory } from "../../generic/_functions";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 import { useApprovePurchaserInvoiceType, useRetrievePurchaserOrder } from "../core/_hooks";
 import { useGetInvoiceType } from "../../generic/_hooks";
-import { useGetCustomerCompaniesMutate } from "../../generic/customerCompany/_hooks";
+import { useGetCustomerCompaniesMutate } from "../../customerCompany/_hooks";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
 import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import { useRetrieveProductsByBrand } from "../../generic/products/_hooks";
+import { useRetrieveProductsByBrand } from "../../products/_hooks";
+import { dropdownProductByInventory } from "../../../../_cloner/helpers/Dropdowns";
 
 const initialValues = {
     productName: "",

@@ -1,6 +1,6 @@
 import { http, httpFormData } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { IProductFilters } from "../products/_models";
+import { IProductFilters } from "../../products/_models";
 import { IIncreaseInventory } from "./_models";
 
 const uploadProductInventories = async (formData: any) => {

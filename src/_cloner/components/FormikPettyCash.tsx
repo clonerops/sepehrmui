@@ -1,5 +1,5 @@
-import { useGetPettyCashList } from '../../app/modules/generic/pettyCash/_hooks';
-import { dropdownPettyCash } from '../../app/modules/generic/pettyCash/convertDropdown';
+import { useGetPettyCashList } from '../../app/modules/pettyCash/_hooks';
+import { dropdownPettyCash } from '../../app/modules/pettyCash/convertDropdown';
 import FormikSelect from './FormikSelect'
 
 const FormikPettyCash = (props: any) => {

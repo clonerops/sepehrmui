@@ -11,10 +11,10 @@ import Backdrop from "../../../../../_cloner/components/Backdrop";
 import { columnsModalProduct, columnsSelectProduct } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
-import { useGetUnits } from "../../../generic/productUnit/_hooks";
 import { IOrderService } from "../../core/_models";
-import { IProducts } from "../../../generic/products/_models";
-import { useGetProductList } from "../../../generic/products/_hooks";
+import { IProducts } from "../../../products/_models";
+import { useGetProductList } from "../../../products/_hooks";
+import { useGetUnits } from "../../../generic/_hooks";
 
 
 const ProductsList = (props: {

@@ -4,8 +4,6 @@ import { FormikErrors } from 'formik';
 import { UseMutationResult } from '@tanstack/react-query';
 
 import { FieldType } from "../../../../_cloner/components/globalTypes";
-import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount';
-import { dropdownProductByBrandName } from '../../generic/_functions';
 
 import FormikCustomer from "../../../../_cloner/components/FormikCustomer";
 import FormikCompany from '../../../../_cloner/components/FormikCompany';

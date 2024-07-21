@@ -1,5 +1,5 @@
-import { useGetOrganizationBankList } from '../../app/modules/generic/organizationBank/_hooks';
-import { dropdownOrganzationBank } from '../../app/modules/generic/organizationBank/convertDropdown';
+import { useGetOrganizationBankList } from '../../app/modules/organizationBank/_hooks';
+import { dropdownOrganzationBank } from '../helpers/Dropdowns';
 import FormikSelect from './FormikSelect'
 
 const FormikOrganzationBank = (props: any) => {

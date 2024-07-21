@@ -10,7 +10,7 @@ import { FormikErrors } from "formik";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
-import { IProducts } from "../../../generic/products/_models";
+import { IProducts } from "../../../products/_models";
 
 interface IProps {
     orders?: IOrderItems[] 

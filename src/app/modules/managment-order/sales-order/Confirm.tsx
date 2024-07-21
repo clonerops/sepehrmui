@@ -17,12 +17,11 @@ import FormikPrice from "../../../../_cloner/components/FormikPrice";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 import { useApproveInvoiceType, useRetrieveOrder } from "../core/_hooks";
 import { useGetInvoiceType } from "../../generic/_hooks";
-import { useGetCustomerCompaniesMutate } from "../../generic/customerCompany/_hooks";
+import { useGetCustomerCompaniesMutate } from "../../customerCompany/_hooks";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
 import FormikProductBrand from "../../../../_cloner/components/FormikProductBrandComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import { dropdownProductByInventory } from "../../generic/_functions";
 import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
 
 const initialValues = {

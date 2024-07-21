@@ -22,7 +22,7 @@ import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
-import { useGetProductList } from '../../generic/products/_hooks'
+import { useGetProductList } from '../../products/_hooks'
 
 
 const PurchaserOrder = () => {

@@ -7,10 +7,10 @@ import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import { columnsProductInventories } from "./columns";
 import { toAbsoulteUrl } from "../../../../../_cloner/helpers/AssetsHelper";
 import { exportProductInventories } from "../_requests";
-import { useGetProductList } from "../../products/_hooks";
+import { useGetProductList } from "../../../products/_hooks";
 import FormikWarehouseType from "../../../../../_cloner/components/FormikWarehouseType";
 import FormikWarehouseBasedOfType from "../../../../../_cloner/components/FormikWarehouseBasedOfType";
-import { useGetWarehousesByFilter } from "../../warehouse/_hooks";
+import { useGetWarehousesByFilter } from "../../../warehouse/_hooks";
 import FuzzySearch from "../../../../../_cloner/helpers/Fuse";
 
 const ProductInventories = () => {

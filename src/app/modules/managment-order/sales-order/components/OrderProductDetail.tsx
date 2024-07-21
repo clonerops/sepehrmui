@@ -12,7 +12,6 @@ import { EnqueueSnackbar } from '../../../../../_cloner/helpers/Snackebar'
 import FormikWarehouse from '../../../../../_cloner/components/FormikWarehouse'
 import FormikProduct from '../../../../../_cloner/components/FormikProductComboSelect'
 import ProductsList from './ProductsList'
-import { dropdownProductByBrandName } from '../../../generic/_functions'
 import FormikInput from '../../../../../_cloner/components/FormikInput'
 import FormikProximateAmount from '../../../../../_cloner/components/FormikProximateAmount'
 import FormikPrice from '../../../../../_cloner/components/FormikPrice'
@@ -21,6 +20,7 @@ import FormikPurchaserInvoiceType from '../../../../../_cloner/components/Formik
 import FormikDatepicker from '../../../../../_cloner/components/FormikDatepicker'
 import { Add, Edit } from '@mui/icons-material'
 import BottomDrawer from '../../../../../_cloner/components/BottomSheetDrawer'
+import { dropdownProductByBrandName } from '../../../../../_cloner/helpers/Dropdowns'
 
 const fields = [
     "warehouseId",

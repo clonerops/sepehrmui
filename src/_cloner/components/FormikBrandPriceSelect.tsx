@@ -1,6 +1,6 @@
 import FormikSelect from './FormikSelect'
-import { useGetProductBrandsByProductId } from '../../app/modules/generic/productBrands/_hooks'
-import { dropdownBrandName } from '../../app/modules/generic/_functions'
+import { useGetProductBrandsByProductId } from '../../app/modules/productBrands/_hooks'
+import { dropdownBrandName } from '../helpers/Dropdowns'
 
 const FormikBrandPriceSelect = (props: any) => {
     const productBrandTools = useGetProductBrandsByProductId(props.productId)

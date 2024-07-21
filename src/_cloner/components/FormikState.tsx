@@ -1,7 +1,7 @@
 import FormikSelect from './FormikSelect'
-import { useGetStates } from '../../app/modules/generic/productState/_hooks';
-import { IState } from '../../app/modules/generic/productState/_models';
-import { dropdownState } from '../../app/modules/generic/productState/convertDropdown';
+import { useGetStates } from '../../app/modules/productState/_hooks';
+import { IState } from '../../app/modules/productState/_models';
+import { dropdownState } from '../helpers/Dropdowns';
 
 const FormikState = (props: any) => {
     const { data: productState } = useGetStates();

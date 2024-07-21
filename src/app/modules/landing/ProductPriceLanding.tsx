@@ -3,8 +3,8 @@ import { Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableTabComponent from "../../../_cloner/components/ReusableTab";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import { useRetrieveProductsByType } from "../generic/products/_hooks";
-import { columnsProductPriceDashboard } from "../generic/productPrices/_columns";
+import { useRetrieveProductsByType } from "../products/_hooks";
+import { columnsProductPriceDashboard } from "../productPrices/_columns";
 import Backdrop from "../../../_cloner/components/Backdrop";
 
 const ProductPriceLanding = () => {

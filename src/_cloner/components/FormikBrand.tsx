@@ -1,6 +1,6 @@
-import { dropdownBrand } from '../../app/modules/generic/_functions';
-import { useGetBrands } from '../../app/modules/generic/brands/_hooks';
-import { IBrand } from '../../app/modules/generic/brands/_models';
+import { useGetBrands } from '../../app/modules/brands/_hooks';
+import { IBrand } from '../../app/modules/brands/_models';
+import { dropdownBrand } from '../helpers/Dropdowns';
 import FormikSelect from './FormikSelect'
 
 const FormikBrand = (props: any) => {

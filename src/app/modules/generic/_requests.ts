@@ -65,6 +65,12 @@ const getOrderExitTypes = async () => {
     return data
 }
 
+const getUnits = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetProductUnits')
+    return data;
+
+}
+
 export {
     getSendTypes,
     getPurchaseSendTypes,
@@ -81,5 +87,6 @@ export {
     getVehicleTypes,
     getTransferRemitanceStatus,
     getOfficialBank,
-    getOrderExitTypes
+    getOrderExitTypes,
+    getUnits
 }

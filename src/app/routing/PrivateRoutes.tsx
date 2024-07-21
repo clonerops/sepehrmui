@@ -9,22 +9,22 @@ import ApprovedRentPayment from "../modules/logestic/exit/ApprovedRentPayment";
 import LadingExitPermitPrintOfficial from "../modules/prints/LadingExitPermitPrintOfficial";
 import InvoiceOfficial from "../modules/prints/InvoiceOfficial";
 import InvoiceNotOfficial from "../modules/prints/InvoiceNotOfficial";
-import CustomerLabels from "../modules/generic/customerLabel/CustomerLabel";
+import CustomerLabels from "../modules/customerLabel/CustomerLabel";
 import ExitDetail from "../modules/logestic/exit/ExitDetail";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
-const OrganizationBank = React.lazy(() => import("../modules/generic/organizationBank/OrganizationBank"));
+const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
 const ExitList = React.lazy(() => import("../modules/logestic/exit/ExitList"));
 const ReadyToRent = React.lazy(() => import("../modules/rent-payment/ReadyToRent"));
 const RentPaymentList = React.lazy(() => import("../modules/rent-payment/RentPaymentList"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
-const Shareholders = React.lazy(() => import("../modules/generic/shareHolders/Shareholders"));
-const PettyCashs = React.lazy(() => import("../modules/generic/pettyCash/PettyCashes"));
-const CashDesks = React.lazy(() => import("../modules/generic/cashDesk/CashDesk"));
-const InComs = React.lazy(() => import("../modules/generic/inCome/InCome"));
-const Costs = React.lazy(() => import("../modules/generic/cost/Cost"));
-const Products = React.lazy(() => import("../modules/generic/products/Products"));
-const Suppliers = React.lazy(() => import("../modules/generic/productSuppliers/Suppliers"));
+const Shareholders = React.lazy(() => import("../modules/shareHolders/Shareholders"));
+const PettyCashs = React.lazy(() => import("../modules/pettyCash/PettyCashes"));
+const CashDesks = React.lazy(() => import("../modules/cashDesk/CashDesk"));
+const InComs = React.lazy(() => import("../modules/inCome/InCome"));
+const Costs = React.lazy(() => import("../modules/cost/Cost"));
+const Products = React.lazy(() => import("../modules/products/Products"));
+const Suppliers = React.lazy(() => import("../modules/productSuppliers/Suppliers"));
 const ReadyToExit = React.lazy(
     () => import("../modules/logestic/exit/ReadyToExit")
 );
@@ -77,13 +77,13 @@ const BilllandingDetails = React.lazy(
     () => import("../modules/logestic/billlanding/BilllandingDetails")
 );
 const ProductPrice = React.lazy(
-    () => import("../modules/generic/productPrices/ProductPrice")
+    () => import("../modules/productPrices/ProductPrice")
 );
 const ReadyToCargo = React.lazy(
     () => import("../modules/logestic/cargo/ReadyToCargo")
 );
 const CustomerWarehouse = React.lazy(
-    () => import("../modules/generic/customerWarehouse/CustomerWarehouse")
+    () => import("../modules/customerWarehouse/CustomerWarehouse")
 );
 
 const CargoList = React.lazy(
@@ -93,10 +93,10 @@ const CargoForm = React.lazy(
     () => import("../modules/logestic/cargo/CargoForm")
 );
 const TransferBetweenWarehouse = React.lazy(
-    () => import("../modules/generic/warehouse/TransferBetweenWarehouse")
+    () => import("../modules/warehouse/TransferBetweenWarehouse")
 );
 const TransferBetweenWarehouseAction = React.lazy(
-    () => import("../modules/generic/warehouse/TransferBetweenWarehouseAction")
+    () => import("../modules/warehouse/TransferBetweenWarehouseAction")
 );
 const CargoEditForm = React.lazy(
     () => import("../modules/logestic/cargo/CargoEditForm")
@@ -150,21 +150,21 @@ const Dashboard = React.lazy(() => import("../modules/Dashboard"));
 const DynamicBreadcrumbs = React.lazy(
     () => import("../../_cloner/components/Breadcumbs")
 );
-const Brands = React.lazy(() => import("../modules/generic/brands/Brands"));
+const Brands = React.lazy(() => import("../modules/brands/Brands"));
 const ProductTypes = React.lazy(
-    () => import("../modules/generic/productType/ProductTypes")
+    () => import("../modules/productType/ProductTypes")
 );
 const ProductState = React.lazy(
-    () => import("../modules/generic/productState/ProductState")
+    () => import("../modules/productState/ProductState")
 );
 const ProductStandards = React.lazy(
-    () => import("../modules/generic/productStandard/ProductStandard")
+    () => import("../modules/productStandard/ProductStandard")
 );
 const Warehouse = React.lazy(
-    () => import("../modules/generic/warehouse/Warehouse")
+    () => import("../modules/warehouse/Warehouse")
 );
 const ProductBrands = React.lazy(
-    () => import("../modules/generic/productBrands/ProductBrands")
+    () => import("../modules/productBrands/ProductBrands")
 );
 const Users = React.lazy(() => import("../modules/user/Users"));
 const UserForm = React.lazy(
@@ -180,10 +180,10 @@ const ProductInventoriesSepehr = React.lazy(
     () => import("../modules/generic/productInventories/productInventorySepehr/ProductInventories")
 );
 const ProductService = React.lazy(
-    () => import("../modules/generic/productService/ProductService")
+    () => import("../modules/productService/ProductService")
 );
 const CustomerCompanies = React.lazy(
-    () => import("../modules/generic/customerCompany/CustomerCompany")
+    () => import("../modules/customerCompany/CustomerCompany")
 );
 const LadingPermit = React.lazy(
     () => import("../modules/logestic/lading/LadingLicence")

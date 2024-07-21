@@ -2,7 +2,7 @@ import FormikSelect from './FormikSelect'
 
 import { dropdownShareholders } from '../../app/modules/managment-order/helpers/dropdowns';
 
-import { useGetShareholderListWithQuery } from '../../app/modules/generic/shareHolders/_hooks';
+import { useGetShareholderListWithQuery } from '../../app/modules/shareHolders/_hooks';
 
 const FormikShareholders = (props: any) => {
     const { data: ShareholdersType, isLoading } = useGetShareholderListWithQuery();
