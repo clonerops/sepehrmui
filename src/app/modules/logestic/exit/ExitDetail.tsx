@@ -4,20 +4,23 @@ import { Badge, Button, Card, Typography } from "@mui/material"
 import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, Person, Source } from "@mui/icons-material"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
-import { useGetLadingExitPermitById, useGetLadingPermitById, usePostApproveDriverFareAmount } from "../core/_hooks"
+import { useAddAttachmentsForExit, useGetLadingExitPermitById, useGetLadingPermitById, usePostApproveDriverFareAmount } from "../core/_hooks"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
 import FileUpload from "../../payment/components/FileUpload"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64"
 
 const ExitDetail = () => {
     const [files, setFiles] = useState<File[]>([])
+    const [base64Attachments, setBase64Attachments] = useState<string[]>([])
+
     const {id}: any = useParams()
     
     const exitDetailTools = useGetLadingExitPermitById(id)
     const ladingDetailTools = useGetLadingPermitById(exitDetailTools?.data?.data?.ladingPermitId)
 
     const postApprove = usePostApproveDriverFareAmount()
-
+    const attachmentTools = useAddAttachmentsForExit()
 
     const fieldsValue = [
         {
@@ -77,6 +80,14 @@ const ExitDetail = () => {
         },        
     ]
 
+    useEffect(() => {
+        if (files.length > 0) {
+            convertFilesToBase64(files, setBase64Attachments);
+        }
+         // eslint-disable-next-line
+    }, [files]);
+
+
     // var signatures: any = {
     //     JVBERi0: "application/pdf",
     //     R0lGODdh: "image/gif",
@@ -119,11 +130,34 @@ const ExitDetail = () => {
     //     }
     // };
 
+    const handleSubmitAttach = () => {
+        let attachments = base64Attachments.map((i) => {
+            let convert = {
+                fileData: i,
+            }
+            return convert
+        })
+
+        const formData: any = {
+            id: id,
+            attachments: attachments
+        }
+        
+        attachmentTools.mutate(formData, {
+            onSuccess: () => {
+
+            }
+        })
+    }
+
     if(exitDetailTools.isLoading) {
         return <Backdrop loading={exitDetailTools?.isLoading} />
     }
     if(ladingDetailTools.isLoading) {
         return <Backdrop loading={ladingDetailTools?.isLoading} />
+    }
+    if(attachmentTools.isLoading) {
+        return <Backdrop loading={attachmentTools?.isLoading} />
     }
 
     return (
@@ -157,7 +191,7 @@ const ExitDetail = () => {
                 <Card className="lg:col-span-3 px-16 py-8">
                     <FileUpload files={files} setFiles={setFiles} />
                     <div className="flex justify-end items-end">
-                        <Button variant="contained" color="secondary">
+                        <Button onClick={handleSubmitAttach} variant="contained" color="secondary">
                             <Typography>ثبت ضمیمه</Typography>
                         </Button>
                     </div>

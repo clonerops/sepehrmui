@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IApproveDriveFareAmount, ICargo, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
+import { IAddAttachment, IApproveDriveFareAmount, ICargo, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
 import * as api from "./_requests";
 
 const useRetrievesNotSendedOrder = () => {
@@ -142,6 +142,14 @@ const usePostExitRemiitance = () => {
     });
 };
 
+
+const useAddAttachmentsForExit = () => {
+    return useMutation((formData: IAddAttachment) => {
+        return api.addAttachmentForExit(formData);
+    });
+};
+
+
 const useRevokeExitById = () => {
     return useMutation((id: number) => {
         return api.revokeExitById(id);
@@ -234,6 +242,7 @@ export {
     useGetExitPermitListByMutation,
     useGetLadingExitPermitById,
     usePostExitRemiitance,
+    useAddAttachmentsForExit,
     useRevokeExitById,
     usePostApproveDriverFareAmount,
     usePostTransferRemittance,

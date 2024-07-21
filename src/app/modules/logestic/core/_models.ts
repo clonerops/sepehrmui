@@ -95,3 +95,11 @@ export interface IEvacuationPermit {
 
 }
 
+export interface IAddAttachment {
+  id: any,
+  attachments: [
+    {
+      fileData: string
+    }
+  ]
+}

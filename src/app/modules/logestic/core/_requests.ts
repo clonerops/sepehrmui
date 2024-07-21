@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { IApproveDriveFareAmount, ICargo, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
+import { IAddAttachment, IApproveDriveFareAmount, ICargo, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
 
 const getCargosList = async (formData: {
     PageNumber?: number,
@@ -207,6 +207,15 @@ const postApproveDriverFareAmount = async (formdata: IApproveDriveFareAmount) =>
     }
 }
 
+const addAttachmentForExit = async (formData: IAddAttachment) => {
+    try {
+        const {data} = await http.put(`/v1/LadingExitPermit/AddAttachments`, JSON.stringify(formData));
+        return data; 
+    } catch (error: any) {
+        return error.response
+    }
+}
+
 
 // Transfer Remittance
 const postTransferRemittance = async (formdata: ITransferRemittance) => {
@@ -305,6 +314,7 @@ export {
     getExitPermitListByMutation,
     getLadingExitPermitById,
     postExitRemittance,
+    addAttachmentForExit,
     revokeExitById,
     postApproveDriverFareAmount,
     postTransferRemittance,
