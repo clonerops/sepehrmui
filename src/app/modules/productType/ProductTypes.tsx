@@ -21,9 +21,10 @@ import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 import _ from 'lodash'
 
 const ProductTypes = () => {
-  const { data: types, refetch, isLoading: TypeLoading } = useGetTypes()
-  const { mutate: updateType } = useUpdateTypes()
-  const { mutate: deleteType } = useDeleteTypes()
+
+  const typeTools = useGetTypes()
+  const updateTypeTools = useUpdateTypes()
+  const deleteTypeTools = useDeleteTypes()
 
   const [results, setResults] = useState<IType[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -32,21 +33,21 @@ const ProductTypes = () => {
 
 
   useEffect(() => {
-    setResults(types?.data);
+    setResults(typeTools?.data?.data);
      // eslint-disable-next-line
-  }, [types?.data]);
+  }, [typeTools?.data?.data]);
 
 
   const handleDelete = (id: number) => {
     if (id)
-      deleteType(id, {
+      deleteTypeTools.mutate(id, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch();
+          typeTools.refetch();
         },
       });
   }
@@ -64,14 +65,14 @@ const ProductTypes = () => {
         image: rowData.row.image,
         isActive: !rowData.row.isActive
       }
-      updateType(formData, {
+      updateTypeTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch()
+          typeTools.refetch();
         }
       })
     } catch (e) {
@@ -131,27 +132,27 @@ const ProductTypes = () => {
     );
   };
 
-  if (TypeLoading) {
-    return <Backdrop loading={TypeLoading} />;
-  }
-
   return (
     <>
+      {typeTools.isLoading && <Backdrop loading={typeTools.isLoading} />}
+      {updateTypeTools.isLoading && <Backdrop loading={updateTypeTools.isLoading} />}
+      {deleteTypeTools.isLoading && <Backdrop loading={deleteTypeTools.isLoading} />}
+
       <Box className="flex flex-col lg:flex-row gap-4 mb-4">
         <CardWithIcons
           title='تعداد نوع کالا های ثبت شده'
           icon={<DesignServices className="text-white" />}
-          value={types?.data?.length}
+          value={typeTools?.data?.data?.length}
           iconClassName='bg-[#3322D8]' />
         <CardWithIcons
           title='تعداد نوع کالا ها در وضعیت فعال'
           icon={<AddTask className="text-white" />}
-          value={_.filter(types?.data, 'isActive').length}
+          value={_.filter(typeTools?.data?.data, 'isActive').length}
           iconClassName='bg-[#369BFD]' />
         <CardWithIcons
           title='تعداد نوع کالا ها در وضعیت غیرفعال'
           icon={<TextDecrease className="text-white" />}
-          value={_.filter(types?.data, (item) => !item.isActive).length}
+          value={_.filter(typeTools?.data?.data, (item) => !item.isActive).length}
           iconClassName='bg-[#F8B30E]' />
         <CardWithIcons
           title='تعداد نوع کالا های ثبت امروز'
@@ -170,7 +171,7 @@ const ProductTypes = () => {
                     "id",
                     "desc",
                   ]}
-                  data={types?.data}
+                  data={typeTools?.data?.data}
                   threshold={0.5}
                   setResults={setResults}
                 />
@@ -187,7 +188,7 @@ const ProductTypes = () => {
             <MuiDataGrid
               columns={columns(renderAction, renderSwitch)}
               rows={results}
-              data={types?.data}
+              data={typeTools?.data?.data}
               onDoubleClick={(item: any) => handleEdit(item?.row)}
             />
           </Box>
@@ -212,7 +213,7 @@ const ProductTypes = () => {
         description="برای ایجاد نوع کالا جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
       >
         <ProductTypeForm
-          refetch={refetch}
+          refetch={typeTools.refetch}
           setIsCreateOpen={setIsCreateOpen}
         />
       </TransitionsModal>
@@ -222,7 +223,7 @@ const ProductTypes = () => {
         width="50%"
         title="ویرایش نوع کالا"
       >
-        <ProductTypeForm id={itemForEdit?.id} refetch={refetch} />
+        <ProductTypeForm id={itemForEdit?.id} refetch={typeTools.refetch} />
       </TransitionsModal>
     </>
   )

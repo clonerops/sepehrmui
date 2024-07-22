@@ -27,10 +27,10 @@ type Props = {
   setIsCreateOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ProductTypeForm = (props: Props) => {
-  const { mutate: postType, isLoading: postLoading } = usePostTypes()
-  const { mutate: updateType, isLoading: updateLoading } = useUpdateTypes()
+const ProductTypeForm = (props: Props) => {  
   const detailTools = useGetType()
+  const postTypeTools = usePostTypes()
+  const updateTypeTools = useUpdateTypes()
 
   const isNew = !props.id
 
@@ -49,13 +49,14 @@ const ProductTypeForm = (props: Props) => {
         desc: rowData.desc,
         isActive: !rowData.isActive
       }
-      updateType(formData, {
+      updateTypeTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
+          props.refetch();
         }
       })
     } catch (e) {
@@ -68,14 +69,14 @@ const ProductTypeForm = (props: Props) => {
       const formData = {
         desc: values.desc,
       }
-      postType(formData, {
+      postTypeTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
-            props.refetch();
           } else {
             EnqueueSnackbar(response.data.Message, "warning")
           }
+          props.refetch();
         }
       })
     } catch (error) {
@@ -89,14 +90,12 @@ const ProductTypeForm = (props: Props) => {
     else onUpdate(values)
   }
 
-  if (detailTools?.isLoading) {
-    return <p>درحال بارگزاری...</p>;
-  }
 
   return (
     <>
-        {updateLoading && <Backdrop loading={updateLoading} />}
-        {postLoading && <Backdrop loading={postLoading} />}
+        {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+        {postTypeTools.isLoading && <Backdrop loading={postTypeTools.isLoading} />}
+        {updateTypeTools.isLoading && <Backdrop loading={updateTypeTools.isLoading} />}
         <div>
           <Formik enableReinitialize initialValues={isNew ? initialValues : { ...initialValues, ...detailTools?.data?.data }} validationSchema={validation} onSubmit={onSubmit}>
             {({ handleSubmit }) => {

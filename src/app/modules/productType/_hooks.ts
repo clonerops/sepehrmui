@@ -3,7 +3,7 @@ import * as api from './_requests'
 import { IType } from "./_models"
 
 const useGetTypes = () => {
-    return useQuery(['types'], () => 
+    return useQuery(['Types'], () => 
         api.getTypes(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
