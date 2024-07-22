@@ -3,7 +3,8 @@ import * as api from './_requests'
 import { IStandard } from "./_models"
 
 const useGetStandards = () => {
-    return useQuery(['Standards'], () => api.getStandards(), {
+    return useQuery(['Standards'], () => 
+        api.getStandards(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
@@ -17,7 +18,8 @@ const usePostStandards = () => {
 }
 
 const useGetStandard = (id: string) => {
-    return useQuery(['Standards', id], () => api.getStandard(id))
+    return useQuery(['Standards', id], () => 
+        api.getStandard(id))
 }
 
 const useUpdateStandards = () => {

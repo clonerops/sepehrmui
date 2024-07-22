@@ -27,16 +27,17 @@ const validation = Yup.object({
 })
 
 const ProductStandards = () => {
-  const { data: standards, refetch, isLoading: StandardLoading } = useGetStandards()
-  const { mutate: postStandard, isLoading: postLoading } = usePostStandards()
-  const { mutate: updateStandard, isLoading: updateLoading } = useUpdateStandards()
+  
+  const standardTools = useGetStandards()
+  const postStandardTools = usePostStandards()
+  const updateStandardTools = useUpdateStandards()
 
   const [results, setResults] = useState<IStandard[]>([]);
 
   useEffect(() => {
-    setResults(standards?.data);
+    setResults(standardTools?.data?.data);
      // eslint-disable-next-line
-  }, [standards?.data]);
+  }, [standardTools?.data?.data]);
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -45,14 +46,14 @@ const ProductStandards = () => {
         desc: rowData.row.desc,
         isActive: !rowData.row.isActive
       }
-      updateStandard(formData, {
+      updateStandardTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch()
+          standardTools.refetch()
         }
       })
     } catch (e) {
@@ -98,15 +99,11 @@ const ProductStandards = () => {
     );
   };
 
-
-  if (StandardLoading) {
-    return <Backdrop loading={StandardLoading} />;
-  }
-
   return (
     <>
-      {updateLoading && <Backdrop loading={updateLoading} />}
-      {postLoading && <Backdrop loading={postLoading} />}
+      {standardTools.isLoading && <Backdrop loading={standardTools.isLoading} />}
+      {updateStandardTools.isLoading && <Backdrop loading={updateStandardTools.isLoading} />}
+      {postStandardTools.isLoading && <Backdrop loading={postStandardTools.isLoading} />}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
           <div>
@@ -117,12 +114,12 @@ const ProductStandards = () => {
                   const formData = {
                     desc: values.desc
                   }
-                  postStandard(formData, {
+                  postStandardTools.mutate(formData, {
                     onSuccess: (response: any) => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
-                        refetch();
+                        standardTools.refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                       }
@@ -154,15 +151,14 @@ const ProductStandards = () => {
                   "id",
                   "desc",
                 ]}
-                data={standards?.data}
-                threshold={0.5}
+                data={standardTools?.data?.data}
                 setResults={setResults}
               />
             </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
-              data={standards?.data}
+              data={standardTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}
               getRowId={(item: { id: number }) => item.id}
             />
