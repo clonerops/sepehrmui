@@ -8,7 +8,6 @@ import { dropdownCustomerCompanies, dropdownInvoiceType } from "../helpers/dropd
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import { Description, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FileUpload from "../../payment/components/FileUpload";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import { Formik } from "formik";
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
@@ -23,6 +22,7 @@ import { saleOrderFieldConfirm } from "./fields";
 import FormikProductBrand from "../../../../_cloner/components/FormikProductBrandComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
+import FileUpload from "../../../../_cloner/components/FileUpload";
 
 const initialValues = {
     productName: "",

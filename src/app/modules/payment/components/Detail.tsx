@@ -13,75 +13,77 @@ import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import { Formik } from "formik"
 import FormikDescription from "../../../../_cloner/components/FormikDescription"
 
-const Detail = () => {
+const Detail = () => {   
+    const { id }: any = useParams()
+
+    const receivePayTools = useGetRecievePaymentById(id)
+    const updateReceivePayTools = useUpdatePaymentApproved()
+    const rejectReceivePayTools = useDisApprovePaymentApproved()
+    
     const [approve, setApprove] = useState<boolean>(false);
     const [disApprove, setDisApprove] = useState<boolean>(false);
 
-    const { id }: any = useParams()
-    const { data, isLoading: fetchingLaoding, refetch } = useGetRecievePaymentById(id)
-    const { mutate, isLoading } = useUpdatePaymentApproved()
-    const { mutate: reject, isLoading: rejectLoading } = useDisApprovePaymentApproved()
 
     const fieldsValue = [
         {
             title: "شماره ثبت",
-            value: data?.data?.receivePayCode,
+            value: receivePayTools?.data?.data?.receivePayCode,
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "دریافت از",
-            // value: data?.data?.receivePaymentSourceFromDesc + " " + (data?.data?.receiveFromCustomerName === null ? "" : data?.data?.receiveFromCustomerName),
-            value: data?.data?.receiveFromDesc,
+            // value: receivePayTools?.data?.data?.receivePaymentSourceFromDesc + " " + (receivePayTools?.data?.data?.receiveFromCustomerName === null ? "" : receivePayTools?.data?.data?.receiveFromCustomerName),
+            value: receivePayTools?.data?.data?.receiveFromDesc,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شرکت دریافت از",
-            value: data?.data?.receiveFromCompanyName,
+            value: receivePayTools?.data?.data?.receiveFromCompanyName,
             icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "پرداخت به",
-            // value: data?.data?.receivePaymentSourceToDesc + " " + (data?.data?.payToCustomerName === null ? "" : data?.data?.payToCustomerName),
-            value: data?.data?.payToDesc,
+            // value: receivePayTools?.data?.data?.receivePaymentSourceToDesc + " " + (receivePayTools?.data?.data?.payToCustomerName === null ? "" : receivePayTools?.data?.data?.payToCustomerName),
+            value: receivePayTools?.data?.data?.payToDesc,
             icon: <AddCard className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شرکت پرداخت به",
-            value: data?.data?.payToCompanyName,
+            value: receivePayTools?.data?.data?.payToCompanyName,
             icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "صاحب حساب",
-            value: data?.data?.accountOwner,
+            value: receivePayTools?.data?.data?.accountOwner,
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "کد پیگیری",
-            value: data?.data?.trachingCode,
+            value: receivePayTools?.data?.data?.trachingCode,
             icon: <Source className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },        
         {
             title: "شماره قرارداد",
-            value: data?.data?.contractCode,
+            value: receivePayTools?.data?.data?.contractCode,
             icon: <Filter1 className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شماره سند حسابداری",
-            value: data?.data?.accountingDocNo,
+            value: receivePayTools?.data?.data?.accountingDocNo,
             icon: <Numbers className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "وضعیت",
-            value: data?.data?.receivePayStatusDesc,
+            value: receivePayTools?.data?.data?.receivePayStatusDesc,
             icon: <CheckCircleOutline className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
@@ -104,10 +106,10 @@ const Detail = () => {
     }
 
     const hadelDownload = () => {
-        if (data?.data.attachments?.length === 0) {
+        if (receivePayTools?.data?.data?.attachments?.length === 0) {
             alert("فایلی برای دانلود وجود ندارد")
         } else {
-            data?.data?.attachments?.forEach((element: any) => {
+            receivePayTools?.data?.data?.attachments?.forEach((element: any) => {
                 switch (detectMimeType(element.fileData)) {
                     case "image/png":
                         const outputFilenamePng = `filesattachments${Date.now()}.png`;
@@ -138,11 +140,11 @@ const Detail = () => {
         const formData ={
             ids: [id]
         }
-        mutate(formData, {
+        updateReceivePayTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response?.succeeded) {
                     EnqueueSnackbar(response.message, "success")
-                    refetch()
+                    receivePayTools.refetch()
                     setApprove(false)
 
                 } else {
@@ -158,11 +160,11 @@ const Detail = () => {
             accountingDescription: values.accountingDescription
         }
         if (id)
-            reject(formData, {
+            rejectReceivePayTools.mutate(formData, {
                 onSuccess: (response) => {
                     if (response?.succeeded) {
                         EnqueueSnackbar(response.message, "success")
-                        refetch()
+                        receivePayTools.refetch()
                         setApprove(false)
 
                     } else {
@@ -175,7 +177,10 @@ const Detail = () => {
 
     return (
         <>
-            {fetchingLaoding && <Backdrop loading={fetchingLaoding} />}
+            {receivePayTools.isLoading && <Backdrop loading={receivePayTools.isLoading} />}
+            {updateReceivePayTools.isLoading && <Backdrop loading={updateReceivePayTools.isLoading} />}
+            {rejectReceivePayTools.isLoading && <Backdrop loading={rejectReceivePayTools.isLoading} />}
+
             <Typography color="primary" variant="h1" className="pb-8">جزئیات و ثبت تایید دریافت و پرداخت</Typography>
             <div className="lg:grid lg:grid-cols-3 text-right lg:gap-4 lg:space-y-0 space-y-4">
                 {fieldsValue.map((item: any) =>
@@ -190,7 +195,7 @@ const Detail = () => {
                     <CardWithIcons
                         title="توضیحات حسابداری"
                         icon={<Description className="text-black" />}
-                        value={data?.data?.accountingDescription}
+                        value={receivePayTools?.data?.data?.accountingDescription}
                         iconClassName="bg-[#ECEFF3]"
                     />
                 </div>
@@ -198,29 +203,29 @@ const Detail = () => {
                     <CardWithIcons
                         title="توضیحات"
                         icon={<Description className="text-black" />}
-                        value={data?.data?.description}
+                        value={receivePayTools?.data?.data?.description}
                         iconClassName="bg-[#ECEFF3]"
                     />
                 </div>
             </div>
             <div className="md:flex md:justify-end md:items-end gap-x-4 py-4">
-                <Badge badgeContent={data?.data?.attachments.length || 0} color="secondary">
+                <Badge badgeContent={receivePayTools?.data?.data?.attachments.length || 0} color="secondary">
                     <Button variant="contained" onClick={hadelDownload} className='mb-2' color="primary">
                         <Typography>{"دانلود ضمیمه ها"}</Typography>
                     </Button>
                 </Badge>
                 <Button variant="contained" onClick={() => setApprove(true)} className='mb-2' color="secondary">
-                    <Typography>{isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
+                    <Typography>{receivePayTools.isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
                 </Button>
                 <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
-                    <Typography>{rejectLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
+                    <Typography>{rejectReceivePayTools.isLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
                 </Button>
             </div>
             <ConfirmDialog
                 open={approve}
                 hintTitle="آیا از تایید سند دریافت و پرداخت مطمئن هستید؟"
                 notConfirmText="لغو"
-                confirmText={fetchingLaoding ? "درحال پردازش ..." : "تایید"}
+                confirmText={receivePayTools.isLoading ? "درحال پردازش ..." : "تایید"}
                 onCancel={() => setApprove(false)}
                 onConfirm={() => handleConfirm()}
             />
@@ -232,7 +237,7 @@ const Detail = () => {
                 description=" درصورتی که دریافت و پرداخت مورد تایید نمی باشد می توانید از طریق فرم زیر اقدام به عدم تایید آن نمایید"
             >
                 <div className="flex flex-col space-y-4 mt-4">
-                    <Typography variant="h3"> شماره دریافت پرداخت: {data?.data?.receivePayCode}</Typography>
+                    <Typography variant="h3"> شماره دریافت پرداخت: {receivePayTools?.data?.data?.receivePayCode}</Typography>
                     <Formik initialValues={{accountingDescription: ""}} onSubmit={handleDisApproveConfirm}>
                         {({handleSubmit}) => (
                             <form>

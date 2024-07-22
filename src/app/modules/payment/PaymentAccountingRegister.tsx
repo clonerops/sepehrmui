@@ -1,23 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 import { useGetRecievePayments, usePutRecievePaymentRegister } from "./core/_hooks";
 import { Link, useNavigate } from "react-router-dom";
-import Backdrop from "../../../_cloner/components/Backdrop";
 import { Button, Typography, Checkbox, Tooltip } from "@mui/material";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { IPayment, IPaymentFilter } from "./core/_models";
-import React from "react";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import { Visibility } from "@mui/icons-material";
+import { Formik, FormikProps } from "formik";
+import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+
+import Backdrop from "../../../_cloner/components/Backdrop";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import React from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Pagination from "../../../_cloner/components/Pagination";
-import { Formik, FormikProps } from "formik";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import moment from "moment-jalaali";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import CustomButton from "../../../_cloner/components/CustomButton";
-import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 
 const pageSize = 100
@@ -27,20 +28,11 @@ const initialValues = {
     fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
     toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
 }
-// const initialValuesRegister = {
-//     accountDocNo: 0,
-// }
-
-// const categories = [
-//     { value: 0, title: "همه", defaultChecked: true },
-//     { value: 1, title: "تایید شده ها", defaultChecked: false },
-//     { value: 2, title: "تایید نشده ها", defaultChecked: false }
-// ]
 
 
 const PaymentAccountingRegister = () => {
     // Fetching
-    const { mutate, data, isLoading } = useGetRecievePayments();
+    const recievePaymentTools = useGetRecievePayments();
     const putRecievePayRegister = usePutRecievePaymentRegister()
     // States
     const [results, setResults] = useState<IPayment[]>([]);
@@ -54,24 +46,21 @@ const PaymentAccountingRegister = () => {
     const navigate = useNavigate()
 
     const getReceivePayments = (filters: IPaymentFilter) => {
-        mutate(filters, {
-            onSuccess: () => {
 
-            }
-        })
+        recievePaymentTools.mutate(filters)
     }
 
     useEffect(() => {
-        setResults(data?.data);
+        setResults(recievePaymentTools?.data?.data);
         // eslint-disable-next-line
-    }, [data?.data]);
+    }, [recievePaymentTools?.data?.data]);
     useEffect(() => {
         const filters = {
-            IsApproved: formikRef?.current?.values?.isApproved,
+            StatusId: 2,
             FromDate: formikRef?.current?.values?.fromDate,
             ToDate: formikRef?.current?.values?.toDate,
             PageNumber: currentPage,
-            PageSize: 100,
+            PageSize: pageSize,
         }
         getReceivePayments(filters)
         // eslint-disable-next-line
@@ -103,68 +92,24 @@ const PaymentAccountingRegister = () => {
             },
             {
                 field: "receivePayCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
+                renderCell: (params: any) => <Typography variant="h4">{params.value}</Typography>,
+                
                 headerName: "شماره ثبت",
                 headerClassName: "headerClassName",
                 minWidth: 80,
                 flex: 1
             },
-            // {
-            //     field: "receivePaymentSourceFromDesc",
-            //     headerName: "دریافت از",
-            //     renderCell: (value: any) => (
-            //         <Typography variant="h4">
-            //             {value.row.receivePaymentSourceFromDesc +
-            //                 " " +
-            //                 (value.row?.receivePaymentSourceFromId !== 1
-            //                     ? ""
-            //                     : value.row?.receiveFromCustomerName)}
-            //         </Typography>
-            //     ),
-            //     headerClassName: "headerClassName",
-            //     minWidth: 240,
-            //     flex: 1
-            // },
-            // {
-            //     field: "receivePaymentSourceToDesc",
-            //     renderCell: (value: any) => (
-            //         <Typography variant="h4">
-            //             {value.row.receivePaymentSourceToDesc +
-            //                 " " +
-            //                 (value.row?.receivePaymentSourceToId !== 1
-            //                     ? ""
-            //                     : value.row?.payToCustomerName)}
-            //         </Typography>
-            //     ),
-            //     headerName: "پرداخت به",
-            //     headerClassName: "headerClassName",
-            //     minWidth: 240,
-            //     flex: 1
-            // },
             {
                 field: "receiveFromDesc",
                 headerName: "دریافت از",
-                renderCell: (value: any) => (
-                    <Typography variant="h4">
-                        {value.row.receiveFromDesc
-                            // " " +
-                            // (value.row?.receivePaymentTypeFromId !== 1
-                            //     ? ""
-                            //     : value.row?.receiveFromCustomerName)
-                        }
-                    </Typography>
-                ),
+                renderCell: (value: any) => <Typography variant="h4">{value.row.receiveFromDesc}</Typography>,
                 headerClassName: "headerClassName",
                 minWidth: 240,
                 flex: 1
             },
             {
                 field: "receiveFromCompanyName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
+                renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
                 headerName: "شرکت دریافت از",
                 headerClassName: "headerClassName",
                 minWidth: 120,
@@ -199,11 +144,7 @@ const PaymentAccountingRegister = () => {
             {
                 field: "amount",
                 headerName: "مبلغ(ریال)",
-                renderCell: (value: any) => (
-                    <Typography color="primary" variant="h4">
-                        {separateAmountWithCommas(value.row.amount)}
-                    </Typography>
-                ),
+                renderCell: (value: any) => <Typography color="primary" variant="h4">{separateAmountWithCommas(value.row.amount)} </Typography>,
                 headerClassName: "headerClassName",
                 minWidth: 160,
                 flex: 1
@@ -224,9 +165,7 @@ const PaymentAccountingRegister = () => {
             },
             {
                 field: "accountOwner",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
+                renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
                 headerName: "صاحب حساب",
                 headerClassName: "headerClassName",
                 minWidth: 120,
@@ -234,9 +173,7 @@ const PaymentAccountingRegister = () => {
             },
             {
                 field: "trachingCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
+                renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
                 headerName: "کد پیگیری",
                 headerClassName: "headerClassName",
                 minWidth: 120,
@@ -246,47 +183,12 @@ const PaymentAccountingRegister = () => {
            
             {
                 field: "contractCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
+                renderCell: (params: any) => <Typography variant="h4">{params.value}</Typography>,
                 headerName: "شماره قرارداد",
                 headerClassName: "headerClassName",
                 minWidth: 100,
                 flex: 1
             },
-            // {
-            //     field: "isAccountingApproval",
-            //     headerName: "تایید حسابداری؟",
-            //     renderCell: (params: any) => {
-            //         return (
-            //             <ActiveText
-            //                 params={params}
-            //                 successTitle="بله"
-            //                 dangerTitle="خیر"
-            //             />
-            //         );
-            //     },
-            //     headerClassName: "headerClassName",
-            //     minWidth: 100,
-            //     flex: 1
-            // },
-            // {
-            //     field: "accountingApprovalDate",
-            //     renderCell: (params: any) => {
-            //         return <Typography variant="h4">{params.value}</Typography>;
-            //     },
-            //     headerName: "تاریخ تایید حسابداری",
-            //     headerClassName: "headerClassName",
-            //     minWidth: 160,
-            //     flex: 1
-            // },
-            // {
-            //     headerName: "جزئیات و ثبت",
-            //     renderCell: renderAction,
-            //     headerClassName: "headerClassName",
-            //     minWidth: 120,
-            //     flex: 1
-            // },
         ];
         return col;
     };
@@ -356,26 +258,14 @@ const PaymentAccountingRegister = () => {
 
     const handleFilter = (values: any) => {
         const filters: any = {
-            isApproved: +values.isApproved,
             fromDate: values.fromDate,
+            StatusId: 2,
             toDate: values.toDate,
             pageNumber: currentPage,
             pageSize: 100,
         }
         getReceivePayments(filters)
     }
-
-    // const handleFilterChange = (event: any, values: any) => {
-    //     const filters: any = {
-    //         isApproved: +event,
-    //         fromDate: values.fromDate,
-    //         toDate: values.toDate,
-    //         pageNumber: currentPage,
-    //         pageSize: 100,
-    //     }
-    //     getReceivePayments(filters)
-    // }
-
 
     const onSubmit = () => {
         if (selectedIds.length === 0) {
@@ -400,25 +290,17 @@ const PaymentAccountingRegister = () => {
 
     return (
         <>
-            {isLoading && <Backdrop loading={isLoading} />}
+            {recievePaymentTools.isLoading && <Backdrop loading={recievePaymentTools.isLoading} />}
             {putRecievePayRegister.isLoading && <Backdrop loading={putRecievePayRegister.isLoading} />}
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={handleFilter}>
-                    {({ values, handleSubmit }) => {
+                    {({ handleSubmit }) => {
                         return <form onSubmit={handleSubmit}>
                             <div className="flex flex-col lg:flex-row justify-center items-center gap-8">
                                 <FormikDatepicker name="fromDate" label="از تاریخ" />
                                 <FormikDatepicker name="toDate" label="تا تاریخ" />
                             </div>
                             <div className="flex justify-end items-end my-4">
-                                {/* <RadioGroup
-                                    categories={categories}
-                                    onChange={(event: any) => handleFilterChange(event, values)}
-                                    id="isApproved"
-                                    key="isApproved"
-                                    name="isApproved"
-                                />
- */}
                                 <ButtonComponent>
                                     <Typography className="!text-white">جستجو</Typography>
                                 </ButtonComponent>
@@ -429,12 +311,12 @@ const PaymentAccountingRegister = () => {
                 <MuiDataGrid
                     columns={columns(renderCheckbox, renderActions)}
                     rows={results}
-                    data={data?.data}
+                    data={recievePaymentTools?.data?.data}
                     onDoubleClick={(item: any) => navigate(`/dashboard/payment/accounting/register/${item?.row?.id}`)}
                 />
                 <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
                 <div className="flex justify-end items-end mt-8">
-                    <CustomButton onClick={() => setIsOpen(true)} title="ثبت سند حسابداری" />
+                    <CustomButton disabled={selectedIds.length <= 0} onClick={() => setIsOpen(true)} title="ثبت سند حسابداری" />
                 </div>
             </ReusableCard>
             <TransitionsModal
@@ -451,7 +333,7 @@ const PaymentAccountingRegister = () => {
                             actions.setSubmitting(false);
                         }}
                     >
-                        {({ setSubmitting }) => (
+                        {() => (
                             <div className="flex flex-col space-y-4">
                                 <div className="mt-8">
                                     <FormikInput name="accountDocNo" label="شماره سند" />

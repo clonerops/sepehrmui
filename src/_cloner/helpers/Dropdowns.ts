@@ -171,6 +171,16 @@ const dropdownRole = (data: any) => {
     );
 };
 
+const dropdownReceivePaymentResource = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: any; desc: any }): any => {
+            const { id, desc } = obj;
+            return { value: id, label: desc };
+        })
+    );
+};
+
 export {
     dropdownBrand,
     dropdownCustomer,
@@ -188,5 +198,6 @@ export {
     dropdownPermissions,
     dropdownApplicationMenu,
     dropdownPermissionsByMenu,
-    dropdownRole
+    dropdownRole,
+    dropdownReceivePaymentResource
 }

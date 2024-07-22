@@ -30,7 +30,7 @@ import ReusableAccordion from "../../../../_cloner/components/ReusableAccordion"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
 import MaskInput from "../../../../_cloner/components/MaskInput"
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64"
-import FileUpload from "../../payment/components/FileUpload"
+import FileUpload from "../../../../_cloner/components/FileUpload"
 
 const initialValues = {
     driverName: "",

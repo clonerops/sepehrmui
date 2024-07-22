@@ -63,8 +63,6 @@ const ProductInventoriesSepehr = () => {
         setIsCreateOpen(true)
     }
 
-    console.log(filterTools?.data?.data)
-
     return (
         <>
             {uploadFileMethode.isLoading && <Backdrop loading={uploadFileMethode.isLoading} />}

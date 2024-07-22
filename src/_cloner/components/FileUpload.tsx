@@ -1,9 +1,9 @@
 import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar';
 // import ReactPanZoom from "react-image-pan-zoom-rotate";
 import Zoom from 'react-medium-image-zoom'
+import { EnqueueSnackbar } from '../helpers/Snackebar';
 
 interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')

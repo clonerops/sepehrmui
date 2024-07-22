@@ -17,7 +17,6 @@ import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
 import { enqueueSnackbar } from "notistack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../../_cloner/components/FormikDescription";
-import FileUpload from "../../payment/components/FileUpload";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
@@ -25,6 +24,7 @@ import { useGetVehicleTypes } from "../../generic/_hooks";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import MaskInput from "../../../../_cloner/components/MaskInput";
 import { evacuationValidation } from "./_validation";
+import FileUpload from "../../../../_cloner/components/FileUpload";
 
 const initialValues = {
     id: 0,

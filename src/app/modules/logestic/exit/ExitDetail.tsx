@@ -6,9 +6,9 @@ import Backdrop from "../../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
 import { useAddAttachmentsForExit, useGetLadingExitPermitById, useGetLadingPermitById, usePostApproveDriverFareAmount } from "../core/_hooks"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
-import FileUpload from "../../payment/components/FileUpload"
 import { useEffect, useState } from "react"
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64"
+import FileUpload from "../../../../_cloner/components/FileUpload"
 
 const ExitDetail = () => {
     const [files, setFiles] = useState<File[]>([])

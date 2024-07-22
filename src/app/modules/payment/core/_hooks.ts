@@ -26,7 +26,7 @@ const useUpdateRecievePaymentById = () => {
 };
 
 const useGetRecievePaymentById = (id: string) => {
-    return useQuery(['recievePayDetail', id], () => api.getRecievePaymentById(id))
+    return useQuery(['RecievePayDetail', id], () => api.getRecievePaymentById(id))
 };
 const useDeleteRecievePaymentById = () => {
     return useMutation((id: string) => {

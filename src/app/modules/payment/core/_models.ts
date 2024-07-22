@@ -20,6 +20,7 @@ export interface IAttachment {
 
 export interface IPaymentFilter {
     IsApproved?: number | null | undefined
+    StatusId?: number | null | undefined
     FromDate?:  string | null | undefined
     ToDate?:  string | null | undefined
     PageNumber?:  number | null | undefined

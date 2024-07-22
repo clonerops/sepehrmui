@@ -31,21 +31,8 @@ const SinglePaymentRegister = () => {
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
-        // {
-        //     title: "دریافت از",
-        //     value: data?.data?.receivePaymentSourceFromDesc + " " + (data?.data?.receiveFromCustomerName === null ? "" : data?.data?.receiveFromCustomerName),
-        //     icon: <Apps className="text-black" />,
-        //     bgColor: "bg-[#ECEFF3]"
-        // },
-        // {
-        //     title: "پرداخت به",
-        //     value: data?.data?.receivePaymentSourceToDesc + " " + (data?.data?.payToCustomerName === null ? "" : data?.data?.payToCustomerName),
-        //     icon: <AddCard className="text-black" />,
-        //     bgColor: "bg-[#ECEFF3]"
-        // },
         {
             title: "دریافت از",
-            // value: data?.data?.receivePaymentSourceFromDesc + " " + (data?.data?.receiveFromCustomerName === null ? "" : data?.data?.receiveFromCustomerName),
             value: data?.data?.receiveFromDesc,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"

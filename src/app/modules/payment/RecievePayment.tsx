@@ -1,20 +1,19 @@
 import { useState } from 'react'
 import { Formik } from 'formik'
 import { Button, Typography } from '@mui/material'
+import { DateRange, Paid } from '@mui/icons-material'
 import moment from 'moment-jalaali'
 
 import { usePostRecievePayment } from './core/_hooks'
-import { dropdownReceivePaymentResource } from './helpers/dropdownConvert'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { dropdownReceivePaymentResource } from '../../../_cloner/helpers/Dropdowns'
 
-import FileUpload from './components/FileUpload'
 import FormikSelect from '../../../_cloner/components/FormikSelect'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
-import { DateRange, Paid } from '@mui/icons-material'
 import FormikDescription from '../../../_cloner/components/FormikDescription'
 import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 import FormikOrganzationBank from '../../../_cloner/components/FormikOrganzationBank'
@@ -25,6 +24,7 @@ import FormikCost from '../../../_cloner/components/FormikCost'
 import FormikPettyCash from '../../../_cloner/components/FormikPettyCash'
 import FormikShareholders from '../../../_cloner/components/FormikShareholders'
 import FormikCompany from '../../../_cloner/components/FormikCompany'
+import FileUpload from '../../../_cloner/components/FileUpload'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -49,8 +49,8 @@ const initialValues = {
 const RecievePayment = () => {
     const [trachingCode, setTrachingCode] = useState<any>(0)
 
-    const { mutate, isLoading } = usePostRecievePayment()
-    const { data: paymentResource } = useGetReceivePaymentSources()
+    const recievePayTools = useGetReceivePaymentSources()
+    const postRecievePayTools = usePostRecievePayment()
 
     const [files, setFiles] = useState<File[]>([]);
 
@@ -81,7 +81,9 @@ const RecievePayment = () => {
 
     return (
         <>
-            {isLoading && <Backdrop loading={isLoading} />}
+            {recievePayTools.isLoading && <Backdrop loading={recievePayTools.isLoading} />}
+            {postRecievePayTools.isLoading && <Backdrop loading={postRecievePayTools.isLoading} />}
+
             <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
                 <CardWithIcons
                     title='شماره'
@@ -115,7 +117,7 @@ const RecievePayment = () => {
                             files.forEach((file) => {
                                 formData.append('Attachments', file);
                             });
-                            mutate(formData, {
+                            postRecievePayTools.mutate(formData, {
                                 onSuccess: (response) => {
                                     if(response.data.Errors && response.data.Errors.length > 0) {
                                         EnqueueSnackbar(response.data.Errors[0], "error")
@@ -134,12 +136,12 @@ const RecievePayment = () => {
                         {({ handleSubmit, values }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
-                                    <FormikSelect name='ReceivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    <FormikSelect name='ReceivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(recievePayTools?.data)} />
                                     {renderFields("ReceiveFromId", "دریافت از", values.ReceivePaymentTypeFromId)}
                                     {values?.ReceiveFromId?.value &&
                                         <FormikCompany customerid={values?.ReceiveFromId?.value} name="ReceiveFromCompanyId" label="نام شرکت دریافت از" />
                                     }
-                                    <FormikSelect name='ReceivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
+                                    <FormikSelect name='ReceivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(recievePayTools?.data)} />
                                     {renderFields("PayToId", "پرداخت به", values.ReceivePaymentTypeToId)}
                                     {values?.PayToId?.value &&
                                         <FormikCompany customerid={values?.PayToId?.value} name="PayToCompanyId" label="نام شرکت پرداخت به" />

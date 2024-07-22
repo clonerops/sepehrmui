@@ -14,8 +14,8 @@ import Backdrop from "../../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
 import moment from "moment-jalaali"
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64"
-import FileUpload from "../../payment/components/FileUpload"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
+import FileUpload from "../../../../_cloner/components/FileUpload"
 
 const TransferRemittanceDetails = () => {
     const { id }: any = useParams()

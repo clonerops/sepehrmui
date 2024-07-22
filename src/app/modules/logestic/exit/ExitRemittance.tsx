@@ -17,11 +17,11 @@ import { IExitRemittance } from "../core/_models";
 import { enqueueSnackbar } from "notistack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../../_cloner/components/FormikDescription";
-import FileUpload from "../../payment/components/FileUpload";
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import { renderAlert } from "../../../../_cloner/helpers/SweetAlert";
 import moment from "moment-jalaali";
+import FileUpload from "../../../../_cloner/components/FileUpload";
 
 interface ILadingList {
     id?: number;

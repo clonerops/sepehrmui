@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { useGetRecievePayments, useUpdatePaymentApproved } from "./core/_hooks";
 import { Link, useNavigate } from "react-router-dom";
-import Backdrop from "../../../_cloner/components/Backdrop";
 import { Button, Checkbox, Tooltip, Typography } from "@mui/material";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { IPayment, IPaymentFilter } from "./core/_models";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import { DoneAll, Visibility } from "@mui/icons-material";
+import { Formik, FormikProps } from "formik";
+import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+
+import Backdrop from "../../../_cloner/components/Backdrop";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Pagination from "../../../_cloner/components/Pagination";
-import { Formik, FormikProps } from "formik";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import moment from "moment-jalaali";
-import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 
 const pageSize = 100
@@ -27,7 +28,7 @@ const initialValues = {
 
 const PaymentAccounting = () => {
     // Fetching
-    const { mutate, data, isLoading } = useGetRecievePayments();
+    const recievePaymentTools = useGetRecievePayments();
     const approveReceivePay = useUpdatePaymentApproved();
     // States
     const [results, setResults] = useState<IPayment[]>([]);
@@ -40,24 +41,21 @@ const PaymentAccounting = () => {
     const navigate = useNavigate()
 
     const getReceivePayments = (filters: IPaymentFilter) => {
-        mutate(filters, {
-            onSuccess: () => {
-
-            }
-        })
+        recievePaymentTools.mutate(filters)
     }
 
     useEffect(() => {
-        setResults(data?.data);
+        setResults(recievePaymentTools?.data?.data);
         // eslint-disable-next-line
-    }, [data?.data]);
+    }, [recievePaymentTools?.data?.data]);
+
     useEffect(() => {
         const filters = {
-            IsApproved: formikRef?.current?.values?.isApproved,
             FromDate: formikRef?.current?.values?.fromDate,
             ToDate: formikRef?.current?.values?.toDate,
+            StatusId: 1,
             PageNumber: currentPage,
-            PageSize: 100,
+            PageSize: pageSize,
         }
         getReceivePayments(filters)
         // eslint-disable-next-line
@@ -102,12 +100,7 @@ const PaymentAccounting = () => {
                 headerName: "دریافت از",
                 renderCell: (value: any) => (
                     <Typography variant="h4">
-                        {value.row.receiveFromDesc
-                            // " " +
-                            // (value.row?.receivePaymentTypeFromId !== 1
-                            //     ? ""
-                            //     : value.row?.receiveFromCustomerName)
-                        }
+                        {value.row.receiveFromDesc}
                     </Typography>
                 ),
                 headerClassName: "headerClassName",
@@ -206,13 +199,6 @@ const PaymentAccounting = () => {
                 minWidth: 100,
                 flex: 1
             },
-            // {
-            //     headerName: "جزئیات",
-            //     renderCell: renderAction,
-            //     headerClassName: "headerClassName",
-            //     minWidth: 80,
-            //     flex: 1
-            // },
         ];
         return col;
     };
@@ -245,11 +231,11 @@ const PaymentAccounting = () => {
 
     const handleFilter = (values: any) => {
         const filters: any = {
-            isApproved: +values.isApproved,
             fromDate: values.fromDate,
             toDate: values.toDate,
+            StatusId: 1,
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
         }
         getReceivePayments(filters)
     }
@@ -322,7 +308,9 @@ const PaymentAccounting = () => {
 
     return (
         <>
-            {isLoading && <Backdrop loading={isLoading} />}
+            {recievePaymentTools.isLoading && <Backdrop loading={recievePaymentTools.isLoading} />}
+            {approveReceivePay.isLoading && <Backdrop loading={approveReceivePay.isLoading} />}
+
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={handleFilter}>
                     {({ handleSubmit }) => {
@@ -342,11 +330,11 @@ const PaymentAccounting = () => {
                 <MuiDataGrid
                     columns={columns(renderActions, renderCheckbox)}
                     rows={results}
-                    data={data?.data}
+                    data={recievePaymentTools?.data?.data}
                     onDoubleClick={(item: any) => navigate(`/dashboard/payment/edit/${item?.row?.id}`)}
                 />
                 <div className="flex justify-end items-end mt-8">
-                    <Button className="!bg-green-500 !px-8" onClick={() => setIsOpen(true)}>
+                    <Button disabled={selectedIds.length <= 0} variant="contained" color="primary" onClick={() => setIsOpen(true)}>
                         <DoneAll className="text-white" />
                         <Typography className="text-white">ثبت تایید</Typography>
                     </Button>
