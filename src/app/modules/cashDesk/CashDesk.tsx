@@ -27,15 +27,15 @@ const validation = Yup.object({
 })
 
 const CashDesks = () => {
-  const { data: CashDesks, refetch, isLoading: CashDeskLoading } = useGetCashDesks()
-  const { mutate: postCashDesk, isLoading: postLoading } = usePostCashDesks()
-  const { mutate: updateCashDesk, isLoading: updateLoading } = useUpdateCashDesks()
+  const cashDeskTools = useGetCashDesks()
+  const postCashDeskTools = usePostCashDesks()
+  const updateCashDeskTools = useUpdateCashDesks()
 
   const [results, setResults] = useState<ICashDesk[]>([]);
 
   useEffect(() => {
-    setResults(CashDesks?.data);
-  }, [CashDesks?.data]);
+    setResults(cashDeskTools?.data?.data);
+  }, [cashDeskTools?.data?.data]);
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -44,14 +44,14 @@ const CashDesks = () => {
         cashDeskDescription: rowData.row.cashDeskDescription,
         isActive: !rowData.row.isActive
       }
-      updateCashDesk(formData, {
+      updateCashDeskTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch()
+          cashDeskTools.refetch()
         }
       })
     } catch (e) {
@@ -97,15 +97,12 @@ const CashDesks = () => {
     );
   };
 
-
-  if (CashDeskLoading) {
-    return <Backdrop loading={CashDeskLoading} />;
-  }
-
   return (
     <>
-      {updateLoading && <Backdrop loading={updateLoading} />}
-      {postLoading && <Backdrop loading={postLoading} />}
+      {cashDeskTools.isLoading && <Backdrop loading={cashDeskTools.isLoading} />}
+      {postCashDeskTools.isLoading && <Backdrop loading={postCashDeskTools.isLoading} />}
+      {updateCashDeskTools.isLoading && <Backdrop loading={updateCashDeskTools.isLoading} />}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
           <div>
@@ -116,12 +113,12 @@ const CashDesks = () => {
                   const formData = {
                     cashDeskDescription: values.cashDeskDescription
                   }
-                  postCashDesk(formData, {
+                  postCashDeskTools.mutate(formData, {
                     onSuccess: (response: any) => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
-                        refetch();
+                        cashDeskTools.refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                       }
@@ -153,14 +150,14 @@ const CashDesks = () => {
                   "id",
                   "cashDeskDescription",
                 ]}
-                data={CashDesks?.data}
+                data={cashDeskTools?.data?.data}
                 setResults={setResults}
               />
             </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
-              data={CashDesks?.data}
+              data={cashDeskTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}
             />
           </div>
@@ -180,10 +177,7 @@ const CashDesks = () => {
             </div>
           </div>
           <div>
-            <div
-            
-              className="hidden md:flex md:justify-center md:items-center"
-            >
+            <div className="hidden md:flex md:justify-center md:items-center">
               <img alt="sepehriranian"
                 src={toAbsoulteUrl("/media/logos/iron.png")}
                 width={400}
