@@ -27,16 +27,16 @@ const validation = Yup.object({
 })
 
 const Costs = () => {
-  const { data: Costs, refetch, isLoading: CostLoading } = useGetCosts()
-  const { mutate: postCost, isLoading: postLoading } = usePostCosts()
-  const { mutate: updateCost, isLoading: updateLoading } = useUpdateCosts()
+  const costTools = useGetCosts()
+  const potsCostTools = usePostCosts()
+  const updateCostTools = useUpdateCosts()
 
   const [results, setResults] = useState<ICost[]>([]);
 
   useEffect(() => {
-    setResults(Costs?.data);
+    setResults(costTools?.data?.data);
      // eslint-disable-next-line
-  }, [Costs?.data]);
+  }, [costTools?.data?.data]);
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -45,14 +45,14 @@ const Costs = () => {
         costDescription: rowData.row.costDescription,
         isActive: !rowData.row.isActive
       }
-      updateCost(formData, {
+      updateCostTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch()
+          costTools.refetch()
         }
       })
     } catch (e) {
@@ -96,17 +96,13 @@ const Costs = () => {
         onChange={(_) => onUpdateStatus(item)}
       />
     );
-  };
-
-
-  if (CostLoading) {
-    return <Backdrop loading={CostLoading} />;
   }
 
   return (
     <>
-      {updateLoading && <Backdrop loading={updateLoading} />}
-      {postLoading && <Backdrop loading={postLoading} />}
+      {costTools.isLoading && <Backdrop loading={costTools.isLoading} />}
+      {potsCostTools.isLoading && <Backdrop loading={potsCostTools.isLoading} />}
+      {updateCostTools.isLoading && <Backdrop loading={updateCostTools.isLoading} />}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
           <div>
@@ -117,12 +113,12 @@ const Costs = () => {
                   const formData = {
                     costDescription: values.costDescription
                   }
-                  postCost(formData, {
+                  potsCostTools.mutate(formData, {
                     onSuccess: (response: any) => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
-                        refetch();
+                        costTools.refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                       }
@@ -154,14 +150,14 @@ const Costs = () => {
                   "id",
                   "costDescription",
                 ]}
-                data={Costs?.data}
+                data={costTools?.data?.data}
                 setResults={setResults}
               />
             </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
-              data={Costs?.data}
+              data={costTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}
             />
           </div>
