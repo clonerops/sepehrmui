@@ -24,7 +24,8 @@ const useCreateCargo = () => {
 };
 
 const useCargoById = (cargoId: string) => {
-    return useQuery(["CargosById", cargoId], () => api.getCargoById(cargoId), {
+    return useQuery(["CargosById", cargoId], () => 
+        api.getCargoById(cargoId), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false

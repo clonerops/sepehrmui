@@ -20,7 +20,7 @@ import MuiTable from "../../../_cloner/components/MuiTable"
 import { FieldType } from "../../../_cloner/components/globalTypes"
 import { renderSwal } from "../../../_cloner/helpers/swal"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
-import { submitCargoValidation } from "./validations"
+import { submitCargoValidation } from "./_validations"
 import { useEffect, useState } from "react"
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
 import MaskInput from "../../../_cloner/components/MaskInput"
@@ -70,7 +70,6 @@ const CargoEditForm = () => {
                 return updatedLadingAmount; 
             });
         });
-    
          // eslint-disable-next-line
     }, [detailsCargo?.data?.data])
 
@@ -143,7 +142,6 @@ const CargoEditForm = () => {
                 return <FormikAmount disabled={detailsCargo?.data?.data?.order?.orderSendTypeId !== 1} key={index} {...rest} />;
             case "desc":
                 return <FormikInput key={index} multiline minRows={3} {...rest} />;
-
             default:
                 return <FormikInput key={index} {...rest} />;
         }
@@ -195,7 +193,6 @@ const CargoEditForm = () => {
         } catch (error) {
             console.log(error)
         }
-
     }
 
     return (
@@ -227,7 +224,7 @@ const CargoEditForm = () => {
 
             <ReusableCard cardClassName="mt-8">
                 <Typography variant="h2" color="primary">مشخصات حمل</Typography>
-                <Formik initialValues={{
+                <Formik enableReinitialize initialValues={{
                     ...initialValues,
                     ...detailsCargo?.data?.data,
                     fareAmount: detailsCargo?.data?.data?.fareAmount.toString()

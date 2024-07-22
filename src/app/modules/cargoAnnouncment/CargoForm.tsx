@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom"
 import { Formik, FormikErrors } from "formik"
-import { Button, Fab, Tooltip, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
-import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, OpenInBrowser, Person, Share } from "@mui/icons-material"
+import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, OpenInBrowser, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
 import { useGetVehicleTypes } from "../generic/_hooks"
@@ -20,10 +20,9 @@ import MuiTable from "../../../_cloner/components/MuiTable"
 import { FieldType } from "../../../_cloner/components/globalTypes"
 import { renderSwal } from "../../../_cloner/helpers/swal"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
-import { submitCargoValidation } from "./validations"
+import { submitCargoValidation } from "./_validations"
 import { useRetrieveOrder } from "../managment-order/core/_hooks"
 import { useEffect, useState } from "react"
-import ReusableAccordion from "../../../_cloner/components/ReusableAccordion"
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
 import MaskInput from "../../../_cloner/components/MaskInput"
 import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64"
@@ -101,7 +100,6 @@ const CargoForm = () => {
         { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
         { id: 5, header: "مجموع مقدار بارگیریهای قبلی", accessor: "totalLoadedAmount", render: (params: any) => separateAmountWithCommas(params.totalLoadedAmount) },
         { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
-        // { id: 7, header: "مقدار قابل بارگیری", accessor: "totalLoadedAmount"},
     ]
 
     const orderOrderColumn = [
@@ -283,15 +281,6 @@ const CargoForm = () => {
                     <CardTitleValue index={6} title={"توضیحات سفارش"} value={orderTools?.data?.data?.description || "ثبت نشده"} icon={<Description color="secondary" />} />
                 </div>
             </div>
-            {/* <ReusableAccordion
-                content={
-                    <ReusableCard cardClassName="p-4 mt-4">
-                        <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
-                    </ReusableCard>
-                }
-                title="نمایش اعلام بارهای قبلی"
-            /> */}
-
             <div className="flex flex-col gap-4 mt-4">
                 <ReusableCard cardClassName={"col-span-3"}>
                     <div className="flex justify-between items-center mb-4">

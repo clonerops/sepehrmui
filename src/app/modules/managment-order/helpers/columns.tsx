@@ -303,8 +303,8 @@ export const readyToLadingColumns = (renderAction: any) => {
             headerName: 'وضعیت سفارش', headerClassName: "headerClassName", minWidth: 180, flex: 1
         },
         {
-            field: 'creatorName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.creatorName}</Typography>;
+            field: 'createdBy', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.createdBy}</Typography>;
             },
             headerName: 'ثبت کننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },

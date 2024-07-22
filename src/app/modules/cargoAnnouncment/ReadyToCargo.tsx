@@ -84,7 +84,6 @@ const ReadyToCargo = () => {
 
     return (
         <>
-            {readyToCargoOrder.isLoading && <Backdrop loading={readyToCargoOrder.isLoading} />}
             <ReusableCard>
                 <div className="w-auto md:w-[40%] mb-4">
                     <FuzzySearch

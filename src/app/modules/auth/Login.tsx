@@ -4,6 +4,8 @@ import { enqueueSnackbar } from "notistack";
 import Cookies from "js-cookie";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
 import { useFormik } from "formik";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import { Card } from "@mui/material";
 
 const initialValues = {
   userName: "clonerops",
@@ -57,6 +59,7 @@ const Login = () => {
         className="h-screen  lg:block hidden "
         style={{
           backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
+          // backgroundImage: `url(${toAbsoulteUrl("/media/images/1.jpg")})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "left top ",

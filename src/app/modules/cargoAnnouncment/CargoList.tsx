@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Formik } from "formik";
-import { Edit, LayersClear, Search } from "@mui/icons-material";
+import { Edit, LayersClear, Search, Visibility } from "@mui/icons-material";
 import { Tooltip, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -9,22 +9,22 @@ import FormikInput from "../../../_cloner/components/FormikInput";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import Pagination from "../../../_cloner/components/Pagination";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 
 import { useGetCustomers } from "../customer/core/_hooks";
 import { readyToLadingColumns } from "../managment-order/helpers/columns";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
-import Pagination from "../../../_cloner/components/Pagination";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import { dropdownCustomer } from "../../../_cloner/helpers/Dropdowns";
 import { useGetCargosList, useRevokeCargoById } from "./_hooks";
+import FormikCustomer from "../../../_cloner/components/FormikCustomer";
 
 const pageSize = 100
 
 const CargoList = () => {
     const navigate = useNavigate()
 
-    const { data: customers } = useGetCustomers();
     const cargoList = useGetCargosList();
     const revokeCargo = useRevokeCargoById()
 
@@ -44,7 +44,7 @@ const CargoList = () => {
     const handleFilter = (values: any) => {
         let formData = {
             OrderCode: values?.orderCode ? values?.orderCode : "",
-            CustomerId: values.customerId ? values.customerId : "",
+            CustomerId: values?.customerId?.value ? values?.customerId?.value : "",
         };
         cargoList.mutate(formData);
     }
@@ -74,6 +74,7 @@ const CargoList = () => {
 
 
     const renderAction = (item: any) => {
+        console.log("item", item)
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
@@ -88,6 +89,11 @@ const CargoList = () => {
                         <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
                     </div>
                 </Tooltip>
+                <Tooltip title={<Typography variant='h3'>جزئیات اعلام بار</Typography>}>
+                    <Link to={`/dashboard/cargoAnnouncment/${item?.row?.id}`} className="flex gap-x-4">
+                        <Visibility className="text-primary" />
+                    </Link>
+                </Tooltip>
             </div>
         );
     };    
@@ -96,31 +102,15 @@ const CargoList = () => {
         <>
             {revokeCargo?.isLoading && <Backdrop loading={revokeCargo?.isLoading} />}
             <ReusableCard>
-                <Formik initialValues={{
-                    orderCode: "",
-                    customerId: ""
-                }} onSubmit={() => { }}>
+                <Formik initialValues={{ orderCode: "", customerId: "" }} onSubmit={() => { }}>
                     {({ values }) => {
                         return (
-                            <div
-                                className="flex gap-4 w-[50%] mb-4"
-                            >
-                                <FormikInput
-                                    name="orderCode"
-                                    label="شماره سفارش"
-                                />
-                                <FormikSelect
-                                    options={dropdownCustomer(
-                                        customers?.data
-                                    )}
-                                    label="سفارش دهنده"
-                                    name="customerId"
-                                />
+                            <div className="flex gap-4 w-[50%] mb-4" >
+                                <FormikInput name="orderCode" label="شماره سفارش" />
+                                <FormikCustomer label="سفارش دهنده" name="customerId" />
                                 <ButtonComponent onClick={() => handleFilter(values)}>
                                     <Search className="text-white" />
-                                    <Typography className="text-white">
-                                        جستجو
-                                    </Typography>
+                                    <Typography className="text-white"> جستجو </Typography>
                                 </ButtonComponent>
                             </div>
                         );
