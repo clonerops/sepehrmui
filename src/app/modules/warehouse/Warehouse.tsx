@@ -30,9 +30,9 @@ const initialValues = {
 }
 
 const Warehouse = () => {
-  const { data: Warehouses, refetch, isLoading: WarehouseLoading } = useGetWarehouses()
-  const { mutate: postWarehouse, isLoading:postLoading } = usePostWarehouses()
-  const { mutate: deleteWarehouse, isLoading: deleteLoading } = useDeleteWarehouses()
+  const warehouseTools = useGetWarehouses()
+  const postWarehouseTools = usePostWarehouses()
+  const deleteWarehouseTools = useDeleteWarehouses()
 
   const [results, setResults] = useState<IWarehouse[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -43,13 +43,13 @@ const Warehouse = () => {
   const formikRef = useRef<FormikProps<any>>(null)
 
   useEffect(() => {
-    setResults(Warehouses?.data);
+    setResults(warehouseTools?.data?.data);
      // eslint-disable-next-line
-  }, [Warehouses?.data]);
+  }, [warehouseTools?.data?.data]);
 
   const handleDelete = (id: number) => {
     if (id)
-      deleteWarehouse(id, {
+      deleteWarehouseTools.mutate(id, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
@@ -57,7 +57,7 @@ const Warehouse = () => {
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch();
+          warehouseTools.refetch();
         },
       });
   }
@@ -115,7 +115,7 @@ const Warehouse = () => {
       </div>
     );
   };
-  let groupedWarehouseTypeDesc = _.groupBy(Warehouses?.data, "warehouseTypeDesc")
+  let groupedWarehouseTypeDesc = _.groupBy(warehouseTools?.data?.data, "warehouseTypeDesc")
 
   const onSubmit = async (values: any) => {
     try {
@@ -124,12 +124,12 @@ const Warehouse = () => {
         warehouseTypeId: values.warehouseTypeId,
         // customerId: values.customerId.value,
       }
-      postWarehouse(formData, {
+      postWarehouseTools.mutate(formData, {
         onSuccess: (response: any) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
             formikRef.current?.setFieldValue('id', response.data.id)
-            refetch();
+            warehouseTools.refetch();
           } else {
             EnqueueSnackbar(response.data.Message, "warning")
           }
@@ -140,15 +140,12 @@ const Warehouse = () => {
     }
   }
   
-
-  if (WarehouseLoading) {
-    return <Backdrop loading={WarehouseLoading} />;
-  }
-
   return (
     <>
-    {postLoading  && <Backdrop loading={postLoading} />}
-    {deleteLoading  && <Backdrop loading={deleteLoading} />}
+      {warehouseTools.isLoading  && <Backdrop loading={warehouseTools.isLoading} />}
+      {postWarehouseTools.isLoading  && <Backdrop loading={postWarehouseTools.isLoading} />}
+      {deleteWarehouseTools.isLoading  && <Backdrop loading={deleteWarehouseTools.isLoading} />}
+
       <div className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
           <div>
@@ -181,14 +178,14 @@ const Warehouse = () => {
                     "id",
                     "name",
                   ]}
-                  data={Warehouses?.data}
+                  data={warehouseTools?.data?.data}
                   setResults={setResults}
                 />
               </div>
               <MuiDataGrid
                 columns={columns(renderAction)}
                 rows={results}
-                data={Warehouses?.data}
+                data={warehouseTools?.data?.data}
                 getRowId={(row: {id: number}) => row.id}
                 onDoubleClick={(item: any) => handleEdit(item?.row)}
               />
@@ -226,13 +223,13 @@ const Warehouse = () => {
         width="30%"
         title="ویرایش انبار"
       >
-        <EditWarehouse id={itemForEdit?.id} refetch={refetch} setIsClose={setIsOpen} />
+        <EditWarehouse id={itemForEdit?.id} refetch={warehouseTools.refetch} setIsClose={setIsOpen} />
       </TransitionsModal>
       <ConfirmDialog
         open={approve}
         hintTitle="آیا از حذف مطمئن هستید؟"
         notConfirmText="لغو"
-        confirmText={deleteLoading ? "درحال پردازش ..." : "تایید"}
+        confirmText={deleteWarehouseTools.isLoading ? "درحال پردازش ..." : "تایید"}
         onCancel={() => setApprove(false)}
         onConfirm={() => handleDelete(deletedId)}
 

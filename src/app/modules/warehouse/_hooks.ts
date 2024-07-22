@@ -27,7 +27,7 @@ const usePostWarehouses = () => {
 
 
 const useGetWarehouse = (id: number) => {
-    return useQuery(['Warehouses', id], () =>
+    return useQuery(['Warehouse', id], () =>
         api.getWarehouse(id))
 }
 
