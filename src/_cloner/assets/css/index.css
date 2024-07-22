@@ -41,49 +41,6 @@
     visibility: hidden; */
 }
 
-/* @font-face {
-    font-family: Yekan_reqular;
-    src: url("../fonts/IRANSansWeb\(FaNum\).ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_medium;
-    src: url("../fonts/IRANSansWeb\(FaNum\)_Medium.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_light;
-    src: url("../fonts/IRANSansWeb\(FaNum\)_Light.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_bold;
-    src: url("../fonts/IRANSansWeb\(FaNum\)_Bold.ttf");
-    font-style: normal;
-} */
-/* @font-face {
-    font-family: Yekan_reqular;
-    src: url("../fonts/Vazir-FD-WOL.ttf");
-    font-style: normal;
-}
-
-@font-face {
-    font-family: Yekan_medium;
-    src: url("../fonts/Vazir-Medium-FD-WOL.ttf");
-    font-style: normal;
-}
-
-@font-face {
-    font-family: Yekan_light;
-    src: url("../fonts/Vazir-Light-FD-WOL.ttf");
-    font-style: normal;
-}
-
-@font-face {
-    font-family: Yekan_bold;
-    src: url("../fonts/Vazir-Bold-FD-WOL.ttf");
-    font-style: normal;
-} */
 
 @font-face {
     font-family: Yekan_reqular;
@@ -109,26 +66,7 @@
     font-style: normal;
 }
 
-/* @font-face {
-    font-family: Yekan_reqular;
-    src: url("../fonts/YekanBakhFaNum-Regular.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_medium;
-    src: url("../fonts/YekanBakhFaNum-Black.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_light;
-    src: url("../fonts/YekanBakhFaNum-Light.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_bold;
-    src: url("../fonts/YekanBakhFaNum-Bold.ttf");
-    font-style: normal;
-} */
+
 .rmdp-container {
     width: 100% !important;
 }
@@ -159,9 +97,6 @@
     background-color: pink !important; /* Example custom background color */
     font-weight: bold; /* Example custom font weight */
 }
-/* .MuiDataGrid-root .MuiDataGrid-cell:focus-within {
-    outline: none !important;
-} */
 
 input[type="radio"]:checked+span { 
     background-color: #009EF7;

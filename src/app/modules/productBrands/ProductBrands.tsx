@@ -25,16 +25,16 @@ const initialValues: any = {
 }
 
 const ProductBrands = () => {
-  const { data: productBrands, refetch, isLoading: productBrandLoading } = useGetProductBrands();
-  const { mutate: postProductBrand, isLoading: postLoading } = usePostProductBrands();
-  const { mutate: updateProductBrand, isLoading: updateLoading } = useUpdateProductBrands();
+  const productBrandTools = useGetProductBrands()
+  const postProductBrandTools = usePostProductBrands()
+  const updateProductBrandTools = useUpdateProductBrands()
 
   const [results, setResults] = useState<IProductBrand[]>([]);
 
   useEffect(() => {
-    setResults(productBrands?.data);
+    setResults(productBrandTools?.data?.data);
     // eslint-disable-next-line
-  }, [productBrands?.data]);
+  }, [productBrandTools?.data?.data]);
 
 
   const onUpdateStatus = (rowData: any) => {
@@ -45,14 +45,14 @@ const ProductBrands = () => {
         brandId: Number(rowData.row.brandId),
         isActive: !rowData.row.isActive
       }
-      updateProductBrand(formData, {
+      updateProductBrandTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch()
+          productBrandTools.refetch()
         }
       })
     } catch (e) {
@@ -137,31 +137,30 @@ const ProductBrands = () => {
     return col;
   };
 
-  let groupedProductBrand = _.groupBy(productBrands?.data, "productName")
 
-  if (productBrandLoading) {
-    return <Backdrop loading={productBrandLoading} />;
-  }
+  let groupedProductBrand = _.groupBy(productBrandTools?.data?.data, "productName")
+
   return (
     <>
-      {postLoading && <Backdrop loading={postLoading} />}
-      {updateLoading && <Backdrop loading={updateLoading} />}
+      {productBrandTools.isLoading && <Backdrop loading={productBrandTools.isLoading} />}
+      {postProductBrandTools.isLoading && <Backdrop loading={postProductBrandTools.isLoading} />}
+      {updateProductBrandTools.isLoading && <Backdrop loading={updateProductBrandTools.isLoading} />}
+      
       <div className="lg:grid lg:grid-cols-3 lg:gap-4 space-y-4 lg:space-y-0">
         <ReusableCard cardClassName='col-span-2'>
-          <div>
             <Formik initialValues={initialValues} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
                 try {
                   const formData = {
                     productId: values.productId?.value,
-                    brandId: Number(values.brandId)
+                    brandId: Number(values.brandId?.value)
                   }
-                  postProductBrand(formData, {
+                  postProductBrandTools.mutate(formData, {
                     onSuccess: (response: any) => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
-                        refetch();
+                        productBrandTools.refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                       }
@@ -193,23 +192,22 @@ const ProductBrands = () => {
               <FuzzySearch
                 keys={[
                   "id",
-                  "productCode",
+                  "product.productCode",
                   "productName",
                   "brandId",
                   "brandName",
                 ]}
-                data={productBrands?.data}
+                data={productBrandTools?.data?.data}
                 setResults={setResults}
               />
             </div>
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
-              data={productBrands?.data}
+              data={productBrandTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}
               getRowId={(item: { id: number }) => item.id}
             />
-          </div>
         </ReusableCard>
         <ReusableCard>
           <VerticalCharts

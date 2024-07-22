@@ -13,29 +13,10 @@ const FuzzySearch = <T extends {}>({
   data,
   keys,
   setResults,
-  threshold = 0,
 }: FuzzySearchProps<T>) => {
 
   const [query, setQuery] = useState("");
 
-  // const fuse = new Fuse(data, {
-  //   keys,
-  //   includeScore: true,
-  //   threshold,
-  //   findAllMatches: true,
-  //   includeMatches: true
-  // });
-
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const inputValue = e.target.value;
-  //   setQuery(inputValue);
-  //   if (inputValue === "") {
-  //     setResults(data);
-  //   } else {
-  //     const fuzzyResults = fuse.search(inputValue.replace(/\s/g, ""));
-  //     setResults(fuzzyResults.map((result) => result.item));
-  //   }
-  // };
     
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -53,16 +34,25 @@ const FuzzySearch = <T extends {}>({
       // Create a regular expression with the pattern
       const regex = new RegExp(pattern, 'i');
   
+      // Helper function to get the value from an object given a nested key
+      const getNestedValue = (obj: any, path: string) => {
+        return path.split('.').reduce((value, key) => {
+          return value && value[key] !== undefined ? value[key] : undefined;
+        }, obj);
+      };
+  
       // Filter the data based on the regular expression
       const filteredResults = data.filter((item: any) => {
-        const itemText = keys.map((key) => String(item[key])).join(" ");
+        const itemText = keys.map((key) => {
+          const value = getNestedValue(item, key);
+          return value ? String(value) : '';
+        }).join(" ");
         return regex.test(itemText);
       });
   
       setResults(filteredResults);
     }
-  };
-  
+  };      
 
   return (
     <>
