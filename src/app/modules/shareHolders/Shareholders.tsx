@@ -18,16 +18,15 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 
 const pageSize = 100
 
-
 const Shareholders = () => {
+    const shareHolderTools = useGetShareholderList();
+    const deleteShareHolderTools = useDeleteShareHolder();
     
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<IShareholder>();
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const shareHolderTools = useGetShareholderList();
-    const deleteShareHolderTools = useDeleteShareHolder();
 
     const getLists = () => {
         const filter = {

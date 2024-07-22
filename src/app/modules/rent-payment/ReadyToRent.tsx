@@ -16,6 +16,7 @@ import RentPayment from "./RentPayment";
 import { IRentPaymentFields } from "./core/_models";
 import RentPaymentSelected from "./RentPaymentSelected";
 import moment from "moment-jalaali";
+import Backdrop from "../../../_cloner/components/Backdrop";
 
 const initialValues = {
     referenceCode: "",
@@ -28,6 +29,8 @@ const initialValues = {
 }
 
 const ReadyToRent = () => {
+    const rentTools = useGetAllRents();
+
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [isOpenSelected, setIsOpenSelected] = useState<boolean>(false)
     const [item, setItem] = useState<IRentPaymentFields>()
@@ -36,7 +39,6 @@ const ReadyToRent = () => {
     const [selectedLadingIds, setSelectedLadingIds] = useState<any>([]);
     const [selectedTransferRemittanceIds, setSelectedTransferRemittanceIds] = useState<any>([]);
 
-    const { mutate, data: rents, isLoading } = useGetAllRents();
 
 
     useEffect(() => {
@@ -44,10 +46,7 @@ const ReadyToRent = () => {
             fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
             toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
         }
-        mutate(formData, {
-            onSuccess: (response) => {
-            }
-        })
+        rentTools.mutate(formData)
         // eslint-disable-next-line
     }, []);
 
@@ -63,45 +62,15 @@ const ReadyToRent = () => {
         );
     };
 
-    // const renderCheckbox = (item: any) => {
-    //     const isLadingChecked =
-    //     isSelectAll ?
-    //         selectedLadingIds.length === rents?.data.length :
-    //         selectedLadingIds.includes(item.row.ladingExitPermitId);
-
-    //     const isTransferRemittanceChecked =
-    //         isSelectAll ?
-    //             selectedTransferRemittanceIds.length === rents?.data.length :
-    //             selectedTransferRemittanceIds.includes(item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
-
-    //     const id = item.row.ladingExitPermitId === null ? item.row.purchaseOrderTransferRemittanceUnloadingPermitId : item.row.ladingExitPermitId;
-
-    //     return (
-    //         <div className="flex justify-center items-center gap-x-4">
-    //             <Checkbox
-    //                 checked={isLadingChecked || isTransferRemittanceChecked}
-    //                 onChange={() => {
-    //                     if (isSelectAll) {
-    //                         handleHeaderCheckboxClick(isLadingChecked || isTransferRemittanceChecked);
-    //                     } else {
-    //                         handleCheckboxClick(id, item.row.ladingExitPermitId, item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
-    //                     }
-    //                 }}
-    //             />
-    //         </div>
-    //     );
-    // };
-
-
     const renderCheckbox = (item: any) => {
         const isLadingChecked =
             isSelectAll ?
-                selectedLadingIds.length === rents?.data.length :
+                selectedLadingIds.length === rentTools?.data?.data.length :
                 selectedLadingIds.includes(item.row.ladingExitPermitId);
 
         const isTransferRemittanceChecked =
             isSelectAll ?
-                selectedTransferRemittanceIds.length === rents?.data.length :
+                selectedTransferRemittanceIds.length === rentTools?.data?.data.length :
                 selectedTransferRemittanceIds.includes(item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
 
         const id = item.row.ladingExitPermitId === null ? item.row.purchaseOrderTransferRemittanceUnloadingPermitId : item.row.ladingExitPermitId;
@@ -114,7 +83,7 @@ const ReadyToRent = () => {
                         if (isSelectAll) {
                             handleHeaderCheckboxClick(isLadingChecked || isTransferRemittanceChecked);
                         } else {
-                            handleCheckboxClick(id, item.row.ladingExitPermitId, item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
+                            handleCheckboxClick(id, item.row.ladingExitPermitId);
                         }
                     }}
                 />
@@ -123,11 +92,11 @@ const ReadyToRent = () => {
     };
 
     const handleHeaderCheckboxClick = (isChecked: boolean) => {
-        const ladingIds = rents?.data
+        const ladingIds = rentTools?.data?.data
             .filter((item: { ladingExitPermitId: string }) => item.ladingExitPermitId !== null)
             .map((item: { ladingExitPermitId: string }) => item.ladingExitPermitId);
 
-        const transferRemittanceIds = rents?.data
+        const transferRemittanceIds = rentTools?.data?.data
             .filter((item: { purchaseOrderTransferRemittanceUnloadingPermitId: string }) => item.purchaseOrderTransferRemittanceUnloadingPermitId !== null)
             .map((item: { purchaseOrderTransferRemittanceUnloadingPermitId: string }) => item.purchaseOrderTransferRemittanceUnloadingPermitId);
 
@@ -143,32 +112,7 @@ const ReadyToRent = () => {
         // eslint-disable-next-line
     }, [isSelectAll])
 
-
-    // const handleCheckboxClick = (id: any) => {
-    //     const currentIndex = selectedIds.indexOf(id);
-    //     const newSelectedIds = [...selectedIds];
-    //     console.log("newSelectedIds", newSelectedIds)
-    //     // const currentIndexTransferRemittance = selectedIdsTransferRemittance.indexOf(id);
-    //     // const newSelectedIdsTransferRemittance = [...selectedIdsTransferRemittance];
-
-    //     if (currentIndex === -1) {
-    //         newSelectedIds.push(id);
-    //     } else {
-    //         newSelectedIds.splice(currentIndex, 1);
-    //     }
-
-    //     // if (currentIndexTransferRemittance === -1) {
-    //     //     newSelectedIdsTransferRemittance.push(id);
-    //     // } else {
-    //     //     newSelectedIdsTransferRemittance.splice(currentIndexTransferRemittance, 1);
-    //     // }
-
-    //     setSelectedIds(newSelectedIds);
-    //     // setSelectedIdsTransferRemittance(newSelectedIdsTransferRemittance);
-    // };
-
-
-    const handleCheckboxClick = (id: any, ladingExitPermitId: any, purchaseOrderTransferRemittanceUnloadingPermitId: any) => {
+    const handleCheckboxClick = (id: any, ladingExitPermitId: any) => {
         if (ladingExitPermitId === null) {
             const currentIndex = selectedTransferRemittanceIds.indexOf(id);
             const newSelectedIds = [...selectedTransferRemittanceIds];
@@ -201,14 +145,12 @@ const ReadyToRent = () => {
     }
 
     const handleFilterBasedofStatus = (values: any) => {
-        mutate(values, {
-            onSuccess: (response) => {
-            },
-        });
+        rentTools.mutate(values);
     };
 
     return (
         <>
+            {rentTools.isLoading && <Backdrop loading={rentTools.isLoading} />}
             <ReusableCard>
                 <div className="mb-4">
                     <Formik initialValues={initialValues} onSubmit={handleFilterBasedofStatus}>
@@ -229,9 +171,9 @@ const ReadyToRent = () => {
                 </div>
                 <MuiDataGrid
                     columns={rentsColumns(renderAction, renderCheckbox, isSelectAll, setIsSelectAll)}
-                    rows={rents?.data}
-                    data={rents?.data}
-                    isLoading={isLoading}
+                    rows={rentTools?.data?.data}
+                    data={rentTools?.data?.data}
+                    isLoading={rentTools.isLoading}
                     onDoubleClick={(item: any) => handleOpen(item.row)}
                 />
                 <div>
