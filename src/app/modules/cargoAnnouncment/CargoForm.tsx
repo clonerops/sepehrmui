@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom"
 import { Formik, FormikErrors } from "formik"
-import { Button, Typography } from "@mui/material"
+import { Button, Fab, Tooltip, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
-import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
+import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, Person, Share } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
 import { useGetVehicleTypes } from "../generic/_hooks"
@@ -84,6 +84,7 @@ const CargoForm = () => {
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: orderTools?.data?.data?.orderSendTypeDesc },
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: orderTools?.data?.data?.paymentTypeDesc },
     ]
+
     const orderOrderColumnMain = [
         {
             id: 1, header: "افزودن به لیست", accessor: "add", render: (params: any) => {
@@ -100,6 +101,7 @@ const CargoForm = () => {
         { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
         // { id: 7, header: "مقدار قابل بارگیری", accessor: "totalLoadedAmount"},
     ]
+
     const orderOrderColumn = [
         {
             id: 1, header: "حذف", accessor: "add", render: (params: any) => {
@@ -220,64 +222,54 @@ const CargoForm = () => {
             return convert
         })
 
-        try {
-            const formData: ICargo = {
-                ...values, orderId: id,
-                fareAmount: values?.fareAmount.includes(',') ? +values?.fareAmount.replace(/,/g, "") : +values?.fareAmount,
-                attachments: attachments,
-                cargoAnnounceDetails: ladingOrderDetail.map((item: any) => ({
-                    cargoAnnounceId: item.cargoAnnounceId,
-                    orderDetailId: item.orderDetailId,
-                    realAmount: item.realAmount,
-                    ladingAmount: +ladingAmount[item.id],
-                    packageCount: 0
-                }))
-            }
-            if (ladingOrderDetail.some((item: any) => +item.remainingLadingAmount < +ladingAmount[item.id])) {
-                EnqueueSnackbar("مقدار بارگیری را به درستی وارد کنید", "warning")
-            } else {
-                postCargoTools.mutate(formData, {
-                    onSuccess: (message) => {
-                        if (message.data.Errors && message.data.Errors.length > 0) {
-                            EnqueueSnackbar(message.data.Errors[0], "error")
-                        } else {
-                            if (message.succeeded) {
-                                renderSwal(`اعلام بار با شماره ${message?.data.cargoAnnounceNo} ثبت گردید`)
-                                orderTools.refetch()
-                                cargosList.mutate({})
-                            }
-
-                            if (!message?.data?.Succeeded) {
-                                enqueueSnackbar(message.data.Message, {
-                                    variant: `error`,
-                                    anchorOrigin: { vertical: "top", horizontal: "center" }
-                                })
-                            }
+        const formData: ICargo = {
+            ...values, orderId: id,
+            fareAmount: values?.fareAmount.includes(',') ? +values?.fareAmount.replace(/,/g, "") : +values?.fareAmount,
+            attachments: attachments,
+            cargoAnnounceDetails: ladingOrderDetail.map((item: any) => ({
+                cargoAnnounceId: item.cargoAnnounceId,
+                orderDetailId: item.orderDetailId,
+                realAmount: item.realAmount,
+                ladingAmount: +ladingAmount[item.id],
+                packageCount: 0
+            }))
+        }
+        if (ladingOrderDetail.some((item: any) => +item.remainingLadingAmount < +ladingAmount[item.id])) {
+            EnqueueSnackbar("مقدار بارگیری را به درستی وارد کنید", "warning")
+        } else {
+            postCargoTools.mutate(formData, {
+                onSuccess: (message) => {
+                    if (message.data.Errors && message.data.Errors.length > 0) {
+                        EnqueueSnackbar(message.data.Errors[0], "error")
+                    } else {
+                        if (message.succeeded) {
+                            renderSwal(`اعلام بار با شماره ${message?.data.cargoAnnounceNo} ثبت گردید`)
+                            orderTools.refetch()
+                            cargosList.mutate({})
                         }
 
-
+                        if (!message?.data?.Succeeded) {
+                            enqueueSnackbar(message.data.Message, {
+                                variant: `error`,
+                                anchorOrigin: { vertical: "top", horizontal: "center" }
+                            })
+                        }
                     }
-
-                })
-            }
-        } catch (error) {
-            console.log(error)
+                }
+            })
         }
 
     }
 
     return (
         <>
-            {/* {postCargoTools.isLoading && <Backdrop loading={postCargoTools.isLoading} />}
-            {orderTools.isLoading && <Backdrop loading={orderTools.isLoading} />}
-            {cargosList.isLoading && <Backdrop loading={cargosList.isLoading} />}
-            {vehicleList.isLoading && <Backdrop loading={vehicleList.isLoading} />} */}
-
             {postCargoTools.isLoading && <Backdrop loading={postCargoTools.isLoading} />}
             {orderTools.isLoading && <Backdrop loading={orderTools.isLoading} />}
-            
+            {cargosList.isLoading && <Backdrop loading={cargosList.isLoading} />}
+            {vehicleList.isLoading && <Backdrop loading={vehicleList.isLoading} />}
+
             <Typography color="primary" variant="h1" className="pb-8">ثبت اعلام بار</Typography>
-            <div className={`grid grid-cols-1 lg:grid-cols-5 gap-4 my-4`}>
+            <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 my-4`}>
                 {orderAndAmountInfoInCargo.map((item: {
                     title: string,
                     icon: React.ReactNode,
@@ -285,23 +277,27 @@ const CargoForm = () => {
                 }, index) => {
                     return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
                 })}
-                <div className="lg:col-span-5">
-                    <CardTitleValue index={6} title={"توضیحات سفارش"} value={orderTools?.data?.data?.description} icon={<Description color="secondary" />} />
+                <div>
+                    <CardTitleValue index={6} title={"توضیحات سفارش"} value={orderTools?.data?.data?.description || "ثبت نشده"} icon={<Description color="secondary" />} />
                 </div>
             </div>
-            <ReusableAccordion
+            {/* <ReusableAccordion
                 content={
                     <ReusableCard cardClassName="p-4 mt-4">
-                        {/* <Typography variant="h2" color="primary" className="pb-4">اعلام بارهای قبلی</Typography> */}
                         <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
                     </ReusableCard>
                 }
                 title="نمایش اعلام بارهای قبلی"
-            />
+            /> */}
 
             <div className="flex flex-col gap-4 mt-4">
                 <ReusableCard cardClassName={"col-span-3"}>
-                    <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
+                    <div className="flex justify-between items-center mb-4">
+                        <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
+                        <Button variant="contained" size="small" className="flex justify-center items-center !bg-indigo-500">
+                           <Typography variant="h5" className="text-white px-4 py-2">اعلام بار های قبلی</Typography>
+                        </Button>
+                    </div>
                     <MuiTable tooltipTitle={orderTools?.data?.data?.description ? <Typography>{orderTools?.data?.data?.description}</Typography> : ""} onDoubleClick={(item: any) => handleSelectProduct(item)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={orderTools?.data?.data?.details} columns={orderOrderColumnMain} />
                 </ReusableCard>
                 <ReusableCard cardClassName={"col-span-3"}>
