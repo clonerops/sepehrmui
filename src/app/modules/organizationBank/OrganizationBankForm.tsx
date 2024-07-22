@@ -30,7 +30,8 @@ const OrganizationBankForm = (props: {
     ) => Promise<QueryObserverResult<any, unknown>>;
 }) => {
     // Fetchig
-    const { mutate, isLoading: postLoading } = usePostOrganizationBank();
+    const postTools = usePostOrganizationBank();
+    
     const updateTools = usePutOrganizationBank();
     const detailTools = useGetOrganizationBankById()
 
@@ -95,7 +96,7 @@ const OrganizationBankForm = (props: {
 
     const onAdd = (values: IOrganizationBank) => {
         try {
-            return mutate(values, {
+            return postTools.mutate(values, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
@@ -122,13 +123,10 @@ const OrganizationBankForm = (props: {
         else onAdd(values);
     };
 
-    if (props.id && detailTools?.isLoading) {
-        return <Typography>درحال بارگزاری ...</Typography>
-    }
-
     return (
         <>
-            {postLoading && <Backdrop loading={postLoading} />}
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
             <Formik
                 initialValues={
@@ -143,9 +141,7 @@ const OrganizationBankForm = (props: {
                     return (
                         <form>
                             {fields.map((rowFields) => (
-                                <div
-                                    className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4"
-                                >
+                                <div  className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4">
                                     {rowFields.map((field) =>
                                         parseFields(field)
                                     )}

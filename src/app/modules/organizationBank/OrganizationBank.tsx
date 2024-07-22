@@ -13,18 +13,15 @@ import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import Backdrop from "../../../_cloner/components/Backdrop";
 
 const OrganizationBank = () => {
-    const { data: organizationBank, refetch } = useGetOrganizationBankList();
-    
-    const {
-        mutate,
-        isLoading: deleteLoading,
-    } = useDeleteOrganizationBank();
+    const organizationBankTools = useGetOrganizationBankList();
+    const deleteOrganizationBankTools = useDeleteOrganizationBank();
+
     const [results, setResults] = useState<IOrganizationBank[]>([]);
 
     useEffect(() => {
-        setResults(organizationBank?.data);
+        setResults(organizationBankTools?.data?.data);
          // eslint-disable-next-line
-    }, [organizationBank?.data]);
+    }, [organizationBankTools?.data?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -102,9 +99,9 @@ const OrganizationBank = () => {
     };
 
     const handleDelete = (id: string | undefined) => {
-        if (id) mutate(id, {
+        if (id) deleteOrganizationBankTools.mutate(id, {
             onSuccess: (message) => {
-                refetch()
+                organizationBankTools.refetch()
             }
         });
     };
@@ -120,21 +117,20 @@ const OrganizationBank = () => {
 
     return (
         <>
-            {deleteLoading && <Backdrop loading={deleteLoading} />}
+            {organizationBankTools.isLoading && <Backdrop loading={organizationBankTools.isLoading} />}
+            {deleteOrganizationBankTools.isLoading && <Backdrop loading={deleteOrganizationBankTools.isLoading} />}
             <ReusableCard>
-                <div
-                    className="md:flex md:justify-between md:items-center space-y-2 mb-4"
-                >
+                <div className="md:flex md:justify-between md:items-center space-y-2 mb-4">
                     <div className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
-                                "id",
-                                "bankName",
+                                "bank.id",
+                                "bank.bankName",
                                 "accountOwner",
                                 "accountNo",
                                 "branchName",
                             ]}
-                            data={organizationBank?.data}
+                            data={organizationBankTools?.data?.data}
                             setResults={setResults}
                         />
                     </div>
@@ -150,7 +146,7 @@ const OrganizationBank = () => {
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
-                    data={organizationBank?.data}
+                    data={organizationBankTools?.data?.data}
                     onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
             </ReusableCard>
@@ -162,7 +158,7 @@ const OrganizationBank = () => {
                 description="لطفاً مشخصات بانک را با دقت وارد کنید اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
                 <OrganizationBankForm
-                    refetch={refetch}
+                    refetch={organizationBankTools.refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>
@@ -175,7 +171,7 @@ const OrganizationBank = () => {
             >
                 <OrganizationBankForm
                     id={itemForEdit?.id}
-                    refetch={refetch}
+                    refetch={organizationBankTools.refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>
