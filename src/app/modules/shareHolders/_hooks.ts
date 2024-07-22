@@ -3,7 +3,8 @@ import { IShareholder, IShareholderFilter } from "./_models";
 import * as api from './_requests'
 
 const useGetShareholderListWithQuery = () => {
-    return useQuery(['shareHolders'], () => api.getShareholderList({pageNumber: 1, pageSize: 100}), {
+    return useQuery(['ShareHolders'], () => 
+        api.getShareholderList({pageNumber: 1, pageSize: 100}), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false

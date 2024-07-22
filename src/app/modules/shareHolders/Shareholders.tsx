@@ -26,15 +26,15 @@ const Shareholders = () => {
     const [itemForEdit, setItemForEdit] = useState<IShareholder>();
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const shareHolderLists = useGetShareholderList();
-        const { mutate, isLoading: deleteLoading, } = useDeleteShareHolder();
+    const shareHolderTools = useGetShareholderList();
+    const deleteShareHolderTools = useDeleteShareHolder();
 
     const getLists = () => {
         const filter = {
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
           }
-          shareHolderLists.mutate(filter)
+          shareHolderTools.mutate(filter)
   
     }
 
@@ -117,7 +117,7 @@ const Shareholders = () => {
         setItemForEdit(item);
     };
     const handleDelete = (id: string | undefined) => {
-        if (id) mutate(id, {
+        if (id) deleteShareHolderTools.mutate(id, {
             onSuccess: (response) => {
                 if (response.succeeded) {
                     EnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
@@ -145,20 +145,20 @@ const Shareholders = () => {
     const handleFilter = (values: any) => {
         let formData =  values.shareHolderCode ? {
           pageNumber: currentPage,
-          pageSize: 100,
+          pageSize: pageSize,
           shareHolderCode: +values.shareHolderCode
         } : {
             pageNumber: currentPage,
-            pageSize: 100,  
+            pageSize: pageSize,  
         };
-        shareHolderLists.mutate(formData);
+        shareHolderTools.mutate(formData);
       }
     
 
     return (
         <>
-            {deleteLoading && <Backdrop loading={deleteLoading} />}
-            {shareHolderLists.isLoading && <Backdrop loading={shareHolderLists.isLoading} />}
+            {deleteShareHolderTools.isLoading && <Backdrop loading={deleteShareHolderTools.isLoading} />}
+            {shareHolderTools.isLoading && <Backdrop loading={shareHolderTools.isLoading} />}
             <ReusableCard>
                 <div
                     className="flex lg:flex-row flex-col lg:justify-between lg:items-center space-y-2 mb-4"
@@ -186,8 +186,8 @@ const Shareholders = () => {
                 <MuiDataGrid
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
-                    rows={shareHolderLists?.data?.data}
-                    data={shareHolderLists?.data?.data}
+                    rows={shareHolderTools?.data?.data}
+                    data={shareHolderTools?.data?.data}
                     onDoubleClick={(item: any) => handleEdit(item?.row)}
                     hideFooter={true}
                 />

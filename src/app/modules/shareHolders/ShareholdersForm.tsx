@@ -1,12 +1,13 @@
+import FormikInput from "../../../_cloner/components/FormikInput";
+import Backdrop from "../../../_cloner/components/Backdrop";
+
 import { useEffect } from "react";
 import { Formik } from "formik";
-import FormikInput from "../../../_cloner/components/FormikInput";
 import {  Button, Typography } from "@mui/material";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { IShareholder } from "./_models";
 import { createShareHolderValidations } from "./_validations";
-import Backdrop from "../../../_cloner/components/Backdrop";
 import { useGetShareHolderById, usePostShareHolder, usePutShareHolder } from "./_hooks";
 import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
 
@@ -23,7 +24,7 @@ const ShareholdersForm = (props: {
     getLists: () => void
 }) => {
     // Fetchig
-    const { mutate, isLoading: postLoading } = usePostShareHolder();
+    const postTools = usePostShareHolder();
     const updateTools = usePutShareHolder();
     const detailTools = useGetShareHolderById()
 
@@ -79,7 +80,6 @@ const ShareholdersForm = (props: {
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-
                 },
             });
 
@@ -90,7 +90,7 @@ const ShareholdersForm = (props: {
 
     const onAdd = (values: IShareholder) => {
         try {
-            return mutate(values, {
+            return postTools.mutate(values, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
@@ -100,7 +100,6 @@ const ShareholdersForm = (props: {
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-
                 },
             });
         } catch (error: any) {
@@ -115,16 +114,14 @@ const ShareholdersForm = (props: {
 
     };
 
-    if (props.id && detailTools?.isLoading) {
-        return <Typography>Loading ...</Typography>
-    }
-
-
     return (
         <>
-            {postLoading && <Backdrop loading={postLoading} />}
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
+
             <Formik
+                enableReinitialize
                 initialValues={
                     isNew
                         ? initialValues
