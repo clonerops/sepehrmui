@@ -27,16 +27,16 @@ const validation = Yup.object({
 })
 
 const InComs = () => {
-  const { data: Incomes, refetch, isLoading: IncomeLoading } = useGetIncomes()
-  const { mutate: postIncome, isLoading: postLoading } = usePostIncomes()
-  const { mutate: updateIncome, isLoading: updateLoading } = useUpdateIncomes()
+  const incomeTools = useGetIncomes()
+  const postIncomeTools = usePostIncomes()
+  const updateIncomeTools = useUpdateIncomes()
 
   const [results, setResults] = useState<IIncome[]>([]);
 
   useEffect(() => {
-    setResults(Incomes?.data);
+    setResults(incomeTools?.data?.data);
      // eslint-disable-next-line
-  }, [Incomes?.data]);
+  }, [incomeTools?.data?.data]);
 
   const onUpdateStatus = (rowData: any) => {
     try {
@@ -45,14 +45,14 @@ const InComs = () => {
         incomeDescription: rowData.row.incomeDescription,
         isActive: !rowData.row.isActive
       }
-      updateIncome(formData, {
+      updateIncomeTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch()
+          incomeTools.refetch()
         }
       })
     } catch (e) {
@@ -98,15 +98,11 @@ const InComs = () => {
     );
   };
 
-
-  if (IncomeLoading) {
-    return <Backdrop loading={IncomeLoading} />;
-  }
-
   return (
     <>
-      {updateLoading && <Backdrop loading={updateLoading} />}
-      {postLoading && <Backdrop loading={postLoading} />}
+      {incomeTools.isLoading && <Backdrop loading={incomeTools.isLoading} />}
+      {postIncomeTools.isLoading && <Backdrop loading={postIncomeTools.isLoading} />}
+      {updateIncomeTools.isLoading && <Backdrop loading={updateIncomeTools.isLoading} />}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
           <div>
@@ -117,12 +113,12 @@ const InComs = () => {
                   const formData = {
                     incomeDescription: values.incomeDescription
                   }
-                  postIncome(formData, {
+                  postIncomeTools.mutate(formData, {
                     onSuccess: (response: any) => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
-                        refetch();
+                        incomeTools.refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                       }
@@ -154,7 +150,7 @@ const InComs = () => {
                   "id",
                   "incomeDescription",
                 ]}
-                data={Incomes?.data}
+                data={incomeTools?.data?.data}
                 threshold={0.5}
                 setResults={setResults}
               />
@@ -162,7 +158,7 @@ const InComs = () => {
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
-              data={Incomes?.data}
+              data={incomeTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}
             />
           </div>

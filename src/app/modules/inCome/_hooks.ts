@@ -3,7 +3,8 @@ import * as api from './_requests'
 import { IIncome } from "./_models"
 
 const useGetIncomes = () => {
-    return useQuery(['Incomes'], () => api.getIncomes(), {
+    return useQuery(['Incomes'], () => 
+        api.getIncomes(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
