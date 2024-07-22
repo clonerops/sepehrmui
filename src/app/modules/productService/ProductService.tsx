@@ -153,7 +153,7 @@ const ProductService = () => {
               <FuzzySearch
                 keys={[
                   "id",
-                  "desc",
+                  "description",
                 ]}
                 data={Services?.data}
                 threshold={0.5}
