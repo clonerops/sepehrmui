@@ -315,29 +315,17 @@ const CargoForm = () => {
                     {({ handleSubmit, setFieldValue }) => {
                         return <form onSubmit={handleSubmit}>
                             {fields.map((rowFields, index) => (
-                                <div
-                                    key={index}
-                                    className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
-                                >
+                                <div key={index} className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4">
                                     {rowFields.map((field, index) =>
                                         parseFields(field, setFieldValue, index)
                                     )}
                                 </div>
                             ))}
-                            <div
-                                className="flex flex-col w-full"
-                            >
-                                <Typography
-                                    variant="h2"
-                                    color="primary"
-                                    className="pb-4"
-                                >
+                            <div className="flex flex-col w-full">
+                                <Typography variant="h2" color="primary" className="pb-4">
                                     افزودن پیوست
                                 </Typography>
-                                <FileUpload
-                                    files={files}
-                                    setFiles={setFiles}
-                                />
+                                <FileUpload files={files} setFiles={setFiles} />
                             </div>
 
                             <div className="flex justify-end items-end">
