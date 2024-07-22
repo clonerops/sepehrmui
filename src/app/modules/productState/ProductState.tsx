@@ -30,16 +30,16 @@ const validation = Yup.object({
 
 
 const ProductState = () => {
-  const { data: state, refetch, isLoading: StateLoading } = useGetStates()
-  const { mutate: postState, isLoading: postLoading } = usePostState()
-  const { mutate: updateState, isLoading: updateLoading } = useUpdateState()
+  const stateTools = useGetStates()
+  const postStateTools = usePostState()
+  const updateStateTools = useUpdateState()
 
   const [results, setResults] = useState<IState[]>([]);
 
   useEffect(() => {
-    setResults(state?.data);
+    setResults(stateTools?.data?.data);
      // eslint-disable-next-line
-  }, [state?.data]);
+  }, [stateTools?.data?.data]);
 
 
 
@@ -50,14 +50,14 @@ const ProductState = () => {
         name: rowData.row.desc,
         isActive: !rowData.row.isActive
       }
-      updateState(formData, {
+      updateStateTools.mutate(formData, {
         onSuccess: (response) => {
           if (response.succeeded) {
             EnqueueSnackbar(response.message, "success")
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }
-          refetch()
+          stateTools.refetch()
         }
       })
     } catch (e) {
@@ -104,29 +104,27 @@ const ProductState = () => {
   };
 
 
-  if (StateLoading) {
-    return <Backdrop loading={StateLoading} />;
-  }
-
   return (
     <>
-      {postLoading && <Backdrop loading={postLoading} />}
-      {updateLoading && <Backdrop loading={updateLoading} />}
+      {stateTools.isLoading && <Backdrop loading={stateTools.isLoading} />}
+      {postStateTools.isLoading && <Backdrop loading={postStateTools.isLoading} />}
+      {updateStateTools.isLoading && <Backdrop loading={updateStateTools.isLoading} />}
+
       <div className="flex flex-col lg:flex-row gap-4 mb-4">
         <CardWithIcons
           title='تعداد حالت های ثبت شده'
           icon={<DesignServices className="text-white" />}
-          value={state?.data?.length}
+          value={stateTools?.data?.data?.length}
           iconClassName='bg-[#3322D8]' />
         <CardWithIcons
           title='تعداد حالت ها در وضعیت فعال'
           icon={<AddTask className="text-white" />}
-          value={_.filter(state?.data, 'isActive').length}
+          value={_.filter(stateTools?.data?.data, 'isActive').length}
           iconClassName='bg-[#369BFD]' />
         <CardWithIcons
           title='تعداد حالت ها در وضعیت غیرفعال'
           icon={<TextDecrease className="text-white" />}
-          value={_.filter(state?.data, (item) => !item.isActive).length}
+          value={_.filter(stateTools?.data?.data, (item) => !item.isActive).length}
           iconClassName='bg-[#F8B30E]' />
         <CardWithIcons
           title='تعداد حالت های ثبت امروز'
@@ -144,12 +142,12 @@ const ProductState = () => {
                   const formData = {
                     desc: values.desc
                   }
-                  postState(formData, {
+                  postStateTools.mutate(formData, {
                     onSuccess: (response: any) => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
-                        refetch();
+                        stateTools.refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                       }
@@ -183,7 +181,7 @@ const ProductState = () => {
                   "id",
                   "desc",
                 ]}
-                data={state?.data}
+                data={stateTools?.data?.data}
                 threshold={0.5}
                 setResults={setResults}
               />
@@ -191,7 +189,7 @@ const ProductState = () => {
             <MuiDataGrid
               columns={columns(renderSwitch)}
               rows={results}
-              data={state?.data}
+              data={stateTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}
             />
           </div>

@@ -3,7 +3,7 @@ import * as api from './_requests'
 import { IState } from "./_models"
 
 const useGetStates = () => {
-    return useQuery(['state'], () => 
+    return useQuery(['States'], () => 
         api.getStates(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -19,7 +19,7 @@ const usePostState = () => {
 
 
 const useGetState = (id: string) => {
-    return useQuery(['state', id], () => 
+    return useQuery(['State', id], () => 
         api.getState(id))
 }
 
