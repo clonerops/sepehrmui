@@ -61,10 +61,10 @@ export const columnsProductInventories = (renderIncreaseInventory: (item: {row: 
             flex: 1,
         },
         {
-            field: "inventory",
+            field: "floorInventory",
             minWidth: 140,
             maxWidth: 180,
-            headerName: "موجودی واقعی",
+            headerName: "موجودی",
             renderCell: (params: any) => {
                 return <Typography variant="h4" color={params.value < 0 ?  "red" : params.value > 0 ? "green" : "black"}>
                     {separateAmountWithCommas(params.value)} {params.value < 0 ? ( <CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? ( <CallMade className="text-green-500" fontSize="small" />) : null}
@@ -73,17 +73,7 @@ export const columnsProductInventories = (renderIncreaseInventory: (item: {row: 
 
             headerClassName: "headerClassName",
             flex: 1,
-        },
-        // {
-        //     field: "price",
-        //     minWidth: 60,
-        //     headerName: "موجودی مجازی",
-        //     flex: 1,
-        //     renderCell: (value: any) =>
-        //         <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
-        //     headerClassName: "headerClassName",
-        // },
-       
+        },       
     ];
     return col;
 };

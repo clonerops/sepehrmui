@@ -16,6 +16,7 @@ import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 const ProductInventories = () => {
     const filterTools = useGetProductList();
     const filterWarehouse = useGetWarehousesByFilter()
+    
     let formikRef = useRef<FormikProps<any>>(null);
 
     // State

@@ -18,6 +18,7 @@ import SwitchComponent from "../../../_cloner/components/Switch"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import { dropdownProduct } from "../../../_cloner/helpers/Dropdowns"
 import { useGetProductList } from "../products/_hooks"
+import FormikProduct from "../../../_cloner/components/FormikProductComboSelect"
 
 const initialValues = {
     price: "",
@@ -33,8 +34,6 @@ type Props = {
 }
 
 const ProductPriceForm = (props: Props) => {
-    // const { data: products } = useRetrieveProducts()
-    const { data: products } = useGetProductList()
     const { mutate, isLoading: postLoading } = useCreateProductPrice()
 
     const updateTools = useUpdateProductPrice();
@@ -61,7 +60,7 @@ const ProductPriceForm = (props: Props) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "productId":
-                return <FormikComboBox disabled={!isNew} options={dropdownProduct(products?.data)} {...rest} />;
+                return <FormikProduct disabled={!isNew} {...rest} />;
             case "productBrandId":
                 return <FormikBrandPriceSelect disabled={!isNew} productId={isNew ? values.productId.value : props.items.productId} {...rest} />
             case "price":

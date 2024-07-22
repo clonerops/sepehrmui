@@ -41,6 +41,8 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
         }
     };
 
+    // const minDate = moment(new Date()).format("jYYYY/jMM/jDD");
+
     return (
         <>
             <div className={cx("w-full", boxClassName)}>
@@ -53,6 +55,7 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
                     locale={persian_fa}
                     disabled={disabled}
                     calendar={persian}
+                    // minDate={minDate} 
                     className={cx("w-full")}
                     id={name}                       
                     render={

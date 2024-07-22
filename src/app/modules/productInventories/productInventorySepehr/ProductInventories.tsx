@@ -7,7 +7,7 @@ import { useUploadFileProductInventories } from "../_hooks";
 import { exportProductInventories } from "../_requests";
 import { useGetProductList } from "../../products/_hooks";
 import { IProducts } from "../../products/_models";
-import { AddAlarm } from "@mui/icons-material";
+import { Add, AddAlarm } from "@mui/icons-material";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import Backdrop from "../../../../_cloner/components/Backdrop";
@@ -53,7 +53,7 @@ const ProductInventoriesSepehr = () => {
     const renderIncreaseInventory = (item: {row: IProducts}) => {
         return <Tooltip title={<Typography variant='h3'>افزایش موجودی</Typography>}>
             <Fab size="small" color="secondary" onClick={() => handleOpenModal(item)}>
-                <AddAlarm /> 
+                <Add /> 
             </Fab>
         </Tooltip>
     }
@@ -62,6 +62,8 @@ const ProductInventoriesSepehr = () => {
         setProductItem(item)
         setIsCreateOpen(true)
     }
+
+    console.log(filterTools?.data?.data)
 
     return (
         <>

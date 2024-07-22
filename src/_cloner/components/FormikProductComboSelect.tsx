@@ -1,14 +1,19 @@
 import FormikComboBox from "./FormikComboBox";
 import { useGetProductList } from "../../app/modules/products/_hooks";
 import { dropdownProduct } from "../helpers/Dropdowns";
+import { useEffect } from "react";
 
 
 const FormikProduct = (props: any) => {
     // const { data } = useRetrieveProducts()
-    const { data } = useGetProductList()
+    const productTools = useGetProductList()
+    useEffect(() => {
+        const filter = {}
+        productTools.mutate(filter)
+    }, [])
     return <FormikComboBox
         disabled={props.disabled}
-        options={dropdownProduct(data?.data)}
+        options={dropdownProduct(productTools?.data?.data)}
         {...props} />;
 };
 

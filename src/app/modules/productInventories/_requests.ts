@@ -5,7 +5,7 @@ import { IIncreaseInventory } from "./_models";
 
 const uploadProductInventories = async (formData: any) => {
     try {
-        const { data } = await httpFormData.post(`/v${1}/ProductInventory/UploadFilePost`, formData);
+        const { data } = await httpFormData.post(`/v1/ProductInventory/UploadFilePost`, formData);
         return data;
     } catch (error: any) {
         return error.response;
@@ -23,7 +23,7 @@ const exportProductInventories = async (filter: IProductFilters) => {
 
 const increaseInventory = async (formData: IIncreaseInventory) => {
     try {
-        const { data } = await http.post(`/v${1}/ProductInventory`, formData);
+        const { data } = await http.post(`/v1/ProductInventory`, formData);
         return data;
     } catch (error: any) {
         return error.response;

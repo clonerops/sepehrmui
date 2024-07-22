@@ -1,12 +1,13 @@
 import { Formik, FormikProps } from "formik"
 import { Button, Typography } from "@mui/material"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query"
-import FormikPrice from "../../../../_cloner/components/FormikPrice"
 import { IProducts } from "../../products/_models"
 import { useEffect, useRef } from "react"
-import FormikInput from "../../../../_cloner/components/FormikInput"
 import { useIncraseInventory } from "../_hooks"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
+
+import FormikPrice from "../../../../_cloner/components/FormikPrice"
+import FormikInput from "../../../../_cloner/components/FormikInput"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 
 const initialValues = {
@@ -23,6 +24,7 @@ type Props = {
 const CreateProductInventories = (props: Props) => {
     const increseInventoryMethode = useIncraseInventory()
     let formikRef = useRef<FormikProps<any>>(null)
+
     useEffect(() => {
         formikRef.current?.setFieldValue("productName", props.productItem?.row.productName)
         formikRef.current?.setFieldValue("productBrandName", props.productItem?.row.productBrandName)
@@ -32,7 +34,7 @@ const CreateProductInventories = (props: Props) => {
     
     return (
         <>
-        {increseInventoryMethode.isLoading && <Backdrop loading={increseInventoryMethode.isLoading} />}
+            {increseInventoryMethode.isLoading && <Backdrop loading={increseInventoryMethode.isLoading} />}
             <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={
                 async (values: any, { setStatus, setSubmitting }) => {
                     try {
