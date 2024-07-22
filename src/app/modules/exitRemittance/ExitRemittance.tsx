@@ -1,27 +1,27 @@
 import { useState, useRef, useEffect } from "react";
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FormikInput from "../../../../_cloner/components/FormikInput";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import FormikInput from "../../../_cloner/components/FormikInput";
 import { Button, OutlinedInput, Typography } from "@mui/material";
 import { Person, Print } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
-import MuiTable from "../../../../_cloner/components/MuiTable";
+import MuiTable from "../../../_cloner/components/MuiTable";
 import {
     useGetLadingPermitById,
     usePostExitRemiitance,
-} from "../core/_hooks";
-import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
-import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
-import { IExitRemittance } from "../core/_models";
+} from "../logestic/core/_hooks";
+import FormikMaskInput from "../../../_cloner/components/FormikMaskInput";
+import CardTitleValue from "../../../_cloner/components/CardTitleValue";
+import { IExitRemittance } from "../logestic/core/_models";
 import { enqueueSnackbar } from "notistack";
-import Backdrop from "../../../../_cloner/components/Backdrop";
-import FormikDescription from "../../../../_cloner/components/FormikDescription";
-import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
-import { renderAlert } from "../../../../_cloner/helpers/SweetAlert";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import FormikDescription from "../../../_cloner/components/FormikDescription";
+import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
 import moment from "moment-jalaali";
-import FileUpload from "../../../../_cloner/components/FileUpload";
-import { useCargoById } from "../../cargoAnnouncment/_hooks";
+import FileUpload from "../../../_cloner/components/FileUpload";
+import { useCargoById } from "../cargoAnnouncment/_hooks";
 
 interface ILadingList {
     id?: number;

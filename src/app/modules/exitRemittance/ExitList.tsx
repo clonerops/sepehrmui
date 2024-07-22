@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetExitPermitListByMutation, useRevokeExitById } from "../core/_hooks";
-import { exitColumns } from "../../managment-order/helpers/columns";
+import { useGetExitPermitListByMutation, useRevokeExitById } from "../logestic/core/_hooks";
+import { exitColumns } from "../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
 import { Approval, LayersClear, Print, Visibility } from "@mui/icons-material";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import Backdrop from "../../../../_cloner/components/Backdrop";
-import Pagination from "../../../../_cloner/components/Pagination";
-import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import Pagination from "../../../_cloner/components/Pagination";
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 
 const pageSize = 100;
 

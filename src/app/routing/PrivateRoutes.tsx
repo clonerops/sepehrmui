@@ -3,19 +3,19 @@ import React from "react";
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
 import RentPrint from "../modules/prints/RentPrint";
 import LadingPermitPrint from "../modules/prints/LadingPermitPrint";
-import ExitRemiitanceEdit from "../modules/logestic/exit/ExitRemittanceEdit";
+import ExitRemiitanceEdit from "../modules/exitRemittance/ExitRemittanceEdit";
 import LadingExitPermitPrint from "../modules/prints/LadingExitPermitPrint";
-import ApprovedRentPayment from "../modules/logestic/exit/ApprovedRentPayment";
+import ApprovedRentPayment from "../modules/exitRemittance/ApprovedRentPayment";
 import LadingExitPermitPrintOfficial from "../modules/prints/LadingExitPermitPrintOfficial";
 import InvoiceOfficial from "../modules/prints/InvoiceOfficial";
 import InvoiceNotOfficial from "../modules/prints/InvoiceNotOfficial";
 import CustomerLabels from "../modules/customerLabel/CustomerLabel";
-import ExitDetail from "../modules/logestic/exit/ExitDetail";
+import ExitDetail from "../modules/exitRemittance/ExitDetail";
 import CargoDetail from "../modules/cargoAnnouncment/CargoDetail";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
-const ExitList = React.lazy(() => import("../modules/logestic/exit/ExitList"));
+const ExitList = React.lazy(() => import("../modules/exitRemittance/ExitList"));
 const ReadyToRent = React.lazy(() => import("../modules/rent-payment/ReadyToRent"));
 const RentPaymentList = React.lazy(() => import("../modules/rent-payment/RentPaymentList"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
@@ -27,7 +27,7 @@ const Costs = React.lazy(() => import("../modules/cost/Cost"));
 const Products = React.lazy(() => import("../modules/products/Products"));
 const Suppliers = React.lazy(() => import("../modules/productSuppliers/Suppliers"));
 const ReadyToExit = React.lazy(
-    () => import("../modules/logestic/exit/ReadyToExit")
+    () => import("../modules/exitRemittance/ReadyToExit")
 );
 const Permissions = React.lazy(
     () => import("../modules/permissions/Permissions")
@@ -190,10 +190,10 @@ const ReadyToLading = React.lazy(
     () => import("../modules/ladingLicence/ReadyToLading")
 );
 const ExitRemittance = React.lazy(
-    () => import("../modules/logestic/exit/ExitRemittance")
+    () => import("../modules/exitRemittance/ExitRemittance")
 );
 const ExitRemittanceList = React.lazy(
-    () => import("../modules/logestic/exit/ReadyToExit")
+    () => import("../modules/exitRemittance/ReadyToExit")
 );
 const Roles = React.lazy(() => import("../modules/role/Roles"));
 const RoleGroups = React.lazy(() => import("../modules/groups/Groups"));
