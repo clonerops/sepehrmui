@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Formik } from "formik";
-import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, UseMutationResult } from "@tanstack/react-query";
 import { Button, Typography } from "@mui/material";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { useCreateProduct, useRetrieveProduct, useUpdateProduct } from "./_hooks";
-import { IProducts } from "./_models";
+import { IProductFilters, IProducts } from "./_models";
 import { createProductValidations } from "./_validations";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 
@@ -38,9 +38,10 @@ const initialValues = {
 const ProductForm = (props: {
     id?: string | undefined
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    refetch: <TPageData>(
-        options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-    ) => Promise<QueryObserverResult<any, unknown>>;
+    // refetch: <TPageData>(
+    //     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+    // ) => Promise<QueryObserverResult<any, unknown>>;
+    productTools:  UseMutationResult<any, unknown, IProductFilters, unknown>;
 }) => {
     // Fetchig
     const { mutate, isLoading: postLoading } = useCreateProduct();
@@ -165,7 +166,7 @@ const ProductForm = (props: {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
-                        props.refetch()
+                        props.productTools.mutate({})
                         props.setIsCreateOpen(false)
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
@@ -185,7 +186,7 @@ const ProductForm = (props: {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
-                        props.refetch()
+                        props.productTools.mutate({})
                         props.setIsCreateOpen(false)
 
                     } else {
@@ -206,7 +207,7 @@ const ProductForm = (props: {
         }
         if (props.id) onUpdate(formData);
         else onAdd(values);
-        props.refetch()
+        props.productTools.mutate({})
     };
 
     if (props.id && detailTools?.isLoading) {

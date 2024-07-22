@@ -22,8 +22,10 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
 import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import { useRetrieveProductsByBrand } from "../../products/_hooks";
+// import { useRetrieveProductsByBrand } from "../../products/_hooks";
 import { dropdownProductByInventory } from "../../../../_cloner/helpers/Dropdowns";
+import { useGetProductList } from "../../products/_hooks";
+import { IProductFilters } from "../../products/_models";
 
 const initialValues = {
     productName: "",
@@ -41,7 +43,8 @@ const initialValues = {
 const PurchaserOrderConfirm = () => {
     const { id } = useParams()
     const { data, isLoading } = useRetrievePurchaserOrder(id)
-    const { data: productsByBrand, } = useRetrieveProductsByBrand();
+    // const { data: productsByBrand, } = useRetrieveProductsByBrand();
+    const productTools = useGetProductList();
     const { data: factor } = useGetInvoiceType();
     const customerCompaniesTools = useGetCustomerCompaniesMutate();
 
@@ -68,6 +71,13 @@ const PurchaserOrderConfirm = () => {
         customerCompaniesTools.mutate(data?.data?.customer.id)
          // eslint-disable-next-line
     }, [data?.data?.customer.id])
+
+    useEffect(() => {
+        const filters: IProductFilters = {
+            ByBrand: true
+        }
+        productTools.mutate(filters)
+    }, [])
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
@@ -101,7 +111,7 @@ const PurchaserOrderConfirm = () => {
                         <FormikProduct
                             disabled={!values.productName}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
-                            options={dropdownProductByInventory(productsByBrand?.data)}
+                            options={dropdownProductByInventory(productTools?.data?.data)}
                             {...rest}
                         />
                     </div>

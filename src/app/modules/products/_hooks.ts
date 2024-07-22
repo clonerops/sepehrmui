@@ -7,42 +7,11 @@ const useGetProductList = () => {
         api.getProductList(formdata));
 };
 
-const useRetrieveProducts = () => {
-    return useQuery(["products"], () =>
-        api.retrieveProducts(), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false,
+const useGetProductsByType = () => {
+    return useMutation((formdata: IProductFilters) =>
+        api.getProductsByType(formdata));
+};
 
-    });
-};
-const useRetrieveProductsByWarehouse = () => {
-    return useMutation((warehouseId: number) => {
-        return api.retrieveProductsByWarehouse(warehouseId)
-    });
-};
-const useRetrieveProductsByType = () => {
-    return useQuery(["productsByType"], () =>
-        api.retrieveProductsByType(), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
-    });
-};
-const useRetrieveProductsByTypeAndWarehouseFilter = () => {
-    return useMutation((warehouseId: string) => {
-        return api.retrieveProductsByTypeWarehouseFilter(warehouseId)
-    })
-};
-const useRetrieveProductsByBrand = (isProductChoose?: boolean) => {
-    return useQuery(["productsByBrand"], () =>
-        api.retrieveProductsByBrand(), {
-        enabled: isProductChoose,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
-    });
-};
 
 const useCreateProduct = () => {
     return useMutation((formData: IProducts) => {
@@ -51,7 +20,7 @@ const useCreateProduct = () => {
 };
 
 const useRetrieveProductById = (id: string) => {
-    return useQuery(['products', id], () =>
+    return useQuery(['Product', id], () =>
         api.retrieveProductById(id), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -84,11 +53,7 @@ const useEnableProduct = () => {
 
 export {
     useGetProductList,
-    useRetrieveProducts,
-    useRetrieveProductsByWarehouse,
-    useRetrieveProductsByType,
-    useRetrieveProductsByTypeAndWarehouseFilter,
-    useRetrieveProductsByBrand,
+    useGetProductsByType,
     useCreateProduct,
     useRetrieveProductById,
     useRetrieveProduct,

@@ -3,25 +3,34 @@ import { Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableTabComponent from "../../../_cloner/components/ReusableTab";
 import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import { useRetrieveProductsByType } from "../products/_hooks";
+// import { useRetrieveProductsByType } from "../products/_hooks";
 import { columnsProductPriceDashboard } from "../productPrices/_columns";
 import Backdrop from "../../../_cloner/components/Backdrop";
+import { useGetProductsByType } from "../products/_hooks";
+import { IProductFilters } from "../products/_models";
 
 const ProductPriceLanding = () => {
-    const { data: productsByType, isLoading } = useRetrieveProductsByType();
+    // const { data: productsByType, isLoading } = useRetrieveProductsByType();
+    const productTypeTools = useGetProductsByType();
 
     const [results, setResults] = useState<any>([]);
 
     useEffect(() => {
-        if (productsByType && productsByType.data) {
-            const initialResults = productsByType.data.map((i: any) => i.products);
-            setResults(initialResults);
-        }
+        const filters: IProductFilters = {}
+
+        productTypeTools.mutate(filters, {
+            onSuccess: (response) => {
+                if (response?.data.length > 0) {
+                    const initialResults = response?.data.map((i: any) => i.products);
+                    setResults(initialResults);
+                }
+            }
+        })
          // eslint-disable-next-line
-    }, [productsByType]);
+    }, [productTypeTools?.data?.data]);
 
     const renderAction = () => { };
-    const tabs = productsByType?.data?.map((i: any, index: number) => {
+    const tabs = productTypeTools?.data?.data?.map((i: any, index: number) => {
         return {
             label: (
                 <div className="flex gap-x-2">
@@ -46,7 +55,7 @@ const ProductPriceLanding = () => {
                         columns={columnsProductPriceDashboard(renderAction)}
                         rows={results[index]}
                         data={i.products}
-                        isLoading={isLoading}
+                        isLoading={productTypeTools.isLoading}
                     />
                 </div>
             ),
@@ -54,7 +63,7 @@ const ProductPriceLanding = () => {
     });
     return (
         <>
-            {isLoading && <Backdrop loading={isLoading} />}
+            {productTypeTools.isLoading && <Backdrop loading={productTypeTools.isLoading} />}
             <div className="flex flex-col">
                 <ReusableTabComponent tabs={tabs} />
             </div>

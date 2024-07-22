@@ -11,24 +11,29 @@ import ActiveText from "../../../_cloner/components/ActiveText";
 import ProductForm from "./ProductForm";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { useRetrieveProducts } from "./_hooks";
-import { IProducts } from "./_models";
-import _ from 'lodash'
 import CardWithIcons from "../../../_cloner/components/CardWithIcons";
+
+import { IProductFilters, IProducts } from "./_models";
+import { useGetProductList } from "./_hooks";
 import { AddTask, AdfScanner, DesignServices, TextDecrease } from "@mui/icons-material";
 
+import _ from 'lodash'
+
 const Products = () => {
-    const {
-        data: products,
-        isLoading: productsLoading,
-        refetch,
-    } = useRetrieveProducts();
+    // const productTools = useRetrieveProducts()
+    const productTools = useGetProductList()
+
     const [results, setResults] = useState<IProducts[]>([]);
 
     useEffect(() => {
-        setResults(products?.data);
+        const filters: IProductFilters = {}
+        productTools.mutate(filters, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
         // eslint-disable-next-line
-    }, [products]);
+    }, []);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -222,46 +227,38 @@ const Products = () => {
         setIsEditOpen(true);
         setItemForEdit(item);
     };
-    // const handleDelete = (id: string | undefined) => {
-    //     if (id) mutate(id, {
-    //         onSuccess: (message) => {
-    //            setSnackeOpen(true)
-    //             refetch()
-    //         }
-    //     });
-    // };
 
     const renderAction = (item: any) => {
         return (
-                <Fab size="small" color="secondary">
-                    <EditGridButton onClick={() => handleEdit(item?.row)} />
-                </Fab>
+            <Fab size="small" color="secondary">
+                <EditGridButton onClick={() => handleEdit(item?.row)} />
+            </Fab>
         );
     };
 
     return (
         <>
-            {productsLoading && <Backdrop loading={productsLoading} />}
+            {productTools.isLoading && <Backdrop loading={productTools.isLoading} />}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
                 <CardWithIcons
                     title='تعداد سرویس های ثبت شده'
                     icon={<DesignServices className="text-white" />}
-                    value={products?.data && +products?.data?.length}
+                    value={productTools?.data?.data && +productTools?.data?.data?.length}
                     iconClassName='bg-[#3322D8]' />
                 <CardWithIcons
                     title='میانگین حداقل موجودی'
                     icon={<AddTask className="text-white" />}
-                    value={Math.ceil(+_.sumBy(products?.data && products?.data, 'minInventory') / +products?.data?.length)}
+                    value={Math.ceil(+_.sumBy(productTools?.data?.data && productTools?.data?.data, 'minInventory') / +productTools?.data?.data?.length)}
                     iconClassName='bg-[#369BFD]' />
                 <CardWithIcons
                     title='میانگین حداکثر موجودی'
                     icon={<TextDecrease className="text-white" />}
-                    value={Math.ceil(+_.sumBy(products?.data && products?.data, 'maxInventory') / +products?.data?.length)}
+                    value={Math.ceil(+_.sumBy(productTools?.data?.data && productTools?.data?.data, 'maxInventory') / +productTools?.data?.data?.length)}
                     iconClassName='bg-[#F8B30E]' />
                 <CardWithIcons
                     title='میانگین نقطه بحرانی'
                     icon={<AdfScanner className="text-white" />}
-                    value={Math.ceil(+_.sumBy(products?.data && products?.data, 'inventotyCriticalPoint') / +products?.data?.length)}
+                    value={Math.ceil(+_.sumBy(productTools?.data?.data && productTools?.data?.data, 'inventotyCriticalPoint') / +productTools?.data?.data?.length)}
                     iconClassName='bg-[#EB5553]' />
             </div>
 
@@ -274,16 +271,16 @@ const Products = () => {
                             keys={[
                                 "productCode",
                                 "productName",
-                                "productDetail.size",
-                                "productDetail.productIntegratedName",
+                                "productSize",
                                 "approximateWeight",
                                 "numberInPackage",
-                                "productDetail.standard",
-                                "productDetail.productState",
+                                "productStandardDesc",
+                                "productStateDesc",
+                                "productMainUnitDesc",
+                                "productSubUnitDesc",
                                 "description",
                             ]}
-                            data={products?.data}
-                            // threshold={0.5}
+                            data={productTools?.data?.data}
                             setResults={setResults}
                         />
                     </div>
@@ -297,7 +294,7 @@ const Products = () => {
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
-                    data={products?.data}
+                    data={productTools?.data?.data}
                     onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
             </ReusableCard>
@@ -309,7 +306,7 @@ const Products = () => {
                 description="لطفاً مشخصات محصول را با دقت وارد کنید تا مشتریان به آسانی اطلاعات مورد نیاز را بیابند اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
                 <ProductForm
-                    refetch={refetch}
+                    productTools={productTools}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>
@@ -322,7 +319,7 @@ const Products = () => {
             >
                 <ProductForm
                     id={itemForEdit?.id}
-                    refetch={refetch}
+                    productTools={productTools}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>

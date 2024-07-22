@@ -13,9 +13,10 @@ import { createSupplierValidations } from "./_validations";
 import { useEffect } from "react";
 import { ISuppliers } from "./_models";
 import moment from "moment-jalaali";
-import { useRetrieveProducts } from "../products/_hooks";
+// import { useRetrieveProducts } from "../products/_hooks";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { dropdownCustomer, dropdownProduct } from "../../../_cloner/helpers/Dropdowns";
+import { useGetProductList } from "../products/_hooks";
 const initialValues = {
     price: "",
     rentAmount: "",
@@ -35,7 +36,8 @@ const SupplierForm = (props: {
     // fetching Data
     const { mutate, isLoading: postLoading } = useCreateSupplier();
     const { data: customers } = useGetCustomers()
-    const { data: products } = useRetrieveProducts()
+    // const { data: products } = useRetrieveProducts()
+    const { data: products } = useGetProductList()
     const detailTools = useRetrieveSupplierById()
     const updateTools = useUpdateSupplier();
 

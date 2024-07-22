@@ -8,7 +8,7 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
 import { IProductPrice } from "./_models"
 import { createProductPriceValidations } from "./_validation"
 import { useCreateProductPrice, useRetrieveProductPriceById, useUpdateProductPrice } from "./_hooks"
-import { useRetrieveProducts } from "../products/_hooks"
+// import { useRetrieveProducts } from "../products/_hooks"
 
 import FormikInput from "../../../_cloner/components/FormikInput"
 import FormikComboBox from "../../../_cloner/components/FormikComboBox"
@@ -17,6 +17,7 @@ import FormikAmount from "../../../_cloner/components/FormikAmount"
 import SwitchComponent from "../../../_cloner/components/Switch"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import { dropdownProduct } from "../../../_cloner/helpers/Dropdowns"
+import { useGetProductList } from "../products/_hooks"
 
 const initialValues = {
     price: "",
@@ -32,7 +33,8 @@ type Props = {
 }
 
 const ProductPriceForm = (props: Props) => {
-    const { data: products } = useRetrieveProducts()
+    // const { data: products } = useRetrieveProducts()
+    const { data: products } = useGetProductList()
     const { mutate, isLoading: postLoading } = useCreateProductPrice()
 
     const updateTools = useUpdateProductPrice();
