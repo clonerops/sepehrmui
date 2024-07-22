@@ -16,16 +16,16 @@ import SwitchComponent from "../../../_cloner/components/Switch";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 
 const PettyCashs = () => {
-    const { data: PettyCash, refetch } = useGetPettyCashList();
-    const { mutate, isLoading: deleteLoading } = useDeletePettyCash();
-    const updateTools = usePutPettyCash();
+    const pettyCashTools = useGetPettyCashList();
+    const deletePettyCashTools = useDeletePettyCash();
+    const updatePettyCashTools = usePutPettyCash();
 
     const [results, setResults] = useState<IPettyCash[]>([]);
 
     useEffect(() => {
-        setResults(PettyCash?.data);
+        setResults(pettyCashTools?.data?.data);
          // eslint-disable-next-line
-    }, [PettyCash]);
+    }, [pettyCashTools?.data?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -72,14 +72,14 @@ const PettyCashs = () => {
         setItemForEdit(item);
     };
     const handleDelete = (id: string | undefined) => {
-        if (id) mutate(id, {
+        if (id) deletePettyCashTools.mutate(id, {
             onSuccess: (response) => {
                 if(response.message) {
                     EnqueueSnackbar(response.message, "success")
                 } else {
                     EnqueueSnackbar(response.data.Message, "error")
                 }
-                refetch()
+                pettyCashTools.refetch()
             }
         });
     };
@@ -89,17 +89,17 @@ const PettyCashs = () => {
           const formData = {
             id: rowData.row.id,
             mobileNo: rowData.row.mobileNo,
-            PettyCashDescription: rowData.row.PettyCashDescription,
+            pettyCashDescription: rowData.row.pettyCashDescription,
             isActive: !rowData.row.isActive
           }
-          updateTools.mutate(formData, {
+          updatePettyCashTools.mutate(formData, {
             onSuccess: (response) => {
               if (response.succeeded) {
                 EnqueueSnackbar(response.message, "success")
               } else {
                 EnqueueSnackbar(response.data.Message, "error")
               }
-              refetch()
+              pettyCashTools.refetch()
             }
           })
         } catch (e) {
@@ -124,7 +124,10 @@ const PettyCashs = () => {
 
     return (
         <>
-            {deleteLoading && <Backdrop loading={deleteLoading} />}
+            {pettyCashTools.isLoading && <Backdrop loading={pettyCashTools.isLoading} />}
+            {deletePettyCashTools.isLoading && <Backdrop loading={deletePettyCashTools.isLoading} />}
+            {updatePettyCashTools.isLoading && <Backdrop loading={updatePettyCashTools.isLoading} />}
+            
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <ReusableCard cardClassName="col-span-2">
                 <div
@@ -137,7 +140,7 @@ const PettyCashs = () => {
                                 "mobileNo",
                                 "PettyCashDescription",
                             ]}
-                            data={PettyCash?.data}
+                            data={pettyCashTools?.data?.data}
                             setResults={setResults}
                         />
                     </div>
@@ -151,7 +154,7 @@ const PettyCashs = () => {
                     columns={columns(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
-                    data={PettyCash?.data}
+                    data={pettyCashTools?.data?.data}
                     onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
                 </ReusableCard>
@@ -186,7 +189,7 @@ const PettyCashs = () => {
                 description="لطفاً مشخصات تنخواه گردان را با دقت وارد کنید اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
                 <PettyCashForm
-                    refetch={refetch}
+                    refetch={pettyCashTools.refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>
@@ -199,7 +202,7 @@ const PettyCashs = () => {
             >
                 <PettyCashForm
                     id={itemForEdit?.id}
-                    refetch={refetch}
+                    refetch={pettyCashTools.refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>

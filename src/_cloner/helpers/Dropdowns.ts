@@ -191,6 +191,16 @@ const dropdownIncome = (data: any) => {
     );
 };
 
+const dropdownPettyCash = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { pettyCashDescription: string, mobileNo: string, id: string }): any => {
+            const { pettyCashDescription, mobileNo,  id } = obj;
+            return { value: id, label: `${pettyCashDescription} - (${mobileNo})` };
+        })
+    );
+};
+
 export {
     dropdownBrand,
     dropdownCustomer,
@@ -210,5 +220,6 @@ export {
     dropdownPermissionsByMenu,
     dropdownRole,
     dropdownReceivePaymentResource,
-    dropdownIncome
+    dropdownIncome,
+    dropdownPettyCash
 }

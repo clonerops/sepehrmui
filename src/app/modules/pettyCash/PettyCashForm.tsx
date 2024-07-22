@@ -5,18 +5,19 @@ import {
     RefetchOptions,
     RefetchQueryFilters,
 } from "@tanstack/react-query";
-import FormikInput from "../../../_cloner/components/FormikInput";
 import { Button, Typography } from "@mui/material";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { IPettyCash } from "./_models";
 import { createProductValidations } from "./_validations";
-import Backdrop from "../../../_cloner/components/Backdrop";
 import { useGetPettyCashById, usePostPettyCash, usePutPettyCash } from "./_hooks";
+
+import Backdrop from "../../../_cloner/components/Backdrop";
+import FormikInput from "../../../_cloner/components/FormikInput";
 
 const initialValues = {
     mobileNo: "", 
-    PettyCashDescription: "", 
+    pettyCashDescription: "", 
 };
 
 const PettyCashForm = (props: {
@@ -26,8 +27,8 @@ const PettyCashForm = (props: {
         options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
     ) => Promise<QueryObserverResult<any, unknown>>;
 }) => {
-    // Fetchig
-    const { mutate, isLoading: postLoading } = usePostPettyCash();
+    // Fetchig    
+    const postTools = usePostPettyCash();
     const updateTools = usePutPettyCash();
     const detailTools = useGetPettyCashById()
 
@@ -35,7 +36,7 @@ const PettyCashForm = (props: {
 
     const fields: FieldType[][] = [
         [
-            { label: "نام تنخواه گردان", name: "PettyCashDescription", type: "input" },
+            { label: "نام تنخواه گردان", name: "pettyCashDescription", type: "input" },
             { label: "شماره موبایل", name: "mobileNo", type: "input" },
         ],
        
@@ -89,7 +90,7 @@ const PettyCashForm = (props: {
 
     const onAdd = (values: IPettyCash) => {
         try {
-            return mutate(values, {
+            return postTools.mutate(values, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
@@ -112,15 +113,13 @@ const PettyCashForm = (props: {
         else onAdd(values);
     };
 
-    if (props.id && detailTools?.isLoading) {
-        return <Typography>Loading ...</Typography>
-    }
-
     return (
         <>
-            {postLoading && <Backdrop loading={postLoading} />}
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
             <Formik
+                enableReinitialize
                 initialValues={
                     isNew
                         ? initialValues
