@@ -8,7 +8,7 @@ import { Link, useParams } from 'react-router-dom'
 // import { Formik } from 'formik'
 // import { dropdownProductLading } from '../helpers/dropdowns'
 import MuiTable from '../../../../_cloner/components/MuiTable'
-import { useCargoById, usePostLadingPermit } from '../core/_hooks'
+import { usePostLadingPermit } from '../core/_hooks'
 // import FormikMaskInput from '../../../../_cloner/components/FormikMaskInput'
 import CardTitleValue from '../../../../_cloner/components/CardTitleValue'
 import { ILadingPermit } from '../core/_models'
@@ -19,6 +19,7 @@ import Backdrop from '../../../../_cloner/components/Backdrop'
 import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
 import ConfirmDialog from '../../../../_cloner/components/ConfirmDialog'
 import moment from 'moment-jalaali'
+import { useCargoById } from '../../cargoAnnouncment/_hooks'
 
 // interface ILadingList {
 //     id?: number

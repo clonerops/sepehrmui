@@ -6,7 +6,6 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import { dropdownVehicleType } from "../helpers/dropdowns";
 import { useGetVehicleTypes, useGetWarehouses } from "../../generic/_hooks";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
@@ -25,6 +24,7 @@ import CardWithIcons from "../../../../_cloner/components/CardWithIcons";
 import { AddTask, DesignServices } from "@mui/icons-material";
 import moment from "moment-jalaali";
 import { useParams } from "react-router-dom";
+import { dropdownVehicleType } from "../../../../_cloner/helpers/Dropdowns";
 
 const initialValues = {
     originWarehouseId: "",

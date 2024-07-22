@@ -7,7 +7,6 @@ import { Link, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
-    useCargoById,
     useGetLadingPermitById,
     usePostExitRemiitance,
 } from "../core/_hooks";
@@ -22,6 +21,7 @@ import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmo
 import { renderAlert } from "../../../../_cloner/helpers/SweetAlert";
 import moment from "moment-jalaali";
 import FileUpload from "../../../../_cloner/components/FileUpload";
+import { useCargoById } from "../../cargoAnnouncment/_hooks";
 
 interface ILadingList {
     id?: number;

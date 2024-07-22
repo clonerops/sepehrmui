@@ -11,7 +11,6 @@ import ImagePreview from "../../../../_cloner/components/ImagePreview";
 
 import { useRetrieveOrder } from "../core/_hooks";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
-import { useRetrieveCargos } from "../../logestic/core/_hooks";
 
 
 type Props = {
@@ -33,7 +32,7 @@ const initialValues = {
 const SalesOrderDetail = (props: Props) => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
-    const cargosList = useRetrieveCargos(id)
+    // const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
@@ -147,7 +146,7 @@ const SalesOrderDetail = (props: Props) => {
                         }
                         <ReusableCard cardClassName="p-4 mt-4">
                             <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
-                            <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
+                            {/* <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} /> */}
                         </ReusableCard>
                     </>
                 }}

@@ -5,28 +5,28 @@ import { enqueueSnackbar } from "notistack"
 import { AttachMoney, Description, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
-import { useCargoById, useEditCargo } from "../core/_hooks"
-import { useGetVehicleTypes } from "../../generic/_hooks"
+import { useGetVehicleTypes } from "../generic/_hooks"
 
-import FormikInput from "../../../../_cloner/components/FormikInput"
-import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker"
-import FormikSelect from "../../../../_cloner/components/FormikSelect"
-import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
-import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox"
-import FormikAmount from "../../../../_cloner/components/FormikAmount"
-import Backdrop from "../../../../_cloner/components/Backdrop"
-import MuiTable from "../../../../_cloner/components/MuiTable"
+import FormikInput from "../../../_cloner/components/FormikInput"
+import FormikDatepicker from "../../../_cloner/components/FormikDatepicker"
+import FormikSelect from "../../../_cloner/components/FormikSelect"
+import ReusableCard from "../../../_cloner/components/ReusableCard"
+import CardTitleValue from "../../../_cloner/components/CardTitleValue"
+import FormikCheckbox from "../../../_cloner/components/FormikCheckbox"
+import FormikAmount from "../../../_cloner/components/FormikAmount"
+import Backdrop from "../../../_cloner/components/Backdrop"
+import MuiTable from "../../../_cloner/components/MuiTable"
 
-import { FieldType } from "../../../../_cloner/components/globalTypes"
-import { dropdownVehicleType } from "../helpers/dropdowns"
-import { ICargo } from "../core/_models"
-import { renderSwal } from "../../../../_cloner/helpers/swal"
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
+import { FieldType } from "../../../_cloner/components/globalTypes"
+import { renderSwal } from "../../../_cloner/helpers/swal"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
 import { submitCargoValidation } from "./validations"
 import { useEffect, useState } from "react"
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
-import MaskInput from "../../../../_cloner/components/MaskInput"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
+import MaskInput from "../../../_cloner/components/MaskInput"
+import { dropdownVehicleType } from "../../../_cloner/helpers/Dropdowns"
+import { useCargoById, useEditCargo } from "./_hooks"
+import { ICargo } from "./_models"
 
 const initialValues = {
     driverName: "",
@@ -43,10 +43,12 @@ const initialValues = {
 }
 
 const CargoEditForm = () => {
+
     const { id }: any = useParams()
+
     const detailsCargo = useCargoById(id);
     const vehicleList = useGetVehicleTypes()
-    const { mutate, isLoading } = useEditCargo();
+    const updateCargo = useEditCargo();
     // states
     const [ladingOrderDetail, setLadingOrderDetail] = useState<any>([])
     const [ladingAmount, setLadingAmount] = useState<{ [key: string]: string }>({})
@@ -171,7 +173,7 @@ const CargoEditForm = () => {
                     packageCount: 0
                 }))
             }
-            mutate(formData, {
+            updateCargo.mutate(formData, {
                 onSuccess: (message) => {
                     if(message.data.Errors && message.data.Errors.length > 0) {
                         EnqueueSnackbar(message.data.Errors[0], "error")
@@ -196,13 +198,11 @@ const CargoEditForm = () => {
 
     }
 
-    if (detailsCargo?.isLoading) {
-        return <Backdrop loading={detailsCargo?.isLoading} />
-    }
-
     return (
         <>
-            {isLoading && <Backdrop loading={isLoading} />}
+            {detailsCargo.isLoading && <Backdrop loading={detailsCargo.isLoading} />}
+            {updateCargo.isLoading && <Backdrop loading={updateCargo.isLoading} />}
+
             <Typography color="primary" variant="h1" className="pb-8">ویرایش اعلام بار</Typography>
             <div className={`grid grid-cols-1 md:grid-cols-5 gap-4 my-4`}>
                 {orderAndAmountInfoInCargo.map((item: {
@@ -246,7 +246,7 @@ const CargoEditForm = () => {
                             ))}
                             <div className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                    <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ویرایش اعلام بار"} </Typography>
+                                    <Typography variant="h3" className="px-8 py-2"> {updateCargo.isLoading ? "درحال پردازش ..." : "ویرایش اعلام بار"} </Typography>
                                 </Button>
                             </div>
                         </form>

@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
-    useCargoById,
     useGetLadingPermitById,
     usePostExitRemiitance,
 } from "../core/_hooks";
@@ -20,6 +19,7 @@ import FormikDescription from "../../../../_cloner/components/FormikDescription"
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
 import FileUpload from "../../../../_cloner/components/FileUpload";
+import { useCargoById } from "../../cargoAnnouncment/_hooks";
 
 interface ILadingList {
     id?: number;

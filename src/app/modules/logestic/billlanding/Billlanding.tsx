@@ -7,7 +7,6 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikAmount from "../../../../_cloner/components/FormikAmount";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import { dropdownVehicleType } from "../helpers/dropdowns";
 import { useGetVehicleTypes, useGetWarehouses } from "../../generic/_hooks";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
@@ -27,6 +26,7 @@ import { billlandingValidation } from "./_validation";
 import FormikWarehouseBasedOfType from "../../../../_cloner/components/FormikWarehouseBasedOfType";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
+import { dropdownVehicleType } from "../../../../_cloner/helpers/Dropdowns";
 
 const initialValues = {
     originWarehouseId: "",

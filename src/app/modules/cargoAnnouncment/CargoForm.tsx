@@ -5,32 +5,32 @@ import { enqueueSnackbar } from "notistack"
 import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
-import { useCreateCargo, useRetrieveCargos } from "../core/_hooks"
-import { useGetVehicleTypes } from "../../generic/_hooks"
+import { useGetVehicleTypes } from "../generic/_hooks"
 
-import FormikInput from "../../../../_cloner/components/FormikInput"
-import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker"
-import FormikSelect from "../../../../_cloner/components/FormikSelect"
-import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
-import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox"
-import FormikAmount from "../../../../_cloner/components/FormikAmount"
-import Backdrop from "../../../../_cloner/components/Backdrop"
-import MuiTable from "../../../../_cloner/components/MuiTable"
+import FormikInput from "../../../_cloner/components/FormikInput"
+import FormikDatepicker from "../../../_cloner/components/FormikDatepicker"
+import FormikSelect from "../../../_cloner/components/FormikSelect"
+import ReusableCard from "../../../_cloner/components/ReusableCard"
+import CardTitleValue from "../../../_cloner/components/CardTitleValue"
+import FormikCheckbox from "../../../_cloner/components/FormikCheckbox"
+import FormikAmount from "../../../_cloner/components/FormikAmount"
+import Backdrop from "../../../_cloner/components/Backdrop"
+import MuiTable from "../../../_cloner/components/MuiTable"
 
-import { FieldType } from "../../../../_cloner/components/globalTypes"
-import { dropdownVehicleType } from "../helpers/dropdowns"
-import { ICargo } from "../core/_models"
-import { renderSwal } from "../../../../_cloner/helpers/swal"
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
+import { FieldType } from "../../../_cloner/components/globalTypes"
+import { renderSwal } from "../../../_cloner/helpers/swal"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
 import { submitCargoValidation } from "./validations"
-import { useRetrieveOrder } from "../../managment-order/core/_hooks"
+import { useRetrieveOrder } from "../managment-order/core/_hooks"
 import { useEffect, useState } from "react"
-import ReusableAccordion from "../../../../_cloner/components/ReusableAccordion"
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
-import MaskInput from "../../../../_cloner/components/MaskInput"
-import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64"
-import FileUpload from "../../../../_cloner/components/FileUpload"
+import ReusableAccordion from "../../../_cloner/components/ReusableAccordion"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
+import MaskInput from "../../../_cloner/components/MaskInput"
+import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64"
+import FileUpload from "../../../_cloner/components/FileUpload"
+import { useCreateCargo, useGetCargosList } from "./_hooks"
+import { ICargo, ICargoFilter } from "./_models"
+import { dropdownVehicleType } from "../../../_cloner/helpers/Dropdowns"
 
 const initialValues = {
     driverName: "",
@@ -50,9 +50,10 @@ const initialValues = {
 
 const CargoForm = () => {
     const { id } = useParams()
-    const { mutate, isLoading } = useCreateCargo()
-    const { data, isLoading: orderLoading, refetch } = useRetrieveOrder(id)
-    const cargosList = useRetrieveCargos(id)
+
+    const postCargoTools = useCreateCargo()
+    const orderTools = useRetrieveOrder(id)
+    const cargosList = useGetCargosList()
     const vehicleList = useGetVehicleTypes()
 
     // states
@@ -65,15 +66,23 @@ const CargoForm = () => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
-        // eslint-disable-next-line
+        
     }, [files]);
 
+    useEffect(() => {
+        const filter: ICargoFilter = {
+            OrderId: id
+        }
+        cargosList.mutate(filter)
+        // eslint-disable-next-line
+    }, [])
+
     const orderAndAmountInfoInCargo = [
-        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
-        { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.orderExitTypeDesc },
-        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
-        { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: orderTools?.data?.data?.orderCode },
+        { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: orderTools?.data?.data?.customerFirstName + " " + orderTools?.data?.data?.customerLastName },
+        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: orderTools?.data?.data?.orderExitTypeDesc },
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: orderTools?.data?.data?.orderSendTypeDesc },
+        { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: orderTools?.data?.data?.paymentTypeDesc },
     ]
     const orderOrderColumnMain = [
         {
@@ -167,7 +176,7 @@ const CargoForm = () => {
             case "select":
                 return <FormikSelect key={index} options={dropdownVehicleType(vehicleList.data)} {...rest} />
             case "amount":
-                return <FormikAmount disabled={data?.data?.farePaymentTypeId === 2} key={index} {...rest} />;
+                return <FormikAmount disabled={orderTools?.data?.data?.farePaymentTypeId === 2} key={index} {...rest} />;
             case "desc":
                 return <FormikInput key={index} multiline minRows={3} {...rest} />;
 
@@ -227,15 +236,15 @@ const CargoForm = () => {
             if (ladingOrderDetail.some((item: any) => +item.remainingLadingAmount < +ladingAmount[item.id])) {
                 EnqueueSnackbar("مقدار بارگیری را به درستی وارد کنید", "warning")
             } else {
-                mutate(formData, {
+                postCargoTools.mutate(formData, {
                     onSuccess: (message) => {
                         if (message.data.Errors && message.data.Errors.length > 0) {
                             EnqueueSnackbar(message.data.Errors[0], "error")
                         } else {
                             if (message.succeeded) {
                                 renderSwal(`اعلام بار با شماره ${message?.data.cargoAnnounceNo} ثبت گردید`)
-                                refetch()
-                                cargosList.refetch()
+                                orderTools.refetch()
+                                cargosList.mutate({})
                             }
 
                             if (!message?.data?.Succeeded) {
@@ -257,13 +266,16 @@ const CargoForm = () => {
 
     }
 
-    if (orderLoading) {
-        return <Backdrop loading={orderLoading} />
-    }
-
     return (
         <>
-            {isLoading && <Backdrop loading={isLoading} />}
+            {/* {postCargoTools.isLoading && <Backdrop loading={postCargoTools.isLoading} />}
+            {orderTools.isLoading && <Backdrop loading={orderTools.isLoading} />}
+            {cargosList.isLoading && <Backdrop loading={cargosList.isLoading} />}
+            {vehicleList.isLoading && <Backdrop loading={vehicleList.isLoading} />} */}
+
+            {postCargoTools.isLoading && <Backdrop loading={postCargoTools.isLoading} />}
+            {orderTools.isLoading && <Backdrop loading={orderTools.isLoading} />}
+            
             <Typography color="primary" variant="h1" className="pb-8">ثبت اعلام بار</Typography>
             <div className={`grid grid-cols-1 lg:grid-cols-5 gap-4 my-4`}>
                 {orderAndAmountInfoInCargo.map((item: {
@@ -274,7 +286,7 @@ const CargoForm = () => {
                     return <CardTitleValue index={index} title={item.title} value={item.value} icon={item.icon} />
                 })}
                 <div className="lg:col-span-5">
-                    <CardTitleValue index={6} title={"توضیحات سفارش"} value={data?.data?.description} icon={<Description color="secondary" />} />
+                    <CardTitleValue index={6} title={"توضیحات سفارش"} value={orderTools?.data?.data?.description} icon={<Description color="secondary" />} />
                 </div>
             </div>
             <ReusableAccordion
@@ -290,7 +302,7 @@ const CargoForm = () => {
             <div className="flex flex-col gap-4 mt-4">
                 <ReusableCard cardClassName={"col-span-3"}>
                     <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
-                    <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={(item: any) => handleSelectProduct(item)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
+                    <MuiTable tooltipTitle={orderTools?.data?.data?.description ? <Typography>{orderTools?.data?.data?.description}</Typography> : ""} onDoubleClick={(item: any) => handleSelectProduct(item)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={orderTools?.data?.data?.details} columns={orderOrderColumnMain} />
                 </ReusableCard>
                 <ReusableCard cardClassName={"col-span-3"}>
                     <Typography variant="h2" color="primary" className="pb-4">کالا بارگیری</Typography>
@@ -332,7 +344,7 @@ const CargoForm = () => {
 
                             <div className="flex justify-end items-end">
                                 <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                    <Typography variant="h3" className="px-8 py-2"> {isLoading ? "درحال پردازش ..." : "ثبت اعلام بار"} </Typography>
+                                    <Typography variant="h3" className="px-8 py-2"> {postCargoTools.isLoading ? "درحال پردازش ..." : "ثبت اعلام بار"} </Typography>
                                 </Button>
                             </div>
                         </form>

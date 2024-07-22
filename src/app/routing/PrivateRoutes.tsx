@@ -80,20 +80,20 @@ const ProductPrice = React.lazy(
     () => import("../modules/productPrices/ProductPrice")
 );
 const ReadyToCargo = React.lazy(
-    () => import("../modules/logestic/cargo/ReadyToCargo")
+    () => import("../modules/cargoAnnouncment/ReadyToCargo")
 );
 const CustomerWarehouse = React.lazy(
     () => import("../modules/customerWarehouse/CustomerWarehouse")
 );
 
 const CargoList = React.lazy(
-    () => import("../modules/logestic/cargo/CargoList")
+    () => import("../modules/cargoAnnouncment/CargoList")
 );
 const CargoForm = React.lazy(
-    () => import("../modules/logestic/cargo/CargoForm")
+    () => import("../modules/cargoAnnouncment/CargoForm")
 );
 const CargoEditForm = React.lazy(
-    () => import("../modules/logestic/cargo/CargoEditForm")
+    () => import("../modules/cargoAnnouncment/CargoEditForm")
 );
 const RecievePayment = React.lazy(
     () => import("../modules/payment/RecievePayment")

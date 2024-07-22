@@ -9,10 +9,10 @@ import { Search } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
-import { useGetCargosList } from "../core/_hooks";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import { readyToLadingColumns } from "../../managment-order/helpers/columns";
 import { dropdownCustomer } from "../../../../_cloner/helpers/Dropdowns";
+import { useGetCargosList } from "../../cargoAnnouncment/_hooks";
 
 const pageSize = 20;
 

@@ -4,20 +4,20 @@ import { Edit, LayersClear, Search } from "@mui/icons-material";
 import { Tooltip, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FormikInput from "../../../../_cloner/components/FormikInput";
-import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import FormikInput from "../../../_cloner/components/FormikInput";
+import FormikSelect from "../../../_cloner/components/FormikSelect";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 
-import { useGetCustomers } from "../../customer/core/_hooks";
-import { useGetCargosList, useRevokeCargoById } from "../core/_hooks";
-import { readyToLadingColumns } from "../../managment-order/helpers/columns";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import Pagination from "../../../../_cloner/components/Pagination";
-import Backdrop from "../../../../_cloner/components/Backdrop";
-import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
-import { dropdownCustomer } from "../../../../_cloner/helpers/Dropdowns";
+import { useGetCustomers } from "../customer/core/_hooks";
+import { readyToLadingColumns } from "../managment-order/helpers/columns";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import Pagination from "../../../_cloner/components/Pagination";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import { dropdownCustomer } from "../../../_cloner/helpers/Dropdowns";
+import { useGetCargosList, useRevokeCargoById } from "./_hooks";
 
 const pageSize = 100
 

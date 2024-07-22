@@ -4,9 +4,9 @@ import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import { Card, Container } from "@mui/material";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import { useParams } from "react-router-dom";
-import { useCargoById } from "../logestic/core/_hooks";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { Print } from "@mui/icons-material";
+import { useCargoById } from "../cargoAnnouncment/_hooks";
 
 const LadingPermitPrint = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay}: any = useParams()

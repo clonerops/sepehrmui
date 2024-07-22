@@ -11,9 +11,9 @@ import { Formik } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import { useEffect, useState } from "react"
 import Pagination from "../../../../_cloner/components/Pagination"
-import { dropdownTransferRemittanceStatus } from "../helpers/dropdowns"
 import { useGetTransferRemittanceStatus } from "../../generic/_hooks"
 import RadioGroup from "../../../../_cloner/components/RadioGroup"
+import { dropdownTransferRemittanceStatus } from "../../../../_cloner/helpers/Dropdowns"
 
 
 const pageSize = 100

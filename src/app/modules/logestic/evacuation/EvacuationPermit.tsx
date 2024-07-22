@@ -6,7 +6,6 @@ import { Button, Typography } from "@mui/material";
 import { NumbersOutlined, DateRangeRounded, TypeSpecimenTwoTone, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, Description } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { Formik, FormikErrors } from "formik";
-import { dropdownVehicleType } from "../helpers/dropdowns";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
     useGetTransferRemitanceById,
@@ -25,6 +24,7 @@ import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmo
 import MaskInput from "../../../../_cloner/components/MaskInput";
 import { evacuationValidation } from "./_validation";
 import FileUpload from "../../../../_cloner/components/FileUpload";
+import { dropdownVehicleType } from "../../../../_cloner/helpers/Dropdowns";
 
 const initialValues = {
     id: 0,
