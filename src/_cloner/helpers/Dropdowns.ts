@@ -119,6 +119,58 @@ const dropdownUnit = (data: any) => {
         })
     );
 };
+
+const dropdownCashDesk = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { cashDeskDescription: string, id: string }): any => {
+            const { cashDeskDescription,  id } = obj;
+            return { value: id, label: cashDeskDescription };
+        })
+    );
+};
+
+const dropdownPermissions = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, description:string }): any => {
+            const { description, id } = obj;
+            return { value: id, label: description };
+        })
+    );
+};
+
+
+const dropdownApplicationMenu = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, description:string }): any => {
+            const { description, id } = obj;
+            return { value: id, label: description };
+        })
+    );
+};
+
+const dropdownPermissionsByMenu = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, description:string }): any => {
+            const { description, id } = obj;
+            return { value: id, label: description };
+        })
+    );
+};
+
+const dropdownRole = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, name:string }): any => {
+            const { name, id } = obj;
+            return { value: id, label: name };
+        })
+    );
+};
+
 export {
     dropdownBrand,
     dropdownCustomer,
@@ -131,5 +183,10 @@ export {
     dropdownOrganzationBank,
     dropdownState,
     dropdownTypes,
-    dropdownUnit
+    dropdownUnit,
+    dropdownCashDesk,
+    dropdownPermissions,
+    dropdownApplicationMenu,
+    dropdownPermissionsByMenu,
+    dropdownRole
 }

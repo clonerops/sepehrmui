@@ -1,7 +1,7 @@
 import FormikSelect from './FormikSelect'
 import { useGetCashDesks } from '../../app/modules/cashDesk/_hooks';
-import { dropdownCashDesk } from '../../app/modules/cashDesk/convertDropdown';
 import { ICashDesk } from '../../app/modules/cashDesk/_models';
+import { dropdownCashDesk } from '../helpers/Dropdowns';
 
 const FormikCashDesk = (props: any) => {
     const { data: CashDesk } = useGetCashDesks();

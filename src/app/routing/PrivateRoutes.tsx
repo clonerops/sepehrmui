@@ -29,7 +29,7 @@ const ReadyToExit = React.lazy(
     () => import("../modules/logestic/exit/ReadyToExit")
 );
 const Permissions = React.lazy(
-    () => import("../modules/access/permissions/Permissions")
+    () => import("../modules/permissions/Permissions")
 );
 const TransferRemitancesList = React.lazy(
     () => import("../modules/logestic/entrance/TransferRemittancesList")
@@ -174,10 +174,10 @@ const RoleUser = React.lazy(
     () => import("../modules/user/components/RoleUser")
 );
 const ProductInventories = React.lazy(
-    () => import("../modules/generic/productInventories/productInventory/ProductInventories")
+    () => import("../modules/productInventories/productInventory/ProductInventories")
 );
 const ProductInventoriesSepehr = React.lazy(
-    () => import("../modules/generic/productInventories/productInventorySepehr/ProductInventories")
+    () => import("../modules/productInventories/productInventorySepehr/ProductInventories")
 );
 const ProductService = React.lazy(
     () => import("../modules/productService/ProductService")
@@ -200,8 +200,8 @@ const ExitRemittance = React.lazy(
 const ExitRemittanceList = React.lazy(
     () => import("../modules/logestic/exit/ReadyToExit")
 );
-const Roles = React.lazy(() => import("../modules/access/roles/Roles"));
-const RoleGroups = React.lazy(() => import("../modules/access/groups/Groups"));
+const Roles = React.lazy(() => import("../modules/role/Roles"));
+const RoleGroups = React.lazy(() => import("../modules/groups/Groups"));
 // const GroupForm = React.lazy(
 //     () => import("../modules/access/groups/GroupForm")
 // );

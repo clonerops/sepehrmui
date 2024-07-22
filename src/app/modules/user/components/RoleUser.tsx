@@ -1,13 +1,13 @@
 import { Chip, Stack, Typography } from "@mui/material";
 
-import { IUserRole } from "../../access/roles/core/_models";
 import { useParams, useSearchParams } from "react-router-dom";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { Add, Close } from "@mui/icons-material";
-import { useGetApplicationRoles } from "../../access/groups/_hooks";
-import { useDeleteUserRoles, useGetUserRoles, usePostUserRoles } from "../../access/user-roles/_hooks";
+import { useGetApplicationRoles } from "../../groups/_hooks";
+import { useDeleteUserRoles, useGetUserRoles, usePostUserRoles } from "../../user-roles/_hooks";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
 import Backdrop from "../../../../_cloner/components/Backdrop";
+import { IUserRole } from "../../user-roles/_models";
 
 const RoleUser = () => {
     const { id }: any = useParams();
