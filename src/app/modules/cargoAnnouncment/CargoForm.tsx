@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { Formik, FormikErrors } from "formik"
 import { Button, Fab, Tooltip, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
-import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, Person, Share } from "@mui/icons-material"
+import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, OpenInBrowser, Person, Share } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
 import { useGetVehicleTypes } from "../generic/_hooks"
@@ -31,6 +31,7 @@ import FileUpload from "../../../_cloner/components/FileUpload"
 import { useCreateCargo, useGetCargosList } from "./_hooks"
 import { ICargo, ICargoFilter } from "./_models"
 import { dropdownVehicleType } from "../../../_cloner/helpers/Dropdowns"
+import TransitionsModal from "../../../_cloner/components/ReusableModal"
 
 const initialValues = {
     driverName: "",
@@ -61,6 +62,7 @@ const CargoForm = () => {
     const [ladingAmount, setLadingAmount] = useState<{ [key: string]: string }>({})
     const [files, setFiles] = useState<File[]>([]);
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     useEffect(() => {
         if (files.length > 0) {
@@ -294,8 +296,8 @@ const CargoForm = () => {
                 <ReusableCard cardClassName={"col-span-3"}>
                     <div className="flex justify-between items-center mb-4">
                         <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
-                        <Button variant="contained" size="small" className="flex justify-center items-center !bg-indigo-500">
-                           <Typography variant="h5" className="text-white px-4 py-2">اعلام بار های قبلی</Typography>
+                        <Button onClick={() => setIsOpen(true)} variant="contained" size="small" className="flex justify-center items-center !bg-indigo-500">
+                           <OpenInBrowser /><Typography variant="h5" className="text-white px-4 py-2">اعلام بار های قبلی</Typography>
                         </Button>
                     </div>
                     <MuiTable tooltipTitle={orderTools?.data?.data?.description ? <Typography>{orderTools?.data?.data?.description}</Typography> : ""} onDoubleClick={(item: any) => handleSelectProduct(item)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={orderTools?.data?.data?.details} columns={orderOrderColumnMain} />
@@ -347,6 +349,10 @@ const CargoForm = () => {
                     }}
                 </Formik>
             </ReusableCard>
+            <TransitionsModal  width="80%" title="لیست اعلام بارهای قبلی" open={isOpen} isClose={() => setIsOpen(false)}>
+                <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
+            </TransitionsModal>
+
         </>
     )
 }
