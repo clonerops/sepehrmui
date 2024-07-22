@@ -181,13 +181,13 @@ const CustomerCompanies = React.lazy(
     () => import("../modules/customerCompany/CustomerCompany")
 );
 const LadingPermit = React.lazy(
-    () => import("../modules/logestic/lading/LadingLicence")
+    () => import("../modules/ladingLicence/LadingLicence")
 );
 const LadingList = React.lazy(
-    () => import("../modules/logestic/lading/LadingList")
+    () => import("../modules/ladingLicence/LadingList")
 );
 const ReadyToLading = React.lazy(
-    () => import("../modules/logestic/lading/ReadyToLading")
+    () => import("../modules/ladingLicence/ReadyToLading")
 );
 const ExitRemittance = React.lazy(
     () => import("../modules/logestic/exit/ExitRemittance")

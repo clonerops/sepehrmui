@@ -6,19 +6,16 @@ import { Link, useNavigate } from "react-router-dom";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../_cloner/components/FormikInput";
-import FormikSelect from "../../../_cloner/components/FormikSelect";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import Pagination from "../../../_cloner/components/Pagination";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import FormikCustomer from "../../../_cloner/components/FormikCustomer";
 
-import { useGetCustomers } from "../customer/core/_hooks";
 import { readyToLadingColumns } from "../managment-order/helpers/columns";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
-import { dropdownCustomer } from "../../../_cloner/helpers/Dropdowns";
 import { useGetCargosList, useRevokeCargoById } from "./_hooks";
-import FormikCustomer from "../../../_cloner/components/FormikCustomer";
 
 const pageSize = 100
 

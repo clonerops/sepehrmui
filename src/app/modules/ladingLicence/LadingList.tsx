@@ -1,32 +1,33 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetLadingPermitListByMutation, useRevokeLadingById } from "../core/_hooks";
-import { ladingColumns } from "../../managment-order/helpers/columns";
+import { ladingColumns } from "../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
 import { LayersClear, Print } from "@mui/icons-material";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import Backdrop from "../../../../_cloner/components/Backdrop";
-import Pagination from "../../../../_cloner/components/Pagination";
-import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import Pagination from "../../../_cloner/components/Pagination";
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import { useGetLadingLicenceListByMutation, useRevokeLadingById } from "./_hooks";
 
 const pageSize = 100;
 
 const LadingList = () => {
+    const ladingList = useGetLadingLicenceListByMutation();
+    const revokeLading = useRevokeLadingById()
+    
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [approve, setApprove] = useState<boolean>(false);
     const [selecetdId, setSelectedId] = useState<number>(0)
 
-    const ladingList = useGetLadingPermitListByMutation();
-    const revokeLading = useRevokeLadingById()
 
 
     useEffect(() => {
         let formData = {
-            pageNumber: currentPage,
-            pageSize: pageSize,
+            PageNumber: currentPage,
+            PageSize: pageSize,
         };
         ladingList.mutate(formData);
         //  eslint-disable-next-line
