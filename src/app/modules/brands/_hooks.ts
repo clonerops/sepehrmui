@@ -3,7 +3,8 @@ import * as api from './_requests'
 import { IBrand } from "./_models"
 
 const useGetBrands = () => {
-    return useQuery(['brands'], () => api.getBrands(),  {
+    return useQuery(['Brands'], () => 
+        api.getBrands(),  {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
@@ -18,7 +19,7 @@ const usePostBrands = () => {
 
 
 const useGetBrand = (id: string) => {
-    return useQuery(['brands', id], () => api.getBrand(id))
+    return useQuery(['Brands', id], () => api.getBrand(id))
 }
 
 const useUpdateBrands = () => {

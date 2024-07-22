@@ -29,31 +29,16 @@ const validation = Yup.object({
 });
 
 const Brands = () => {
-    const { data: brands, refetch, isLoading: brandLoading } = useGetBrands();
-    const { mutate: postBrand, isLoading: postLoading } = usePostBrands();
-    const { mutate: updateBrand, isLoading: updateLoading } = useUpdateBrands();
-    // const { mutate: deleteBrand } = useDeleteBrands();
+    const brandTools = useGetBrands()
+    const postBrandTools = usePostBrands()
+    const updateBrandTools = useUpdateBrands()
 
     const [results, setResults] = useState<IBrand[]>([]);
 
     useEffect(() => {
-        setResults(brands?.data);
+        setResults(brandTools?.data?.data);
          // eslint-disable-next-line
-    }, [brands?.data]);
-
-    // const handleDelete = (id: number) => {
-    //     if (id)
-    //         deleteBrand(id, {
-    //             onSuccess: (response) => {
-    //                 if(response.succeeded) {
-    //                     EnqueueSnackbar(response.message, "success")
-    //                   } else {
-    //                     EnqueueSnackbar(response.data.Message, "error")
-    //                   }
-    //                   refetch();
-    //                         },
-    //         });
-    // };
+    }, [brandTools?.data?.data]);
 
     const onUpdateStatus = (rowData: any) => {
         try {
@@ -62,14 +47,14 @@ const Brands = () => {
                 name: rowData.row.name,
                 isActive: !rowData.row.isActive,
             };
-            updateBrand(formData, {
+            updateBrandTools.mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-                    refetch()
+                    brandTools.refetch()
                 },
             });
         } catch (e) {
@@ -120,37 +105,29 @@ const Brands = () => {
             />
         );
     };
-    // const renderAction = (item: any) => {
-    //     return (
-    //         <div  className="flex gap-4">
-    //             <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
-    //         </div>
-    //     );
-    // };
 
-    if (brandLoading) {
-        return <Backdrop loading={brandLoading} />;
-    }
 
     return (
         <>
-            {postLoading && <Backdrop loading={postLoading} />}
-            {updateLoading && <Backdrop loading={updateLoading} />}
+            {brandTools.isLoading && <Backdrop loading={brandTools.isLoading} />}
+            {postBrandTools.isLoading && <Backdrop loading={postBrandTools.isLoading} />}
+            {updateBrandTools.isLoading && <Backdrop loading={updateBrandTools.isLoading} />}
+            
             <div className="flex flex-col lg:flex-row gap-4 mb-4">
                 <CardWithIcons
                     title='تعداد برند های ثبت شده'
                     icon={<DesignServices className="text-white" />}
-                    value={brands?.data?.length}
+                    value={brandTools?.data?.data?.length}
                     iconClassName='bg-[#3322D8]' />
                 <CardWithIcons
                     title='تعداد سرویس ها در وضعیت فعال'
                     icon={<AddTask className="text-white" />}
-                    value={_.filter(brands?.data, 'isActive').length}
+                    value={_.filter(brandTools?.data?.data, 'isActive').length}
                     iconClassName='bg-[#369BFD]' />
                 <CardWithIcons
                     title='تعداد سرویس ها در وضعیت غیرفعال'
                     icon={<TextDecrease className="text-white" />}
-                    value={_.filter(brands?.data, (item) => !item.isActive).length}
+                    value={_.filter(brandTools?.data?.data, (item) => !item.isActive).length}
                     iconClassName='bg-[#F8B30E]' />
                 <CardWithIcons
                     title='تعداد سرویس های ثبت امروز'
@@ -173,12 +150,12 @@ const Brands = () => {
                                     const formData = {
                                         name: values.name,
                                     };
-                                    postBrand(formData, {
+                                    postBrandTools.mutate(formData, {
                                         onSuccess: (response) => {
                                             if (response.succeeded) {
                                                 EnqueueSnackbar(response.message, "success")
                                                 setFieldValue('id', response.data.id)
-                                                refetch();
+                                                brandTools.refetch();
                                             } else {
                                                 EnqueueSnackbar(response.data.Message, "warning")
                                             }
@@ -196,23 +173,10 @@ const Brands = () => {
                                         onSubmit={handleSubmit}
                                         className="mb-4"
                                     >
-                                        <div
-                                            
-                                            className="md:flex md:justify-start md:items-start gap-x-4"
-                                        >
-                                            <FormikInput
-                                                name="id"
-                                                label="کد برند"
-                                                disabled={true}
-                                                boxClassName="mt-2 md:mt-0"
-                                            />
-                                            <FormikInput
-                                                name="name"
-                                                label="نام برند"
-                                                boxClassName="mt-2 md:mt-0"
-                                                autoFocus={true}
-                                            />
-                                            <div  className="mt-2 md:mt-0">
+                                        <div className="md:flex md:justify-start md:items-start gap-x-4">
+                                            <FormikInput name="id" label="کد برند" disabled={true} boxClassName="mt-2 md:mt-0"/>
+                                            <FormikInput name="name" label="نام برند" boxClassName="mt-2 md:mt-0" autoFocus={true}/>
+                                            <div className="mt-2 md:mt-0">
                                                 <ButtonComponent>
                                                     <Typography className="px-2">
                                                         <AddCircleOutline />
@@ -227,7 +191,7 @@ const Brands = () => {
                         <div className="mb-4">
                             <FuzzySearch
                                 keys={["id", "name"]}
-                                data={brands?.data}
+                                data={brandTools?.data?.data}
                                 threshold={0.5}
                                 setResults={setResults}
                             />
@@ -235,7 +199,7 @@ const Brands = () => {
                         <MuiDataGrid
                             columns={columns(renderSwitch)}
                             rows={results}
-                            data={brands?.data}
+                            data={brandTools?.data?.data}
                             onDoubleClick={(item: any) => onUpdateStatus(item)}
                         />
 
