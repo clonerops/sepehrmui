@@ -16,6 +16,7 @@ import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import FormikWarehouseMultiplie from '../../../_cloner/components/FormikWarehouseMiltiplie'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
+import { CustomerWarehouseColumn, CustomerWarehousesColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues: any = {
   id: 0,
@@ -56,75 +57,7 @@ const CustomerWarehouse = () => {
 
   }
 
-  const columns = () => {
-    const col = [
-      {
-        field: "customerCode",
-        headerName: "کدمشتری",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params?.row?.customerCode}</Typography>;
-        },
-        headerClassName: "headerClassName",
-        minWidth: 80,
-        maxWidth: 80,
-        flex: 1,
-      },
-      {
-        field: "customerName",
-        headerName: "نام مشتری",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params?.row?.firstName} {params?.row?.lastName}</Typography>;
-        },
-        headerClassName:
-          "headerClassName",
-        minWidth: 120,
-        flex: 1,
-      },
 
-      {
-        field: "warehouses",
-        headerName: "انبارها",
-        renderCell: (params: any) => {
-          return <Button variant='contained' color='secondary' onClick={() => {
-            setSelectedItems(params.row)
-            setIsOpen(true)
-          }}>
-            <Typography>لیست انبار</Typography>
-          </Button>
-        },
-        headerClassName: "headerClassName",
-        flex: 1,
-        minWidth: 160,
-      },
-    ];
-    return col;
-  };
-
-  const columnsWarehouse = () => {
-    const col = [
-      {
-        field: "id",
-        headerName: "کد انبار",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params?.value}</Typography>;
-        },
-        headerClassName: "headerClassName",
-        flex: 1,
-      },
-      {
-        field: "name",
-        headerName: "نام انبار",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params?.value}</Typography>;
-        },
-        headerClassName:
-          "headerClassName",
-        flex: 1,
-      },
-
-    ];
-    return col;
-  };
 
   if (customers.isLoading) {
     return <Backdrop loading={customers.isLoading} />;
@@ -168,7 +101,7 @@ const CustomerWarehouse = () => {
                 />
               </div>
               <MuiDataGrid
-                columns={columns()}
+                columns={CustomerWarehousesColumn(setSelectedItems, setIsOpen)}
                 rows={results}
                 data={customers?.data?.data}
                 onDoubleClick={(item: any) => {
@@ -210,7 +143,7 @@ const CustomerWarehouse = () => {
       </div>
       <TransitionsModal open={isOpen} isClose={() => setIsOpen(false)} title='لیست انبارها'>
         <MuiDataGrid
-          columns={columnsWarehouse()}
+          columns={CustomerWarehouseColumn()}
           rows={selectedItems?.warehouses?.length > 0 ? selectedItems?.warehouses : [{}]}
           data={selectedItems?.warehouses?.length > 0 ? selectedItems?.warehouses : [{}]}
         />

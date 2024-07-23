@@ -1,26 +1,25 @@
 import { http } from "../../../_cloner/helpers/axiosConfig";
-import { ISuppliers } from "./_models";
+import { ISupplierFilter, ISuppliers } from "./_models";
+import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl";
 
-const retrieveSuppliers = async (PageNumber: number | null | string = "", PageSize: number | null | string = "") => {
-    let url: string = ``;
+const retrieveSuppliers = async () => {
+    try {
 
-    if (PageNumber || PageSize === "") {
-        url = `/v${1}/ProductSupplier`;
-    } else {
-        url = `/v${1}/ProductSupplier?PageNumber=${PageNumber}&PageSize=${PageSize}`;
+        // const { data } = await http.get(`${generateURLQueryParam('/v1/ProductSupplier', filter)}`);
+        const { data } = await http.get(`/v1/ProductSupplier`);
+        return data;
+    
+    } catch (error: any) {
+        return error.response
     }
-
-    const { data } = await http.get(url);
-    return data;
 };
 
 const createSuppliers = async (formData: ISuppliers) => {
     try {
-        const { data } = await http.post(
-            `/v${1}/ProductSupplier`,
-            JSON.stringify(formData)
-        );
+
+        const { data } = await http.post(`/v1/ProductSupplier`, JSON.stringify(formData));
         return data;
+    
     } catch (error: any) {
         return error.response;
     }
@@ -28,8 +27,10 @@ const createSuppliers = async (formData: ISuppliers) => {
 
 const retrieveSupplierById = async (id: string) => {
     try {
-        const { data } = await http.get(`/v${1}/ProductSupplier/${id}`);
+
+        const { data } = await http.get(`/v1/ProductSupplier/${id}`);
         return data;
+    
     } catch (error: any) {
         return error?.response;
     }
@@ -37,11 +38,10 @@ const retrieveSupplierById = async (id: string) => {
 
 const updateSupplier = async (formData: ISuppliers) => {
     try {
-        const { data } = await http.put(
-            `/v${1}/ProductSupplier/${formData.id}`,
-            JSON.stringify(formData)
-        );
+
+        const { data } = await http.put( `/v1/ProductSupplier/${formData.id}`, JSON.stringify(formData));
         return data;
+    
     } catch (error: any) {
         return error?.response;
     }
@@ -49,8 +49,10 @@ const updateSupplier = async (formData: ISuppliers) => {
 
 const deleteSupplier = async (id: string) => {
     try {
+
         const { data } = await http.delete(`/v${1}/ProductSupplier/${id}`);
         return data;
+    
     } catch (error: any) {
         return error.response;
     }

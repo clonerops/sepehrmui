@@ -12,7 +12,7 @@ import { enqueueSnackbar } from 'notistack';
 import FormikMaskInput from '../../../_cloner/components/FormikMaskInput';
 import Backdrop from '../../../_cloner/components/Backdrop';
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar';
-import { dropdownCustomer } from '../../../_cloner/helpers/dropdowns';
+import FormikCustomer from '../../../_cloner/components/FormikCustomer';
 
 const initialValues = {
     companyName: "",
@@ -38,8 +38,8 @@ type Props = {
 }
 
 const CustomerCompanyForm = (props: Props) => {
-    const { data: customers } = useGetCustomers();
-    const { mutate: postCustomerCompany, isLoading: postLoading } = usePostCustomerCompanies();
+    const customerTools = useGetCustomers();
+    const postTools = usePostCustomerCompanies();
     const detailTools = useGetCustomerCompanyMutate()
     const updateTools = useUpdateCustomerCompanies()
 
@@ -88,11 +88,12 @@ const CustomerCompanyForm = (props: Props) => {
         switch (type) {
             case "customer":
                 return (
-                    <FormikSelect
-                        disabled={!isNew}
-                        options={dropdownCustomer(customers?.data)}
-                        {...rest}
-                    />
+                    // <FormikSelect
+                    //     disabled={!isNew}
+                    //     options={dropdownCustomer(customerTools?.data?.data)}
+                    //     {...rest}
+                    // />
+                    <FormikCustomer isLabelSetValue disabled={!isNew} {...rest} />
                 );
             case "customerType":
                 return (
@@ -118,8 +119,12 @@ const CustomerCompanyForm = (props: Props) => {
 
 
     const onUpdate = (values: ICustomerCompany) => {
+        const formData: any = {
+            ...values,
+            customerId: values?.customerId?.value ? values?.customerId?.value : "" 
+        }
         try {
-            return updateTools.mutate(values, {
+            return updateTools.mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar("ویرایش با موفقیت انجام شد", "success")
@@ -133,8 +138,13 @@ const CustomerCompanyForm = (props: Props) => {
     };
 
     const onAdd = (values: ICustomerCompany) => {
+        const formData: any = {
+            ...values,
+            customerId: values?.customerId?.value ? values?.customerId?.value : ""
+        }
+
         try {
-            return postCustomerCompany(values, {
+            return postTools.mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         enqueueSnackbar("ایجاد با موفقیت انجام شد", {
@@ -157,26 +167,28 @@ const CustomerCompanyForm = (props: Props) => {
         props.refetch();
     };
 
-
-    if (props.id && detailTools?.isLoading) {
-        return <Typography>Loading ...</Typography>;
+    if(detailTools.isLoading) {
+        return <Backdrop loading={detailTools.isLoading} />
     }
 
     return (
         <>
+            {customerTools.isLoading && <Backdrop loading={customerTools.isLoading} />}
+            {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
-            {postLoading && <Backdrop loading={postLoading} />}
             <Formik
+                enableReinitialize
                 initialValues={
                     isNew
                         ? initialValues
                         : {
                             ...initialValues,
                             ...detailTools?.data?.data,
+                            customerId: {label: detailTools?.data?.data?.customer || "مقدار ندارد", value: detailTools?.data?.data?.customerId}
                         }
                 }
                 validationSchema={customerCompanyValidation} onSubmit={() => { }}>
-                {({ values, setFieldValue }) => {
+                {({ values }) => {
                     return (
                         <form>
                             {fields.map((rowFields) => (
@@ -193,10 +205,7 @@ const CustomerCompanyForm = (props: Props) => {
                                 variant="contained"
                                 color="secondary"
                             >
-                                <Typography
-                                    variant="h3"
-                                    className="px-8 py-2"
-                                >
+                                <Typography variant="h3" className="px-8 py-2" >
                                     ثبت
                                 </Typography>
                             </Button>

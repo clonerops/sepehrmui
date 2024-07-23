@@ -14,10 +14,12 @@ import EditGridButton from "../../../_cloner/components/EditGridButton";
 import SwitchComponent from "../../../_cloner/components/Switch";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { CustomerCompaniesColumn } from "../../../_cloner/helpers/columns";
 
 const CustomerCompanies = () => {
-    const { data: customerCompanies, refetch, isLoading: CustomerCompanyLoading, } = useGetCustomerCompanies("");
+    const customerCompanyTools = useGetCustomerCompanies("");
     const updateTools = useUpdateCustomerCompanies()
+
     const [open, setIsOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ICustomerCompany>();
@@ -26,8 +28,8 @@ const CustomerCompanies = () => {
     const [results, setResults] = useState<ICustomerCompany[]>([]);
 
     useEffect(() => {
-        setResults(customerCompanies?.data);
-    }, [customerCompanies?.data]);
+        setResults(customerCompanyTools?.data?.data);
+    }, [customerCompanyTools?.data?.data]);
 
 
     const onUpdateStatus = (rowData: any) => {
@@ -39,7 +41,7 @@ const CustomerCompanies = () => {
             updateTools.mutate(formData, {
                 onSuccess: () => {
                     EnqueueSnackbar("تغییر وضعیت با موفقیت انجام شد", "success")
-                    refetch();
+                    customerCompanyTools.refetch();
                 },
             });
         } catch (e) {
@@ -50,79 +52,6 @@ const CustomerCompanies = () => {
     const handleEdit = (item: ICustomerCompany) => {
         setItemForEdit(item);
         setIsEditOpen(true);
-    };
-
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                field: "companyName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام شرکت",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "customerFullName",
-                renderCell: (params: any) => {
-                    return (
-                        <Typography variant="h4">
-                            {params.row.customer.firstName +
-                                " " +
-                                params.row.customer.lastName}
-                        </Typography>
-                    );
-                },
-                headerName: "مشتری",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "economicId",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "شناسه اقتصادی",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "nationalId",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "شناسه ملی",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "tel1",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "تلفن",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "tel2",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "موبایل",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
-        ];
-        return col;
     };
 
     const renderAction = (item: any) => {
@@ -137,18 +66,14 @@ const CustomerCompanies = () => {
         );
     };
 
-    if (CustomerCompanyLoading) {
-        return <Backdrop loading={CustomerCompanyLoading} />;
-    }
-
     return (
         <>
+            {customerCompanyTools.isLoading && <Backdrop loading={customerCompanyTools.isLoading} />}
+            {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
             <ReusableCard>
                 <div>
                     <div className="md:flex md:justify-between md:items-center space-y-2">
-                        <div
-                            className="w-auto md:w-[40%] mb-2"
-                        >
+                        <div className="w-auto md:w-[40%] mb-2" >
                             <FuzzySearch
                                 keys={[
                                     "companyName",
@@ -158,8 +83,7 @@ const CustomerCompanies = () => {
                                     "tel1",
                                     "tel2",
                                 ]}
-                                data={customerCompanies?.data}
-                                threshold={0.5}
+                                data={customerCompanyTools?.data?.data}
                                 setResults={setResults}
                             />
                         </div>
@@ -172,18 +96,18 @@ const CustomerCompanies = () => {
                         </Button>
                     </div>
                     <MuiDataGrid
-                        columns={columns(renderAction)}
+                        columns={CustomerCompaniesColumn(renderAction)}
                         rows={results}
-                        data={customerCompanies?.data}
+                        data={customerCompanyTools?.data?.data}
                         onDoubleClick={(item: any) => handleEdit(item?.row)}
                     />
                 </div>
             </ReusableCard>
             <TransitionsModal title="تعریف شرکت رسمی مشتری" open={open} isClose={() => setIsOpen(false)} width="50%">
-                <CustomerCompanyForm refetch={refetch} />
+                <CustomerCompanyForm refetch={customerCompanyTools.refetch} />
             </TransitionsModal>
             <TransitionsModal open={isEditOpen} isClose={() => setIsEditOpen(false)} title="ویرایش" width="50%">
-                <CustomerCompanyForm id={itemForEdit?.id} refetch={refetch} />
+                <CustomerCompanyForm id={itemForEdit?.id} refetch={customerCompanyTools.refetch} />
             </TransitionsModal>
         </>
     );

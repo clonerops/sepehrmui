@@ -2,21 +2,20 @@ import { Formik } from "formik";
 import { Button, Typography } from "@mui/material";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 
-import { useGetCustomers } from "../customer/core/_hooks";
 
-import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
+import moment from "moment-jalaali";
+import Backdrop from "../../../_cloner/components/Backdrop";
+
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { useCreateSupplier, useRetrieveSupplierById, useUpdateSupplier } from "./_hooks";
 import { createSupplierValidations } from "./_validations";
 import { useEffect } from "react";
 import { ISuppliers } from "./_models";
-import moment from "moment-jalaali";
-// import { useRetrieveProducts } from "../products/_hooks";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import { dropdownCustomer, dropdownProduct } from "../../../_cloner/helpers/dropdowns";
-import { useGetProductList } from "../products/_hooks";
+import FormikProduct from "../../../_cloner/components/FormikProductComboSelect";
+import FormikCustomer from "../../../_cloner/components/FormikCustomer";
+
 const initialValues = {
     price: "",
     rentAmount: "",
@@ -34,10 +33,7 @@ const SupplierForm = (props: {
     refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }) => {
     // fetching Data
-    const { mutate, isLoading: postLoading } = useCreateSupplier();
-    const { data: customers } = useGetCustomers()
-    // const { data: products } = useRetrieveProducts()
-    const { data: products } = useGetProductList()
+    const postTools = useCreateSupplier();
     const detailTools = useRetrieveSupplierById()
     const updateTools = useUpdateSupplier();
 
@@ -83,18 +79,22 @@ const SupplierForm = (props: {
 
 
     const onAdd = (values: ISuppliers) => {
+        const formData = {
+            ...values,
+            productId: values.productId.value,
+            customerId: values.customerId.value,
+        }
         try {
-            return mutate(values, {
+            return postTools.mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
-                        props.refetch()
                         props.setIsCreateOpen(false)
-
+                        
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-
+                    props.refetch()
                 },
             });
         } catch (error: any) {
@@ -109,8 +109,8 @@ const SupplierForm = (props: {
             rentAmount: Number(values.rentAmount),
             overPrice: Number(values.overPrice),
             rate: Number(values.rate),
-            customerId: values.customerId,
-            productId: values.productId,
+            customerId: values.customerId.value,
+            productId: values.productId.value,
             priceDate: values.priceDate
         }
 
@@ -126,7 +126,7 @@ const SupplierForm = (props: {
     return (
         <>
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
-            {postLoading && <Backdrop loading={postLoading} />}
+            {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
             <Formik
                 enableReinitialize
                 initialValues={
@@ -142,8 +142,8 @@ const SupplierForm = (props: {
                 {({ handleSubmit, setFieldValue }) => {
                     return <form onSubmit={handleSubmit} className="container">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
-                            <FormikSelect name={"customerId"} label="مشتری" options={dropdownCustomer(customers?.data)} />
-                            <FormikSelect name={"productId"} label="کالا" options={dropdownProduct(products?.data)} />
+                            <FormikCustomer name={"customerId"} label="مشتری" />
+                            <FormikProduct name={"productId"} label="کالا" />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-4">
                             <FormikInput name="price" label="قیمت" type="text" />

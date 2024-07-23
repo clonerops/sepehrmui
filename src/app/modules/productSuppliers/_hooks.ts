@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import * as api from './_requests'
 import { ISuppliers } from "./_models";
 const useRetrieveSuppliers = () => {
-    return useQuery(["suppliers"], () => 
+    return useQuery(["Suppliers"], () => 
         api.retrieveSuppliers(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,

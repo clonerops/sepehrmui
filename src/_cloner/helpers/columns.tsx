@@ -1,4 +1,4 @@
-import { Checkbox, OutlinedInput, Typography } from "@mui/material";
+import { Button, Checkbox, OutlinedInput, Typography } from "@mui/material";
 import { separateAmountWithCommas } from "./seprateAmount";
 import { CallMade, CallReceived } from "@mui/icons-material";
 import { IProducts } from "../../app/modules/products/_models";
@@ -1662,6 +1662,371 @@ const ExitRemittanceColumn = (renderAction: any) => {
     return col
 };
 
+const CustomerWarehousesColumn = (setSelectedItems: React.Dispatch<any>, setIsOpen:React.Dispatch<React.SetStateAction<boolean>>) => {
+    const col = [
+      {
+        field: "customerCode",
+        headerName: "کدمشتری",
+        renderCell: (params: any) => {
+          return <Typography variant="h4">{params?.row?.customerCode}</Typography>;
+        },
+        headerClassName: "headerClassName",
+        minWidth: 80,
+        maxWidth: 80,
+        flex: 1,
+      },
+      {
+        field: "customerName",
+        headerName: "نام مشتری",
+        renderCell: (params: any) => {
+          return <Typography variant="h4">{params?.row?.firstName} {params?.row?.lastName}</Typography>;
+        },
+        headerClassName:
+          "headerClassName",
+        minWidth: 120,
+        flex: 1,
+      },
+
+      {
+        field: "warehouses",
+        headerName: "انبارها",
+        renderCell: (params: any) => {
+          return <Button variant='contained' color='secondary' onClick={() => {
+            setSelectedItems(params.row)
+            setIsOpen(true)
+          }}>
+            <Typography>لیست انبار</Typography>
+          </Button>
+        },
+        headerClassName: "headerClassName",
+        flex: 1,
+        minWidth: 160,
+      },
+    ];
+    return col;
+};
+
+const CustomerWarehouseColumn = () => {
+    const col = [
+      {
+        field: "id",
+        headerName: "کد انبار",
+        renderCell: (params: any) => {
+          return <Typography variant="h4">{params?.value}</Typography>;
+        },
+        headerClassName: "headerClassName",
+        flex: 1,
+      },
+      {
+        field: "name",
+        headerName: "نام انبار",
+        renderCell: (params: any) => {
+          return <Typography variant="h4">{params?.value}</Typography>;
+        },
+        headerClassName:
+          "headerClassName",
+        flex: 1,
+      },
+
+    ];
+    return col;
+};
+
+const CustomerColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "customerCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "کد مشتری",
+            align: "center",
+            headerClassName: "headerClassName",
+            maxWidth: 80,
+            flex: 1
+        },
+        {
+            field: "firstName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نام",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "lastName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نام خانوادگی",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "mobile",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerName: "موبایل",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "representative",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "معرف",
+            headerClassName: "headerClassName",
+            minWidth: 140,
+            flex: 1
+        },
+        {
+            field: "customerValidityDesc",
+            headerName: "اعتبار",
+            minWidth: 100,
+            renderCell: (params: any) => {
+                const backgroundColor = params.row.customerValidityColorCode; // Assuming this code exists in your data
+                return <Typography style={{
+                    backgroundColor: `#${backgroundColor}`,
+                    color: "white"
+                }} className={`rounded-md px-4 py-1`}>{params.value}</Typography>
+            },
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "tel1",
+            headerName: "تلفن",
+            headerClassName: "headerClassName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "isSupplier",
+            headerName: "تامین کننده؟",
+            renderCell: (params: any) => {
+                return <ActiveText params={params} successTitle="بله" dangerTitle="خیر" />
+
+            },
+            headerClassName: "headerClassName",
+            cellClassName: "text-center",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "fatherName",
+            headerName: "نام پدر",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "nationalId",
+            headerName: "کدملی",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            headerName: "عملیات",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 100,
+            flex: 1
+        },
+    ];
+    return col;
+};
+
+const CustomerCompaniesColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "companyName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام شرکت",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "customerFullName",
+            renderCell: (params: any) => {
+                return (
+                    <Typography variant="h4">
+                        {params.row.customer.firstName +
+                            " " +
+                            params.row.customer.lastName}
+                    </Typography>
+                );
+            },
+            headerName: "مشتری",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "economicId",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شناسه اقتصادی",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "nationalId",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شناسه ملی",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "tel1",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "تلفن",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "tel2",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "موبایل",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+    ];
+    return col;
+};
+
+const SuppliersColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "customerFirstName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "نام",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "customerLastName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "نام خانوادگی",
+            headerClassName: "headerClassName",
+            minWidth: 130,
+            flex: 1
+        },
+        {
+            field: "productName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "کالا",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "price",
+            renderCell: (params: any) => {
+                return (
+                    <Typography variant="h4" className="bg-indigo-600 p-1 rounded-md text-white">
+                        {separateAmountWithCommas(params.value) + "تومان"}
+                    </Typography>
+                );
+            },
+            headerName: "قیمت",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "rentAmount",
+            renderCell: (params: any) => {
+                return (
+                    <Typography variant="h4" className="bg-yellow-600 p-1 rounded-md text-white">
+                        {separateAmountWithCommas(params.value) + "تومان"}
+                    </Typography>
+                );
+            },
+            headerName: "کرایه",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "overPrice",
+            renderCell: (params: any) => {
+                return (
+                    <Typography variant="h4" className="bg-sky-600 p-1 rounded-md text-white">
+                        {separateAmountWithCommas(params.value) + "تومان"}
+                    </Typography>
+                );
+            },
+            headerName: "قیمت تمام شده",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "priceDate",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "تاریخ قیمت",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "rate",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "امتیاز",
+            headerClassName: "headerClassName",
+            maxWidth: 60,
+            flex: 1
+        },
+        {
+            headerName: "عملیات",
+            renderCell: renderAction,
+            flex: 1,
+            headerClassName: "headerClassName",
+            minWidth: 100,
+        },
+    ];
+    return col;
+};
 
 export {
     ProductBrandsColumn,
@@ -1689,5 +2054,10 @@ export {
     ReadyToLadingColumn,
     LadingListColumn,
     OrderDetailForExitRemittanceColumn,
-    ExitRemittanceColumn
+    ExitRemittanceColumn,
+    CustomerWarehousesColumn,
+    CustomerWarehouseColumn,
+    CustomerColumn,
+    CustomerCompaniesColumn,
+    SuppliersColumn
 }

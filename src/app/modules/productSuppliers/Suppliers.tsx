@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 
-import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { ISuppliers } from "./_models";
 import { useDeleteSupplier, useRetrieveSuppliers } from "./_hooks";
 
@@ -15,23 +13,19 @@ import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import SupplierForm from "./SupplierForm";
+import { SuppliersColumn } from "../../../_cloner/helpers/columns";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
 const Suppliers = () => {
-    const {
-        data: suppliers,
-        isLoading: suppliersLoading,
-        refetch,
-    } = useRetrieveSuppliers();
-    const {
-        mutate,
-        isLoading: deleteLoading,
-    } = useDeleteSupplier();
+    const supplierTools = useRetrieveSuppliers();
+    const deleteTools = useDeleteSupplier();
+
     const [results, setResults] = useState<ISuppliers[]>([]);
 
     useEffect(() => {
-        setResults(suppliers?.data);
+        setResults(supplierTools?.data?.data);
          // eslint-disable-next-line
-    }, [suppliers?.data]);
+    }, [supplierTools?.data?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -43,11 +37,11 @@ const Suppliers = () => {
     };
     const handleDelete = (id: string | undefined) => {
         if (id)
-            mutate(id, {
+            deleteTools.mutate(id, {
                 onSuccess: (response) => {
                     if(response.succeeded) {
                         EnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
-                        refetch();
+                        supplierTools.refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "error")
                       }
@@ -55,110 +49,6 @@ const Suppliers = () => {
             });
     };
 
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                field: "customerFirstName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "نام",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "customerLastName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "نام خانوادگی",
-                headerClassName: "headerClassName",
-                minWidth: 130,
-                flex: 1
-            },
-            {
-                field: "productName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کالا",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1
-            },
-            {
-                field: "price",
-                renderCell: (params: any) => {
-                    return (
-                        <Typography variant="h4" className="bg-indigo-600 p-1 rounded-md text-white">
-                            {separateAmountWithCommas(params.value) + "تومان"}
-                        </Typography>
-                    );
-                },
-                headerName: "قیمت",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "rentAmount",
-                renderCell: (params: any) => {
-                    return (
-                        <Typography variant="h4" className="bg-yellow-600 p-1 rounded-md text-white">
-                            {separateAmountWithCommas(params.value) + "تومان"}
-                        </Typography>
-                    );
-                },
-                headerName: "کرایه",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "overPrice",
-                renderCell: (params: any) => {
-                    return (
-                        <Typography variant="h4" className="bg-sky-600 p-1 rounded-md text-white">
-                            {separateAmountWithCommas(params.value) + "تومان"}
-                        </Typography>
-                    );
-                },
-                headerName: "قیمت تمام شده",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "priceDate",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "تاریخ قیمت",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "rate",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "امتیاز",
-                headerClassName: "headerClassName",
-                maxWidth: 60,
-                flex: 1
-            },
-            {
-                headerName: "عملیات",
-                renderCell: renderAction,
-                flex: 1,
-                headerClassName: "headerClassName",
-                minWidth: 100,
-            },
-        ];
-        return col;
-    };
 
     const renderAction = (item: any) => {
         return (
@@ -171,13 +61,11 @@ const Suppliers = () => {
 
     return (
         <>
-            {deleteLoading && <Backdrop loading={deleteLoading} />}
-            {suppliersLoading && <Backdrop loading={suppliersLoading} />}
+            {deleteTools.isLoading && <Backdrop loading={deleteTools.isLoading} />}
+            {supplierTools.isLoading && <Backdrop loading={supplierTools.isLoading} />}
+
             <ReusableCard>
-                <div
-                
-                    className="md:flex md:justify-between md:items-center space-y-2"
-                >
+                <div className="md:flex md:justify-between md:items-center space-y-2">
                     <div className="w-auto md:w-[40%] mb-4">
                         <FuzzySearch
                             keys={[
@@ -190,21 +78,18 @@ const Suppliers = () => {
                                 "priceDatepriceDate",
                                 "rate",
                             ]}
-                            data={suppliers?.data}
-                            threshold={0.5}
+                            data={supplierTools?.data?.data}
                             setResults={setResults}
                         />
                     </div>
-                    <ButtonComponent
-                        onClick={() => setIsCreateOpen(true)}
-                    >
+                    <ButtonComponent onClick={() => setIsCreateOpen(true)}>
                         <Typography variant="h4">ایجاد تامین کننده</Typography>
                     </ButtonComponent>
                 </div>
                 <MuiDataGrid
-                    columns={columns(renderAction)}
+                    columns={SuppliersColumn(renderAction)}
                     rows={results}
-                    data={suppliers?.data}
+                    data={supplierTools?.data?.data}
                     onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
             </ReusableCard>
@@ -213,14 +98,14 @@ const Suppliers = () => {
                 isClose={() => setIsCreateOpen(false)}
                 title="ایجاد تامین کننده جدید"
             >
-                <SupplierForm  refetch={refetch} setIsCreateOpen={setIsCreateOpen} />
+                <SupplierForm  refetch={supplierTools.refetch} setIsCreateOpen={setIsCreateOpen} />
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
                 title="ویرایش تامین کننده جدید"
             >
-                <SupplierForm  refetch={refetch} setIsCreateOpen={setIsCreateOpen} id={itemForEdit?.id} items={itemForEdit} />
+                <SupplierForm  refetch={supplierTools.refetch} setIsCreateOpen={setIsCreateOpen} id={itemForEdit?.id} items={itemForEdit} />
             </TransitionsModal>
         </>
     );

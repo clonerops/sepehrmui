@@ -44,10 +44,10 @@ const CustomerForm = (props: {
     // ) => Promise<QueryObserverResult<any, unknown>>;
     refetch?: any;
 }) => {
-    const { mutate, isLoading: postLoading } = useCreateCustomer();
+    const postTools = useCreateCustomer();
     const updateTools = useUpdateCustomer();
     const detailTools = useGetCustomer();
-    const { data: customerValidityData } = useGetCustomerValidities();
+    const validityTools = useGetCustomerValidities();
     const [isChecked, setIsChecked] = useState<boolean>(false);
 
     const isNew = !props.id;
@@ -91,7 +91,7 @@ const CustomerForm = (props: {
         ],
     ];
 
-    const parseFields = (fields: FieldType, values: any) => {
+    const parseFields = (fields: FieldType) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "checkbox":
@@ -112,9 +112,7 @@ const CustomerForm = (props: {
             case "customerValidityId":
                 return (
                     <FormikSelect
-                        options={convertValueLabelCustomerValidaty(
-                            customerValidityData
-                        )}
+                        options={convertValueLabelCustomerValidaty(validityTools?.data)}
                         {...rest}
                     />
                 );
@@ -220,7 +218,7 @@ const CustomerForm = (props: {
             settlementType: isChecked ? 1 : 0,
         };
         try {
-            return mutate(formData, {
+            return postTools.mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
@@ -248,8 +246,11 @@ const CustomerForm = (props: {
 
     return (
         <>
+            {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
-            {postLoading && <Backdrop loading={postLoading} />}
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            {validityTools.isLoading && <Backdrop loading={validityTools.isLoading} />}
+
             <Formik
                 enableReinitialize
                 initialValues={
@@ -263,13 +264,13 @@ const CustomerForm = (props: {
                 validationSchema={createValiadtion}
                 onSubmit={handleSubmit}
             >
-                {({ handleSubmit, values }) => {
+                {({ handleSubmit }) => {
                     return (
                         <form onSubmit={handleSubmit} className="container">
                             {fields.map((rowFields) => (
                                 <div className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4">
                                     {rowFields.map((field) =>
-                                        parseFields(field, values)
+                                        parseFields(field)
                                     )}
                                 </div>
                             ))}

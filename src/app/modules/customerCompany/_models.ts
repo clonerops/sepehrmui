@@ -1,7 +1,7 @@
 export interface ICustomerCompany {
     id?: number | null | undefined
     companyName?: string | null | undefined
-    customerId?: string | null | undefined
+    customerId?: any
     economicId?: string | null | undefined
     postalCode?: string | null | undefined
     nationalId?: string | null | undefined
