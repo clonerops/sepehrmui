@@ -1,6 +1,4 @@
 
-
-
 export interface IEvacuationPermit {
   purchaseOrderTransferRemittanceEntrancePermitId?: number | null | undefined
   purchaseOrderTransferRemittanceOnloadingPermitId?: number | null | undefined

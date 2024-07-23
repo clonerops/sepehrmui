@@ -12,6 +12,7 @@ import InvoiceNotOfficial from "../modules/prints/InvoiceNotOfficial";
 import CustomerLabels from "../modules/customerLabel/CustomerLabel";
 import ExitDetail from "../modules/exitRemittance/ExitDetail";
 import CargoDetail from "../modules/cargoAnnouncment/CargoDetail";
+import TrasnferRemittanceDetails from "../modules/transferRemittance/TransferRemittanceDetails";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -33,25 +34,19 @@ const Permissions = React.lazy(
     () => import("../modules/permissions/Permissions")
 );
 const TransferRemitancesList = React.lazy(
-    () => import("../modules/logestic/entrance/TransferRemittancesList")
-);
-const TransferRemittanceDetails = React.lazy(
-    () => import("../modules/logestic/entrance/TransferRemittanceDetails")
+    () => import("../modules/entrance/ReadyToEntrance")
 );
 const BilllandingEdit = React.lazy(
     () => import("../modules/transferRemittance/TransferRemittanceEdit")
 );
 const EntranceList = React.lazy(
-    () => import("../modules/logestic/entrance/EntranceList")
-);
-const EntranceLading = React.lazy(
-    () => import("../modules/logestic/entrance/EntranceLading")
+    () => import("../modules/entrance/EntranceList")
 );
 const ReadyToEvacuation = React.lazy(
-    () => import("../modules/logestic/evacuation/ReadyToEvacuation")
+    () => import("../modules/evacuation/ReadyToEvacuation")
 );
 const EvacuationPermit = React.lazy(
-    () => import("../modules/logestic/evacuation/EvacuationPermit")
+    () => import("../modules/evacuation/EvacuationPermit")
 );
 const RecievePaymentEdit = React.lazy(
     () => import("../modules/payment/RecievePaymentEdit")
@@ -275,11 +270,9 @@ export const routes: RouteProps[] = [
     { path: "dashboard/billlandingList", element: <ListOfBilllanding /> },
     { path: "dashboard/billlandingList/:id", element: <BilllandingDetails /> },
     { path: "dashboard/transferRemittance", element: <TransferRemitancesList /> },
-    { path: "dashboard/transferRemittance", element: <TransferRemitancesList /> },
-    { path: "dashboard/transferRemittance/:id", element: <TransferRemittanceDetails /> },
+    { path: "dashboard/transferRemittance/:id", element: <TrasnferRemittanceDetails /> },
     { path: "dashboard/entranceList", element: <EntranceList /> },
     { path: "dashboard/entranceReport", element: <EntranceReport /> },
-    { path: "dashboard/entranceLading", element: <EntranceLading /> },
     { path: "dashboard/ready_to_evacuation", element: <ReadyToEvacuation /> },
 
     { path: "dashboard/evacuation/:id/:entranceId", element: <EvacuationPermit /> },

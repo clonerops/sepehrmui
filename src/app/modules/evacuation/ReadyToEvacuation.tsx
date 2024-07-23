@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import ReusableCard from '../../../../_cloner/components/ReusableCard'
+import ReusableCard from '../../../_cloner/components/ReusableCard'
 import { Button, Typography } from '@mui/material'
     import { Link, useNavigate } from 'react-router-dom'
-import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
-import Pagination from '../../../../_cloner/components/Pagination'
-import { evacuationColumns } from '../../managment-order/helpers/columns'
-import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
-import { useGetTransferRemitancesByMutation } from '../../transferRemittance/_hooks'
+import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
+import Pagination from '../../../_cloner/components/Pagination'
+import { evacuationColumns } from '../managment-order/helpers/columns'
+import SearchFromBack from '../../../_cloner/components/SearchFromBack'
+import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
 
 const pageSize = 20
 
