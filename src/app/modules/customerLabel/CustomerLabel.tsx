@@ -15,7 +15,7 @@ import Backdrop from '../../../_cloner/components/Backdrop'
 import { ILabel } from "./_models"
 import { useGetLabels, usePostLabels, useUpdateLabels } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 
 const initialValues = {
   id: 0,

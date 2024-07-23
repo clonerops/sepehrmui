@@ -12,7 +12,7 @@ import { FormikProps } from 'formik'
 import { useGetServices } from '../../generic/_hooks'
 import { calculateTotalAmount } from '../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import { FC, memo } from 'react'
 
 interface IProps {

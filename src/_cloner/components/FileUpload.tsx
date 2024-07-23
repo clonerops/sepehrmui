@@ -3,7 +3,7 @@ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 // import ReactPanZoom from "react-image-pan-zoom-rotate";
 import Zoom from 'react-medium-image-zoom'
-import { EnqueueSnackbar } from '../helpers/Snackebar';
+import { EnqueueSnackbar } from '../helpers/snackebar';
 
 interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')

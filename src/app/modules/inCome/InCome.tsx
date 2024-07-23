@@ -14,7 +14,7 @@ import ReusableCard from '../../../_cloner/components/ReusableCard'
 import { IIncome } from "./_models"
 import { useGetIncomes, usePostIncomes, useUpdateIncomes } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import { IncomeColumn } from '../../../_cloner/helpers/columns'
 

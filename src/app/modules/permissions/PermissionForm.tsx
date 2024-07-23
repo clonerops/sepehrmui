@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-query";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import { IconButton } from "@mui/material";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { useGetPermission, usePostPermissions, useUpdatePermissions } from "./_hooks";
 import { IPermission } from "./_models";
 import { AddCircleOutline, Edit } from "@mui/icons-material";

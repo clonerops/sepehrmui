@@ -20,7 +20,7 @@ import PurchaserChoose from './components/PurchaserChoose'
 import { useCreatePurchaserOrder } from '../core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useGetProductList } from '../../products/_hooks'
 

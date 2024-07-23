@@ -8,7 +8,7 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import moment from "moment-jalaali";
 import Backdrop from "../../../_cloner/components/Backdrop";
 
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { useCreateSupplier, useRetrieveSupplierById, useUpdateSupplier } from "./_hooks";
 import { createSupplierValidations } from "./_validations";
 import { useEffect } from "react";

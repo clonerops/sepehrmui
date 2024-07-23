@@ -14,7 +14,7 @@ import { IRentPaymentFields } from "./core/_models"
 import { FC } from "react"
 import { usePostRentPayments } from "./core/_hooks"
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert"
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 
 
 interface IProps {

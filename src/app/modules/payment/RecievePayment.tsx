@@ -6,7 +6,7 @@ import moment from 'moment-jalaali'
 
 import { usePostRecievePayment } from './core/_hooks'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { dropdownReceivePaymentResource } from '../../../_cloner/helpers/dropdowns'
 
 import FormikSelect from '../../../_cloner/components/FormikSelect'

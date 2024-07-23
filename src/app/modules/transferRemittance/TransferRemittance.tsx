@@ -22,7 +22,7 @@ import { useGetVehicleTypes, useGetWarehouses } from "../generic/_hooks";
 import { useGetProductList } from "../products/_hooks";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { AddTask, DesignServices } from "@mui/icons-material";
 import { TransferRemittanceValidation } from "./_validation";
 import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";

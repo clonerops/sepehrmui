@@ -16,7 +16,7 @@ import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 
 import { IState } from "./_models"
 import { useGetStates, usePostState, useUpdateState } from './_hooks'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { ProductStateColumn } from '../../../_cloner/helpers/columns'
 

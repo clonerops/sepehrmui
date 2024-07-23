@@ -12,7 +12,7 @@ import { IOrderItems, IOrderPayment, IOrderService } from "../core/_models";
 import { sliceNumberPriceRial } from "../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateProximateAmount, calculateTotalAmount } from "../helpers/functions";
 import { FormikProps } from "formik";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import { FC, memo, useMemo } from "react";
 
 interface IProps {

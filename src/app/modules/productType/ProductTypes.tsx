@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { IType } from "./_models"
 import { useDeleteTypes, useGetTypes, useUpdateTypes } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { ProductTypesColumn } from '../../../_cloner/helpers/columns'
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"

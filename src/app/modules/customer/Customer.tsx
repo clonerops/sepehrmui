@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDeleteCustomer, useGetCustomers } from "./core/_hooks";
 import { ICustomer } from "./core/_models";
 import { Button, Typography } from "@mui/material";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { Add } from "@mui/icons-material";
 import { CustomerColumn } from "../../../_cloner/helpers/columns";
 

@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { Formik } from "formik";
 import { FC } from "react";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 
 import FormikInput from "../../../_cloner/components/FormikInput";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";

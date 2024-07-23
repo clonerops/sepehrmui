@@ -20,7 +20,7 @@ import { separateAmountWithCommas } from '../../../../_cloner/helpers/seprateAmo
 import { toAbsoulteUrl } from '../../../../_cloner/helpers/assetsHelper'
 import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import OrderDetailBaseOrderCode from './components/OrderDetailBaseOrderCode'
 import { useGetProductList } from '../../products/_hooks'
 

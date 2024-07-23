@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { Badge, Button, Typography } from "@mui/material"
 import { useDisApprovePaymentApproved, useGetRecievePaymentById, useUpdatePaymentApproved } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePDF, DownloadFilePNG } from "../../../../_cloner/helpers/downloadFiles"
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"

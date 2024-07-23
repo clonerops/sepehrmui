@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Formik } from "formik";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, UseMutationResult } from "@tanstack/react-query";
 import { Button, Typography } from "@mui/material";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { useCreateProduct, useRetrieveProduct, useUpdateProduct } from "./_hooks";
 import { IProductFilters, IProducts } from "./_models";
 import { createProductValidations } from "./_validations";

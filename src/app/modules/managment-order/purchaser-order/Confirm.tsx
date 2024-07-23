@@ -20,7 +20,7 @@ import { useGetCustomerCompaniesMutate } from "../../customerCompany/_hooks";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
 import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 // import { useRetrieveProductsByBrand } from "../../products/_hooks";
 import { dropdownProductByInventory } from "../../../../_cloner/helpers/dropdowns";
 import { useGetProductList } from "../../products/_hooks";

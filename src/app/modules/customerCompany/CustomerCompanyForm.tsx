@@ -11,7 +11,7 @@ import { ICustomerCompany } from './_models';
 import { enqueueSnackbar } from 'notistack';
 import FormikMaskInput from '../../../_cloner/components/FormikMaskInput';
 import Backdrop from '../../../_cloner/components/Backdrop';
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar';
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar';
 import FormikCustomer from '../../../_cloner/components/FormikCustomer';
 
 const initialValues = {

@@ -23,7 +23,7 @@ import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount
 import { submitCargoValidation } from "./_validations"
 import { useRetrieveOrder } from "../managment-order/core/_hooks"
 import { useEffect, useState } from "react"
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 import MaskInput from "../../../_cloner/components/MaskInput"
 import { convertFilesToBase64 } from "../../../_cloner/helpers/convertToBase64"
 import FileUpload from "../../../_cloner/components/FileUpload"

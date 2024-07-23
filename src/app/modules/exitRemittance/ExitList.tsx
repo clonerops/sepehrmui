@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Tooltip, Typography } from "@mui/material";
 import { Approval, LayersClear, Print, Visibility } from "@mui/icons-material";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";

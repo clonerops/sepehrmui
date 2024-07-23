@@ -8,7 +8,7 @@ import { useGetReceivePaymentSources } from '../generic/_hooks'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 import { useParams } from 'react-router-dom'
 import { DateRange, Paid } from '@mui/icons-material'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
 import { dropdownReceivePaymentResource } from '../../../_cloner/helpers/dropdowns'
 

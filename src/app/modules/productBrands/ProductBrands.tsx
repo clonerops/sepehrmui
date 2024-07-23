@@ -4,7 +4,7 @@ import { Formik } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
 import { IProductBrand } from "./_models"
 import { useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
 import { ProductBrandsColumn } from '../../../_cloner/helpers/columns'
 

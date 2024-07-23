@@ -5,7 +5,7 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import {  Formik } from "formik";
 import { useEffect, useState } from "react";
 import { IRoleMenu } from "./_models";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import Backdrop from "../../../_cloner/components/Backdrop";
 
 const initialValues: IRoleMenu = {

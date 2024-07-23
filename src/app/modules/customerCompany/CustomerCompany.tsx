@@ -13,7 +13,7 @@ import CustomerCompanyForm from "./CustomerCompanyForm";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import SwitchComponent from "../../../_cloner/components/Switch";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { CustomerCompaniesColumn } from "../../../_cloner/helpers/columns";
 
 const CustomerCompanies = () => {

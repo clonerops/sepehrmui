@@ -13,7 +13,7 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { ICustomer } from "../core/_models";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import { createValiadtion } from "../_validation";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 
 const initialValues = {
     firstName: "",

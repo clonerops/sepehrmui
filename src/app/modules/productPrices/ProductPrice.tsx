@@ -15,7 +15,7 @@ import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import ProductPriceForm from "./ProductPriceForm";
 
 import { DownloadExcelBase64File } from "../../../_cloner/helpers/downloadFiles";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { useDeleteProductPrice, useRetrieveProductPrice, useUploadFileProductPrice } from "./_hooks";
 import { IProductPrice } from "./_models";
 import { exportProductPrices } from "./_requests";

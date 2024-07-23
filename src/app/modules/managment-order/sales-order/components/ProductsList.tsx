@@ -15,7 +15,7 @@ import { useGetProductTypes, useGetUnits, useGetWarehouseTypes } from "../../../
 import Backdrop from "../../../../../_cloner/components/Backdrop";
 import { useGetProductList } from "../../../products/_hooks";
 import SearchBackendInput from "../../../../../_cloner/components/SearchBackendInput";
-import { EnqueueSnackbar } from "../../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../../../_cloner/helpers/snackebar";
 import FormikSelect from "../../../../../_cloner/components/FormikSelect";
 import MuiTable from "../../../../../_cloner/components/MuiTable";
 import { NumericFormat } from "react-number-format";

@@ -8,7 +8,7 @@ import {
 import FormikInput from "../../../_cloner/components/FormikInput";
 import { Button, Typography } from "@mui/material";
 import { FieldType } from "../../../_cloner/components/globalTypes";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { IOrganizationBank } from "./_models";
 import { createOrganizationBankValidations } from "./_validations";
 import Backdrop from "../../../_cloner/components/Backdrop";

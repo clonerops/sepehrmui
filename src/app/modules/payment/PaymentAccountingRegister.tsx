@@ -6,7 +6,7 @@ import { IPayment, IPaymentFilter } from "./core/_models";
 import { Visibility } from "@mui/icons-material";
 import { Formik, FormikProps } from "formik";
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { PaymentAccountingRegisterColumn } from "../../../_cloner/helpers/columns";
 
 import Backdrop from "../../../_cloner/components/Backdrop";

@@ -16,7 +16,7 @@ import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 
 import { IService } from "./_models"
 import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { ProductServicesColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {

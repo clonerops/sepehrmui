@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Formik } from "formik";
 import {  Button, Typography } from "@mui/material";
 import { FieldType } from "../../../_cloner/components/globalTypes";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { IShareholder } from "./_models";
 import { createShareHolderValidations } from "./_validations";
 import { useGetShareHolderById, usePostShareHolder, usePutShareHolder } from "./_hooks";

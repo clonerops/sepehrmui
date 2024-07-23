@@ -7,7 +7,7 @@ import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount
 import { DoneAll, Visibility } from "@mui/icons-material";
 import { Formik, FormikProps } from "formik";
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { PaymentAccountingColumn } from "../../../_cloner/helpers/columns";
 
 import Backdrop from "../../../_cloner/components/Backdrop";

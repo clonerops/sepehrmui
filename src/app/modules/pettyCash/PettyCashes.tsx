@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import { IPettyCash } from "./_models";
 import { useDeletePettyCash, useGetPettyCashList, usePutPettyCash } from "./_hooks";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import { PettyCashColumn } from "../../../_cloner/helpers/columns";
 

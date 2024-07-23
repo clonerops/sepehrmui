@@ -4,7 +4,7 @@ import { Button, Typography } from "@mui/material"
 import FormikInput from "../../../_cloner/components/FormikInput"
 
 import { usePostApplicationRoles } from "./_hooks"
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 import Backdrop from "../../../_cloner/components/Backdrop"
 
 interface IProps {

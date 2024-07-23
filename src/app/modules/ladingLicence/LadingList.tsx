@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Tooltip, Typography } from "@mui/material";
 import { LayersClear, Print } from "@mui/icons-material";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { useGetLadingLicenceListByMutation, useRevokeLadingById } from "./_hooks";
 import { LadingListColumn } from "../../../_cloner/helpers/columns";
 

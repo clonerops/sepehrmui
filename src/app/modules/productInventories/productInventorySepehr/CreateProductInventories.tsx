@@ -4,7 +4,7 @@ import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanst
 import { IProducts } from "../../products/_models"
 import { useEffect, useRef } from "react"
 import { useIncraseInventory } from "../_hooks"
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar"
 
 import FormikPrice from "../../../../_cloner/components/FormikPrice"
 import FormikInput from "../../../../_cloner/components/FormikInput"

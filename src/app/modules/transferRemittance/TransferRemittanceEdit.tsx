@@ -10,7 +10,7 @@ import { AddTask, DesignServices } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 import { useGetTransferRemitanceByIdByMutation, useUpdateTransferRemitance } from "./_hooks";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";

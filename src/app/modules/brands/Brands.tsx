@@ -16,7 +16,7 @@ import CardWithIcons from "../../../_cloner/components/CardWithIcons";
 
 import { IBrand } from "./_models";
 import { useGetBrands, usePostBrands, useUpdateBrands } from "./_hooks";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import { BrandsColumn } from "../../../_cloner/helpers/columns";
 

@@ -4,7 +4,7 @@ import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanst
 import { Button, Typography } from "@mui/material"
 
 import { FieldType } from "../../../_cloner/components/globalTypes"
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 import { IProductPrice } from "./_models"
 import { createProductPriceValidations } from "./_validation"
 import { useCreateProductPrice, useRetrieveProductPriceById, useUpdateProductPrice } from "./_hooks"

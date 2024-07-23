@@ -15,7 +15,7 @@ import Backdrop from '../../../_cloner/components/Backdrop'
 import { IStandard } from "./_models"
 import { useGetStandards, usePostStandards, useUpdateStandards } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { ProductStandardsColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {

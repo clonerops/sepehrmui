@@ -6,7 +6,7 @@ import FormikInput from "../../../../_cloner/components/FormikInput";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { IUser } from "../core/_models";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 import { useEffect } from "react";
 import Backdrop from "../../../../_cloner/components/Backdrop";

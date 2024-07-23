@@ -12,7 +12,7 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import CheckboxGroup from "../../../_cloner/components/CheckboxGroup";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { TreeItem, SimpleTreeView } from "@mui/x-tree-view";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { dropdownPermissionsByMenu } from "../../../_cloner/helpers/dropdowns";
 import RoleMenus from "../roleMenus/RoleMenus";
 

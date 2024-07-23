@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import CustomizedAccordions from "../../../_cloner/components/Accordion";
 import { useDeleteApplicationRoles, useGetApplicationRoles } from "./_hooks";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import GroupEditForm from "./GroupEditForm";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import { useState } from "react";

@@ -4,7 +4,7 @@ import { ApprovalRounded } from "@mui/icons-material"
 import { Typography } from "@mui/material"
 import { usePostRentPayments } from "./core/_hooks"
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert"
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 
 import ReusableCard from "../../../_cloner/components/ReusableCard"
 import FormikInput from "../../../_cloner/components/FormikInput"

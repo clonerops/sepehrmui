@@ -20,7 +20,7 @@ import { useGetCustomerCompaniesMutate } from "../../customerCompany/_hooks";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
 import FormikProductBrand from "../../../../_cloner/components/FormikProductBrandComboSelect";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
 import FileUpload from "../../../../_cloner/components/FileUpload";
 

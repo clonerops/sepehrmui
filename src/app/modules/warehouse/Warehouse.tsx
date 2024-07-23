@@ -19,7 +19,7 @@ import ConfirmDialog from '../../../_cloner/components/ConfirmDialog'
 import { IWarehouse } from "./_models"
 import { useDeleteWarehouses, useGetWarehouses, usePostWarehouses } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { WarehousesColumn } from '../../../_cloner/helpers/columns'
 import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
 import _ from 'lodash'

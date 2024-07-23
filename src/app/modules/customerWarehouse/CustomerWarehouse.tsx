@@ -9,7 +9,7 @@ import ReusableCard from '../../../_cloner/components/ReusableCard'
 import { ICustomerWarehouse } from "./_models"
 import { usePostCustomerWarehouses } from './_hooks'
 import Backdrop from '../../../_cloner/components/Backdrop'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 import { useGetCustomers } from '../customer/core/_hooks'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'

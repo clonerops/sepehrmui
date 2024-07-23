@@ -4,7 +4,7 @@ import { Formik } from "formik"
 import * as Yup from 'yup'
 
 import { useGetType, usePostTypes, useUpdateTypes } from './_hooks'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 
 import FormikInput from "../../../_cloner/components/FormikInput"
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'

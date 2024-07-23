@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Typography } from "@mui/material"
 import { useUploadFileProductInventories } from "../_hooks";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import { Formik } from "formik";
 
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";

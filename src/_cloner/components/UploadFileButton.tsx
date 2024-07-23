@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query';
 
-import { EnqueueSnackbar } from '../helpers/Snackebar';
+import { EnqueueSnackbar } from '../helpers/snackebar';
 
 interface FileUploadProps {
     acceptedFileTypes?: string;

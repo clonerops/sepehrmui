@@ -1,7 +1,7 @@
 import { Button, Typography, LinearProgress } from '@mui/material';
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { EnqueueSnackbar } from '../helpers/Snackebar';
+import { EnqueueSnackbar } from '../helpers/snackebar';
 
 interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')

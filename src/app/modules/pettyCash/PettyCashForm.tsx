@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import {QueryObserverResult,RefetchOptions,RefetchQueryFilters } from "@tanstack/react-query";
 import { Button, Typography } from "@mui/material";
 import { FieldType } from "../../../_cloner/components/globalTypes";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { IPettyCash } from "./_models";
 import { createProductValidations } from "./_validations";
 import { useGetPettyCashById, usePostPettyCash, usePutPettyCash } from "./_hooks";

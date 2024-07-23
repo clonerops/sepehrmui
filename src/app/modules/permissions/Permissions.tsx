@@ -12,7 +12,7 @@ import EditGridButton from "../../../_cloner/components/EditGridButton";
 import { useDeletePermissions,  useGetPermissionsFilter } from "./_hooks";
 import { IPermission } from "./_models";
 // import { createPermissionValidation } from "./_validation";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import PermissionForm from "./PermissionForm";
 // import Pagination from "../../../../_cloner/components/Pagination";

@@ -13,7 +13,7 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import FormikCustomer from "../../../_cloner/components/FormikCustomer";
 
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { useGetCargosList, useRevokeCargoById } from "./_hooks";
 import { ReadyToLadingColumn } from "../../../_cloner/helpers/columns";
 

@@ -14,7 +14,7 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import SupplierForm from "./SupplierForm";
 import { SuppliersColumn } from "../../../_cloner/helpers/columns";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 
 const Suppliers = () => {
     const supplierTools = useRetrieveSuppliers();

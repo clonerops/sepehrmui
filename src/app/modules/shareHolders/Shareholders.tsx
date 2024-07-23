@@ -12,7 +12,7 @@ import { useDeleteShareHolder, useGetShareholderList } from "./_hooks";
 import { Formik } from "formik";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import Pagination from "../../../_cloner/components/Pagination";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { ShareholdersColumn } from "../../../_cloner/helpers/columns";
