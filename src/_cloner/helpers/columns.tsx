@@ -1,4 +1,4 @@
-import { Checkbox, Typography } from "@mui/material";
+import { Checkbox, OutlinedInput, Typography } from "@mui/material";
 import { separateAmountWithCommas } from "./seprateAmount";
 import { CallMade, CallReceived } from "@mui/icons-material";
 import { IProducts } from "../../app/modules/products/_models";
@@ -1190,6 +1190,479 @@ const ShareholdersColumn = (renderAction: any) => {
     return col;
 };
 
+const RentsColumns = (renderAction: any, renderCheckbox: any,  isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const col = [
+        {
+            field: "ladingExitPermitId",
+            headerName: (
+                <Checkbox
+                    color="primary"
+                    checked={isSelectAll}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+                />
+            ),
+            sortable: false,
+            renderCell: renderCheckbox,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "Action", headerName: 'جزئیات و تایید', flex: 1, minWidth: 120, maxWidth: 120, renderCell: renderAction, headerClassName: "headerClassName" },
+        {
+            field: 'referenceCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+      
+        {
+            field: 'referenceDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+      
+        {
+            field: 'cargoAnnounceNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره بارنامه', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+      
+        {
+            field: 'orderTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+      
+        {
+            field: 'cargoTotalWeight', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'وزن بار', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+      
+        {
+            field: 'totalAmount', renderCell: (params: any) => {
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'کرایه(ریال)', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'otherCosts', renderCell: (params: any) => {
+                return <Typography variant="h4" >{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+      
+        {
+            field: 'totalPayableAmount', renderCell: (params: any) => {
+                return <Typography variant="h3" className="text-green-500">{params.value}</Typography>;
+            },
+            headerName: 'مبلغ قابل پرداخت', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+      
+        {
+            field: 'driverName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نام راننده', headerClassName: "headerClassName", minWidth: 160, flex: 1
+        },
+      
+        {
+            field: 'driverMobile', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'موبایل راننده', headerClassName: "headerClassName", minWidth: 160, flex: 1
+        },
+      
+        // {
+        //     field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 }
+    ]
+    return col
+};
+
+const RentListsColumn = (renderPrint: any) => {
+    const col = [
+      {
+        field: 'id', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'شماره پرداخت', headerClassName: "headerClassName", minWidth: 130,
+        flex: 1,
+      },
+      {
+        field: 'referenceCode', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 130,
+        flex: 1,
+      },
+      {
+        field: 'totalFareAmount', renderCell: (params: any) => {
+          return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+        },
+        headerName: 'مبلغ پرداخت شده(ریال)', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'otherCosts', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'driverName', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'driverMobile', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'شماره همراه راننده', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'driverAccountNo', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'شماره حساب راننده', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'orderType', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'print', renderCell: renderPrint,
+        headerName: 'پرینت رسید پرداخت', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      
+    ]
+    return col
+};
+
+const ReadyToCargoColumn = (renderAction: any) => {
+    const col = [
+        {field: "Action",  headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
+        {
+            field: 'orderCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
+            field: 'registerDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'customerName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 160, flex: 1
+        },
+        {
+            field: 'orderExitTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع خروج', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
+        },
+        {
+            field: 'paymentTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع کرایه', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
+            field: 'invoiceTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع فاکتور', headerClassName: "headerClassName", minWidth: 80, maxWidth: 80, flex: 1
+        },
+        {
+            field: 'totalAmount', renderCell: (params: any) => {
+                return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+    ]
+    return col
+};
+
+const ReadyToLadingColumn = (renderAction: any) => {
+    const col = [
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120 },
+        {
+            field: 'cargoAnnounceNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره اعلام بار', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
+            field: 'orderCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.order.orderCode}</Typography>;
+            },
+            headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
+            field: 'orderStatusId', renderCell: (params: any) => {
+                return params.row.order.orderStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت سفارش', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+        {
+            field: 'createdBy', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.createdBy}</Typography>;
+            },
+            headerName: 'ثبت کننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'deliveryDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ تحویل', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'customerName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.order.customerFirstName + " " + params.row.order.customerLastName}</Typography>;
+            },
+            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+        {
+            field: 'driverName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'راننده', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+        {
+            field: 'driverMobile', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره همراه راننده', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+        {
+            field: 'fareAmount', renderCell: (params: any) => {
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'کرایه(ریال)', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+        
+       
+    ]
+    return col
+};
+
+const LadingListColumn = (renderAction: any) => {
+    const col = [
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120 },
+        {
+            field: 'id', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, maxWidth: 140, flex: 1
+        },
+        {
+            field: 'createdDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'cargoAnnounceNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.cargoAnnounceNo}</Typography>;
+            },
+            headerName: 'شماره اعلام بار', headerClassName: "headerClassName", minWidth: 160, flex: 1
+        },
+        {
+            field: 'driverName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.driverName}</Typography>;
+            },
+            headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'isTemporary', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.vehicleTypeName}</Typography>;
+            },
+            headerName: 'نوع وسیله نقلیه', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'carPlaque', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.carPlaque}</Typography>;
+            },
+            headerName: 'شماره پلاک خودروبر', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+    ]
+    return col
+};
+
+const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInputElement>, productSubUnitAmount: React.RefObject<HTMLInputElement>, handleRealAmountChange: (params: any, value: string) => void, handleProductSubUnitAmountChange: (params: any, value: string) => void) => {
+    return [
+        {
+            id: 1,
+            header: "نام کالا",
+            accessor: "productName",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography sx={{ minWidth: 140 }}>{params.productName}</Typography>;
+            },
+        },
+        {
+            id: 2,
+            header: "مقدار بارگیری",
+            accessor: "ladingAmount",
+            headerClassName: "headerClassName",
+            flex: 1,
+            render: (params: any) => {
+                return <Typography>{params.ladingAmount}</Typography>;
+            },
+        },
+        {
+            id: 3,
+            header: "مقدار واحد فرعی",
+            accessor: "proximateAmount",
+            headerClassName: "headerClassName",
+            flex: 1,
+            render: (params: any) => {
+                return <Typography>{params.proximateAmount}</Typography>;
+            },
+        },
+        
+        {
+            id: 4,
+            header: "مقدار واقعی بارگیری شده",
+            accessor: "realAmount",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return (
+                    <OutlinedInput
+                        sx={{ minWidth: 140 }}
+                        onChange={(e) => {
+                            handleRealAmountChange(
+                                params,
+                                e.target.value
+                            );
+                        }}
+                        inputRef={realAmount}
+                        size="small"
+                    />
+                );
+            },
+        },
+        {
+            id: 4,
+            header: "واحد اصلی",
+            accessor: "productMainUnitDesc",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography>{params.productMainUnitDesc}</Typography>;
+            },
+        },
+        {
+            id: 4,
+            header: "مقدار واقعی واحد فرعی",
+            accessor: "productSubUnitAmount",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return (
+                    <OutlinedInput
+                        inputRef={productSubUnitAmount}
+                        sx={{ minWidth: 140 }}
+                        onChange={(e) => {
+                            handleProductSubUnitAmountChange(
+                                params,
+                                e.target.value
+                            );
+                        }}
+                        size="small"
+                    />
+                );
+            },
+        },
+        {
+            id: 4,
+            header: "واحد فرعی",
+            accessor: "productSubUnitDesc",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography>{params.productSubUnitDesc}</Typography>;
+            },
+        },
+    ];
+};
+
+const ExitRemittanceColumn = (renderAction: any) => {
+    const col = [
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 210, maxWidth: 210 },
+        {
+            field: 'ladingExitPermitCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز خروج', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'createdDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت خروج', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'ladingPermitId', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز بارگیری', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'bankAccountNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره حساب', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'bankAccountOwnerName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'صاحب حساب', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'fareAmount', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نرخ کرایه', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'otherAmount', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'exitPermitDescription', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'توضیحات', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+    ]
+    return col
+};
+
+
 export {
     ProductBrandsColumn,
     ProductStandardsColumn,
@@ -1209,5 +1682,12 @@ export {
     PettyCashColumn,
     CostsColumn,
     OrganizationBankColumn,
-    ShareholdersColumn
+    ShareholdersColumn,
+    RentsColumns,
+    RentListsColumn,
+    ReadyToCargoColumn,
+    ReadyToLadingColumn,
+    LadingListColumn,
+    OrderDetailForExitRemittanceColumn,
+    ExitRemittanceColumn
 }

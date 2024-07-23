@@ -13,6 +13,7 @@ import { Print, Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment-jalaali'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
+import { RentListsColumn } from '../../../_cloner/helpers/columns'
 
 let pageSize = 100;
 
@@ -45,73 +46,7 @@ const RentPaymentList = () => {
   }, [currentPage]);
 
 
-  const columns = (renderPrint: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'شماره پرداخت', headerClassName: "headerClassName", minWidth: 130,
-        flex: 1,
-      },
-      {
-        field: 'referenceCode', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 130,
-        flex: 1,
-      },
-      {
-        field: 'totalFareAmount', renderCell: (params: any) => {
-          return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
-        },
-        headerName: 'مبلغ پرداخت شده(ریال)', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'otherCosts', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'driverName', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'driverMobile', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'شماره همراه راننده', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'driverAccountNo', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'شماره حساب راننده', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'orderType', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'print', renderCell: renderPrint,
-        headerName: 'پرینت رسید پرداخت', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      
-    ]
-    return col
-  }
+
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected + 1);
@@ -158,7 +93,7 @@ const renderPrint = (item: any) => {
 
           <div>
             <MuiDataGrid
-              columns={columns(renderPrint)}
+              columns={RentListsColumn(renderPrint)}
               rows={rentPayments?.data?.data}
               data={rentPayments?.data?.data}
               onDoubleClick={(item: any) => navigate(`/dashboard/rent_print/${item.row.id}`)}

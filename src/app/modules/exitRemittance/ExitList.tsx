@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { exitColumns } from "../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
-import { Approval, Edit, LayersClear, Print, Visibility } from "@mui/icons-material";
+import { Approval, LayersClear, Print, Visibility } from "@mui/icons-material";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
@@ -11,6 +10,7 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import Pagination from "../../../_cloner/components/Pagination";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import { useGetExitPermitListByMutation, useRevokeExitById } from "./_hooks";
+import { ExitRemittanceColumn } from "../../../_cloner/helpers/columns";
 
 const pageSize = 100;
 
@@ -100,7 +100,7 @@ const ExitList = () => {
             {revokeExit?.isLoading && <Backdrop loading={revokeExit?.isLoading} />}
             <ReusableCard>
                 <MuiDataGrid
-                    columns={exitColumns(renderAction)}
+                    columns={ExitRemittanceColumn(renderAction)}
                     rows={exitListTools?.data?.data}
                     data={exitListTools?.data?.data}
                     isLoading={exitListTools?.isLoading}

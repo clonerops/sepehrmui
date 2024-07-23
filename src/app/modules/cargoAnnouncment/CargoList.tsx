@@ -13,9 +13,9 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import FormikCustomer from "../../../_cloner/components/FormikCustomer";
 
-import { readyToLadingColumns } from "../managment-order/helpers/columns";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { useGetCargosList, useRevokeCargoById } from "./_hooks";
+import { ReadyToLadingColumn } from "../../../_cloner/helpers/columns";
 
 const pageSize = 100
 
@@ -115,7 +115,7 @@ const CargoList = () => {
                 </Formik>
 
                 <MuiDataGrid
-                    columns={readyToLadingColumns(renderAction)}
+                    columns={ReadyToLadingColumn(renderAction)}
                     rows={cargoList?.data?.data}
                     data={cargoList?.data?.data}
                     isLoading={cargoList?.isLoading}

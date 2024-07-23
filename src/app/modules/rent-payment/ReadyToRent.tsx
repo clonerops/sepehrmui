@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { Button, Checkbox, Tooltip, Typography } from '@mui/material'
 
+import { Approval, ApprovalTwoTone, Search } from "@mui/icons-material";
+import { IRentPaymentFields } from "./core/_models";
+import { RentsColumns } from "../../../_cloner/helpers/columns";
+import { Formik } from "formik";
 import { useGetAllRents } from "./core/_hooks";
+
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import { rentsColumns } from "./helpers/columns";
-import { Formik } from "formik";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import { Approval, ApprovalTwoTone, Search } from "@mui/icons-material";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import RentPayment from "./RentPayment";
-import { IRentPaymentFields } from "./core/_models";
 import RentPaymentSelected from "./RentPaymentSelected";
 import moment from "moment-jalaali";
 import Backdrop from "../../../_cloner/components/Backdrop";
@@ -21,8 +22,6 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 const initialValues = {
     referenceCode: "",
     driverName: "",
-    // fromDate: "",
-    // toDate: "",
     fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
     toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
     orderType: ""
@@ -170,7 +169,7 @@ const ReadyToRent = () => {
                     </Formik>
                 </div>
                 <MuiDataGrid
-                    columns={rentsColumns(renderAction, renderCheckbox, isSelectAll, setIsSelectAll)}
+                    columns={RentsColumns(renderAction, renderCheckbox, isSelectAll, setIsSelectAll)}
                     rows={rentTools?.data?.data}
                     data={rentTools?.data?.data}
                     isLoading={rentTools.isLoading}
@@ -204,8 +203,7 @@ const ReadyToRent = () => {
                 <RentPaymentSelected
                     selectedLadingIds={selectedLadingIds}
                     selectedTransferRemittanceIds={selectedTransferRemittanceIds}
-                    setIsOpenSelected={setIsOpenSelected}
-                    item={item} />
+                    setIsOpenSelected={setIsOpenSelected} />
             </TransitionsModal>
 
         </>

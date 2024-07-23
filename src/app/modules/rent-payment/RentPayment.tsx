@@ -1,18 +1,20 @@
 import { Formik } from "formik"
 import { ApprovalRounded, AttachMoney, CheckBox, DateRangeSharp, LocalShipping, Newspaper, Person } from "@mui/icons-material"
+
 import ReusableCard from "../../../_cloner/components/ReusableCard"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import FormikOrganzationBank from "../../../_cloner/components/FormikOrganzationBank"
-import { Typography } from "@mui/material"
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker"
 import ButtonComponent from "../../../_cloner/components/ButtonComponent"
 import moment from "moment-jalaali"
+import Backdrop from "../../../_cloner/components/Backdrop"
+
+import { Typography } from "@mui/material"
 import { IRentPaymentFields } from "./core/_models"
 import { FC } from "react"
 import { usePostRentPayments } from "./core/_hooks"
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert"
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
-import Backdrop from "../../../_cloner/components/Backdrop"
 
 
 interface IProps {
@@ -85,11 +87,7 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
                                 <Typography>{item.title}:</Typography>
                                 <Typography variant="h3">{item.value}</Typography>
                             </div>
-                            // return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                         })}
-                        {/* <div className="lg:col-span-4">
-                            <CardTitleValue key={11} title={"توضیحات"} value={"ندارد"} icon={<Description color="secondary" />} />
-                        </div> */}
                     </div>
                     <ReusableCard>
                         <div className="my-4">

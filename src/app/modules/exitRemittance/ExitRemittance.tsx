@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../_cloner/components/FormikInput";
-import { Button, OutlinedInput, Typography } from "@mui/material";
-import { MobileFriendly, Money, MoneyOff, Numbers, Person, Print, TimeToLeave, TimeToLeaveOutlined } from "@mui/icons-material";
+import { Button, Typography } from "@mui/material";
+import { MobileFriendly, MoneyOff, Numbers, Person, Print, TimeToLeave, TimeToLeaveOutlined } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../_cloner/components/MuiTable";
@@ -21,6 +21,7 @@ import { useGetLadingLicenceById } from "../ladingLicence/_hooks";
 import { ICargoDetail } from "../cargoAnnouncment/_models";
 import { usePostExitRemiitance } from "./_hooks";
 import { IExitRemittance } from "./_models";
+import { OrderDetailForExitRemittanceColumn } from "../../../_cloner/helpers/columns";
 
 const initialValues: ICargoDetail = {
     id: 0,
@@ -57,111 +58,6 @@ const ExitRemiitance = () => {
         if (files.length > 0) convertFilesToBase64(files, setBase64Attachments)
          // eslint-disable-next-line
     }, [files]);
-
-
-    const orderOrderColumnMain = (
-        realAmount: React.RefObject<HTMLInputElement>,
-        productSubUnitAmount: React.RefObject<HTMLInputElement>
-    ) => {
-        return [
-            {
-                id: 1,
-                header: "نام کالا",
-                accessor: "productName",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return <Typography sx={{ minWidth: 140 }}>{params.productName}</Typography>;
-                },
-            },
-            {
-                id: 2,
-                header: "مقدار بارگیری",
-                accessor: "ladingAmount",
-                headerClassName: "headerClassName",
-                flex: 1,
-                render: (params: any) => {
-                    return <Typography>{params.ladingAmount}</Typography>;
-                },
-            },
-            {
-                id: 3,
-                header: "مقدار واحد فرعی",
-                accessor: "proximateAmount",
-                headerClassName: "headerClassName",
-                flex: 1,
-                render: (params: any) => {
-                    return <Typography>{params.proximateAmount}</Typography>;
-                },
-            },
-            
-            {
-                id: 4,
-                header: "مقدار واقعی بارگیری شده",
-                accessor: "realAmount",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return (
-                        <OutlinedInput
-                            sx={{ minWidth: 140 }}
-                            onChange={(e) => {
-                                handleRealAmountChange(
-                                    params,
-                                    e.target.value
-                                );
-                            }}
-                            inputRef={realAmount}
-                            size="small"
-                        />
-                    );
-                },
-            },
-            {
-                id: 4,
-                header: "واحد اصلی",
-                accessor: "productMainUnitDesc",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return <Typography>{params.productMainUnitDesc}</Typography>;
-                },
-            },
-            {
-                id: 4,
-                header: "مقدار واقعی واحد فرعی",
-                accessor: "productSubUnitAmount",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return (
-                        <OutlinedInput
-                            inputRef={productSubUnitAmount}
-                            sx={{ minWidth: 140 }}
-                            onChange={(e) => {
-                                handleProductSubUnitAmountChange(
-                                    params,
-                                    e.target.value
-                                );
-                            }}
-                            size="small"
-                        />
-                    );
-                },
-            },
-            {
-                id: 4,
-                header: "واحد فرعی",
-                accessor: "productSubUnitDesc",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return <Typography>{params.productSubUnitDesc}</Typography>;
-                },
-            },
-        ];
-    };
-
 
     useEffect(() => {
         if (cargoDetailTools?.data?.data?.cargoAnnounceDetails?.length > 0) {
@@ -288,7 +184,7 @@ const ExitRemiitance = () => {
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
                     data={ladingList}
-                    columns={orderOrderColumnMain(realAmount, productSubUnitAmount)}
+                    columns={OrderDetailForExitRemittanceColumn(realAmount, productSubUnitAmount, handleRealAmountChange, handleProductSubUnitAmountChange)}
                 />
             </ReusableCard>
             <ReusableCard cardClassName="mt-4">

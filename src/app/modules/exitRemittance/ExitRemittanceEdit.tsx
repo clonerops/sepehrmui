@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../_cloner/components/FormikInput";
-import { Button, OutlinedInput, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Person } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
@@ -18,6 +18,7 @@ import { useCargoById } from "../cargoAnnouncment/_hooks";
 import { useGetLadingLicenceById } from "../ladingLicence/_hooks";
 import { usePostExitRemiitance } from "./_hooks";
 import { IExitRemittance } from "./_models";
+import { OrderDetailForExitRemittanceColumn } from "../../../_cloner/helpers/columns";
 
 interface ILadingList {
     id?: number;
@@ -73,109 +74,6 @@ const ExitRemiitanceEdit = () => {
          // eslint-disable-next-line
     }, [files]);
 
-
-    const orderOrderColumnMain = (
-        realAmount: React.RefObject<HTMLInputElement>,
-        productSubUnitAmount: React.RefObject<HTMLInputElement>
-    ) => {
-        return [
-            {
-                id: 1,
-                header: "نام کالا",
-                accessor: "productName",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return <Typography sx={{ minWidth: 140 }}>{params.productName}</Typography>;
-                },
-            },
-            {
-                id: 2,
-                header: "مقدار بارگیری",
-                accessor: "ladingAmount",
-                headerClassName: "headerClassName",
-                flex: 1,
-                render: (params: any) => {
-                    return <Typography>{params.ladingAmount}</Typography>;
-                },
-            },
-            {
-                id: 3,
-                header: "مقدار واحد فرعی",
-                accessor: "proximateAmount",
-                headerClassName: "headerClassName",
-                flex: 1,
-                render: (params: any) => {
-                    return <Typography>{params.proximateAmount}</Typography>;
-                },
-            },
-            
-            {
-                id: 4,
-                header: "مقدار واقعی بارگیری شده",
-                accessor: "realAmount",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return (
-                        <OutlinedInput
-                            sx={{ minWidth: 140 }}
-                            onChange={(e) => {
-                                handleRealAmountChange(
-                                    params,
-                                    e.target.value
-                                );
-                            }}
-                            inputRef={realAmount}
-                            size="small"
-                        />
-                    );
-                },
-            },
-            {
-                id: 4,
-                header: "واحد اصلی",
-                accessor: "productMainUnitDesc",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return <Typography>{params.productMainUnitDesc}</Typography>;
-                },
-            },
-            {
-                id: 4,
-                header: "مقدار واقعی واحد فرعی",
-                accessor: "productSubUnitAmount",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return (
-                        <OutlinedInput
-                            inputRef={productSubUnitAmount}
-                            sx={{ minWidth: 140 }}
-                            onChange={(e) => {
-                                handleProductSubUnitAmountChange(
-                                    params,
-                                    e.target.value
-                                );
-                            }}
-                            size="small"
-                        />
-                    );
-                },
-            },
-            {
-                id: 4,
-                header: "واحد فرعی",
-                accessor: "productSubUnitDesc",
-                flex: 1,
-                headerClassName: "headerClassName",
-                render: (params: any) => {
-                    return <Typography>{params.productSubUnitDesc}</Typography>;
-                },
-            },
-        ];
-    };
 
     useEffect(() => {
         if (cargoDetailTools?.data?.data?.cargoAnnounceDetails?.length > 0) {
@@ -337,7 +235,7 @@ const ExitRemiitanceEdit = () => {
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
                     data={ladingList}
-                    columns={orderOrderColumnMain(realAmount, productSubUnitAmount)}
+                    columns={OrderDetailForExitRemittanceColumn(realAmount, productSubUnitAmount, handleRealAmountChange, handleProductSubUnitAmountChange)}
                 />
             </ReusableCard>
             <ReusableCard cardClassName="mt-4">
@@ -355,7 +253,6 @@ const ExitRemiitanceEdit = () => {
                         return (
                             <Form className="mt-8">
                                 <div
-                                    // className="flex items-center justify-center gap-x-4 mb-4"
                                     className="grid grid-cols-1 md:grid-cols-5 gap-x-4 mb-4 md:space-y-0 space-y-4"
                                 >
                                     <FormikInput

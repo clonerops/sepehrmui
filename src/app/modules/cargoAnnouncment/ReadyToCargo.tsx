@@ -5,11 +5,10 @@ import { Button, Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import FuzzySearch from "../../../_cloner/helpers/fuse";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import Backdrop from "../../../_cloner/components/Backdrop";
 
 import { useRetrievesNotSendedOrder } from "./_hooks";
 import { ICargo } from "./_models";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
+import { ReadyToCargoColumn } from "../../../_cloner/helpers/columns";
 
 
 const ReadyToCargo = () => {
@@ -22,55 +21,6 @@ const ReadyToCargo = () => {
         setResults(readyToCargoOrder?.data);
          // eslint-disable-next-line
     }, [readyToCargoOrder?.data]);
-
-    const readyToCargoColumns = (renderAction: any) => {
-        const col = [
-            {field: "Action",  headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
-            {
-                field: 'orderCode', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
-            },
-            {
-                field: 'registerDate', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, flex: 1
-            },
-            {
-                field: 'customerName', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 160, flex: 1
-            },
-            {
-                field: 'orderExitTypeDesc', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'نوع خروج', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
-            },
-            {
-                field: 'paymentTypeDesc', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'نوع کرایه', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
-            },
-            {
-                field: 'invoiceTypeDesc', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'نوع فاکتور', headerClassName: "headerClassName", minWidth: 80, maxWidth: 80, flex: 1
-            },
-            {
-                field: 'totalAmount', renderCell: (params: any) => {
-                    return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.value)}</Typography>;
-                },
-                headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, flex: 1
-            },
-        ]
-        return col
-    }
 
     const renderAction = (item: any) => {
         return (
@@ -93,7 +43,7 @@ const ReadyToCargo = () => {
                     />
                 </div>
                 <MuiDataGrid
-                    columns={readyToCargoColumns(renderAction)}
+                    columns={ReadyToCargoColumn(renderAction)}
                     rows={results}
                     data={readyToCargoOrder?.data}
                     isLoading={readyToCargoOrder.isLoading}
