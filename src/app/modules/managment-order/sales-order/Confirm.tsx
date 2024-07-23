@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 import FormikSelect from "../../../../_cloner/components/FormikSelect";
 import FormikInput from "../../../../_cloner/components/FormikInput";
-import { dropdownCustomerCompanies, dropdownInvoiceType } from "../helpers/dropdowns";
 import FormikCheckbox from "../../../../_cloner/components/FormikCheckbox";
 import { Description, LocalShipping, Newspaper, Person, PublishedWithChanges } from "@mui/icons-material";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -21,15 +20,13 @@ import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
 import FormikProductBrand from "../../../../_cloner/components/FormikProductBrandComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
-import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
 import FileUpload from "../../../../_cloner/components/FileUpload";
+import { dropdownCustomerCompanies, dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
 
 const initialValues = {
     productName: "",
     proximateAmount: "",
     productPrice: "",
-    // customerOfficialCompanyId: "",
-
     invoiceTypeDesc: "",
     invoiceTypeId: "",
     description: "",
@@ -202,7 +199,7 @@ const SalesOrderConfirm = () => {
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
-        console.log(JSON.stringify(formData))
+
         approveTools.mutate(formData, {
             onSuccess: (message) => {
                 if (message.succeeded) {

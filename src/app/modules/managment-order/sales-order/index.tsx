@@ -43,7 +43,7 @@ const SalesOrder = () => {
 
 
     let formikRef = useRef<FormikProps<any>>(null);
-console.log(orders)
+
     const onSubmit = (values: any) => {
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", "error")
@@ -104,12 +104,6 @@ console.log(orders)
                             ],
                         } : null
                     })),
-
-
-
-
-
-
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
                         return {
                             amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
@@ -127,7 +121,7 @@ console.log(orders)
                         } 
                     })
                 }
-                console.log(JSON.stringify(formData))
+
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors&&response.data.Errors.length > 0) {

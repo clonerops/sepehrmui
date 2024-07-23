@@ -4,11 +4,11 @@ import {Button, Typography} from '@mui/material'
 
 import { useRetrieveOrders } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { orderColumns } from "../helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import { OrderColumn } from "../../../../_cloner/helpers/columns";
 // import Pagination from "../../../../_cloner/components/Pagination";
 
 // const pageSize = 20
@@ -70,7 +70,7 @@ const PreSaleLists = () => {
                 />
             </div>
             <MuiDataGrid
-                columns={orderColumns(renderAction)}
+                columns={OrderColumn(renderAction)}
                 rows={results}
                 data={orders?.data}
                 isLoading={isLoading}

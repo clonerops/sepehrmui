@@ -1,8 +1,7 @@
 import FormikSelect from './FormikSelect'
 
-import { dropdownPurchaseInvoice } from '../../app/modules/managment-order/helpers/dropdowns';
-
 import { useGetPurchaseInvoice } from '../../app/modules/generic/_hooks';
+import { dropdownPurchaseInvoice } from '../helpers/dropdowns';
 
 const FormikPurchaserInvoiceType = (props: any) => {
     const { data: purchaseInvoiceType } = useGetPurchaseInvoice();

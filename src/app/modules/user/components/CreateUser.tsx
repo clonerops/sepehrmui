@@ -31,7 +31,7 @@ const CreateUser = () => {
         confirmPassword: "",
     };
 
-    const { mutate, data } = useRegisterUser();
+    const postUser = useRegisterUser();
     return (
         <>
             <Container>
@@ -39,7 +39,7 @@ const CreateUser = () => {
                     <Typography color="primary" variant="h2" className="pb-8">ایجاد کاربر جدید</Typography>
                     <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={async (values, { setStatus, setSubmitting }) => {
                         try {
-                            mutate(values, {
+                            postUser.mutate(values, {
                                 onSuccess: (response) => {
                                     if(response.succeeded) {
                                         EnqueueSnackbar(
@@ -71,7 +71,9 @@ const CreateUser = () => {
                                 </div>
                                 <div className="flex justify-end items-end">
                                     <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                        <Typography variant="h3" className="px-8 py-1">ثبت کاربر</Typography>
+                                        <Typography variant="h3" className="px-8 py-1">
+                                            {postUser.isLoading ? "درحال بارگزاری ..." : "ثبت کاربر"}
+                                        </Typography>
                                     </Button>
                                 </div>
                             </form>

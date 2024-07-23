@@ -74,7 +74,7 @@ const dropdownStandard = (data: any) => {
     return (
         data &&
         data?.map((obj: { desc: string, id: string }): any => {
-            const { desc,  id } = obj;
+            const { desc, id } = obj;
             return { value: id, label: desc };
         })
     );
@@ -83,8 +83,8 @@ const dropdownStandard = (data: any) => {
 const dropdownOrganzationBank = (data: any) => {
     return (
         data &&
-        data?.map((obj: { accountOwner: string, accountNo: string, id: string, bank: {bankName: string} }): any => {
-            const { accountOwner, accountNo,  id, bank } = obj;
+        data?.map((obj: { accountOwner: string, accountNo: string, id: string, bank: { bankName: string } }): any => {
+            const { accountOwner, accountNo, id, bank } = obj;
             return { value: id, label: `${bank.bankName}- (ص.ح: ${accountOwner})-(ش.ح:${accountNo})` };
         })
     );
@@ -94,7 +94,7 @@ const dropdownState = (data: any) => {
     return (
         data &&
         data?.map((obj: { desc: string, id: string }): any => {
-            const { desc,  id } = obj;
+            const { desc, id } = obj;
             return { value: id, label: desc };
         })
     );
@@ -104,7 +104,7 @@ const dropdownTypes = (data: any) => {
     return (
         data &&
         data?.map((obj: { desc: string, id: string }): any => {
-            const { desc,  id } = obj;
+            const { desc, id } = obj;
             return { value: id, label: desc };
         })
     );
@@ -114,7 +114,7 @@ const dropdownUnit = (data: any) => {
     return (
         data &&
         data?.map((obj: { unitName: string, id: string }): any => {
-            const { unitName,  id } = obj;
+            const { unitName, id } = obj;
             return { value: id, label: unitName };
         })
     );
@@ -124,7 +124,7 @@ const dropdownCashDesk = (data: any) => {
     return (
         data &&
         data?.map((obj: { cashDeskDescription: string, id: string }): any => {
-            const { cashDeskDescription,  id } = obj;
+            const { cashDeskDescription, id } = obj;
             return { value: id, label: cashDeskDescription };
         })
     );
@@ -133,7 +133,7 @@ const dropdownCashDesk = (data: any) => {
 const dropdownPermissions = (data: any) => {
     return (
         data &&
-        data?.map((obj: { id: number, description:string }): any => {
+        data?.map((obj: { id: number, description: string }): any => {
             const { description, id } = obj;
             return { value: id, label: description };
         })
@@ -144,7 +144,7 @@ const dropdownPermissions = (data: any) => {
 const dropdownApplicationMenu = (data: any) => {
     return (
         data &&
-        data?.map((obj: { id: number, description:string }): any => {
+        data?.map((obj: { id: number, description: string }): any => {
             const { description, id } = obj;
             return { value: id, label: description };
         })
@@ -154,7 +154,7 @@ const dropdownApplicationMenu = (data: any) => {
 const dropdownPermissionsByMenu = (data: any) => {
     return (
         data &&
-        data?.map((obj: { id: number, description:string }): any => {
+        data?.map((obj: { id: number, description: string }): any => {
             const { description, id } = obj;
             return { value: id, label: description };
         })
@@ -164,7 +164,7 @@ const dropdownPermissionsByMenu = (data: any) => {
 const dropdownRole = (data: any) => {
     return (
         data &&
-        data?.map((obj: { id: number, name:string }): any => {
+        data?.map((obj: { id: number, name: string }): any => {
             const { name, id } = obj;
             return { value: id, label: name };
         })
@@ -185,7 +185,7 @@ const dropdownIncome = (data: any) => {
     return (
         data &&
         data?.map((obj: { incomeDescription: string, id: string }): any => {
-            const { incomeDescription,  id } = obj;
+            const { incomeDescription, id } = obj;
             return { value: id, label: incomeDescription };
         })
     );
@@ -195,7 +195,7 @@ const dropdownPettyCash = (data: any) => {
     return (
         data &&
         data?.map((obj: { pettyCashDescription: string, mobileNo: string, id: string }): any => {
-            const { pettyCashDescription, mobileNo,  id } = obj;
+            const { pettyCashDescription, mobileNo, id } = obj;
             return { value: id, label: `${pettyCashDescription} - (${mobileNo})` };
         })
     );
@@ -205,7 +205,7 @@ const dropdownCost = (data: any) => {
     return (
         data &&
         data?.map((obj: { costDescription: string, id: string }): any => {
-            const { costDescription,  id } = obj;
+            const { costDescription, id } = obj;
             return { value: id, label: costDescription };
         })
     );
@@ -215,7 +215,7 @@ const dropdownCost = (data: any) => {
 const dropdownVehicleType = (data: any) => {
     return (
         data &&
-        data?.map((obj: { id: number, name:string }): any => {
+        data?.map((obj: { id: number, name: string }): any => {
             const { name, id } = obj;
             return { value: id, label: name };
         })
@@ -226,7 +226,7 @@ const dropdownVehicleType = (data: any) => {
 const dropdownProductLading = (data: any) => {
     return (
         data &&
-        data?.map((obj: { productId: string, productName:string, id: number }): any => {
+        data?.map((obj: { productId: string, productName: string, id: number }): any => {
             const { productName, productId, id } = obj;
             return { value: id, label: productName, productId: productId };
         })
@@ -236,12 +236,165 @@ const dropdownProductLading = (data: any) => {
 const dropdownTransferRemittanceStatus = (data: any) => {
     return (
         data &&
-        data?.map((obj: { statusDesc:string, id: number }): any => {
+        data?.map((obj: { statusDesc: string, id: number }): any => {
             const { statusDesc, id } = obj;
             return { value: id, title: statusDesc };
         })
     );
 };
+
+
+const dropdownOrderSendType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, description: string }): any => {
+            const { description, id } = obj;
+            return { value: id, label: description };
+        })
+    );
+};
+const dropdownPurchaseOrderSendType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, sendTypeDesc: string }): any => {
+            const { sendTypeDesc, id } = obj;
+            return { value: id, label: sendTypeDesc };
+        })
+    );
+};
+const dropdownRentPaymentType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, desc: string }): any => {
+            const { desc, id } = obj;
+            return { value: id, label: desc };
+        })
+    );
+};
+const dropdownPurchaseRentPaymentType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, typeDesc: string }): any => {
+            const { typeDesc, id } = obj;
+            return { value: id, label: typeDesc };
+        })
+    );
+};
+const dropdownPurchaseInvoice = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, desc: string }): any => {
+            const { desc, id } = obj;
+            return { value: id, label: desc };
+        })
+    );
+};
+const dropdownInvoiceType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, typeDesc: string }): any => {
+            const { typeDesc, id } = obj;
+            return { value: id, label: typeDesc };
+        })
+    );
+};
+const dropdownWarehouseType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, description: string }): any => {
+            const { description, id } = obj;
+            return { value: id, label: description };
+        })
+    );
+};
+const dropdownWarehouses = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, name: string, warehouseTypeId: number }): any => {
+            const { name, id, warehouseTypeId } = obj;
+            return { value: id, label: name, warehouseTypeId: warehouseTypeId };
+        })
+    );
+};
+const dropdownExitType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, title: string }): any => {
+            const { title, id } = obj;
+            return { value: id, label: title };
+        })
+    );
+};
+const dropdownOrderExitType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, exitTypeDesc: string }): any => {
+            const { exitTypeDesc, id } = obj;
+            return { value: id, label: exitTypeDesc };
+        })
+    );
+};
+const dropdownTemporaryType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, title: string }): any => {
+            const { title, id } = obj;
+            return { value: id, label: title };
+        })
+    );
+};
+const dropdownServices = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, description: string }): any => {
+            const { description, id } = obj;
+            return { value: id, label: description };
+        })
+    );
+};
+const dropdownCustomerCompanies = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, companyName: string }): any => {
+            const { companyName, id } = obj;
+            return { value: id, label: companyName };
+        })
+    );
+};
+
+
+const dropdownShareholders = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, shareHolderCode: number, firstName: string, lastName: string }): any => {
+            const { shareHolderCode, id, firstName, lastName } = obj;
+            return { value: id, label: `${firstName} ${lastName} - (${shareHolderCode})` };
+        })
+    );
+};
+
+
+const dropdownOfficialBank = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, bankName: string }): any => {
+            const { bankName, id } = obj;
+            return { value: id, label: bankName };
+        })
+    );
+};
+
+const dropdownProductType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, desc: string }): any => {
+            const { desc, id } = obj;
+            return { value: id, label: desc };
+        })
+    );
+};
+
+
 
 export {
     dropdownBrand,
@@ -267,5 +420,21 @@ export {
     dropdownCost,
     dropdownVehicleType,
     dropdownProductLading,
-    dropdownTransferRemittanceStatus
+    dropdownTransferRemittanceStatus,
+    dropdownOrderSendType,
+    dropdownPurchaseOrderSendType,
+    dropdownRentPaymentType,
+    dropdownPurchaseRentPaymentType,
+    dropdownPurchaseInvoice,
+    dropdownInvoiceType,
+    dropdownWarehouseType,
+    dropdownWarehouses,
+    dropdownExitType,
+    dropdownOrderExitType,
+    dropdownTemporaryType,
+    dropdownServices,
+    dropdownCustomerCompanies,
+    dropdownShareholders,
+    dropdownOfficialBank,
+    dropdownProductType
 }

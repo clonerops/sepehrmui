@@ -1,8 +1,7 @@
 import FormikSelect from './FormikSelect'
 
-import { dropdownExitType } from '../../app/modules/managment-order/helpers/dropdowns';
-
 import { exit } from '../../app/modules/managment-order/helpers/fakeData';
+import { dropdownExitType } from '../helpers/dropdowns';
 
 const FormikExitType = (props: any) => {
     return (

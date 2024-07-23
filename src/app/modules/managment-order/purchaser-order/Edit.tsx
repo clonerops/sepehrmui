@@ -98,8 +98,6 @@ const PurchaserOrderEdit = () => {
     })
   }
 
-  console.log(orders)
-
   const onSubmit = (values: any) => {
     if (orders?.length === 0) {
       EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد.", "error")
@@ -156,7 +154,7 @@ const PurchaserOrderEdit = () => {
           }
         }) //ok
       };
-      console.log(JSON.stringify(formData))
+
       try {
         postSaleOrder.mutate(formData, {
           onSuccess: (response) => {

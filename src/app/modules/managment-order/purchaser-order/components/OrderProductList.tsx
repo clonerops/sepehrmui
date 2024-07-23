@@ -6,9 +6,9 @@ import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/seprateAmount";
-import { orderPurchaserListColumns } from "../../helpers/columns";
 import { IProducts } from "../../../products/_models";
 import { FormikErrors } from "formik";
+import { OrderPurchaserListColumn } from "../../../../../_cloner/helpers/columns";
 
 type ProductProps = {
     orders?: IOrderItems[] ;
@@ -98,7 +98,7 @@ const OrderProductList = (props: ProductProps) => {
         }
     };
 
-    const filteredColumns = orderPurchaserListColumns(renderActions).filter(column =>
+    const filteredColumns = OrderPurchaserListColumn(renderActions).filter(column =>
         column.field !== "warehouseId" &&
         column.field !== "productBrandId" &&
         column.field !== "rowId" &&

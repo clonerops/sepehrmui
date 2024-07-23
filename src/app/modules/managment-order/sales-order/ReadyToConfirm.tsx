@@ -5,28 +5,27 @@ import { Button, Tooltip, Typography } from '@mui/material'
 
 import { IOrder } from "../core/_models";
 import { useRetrieveOrdersByMutation } from "../core/_hooks";
-import { salesOrderConfirm } from "../helpers/columns";
+import { Approval } from "@mui/icons-material";
+import { SalesOrderConfirmColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import { Approval } from "@mui/icons-material";
 
 
 const ReadyToSalesOrderConfirm = () => {
     const navigate = useNavigate()
     
-    const { mutate, data: orders, isLoading } = useRetrieveOrdersByMutation();
+    const orderTools = useRetrieveOrdersByMutation();
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
         const formData = {
-            // InvoiceTypeId: [1, 2],
             InvoiceTypeId: [2],
             OrderStatusId: 1
         }
-        mutate(formData, {
+        orderTools.mutate(formData, {
             onSuccess: (message) => {
                 setResults(message?.data);
             }
@@ -62,7 +61,7 @@ const ReadyToSalesOrderConfirm = () => {
                 // InvoiceTypeId: [1, 2],
                 InvoiceTypeId: [2],
             };
-            mutate(formData, {
+            orderTools.mutate(formData, {
                 onSuccess: (message) => {
                     setResults(message?.data);
                 },
@@ -74,7 +73,7 @@ const ReadyToSalesOrderConfirm = () => {
                 InvoiceTypeId: [2],
                 OrderStatusId: +values,
             };
-            mutate(formData, {
+            orderTools.mutate(formData, {
                 onSuccess: (message) => {
                     setResults(message?.data);
                 },
@@ -98,7 +97,7 @@ const ReadyToSalesOrderConfirm = () => {
                             "totalAmount",
                             "exitType",
                         ]}
-                        data={orders?.data}
+                        data={orderTools?.data?.data}
                         threshold={0.5}
                         setResults={setResults}
                     />
@@ -112,10 +111,10 @@ const ReadyToSalesOrderConfirm = () => {
                 </Formik>
             </div>
             <MuiDataGrid
-                columns={salesOrderConfirm(renderAction)}
+                columns={SalesOrderConfirmColumn(renderAction)}
                 rows={results}
-                data={orders?.data}
-                isLoading={isLoading}
+                data={orderTools?.data?.data}
+                isLoading={orderTools.isLoading}
                 onDoubleClick={(item: any) => navigate(`${item.row.orderStatusId === 1 ? `/dashboard/sales_order/ready_to_confirm/${item?.row?.id}` : ""}`)}
             />
         </ReusableCard>

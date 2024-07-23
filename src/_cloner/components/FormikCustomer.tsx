@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 
 import FormikComboBox from './FormikComboBox';
 import { useGetCustomers } from '../../app/modules/customer/core/_hooks';
-import { dropdownCustomer } from '../../app/modules/managment-order/helpers/dropdowns';
+import { dropdownCustomer } from '../helpers/dropdowns';
 
 const FormikCustomer = (props: any) => {
     const { data: customers } = useGetCustomers();

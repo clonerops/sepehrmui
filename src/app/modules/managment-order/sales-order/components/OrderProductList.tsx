@@ -5,12 +5,12 @@ import { calculateTotalAmount } from "../../helpers/functions";
 
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 import { separateAmountWithCommas } from "../../../../../_cloner/helpers/seprateAmount";
-import { orderListColumns } from "../../helpers/columns";
 import { FormikErrors } from "formik";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
 import { IProducts } from "../../../products/_models";
+import { OrderListColumn } from "../../../../../_cloner/helpers/columns";
 
 interface IProps {
     orders?: IOrderItems[] 
@@ -98,7 +98,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         }
     };
 
-    const filteredColumns = orderListColumns(renderActions).filter(column =>
+    const filteredColumns = OrderListColumn(renderActions).filter(column =>
         column.field !== "warehouseId" &&
         column.field !== "warehouseTypeId" &&
         column.field !== "productBrandId" &&

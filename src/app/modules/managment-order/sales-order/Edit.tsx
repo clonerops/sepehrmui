@@ -67,8 +67,6 @@ const SalesOrderEdit = () => {
                 })) || []
             ]);
 
-            console.log("detailTools?.data?.data?.details", detailTools?.data?.data?.details)
-
             setOrders([
                 ...detailTools?.data?.data?.details?.map((i: any) => ({
                     ...i,

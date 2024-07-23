@@ -5,7 +5,7 @@ import FuzzySearch from "../helpers/fuse";
 import FormikRadioGroup from "./FormikRadioGroup";
 
 import { useGetProductTypes, useGetWarehouseTypes } from "../../app/modules/generic/_hooks";
-import { dropdownWarehouseType } from "../../app/modules/managment-order/helpers/dropdowns";
+import { dropdownWarehouseType } from "../helpers/dropdowns";
 
 
 type Props = {

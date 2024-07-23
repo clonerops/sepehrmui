@@ -8,13 +8,13 @@ import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import MaskInput from "../../../../../_cloner/components/MaskInput";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
 
-import { columnsModalProduct, columnsSelectProduct } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderService } from "../../core/_models";
 import { IProducts } from "../../../products/_models";
 import { useGetProductList } from "../../../products/_hooks";
 import { useGetUnits } from "../../../generic/_hooks";
+import { ModalProductColumn, SelectProductColumn } from "../../../../../_cloner/helpers/columns";
 
 
 const ProductsList = (props: {
@@ -416,7 +416,7 @@ const ProductsList = (props: {
                 <div>
                     <MuiDataGrid
                         onDoubleClick={handleSelectionChange}
-                        columns={columnsModalProduct()}
+                        columns={ModalProductColumn()}
                         isLoading={filterTools.isLoading}
                         rows={results}
                         data={productData.filteredTabs}
@@ -426,7 +426,7 @@ const ProductsList = (props: {
                 <div>
                     <MuiSelectionDataGrid
                         selectionModel={productData.selectionModel}
-                        columns={columnsSelectProduct(
+                        columns={SelectProductColumn(
                             renderAction,
                             renderInput,
                             renderSubUnit,

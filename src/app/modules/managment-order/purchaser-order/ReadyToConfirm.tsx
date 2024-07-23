@@ -1,17 +1,13 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { Formik } from "formik";
 import { Button, Tooltip, Typography } from '@mui/material'
-
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
-
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
-// import FuzzySearch from "../../../../_cloner/helpers/Fuse";
-// import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import { purchaserOrderConfirm } from "../helpers/columns";
 import { Approval } from "@mui/icons-material";
+
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
+import ReusableCard from "../../../../_cloner/components/ReusableCard";
+import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import { PurchaserOrderConfirmColumn } from "../../../../_cloner/helpers/columns";
 
 
 const ReadyToPurchaserOrderConfirm = () => {
@@ -95,7 +91,7 @@ const ReadyToPurchaserOrderConfirm = () => {
                 </Formik> */}
             </div>
             <MuiDataGrid
-                columns={purchaserOrderConfirm(renderAction)}
+                columns={PurchaserOrderConfirmColumn(renderAction)}
                 rows={orders?.data || [{}]}
                 data={orders?.data || [{}]}
                 isLoading={isLoading}

@@ -1,6 +1,6 @@
 import { useGetOfficialBank } from '../../app/modules/generic/_hooks';
 import { IOfficialBank } from '../../app/modules/generic/_models';
-import { dropdownOfficialBank } from '../../app/modules/managment-order/helpers/dropdowns';
+import { dropdownOfficialBank } from '../helpers/dropdowns';
 import FormikSelect from './FormikSelect'
 
 const FormikOfficialBank = (props: any) => {

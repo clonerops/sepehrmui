@@ -1,8 +1,7 @@
 import FormikSelect from './FormikSelect'
 
-import { dropdownPurchaseOrderSendType } from '../../app/modules/managment-order/helpers/dropdowns';
-
 import { useGetPurchaseSendTypes } from '../../app/modules/generic/_hooks';
+import { dropdownPurchaseOrderSendType } from '../helpers/dropdowns';
 
 const FormikPurchaseOrderSend = (props: any) => {
     const { data: orderSendType, isLoading } = useGetPurchaseSendTypes();

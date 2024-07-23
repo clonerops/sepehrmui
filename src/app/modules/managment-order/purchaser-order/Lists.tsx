@@ -5,7 +5,7 @@ import { Button, Typography } from '@mui/material'
 
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { purchaserOrderColumns } from "../helpers/columns";
+import { PurchaserOrderColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
@@ -76,7 +76,7 @@ const PurchaserOrderList = () => {
         <ReusableCard>
             <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
             <MuiDataGrid
-                columns={purchaserOrderColumns(renderAction)}
+                columns={PurchaserOrderColumn(renderAction)}
                 rows={results || [{}]}
                 data={orderLists?.data?.data || [{}]}
                 isLoading={orderLists?.isLoading}

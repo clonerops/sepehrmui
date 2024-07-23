@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
-import ReusableCard from '../../../_cloner/components/ReusableCard'
+import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
+import { EvacuationColumn } from '../../../_cloner/helpers/columns'
 import { Button, Typography } from '@mui/material'
-    import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
+import ReusableCard from '../../../_cloner/components/ReusableCard'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../_cloner/components/Pagination'
-import { evacuationColumns } from '../managment-order/helpers/columns'
 import SearchFromBack from '../../../_cloner/components/SearchFromBack'
-import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
 
-const pageSize = 20
+const pageSize = 100
 
 const ReadyToEvacuation = () => {
     const navigate = useNavigate()
@@ -19,7 +20,7 @@ const ReadyToEvacuation = () => {
     useEffect(() => {
       const filter = {
         PageNumber: currentPage,
-        PageSize: 100,
+        PageSize: pageSize,
         IsEntranced: true
       }
       transferList.mutate(filter)
@@ -47,7 +48,7 @@ const ReadyToEvacuation = () => {
         let formData = {
           TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
           PageNumber: currentPage,
-          PageSize: 100,
+          PageSize: pageSize,
           IsEntranced: true
         };
         transferList.mutate(formData);
@@ -58,7 +59,7 @@ const ReadyToEvacuation = () => {
             <ReusableCard>
                 <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{TransferEntransePermitNo: ""}} onSubmit={handleFilter} label="شماره ورود" />
                 <MuiDataGrid
-                    columns={evacuationColumns(renderAction)}
+                    columns={EvacuationColumn(renderAction)}
                     rows={transferList?.data?.data}
                     data={transferList?.data?.data}
                     isLoading={transferList.isLoading}

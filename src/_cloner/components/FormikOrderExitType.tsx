@@ -1,8 +1,7 @@
 import FormikSelect from './FormikSelect'
 
-import { dropdownOrderExitType } from '../../app/modules/managment-order/helpers/dropdowns';
-
 import { useGetOrderExitTypes } from '../../app/modules/generic/_hooks';
+import { dropdownOrderExitType } from '../helpers/dropdowns';
 
 const FormikOrderExitType = (props: any) => {
     const {data} = useGetOrderExitTypes()

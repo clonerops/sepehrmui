@@ -4,13 +4,14 @@ import { Tooltip, Typography } from '@mui/material'
 
 import { useRetrieveOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { orderColumns } from "../helpers/columns";
+import { Print, Visibility } from "@mui/icons-material";
+import { OrderColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
-import { Print, Visibility } from "@mui/icons-material";
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const pageSize = 100
 
@@ -26,7 +27,7 @@ const SalesOrderList = () => {
     useEffect(() => {
         const formData = {
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -38,7 +39,6 @@ const SalesOrderList = () => {
 
 
     const renderAction = (item: any) => {
-        console.log("item", item)
         return (
             <div className="flex flex-row gap-x-4">
                 <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
@@ -65,11 +65,11 @@ const SalesOrderList = () => {
     const onSubmit = (values: any) => {
         const formData = values?.orderCode ? {
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
             OrderCode: +values?.orderCode
         } : {
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -79,17 +79,19 @@ const SalesOrderList = () => {
     }
 
     return (
-        <ReusableCard>
-            <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
-            <MuiDataGrid
-                columns={orderColumns(renderAction)}
-                rows={results}
-                data={orderLists?.data?.data}
-                isLoading={orderLists.isLoading}
-                onDoubleClick={(item: any) => navigate(`/dashboard/sales_order/lists/${item?.row?.id}`)}
-            />
-            <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
-        </ReusableCard>
+        <>
+            {orderLists.isLoading && <Backdrop loading={orderLists.isLoading} />}
+            <ReusableCard>
+                <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
+                <MuiDataGrid
+                    columns={OrderColumn(renderAction)}
+                    rows={results}
+                    data={orderLists?.data?.data}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/sales_order/lists/${item?.row?.id}`)}
+                />
+                <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
+            </ReusableCard>
+        </>
     );
 };
 

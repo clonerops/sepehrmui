@@ -4,13 +4,11 @@ import { Button, TextField, Typography, FormControl, MenuItem, Select } from "@m
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 
-import { columnsModalProduct, columnsSelectProductMuiTable } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderService } from "../../core/_models";
 import { Form, Formik, FormikErrors } from "formik";
 import FormikRadioGroup from "../../../../../_cloner/components/FormikRadioGroup";
-import { dropdownProductType, dropdownWarehouseType } from "../../helpers/dropdowns";
 import { useGetProductTypes, useGetUnits, useGetWarehouseTypes } from "../../../generic/_hooks";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
 import { useGetProductList } from "../../../products/_hooks";
@@ -19,6 +17,8 @@ import { EnqueueSnackbar } from "../../../../../_cloner/helpers/snackebar";
 import FormikSelect from "../../../../../_cloner/components/FormikSelect";
 import MuiTable from "../../../../../_cloner/components/MuiTable";
 import { NumericFormat } from "react-number-format";
+import { dropdownProductType, dropdownWarehouseType } from "../../../../../_cloner/helpers/dropdowns";
+import { ModalProductColumn, SelectProductMuiTableColumn } from "../../../../../_cloner/helpers/columns";
 
 interface IProps {
     setOrders?: any
@@ -508,7 +508,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     </div>
                     <MuiDataGrid
                         onDoubleClick={handleSelectProduct}
-                        columns={columnsModalProduct()}
+                        columns={ModalProductColumn()}
                         isLoading={filterTools.isLoading}
                         rows={filterTools?.data?.data}
                         data={filterTools?.data?.data}
@@ -517,7 +517,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 </div>
                 <div className="lg:col-span-3">
                     <MuiTable
-                        columns={columnsSelectProductMuiTable(
+                        columns={SelectProductMuiTableColumn(
                             renderAction,
                             renderInput,
                             renderSubUnit,

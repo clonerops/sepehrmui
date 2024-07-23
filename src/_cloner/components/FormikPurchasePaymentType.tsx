@@ -1,6 +1,5 @@
 import { useGetPurchasePaymentTypes } from '../../app/modules/generic/_hooks';
-
-import { dropdownPurchaseRentPaymentType } from '../../app/modules/managment-order/helpers/dropdowns';
+import { dropdownPurchaseRentPaymentType } from '../helpers/dropdowns';
 
 import FormikSelect from './FormikSelect'
 

@@ -2,7 +2,7 @@ import { Box, FormControlLabel, Switch, Typography } from "@mui/material"
 import { useDeleteRoleMenu, useGetAllApplicationMenus, useGetRoleMenusById, usePostRoleMenus } from "./_hooks"
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
-import {  Formik } from "formik";
+import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import { IRoleMenu } from "./_models";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
@@ -11,16 +11,16 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 const initialValues: IRoleMenu = {
     roleId: "",
     applicationMenuId: [],
-  };
-  
+};
+
 type Props = {
     id: string
 }
 
 const RoleMenus = (props: Props) => {
-    const {id} = props;
+    const { id } = props;
     const { data: appAllMenu, isLoading } = useGetAllApplicationMenus();
-    
+
     const postMenu = usePostRoleMenus();
     const deleteMenu = useDeleteRoleMenu();
     const roleMenuTools = useGetRoleMenusById(id);
@@ -29,10 +29,10 @@ const RoleMenus = (props: Props) => {
 
 
     useEffect(() => {
-        let roleId = roleMenuTools?.data?.data.map((item: {applicationMenuId: string}) => item.applicationMenuId)
+        let roleId = roleMenuTools?.data?.data.map((item: { applicationMenuId: string }) => item.applicationMenuId)
         setRoleIds(roleId)
-      }, [id, roleMenuTools?.data])
-        
+    }, [id, roleMenuTools?.data])
+
     const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean) => {
 
         if (checked) {
@@ -44,7 +44,7 @@ const RoleMenus = (props: Props) => {
 
             postMenu.mutate(formData, {
                 onSuccess: (res) => {
-                    if(res.succeeded) {
+                    if (res.succeeded) {
                         EnqueueSnackbar("دسترسی منو با موفقیت انجام شد", "success")
                     } else {
                         EnqueueSnackbar(res?.data.Message, "error")
@@ -57,9 +57,9 @@ const RoleMenus = (props: Props) => {
             const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId)
             deleteMenu.mutate(filterRoleMenuId?.id, {
                 onSuccess: (message) => {
-                    if(message.succeeded) {
+                    if (message.succeeded) {
                         EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info")
-                        
+
                     } else {
                         EnqueueSnackbar(message?.data.Message, "error")
                     }
@@ -69,72 +69,68 @@ const RoleMenus = (props: Props) => {
         }
     };
 
-    if(isLoading) {
-        return  <Backdrop loading={isLoading} />
+    if (isLoading) {
+        return <Backdrop loading={isLoading} />
     }
 
-  return (
-    <>
-        {postMenu.isLoading && <Backdrop loading={postMenu.isLoading} />}
-        {deleteMenu.isLoading && <Backdrop loading={deleteMenu.isLoading} />}
-        {roleMenuTools.isLoading && <Backdrop loading={roleMenuTools.isLoading} />}
-        <Box sx={{ minHeight: 180, flexGrow: 1}}>
-        <SimpleTreeView
-            aria-label="file system navigator"
-            // defaultCollapseIcon={<ExpandMoreIcon />}
-            // defaultExpandIcon={<ChevronRightIcon />}
-        >
-            {appAllMenu?.data?.map((item: {id: string, description: string, children: any[]}) => (
-                // <TreeItem className="my-4" nodeId={item.id} label={`${item.description} ---- ${roleIds.length} منو از ${item?.children?.length} منوی موجود دسترسی داده  شده است`}>
-                <TreeItem className="my-4" itemId={item.id} label={`${item.description}`}>
-                    <div>
-                    <Formik initialValues={initialValues} onSubmit={() => {}}>
-                {({ handleSubmit }) => {
-                    return (
-                        <form>
-                            <div
-                                className="grid grid-cols-2 md:grid-cols-4 p-8"
-                            >
-                            {item?.children?.map((sub: any) => {
+    return (
+        <>
+            {postMenu.isLoading && <Backdrop loading={postMenu.isLoading} />}
+            {deleteMenu.isLoading && <Backdrop loading={deleteMenu.isLoading} />}
+            {roleMenuTools.isLoading && <Backdrop loading={roleMenuTools.isLoading} />}
+            <Box sx={{ minHeight: 180, flexGrow: 1 }}>
+                <SimpleTreeView
+                    aria-label="file system navigator"
+                >
+                    {appAllMenu?.data?.map((item: { id: string, description: string, children: any[] }) => (
+                        // <TreeItem className="my-4" nodeId={item.id} label={`${item.description} ---- ${roleIds.length} منو از ${item?.children?.length} منوی موجود دسترسی داده  شده است`}>
+                        <TreeItem className="my-4" itemId={item.id} label={`${item.description}`}>
+                            <div>
+                                <Formik initialValues={initialValues} onSubmit={() => { }}>
+                                    {({ handleSubmit }) => {
                                         return (
-                                            <div
-                                                className="flex items-center"
-                                            >
-                                                <FormControlLabel
-                                                    control={
-                                                        <Switch
-                                                            name="applicationMenuId"
-                                                            onChange={(event) => {
-                                                                const checked = event.target.checked;
-                                                                handleCheckboxChange(item.id, sub.id, checked);
-                                                            }}
-                                                            checked={roleIds.includes(sub.id)}
-                                                        />
-                                                    }
-                                                    label={
-                                                        <Typography>
-                                                            {sub.description}
-                                                        </Typography>
-                                                    }
-                                                />
-                                            </div>
+                                            <form>
+                                                <div
+                                                    className="grid grid-cols-2 md:grid-cols-4 p-8"
+                                                >
+                                                    {item?.children?.map((sub: any) => {
+                                                        return (
+                                                            <div
+                                                                className="flex items-center"
+                                                            >
+                                                                <FormControlLabel
+                                                                    control={
+                                                                        <Switch
+                                                                            name="applicationMenuId"
+                                                                            onChange={(event) => {
+                                                                                const checked = event.target.checked;
+                                                                                handleCheckboxChange(item.id, sub.id, checked);
+                                                                            }}
+                                                                            checked={roleIds.includes(sub.id)}
+                                                                        />
+                                                                    }
+                                                                    label={
+                                                                        <Typography>
+                                                                            {sub.description}
+                                                                        </Typography>
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </form>
                                         );
-                            })}
-
-                                
+                                    }}
+                                </Formik>
                             </div>
-                    </form>
-            );
-          }}
-        </Formik>
-                    </div>
-                </TreeItem>
-            ))}
-        </SimpleTreeView>
-        </Box>
+                        </TreeItem>
+                    ))}
+                </SimpleTreeView>
+            </Box>
 
-    </>
-  )
+        </>
+    )
 }
 
 export default RoleMenus

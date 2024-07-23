@@ -13,6 +13,7 @@ import { roleCreateValidation } from "./_validations";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { useDeleteApplicationRoles, useGetApplicationRoles, usePostApplicationRoles } from "../groups/_hooks";
+import { RoleColumn } from "../../../_cloner/helpers/columns";
 
 interface Item {
     name: string;
@@ -41,39 +42,6 @@ const Roles = () => {
          // eslint-disable-next-line
     }, [applicationRoles?.data?.data]);
 
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                field: "name",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نقش کاربری",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "description",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "توضیحات",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "action",
-                renderCell: renderAction,
-                headerName: "عملیات",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-        ];
-        return col;
-    };
 
     const handlePost = (values: any) => {
         postApplicationRoles.mutate(values, {
@@ -184,7 +152,7 @@ const Roles = () => {
                         />
                         <Box component="div" className="my-4">
                             <MuiDataGrid
-                                columns={columns(renderAction)}
+                                columns={RoleColumn(renderAction)}
                                 rows={results}
                                 data={applicationRoles?.data?.data}
                                 isLoading={applicationRoles.isLoading}

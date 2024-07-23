@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
-import { ladingReportColumns } from '../managment-order/helpers/columns'
 import { useGetLadingLicenceList } from '../ladingLicence/_hooks'
+import { LadingReportColumn } from '../../../_cloner/helpers/columns'
 // import Pagination from '../../../_cloner/components/Pagination'
 
 // const pageSize = 20
@@ -48,7 +48,7 @@ const LadingReport = () => {
             </Formik>
 
             <MuiDataGrid
-                columns={ladingReportColumns(renderAction)}
+                columns={LadingReportColumn(renderAction)}
                 rows={ladingList?.data?.data}
                 data={ladingList?.data?.data}
                 isLoading={ladingList.isLoading}

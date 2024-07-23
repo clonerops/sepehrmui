@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import { Button, Tooltip, Typography } from '@mui/material'
-import { Search, Visibility } from '@mui/icons-material'
+import { Button,  Typography } from '@mui/material'
+import { Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
-import { entranceReportColumns } from '../managment-order/helpers/columns'
 import Pagination from '../../../_cloner/components/Pagination'
 import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
+import { EntranceReportColumn } from '../../../_cloner/helpers/columns'
 
-const pageSize = 20
+const pageSize = 100
 
 const EntranceReport = () => {
     const navigate = useNavigate()
@@ -21,7 +21,7 @@ const EntranceReport = () => {
     useEffect(() => {
         const filter = {
             PageNumber: currentPage,
-            PageSize: 100,
+            PageSize: pageSize,
             IsEntranced: true
         }
         transferList.mutate(filter)
@@ -61,7 +61,7 @@ const EntranceReport = () => {
                 <Formik initialValues={{
                     id: "",
                 }} onSubmit={handleFilter}>
-                    {({ values, handleSubmit }) => {
+                    {({ handleSubmit }) => {
                         return (
                             <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
@@ -80,7 +80,7 @@ const EntranceReport = () => {
                 </Formik>
 
                 <MuiDataGrid
-                    columns={entranceReportColumns(renderAction)}
+                    columns={EntranceReportColumn(renderAction)}
                     rows={transferList?.data?.data}
                     data={transferList?.data?.data}
                     isLoading={transferList.isLoading}
