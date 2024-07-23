@@ -388,7 +388,7 @@ export const ladingColumns = (renderAction: any) => {
 }
 export const exitColumns = (renderAction: any) => {
     const col = [
-        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 190, maxWidth: 160 },
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 210, maxWidth: 210 },
         {
             field: 'ladingExitPermitCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;

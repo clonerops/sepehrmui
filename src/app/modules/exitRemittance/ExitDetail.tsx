@@ -4,11 +4,13 @@ import { Badge, Button, Card, Typography } from "@mui/material"
 import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, Person, Source } from "@mui/icons-material"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../_cloner/components/CardWithIcons"
-import { useAddAttachmentsForExit, useGetLadingExitPermitById, useGetLadingPermitById, usePostApproveDriverFareAmount } from "../logestic/core/_hooks"
+import { useAddAttachmentsForExit, useGetLadingExitPermitById, usePostApproveDriverFareAmount } from "../logestic/core/_hooks"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
 import { useEffect, useState } from "react"
 import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64"
 import FileUpload from "../../../_cloner/components/FileUpload"
+import { useGetLadingLicenceById } from "../ladingLicence/_hooks"
+import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 
 const ExitDetail = () => {
     const [files, setFiles] = useState<File[]>([])
@@ -17,7 +19,7 @@ const ExitDetail = () => {
     const {id}: any = useParams()
     
     const exitDetailTools = useGetLadingExitPermitById(id)
-    const ladingDetailTools = useGetLadingPermitById(exitDetailTools?.data?.data?.ladingPermitId)
+    const ladingDetailTools = useGetLadingLicenceById(exitDetailTools?.data?.data?.ladingPermitId)
 
     const postApprove = usePostApproveDriverFareAmount()
     const attachmentTools = useAddAttachmentsForExit()
@@ -87,49 +89,6 @@ const ExitDetail = () => {
          // eslint-disable-next-line
     }, [files]);
 
-
-    // var signatures: any = {
-    //     JVBERi0: "application/pdf",
-    //     R0lGODdh: "image/gif",
-    //     R0lGODlh: "image/gif",
-    //     iVBORw0KGgo: "image/png",
-    //     "/9j/": "image/jpg"
-    // };
-
-    // function detectMimeType(b64: any) {
-    //     for (var s in signatures) {
-    //         if (b64.indexOf(s) === 0) {
-    //             return signatures[s];
-    //         }
-    //     }
-    // }
-
-    // const hadelDownload = () => {
-    //     if (data?.data.attachments?.length === 0) {
-    //         alert("فایلی برای دانلود وجود ندارد")
-    //     } else {
-    //         data?.data?.attachments?.forEach((element: any) => {
-    //             switch (detectMimeType(element.fileData)) {
-    //                 case "image/png":
-    //                     const outputFilenamePng = `filesattachments${Date.now()}.png`;
-    //                     DownloadFilePNG(element.fileData, outputFilenamePng)
-    //                     break;
-    //                 case "image/jpg":
-    //                     const outputFilenameJpg = `filesattachments${Date.now()}.jpg`;
-    //                     DownloadFileJPG(element.fileData, outputFilenameJpg)
-    //                     break;
-    //                 case "image/jpeg":
-    //                     const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
-    //                     DownloadFileJPEG(element.fileData, outputFilenameJpeg)
-    //                     break;
-
-    //                 default:
-    //                     break;
-    //             }
-    //         });
-    //     }
-    // };
-
     const handleSubmitAttach = () => {
         let attachments = base64Attachments.map((i) => {
             let convert = {
@@ -150,23 +109,17 @@ const ExitDetail = () => {
         })
     }
 
-    if(exitDetailTools.isLoading) {
-        return <Backdrop loading={exitDetailTools?.isLoading} />
-    }
-    if(ladingDetailTools.isLoading) {
-        return <Backdrop loading={ladingDetailTools?.isLoading} />
-    }
-    if(attachmentTools.isLoading) {
-        return <Backdrop loading={attachmentTools?.isLoading} />
-    }
-
     return (
         <>
+            {attachmentTools.isLoading && <Backdrop loading={attachmentTools.isLoading} />}
             {postApprove?.isLoading && <Backdrop loading={postApprove?.isLoading} />}
+            {exitDetailTools.isLoading && <Backdrop loading={exitDetailTools.isLoading} />}
+            {ladingDetailTools.isLoading && <Backdrop loading={ladingDetailTools.isLoading} />}
+            
             <Typography color="primary" variant="h1" className="pb-8">جزئیات مجوز خروج</Typography>
             <div className="md:flex md:justify-end md:items-end gap-x-4 py-4">
-                <Badge badgeContent={0} color="secondary">
-                    <Button variant="contained" onClick={() => {}} className='mb-2' color="primary">
+                <Badge badgeContent={exitDetailTools?.data?.data?.attachments.length || 0} color="secondary">
+                    <Button variant="contained" onClick={() => downloadAttachments(exitDetailTools?.data?.data?.attachments)} className='mb-2' color="primary">
                         <Typography>{"دانلود ضمیمه ها"}</Typography>
                     </Button>
                 </Badge>

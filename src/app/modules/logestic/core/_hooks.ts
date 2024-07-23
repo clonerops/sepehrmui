@@ -3,56 +3,6 @@ import { IAddAttachment, IApproveDriveFareAmount, IEvacuationPermit, IExitRemitt
 import * as api from "./_requests";
 
 
-// Lading Licence
-
-const useGetLadingPermitList = () => {
-    return useQuery(["LadingPermit"], () => api.getLadingPermitList(), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
-    });
-};
-const useGetLadingPermitListByMutation = () => {
-    return useMutation((filters: {
-        pageNumber?: number,
-        pageSize?: number
-    }) => {
-        return api.getLadingPermitListByMutation(filters);
-    });
-};
-
-const usePostLadingPermit = () => {
-    return useMutation((formData: ILadingPermit) => {
-        return api.postLadingPermit(formData);
-    });
-};
-
-const useGetLadingPermitById = (id: string) => {
-    return useQuery(["LadingPermitById", id], () => api.getLadingPermitById(id), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
-    });
-};
-
-const useEditLadingPermit = () => {
-    return useMutation((formData: ILadingPermit) => {
-        return api.editLadingPermit(formData);
-    });
-};
-
-const useDeleteLadingPermitById = () => {
-    return useMutation((id: string) => {
-        return api.deleteLadingPermitById(id);
-    });
-};
-
-const useRevokeLadingById = () => {
-    return useMutation((id: number) => {
-        return api.revokeLadingById(id);
-    });
-};
-
 
 // Exit Remittance
 const useGetExitRemittanceList = () => {
@@ -169,13 +119,6 @@ const usePostEvacuation = () => {
 
 
 export {
-    useGetLadingPermitList,
-    useGetLadingPermitListByMutation,
-    usePostLadingPermit,
-    useGetLadingPermitById,
-    useRevokeLadingById,
-    useEditLadingPermit,
-    useDeleteLadingPermitById,
     useGetExitRemittanceList,
     useGetExitPermitListByMutation,
     useGetLadingExitPermitById,

@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import {
-    useGetLadingPermitById,
     usePostExitRemiitance,
 } from "../logestic/core/_hooks";
 import FormikMaskInput from "../../../_cloner/components/FormikMaskInput";
@@ -20,6 +19,7 @@ import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import FileUpload from "../../../_cloner/components/FileUpload";
 import { useCargoById } from "../cargoAnnouncment/_hooks";
+import { useGetLadingLicenceById } from "../ladingLicence/_hooks";
 
 interface ILadingList {
     id?: number;
@@ -55,7 +55,7 @@ const initialValues: ILadingList = {
 
 const ExitRemiitanceEdit = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay }: any = useParams();
-    const { data } = useGetLadingPermitById(ladingCode);
+    const { data } = useGetLadingLicenceById(ladingCode);
     const cargoDetailTools = useCargoById(id)
     const postExitRemittance = usePostExitRemiitance();
 
@@ -349,7 +349,7 @@ const ExitRemiitanceEdit = () => {
                     initialValues={{
                         ...initialValues,
                         ...cargoDetailTools?.data?.data,
-                        fareAmount: cargoDetailTools?.data?.data?.fareAmount.toString()
+                        // fareAmount: cargoDetailTools?.data?.data?.fareAmount
                     }}
                     onSubmit={onSubmit}
                 >

@@ -24,3 +24,22 @@ export interface ICargoFilter {
     CustomerId?: string | null | undefined;
     OrderId?: string | null | undefined;
 }
+
+
+export interface ICargoDetail {
+    id?: number;
+    description?: string;
+    fareAmount?: string;
+    bankAccountNo?: string;
+    bankAccountOwnerName?: string;
+    otherAmount?: string;
+    orderDetailId?: {
+        value: number;
+        label: string;
+        productId: string;
+    };
+    orderDetailName?: string;
+    ladingAmount?: any;
+  }
+  
+  

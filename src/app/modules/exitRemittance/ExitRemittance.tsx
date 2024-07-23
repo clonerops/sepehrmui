@@ -2,12 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import { Button, OutlinedInput, Typography } from "@mui/material";
-import { Person, Print } from "@mui/icons-material";
+import { MobileFriendly, Money, MoneyOff, Numbers, Person, Print, TimeToLeave, TimeToLeaveOutlined } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import {
-    useGetLadingPermitById,
     usePostExitRemiitance,
 } from "../logestic/core/_hooks";
 import FormikMaskInput from "../../../_cloner/components/FormikMaskInput";
@@ -22,24 +21,10 @@ import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
 import moment from "moment-jalaali";
 import FileUpload from "../../../_cloner/components/FileUpload";
 import { useCargoById } from "../cargoAnnouncment/_hooks";
+import { useGetLadingLicenceById } from "../ladingLicence/_hooks";
+import { ICargoDetail } from "../cargoAnnouncment/_models";
 
-interface ILadingList {
-    id?: number;
-    description?: string;
-    fareAmount?: string;
-    bankAccountNo?: string;
-    bankAccountOwnerName?: string;
-    otherAmount?: string;
-    orderDetailId?: {
-        value: number;
-        label: string;
-        productId: string;
-    };
-    orderDetailName?: string;
-    ladingAmount?: any;
-}
-
-const initialValues: ILadingList = {
+const initialValues: ICargoDetail = {
     id: 0,
     description: "",
     fareAmount: "",
@@ -57,7 +42,7 @@ const initialValues: ILadingList = {
 
 const ExitRemiitance = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay }: any = useParams();
-    const { data } = useGetLadingPermitById(ladingCode);
+    const ladingDetailTools = useGetLadingLicenceById(ladingCode);
     const cargoDetailTools = useCargoById(id)
     const postExitRemittance = usePostExitRemiitance();
 
@@ -71,9 +56,7 @@ const ExitRemiitance = () => {
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
 
     useEffect(() => {
-        if (files.length > 0) {
-            convertFilesToBase64(files, setBase64Attachments);
-        }
+        if (files.length > 0) convertFilesToBase64(files, setBase64Attachments)
          // eslint-disable-next-line
     }, [files]);
 
@@ -181,7 +164,6 @@ const ExitRemiitance = () => {
         ];
     };
 
-    console.log(cargoDetailTools?.data?.data?.cargoAnnounceDetails)
 
     useEffect(() => {
         if (cargoDetailTools?.data?.data?.cargoAnnounceDetails?.length > 0) {
@@ -271,68 +253,34 @@ const ExitRemiitance = () => {
         });
     };
 
-    if (cargoDetailTools?.isLoading) {
-        return <Backdrop loading={cargoDetailTools?.isLoading} />;
-    }
-
-    console.log(postExitRemittance?.data?.data)
-
+    {cargoDetailTools.isLoading && <Backdrop loading={cargoDetailTools.isLoading} />}
+    {ladingDetailTools.isLoading && <Backdrop loading={ladingDetailTools.isLoading} />}
     return (
         <>
             {postExitRemittance.isLoading && <Backdrop loading={postExitRemittance.isLoading} />}
-            <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز خروج</Typography>
+
+            <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز خروج</Typography>    
+
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-4">
-                <CardTitleValue
-                    icon={<Person color="secondary" />}
-                    title="شماره مجوز بارگیری"
-                    // value={data?.data?.id}
-                    value={ladingCode}
-                />
-                <CardTitleValue
-                    icon={<Person color="secondary" />}
-                    title="تاریخ ثبت مجوز بارگیری"
-                    value={`${ladingDateYear}/${ladingDateMonth}/${ladingDateDay}`}
-                />
-                <CardTitleValue
-                    icon={<Person color="secondary" />}
-                    title="شماره اعلام بار"
-                    value={cargoDetailTools?.data?.data?.cargoAnnounceNo}
-                />
-                <CardTitleValue
-                    icon={<Person color="secondary" />}
-                    title="کرایه(ریال)"
-                    value={separateAmountWithCommas(cargoDetailTools?.data?.data?.fareAmount)}
-                />
-                <CardTitleValue
-                    icon={<Person color="secondary" />}
-                    title="نوع پرداخت کرایه"
-                    value={cargoDetailTools?.data?.data?.order?.paymentTypeDesc}
-                />
-                <CardTitleValue
-                    icon={<Person color="secondary" />}
-                    title="نام راننده"
-                    value={cargoDetailTools?.data?.data?.driverName}
-                />
-                <CardTitleValue
-                    icon={<Person color="secondary" />}
-                    title="شماره همراه راننده"
-                    value={cargoDetailTools?.data?.data?.driverMobile}
-                />
-                <CardTitleValue
-                    icon={<Person color="secondary" />}
-                    title="تاریخ تحویل"
-                    value={cargoDetailTools?.data?.data?.deliveryDate}
-                />
+                <CardTitleValue icon={<Person color="secondary" />} title="شماره مجوز بارگیری" value={ladingCode} />
+                <CardTitleValue icon={<TimeToLeave color="secondary" />} title="تاریخ ثبت مجوز بارگیری" value={`${ladingDateYear}/${ladingDateMonth}/${ladingDateDay}`} />
+                <CardTitleValue icon={<Numbers color="secondary" />} title="شماره اعلام بار" value={cargoDetailTools?.data?.data?.cargoAnnounceNo} />
+                <CardTitleValue icon={<MoneyOff color="secondary" />} title="کرایه(ریال)" value={separateAmountWithCommas(cargoDetailTools?.data?.data?.fareAmount)} />
+                <CardTitleValue icon={<Person color="secondary" />} title="نوع پرداخت کرایه" value={cargoDetailTools?.data?.data?.order?.paymentTypeDesc} />
+                <CardTitleValue icon={<Person color="secondary" />} title="نام راننده" value={cargoDetailTools?.data?.data?.driverName} />
+                <CardTitleValue icon={<MobileFriendly color="secondary" />} title="شماره همراه راننده" value={cargoDetailTools?.data?.data?.driverMobile} />
+                <CardTitleValue icon={<TimeToLeaveOutlined color="secondary" />} title="تاریخ تحویل" value={cargoDetailTools?.data?.data?.deliveryDate} />
             </div>
+
             <ReusableCard cardClassName="mt-4">
                 <Typography variant="h2" color="primary" className="pb-4">
                     اقلام مجوز بارگیری
                 </Typography>
                 <MuiTable
                     tooltipTitle={
-                        data?.data?.order?.description ? (
+                        ladingDetailTools?.data?.data?.order?.description ? (
                             <Typography>
-                                {data?.data?.order?.description}
+                                {ladingDetailTools?.data?.data?.order?.description}
                             </Typography>
                         ) : (
                             ""
@@ -358,70 +306,26 @@ const ExitRemiitance = () => {
                     {({ values }) => {
                         return (
                             <Form className="mt-8">
-                                <div
-                                    // className="flex items-center justify-center gap-x-4 mb-4"
-                                    className="grid grid-cols-1 md:grid-cols-5 gap-x-4 mb-4 md:space-y-0 space-y-4"
-                                >
-                                    <FormikInput
-                                        name="bankAccountNo"
-                                        label="شماره حساب/کارت راننده"
-                                        disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2}
-                                    />
-                                    <FormikInput
-                                        name="bankAccountOwnerName"
-                                        label="صاحب حساب"
-                                        disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2}
-                                    />
-                                    {/* <FormikInput
-                                        name="creditCardNo"
-                                        label="شماره کارت راننده"
-                                    /> */}
-                                    <FormikMaskInput
-                                        thousandsSeparator=","
-                                        mask={Number}
-                                        name="otherAmount"
-                                        label={"مقدار سایر هزینه ها"}
-                                        disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2}
-                                    />
-                                    <FormikMaskInput
-                                        thousandsSeparator=","
-                                        mask={Number}
-                                        name="fareAmount"
-                                        label={"مقدار کرایه"}
-                                        disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2}
-                                    />
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 mb-4 md:space-y-0 space-y-4" >
+                                    <FormikInput name="bankAccountNo" label="شماره حساب/کارت راننده" disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2} />
+                                    <FormikInput name="bankAccountOwnerName" label="صاحب حساب" disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2} />
+                                    <FormikMaskInput thousandsSeparator="," mask={Number} name="otherAmount" label={"مقدار سایر هزینه ها"} disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2} />
+                                    <FormikMaskInput thousandsSeparator="," mask={Number} name="fareAmount" label={"مقدار کرایه"} disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2} />
                                 </div>
 
-                                <div
-                                    // className="flex flex-row gap-x-4"
-                                    className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:space-y-0 space-y-4"
-                                >
-                                    <FormikDescription
-                                        name="description"
-                                        label="توضیحات"
-                                    />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:space-y-0 space-y-4">
+                                    <FormikDescription name="description" label="توضیحات" />
 
-                                    <div
-                                        className="flex flex-col w-full"
-                                    >
-                                        <Typography
-                                            variant="h2"
-                                            color="primary"
-                                            className="pb-4"
-                                        >
+                                    <div className="flex flex-col w-full" >
+                                        <Typography variant="h2" color="primary" className="pb-4">
                                             افزودن پیوست
                                         </Typography>
-                                        <FileUpload
-                                            files={files}
-                                            setFiles={setFiles}
-                                        />
+                                        <FileUpload files={files} setFiles={setFiles}/>
                                     </div>
                                 </div>
                                 <div className="mt-8 flex gap-x-4">
-                                    <Button
-                                        onClick={() => onSubmit(values)}
-                                        className="!bg-green-500 !text-white"
-                                    >
+                                    <Button onClick={() => onSubmit(values)} className="!bg-green-500 !text-white">
                                         <Typography className="py-1">
                                             ثبت مجوز
                                         </Typography>

@@ -3,70 +3,6 @@ import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUr
 import { IAddAttachment, IApproveDriveFareAmount, IEvacuationPermit, IExitRemittance, ILadingPermit, ITransferRemittance } from "./_models";
 
 
-// Lading Licence
-const getLadingPermitList = async () => {
-    const { data } = await http.get("/v1/LadingPermit");
-    return data;
-};
-const getLadingPermitListByMutation = async (filters: {
-    pageNumber?: number,
-    pageSize?: number
-}) => {
-    const { data } = await http.get(`${generateURLQueryParam('/v1/LadingPermit', filters)}`);
-    return data;
-};
-
-const postLadingPermit = async (formdata: ILadingPermit) => {
-    try {
-        const { data } = await http.post(
-            "/v1/LadingPermit",
-            JSON.stringify(formdata)
-        );
-        return data;
-    } catch (error: any) {
-        return error.response;
-    }
-};
-const getLadingPermitById = async (id: string) => {
-    try {
-        const { data } = await http.get(`/v1/LadingPermit/${id}`);
-        return data;
-    } catch (error: any) {
-        return error.response;
-    }
-};
-
-const editLadingPermit = async (formdata: ILadingPermit) => {
-    try {
-        const { data } = await http.put(
-            `/v1/LadingPermit/${formdata.id}`,
-            JSON.stringify(formdata)
-        );
-        return data;
-    } catch (error: any) {
-        return error.response;
-    }
-};
-
-const deleteLadingPermitById = async (id: string) => {
-    try {
-        const { data } = await http.delete(`/v1/LadingPermit/${id}`);
-        return data;
-    } catch (error: any) {
-        return error.response;
-    }
-};
-
-const revokeLadingById = async (id: number) => {
-    try {
-        const { data } = await http.put(`/v1/LadingPermit/RevokeLadingPermit/${id}`, JSON.stringify({id: id}));
-        return data;
-    } catch (error: any) {
-        return error.response;
-    }
-};
-
-
 // exit remittance
 const getExitRemittanceList = async () => {
     const { data } = await http.get("/v1/LadingExitPermit");
@@ -213,13 +149,6 @@ const postEvacuation = async (formdata: IEvacuationPermit) => {
 
 
 export {
-    getLadingPermitList,
-    getLadingPermitListByMutation,
-    postLadingPermit,
-    getLadingPermitById,
-    editLadingPermit,
-    deleteLadingPermitById,
-    revokeLadingById,
     getExitRemittanceList,
     getExitPermitListByMutation,
     getLadingExitPermitById,

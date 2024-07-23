@@ -3,11 +3,11 @@ import {  Formik } from 'formik'
 import { Button, Typography } from '@mui/material'
 import { Search, Visibility } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import { useGetLadingPermitList } from '../logestic/core/_hooks'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
 import { ladingReportColumns } from '../managment-order/helpers/columns'
+import { useGetLadingLicenceList } from '../ladingLicence/_hooks'
 // import Pagination from '../../../_cloner/components/Pagination'
 
 // const pageSize = 20
@@ -15,7 +15,7 @@ import { ladingReportColumns } from '../managment-order/helpers/columns'
 const LadingReport = () => {
     // const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const ladingList = useGetLadingPermitList();
+    const ladingList = useGetLadingLicenceList();
 
 
     const renderAction = (item: any) => {

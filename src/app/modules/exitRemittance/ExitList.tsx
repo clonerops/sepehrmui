@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useGetExitPermitListByMutation, useRevokeExitById } from "../logestic/core/_hooks";
 import { exitColumns } from "../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
-import { Approval, LayersClear, Print, Visibility } from "@mui/icons-material";
+import { Approval, Edit, LayersClear, Print, Visibility } from "@mui/icons-material";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
