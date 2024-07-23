@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom"
 import { Alert, Badge, Button, Typography } from "@mui/material"
 
 import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, PaymentOutlined, Person, Source } from "@mui/icons-material"
-import { useGetLadingExitPermitById, usePostApproveDriverFareAmount } from "../logestic/core/_hooks"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian"
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
@@ -14,6 +13,7 @@ import Backdrop from "../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../_cloner/components/CardWithIcons"
 import TransitionsModal from "../../../_cloner/components/ReusableModal"
 import FormikDescription from "../../../_cloner/components/FormikDescription"
+import { useGetLadingExitPermitById, usePostApproveDriverFareAmount } from "./_hooks"
 
 const ApprovedRentPayment = () => {
     const {id}: any = useParams()

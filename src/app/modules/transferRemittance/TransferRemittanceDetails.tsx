@@ -1,22 +1,15 @@
 import { CarCrash, DateRange, DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
-import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
-import MuiTable from "../../../../_cloner/components/MuiTable"
 import { Badge, Button, Typography } from "@mui/material"
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
-import { useGetTransferRemitanceById } from "../core/_hooks"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
+import { useGetTransferRemitanceById } from "./_hooks"
+import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 import { useParams } from "react-router-dom"
-import Backdrop from "../../../../_cloner/components/Backdrop"
-import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePDF, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
 
-var signatures: any = {
-    JVBERi0: "application/pdf",
-    R0lGODdh: "image/gif",
-    R0lGODlh: "image/gif",
-    iVBORw0KGgo: "image/png",
-    "/9j/": "image/jpg"
-};
+import CardTitleValue from "../../../_cloner/components/CardTitleValue"
+import MuiTable from "../../../_cloner/components/MuiTable"
+import Backdrop from "../../../_cloner/components/Backdrop"
 
-const BilllandingDetails = () => {
+const TrasnferRemittanceDetails = () => {
     const { id }: any = useParams()
     const detailTools = useGetTransferRemitanceById(id)
 
@@ -53,101 +46,24 @@ const BilllandingDetails = () => {
         },
     ]
 
-    if (detailTools.isLoading) {
-        return <Backdrop loading={detailTools.isLoading} />
-    }
-
-    function detectMimeType(b64: any) {
-        for (var s in signatures) {
-            if (b64.indexOf(s) === 0) {
-                return signatures[s];
-            }
-        }
-    }
-
-    const hadelDownloadEntrance = () => {
-        if (detailTools?.data?.data.entrancePermit?.attachments?.length === 0) {
-            alert("فایلی برای دانلود وجود ندارد")
-        } else {
-            detailTools?.data?.data.entrancePermit?.attachments?.forEach((element: any) => {
-                switch (detectMimeType(element.fileData)) {
-                    case "image/png":
-                        const outputFilenamePng = `filesattachments${Date.now()}.png`;
-                        DownloadFilePNG(element.fileData, outputFilenamePng)
-                        break;
-                    case "image/jpg":
-                        const outputFilenameJpg = `filesattachments${Date.now()}.jpg`;
-                        DownloadFileJPG(element.fileData, outputFilenameJpg)
-                        break;
-                    case "image/jpeg":
-                        const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
-                        DownloadFileJPEG(element.fileData, outputFilenameJpeg)
-                        break;
-                    case "application/pdf":
-                        const outputFilenamePdf = `filesattachments${Date.now()}.pdf`;
-                        DownloadFilePDF(element.fileData, outputFilenamePdf)
-                        break;
-    
-
-                    default:
-                        break;
-                }
-            });
-        }
-    };
-    const hadelDownloadEvacuation = () => {
-        if (detailTools?.data?.data.entrancePermit?.unloadingPermits?.length === 0) {
-            alert("فایلی برای دانلود وجود ندارد")
-        } else {
-            detailTools?.data?.data.entrancePermit?.unloadingPermits[0]?.attachments?.forEach((element: any) => {
-                switch (detectMimeType(element.fileData)) {
-                    case "image/png":
-                        const outputFilenamePng = `filesattachments${Date.now()}.png`;
-                        DownloadFilePNG(element.fileData, outputFilenamePng)
-                        break;
-                    case "image/jpg":
-                        const outputFilenameJpg = `filesattachments${Date.now()}.jpg`;
-                        DownloadFileJPG(element.fileData, outputFilenameJpg)
-                        break;
-                    case "image/jpeg":
-                        const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
-                        DownloadFileJPEG(element.fileData, outputFilenameJpeg)
-                        break;
-                    case "application/pdf":
-                        const outputFilenamePdf = `filesattachments${Date.now()}.pdf`;
-                        DownloadFilePDF(element.fileData, outputFilenamePdf)
-                        break;
-    
-
-                    default:
-                        break;
-                }
-            });
-        }
-    };
-
-
     return (
         <>
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} /> }
             <Typography color="primary" variant="h1" className="pb-8">جزئیات حواله</Typography>
             <div className='flex justify-end items-end mb-2 gap-x-4' >
                 <Badge badgeContent={detailTools?.data?.data?.entrancePermit?.attachments?.length || 0} color="secondary">
-                    <Button variant="contained" onClick={hadelDownloadEntrance} color="primary">
+                    <Button variant="contained" onClick={() => downloadAttachments(detailTools?.data?.data?.entrancePermit?.attachments)} color="primary">
                         <Typography>{"دانلود ضمیمه ثبت برای حواله ورود"}</Typography>
                     </Button>
                 </Badge>
                 <Badge badgeContent={detailTools?.data?.data?.entrancePermit?.unloadingPermits[0]?.attachments.length || 0} color="primary">
-                    <Button variant="contained" onClick={hadelDownloadEvacuation} color="secondary">
+                    <Button variant="contained" onClick={() => downloadAttachments(detailTools?.data?.data?.entrancePermit?.unloadingPermits[0]?.attachments)} color="secondary">
                         <Typography>{"دانلود ضمیمه ثبت برای مجوز تخلیه"}</Typography>
                     </Button>
                 </Badge>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">
-                {orderAndAmountInfo.map((item: {
-                    title: string,
-                    icon: React.ReactNode,
-                    value: any
-                }, index) => {
+                {orderAndAmountInfo.map((item: { title: string, icon: React.ReactNode, value: any }, index) => {
                     return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                 })}
                 <div className="lg:col-span-4">
@@ -163,4 +79,4 @@ const BilllandingDetails = () => {
     )
 }
 
-export default BilllandingDetails
+export default TrasnferRemittanceDetails

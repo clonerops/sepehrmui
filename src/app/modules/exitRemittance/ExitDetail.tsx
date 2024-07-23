@@ -4,13 +4,13 @@ import { Badge, Button, Card, Typography } from "@mui/material"
 import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, Person, Source } from "@mui/icons-material"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../_cloner/components/CardWithIcons"
-import { useAddAttachmentsForExit, useGetLadingExitPermitById, usePostApproveDriverFareAmount } from "../logestic/core/_hooks"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
 import { useEffect, useState } from "react"
 import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64"
 import FileUpload from "../../../_cloner/components/FileUpload"
 import { useGetLadingLicenceById } from "../ladingLicence/_hooks"
 import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
+import { useAddAttachmentsForExit, useGetLadingExitPermitById, usePostApproveDriverFareAmount } from "./_hooks"
 
 const ExitDetail = () => {
     const [files, setFiles] = useState<File[]>([])
@@ -115,7 +115,7 @@ const ExitDetail = () => {
             {postApprove?.isLoading && <Backdrop loading={postApprove?.isLoading} />}
             {exitDetailTools.isLoading && <Backdrop loading={exitDetailTools.isLoading} />}
             {ladingDetailTools.isLoading && <Backdrop loading={ladingDetailTools.isLoading} />}
-            
+
             <Typography color="primary" variant="h1" className="pb-8">جزئیات مجوز خروج</Typography>
             <div className="md:flex md:justify-end md:items-end gap-x-4 py-4">
                 <Badge badgeContent={exitDetailTools?.data?.data?.attachments.length || 0} color="secondary">

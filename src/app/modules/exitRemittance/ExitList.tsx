@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetExitPermitListByMutation, useRevokeExitById } from "../logestic/core/_hooks";
 import { exitColumns } from "../managment-order/helpers/columns";
 import { Tooltip, Typography } from "@mui/material";
 import { Approval, Edit, LayersClear, Print, Visibility } from "@mui/icons-material";
@@ -11,6 +10,7 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import Pagination from "../../../_cloner/components/Pagination";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import { useGetExitPermitListByMutation, useRevokeExitById } from "./_hooks";
 
 const pageSize = 100;
 
@@ -25,8 +25,8 @@ const ExitList = () => {
 
     useEffect(() => {
         let formData = {
-            pageNumber: currentPage,
-            pageSize: pageSize,
+            PageNumber: currentPage,
+            PageSize: pageSize,
         };
         exitListTools.mutate(formData);
         //  eslint-disable-next-line

@@ -6,12 +6,8 @@ import { Person } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../_cloner/components/MuiTable";
-import {
-    usePostExitRemiitance,
-} from "../logestic/core/_hooks";
 import FormikMaskInput from "../../../_cloner/components/FormikMaskInput";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
-import { IExitRemittance } from "../logestic/core/_models";
 import { enqueueSnackbar } from "notistack";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import FormikDescription from "../../../_cloner/components/FormikDescription";
@@ -20,6 +16,8 @@ import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount
 import FileUpload from "../../../_cloner/components/FileUpload";
 import { useCargoById } from "../cargoAnnouncment/_hooks";
 import { useGetLadingLicenceById } from "../ladingLicence/_hooks";
+import { usePostExitRemiitance } from "./_hooks";
+import { IExitRemittance } from "./_models";
 
 interface ILadingList {
     id?: number;

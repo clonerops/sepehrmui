@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import { Formik, FormikErrors } from "formik";
 import MuiTable from "../../../../_cloner/components/MuiTable";
 import {
-    useGetTransferRemitanceById,
     usePostEvacuation,
 } from "../core/_hooks";
 import FormikMaskInput from "../../../../_cloner/components/FormikMaskInput";
@@ -25,6 +24,7 @@ import MaskInput from "../../../../_cloner/components/MaskInput";
 import { evacuationValidation } from "./_validation";
 import FileUpload from "../../../../_cloner/components/FileUpload";
 import { dropdownVehicleType } from "../../../../_cloner/helpers/Dropdowns";
+import { useGetTransferRemitanceById } from "../../transferRemittance/_hooks";
 
 const initialValues = {
     id: 0,

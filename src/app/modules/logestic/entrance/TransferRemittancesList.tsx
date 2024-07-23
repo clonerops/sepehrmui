@@ -1,7 +1,6 @@
 import { Button, Typography } from "@mui/material"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import { useGetTransferRemitancesByMutation } from "../core/_hooks"
 import { billlandingColumns } from "./_columns"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { Search } from "@mui/icons-material"
@@ -14,6 +13,7 @@ import Pagination from "../../../../_cloner/components/Pagination"
 import { useGetTransferRemittanceStatus } from "../../generic/_hooks"
 import RadioGroup from "../../../../_cloner/components/RadioGroup"
 import { dropdownTransferRemittanceStatus } from "../../../../_cloner/helpers/Dropdowns"
+import { useGetTransferRemitancesByMutation } from "../../transferRemittance/_hooks"
 
 
 const pageSize = 100
@@ -28,8 +28,8 @@ const TransferRemitancesList = () => {
   const transferList = useGetTransferRemitancesByMutation()
   useEffect(() => {
     const filter: any = {
-      pageNumber: currentPage,
-      pageSize: 100,     
+      PageNumber: currentPage,
+      PageSize: 100,     
     }
     transferList.mutate(filter)
      // eslint-disable-next-line

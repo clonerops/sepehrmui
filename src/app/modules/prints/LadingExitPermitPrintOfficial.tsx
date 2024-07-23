@@ -4,10 +4,10 @@ import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
 import { Container } from "@mui/material";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
 import { useParams } from "react-router-dom";
-import {  useGetLadingExitPermitById } from "../logestic/core/_hooks";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { Print } from "@mui/icons-material";
 import { useGetLadingLicenceById } from "../ladingLicence/_hooks";
+import { useGetLadingExitPermitById } from "../exitRemittance/_hooks";
 
 const LadingExitPermitPrintOfficial = () => {
     const { id, ladingCode, ladingDateYear, ladingDateMonth, ladingDateDay}: any = useParams()

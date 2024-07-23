@@ -1,20 +1,21 @@
 import { Typography } from "@mui/material";
 import { Formik } from "formik";
-import FormikInput from "../../../../_cloner/components/FormikInput";
-import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import { FC } from "react";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+
+import FormikInput from "../../../_cloner/components/FormikInput";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 
 interface IProps {
     item: any
-    productForBilllanding: any[]
-    setProductForBilllanding: React.Dispatch<React.SetStateAction<any[]>>
+    productForTransferRemittance: any[]
+    setProductForTransferRemittance: React.Dispatch<React.SetStateAction<any[]>>
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TransferAmount:FC<IProps> = ({item, setIsOpen, productForBilllanding, setProductForBilllanding}) => {
-    const handleSetAmountForBilllanding = (values: any) => {
-        const cpProductForBilllanding = [...productForBilllanding]
+const TransferAmount:FC<IProps> = ({item, setIsOpen, productForTransferRemittance, setProductForTransferRemittance}) => {
+    const handleSetAmountForTransferRemittance = (values: any) => {
+        const cpProductForTransferRemittance = [...productForTransferRemittance]
         const newValue = {
             id: item.id,
             productCode: item.productCode,
@@ -29,7 +30,7 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForBilllanding, setP
             return;
         }
         
-        let isExist = productForBilllanding.some((obj) => {
+        let isExist = productForTransferRemittance.some((obj) => {
             return  item.productBrandId === obj.productBrandId
         })
         
@@ -38,7 +39,7 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForBilllanding, setP
             return;
         }
 
-        setProductForBilllanding([...cpProductForBilllanding, newValue])
+        setProductForTransferRemittance([...cpProductForTransferRemittance, newValue])
         setIsOpen(false)
     }
 
@@ -62,16 +63,16 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForBilllanding, setP
                     <Typography variant="h3" className="text-gray-500">{item.purchaseInventory}</Typography>
                 </div>
             </div>
-            <Formik initialValues={{transferAmount: ""}} onSubmit={handleSetAmountForBilllanding}>
+            <Formik initialValues={{transferAmount: ""}} onSubmit={handleSetAmountForTransferRemittance}>
                 {({values}) => {
-                    return <form className="my-4">
+                    return <>
                         <FormikInput autoFocus={true} name="transferAmount" label="مقدار موردنظر جهت انتقال" />
                         <div className="flex justify-end items-end my-4">
-                            <ButtonComponent onClick={() => handleSetAmountForBilllanding(values)}>
+                            <ButtonComponent onClick={() => handleSetAmountForTransferRemittance(values)}>
                                 <Typography className="text-white">ثبت</Typography>
                             </ButtonComponent>
                         </div>
-                    </form>;    
+                    </>;    
                 }}
             </Formik>
         </>

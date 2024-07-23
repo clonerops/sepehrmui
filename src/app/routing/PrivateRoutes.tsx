@@ -39,7 +39,7 @@ const TransferRemittanceDetails = React.lazy(
     () => import("../modules/logestic/entrance/TransferRemittanceDetails")
 );
 const BilllandingEdit = React.lazy(
-    () => import("../modules/logestic/billlanding/BilllandingEdit")
+    () => import("../modules/transferRemittance/TransferRemittanceEdit")
 );
 const EntranceList = React.lazy(
     () => import("../modules/logestic/entrance/EntranceList")
@@ -69,13 +69,13 @@ const SinglePaymentRegister = React.lazy(
     () => import("../modules/payment/components/SinglePaymentRegister")
 );
 const Billlanding = React.lazy(
-    () => import("../modules/logestic/billlanding/Billlanding")
+    () => import("../modules/transferRemittance/TransferRemittance")
 );
 const ListOfBilllanding = React.lazy(
-    () => import("../modules/logestic/billlanding/ListOfBilllanding")
+    () => import("../modules/transferRemittance/ListOfTransferRemittance")
 );
 const BilllandingDetails = React.lazy(
-    () => import("../modules/logestic/billlanding/BilllandingDetails")
+    () => import("../modules/transferRemittance/TransferRemittanceDetails")
 );
 const ProductPrice = React.lazy(
     () => import("../modules/productPrices/ProductPrice")

@@ -1,6 +1,5 @@
 import { Button, Typography } from "@mui/material"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import { useGetTransferRemitancesByMutation } from "../core/_hooks"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { CarCrash, DateRange, DateRangeRounded, Delete, HomeMaxRounded, HomeMiniOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, Search, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
 import Backdrop from "../../../../_cloner/components/Backdrop"
@@ -10,6 +9,7 @@ import { useEffect, useState } from "react"
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import MuiTable from "../../../../_cloner/components/MuiTable"
+import { useGetTransferRemitancesByMutation } from "../../transferRemittance/_hooks"
 
 const EntranceLading = () => {
     const transferList = useGetTransferRemitancesByMutation()

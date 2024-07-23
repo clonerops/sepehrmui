@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import { Button, Tooltip, Typography } from '@mui/material'
 import { Visibility } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
-import { useGetTransferRemitancesByMutation } from '../core/_hooks'
 import { entranceReportColumns } from '../../managment-order/helpers/columns'
 
 import ReusableCard from '../../../../_cloner/components/ReusableCard'
 import MuiDataGrid from '../../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../../_cloner/components/Pagination'
 import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
+import { useGetTransferRemitancesByMutation } from '../../transferRemittance/_hooks'
 
 const pageSize = 100
 

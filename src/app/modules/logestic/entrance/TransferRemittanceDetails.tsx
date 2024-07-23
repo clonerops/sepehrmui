@@ -3,7 +3,7 @@ import CardTitleValue from "../../../../_cloner/components/CardTitleValue"
 import MuiTable from "../../../../_cloner/components/MuiTable"
 import { Typography } from "@mui/material"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount"
-import { useEntrancePermission, useGetTransferRemitanceById } from "../core/_hooks"
+import { useEntrancePermission } from "../core/_hooks"
 import { useParams } from "react-router-dom"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog"
@@ -16,6 +16,7 @@ import moment from "moment-jalaali"
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import FileUpload from "../../../../_cloner/components/FileUpload"
+import { useGetTransferRemitanceById } from "../../transferRemittance/_hooks"
 
 const TransferRemittanceDetails = () => {
     const { id }: any = useParams()

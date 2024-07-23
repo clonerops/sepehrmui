@@ -1,30 +1,31 @@
-import { Formik, FormikErrors } from "formik";
-import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import { Button, Typography } from "@mui/material";
-import RadioGroup from "../../../../_cloner/components/RadioGroup";
-import { FieldType } from "../../../../_cloner/components/globalTypes";
-import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";
-import FormikSelect from "../../../../_cloner/components/FormikSelect";
-import FormikInput from "../../../../_cloner/components/FormikInput";
-import { useGetVehicleTypes, useGetWarehouses } from "../../generic/_hooks";
-import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import TransitionsModal from "../../../../_cloner/components/ReusableModal";
-import { useEffect, useState } from "react";
-import TransferAmount from "./TransferAmount";
-import FormikWarehouseBasedOfType from "../../../../_cloner/components/FormikWarehouseBasedOfType";
-import { useGetProductList } from "../../products/_hooks";
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
-import { useGetTransferRemitanceByIdByMutation, useUpdateTransferRemitance } from "../core/_hooks";
-import Backdrop from "../../../../_cloner/components/Backdrop";
 import _ from "lodash";
-import { renderAlert } from "../../../../_cloner/helpers/SweetAlert";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
-import CardWithIcons from "../../../../_cloner/components/CardWithIcons";
+import { useEffect, useState } from "react";
+import { Formik, FormikErrors } from "formik";
+import { Button, Typography } from "@mui/material";
+import { FieldType } from "../../../_cloner/components/globalTypes";
+import { useGetVehicleTypes, useGetWarehouses } from "../generic/_hooks";
+import { useGetProductList } from "../products/_hooks";
+import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
 import { AddTask, DesignServices } from "@mui/icons-material";
-import moment from "moment-jalaali";
 import { useParams } from "react-router-dom";
-import { dropdownVehicleType } from "../../../../_cloner/helpers/Dropdowns";
+import { dropdownVehicleType } from "../../../_cloner/helpers/Dropdowns";
+import { useGetTransferRemitanceByIdByMutation, useUpdateTransferRemitance } from "./_hooks";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import RadioGroup from "../../../_cloner/components/RadioGroup";
+import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
+import FormikSelect from "../../../_cloner/components/FormikSelect";
+import FormikInput from "../../../_cloner/components/FormikInput";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import TransitionsModal from "../../../_cloner/components/ReusableModal";
+import TransferAmount from "./TransferAmount";
+import FormikWarehouseBasedOfType from "../../../_cloner/components/FormikWarehouseBasedOfType";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import CardWithIcons from "../../../_cloner/components/CardWithIcons";
+import moment from "moment-jalaali";
 
 const initialValues = {
     originWarehouseId: "",
@@ -52,7 +53,7 @@ const fields: FieldType[][] = [
 ];
 
 
-const BilllandingEdit = () => {
+const TransferRemittanceEdit = () => {
     const { id }: any = useParams()
 
     const vehicleList = useGetVehicleTypes()
@@ -60,11 +61,11 @@ const BilllandingEdit = () => {
     const productsInventory = useGetProductList()
     const detailTools = useGetTransferRemitanceByIdByMutation()
     const updateTools = useUpdateTransferRemitance()
-    const [categories, setCategoies] = useState<any>([])
 
+    const [categories, setCategoies] = useState<any>([])
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [itemSelected, setItemSelected] = useState<any>({})
-    const [productForBilllanding, setProductForBilllanding] = useState<any>([])
+    const [productForTransferRemittance, setProductForTransferRemittance] = useState<any>([])
 
     const parseFields = (fields: FieldType, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>, index: number) => {
         const { type, ...rest } = fields;
@@ -73,8 +74,6 @@ const BilllandingEdit = () => {
                 return <FormikDatepicker key={index} setFieldValue={setFieldValue} boxClassName="w-full" {...rest} />
             case "select":
                 return <FormikSelect key={index} options={dropdownVehicleType(vehicleList.data)} {...rest} />
-            // case "amount":
-            //     return <FormikAmount key={index} {...rest} />;
             case "desc":
                 return <FormikInput key={index} multiline minRows={3} {...rest} />;
 
@@ -139,7 +138,7 @@ const BilllandingEdit = () => {
         ];
         return col;
     };
-    const columnsForBilllanding = () => {
+    const columnsForTransferRemittance = () => {
         const col = [
             {
                 field: "productName",
@@ -189,11 +188,11 @@ const BilllandingEdit = () => {
     };
 
     const renderDelete = (values: any) => {
-        const filtered = productForBilllanding.filter((item: { productBrandId: number }) => {
+        const filtered = productForTransferRemittance.filter((item: { productBrandId: number }) => {
             return +item.productBrandId !== +values.productBrandId
         })
 
-        setProductForBilllanding(filtered)
+        setProductForTransferRemittance(filtered)
     }
 
     const onFilterWarehouseFrom = (value: any) => {
@@ -204,7 +203,7 @@ const BilllandingEdit = () => {
         }
         productsInventory.mutate(filter, {
             onSuccess: (response) => {
-                setProductForBilllanding([])
+                setProductForTransferRemittance([])
             }
         })
     }
@@ -213,7 +212,7 @@ const BilllandingEdit = () => {
         try {
             detailTools.mutate(id, {
                 onSuccess: (response) => {
-                    setProductForBilllanding(response?.data.details)
+                    setProductForTransferRemittance(response?.data.details)
                     setCategoies(
                         [
                             { value: 1, title: "طبق برنامه", defaultChecked: response?.data?.transferRemittanceTypeId === 1 ? true : false },
@@ -250,7 +249,7 @@ const BilllandingEdit = () => {
             fareAmount: values.fareAmount ? +values.fareAmount : detailTools?.data?.data?.fareAmount,
             destinationWarehouseId: values.destinationWarehouseId ? +values.destinationWarehouseId : detailTools?.data?.data?.destinationWarehouseId,
             transferRemittanceTypeId: +values.transferRemittanceTypeId ? +values.transferRemittanceTypeId : detailTools?.data?.data?.transferRemittanceTypeId,
-            details: _.map(productForBilllanding, (item) => {
+            details: _.map(productForTransferRemittance, (item) => {
                 return {
                     id: item.id ? +item.id : null,
                     productBrandId: +item.productBrandId,
@@ -283,6 +282,10 @@ const BilllandingEdit = () => {
         <>
             {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
+            {vehicleList.isLoading && <Backdrop loading={vehicleList.isLoading} />}
+            {warehouse.isLoading && <Backdrop loading={warehouse.isLoading} />}
+            {productsInventory.isLoading && <Backdrop loading={productsInventory.isLoading} />}
+
             <Typography color="primary" variant="h1" className="pb-8">ویرایش حواله</Typography>
             <Formik enableReinitialize initialValues={
                 {
@@ -291,20 +294,12 @@ const BilllandingEdit = () => {
                 }
             }
                 onSubmit={onUpdate}>
-                {({ values, setFieldValue, handleSubmit }) => {
+                {({  setFieldValue, handleSubmit }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
-                                <CardWithIcons
-                                    title='شماره حواله'
-                                    icon={<DesignServices className="text-white" />}
-                                    value={detailTools?.data?.data?.id}
-                                    iconClassName='bg-[#3322D8]' />
-                                <CardWithIcons
-                                    title='تاریخ حواله'
-                                    icon={<AddTask className="text-white" />}
-                                    value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
-                                    iconClassName='bg-[#369BFD]' />
+                                <CardWithIcons title='شماره حواله' icon={<DesignServices className="text-white" />} value={detailTools?.data?.data?.id} iconClassName='bg-[#3322D8]' />
+                                <CardWithIcons title='تاریخ حواله' icon={<AddTask className="text-white" />} value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')} iconClassName='bg-[#369BFD]' />
                                 <ReusableCard cardClassName="flex flex-col gap-y-4">
                                     <FormikWarehouseBasedOfType
                                         name="originWarehouseId"
@@ -343,28 +338,22 @@ const BilllandingEdit = () => {
                                 <div>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای انتخاب شده جهت انتقال حواله</Typography>
                                     <MuiDataGrid
-                                        columns={columnsForBilllanding()}
-                                        rows={productForBilllanding}
-                                        data={productForBilllanding}
+                                        columns={columnsForTransferRemittance()}
+                                        rows={productForTransferRemittance}
+                                        data={productForTransferRemittance}
                                     />
                                 </div>
                             </ReusableCard>
                             <ReusableCard cardClassName="mt-4">
                                 <Typography variant="h3" className="text-gray-500 pb-2">جزئیات حمل توسط راننده</Typography>
                                 {fields.map((rowFields, index) => (
-                                    <div
-                                        key={index}
-
-                                        className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4"
-                                    >
-                                        {rowFields.map((field, index) =>
-                                            parseFields(field, setFieldValue, index)
-                                        )}
+                                    <div key={index} className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4" >
+                                        {rowFields.map((field, index) => parseFields(field, setFieldValue, index))}
                                     </div>
                                 ))}
                             </ReusableCard>
                             <div className="flex justify-end items-end mt-8">
-                                <ButtonComponent onClick={() => handleSubmit()} disabled={productForBilllanding?.length < 0}>
+                                <ButtonComponent onClick={handleSubmit} disabled={productForTransferRemittance?.length < 0}>
                                     <Typography variant="h4" className="px-4 py-2 text-white">{"ویرایش حواله"}</Typography>
                                 </ButtonComponent>
                             </div>
@@ -372,17 +361,19 @@ const BilllandingEdit = () => {
                     );
                 }}
             </Formik>
-            <TransitionsModal
-                open={isOpen}
-                isClose={() => setIsOpen(false)}
-                width="50%"
-                title="مقدار انتقال"
-            >
-                <TransferAmount productForBilllanding={productForBilllanding} setProductForBilllanding={setProductForBilllanding} setIsOpen={setIsOpen} item={itemSelected} />
-            </TransitionsModal>
+            {isOpen &&
+                <TransitionsModal
+                    open={isOpen}
+                    isClose={() => setIsOpen(false)}
+                    width="50%"
+                    title="مقدار انتقال"
+                >
+                    <TransferAmount productForTransferRemittance={productForTransferRemittance} setProductForTransferRemittance={setProductForTransferRemittance} setIsOpen={setIsOpen} item={itemSelected} />
+                </TransitionsModal>
+            }
 
         </>
     );
 };
 
-export default BilllandingEdit;
+export default TransferRemittanceEdit;
