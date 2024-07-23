@@ -5,6 +5,8 @@ import { Edit, Search, Visibility } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom"
 import { useGetTransferRemittanceStatus } from "../generic/_hooks"
 import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/dropdowns"
+import { useGetTransferRemitancesByMutation } from "./_hooks"
+import { TransferRemittanceColumn } from "../../../_cloner/helpers/columns"
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import ReusableCard from "../../../_cloner/components/ReusableCard"
@@ -13,7 +15,6 @@ import Backdrop from "../../../_cloner/components/Backdrop"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import Pagination from "../../../_cloner/components/Pagination"
 import RadioGroup from "../../../_cloner/components/RadioGroup"
-import { useGetTransferRemitancesByMutation } from "./_hooks"
 
 const pageSize = 100
 
@@ -72,61 +73,6 @@ const ListOfTransferRemittance = () => {
     transferList.mutate(formData);
   }
 
-  const TransferRemittanceColumns = (renderAction: any) => {
-        const col = [
-            {field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
-            {
-                field: 'id', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'شماره حواله', headerClassName: "headerClassName", minWidth: 80, maxWidth: 80, flex: 1
-            },
-            {
-                field: 'registerDate', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'تاریخ حواله', headerClassName: "headerClassName", minWidth: 90, flex: 1
-            },
-            {
-                field: 'entrancePermitCode', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'شماره ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
-            },
-            {
-                field: 'entrancePermitDate', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
-            },
-            {
-                field: 'transferRemittanceTypeDesc', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'نوع انتقال', headerClassName: "headerClassName", minWidth: 90, flex: 1
-            },
-            {
-                field: 'transferRemittanceStatusDesc', renderCell: (params: any) => {
-                    return params.row.transferRemittanceStatusId === 2 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography>
-                },
-                headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
-            },
-            {
-                field: 'originWarehouseName', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'انبار مبدا', headerClassName: "headerClassName", minWidth: 120, flex: 1
-            },
-            {
-                field: 'destinationWarehouseName', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
-            },
-        ]
-        return col
-    }
-
   return (
     <>
       {transferList.isLoading && <Backdrop loading={transferList.isLoading} />}
@@ -167,7 +113,7 @@ const ListOfTransferRemittance = () => {
         </Formik>
 
         <MuiDataGrid
-          columns={TransferRemittanceColumns(renderAction)}
+          columns={TransferRemittanceColumn(renderAction)}
           rows={transferList?.data?.data || [{}]}
           data={transferList?.data?.data || [{}]}
           onDoubleClick={(item: any) => navigate(`/dashboard/TransferRemittanceEdit/${item.row.id}`)}

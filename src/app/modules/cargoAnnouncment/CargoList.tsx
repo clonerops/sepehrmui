@@ -40,6 +40,7 @@ const CargoList = () => {
 
     const handleFilter = (values: any) => {
         let formData = {
+            CargoAnnounceNo: values?.cargoAnnounceNo ? values?.cargoAnnounceNo : "",
             OrderCode: values?.orderCode ? values?.orderCode : "",
             CustomerId: values?.customerId?.value ? values?.customerId?.value : "",
         };
@@ -71,7 +72,6 @@ const CargoList = () => {
 
 
     const renderAction = (item: any) => {
-        console.log("item", item)
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
@@ -102,7 +102,8 @@ const CargoList = () => {
                 <Formik initialValues={{ orderCode: "", customerId: "" }} onSubmit={() => { }}>
                     {({ values }) => {
                         return (
-                            <div className="flex gap-4 w-[50%] mb-4" >
+                            <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
+                                <FormikInput name="cargoAnnounceNo" label="شماره اعلام بار" />
                                 <FormikInput name="orderCode" label="شماره سفارش" />
                                 <FormikCustomer label="سفارش دهنده" name="customerId" />
                                 <ButtonComponent onClick={() => handleFilter(values)}>

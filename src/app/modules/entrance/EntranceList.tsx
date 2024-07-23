@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button, Tooltip, Typography } from '@mui/material'
-import { Visibility } from '@mui/icons-material'
+import { Search, Visibility } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
 import { EntranceReportColumn } from '../../../_cloner/helpers/columns'
@@ -9,6 +9,11 @@ import ReusableCard from '../../../_cloner/components/ReusableCard'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../_cloner/components/Pagination'
 import SearchFromBack from '../../../_cloner/components/SearchFromBack'
+import { Formik } from 'formik'
+import ButtonComponent from '../../../_cloner/components/ButtonComponent'
+import FormikInput from '../../../_cloner/components/FormikInput'
+import FormikWarehouse from '../../../_cloner/components/FormikWarehouse'
+import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 
 const pageSize = 100
 
@@ -50,8 +55,10 @@ const EntranceList = () => {
     const handleFilter = (values: any) => {
         let formData = {
             TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
+            OriginWarehouseId: values.originWarehouseId,
+            MarketerId: values.marketerId.value,
             PageNumber: currentPage,
-            PageSize: 100,
+            PageSize: pageSize,
             IsEntranced: true
         };
         transferList.mutate(formData);
@@ -60,7 +67,22 @@ const EntranceList = () => {
     return (
         <>
             <ReusableCard>
-              <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{TransferEntransePermitNo: ""}} onSubmit={handleFilter} label="شماره ورود" />
+              {/* <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{TransferEntransePermitNo: ""}} onSubmit={handleFilter} label="شماره ورود" /> */}
+              <Formik initialValues={{ originWarehouseId: "", marketerId: "" }} onSubmit={() => { }}>
+                    {({ values }) => {
+                        return (
+                            <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
+                                <FormikWarehouse name="originWarehouseId" label="انبار مبدا" />
+                                <FormikCustomer label="فروشنده" name="marketerId" />
+                                <ButtonComponent onClick={() => handleFilter(values)}>
+                                    <Search className="text-white" />
+                                    <Typography className="text-white"> جستجو </Typography>
+                                </ButtonComponent>
+                            </div>
+                        );
+                    }}
+                </Formik>
+
               <MuiDataGrid
                   columns={EntranceReportColumn(renderAction)}
                   rows={transferList?.data?.data}

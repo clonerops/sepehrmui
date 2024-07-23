@@ -79,9 +79,7 @@ const RoleMenus = (props: Props) => {
             {deleteMenu.isLoading && <Backdrop loading={deleteMenu.isLoading} />}
             {roleMenuTools.isLoading && <Backdrop loading={roleMenuTools.isLoading} />}
             <Box sx={{ minHeight: 180, flexGrow: 1 }}>
-                <SimpleTreeView
-                    aria-label="file system navigator"
-                >
+                <SimpleTreeView aria-label="file system navigator">
                     {appAllMenu?.data?.map((item: { id: string, description: string, children: any[] }) => (
                         // <TreeItem className="my-4" nodeId={item.id} label={`${item.description} ---- ${roleIds.length} منو از ${item?.children?.length} منوی موجود دسترسی داده  شده است`}>
                         <TreeItem className="my-4" itemId={item.id} label={`${item.description}`}>

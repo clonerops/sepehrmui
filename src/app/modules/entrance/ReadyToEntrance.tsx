@@ -13,6 +13,7 @@ import { useGetTransferRemittanceStatus } from "../generic/_hooks"
 import RadioGroup from "../../../_cloner/components/RadioGroup"
 import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/dropdowns"
 import { useGetTransferRemitancesByMutation } from "../transferRemittance/_hooks"
+import { ReadyToEntranceColumn } from "../../../_cloner/helpers/columns"
 
 
 const pageSize = 100
@@ -63,61 +64,6 @@ const ReadyToEntrance = () => {
     transferList.mutate(formData);
   }
 
-  const readyToEntranceColumns = (renderAction: any) => {
-        const col = [
-            {
-                field: 'id', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'شماره حواله', headerClassName: "headerClassName", minWidth: 80, flex: 1
-            },
-            {
-                field: 'registerDate', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'تاریخ حواله', headerClassName: "headerClassName", minWidth: 90, flex: 1
-            },
-            {
-                field: 'entrancePermitCode', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'شماره ورود', headerClassName: "headerClassName", minWidth: 90, flex: 1
-            },
-            {
-                field: 'entrancePermitDate', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 90, flex: 1
-            },
-            {
-                field: 'transferRemittanceStatusDesc', renderCell: (params: any) => {
-                    return params.row.transferRemittanceStatusId === 2 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography>
-                },
-                headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
-            },
-            {
-                field: 'transferRemittanceTypeDesc', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'نوع انتقال', headerClassName: "headerClassName", minWidth: 90, flex: 1
-            },
-            {
-                field: 'originWarehouseName', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'انبار مبدا', headerClassName: "headerClassName", minWidth: 120, flex: 1
-            },
-            {
-                field: 'destinationWarehouseName', renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
-            },
-            {field: "Action", headerName: 'صدور مجوز', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
-        ]
-        return col
-    }
-
 return (
     <>
       {transferRemittanceStatus.isLoading && <Backdrop loading={transferRemittanceStatus.isLoading} />}
@@ -158,7 +104,7 @@ return (
                 </Formik>
 
         <MuiDataGrid
-          columns={readyToEntranceColumns(renderAction)}
+          columns={ReadyToEntranceColumn(renderAction)}
           rows={transferList?.data?.data || [{}]}
           data={transferList?.data?.data || [{}]}
           onDoubleClick={(item: any) => navigate(item.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${item.row.id}`)}

@@ -10,6 +10,8 @@ import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../_cloner/components/Pagination'
 import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
 import { EntranceReportColumn } from '../../../_cloner/helpers/columns'
+import FormikWarehouse from '../../../_cloner/components/FormikWarehouse'
+import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 
 const pageSize = 100
 
@@ -48,8 +50,9 @@ const EntranceReport = () => {
     const handleFilter = (values: any) => {
         let formData = {
             TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
+            OriginWarehouseId: values?.originWarehouseId?.value ? values?.originWarehouseId?.value : '',
             PageNumber: currentPage,
-            PageSize: 100,
+            PageSize: pageSize,
             IsEntranced: true
         };
         transferList.mutate(formData);
@@ -58,23 +61,17 @@ const EntranceReport = () => {
     return (
         <>
             <ReusableCard>
-                <Formik initialValues={{
-                    id: "",
-                }} onSubmit={handleFilter}>
-                    {({ handleSubmit }) => {
+            <Formik initialValues={{ id: "", originWarehouseId: ""}} onSubmit={() => { }}>
+                    {({ values }) => {
                         return (
-                            <form onSubmit={handleSubmit}>
-                                <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
-                                    <FormikInput
-                                        name="TransferEntransePermitNo"
-                                        label="شماره ورود"
-                                    />
-                                    <ButtonComponent>
-                                        <Search className="text-white" />
-                                        <Typography className="px-2 text-white">جستجو</Typography>
-                                    </ButtonComponent>
-                                </div>
-                            </form>
+                            <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
+                                <FormikInput name="TransferEntransePermitNo" label="شماره ورود" />
+                                <FormikWarehouse name="originWarehouseId" label="انبار مبدا" />
+                                <ButtonComponent onClick={() => handleFilter(values)}>
+                                    <Search className="text-white" />
+                                    <Typography className="text-white"> جستجو </Typography>
+                                </ButtonComponent>
+                            </div>
                         );
                     }}
                 </Formik>
