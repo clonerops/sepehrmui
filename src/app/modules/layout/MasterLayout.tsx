@@ -20,7 +20,7 @@ import AppbarComponent from "./components/Appbar";
 import { useMenuItems } from "./core/_hooks";
 import { IMenuItem } from "./core/_models";
 import { parseMenuItems } from "./helpers/parseMenuItems";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 
 const drawerWidth = 240;
 

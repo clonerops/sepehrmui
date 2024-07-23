@@ -13,7 +13,7 @@ import { Formik } from "formik";
 import CardTitleValue from "../../../../_cloner/components/CardTitleValue";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import FormikPrice from "../../../../_cloner/components/FormikPrice";
-import { convertFilesToBase64 } from "../../../../_cloner/helpers/ConvertToBase64";
+import { convertFilesToBase64 } from "../../../../_cloner/helpers/convertToBase64";
 import { useApproveInvoiceType, useRetrieveOrder } from "../core/_hooks";
 import { useGetInvoiceType } from "../../generic/_hooks";
 import { useGetCustomerCompaniesMutate } from "../../customerCompany/_hooks";

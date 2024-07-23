@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import { Container } from "@mui/material";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { useParams } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { Print } from "@mui/icons-material";

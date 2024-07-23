@@ -4,12 +4,12 @@ import { NumbersOutlined, DateRangeRounded, TypeSpecimenTwoTone, HomeMaxRounded,
 import { useParams } from "react-router-dom";
 import { Formik, FormikErrors } from "formik";
 import { enqueueSnackbar } from "notistack";
-import { convertFilesToBase64 } from "../../../_cloner/helpers/ConvertToBase64";
+import { convertFilesToBase64 } from "../../../_cloner/helpers/convertToBase64";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { useGetVehicleTypes } from "../generic/_hooks";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { evacuationValidation } from "./_validation";
-import { dropdownVehicleType } from "../../../_cloner/helpers/Dropdowns";
+import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 import { useGetTransferRemitanceById } from "../transferRemittance/_hooks";
 import { usePostEvacuation } from "./_hooks";
 

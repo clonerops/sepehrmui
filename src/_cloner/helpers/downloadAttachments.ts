@@ -1,4 +1,4 @@
-import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "./DownloadFiles";
+import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "./downloadFiles";
 
 var signatures: any = {
     JVBERi0: "application/pdf",

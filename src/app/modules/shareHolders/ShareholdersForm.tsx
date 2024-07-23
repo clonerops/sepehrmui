@@ -9,7 +9,7 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { IShareholder } from "./_models";
 import { createShareHolderValidations } from "./_validations";
 import { useGetShareHolderById, usePostShareHolder, usePutShareHolder } from "./_hooks";
-import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
+import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
 
 const initialValues = {
     firstName: "", 

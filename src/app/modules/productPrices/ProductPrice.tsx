@@ -4,7 +4,7 @@ import { Alert, Button, Typography } from "@mui/material";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import FileUploadButton from "../../../_cloner/components/UploadFileButton";
@@ -14,7 +14,7 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import ProductPriceForm from "./ProductPriceForm";
 
-import { DownloadExcelBase64File } from "../../../_cloner/helpers/DownloadFiles";
+import { DownloadExcelBase64File } from "../../../_cloner/helpers/downloadFiles";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { useDeleteProductPrice, useRetrieveProductPrice, useUploadFileProductPrice } from "./_hooks";
 import { IProductPrice } from "./_models";

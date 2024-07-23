@@ -12,7 +12,7 @@ import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import { Print, Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment-jalaali'
-import { separateAmountWithCommas } from '../../../_cloner/helpers/SeprateAmount'
+import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
 
 let pageSize = 100;
 

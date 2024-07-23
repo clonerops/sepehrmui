@@ -15,7 +15,7 @@ import { ISuppliers } from "./_models";
 import moment from "moment-jalaali";
 // import { useRetrieveProducts } from "../products/_hooks";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { dropdownCustomer, dropdownProduct } from "../../../_cloner/helpers/Dropdowns";
+import { dropdownCustomer, dropdownProduct } from "../../../_cloner/helpers/dropdowns";
 import { useGetProductList } from "../products/_hooks";
 const initialValues = {
     price: "",

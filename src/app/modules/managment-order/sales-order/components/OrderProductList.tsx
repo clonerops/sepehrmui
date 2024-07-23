@@ -4,7 +4,7 @@ import {Delete} from "@mui/icons-material";
 import { calculateTotalAmount } from "../../helpers/functions";
 
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
-import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../../../_cloner/helpers/seprateAmount";
 import { orderListColumns } from "../../helpers/columns";
 import { FormikErrors } from "formik";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";

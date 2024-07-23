@@ -11,7 +11,7 @@ import { useEffect, useState } from "react"
 import Pagination from "../../../_cloner/components/Pagination"
 import { useGetTransferRemittanceStatus } from "../generic/_hooks"
 import RadioGroup from "../../../_cloner/components/RadioGroup"
-import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/Dropdowns"
+import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/dropdowns"
 import { useGetTransferRemitancesByMutation } from "../transferRemittance/_hooks"
 
 

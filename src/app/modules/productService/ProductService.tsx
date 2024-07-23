@@ -9,7 +9,7 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import SwitchComponent from '../../../_cloner/components/Switch'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
-import FuzzySearch from "../../../_cloner/helpers/Fuse"
+import FuzzySearch from "../../../_cloner/helpers/fuse"
 
 import { IService } from "./_models"
 import { useGetServices, usePostServices, useUpdateServices } from './_hooks'

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { toAbsoulteUrl } from "../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../_cloner/helpers/assetsHelper";
 import { Box, Typography } from "@mui/material";
 import Cookies from "js-cookie";
 

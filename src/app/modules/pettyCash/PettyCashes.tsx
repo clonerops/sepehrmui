@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
@@ -13,7 +13,7 @@ import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import PettyCashForm from "./PettyCashForm";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import SwitchComponent from "../../../_cloner/components/Switch";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 
 const PettyCashs = () => {
     const pettyCashTools = useGetPettyCashList();

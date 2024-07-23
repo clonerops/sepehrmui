@@ -5,13 +5,13 @@ import { Button, Typography } from "@mui/material";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { useGetVehicleTypes, useGetWarehouses } from "../generic/_hooks";
 import { useGetProductList } from "../products/_hooks";
-import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
+import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
 import { AddTask, DesignServices } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
-import { dropdownVehicleType } from "../../../_cloner/helpers/Dropdowns";
+import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 import { useGetTransferRemitanceByIdByMutation, useUpdateTransferRemitance } from "./_hooks";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import RadioGroup from "../../../_cloner/components/RadioGroup";

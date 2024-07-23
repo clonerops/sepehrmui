@@ -4,7 +4,7 @@ import { Toolbar, IconButton, Typography } from "@mui/material";
 
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import ToolbarComponent from "../../../../_cloner/components/Toolbar";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/assetsHelper";
 import { Link } from "react-router-dom";
 
 interface IProps {

@@ -4,7 +4,7 @@ import { Button, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetCargosList } from "../cargoAnnouncment/_hooks";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../_cloner/components/FormikInput";

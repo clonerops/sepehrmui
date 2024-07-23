@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 
 import FormikInput from "../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
-import FuzzySearch from "../../../_cloner/helpers/Fuse"
+import FuzzySearch from "../../../_cloner/helpers/fuse"
 import SwitchComponent from '../../../_cloner/components/Switch'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
@@ -14,7 +14,7 @@ import ReusableCard from '../../../_cloner/components/ReusableCard'
 import { IState } from "./_models"
 import { useGetStates, usePostState, useUpdateState } from './_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
-import { toAbsoulteUrl } from '../../../_cloner/helpers/AssetsHelper'
+import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 import _ from 'lodash'

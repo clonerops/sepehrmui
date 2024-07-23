@@ -4,7 +4,7 @@ import { IconButton, Tooltip, Typography } from "@mui/material"
 import { Edit, Search, Visibility } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom"
 import { useGetTransferRemittanceStatus } from "../generic/_hooks"
-import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/Dropdowns"
+import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/dropdowns"
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import ReusableCard from "../../../_cloner/components/ReusableCard"

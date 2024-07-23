@@ -6,7 +6,7 @@ import {
     Radio,
 } from "@mui/material";
 import { useField, useFormikContext } from "formik";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 
 type Props = {
     label?: string;

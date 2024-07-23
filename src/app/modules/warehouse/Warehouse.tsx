@@ -5,13 +5,13 @@ import { AddCircleOutline } from '@mui/icons-material'
 
 import FormikInput from "../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
-import FuzzySearch from "../../../_cloner/helpers/Fuse"
+import FuzzySearch from "../../../_cloner/helpers/fuse"
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 
 import { IWarehouse } from "./_models"
 import { useDeleteWarehouses, useGetWarehouses, usePostWarehouses } from './_hooks'
-import { toAbsoulteUrl } from '../../../_cloner/helpers/AssetsHelper'
+import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import FormikWarehouseType from '../../../_cloner/components/FormikWarehouseType'

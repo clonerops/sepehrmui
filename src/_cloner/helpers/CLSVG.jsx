@@ -1,5 +1,5 @@
 import SVG from "react-inlinesvg";
-import { toAbsoulteUrl } from "../helpers/AssetsHelper";
+import { toAbsoulteUrl } from "./assetsHelper";
 const CLSVG = ({ path = "", className = "" }) => {
     return (
         <main className={className}>

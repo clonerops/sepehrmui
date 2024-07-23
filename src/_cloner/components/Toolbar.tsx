@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Avatar, Button, Popover, Typography } from "@mui/material";
-import { toAbsoulteUrl } from "../helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../helpers/assetsHelper";
 import Cookies from "js-cookie";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import {

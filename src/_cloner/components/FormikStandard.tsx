@@ -1,6 +1,6 @@
 import { useGetStandards } from '../../app/modules/productStandard/_hooks';
 import { IStandard } from '../../app/modules/productStandard/_models';
-import { dropdownStandard } from '../helpers/Dropdowns';
+import { dropdownStandard } from '../helpers/dropdowns';
 import FormikSelect from './FormikSelect'
 
 const FormikStandard = (props: any) => {

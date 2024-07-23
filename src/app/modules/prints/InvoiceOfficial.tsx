@@ -1,5 +1,5 @@
 import { Print } from "@mui/icons-material";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Card, Container } from "@mui/material";
@@ -7,7 +7,7 @@ import NumberDisplay from "../../../_cloner/components/NumberWithBorder";
 import { useRetrieveOrder } from "../managment-order/core/_hooks";
 import { useParams } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 
 const RendertextValue = (props: { title: string; value: any }) => {
     return (

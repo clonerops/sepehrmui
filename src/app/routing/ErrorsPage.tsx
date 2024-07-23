@@ -1,4 +1,4 @@
-import { toAbsoulteUrl } from "../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../_cloner/helpers/assetsHelper";
 
 const ErrorsPage = () => {
   return (

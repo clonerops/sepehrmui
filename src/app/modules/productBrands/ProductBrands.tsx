@@ -8,7 +8,7 @@ import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
-import FuzzySearch from "../../../_cloner/helpers/Fuse"
+import FuzzySearch from "../../../_cloner/helpers/fuse"
 import FormikBrand from '../../../_cloner/components/FormikBrand'
 import SwitchComponent from '../../../_cloner/components/Switch'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableTabComponent from "../../../_cloner/components/ReusableTab";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 // import { useRetrieveProductsByType } from "../products/_hooks";
 import { columnsProductPriceDashboard } from "../productPrices/_columns";
 import Backdrop from "../../../_cloner/components/Backdrop";

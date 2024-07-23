@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
 import { useField, useFormikContext } from "formik";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 import cx from "classnames";
 import { memo } from "react";
 import { Clear } from "@mui/icons-material";

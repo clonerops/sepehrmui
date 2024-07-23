@@ -5,7 +5,7 @@ import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
-import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../../../_cloner/helpers/seprateAmount";
 import { orderPurchaserListColumns } from "../../helpers/columns";
 import { IProducts } from "../../../products/_models";
 import { FormikErrors } from "formik";

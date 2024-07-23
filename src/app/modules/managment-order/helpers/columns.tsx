@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 import { CallMade, CallReceived } from "@mui/icons-material";
 
 export const orderColumns = (renderAction: any) => {

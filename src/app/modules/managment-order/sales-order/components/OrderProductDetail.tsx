@@ -20,7 +20,7 @@ import FormikPurchaserInvoiceType from '../../../../../_cloner/components/Formik
 import FormikDatepicker from '../../../../../_cloner/components/FormikDatepicker'
 import { Add, Edit } from '@mui/icons-material'
 import BottomDrawer from '../../../../../_cloner/components/BottomSheetDrawer'
-import { dropdownProductByBrandName } from '../../../../../_cloner/helpers/Dropdowns'
+import { dropdownProductByBrandName } from '../../../../../_cloner/helpers/dropdowns'
 
 const fields = [
     "warehouseId",

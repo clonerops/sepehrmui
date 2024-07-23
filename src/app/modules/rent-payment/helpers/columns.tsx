@@ -1,6 +1,6 @@
 import { Checkbox, Typography } from "@mui/material";
 import React from "react";
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 
 export const rentsColumns = (renderAction: any, renderCheckbox: any,  isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
     const col = [

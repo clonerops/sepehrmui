@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Modal, Fade, Backdrop } from "@mui/material"
 import { Typography } from '@mui/material';
 import { Close } from '@mui/icons-material';
-import { toAbsoulteUrl } from '../helpers/AssetsHelper';
+import { toAbsoulteUrl } from '../helpers/assetsHelper';
 
 
 type Props = {

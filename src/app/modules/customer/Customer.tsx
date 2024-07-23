@@ -3,7 +3,7 @@ import { useDeleteCustomer, useGetCustomers } from "./core/_hooks";
 import { ICustomer } from "./core/_models";
 import { Button, Typography } from "@mui/material";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import EditGridButton from "../../../_cloner/components/DeleteGridButton";
 import DeleteGridButton from "../../../_cloner/components/EditGridButton";

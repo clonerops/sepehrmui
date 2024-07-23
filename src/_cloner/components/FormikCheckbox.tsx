@@ -5,7 +5,7 @@ import {
   CheckboxProps,
 } from "@mui/material/Checkbox/Checkbox";
 import { useField, useFormikContext } from "formik";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 
 export type Label = keyof typeof translation;
 

@@ -3,7 +3,7 @@ import { Fab, Typography } from "@mui/material";
 
 
 import EditGridButton from "../../../_cloner/components/EditGridButton";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";

@@ -9,7 +9,7 @@ import FormikCompany from '../../../../../_cloner/components/FormikCompany'
 import { UseMutationResult } from '@tanstack/react-query'
 import { ISalesOrder } from '../../core/_models'
 import { useGetCustomer } from '../../../customer/core/_hooks'
-import { separateAmountWithCommas } from '../../../../../_cloner/helpers/SeprateAmount'
+import { separateAmountWithCommas } from '../../../../../_cloner/helpers/seprateAmount'
 import Backdrop from '../../../../../_cloner/components/Backdrop'
 import { Add, Person } from '@mui/icons-material'
 

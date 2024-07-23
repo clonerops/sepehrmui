@@ -1,6 +1,6 @@
 
 import { useGetApplicationRoles } from '../../app/modules/groups/_hooks';
-import { dropdownRole } from '../helpers/Dropdowns';
+import { dropdownRole } from '../helpers/dropdowns';
 
 import FormikSelect from './FormikSelect'
 

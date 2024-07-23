@@ -1,6 +1,6 @@
 import FormikComboBox from "./FormikComboBox";
 import { useGetProductList } from "../../app/modules/products/_hooks";
-import { dropdownProduct } from "../helpers/Dropdowns";
+import { dropdownProduct } from "../helpers/dropdowns";
 import { useEffect } from "react";
 
 

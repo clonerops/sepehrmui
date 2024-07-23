@@ -3,10 +3,10 @@ import { useGetRecievePayments, usePutRecievePaymentRegister } from "./core/_hoo
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Typography, Checkbox, Tooltip } from "@mui/material";
 import { IPayment, IPaymentFilter } from "./core/_models";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { Visibility } from "@mui/icons-material";
 import { Formik, FormikProps } from "formik";
-import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
+import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 
 import Backdrop from "../../../_cloner/components/Backdrop";

@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom"
 import { Badge, Button, Typography } from "@mui/material"
 import { useGetRecievePaymentById, usePutRecievePaymentRegister } from "../core/_hooks"
-import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePDF, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
+import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePDF, DownloadFilePNG } from "../../../../_cloner/helpers/downloadFiles"
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
 
 import Backdrop from "../../../../_cloner/components/Backdrop"
@@ -12,7 +12,7 @@ import { useRef, useState } from "react"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import { Formik, FormikProps } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
-import { renderAlert } from "../../../../_cloner/helpers/SweetAlert"
+import { renderAlert } from "../../../../_cloner/helpers/sweetAlert"
 
 const SinglePaymentRegister = () => {
     const putRecievePayRegister = usePutRecievePaymentRegister()

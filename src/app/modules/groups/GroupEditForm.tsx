@@ -13,7 +13,7 @@ import CheckboxGroup from "../../../_cloner/components/CheckboxGroup";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { TreeItem, SimpleTreeView } from "@mui/x-tree-view";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
-import { dropdownPermissionsByMenu } from "../../../_cloner/helpers/Dropdowns";
+import { dropdownPermissionsByMenu } from "../../../_cloner/helpers/dropdowns";
 import RoleMenus from "../roleMenus/RoleMenus";
 
 type Props = {

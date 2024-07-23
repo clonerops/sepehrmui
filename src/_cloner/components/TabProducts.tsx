@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import { Formik } from "formik";
 
-import FuzzySearch from "../helpers/Fuse";
+import FuzzySearch from "../helpers/fuse";
 import FormikRadioGroup from "./FormikRadioGroup";
 
 import { useGetProductTypes, useGetWarehouseTypes } from "../../app/modules/generic/_hooks";

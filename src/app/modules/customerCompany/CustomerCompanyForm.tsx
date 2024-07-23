@@ -12,7 +12,7 @@ import { enqueueSnackbar } from 'notistack';
 import FormikMaskInput from '../../../_cloner/components/FormikMaskInput';
 import Backdrop from '../../../_cloner/components/Backdrop';
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar';
-import { dropdownCustomer } from '../../../_cloner/helpers/Dropdowns';
+import { dropdownCustomer } from '../../../_cloner/helpers/dropdowns';
 
 const initialValues = {
     companyName: "",

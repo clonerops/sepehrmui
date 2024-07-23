@@ -3,11 +3,11 @@ import { Box, Typography } from "@mui/material"
 
 import { IType } from "./_models"
 import { useDeleteTypes, useGetTypes, useUpdateTypes } from './_hooks'
-import { toAbsoulteUrl } from '../../../_cloner/helpers/AssetsHelper'
+import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
-import FuzzySearch from "../../../_cloner/helpers/Fuse"
+import FuzzySearch from "../../../_cloner/helpers/fuse"
 import DeleteGridButton from '../../../_cloner/components/DeleteGridButton'
 import SwitchComponent from '../../../_cloner/components/Switch'
 import ReusableCard from '../../../_cloner/components/ReusableCard'

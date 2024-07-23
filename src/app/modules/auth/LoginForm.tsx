@@ -1,5 +1,5 @@
 import { Button, IconButton, TextField, Typography } from "@mui/material";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import Captcha from "./components/Captcha";
 import { Autorenew } from "@mui/icons-material";
 

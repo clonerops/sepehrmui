@@ -3,7 +3,7 @@ import { Button, Typography } from "@mui/material"
 import { Formik } from "formik"
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
-import FuzzySearch from "../../../_cloner/helpers/Fuse"
+import FuzzySearch from "../../../_cloner/helpers/fuse"
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 
 import { ICustomerWarehouse } from "./_models"
@@ -15,7 +15,7 @@ import { useGetCustomers } from '../customer/core/_hooks'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import FormikWarehouseMultiplie from '../../../_cloner/components/FormikWarehouseMiltiplie'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
-import { toAbsoulteUrl } from '../../../_cloner/helpers/AssetsHelper'
+import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 
 const initialValues: any = {
   id: 0,

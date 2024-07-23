@@ -20,12 +20,12 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { useGetVehicleTypes, useGetWarehouses } from "../generic/_hooks";
 import { useGetProductList } from "../products/_hooks";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
-import { renderAlert } from "../../../_cloner/helpers/SweetAlert";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
+import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { AddTask, DesignServices } from "@mui/icons-material";
 import { TransferRemittanceValidation } from "./_validation";
-import { dropdownVehicleType } from "../../../_cloner/helpers/Dropdowns";
+import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 
 import moment from "moment-jalaali";
 import _ from "lodash";

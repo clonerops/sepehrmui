@@ -1,7 +1,7 @@
 import MaskInput from "./MaskInput";
 import { ComponentProps, useEffect } from "react";
 import { useField, useFormikContext } from "formik";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 import { Typography } from "@mui/material";
 import cx from "classnames";
 

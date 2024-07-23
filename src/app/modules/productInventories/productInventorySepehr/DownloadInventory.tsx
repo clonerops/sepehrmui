@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material"
 import { Formik } from "formik";
 import { exportProductInventoriesHistory } from "../_requests";
-import { DownloadExcelBase64File } from "../../../../_cloner/helpers/DownloadFiles";
+import { DownloadExcelBase64File } from "../../../../_cloner/helpers/downloadFiles";
 
 import CustomButton from "../../../../_cloner/components/CustomButton";
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker";

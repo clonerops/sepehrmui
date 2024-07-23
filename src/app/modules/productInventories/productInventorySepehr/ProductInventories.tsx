@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { DownloadExcelBase64File } from "../../../../_cloner/helpers/DownloadFiles";
+import { DownloadExcelBase64File } from "../../../../_cloner/helpers/downloadFiles";
 import { Alert, Button, Fab, Tooltip, Typography } from "@mui/material";
 import { columnsProductInventories } from "./columns";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/assetsHelper";
 import { useUploadFileProductInventories } from "../_hooks";
 import { exportProductInventories } from "../_requests";
 import { useGetProductList } from "../../products/_hooks";
@@ -11,7 +11,7 @@ import { Add, AddAlarm } from "@mui/icons-material";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import Backdrop from "../../../../_cloner/components/Backdrop";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import CreateProductInventories from "./CreateProductInventories";

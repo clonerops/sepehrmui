@@ -1,6 +1,6 @@
 import { useField, useFormikContext } from "formik";
 import { FC } from "react";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 
 interface IProps {
   onChange?: any;

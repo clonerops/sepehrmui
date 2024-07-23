@@ -10,7 +10,7 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import ImagePreview from "../../../../_cloner/components/ImagePreview";
 
 import { useRetrieveOrder } from "../core/_hooks";
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 
 
 type Props = {

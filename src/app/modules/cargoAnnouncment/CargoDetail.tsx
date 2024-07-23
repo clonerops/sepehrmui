@@ -3,7 +3,7 @@ import { Badge, Button, Typography } from "@mui/material"
 import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 import { CarCrash, Money, Person, Person2, Phone, Shop } from "@mui/icons-material"
 import { useCargoById } from "./_hooks"
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 
 import Backdrop from "../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../_cloner/components/CardWithIcons"

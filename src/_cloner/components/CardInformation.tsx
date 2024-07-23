@@ -3,7 +3,7 @@ import { counterValue } from "../helpers/counterValue";
 import ReusableCard from "./ReusableCard";
 import { Typography } from "@mui/material";
 import { MonetizationOn } from "@mui/icons-material";
-import { separateAmountWithCommas } from "../helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../helpers/seprateAmount";
 
 interface ICardInformation {
     title: string

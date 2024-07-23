@@ -21,7 +21,7 @@ import { useCreatePurchaserOrder } from '../core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
-import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
+import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useGetProductList } from '../../products/_hooks'
 
 

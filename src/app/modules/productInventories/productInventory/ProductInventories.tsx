@@ -1,17 +1,17 @@
 import { Formik, FormikProps } from "formik";
 import { useEffect, useRef, useState } from "react";
-import { DownloadExcelBase64File } from "../../../../_cloner/helpers/DownloadFiles";
+import { DownloadExcelBase64File } from "../../../../_cloner/helpers/downloadFiles";
 import { Button } from "@mui/material";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { columnsProductInventories } from "./columns";
-import { toAbsoulteUrl } from "../../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../../_cloner/helpers/assetsHelper";
 import { exportProductInventories } from "../_requests";
 import { useGetProductList } from "../../products/_hooks";
 import FormikWarehouseType from "../../../../_cloner/components/FormikWarehouseType";
 import FormikWarehouseBasedOfType from "../../../../_cloner/components/FormikWarehouseBasedOfType";
 import { useGetWarehousesByFilter } from "../../warehouse/_hooks";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../../_cloner/helpers/fuse";
 
 const ProductInventories = () => {
     const filterTools = useGetProductList();

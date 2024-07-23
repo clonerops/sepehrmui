@@ -8,7 +8,7 @@ import {
 } from "./_hooks";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import CustomerCompanyForm from "./CustomerCompanyForm";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import SwitchComponent from "../../../_cloner/components/Switch";

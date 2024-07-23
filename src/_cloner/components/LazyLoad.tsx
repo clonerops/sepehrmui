@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { toAbsoulteUrl } from '../helpers/AssetsHelper';
+import { toAbsoulteUrl } from '../helpers/assetsHelper';
 
 interface IProps {
     loading: boolean

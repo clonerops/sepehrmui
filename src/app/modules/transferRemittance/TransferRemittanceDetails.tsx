@@ -1,6 +1,6 @@
 import { CarCrash, DateRange, DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
 import { Badge, Button, Typography } from "@mui/material"
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 import { useGetTransferRemitanceById } from "./_hooks"
 import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 import { useParams } from "react-router-dom"

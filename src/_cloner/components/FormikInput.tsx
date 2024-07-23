@@ -6,7 +6,7 @@ import {
   TextFieldVariants,
 } from "@mui/material/TextField/TextField";
 import { useField, useFormikContext } from "formik";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 import { memo } from "react";
 
 export type Label = keyof typeof translation;

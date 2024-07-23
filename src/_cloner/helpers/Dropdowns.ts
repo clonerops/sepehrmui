@@ -1,4 +1,4 @@
-import { separateAmountWithCommas } from "./SeprateAmount";
+import { separateAmountWithCommas } from "./seprateAmount";
 
 const dropdownBrand = (data: any) => {
     return (

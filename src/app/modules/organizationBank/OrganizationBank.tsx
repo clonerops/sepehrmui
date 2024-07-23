@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Typography } from "@mui/material";
 import EditGridButton from "../../../_cloner/components/EditGridButton";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableCard from "../../../_cloner/components/ReusableCard";

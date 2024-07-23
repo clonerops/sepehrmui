@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Backdrop from "../../../_cloner/components/Backdrop";
 
 import { useRetrievesNotSendedOrder } from "./_hooks";
 import { ICargo } from "./_models";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 
 
 const ReadyToCargo = () => {

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { Alert, Badge, Button, Typography } from "@mui/material"
 
 import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, PaymentOutlined, Person, Source } from "@mui/icons-material"
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 import { convertToPersianWord } from "../../../_cloner/helpers/convertPersian"
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar"
 import { useGetLadingLicenceById } from "../ladingLicence/_hooks"

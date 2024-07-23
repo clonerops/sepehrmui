@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 import ActiveText from "../../../_cloner/components/ActiveText";
 
 export const columns = (renderAction: any) => {

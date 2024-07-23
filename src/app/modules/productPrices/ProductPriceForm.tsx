@@ -16,7 +16,7 @@ import FormikBrandPriceSelect from "../../../_cloner/components/FormikBrandPrice
 import FormikAmount from "../../../_cloner/components/FormikAmount"
 import SwitchComponent from "../../../_cloner/components/Switch"
 import Backdrop from "../../../_cloner/components/Backdrop"
-import { dropdownProduct } from "../../../_cloner/helpers/Dropdowns"
+import { dropdownProduct } from "../../../_cloner/helpers/dropdowns"
 import { useGetProductList } from "../products/_hooks"
 import FormikProduct from "../../../_cloner/components/FormikProductComboSelect"
 

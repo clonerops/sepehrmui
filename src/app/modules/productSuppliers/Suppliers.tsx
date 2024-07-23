@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 
-import { separateAmountWithCommas } from "../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { ISuppliers } from "./_models";
 import { useDeleteSupplier, useRetrieveSuppliers } from "./_hooks";
 
 import Backdrop from "../../../_cloner/components/Backdrop";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import EditGridButton from "../../../_cloner/components/EditGridButton";

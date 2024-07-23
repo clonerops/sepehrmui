@@ -1,4 +1,4 @@
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import LoginForm from "./LoginForm";
 import { enqueueSnackbar } from "notistack";
 import Cookies from "js-cookie";
