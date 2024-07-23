@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { DownloadExcelBase64File } from "../../../../_cloner/helpers/downloadFiles";
 import { Alert, Button, Fab, Tooltip, Typography } from "@mui/material";
-import { columnsProductInventories } from "./columns";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/assetsHelper";
 import { useUploadFileProductInventories } from "../_hooks";
 import { exportProductInventories } from "../_requests";
 import { useGetProductList } from "../../products/_hooks";
 import { IProducts } from "../../products/_models";
-import { Add, AddAlarm } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
+import { SepehrInventoryColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import Backdrop from "../../../../_cloner/components/Backdrop";
@@ -112,7 +112,7 @@ const ProductInventoriesSepehr = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 mt-4">
                     <div className="col-span-2">
                         <MuiDataGrid
-                            columns={columnsProductInventories(renderIncreaseInventory)}
+                            columns={SepehrInventoryColumn(renderIncreaseInventory)}
                             isLoading={filterTools.isLoading}
                             rows={results}
                             data={filterTools?.data?.data}

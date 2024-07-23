@@ -3,6 +3,7 @@ import { Typography } from "@mui/material"
 import { Formik } from "formik"
 import { AddCircleOutline, AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
 import * as Yup from 'yup'
+import _ from 'lodash'
 
 import FormikInput from "../../../_cloner/components/FormikInput"
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
@@ -10,14 +11,14 @@ import FuzzySearch from "../../../_cloner/helpers/fuse"
 import SwitchComponent from '../../../_cloner/components/Switch'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
+import Backdrop from '../../../_cloner/components/Backdrop'
+import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 
 import { IState } from "./_models"
 import { useGetStates, usePostState, useUpdateState } from './_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
-import Backdrop from '../../../_cloner/components/Backdrop'
-import CardWithIcons from '../../../_cloner/components/CardWithIcons'
-import _ from 'lodash'
+import { ProductStateColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {
   id: 0,
@@ -64,35 +65,6 @@ const ProductState = () => {
       return e;
     }
   };
-
-  const columns = (renderSwitch: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد حالت', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'desc', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'حالت', headerClassName: "headerClassName", minWidth: 160,
-        flex: 1,
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت",
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-        flex: 1,
-      },
-    ]
-    return col
-  }
-
 
   const renderSwitch = (item: any) => {
     return (
@@ -187,7 +159,7 @@ const ProductState = () => {
               />
             </div>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={ProductStateColumn(renderSwitch)}
               rows={results}
               data={stateTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}

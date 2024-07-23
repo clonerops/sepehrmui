@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Typography } from "@mui/material"
 import { Formik } from "formik"
 import { AddCircleOutline, AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
+import _ from 'lodash'
 import * as Yup from 'yup'
 
 import FormikInput from "../../../_cloner/components/FormikInput"
@@ -10,13 +11,13 @@ import SwitchComponent from '../../../_cloner/components/Switch'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import FuzzySearch from "../../../_cloner/helpers/fuse"
+import Backdrop from '../../../_cloner/components/Backdrop'
+import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 
 import { IService } from "./_models"
 import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
-import Backdrop from '../../../_cloner/components/Backdrop'
-import CardWithIcons from '../../../_cloner/components/CardWithIcons'
-import _ from 'lodash'
+import { ProductServicesColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {
   id: 0,
@@ -28,10 +29,6 @@ const validation = Yup.object({
 })
 
 const ProductService = () => {
-  // const { data: Services, refetch, isLoading: ServiceLoading } = useGetServices()
-  // const { mutate: postService, isLoading: postLoading } = usePostServices()
-  // const { mutate: updateService, isLoading: updateLoading } = useUpdateServices()
-
   const serviceTools = useGetServices()
   const postServiceTools = usePostServices()
   const updateServiceTools = useUpdateServices()
@@ -65,35 +62,6 @@ const ProductService = () => {
       return e;
     }
   };
-
-  const columns = (renderSwitch: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد خدمت', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'description', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'نوع خدمت', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت",
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-        flex: 1,
-      },
-    ]
-    return col
-  }
-
 
   const renderSwitch = (item: any) => {
     return (
@@ -163,7 +131,7 @@ const ProductService = () => {
               />
             </div>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={ProductServicesColumn(renderSwitch)}
               getRowId={(item: { id: number }) => item.id}
               rows={results}
               data={serviceTools?.data?.data}

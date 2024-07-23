@@ -4,7 +4,6 @@ import { DownloadExcelBase64File } from "../../../../_cloner/helpers/downloadFil
 import { Button } from "@mui/material";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-import { columnsProductInventories } from "./columns";
 import { toAbsoulteUrl } from "../../../../_cloner/helpers/assetsHelper";
 import { exportProductInventories } from "../_requests";
 import { useGetProductList } from "../../products/_hooks";
@@ -12,6 +11,8 @@ import FormikWarehouseType from "../../../../_cloner/components/FormikWarehouseT
 import FormikWarehouseBasedOfType from "../../../../_cloner/components/FormikWarehouseBasedOfType";
 import { useGetWarehousesByFilter } from "../../warehouse/_hooks";
 import FuzzySearch from "../../../../_cloner/helpers/fuse";
+import { InventoryColumn } from "../../../../_cloner/helpers/columns";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
 const ProductInventories = () => {
     const filterTools = useGetProductList();
@@ -76,10 +77,10 @@ const ProductInventories = () => {
 
     }
 
-    console.log("filterTools?.data?.data", filterTools?.data?.data)
-
     return (
         <>
+            {filterTools.isLoading && <Backdrop loading={filterTools.isLoading} />}
+            {filterWarehouse.isLoading && <Backdrop loading={filterWarehouse.isLoading} />}
             <ReusableCard>
                 <Formik innerRef={formikRef} initialValues={{ warehouseTypeId: 1, warehouseId: 0 }} onSubmit={() => { }}>
                     {({ values }) => {
@@ -120,7 +121,7 @@ const ProductInventories = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 mt-2">
                     <div className="col-span-2">
                         <MuiDataGrid
-                            columns={columnsProductInventories()}
+                            columns={InventoryColumn()}
                             isLoading={filterTools.isLoading}
                             rows={results}
                             data={filterTools?.data?.data}

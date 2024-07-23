@@ -18,6 +18,7 @@ import { useGetProductList } from "./_hooks";
 import { AddTask, AdfScanner, DesignServices, TextDecrease } from "@mui/icons-material";
 
 import _ from 'lodash'
+import { ProductsColumn } from "../../../_cloner/helpers/columns";
 
 const Products = () => {
     // const productTools = useRetrieveProducts()
@@ -39,189 +40,6 @@ const Products = () => {
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<IProducts>();
 
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                headerName: "ویرایش کالا",
-                flex: 1,
-                renderCell: renderAction,
-                headerClassName: "headerClassName w-full",
-                minWidth: 100,
-                maxWidth: 160,
-            },
-            {
-                field: "productCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کد کالا",
-                cellClassName: "font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 60,
-                maxWidth: 80,
-                flex: 1,
-            },
-            {
-                field: "productName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام کالا",
-                cellClassName: "bg-green-100 font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 240,
-                flex: 1,
-            },
-            {
-                field: "productTypeDesc",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "نوع کالا",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "isActive",
-                renderCell: (params: any) => {
-                    return (
-                        <ActiveText
-                            params={params}
-                            successTitle="فعال"
-                            dangerTitle="غیرفعال"
-                        />
-                    );
-                },
-                headerName: "وضعیت",
-                headerClassName: "headerClassName",
-                minWidth: 60,
-                flex: 1,
-            },
-            {
-                field: "productSize",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "سایز",
-                headerClassName: "headerClassName",
-                minWidth: 60,
-                flex: 1,
-            },
-            {
-                field: "productThickness",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "ضخامت",
-                headerClassName: "headerClassName",
-                minWidth: 60,
-                flex: 1,
-            },
-            {
-                field: "approximateWeight",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "وزن",
-                headerClassName: "headerClassName",
-                minWidth: 60,
-                flex: 1,
-            },
-            {
-                field: "numberInPackage",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "تعداد در بسته",
-                headerClassName: "headerClassName",
-                minWidth: 100,
-                flex: 1,
-            },
-            {
-                field: "productStandardDesc",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "استاندارد",
-                headerClassName: "headerClassName",
-                maxWidth: 70,
-                minWidth: 70,
-                flex: 1,
-            },
-            {
-                field: "productStateDesc",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "حالت",
-                headerClassName: "headerClassName",
-                maxWidth: 70,
-                minWidth: 70,
-                flex: 1,
-            },
-            {
-                field: "productMainUnitDesc",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "واحد اصلی",
-                headerClassName: "headerClassName",
-                maxWidth: 70,
-                minWidth: 70,
-                flex: 1,
-            },
-            {
-                field: "productSubUnitDesc",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "واحد فرعی",
-                headerClassName: "headerClassName",
-                maxWidth: 70,
-                minWidth: 70,
-                flex: 1,
-            },
-            {
-                field: "maxInventory",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "حداکثر موجودی",
-                headerClassName: "headerClassName",
-                maxWidth: 100,
-                minWidth: 100,
-
-                flex: 1,
-            },
-            {
-                field: "minInventory",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "حداقل موجودی",
-                headerClassName: "headerClassName",
-                maxWidth: 100,
-                minWidth: 100,
-
-                flex: 1,
-            },
-            {
-                field: "inventotyCriticalPoint",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "نقطه بحرانی",
-                headerClassName: "headerClassName",
-                maxWidth: 100,
-                minWidth: 100,
-
-                flex: 1,
-            },
-
-        ];
-        return col;
-    };
 
     const handleEdit = (item: IProducts) => {
         setIsEditOpen(true);
@@ -291,7 +109,7 @@ const Products = () => {
                     </ButtonComponent>
                 </div>
                 <MuiDataGrid
-                    columns={columns(renderAction)}
+                    columns={ProductsColumn(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
                     data={productTools?.data?.data}

@@ -3,11 +3,10 @@ import { Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableTabComponent from "../../../_cloner/components/ReusableTab";
 import FuzzySearch from "../../../_cloner/helpers/fuse";
-// import { useRetrieveProductsByType } from "../products/_hooks";
-import { columnsProductPriceDashboard } from "../productPrices/_columns";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { useGetProductsByType } from "../products/_hooks";
 import { IProductFilters } from "../products/_models";
+import { ProductPricesColumn } from "../../../_cloner/helpers/columns";
 
 const ProductPriceLanding = () => {
     // const { data: productsByType, isLoading } = useRetrieveProductsByType();
@@ -52,7 +51,7 @@ const ProductPriceLanding = () => {
                         />
                     </div>
                     <MuiDataGrid
-                        columns={columnsProductPriceDashboard(renderAction)}
+                        columns={ProductPricesColumn(renderAction)}
                         rows={results[index]}
                         data={i.products}
                         isLoading={productTypeTools.isLoading}

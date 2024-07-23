@@ -8,11 +8,6 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../_cloner/helpers/fuse"
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
-
-import { IWarehouse } from "./_models"
-import { useDeleteWarehouses, useGetWarehouses, usePostWarehouses } from './_hooks'
-import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
-import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import FormikWarehouseType from '../../../_cloner/components/FormikWarehouseType'
 import EditGridButton from '../../../_cloner/components/EditGridButton'
@@ -20,6 +15,12 @@ import DeleteGridButton from '../../../_cloner/components/DeleteGridButton'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import EditWarehouse from './EditWarehouse'
 import ConfirmDialog from '../../../_cloner/components/ConfirmDialog'
+
+import { IWarehouse } from "./_models"
+import { useDeleteWarehouses, useGetWarehouses, usePostWarehouses } from './_hooks'
+import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
+import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { WarehousesColumn } from '../../../_cloner/helpers/columns'
 import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
 import _ from 'lodash'
 
@@ -70,41 +71,6 @@ const Warehouse = () => {
   const handleOpenApprove = (id: number) => {
     setApprove(true)
     setDeletedId(id)
-  }
-
-
-  const columns = (renderAction: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد انبار', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'name', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'نام انبار', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'warehouseTypeDesc', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'نوع انبار', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: "Action",
-        headerName: "عملیات", flex: 1,
-        renderCell: renderAction,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-      },
-    ]
-    return col
   }
 
   const renderAction = (item: any) => {
@@ -183,7 +149,7 @@ const Warehouse = () => {
                 />
               </div>
               <MuiDataGrid
-                columns={columns(renderAction)}
+                columns={WarehousesColumn(renderAction)}
                 rows={results}
                 data={warehouseTools?.data?.data}
                 getRowId={(row: {id: number}) => row.id}

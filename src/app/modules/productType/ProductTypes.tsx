@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Box, Typography } from "@mui/material"
+import { AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
+import _ from 'lodash'
 
 import { IType } from "./_models"
 import { useDeleteTypes, useGetTypes, useUpdateTypes } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { ProductTypesColumn } from '../../../_cloner/helpers/columns'
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../_cloner/helpers/fuse"
@@ -16,9 +19,7 @@ import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import ProductTypeForm from './ProductTypeForm'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
-import { AddTask, AdfScanner, DesignServices, TextDecrease } from '@mui/icons-material'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
-import _ from 'lodash'
 
 const ProductTypes = () => {
 
@@ -80,40 +81,6 @@ const ProductTypes = () => {
     }
   };
 
-  const columns = (renderAction: any, renderSwitch: any) => {
-    const col = [
-      {
-        field: 'id',
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد نوع کالا', flex: 1, headerClassName: "headerClassName", minWidth: 120
-      },
-      {
-        field: 'desc',
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'نوع کالا', flex: 1, headerClassName: "headerClassName", minWidth: 160
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت", flex: 1,
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-      },
-      {
-        field: "Delete",
-        headerName: "حذف", flex: 1,
-        renderCell: renderAction,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-      },
-    ]
-    return col
-  }
-
   const renderSwitch = (item: any) => {
     return (
       <SwitchComponent
@@ -172,7 +139,6 @@ const ProductTypes = () => {
                     "desc",
                   ]}
                   data={typeTools?.data?.data}
-                  threshold={0.5}
                   setResults={setResults}
                 />
               </Box>
@@ -186,7 +152,7 @@ const ProductTypes = () => {
 
             </Box>
             <MuiDataGrid
-              columns={columns(renderAction, renderSwitch)}
+              columns={ProductTypesColumn(renderAction, renderSwitch)}
               rows={results}
               data={typeTools?.data?.data}
               onDoubleClick={(item: any) => handleEdit(item?.row)}

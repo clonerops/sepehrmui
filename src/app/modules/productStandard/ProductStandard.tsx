@@ -16,6 +16,7 @@ import { IStandard } from "./_models"
 import { useGetStandards, usePostStandards, useUpdateStandards } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
+import { ProductStandardsColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {
   id: 0,
@@ -60,35 +61,6 @@ const ProductStandards = () => {
       return e;
     }
   };
-
-  const columns = (renderSwitch: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد استاندارد', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'desc', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'استاندارد', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت",
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-        flex: 1,
-      },
-    ]
-    return col
-  }
-
 
   const renderSwitch = (item: any) => {
     return (
@@ -157,7 +129,7 @@ const ProductStandards = () => {
               />
             </div>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={ProductStandardsColumn(renderSwitch)}
               rows={results}
               data={standardTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}

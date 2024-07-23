@@ -6,6 +6,7 @@ import { IProductBrand } from "./_models"
 import { useGetProductBrands, usePostProductBrands, useUpdateProductBrands } from './_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
+import { ProductBrandsColumn } from '../../../_cloner/helpers/columns'
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../_cloner/helpers/fuse"
@@ -69,73 +70,6 @@ const ProductBrands = () => {
     );
   };
 
-  const columns = (renderSwitch: any) => {
-    const col = [
-      {
-        field: "id",
-        headerName: "کد کالابرند",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params?.value}</Typography>;
-        },
-        headerClassName: "headerClassName",
-        minWidth: 130,
-        maxWidth: 130,
-        flex: 1,
-      },
-      {
-        field: "productCode",
-        headerName: "کدکالا",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params?.row?.product?.productCode}</Typography>;
-        },
-        headerClassName: "headerClassName",
-        minWidth: 130,
-        maxWidth: 130,
-        flex: 1,
-      },
-      {
-        field: "productName",
-        headerName: "کالا",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerClassName:
-          "headerClassName",
-        minWidth: 180,
-        flex: 1,
-      },
-      {
-        field: "brandId",
-        headerName: "کدبرند",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params?.row?.brand?.id}</Typography>;
-        },
-        headerClassName: "headerClassName",
-        flex: 1,
-        minWidth: 130,
-        maxWidth: 130,
-      },
-      {
-        field: "brandName",
-        headerName: "برند",
-        renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerClassName: "headerClassName",
-        flex: 1,
-        minWidth: 160,
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت",
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        flex: 1,
-        minWidth: 160,
-      },
-    ];
-    return col;
-  };
 
 
   let groupedProductBrand = _.groupBy(productBrandTools?.data?.data, "productName")
@@ -160,10 +94,10 @@ const ProductBrands = () => {
                       if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         setFieldValue('id', response.data.id)
-                        productBrandTools.refetch();
                       } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                       }
+                      productBrandTools.refetch();
                     }
                   })
                 } catch (error) {
@@ -202,7 +136,7 @@ const ProductBrands = () => {
               />
             </div>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={ProductBrandsColumn(renderSwitch)}
               rows={results}
               data={productBrandTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}

@@ -19,7 +19,7 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import { useDeleteProductPrice, useRetrieveProductPrice, useUploadFileProductPrice } from "./_hooks";
 import { IProductPrice } from "./_models";
 import { exportProductPrices } from "./_requests";
-import { columnsProductPrice } from "./_columns";
+import { ProductPricesColumn } from "../../../_cloner/helpers/columns";
 
 const radioOption: {
     label: string;
@@ -171,7 +171,7 @@ const ProductPrice = () => {
                     />
                 </div>
                 <MuiDataGrid
-                    columns={columnsProductPrice(renderAction)}
+                    columns={ProductPricesColumn(renderAction)}
                     rows={results}
                     data={productPrice?.data}
                     onDoubleClick={(item: any) => handleEdit(item?.row)}
@@ -182,10 +182,9 @@ const ProductPrice = () => {
                     width="30%"
                     title="ایجاد قیمت محصول"
                 >
-                    {/* <CreateProductPrice refetch={refetch} /> */}
                     <ProductPriceForm refetch={refetch}
                     setIsCreateOpen={setIsCreateOpen}
- />
+                />
                 </TransitionsModal>
                 <TransitionsModal
                     open={isOpen}
@@ -193,7 +192,6 @@ const ProductPrice = () => {
                     width="30%"
                     title="ویرایش قیمت محصول"
                 >
-                    {/* <EditProductPrice refetch={refetch} item={itemForEdit} /> */}
                     <ProductPriceForm 
                         id={itemForEdit?.id}
                         items={itemForEdit}
