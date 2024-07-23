@@ -3,15 +3,14 @@ import { useGetRecievePayments, usePutRecievePaymentRegister } from "./core/_hoo
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Typography, Checkbox, Tooltip } from "@mui/material";
 import { IPayment, IPaymentFilter } from "./core/_models";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { Visibility } from "@mui/icons-material";
 import { Formik, FormikProps } from "formik";
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { PaymentAccountingRegisterColumn } from "../../../_cloner/helpers/columns";
 
 import Backdrop from "../../../_cloner/components/Backdrop";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import React from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Pagination from "../../../_cloner/components/Pagination";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
@@ -65,133 +64,6 @@ const PaymentAccountingRegister = () => {
         getReceivePayments(filters)
         // eslint-disable-next-line
     }, [currentPage]);
-
-    const columns = (renderCheckbox: any, renderAction: any) => {
-        const col = [
-            {
-                field: "id",
-                headerName: (
-                    <Checkbox
-                        color="primary"
-                        checked={isSelectAll}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
-                    />
-                ),
-                sortable: false,
-                renderCell: renderCheckbox,
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                flex: 1
-            },
-            {
-                headerName: "جزئیات و ثبت",
-                renderCell: renderAction,
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "receivePayCode",
-                renderCell: (params: any) => <Typography variant="h4">{params.value}</Typography>,
-                
-                headerName: "شماره ثبت",
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                flex: 1
-            },
-            {
-                field: "receiveFromDesc",
-                headerName: "دریافت از",
-                renderCell: (value: any) => <Typography variant="h4">{value.row.receiveFromDesc}</Typography>,
-                headerClassName: "headerClassName",
-                minWidth: 240,
-                flex: 1
-            },
-            {
-                field: "receiveFromCompanyName",
-                renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
-                headerName: "شرکت دریافت از",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "payToDesc",
-                renderCell: (value: any) => (
-                    <Typography variant="h4">
-                        {value.row.payToDesc +
-                            " " +
-                            (value.row?.receivePaymentSourceToId !== 1
-                                ? ""
-                                : value.row?.payToCustomerName)}
-                    </Typography>
-                ),
-                headerName: "پرداخت به",
-                headerClassName: "headerClassName",
-                minWidth: 240,
-                flex: 1
-            },
-            {
-                field: "payToCompanyName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h5">{params.value}</Typography>;
-                },
-                headerName: "شرکت پرداخت به",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "amount",
-                headerName: "مبلغ(ریال)",
-                renderCell: (value: any) => <Typography color="primary" variant="h4">{separateAmountWithCommas(value.row.amount)} </Typography>,
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1
-            },
-            {
-                field: "receivePayStatusDesc",
-                headerName: "وضعیت",
-                renderCell: (value: any) => (
-                    <Typography className={`${value.row.receivePayStatusId === 1 ? "text-yellow-500" :
-                        value.row.receivePayStatusId === 2 ? "text-green-500" :
-                            value.row.receivePayStatusId === 3 ? "text-violet-500" : ""}`} variant="h4">
-                        {value.row.receivePayStatusDesc}
-                    </Typography>
-                ),
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1
-            },
-            {
-                field: "accountOwner",
-                renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
-                headerName: "صاحب حساب",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-            {
-                field: "trachingCode",
-                renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
-                headerName: "کد پیگیری",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1
-            },
-           
-           
-            {
-                field: "contractCode",
-                renderCell: (params: any) => <Typography variant="h4">{params.value}</Typography>,
-                headerName: "شماره قرارداد",
-                headerClassName: "headerClassName",
-                minWidth: 100,
-                flex: 1
-            },
-        ];
-        return col;
-    };
 
     const renderActions = (item: any) => {
         return (
@@ -309,7 +181,7 @@ const PaymentAccountingRegister = () => {
                     }}
                 </Formik>
                 <MuiDataGrid
-                    columns={columns(renderCheckbox, renderActions)}
+                    columns={PaymentAccountingRegisterColumn(renderCheckbox, renderActions, isSelectAll, setIsSelectAll)}
                     rows={results}
                     data={recievePaymentTools?.data?.data}
                     onDoubleClick={(item: any) => navigate(`/dashboard/payment/accounting/register/${item?.row?.id}`)}

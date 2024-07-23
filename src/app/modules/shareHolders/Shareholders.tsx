@@ -15,6 +15,7 @@ import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import Pagination from "../../../_cloner/components/Pagination";
 import Backdrop from "../../../_cloner/components/Backdrop";
+import { ShareholdersColumn } from "../../../_cloner/helpers/columns";
 
 const pageSize = 100
 
@@ -41,75 +42,6 @@ const Shareholders = () => {
         getLists()
          // eslint-disable-next-line
     }, [currentPage])
-    
-
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                field: "shareHolderCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کد سهامدار",
-                cellClassName: "bg-green-100 font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                maxWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "firstName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام سهامدار",
-                cellClassName: "font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 180,
-                flex: 1,
-            },
-            {
-                field: "lastName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام خانوادگی سهامدار",
-                headerClassName: "headerClassName",
-                minWidth: 180,
-                flex: 1,
-            },
-            {
-                field: "fatherName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام پدر",
-                cellClassName: "font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 180,
-                flex: 1,
-            },
-            {
-                field: "mobileNo",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "موبایل",
-                cellClassName: "font-bold", 
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                headerName: "عملیات",
-                flex: 1,
-                renderCell: renderAction,
-                headerClassName: "headerClassName w-full",
-                minWidth: 160,
-            },
-        ];
-        return col;
-    };
 
     const handleEdit = (item: IShareholder) => {
         setIsEditOpen(true);
@@ -183,7 +115,7 @@ const Shareholders = () => {
                     </Button>
                 </div>
                 <MuiDataGrid
-                    columns={columns(renderAction)}
+                    columns={ShareholdersColumn(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
                     rows={shareHolderTools?.data?.data}
                     data={shareHolderTools?.data?.data}

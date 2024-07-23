@@ -114,7 +114,7 @@ const OrganizationBankForm = (props: {
         }
     };
 
-    const handleSubmit = (values: IOrganizationBank) => {
+    const onSubmit = (values: IOrganizationBank) => {
         const formData = {
             ...values,
             bankId: values.bankId ? values.bankId : detailTools?.data?.data?.bank?.bankId
@@ -135,20 +135,18 @@ const OrganizationBankForm = (props: {
                         : { ...initialValues, ...detailTools?.data?.data }
                 }
                 validationSchema={createOrganizationBankValidations}
-                onSubmit={handleSubmit}
+                onSubmit={onSubmit}
             >
                 {({ handleSubmit }) => {
                     return (
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             {fields.map((rowFields) => (
                                 <div  className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4">
-                                    {rowFields.map((field) =>
-                                        parseFields(field)
-                                    )}
+                                    {rowFields.map((field) => parseFields(field))}
                                 </div>
                             ))}
                             <Button
-                                onClick={() => handleSubmit()}
+                                onSubmit={() => handleSubmit()}
                                 variant="contained"
                                 color="secondary"
                             >

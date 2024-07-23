@@ -16,6 +16,7 @@ import { useGetIncomes, usePostIncomes, useUpdateIncomes } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../_cloner/components/Backdrop'
+import { IncomeColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {
   id: 0,
@@ -60,33 +61,6 @@ const InComs = () => {
     }
   };
 
-  const columns = (renderSwitch: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد درآمد', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'incomeDescription', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'درآمد', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت",
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-        flex: 1,
-      },
-    ]
-    return col
-  }
 
 
   const renderSwitch = (item: any) => {
@@ -156,7 +130,7 @@ const InComs = () => {
               />
             </div>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={IncomeColumn(renderSwitch)}
               rows={results}
               data={incomeTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}

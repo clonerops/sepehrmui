@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 import { Formik } from "formik";
-import {
-    QueryObserverResult,
-    RefetchOptions,
-    RefetchQueryFilters,
-} from "@tanstack/react-query";
+import {QueryObserverResult,RefetchOptions,RefetchQueryFilters } from "@tanstack/react-query";
 import { Button, Typography } from "@mui/material";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
@@ -100,7 +96,6 @@ const PettyCashForm = (props: {
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-
                 },
             });
         } catch (error: any) {
@@ -132,18 +127,11 @@ const PettyCashForm = (props: {
                     return (
                         <form onSubmit={handleSubmit}>
                             {fields.map((rowFields) => (
-                                <div className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4"
-                                >
-                                    {rowFields.map((field) =>
-                                        parseFields(field)
-                                    )}
+                                <div className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4">
+                                    {rowFields.map((field) => parseFields(field))}
                                 </div>
                             ))}
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="secondary"
-                            >
+                            <Button type="submit" variant="contained" color="secondary" >
                                 <Typography variant="h3" className="px-8 py-2">
                                     {isNew ? "ثبت بانک" : "ویرایش بانک"}
                                 </Typography>

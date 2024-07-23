@@ -11,6 +11,7 @@ import OrganizationBankForm from "./OrganizationBankForm";
 import { useDeleteOrganizationBank, useGetOrganizationBankList } from "./_hooks";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import Backdrop from "../../../_cloner/components/Backdrop";
+import { OrganizationBankColumn } from "../../../_cloner/helpers/columns";
 
 const OrganizationBank = () => {
     const organizationBankTools = useGetOrganizationBankList();
@@ -26,72 +27,6 @@ const OrganizationBank = () => {
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<IOrganizationBank>();
-
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                field: "id",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params?.row?.bank?.id}</Typography>;
-                },
-                headerName: "کد بانک",
-                cellClassName: "font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 60,
-                maxWidth: 80,
-                flex: 1,
-            },
-            {
-                field: "bankName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params?.row?.bank?.bankName}</Typography>;
-                },
-                headerName: "نام بانک",
-                cellClassName: "bg-green-100 font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 240,
-                flex: 1,
-            },
-            {
-                field: "accountOwner",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "صاحب حساب",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "accountNo",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "شماره حساب",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "branchName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "شعبه",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                headerName: "عملیات",
-                flex: 1,
-                renderCell: renderAction,
-                headerClassName: "headerClassName w-full",
-                minWidth: 160,
-            },
-        ];
-        return col;
-    };
 
     const handleEdit = (item: IOrganizationBank) => {
         setIsEditOpen(true);
@@ -143,7 +78,7 @@ const OrganizationBank = () => {
                     </Button>
                 </div>
                 <MuiDataGrid
-                    columns={columns(renderAction)}
+                    columns={OrganizationBankColumn(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
                     data={organizationBankTools?.data?.data}

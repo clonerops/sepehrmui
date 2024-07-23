@@ -16,6 +16,7 @@ import { useGetCashDesks, usePostCashDesks, useUpdateCashDesks } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
 import Backdrop from '../../../_cloner/components/Backdrop'
+import { CashDeskColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {
   id: 0,
@@ -58,35 +59,6 @@ const CashDesks = () => {
       return e;
     }
   };
-
-  const columns = (renderSwitch: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد صندوق', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'cashDeskDescription', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'صندوق', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت",
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-        flex: 1,
-      },
-    ]
-    return col
-  }
-
 
   const renderSwitch = (item: any) => {
     return (
@@ -155,7 +127,7 @@ const CashDesks = () => {
               />
             </div>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={CashDeskColumn(renderSwitch)}
               rows={results}
               data={cashDeskTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}

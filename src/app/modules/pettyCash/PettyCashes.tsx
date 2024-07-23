@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
+import { IPettyCash } from "./_models";
+import { useDeletePettyCash, useGetPettyCashList, usePutPettyCash } from "./_hooks";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
+import { PettyCashColumn } from "../../../_cloner/helpers/columns";
+
 import EditGridButton from "../../../_cloner/components/EditGridButton";
 import FuzzySearch from "../../../_cloner/helpers/fuse";
 import Backdrop from "../../../_cloner/components/Backdrop";
@@ -7,13 +13,9 @@ import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { IPettyCash } from "./_models";
-import { useDeletePettyCash, useGetPettyCashList, usePutPettyCash } from "./_hooks";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import PettyCashForm from "./PettyCashForm";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/Snackebar";
 import SwitchComponent from "../../../_cloner/components/Switch";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 
 const PettyCashs = () => {
     const pettyCashTools = useGetPettyCashList();
@@ -30,42 +32,6 @@ const PettyCashs = () => {
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<IPettyCash>();
-
-    const columns = (renderAction: any) => {
-        const col = [
-            {
-                field: "pettyCashDescription",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام تنخواه گردان",
-                cellClassName: "font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 240,
-                flex: 1,
-            },
-            {
-                field: "mobileNo",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "شماره موبایل",
-                cellClassName: "bg-green-100 font-bold",
-                headerClassName: "headerClassName",
-                minWidth: 240,
-                flex: 1,
-            },
-            
-            {
-                headerName: "عملیات",
-                flex: 1,
-                renderCell: renderAction,
-                headerClassName: "headerClassName w-full",
-                minWidth: 160,
-            },
-        ];
-        return col;
-    };
 
     const handleEdit = (item: IPettyCash) => {
         setIsEditOpen(true);
@@ -130,10 +96,7 @@ const PettyCashs = () => {
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <ReusableCard cardClassName="col-span-2">
-                <div
-                
-                    className="md:flex md:justify-between md:items-center space-y-2 mb-4"
-                >
+                <div className="md:flex md:justify-between md:items-center space-y-2 mb-4">
                     <div className="w-auto md:w-[40%]">
                         <FuzzySearch
                             keys={[
@@ -151,7 +114,7 @@ const PettyCashs = () => {
                     </ButtonComponent>
                 </div>
                 <MuiDataGrid
-                    columns={columns(renderAction)}
+                    columns={PettyCashColumn(renderAction)}
                     getRowId={(row: { id: string }) => row.id}
                     rows={results}
                     data={pettyCashTools?.data?.data}

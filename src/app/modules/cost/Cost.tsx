@@ -9,13 +9,14 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../_cloner/helpers/fuse"
 import SwitchComponent from '../../../_cloner/components/Switch'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
+import Backdrop from '../../../_cloner/components/Backdrop'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 
 import { ICost } from "./_models"
 import { useGetCosts, usePostCosts, useUpdateCosts } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/Snackebar'
-import Backdrop from '../../../_cloner/components/Backdrop'
+import { CostsColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {
   id: 0,
@@ -59,35 +60,6 @@ const Costs = () => {
       return e;
     }
   };
-
-  const columns = (renderSwitch: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد هزینه', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'costDescription', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'هزینه', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت",
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-        flex: 1,
-      },
-    ]
-    return col
-  }
-
 
   const renderSwitch = (item: any) => {
     return (
@@ -155,7 +127,7 @@ const Costs = () => {
               />
             </div>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={CostsColumn(renderSwitch)}
               rows={results}
               data={costTools?.data?.data}
               onDoubleClick={(item: any) => onUpdateStatus(item)}

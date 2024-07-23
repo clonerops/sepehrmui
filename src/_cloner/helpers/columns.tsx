@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Checkbox, Typography } from "@mui/material";
 import { separateAmountWithCommas } from "./seprateAmount";
 import { CallMade, CallReceived } from "@mui/icons-material";
 import { IProducts } from "../../app/modules/products/_models";
@@ -665,8 +665,530 @@ const ProductStateColumn = (renderSwitch: any) => {
       },
     ]
     return col
-  }
+};
 
+const PaymentAccountingRegisterColumn = (renderCheckbox: any, renderAction: any, isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const col = [
+        {
+            field: "id",
+            headerName: (
+                <Checkbox
+                    color="primary"
+                    checked={isSelectAll}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+                />
+            ),
+            sortable: false,
+            renderCell: renderCheckbox,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            headerName: "جزئیات و ثبت",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "receivePayCode",
+            renderCell: (params: any) => <Typography variant="h4">{params.value}</Typography>,
+            
+            headerName: "شماره ثبت",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "receiveFromDesc",
+            headerName: "دریافت از",
+            renderCell: (value: any) => <Typography variant="h4">{value.row.receiveFromDesc}</Typography>,
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1
+        },
+        {
+            field: "receiveFromCompanyName",
+            renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
+            headerName: "شرکت دریافت از",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "payToDesc",
+            renderCell: (value: any) => (
+                <Typography variant="h4">
+                    {value.row.payToDesc +
+                        " " +
+                        (value.row?.receivePaymentSourceToId !== 1
+                            ? ""
+                            : value.row?.payToCustomerName)}
+                </Typography>
+            ),
+            headerName: "پرداخت به",
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1
+        },
+        {
+            field: "payToCompanyName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "شرکت پرداخت به",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "amount",
+            headerName: "مبلغ(ریال)",
+            renderCell: (value: any) => <Typography color="primary" variant="h4">{separateAmountWithCommas(value.row.amount)} </Typography>,
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "receivePayStatusDesc",
+            headerName: "وضعیت",
+            renderCell: (value: any) => (
+                <Typography className={`${value.row.receivePayStatusId === 1 ? "text-yellow-500" :
+                    value.row.receivePayStatusId === 2 ? "text-green-500" :
+                        value.row.receivePayStatusId === 3 ? "text-violet-500" : ""}`} variant="h4">
+                    {value.row.receivePayStatusDesc}
+                </Typography>
+            ),
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "accountOwner",
+            renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
+            headerName: "صاحب حساب",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "trachingCode",
+            renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
+            headerName: "کد پیگیری",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+       
+       
+        {
+            field: "contractCode",
+            renderCell: (params: any) => <Typography variant="h4">{params.value}</Typography>,
+            headerName: "شماره قرارداد",
+            headerClassName: "headerClassName",
+            minWidth: 100,
+            flex: 1
+        },
+    ];
+    return col;
+};
+
+const PaymentAccountingColumn = (renderAction: any, renderCheckbox: any, isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const col = [
+        {
+            field: "id",
+            headerName: (
+                <Checkbox
+                    color="primary"
+                    checked={isSelectAll}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+                />
+            ),
+            sortable: false,
+            renderCell: renderCheckbox,
+            headerClassName: "headerClassName",
+            maxWidth: 80,
+            flex: 1
+        },
+        {
+            headerName: "جزئیات",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "receivePayCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شماره ثبت",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "receiveFromDesc",
+            headerName: "دریافت از",
+            renderCell: (value: any) => (
+                <Typography variant="h4">
+                    {value.row.receiveFromDesc}
+                </Typography>
+            ),
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1
+        },
+        {
+            field: "receiveFromCompanyName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "شرکت دریافت از",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "payToDesc",
+            renderCell: (value: any) => (
+                <Typography variant="h4">
+                    {value.row.payToDesc +
+                        " " +
+                        (value.row?.receivePaymentSourceToId !== 1
+                            ? ""
+                            : value.row?.payToCustomerName)}
+                </Typography>
+            ),
+            headerName: "پرداخت به",
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1
+        },
+        {
+            field: "payToCompanyName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "شرکت پرداخت به",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "amount",
+            headerName: "مبلغ",
+            renderCell: (value: any) => (
+                <Typography color="primary" variant="h4">
+                    {separateAmountWithCommas(value.row.amount) + "تومان"}
+                </Typography>
+            ),
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "receivePayStatusDesc",
+            headerName: "وضعیت",
+            renderCell: (value: any) => (
+                <Typography className={`${value.row.receivePayStatusId === 1 ? "text-yellow-500" :
+                    value.row.receivePayStatusId === 2 ? "text-green-500" :
+                        value.row.receivePayStatusId === 3 ? "text-violet-500" : ""}`} variant="h4">
+                    {value.row.receivePayStatusDesc}
+                </Typography>
+            ),
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "accountOwner",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "صاحب حساب",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "trachingCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "کد پیگیری",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "contractCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شماره قرارداد",
+            headerClassName: "headerClassName",
+            minWidth: 100,
+            flex: 1
+        },
+    ];
+    return col;
+};
+
+const IncomeColumn = (renderSwitch: any) => {
+    const col = [
+      {
+        field: 'id', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'کد درآمد', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'incomeDescription', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'درآمد', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: "isActive",
+        headerName: "وضعیت",
+        renderCell: renderSwitch,
+        headerClassName: "headerClassName",
+        minWidth: 160,
+        flex: 1,
+      },
+    ]
+    return col
+};
+
+const CashDeskColumn = (renderSwitch: any) => {
+    const col = [
+      {
+        field: 'id', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'کد صندوق', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'cashDeskDescription', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'صندوق', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: "isActive",
+        headerName: "وضعیت",
+        renderCell: renderSwitch,
+        headerClassName: "headerClassName",
+        minWidth: 160,
+        flex: 1,
+      },
+    ]
+    return col
+};
+  
+const PettyCashColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "pettyCashDescription",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام تنخواه گردان",
+            cellClassName: "font-bold",
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1,
+        },
+        {
+            field: "mobileNo",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شماره موبایل",
+            cellClassName: "bg-green-100 font-bold",
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1,
+        },
+        
+        {
+            headerName: "عملیات",
+            flex: 1,
+            renderCell: renderAction,
+            headerClassName: "headerClassName w-full",
+            minWidth: 160,
+        },
+    ];
+    return col;
+};
+
+const CostsColumn = (renderSwitch: any) => {
+    const col = [
+      {
+        field: 'id', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'کد هزینه', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'costDescription', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'هزینه', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: "isActive",
+        headerName: "وضعیت",
+        renderCell: renderSwitch,
+        headerClassName: "headerClassName",
+        minWidth: 160,
+        flex: 1,
+      },
+    ]
+    return col
+};
+
+const OrganizationBankColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "id",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params?.row?.bank?.id}</Typography>;
+            },
+            headerName: "کد بانک",
+            cellClassName: "font-bold",
+            headerClassName: "headerClassName",
+            minWidth: 60,
+            maxWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "bankName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params?.row?.bank?.bankName}</Typography>;
+            },
+            headerName: "نام بانک",
+            cellClassName: "bg-green-100 font-bold",
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1,
+        },
+        {
+            field: "accountOwner",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "صاحب حساب",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "accountNo",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شماره حساب",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "branchName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شعبه",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            headerName: "عملیات",
+            flex: 1,
+            renderCell: renderAction,
+            headerClassName: "headerClassName w-full",
+            minWidth: 160,
+        },
+    ];
+    return col;
+};
+
+const ShareholdersColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "shareHolderCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "کد سهامدار",
+            cellClassName: "bg-green-100 font-bold",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            maxWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "firstName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام سهامدار",
+            cellClassName: "font-bold",
+            headerClassName: "headerClassName",
+            minWidth: 180,
+            flex: 1,
+        },
+        {
+            field: "lastName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام خانوادگی سهامدار",
+            headerClassName: "headerClassName",
+            minWidth: 180,
+            flex: 1,
+        },
+        {
+            field: "fatherName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام پدر",
+            cellClassName: "font-bold",
+            headerClassName: "headerClassName",
+            minWidth: 180,
+            flex: 1,
+        },
+        {
+            field: "mobileNo",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "موبایل",
+            cellClassName: "font-bold", 
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            headerName: "عملیات",
+            flex: 1,
+            renderCell: renderAction,
+            headerClassName: "headerClassName w-full",
+            minWidth: 160,
+        },
+    ];
+    return col;
+};
 
 export {
     ProductBrandsColumn,
@@ -679,5 +1201,13 @@ export {
     WarehousesColumn,
     ProductPricesColumn,
     ProductTypesColumn,
-    ProductStateColumn
+    ProductStateColumn,
+    PaymentAccountingRegisterColumn,
+    PaymentAccountingColumn,
+    IncomeColumn,
+    CashDeskColumn,
+    PettyCashColumn,
+    CostsColumn,
+    OrganizationBankColumn,
+    ShareholdersColumn
 }
