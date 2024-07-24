@@ -36,7 +36,7 @@ const ReadyToEntrance = () => {
   }, [currentPage])
 
   const renderAction = (params: any) => {
-    return <Link to={params.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${params.row.id}`}>
+    return <Link to={params.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${params.row.id}/entrance`}>
           <Button variant="contained" color="secondary" disabled={params.row.transferRemittanceStatusId >= 2} onClick={() => { }}>
             <Typography className="px-2" color="primary">صدور مجوز ورود</Typography>
           </Button>
@@ -107,7 +107,7 @@ return (
           columns={ReadyToEntranceColumn(renderAction)}
           rows={transferList?.data?.data || [{}]}
           data={transferList?.data?.data || [{}]}
-          onDoubleClick={(item: any) => navigate(item.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${item.row.id}`)}
+          onDoubleClick={(item: any) => navigate(item.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${item.row.id}/entrance`)}
           hideFooter={true}
           
         />

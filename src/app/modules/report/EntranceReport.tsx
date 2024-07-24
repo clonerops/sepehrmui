@@ -11,7 +11,6 @@ import Pagination from '../../../_cloner/components/Pagination'
 import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
 import { EntranceReportColumn } from '../../../_cloner/helpers/columns'
 import FormikWarehouse from '../../../_cloner/components/FormikWarehouse'
-import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 
 const pageSize = 100
 
@@ -81,7 +80,7 @@ const EntranceReport = () => {
                     rows={transferList?.data?.data}
                     data={transferList?.data?.data}
                     isLoading={transferList.isLoading}
-                    onDoubleClick={(item: any) => navigate(`/dashboard/billlandingList/${item?.row?.id}`)}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/transferRemittance/${item?.row?.id}/entrance`)}
                 />
                 <Pagination pageCount={transferList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 

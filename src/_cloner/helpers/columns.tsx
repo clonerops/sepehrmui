@@ -2614,13 +2614,13 @@ const EntranceReportColumn = (renderAction: any) => {
     const col = [
         {
             field: 'entrancePermitCode', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'شماره مجوز ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
             field: 'entrancePermitDate', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
@@ -2633,19 +2633,19 @@ const EntranceReportColumn = (renderAction: any) => {
         { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120 },
         {
             field: 'id', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'شماره حواله', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
             field: 'registerDate', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'تاریخ حواله', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
             field: 'transferRemittanceTypeDesc', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'نوع انتقال', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
@@ -2657,13 +2657,13 @@ const EntranceReportColumn = (renderAction: any) => {
         },
         {
             field: 'originWarehouseName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'انبار مبدا', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'destinationWarehouseName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
