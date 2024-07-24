@@ -58,8 +58,8 @@ const Login = () => {
       <div
         className="h-screen  lg:block hidden "
         style={{
-          backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
-          // backgroundImage: `url(${toAbsoulteUrl("/media/images/1.jpg")})`,
+          // backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
+          backgroundImage: `url(${toAbsoulteUrl("/1.jpg")})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "left top ",
@@ -70,11 +70,11 @@ const Login = () => {
             "md:w-[70%] xl:w-[50%] mr-auto h-full flex items-center justify-center"
           }
         >
-          <div
+          <Card
             className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] shadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit "
           >
             <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
-          </div>
+          </Card>
         </div>
       </div>
 
