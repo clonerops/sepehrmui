@@ -184,7 +184,7 @@ const CustomerCompanyForm = (props: Props) => {
                         : {
                             ...initialValues,
                             ...detailTools?.data?.data,
-                            customerId: {label: detailTools?.data?.data?.customer || "مقدار ندارد", value: detailTools?.data?.data?.customerId}
+                            customerId: {label: `${detailTools?.data?.data?.customer.firstName} ${detailTools?.data?.data?.customer.lastName}`, value: detailTools?.data?.data?.customerId},
                         }
                 }
                 validationSchema={customerCompanyValidation} onSubmit={() => { }}>

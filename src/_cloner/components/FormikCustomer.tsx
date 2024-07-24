@@ -19,7 +19,7 @@ const FormikCustomer = (props: any) => {
                         height: 20,
                         borderRadius: 40
                     }}>
-
+                    
                     </div> <Typography className="pr-4" style={{
                         width: "100%"
                     }}>{option?.label}</Typography>

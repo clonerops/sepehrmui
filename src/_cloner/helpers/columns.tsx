@@ -794,6 +794,119 @@ const PaymentAccountingRegisterColumn = (renderCheckbox: any, renderAction: any,
     return col;
 };
 
+const PaymentAccountingRegisterListColumn = (renderAction: any, ) => {
+    const col = [
+        
+        {
+            headerName: "جزئیات ثبت حسابداری",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "receivePayCode",
+            renderCell: (params: any) => <Typography variant="h4">{params.value}</Typography>,
+
+            headerName: "شماره ثبت",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "receiveFromDesc",
+            headerName: "دریافت از",
+            renderCell: (value: any) => <Typography variant="h4">{value.row.receiveFromDesc}</Typography>,
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1
+        },
+        {
+            field: "receiveFromCompanyName",
+            renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
+            headerName: "شرکت دریافت از",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "payToDesc",
+            renderCell: (value: any) => (
+                <Typography variant="h4">
+                    {value.row.payToDesc +
+                        " " +
+                        (value.row?.receivePaymentSourceToId !== 1
+                            ? ""
+                            : value.row?.payToCustomerName)}
+                </Typography>
+            ),
+            headerName: "پرداخت به",
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1
+        },
+        {
+            field: "payToCompanyName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "شرکت پرداخت به",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "amount",
+            headerName: "مبلغ(ریال)",
+            renderCell: (value: any) => <Typography color="primary" variant="h4">{separateAmountWithCommas(value.row.amount)} </Typography>,
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "receivePayStatusDesc",
+            headerName: "وضعیت",
+            renderCell: (value: any) => (
+                <Typography className={`${value.row.receivePayStatusId === 1 ? "text-yellow-500" :
+                    value.row.receivePayStatusId === 2 ? "text-green-500" :
+                        value.row.receivePayStatusId === 3 ? "text-violet-500" : ""}`} variant="h4">
+                    {value.row.receivePayStatusDesc}
+                </Typography>
+            ),
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "accountOwner",
+            renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
+            headerName: "صاحب حساب",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "trachingCode",
+            renderCell: (params: any) => <Typography variant="h5">{params.value}</Typography>,
+            headerName: "کد پیگیری",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+
+
+        {
+            field: "contractCode",
+            renderCell: (params: any) => <Typography variant="h4">{params.value}</Typography>,
+            headerName: "شماره قرارداد",
+            headerClassName: "headerClassName",
+            minWidth: 100,
+            flex: 1
+        },
+    ];
+    return col;
+};
+
 const PaymentAccountingColumn = (renderAction: any, renderCheckbox: any, isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
     const col = [
         {
@@ -3137,7 +3250,8 @@ export {
     UserListColumn,
     RoleColumn,
     ReadyToEntranceColumn,
-    TransferRemittanceColumn
+    TransferRemittanceColumn,
+    PaymentAccountingRegisterListColumn
     // OrderDetailColumn,
     // OrderConfirmColumn
 }

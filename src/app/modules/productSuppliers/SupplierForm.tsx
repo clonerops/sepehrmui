@@ -135,7 +135,9 @@ const SupplierForm = (props: {
                         : {
                             ...initialValues,
                             ...detailTools?.data?.data,
-                            priceDate: moment(detailTools?.data?.data.priceDate).format('jYYYY/jMM/jDD')
+                            priceDate: moment(detailTools?.data?.data.priceDate).format('jYYYY/jMM/jDD'),
+                            customerId: {label: `${detailTools?.data?.data?.customer.firstName} ${detailTools?.data?.data?.customer.lastName}`, value: detailTools?.data?.data?.customerId},
+                            productId: {label: `${detailTools?.data?.data?.product?.productName}`, value: detailTools?.data?.data?.productId}
                         }
                 }
                 validationSchema={createSupplierValidations} onSubmit={handleSubmit}>

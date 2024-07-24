@@ -13,6 +13,9 @@ import CustomerLabels from "../modules/customerLabel/CustomerLabel";
 import ExitDetail from "../modules/exitRemittance/ExitDetail";
 import CargoDetail from "../modules/cargoAnnouncment/CargoDetail";
 import TrasnferRemittanceDetails from "../modules/transferRemittance/TransferRemittanceDetails";
+import { PaymentAccountingRegisterListColumn } from "../../_cloner/helpers/columns";
+import PaymentAccountingRegisterList from "../modules/payment/PaymentAccountingRegisterList";
+import EvacutionPrint from "../modules/prints/EvacutionPrint";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -251,6 +254,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/payment", element: <RecievePayment /> },
     { path: "dashboard/payment/accounting", element: <PaymentAccounting /> },
     { path: "dashboard/payment/accounting/register", element: <PaymentAccountingRegister /> },
+    { path: "dashboard/payment/accounting/register/list", element: <PaymentAccountingRegisterList /> },
     { path: "dashboard/payment/accounting/:id", element: <Detail /> },
     { path: "dashboard/payment/accounting/register/:id", element: <SinglePaymentRegister /> },
     { path: "dashboard/payment/edit/:id", element: <RecievePaymentEdit /> },
@@ -295,6 +299,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/rent_print/:id", element: <RentPrint /> },
     { path: "dashboard/ladingPermit_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingPermitPrint /> },
     { path: "dashboard/ladingExitPermit_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingExitPermitPrint /> },
+    { path: "dashboard/evacution_print", element: <EvacutionPrint /> },
     { path: "dashboard/ladingExitPermitOfficial_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingExitPermitPrintOfficial /> },
     { path: "dashboard/approveDriverFareAmount/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ApprovedRentPayment /> },
     { path: "dashboard/ladingExitPermitDetail/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitDetail /> },
