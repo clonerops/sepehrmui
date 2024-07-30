@@ -8,6 +8,7 @@ import ReusableCard from '../../../_cloner/components/ReusableCard'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../_cloner/components/Pagination'
 import SearchFromBack from '../../../_cloner/components/SearchFromBack'
+import { useGetEntrancePermitsByMutation } from '../entrancePermit/_hooks'
 
 const pageSize = 100
 
@@ -16,14 +17,13 @@ const ReadyToEvacuation = () => {
     
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const transferList = useGetTransferRemitancesByMutation()
+    const entranceTools = useGetEntrancePermitsByMutation()
     useEffect(() => {
       const filter = {
         PageNumber: currentPage,
         PageSize: pageSize,
-        IsEntranced: true
       }
-      transferList.mutate(filter)
+      entranceTools.mutate(filter)
        // eslint-disable-next-line
     }, [currentPage])
   
@@ -31,7 +31,7 @@ const ReadyToEvacuation = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/evacuation/${item?.row?.id}/${item?.row?.entrancePermitId}`}
+                to={`/dashboard/evacuation/${item?.row?.transferRemitance?.id}/${item?.row?.id}`}
             >
                 <Button variant="contained" color="secondary">
                     <Typography>صدور مجوز تخلیه</Typography>
@@ -49,9 +49,8 @@ const ReadyToEvacuation = () => {
           TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
           PageNumber: currentPage,
           PageSize: pageSize,
-          IsEntranced: true
         };
-        transferList.mutate(formData);
+        entranceTools.mutate(formData);
       }
         
     return (
@@ -60,12 +59,12 @@ const ReadyToEvacuation = () => {
                 <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{TransferEntransePermitNo: ""}} onSubmit={handleFilter} label="شماره ورود" />
                 <MuiDataGrid
                     columns={EvacuationColumn(renderAction)}
-                    rows={transferList?.data?.data}
-                    data={transferList?.data?.data}
-                    isLoading={transferList.isLoading}
+                    rows={entranceTools?.data?.data}
+                    data={entranceTools?.data?.data}
+                    isLoading={entranceTools.isLoading}
                     onDoubleClick={(item: any) => navigate(`/dashboard/evacuation/${item?.row?.id}/${item?.row?.entrancePermitId}`)}
                 />
-                <Pagination pageCount={transferList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
+                <Pagination pageCount={entranceTools?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 
             </ReusableCard>
         </>

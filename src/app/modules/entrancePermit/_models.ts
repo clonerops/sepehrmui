@@ -1,5 +1,16 @@
 export interface IEntrancePermit {
-    id?: number | null | undefined
-    cashDeskDescription: string | null | undefined
-    isActive?: boolean | null | undefined
+    id?: string,
+    transferRemittanceId: any,
+    attachments: {
+        fileData: string;
+    }[],
 }
+
+export interface IEntrancePermitFilter {
+    id?: number, 
+    OriginWarehouseId?: number, 
+    TransferEntransePermitNo?: number, 
+    PageNumber?: number,
+    PageSize?: number,
+  
+  }

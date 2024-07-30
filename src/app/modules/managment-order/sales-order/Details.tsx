@@ -35,16 +35,16 @@ const SalesOrderDetail = (props: Props) => {
     // const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
-        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
-        { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 9, title: "نوع سفارش", icon: <AttachMoney color="secondary" />, value: data?.data?.orderTypeDesc },
-        { id: 10, title: "تاریخ تحویل", icon: <AttachMoney color="secondary" />, value: data?.data?.deliverDate },
-        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
-        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
-        { id: 5, title: "اسم رسمی شرکت مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName },
-        { id: 6, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc },
-        { id: 7, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc },
-        { id: 8, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode || "ثبت نشده"},
+        { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName || "ثبت نشده"},
+        { id: 9, title: "نوع سفارش", icon: <AttachMoney color="secondary" />, value: data?.data?.orderTypeDesc || "ثبت نشده"},
+        { id: 10, title: "تاریخ تحویل", icon: <AttachMoney color="secondary" />, value: data?.data?.deliverDate || "ثبت نشده"},
+        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه"  || "ثبت نشده"},
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc || "ثبت نشده"},
+        { id: 5, title: "اسم رسمی شرکت مشتری", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName || "ثبت نشده"},
+        { id: 6, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc || "ثبت نشده"},
+        { id: 7, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc || "ثبت نشده"},
+        { id: 8, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc || "ثبت نشده"},
     ]
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
@@ -104,6 +104,7 @@ const SalesOrderDetail = (props: Props) => {
     return (
         <>
             {/* <ReusableTab /> */}
+            <Typography color="primary" variant="h1" className="pb-8">جزئیات سفارش فروش</Typography>
             <Formik initialValues={initialValues} onSubmit={() => { }}>
                 {() => {
                     return <>

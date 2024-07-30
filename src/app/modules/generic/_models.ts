@@ -72,3 +72,9 @@ export interface IUnit {
     id?: number | null | undefined
     unitName: string | null | undefined
 }
+
+export interface IPhoneBookType {
+    typeDescription: string,
+    id: number,
+    isActive: boolean
+}

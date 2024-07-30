@@ -1,5 +1,5 @@
-import { Box, FormControlLabel, Switch, Typography } from "@mui/material"
-import { useDeleteRoleMenu, useGetAllApplicationMenus, useGetRoleMenusById, usePostRoleMenus } from "./_hooks"
+import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
+import { useDeleteRoleMenu, useGetAllApplicationMenus, useGetRoleMenusById, usePostRoleMenus } from "./_hooks";
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import { Formik } from "formik";
@@ -14,8 +14,8 @@ const initialValues: IRoleMenu = {
 };
 
 type Props = {
-    id: string
-}
+    id: string;
+};
 
 const RoleMenus = (props: Props) => {
     const { id } = props;
@@ -27,14 +27,12 @@ const RoleMenus = (props: Props) => {
 
     const [roleIds, setRoleIds] = useState<string[]>([]);
 
-
     useEffect(() => {
-        let roleId = roleMenuTools?.data?.data.map((item: { applicationMenuId: string }) => item.applicationMenuId)
-        setRoleIds(roleId)
-    }, [id, roleMenuTools?.data])
+        let roleId = roleMenuTools?.data?.data.map((item: { applicationMenuId: string }) => item.applicationMenuId);
+        setRoleIds(roleId);
+    }, [id, roleMenuTools?.data]);
 
     const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean) => {
-
         if (checked) {
             setRoleIds((prevIds) => [...prevIds, subId]);
             const formData = {
@@ -45,33 +43,59 @@ const RoleMenus = (props: Props) => {
             postMenu.mutate(formData, {
                 onSuccess: (res) => {
                     if (res.succeeded) {
-                        EnqueueSnackbar("دسترسی منو با موفقیت انجام شد", "success")
+                        EnqueueSnackbar("دسترسی منو با موفقیت انجام شد", "success");
                     } else {
-                        EnqueueSnackbar(res?.data.Message, "error")
+                        EnqueueSnackbar(res?.data.Message, "error");
                     }
-                    roleMenuTools.refetch()
-                }
-            })
+                    roleMenuTools.refetch();
+                },
+            });
         } else {
             setRoleIds((prevIds) => prevIds.filter((id) => id !== subId));
-            const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId)
+            const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId);
             deleteMenu.mutate(filterRoleMenuId?.id, {
                 onSuccess: (message) => {
                     if (message.succeeded) {
-                        EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info")
-
+                        EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info");
                     } else {
-                        EnqueueSnackbar(message?.data.Message, "error")
+                        EnqueueSnackbar(message?.data.Message, "error");
                     }
-                    roleMenuTools.refetch()
-                }
-            })
+                    roleMenuTools.refetch();
+                },
+            });
         }
     };
 
     if (isLoading) {
-        return <Backdrop loading={isLoading} />
+        return <Backdrop loading={isLoading} />;
     }
+
+    const renderTreeItems = (nodes: any) => (
+        <TreeItem key={nodes.id} itemId={nodes.id} label={
+            <div className="flex items-center">
+                {Array.isArray(nodes.children) && nodes.children.length === 0 && (
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                name="applicationMenuId"
+                                onChange={(event) => {
+                                    const checked = event.target.checked;
+                                    handleCheckboxChange(nodes.id, nodes.id, checked);
+                                }}
+                                checked={roleIds.includes(nodes.id)}
+                            />
+                        }
+                        label=""
+                    />
+                )}
+                <Typography>{nodes.description}</Typography>
+            </div>
+        }>
+            {Array.isArray(nodes.children) && nodes.children.length > 0 ? (
+                nodes.children.map((sub: any) => renderTreeItems(sub))
+            ) : null}
+        </TreeItem>
+    );
 
     return (
         <>
@@ -80,55 +104,13 @@ const RoleMenus = (props: Props) => {
             {roleMenuTools.isLoading && <Backdrop loading={roleMenuTools.isLoading} />}
             <Box sx={{ minHeight: 180, flexGrow: 1 }}>
                 <SimpleTreeView aria-label="file system navigator">
-                    {appAllMenu?.data?.map((item: { id: string, description: string, children: any[] }) => (
-                        // <TreeItem className="my-4" nodeId={item.id} label={`${item.description} ---- ${roleIds.length} منو از ${item?.children?.length} منوی موجود دسترسی داده  شده است`}>
-                        <TreeItem className="my-4" itemId={item.id} label={`${item.description}`}>
-                            <div>
-                                <Formik initialValues={initialValues} onSubmit={() => { }}>
-                                    {({ handleSubmit }) => {
-                                        return (
-                                            <form>
-                                                <div
-                                                    className="grid grid-cols-2 md:grid-cols-4 p-8"
-                                                >
-                                                    {item?.children?.map((sub: any) => {
-                                                        return (
-                                                            <div
-                                                                className="flex items-center"
-                                                            >
-                                                                <FormControlLabel
-                                                                    control={
-                                                                        <Switch
-                                                                            name="applicationMenuId"
-                                                                            onChange={(event) => {
-                                                                                const checked = event.target.checked;
-                                                                                handleCheckboxChange(item.id, sub.id, checked);
-                                                                            }}
-                                                                            checked={roleIds.includes(sub.id)}
-                                                                        />
-                                                                    }
-                                                                    label={
-                                                                        <Typography>
-                                                                            {sub.description}
-                                                                        </Typography>
-                                                                    }
-                                                                />
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                            </form>
-                                        );
-                                    }}
-                                </Formik>
-                            </div>
-                        </TreeItem>
-                    ))}
+                    {appAllMenu?.data?.map((item: any) =>
+                        renderTreeItems(item)
+                    )}
                 </SimpleTreeView>
             </Box>
-
         </>
-    )
-}
+    );
+};
 
-export default RoleMenus
+export default RoleMenus;

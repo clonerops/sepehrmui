@@ -10,7 +10,7 @@ import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../_cloner/components/Pagination'
 import { EntranceReportColumn } from '../../../_cloner/helpers/columns'
 import FormikWarehouse from '../../../_cloner/components/FormikWarehouse'
-import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
+import { useGetEntrancePermitsByMutation } from './_hooks'
 
 const pageSize = 100
 
@@ -18,14 +18,13 @@ const EntranceReport = () => {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const transferList = useGetTransferRemitancesByMutation()
+    const entranceTools = useGetEntrancePermitsByMutation()
     useEffect(() => {
         const filter = {
             PageNumber: currentPage,
             PageSize: pageSize,
-            IsEntranced: true
         }
-        transferList.mutate(filter)
+        entranceTools.mutate(filter)
         // eslint-disable-next-line
     }, [currentPage])
 
@@ -33,7 +32,7 @@ const EntranceReport = () => {
     const renderAction = (item: any) => {
         return (
                 <Link
-                    to={`/dashboard/billlandingList/${item?.row?.id}`}
+                    to={`/dashboard/billlandingList/${item?.row?.transferRemitance?.id}`}
                 >
                     <Button variant='contained' color="secondary">
                         <Typography variant='h5'>جزئیات</Typography> 
@@ -52,11 +51,10 @@ const EntranceReport = () => {
             OriginWarehouseId: values?.originWarehouseId?.value ? values?.originWarehouseId?.value : '',
             PageNumber: currentPage,
             PageSize: pageSize,
-            IsEntranced: true
         };
-        transferList.mutate(formData);
+        entranceTools.mutate(formData);
     }
-
+    
     return (
         <>
             <ReusableCard>
@@ -77,12 +75,12 @@ const EntranceReport = () => {
 
                 <MuiDataGrid
                     columns={EntranceReportColumn(renderAction)}
-                    rows={transferList?.data?.data}
-                    data={transferList?.data?.data}
-                    isLoading={transferList.isLoading}
+                    rows={entranceTools?.data?.data}
+                    data={entranceTools?.data?.data}
+                    isLoading={entranceTools.isLoading}
                     onDoubleClick={(item: any) => navigate(`/dashboard/transferRemittance/${item?.row?.id}/entrance`)}
                 />
-                <Pagination pageCount={transferList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
+                <Pagination pageCount={entranceTools?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 
             </ReusableCard>
         </>

@@ -125,6 +125,13 @@ const useGetUnits = () => {
         refetchIntervalInBackground: false
     })
 }
+const useGetPhoneBookTypes = () => {
+    return useQuery(['phoneBookTypes'], () => api.getPhoneBookTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+}
 
 
 export {
@@ -144,5 +151,6 @@ export {
     useGetTransferRemittanceStatus,
     useGetOfficialBank,
     useGetOrderExitTypes,
-    useGetUnits
+    useGetUnits,
+    useGetPhoneBookTypes
 };

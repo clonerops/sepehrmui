@@ -1897,16 +1897,6 @@ const CustomerColumn = (renderAction: any) => {
             flex: 1
         },
         {
-            field: "mobile",
-            renderCell: (params: any) => {
-                return <Typography variant="h5">{params.value}</Typography >;
-            },
-            headerName: "موبایل",
-            headerClassName: "headerClassName",
-            minWidth: 80,
-            flex: 1
-        },
-        {
             field: "representative",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
@@ -1928,16 +1918,6 @@ const CustomerColumn = (renderAction: any) => {
                 }} className={`rounded-md px-4 py-1`}>{params.value}</Typography>
             },
             headerClassName: "headerClassName",
-            flex: 1
-        },
-        {
-            field: "tel1",
-            headerName: "تلفن",
-            headerClassName: "headerClassName",
-            renderCell: (params: any) => {
-                return <Typography variant="h5">{params.value}</Typography >;
-            },
-            minWidth: 120,
             flex: 1
         },
         {
@@ -2553,59 +2533,54 @@ const EvacuationColumn = (renderAction: any) => {
     const col = [
         { field: "Action", headerName: 'ثبت مجوز', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
         {
-            field: 'entrancePermitCode', renderCell: (params: any) => {
+            field: 'permitCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'شماره مجوز ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
-            field: 'entrancePermitDate', renderCell: (params: any) => {
+            field: 'createdDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
             field: 'creatorName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.entrancePermit.creatorName}</Typography>;
+                return <Typography variant="h4">{params.row.creatorName}</Typography>;
             },
             headerName: 'ثبت کننده مجوز ورود', headerClassName: "headerClassName", minWidth: 190, maxWidth: 190, flex: 1
         },
         {
             field: 'id', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.id || "ثبت نشده"}</Typography>;
             },
             headerName: 'شماره حواله', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
             field: 'registerDate', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.registerDate || "ثبت نشده"}</Typography>;
             },
             headerName: 'تاریخ حواله', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
             field: 'transferRemittanceTypeDesc', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.transferRemittanceTypeDesc || "ثبت نشده"}</Typography>;
             },
             headerName: 'نوع انتقال', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
-            field: 'transferRemittanceStatusDesc', renderCell: (params: any) => {
-                return params.row.transferRemittanceStatusId === 2 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography>
-            },
-            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
-        },
-        {
             field: 'originWarehouseName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.originWarehouseName || "ثبت نشده"}</Typography>;
             },
             headerName: 'انبار مبدا', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'destinationWarehouseName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.destinationWarehouseName || "ثبت نشده"}</Typography>;
             },
             headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
+
     ]
     return col
 };
@@ -2613,57 +2588,51 @@ const EvacuationColumn = (renderAction: any) => {
 const EntranceReportColumn = (renderAction: any) => {
     const col = [
         {
-            field: 'entrancePermitCode', renderCell: (params: any) => {
+            field: 'permitCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'شماره مجوز ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
-            field: 'entrancePermitDate', renderCell: (params: any) => {
+            field: 'createdDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: 'تاریخ ثبت ورود', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
             field: 'creatorName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.row.entrancePermit.creatorName}</Typography>;
+                return <Typography variant="h4">{params.row.creatorName}</Typography>;
             },
             headerName: 'ثبت کننده مجوز ورود', headerClassName: "headerClassName", minWidth: 190, maxWidth: 190, flex: 1
         },
         { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120 },
         {
             field: 'id', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.id || "ثبت نشده"}</Typography>;
             },
             headerName: 'شماره حواله', headerClassName: "headerClassName", minWidth: 80, flex: 1
         },
         {
             field: 'registerDate', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.registerDate || "ثبت نشده"}</Typography>;
             },
             headerName: 'تاریخ حواله', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
             field: 'transferRemittanceTypeDesc', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.transferRemittanceTypeDesc || "ثبت نشده"}</Typography>;
             },
             headerName: 'نوع انتقال', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
-            field: 'transferRemittanceStatusDesc', renderCell: (params: any) => {
-                return params.row.transferRemittanceStatusId === 2 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.transferRemittanceStatusDesc}</Typography>
-            },
-            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
-        },
-        {
             field: 'originWarehouseName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.originWarehouseName || "ثبت نشده"}</Typography>;
             },
             headerName: 'انبار مبدا', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'destinationWarehouseName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
+                return <Typography variant="h4">{params.row.transferRemitance.destinationWarehouseName || "ثبت نشده"}</Typography>;
             },
             headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },

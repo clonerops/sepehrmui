@@ -13,7 +13,7 @@ const entrancePermission = async (formData: {purchaseOrderTransferRemittanceId: 
 const postEvacuation = async (formdata: IEvacuationPermit) => {
     try {
         const { data } = await http.post(
-            `/v1/PurchaseOrder/PurchaseOrderTransferRemittanceUnloadingPermit/${formdata.purchaseOrderTransferRemittanceEntrancePermitId}`,
+            `/v1/PurchaseOrder/TransferRemittanceUnloadingPermit/${formdata.transferRemittanceEntrancePermitId}`,
             JSON.stringify(formdata)
         );
         return data;

@@ -14,14 +14,14 @@ import CardWithIcons from "../../../_cloner/components/CardWithIcons"
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert"
 import { useGetTransferRemitanceById } from "../transferRemittance/_hooks"
-import { useEntrancePermission } from "../evacuation/_hooks"
 import { convertFilesToBase64 } from "../../../_cloner/helpers/convertToBase64"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
+import { usePostEntrancePermits } from "./_hooks"
 
 const EntrancePermit = () => {
     const { id }: any = useParams()
     const detailTools = useGetTransferRemitanceById(id)
-    const entranceTools = useEntrancePermission()
+    const entranceTools = usePostEntrancePermits()
 
     const [approve, setApprove] = useState<boolean>(false)
     const [files, setFiles] = useState<File[]>([]);
@@ -70,7 +70,7 @@ const EntrancePermit = () => {
         })
 
         const formData = {
-            purchaseOrderTransferRemittanceId: +id,
+            transferRemittanceId: +id,
             attachments: attachments
         }
         entranceTools.mutate(formData, {

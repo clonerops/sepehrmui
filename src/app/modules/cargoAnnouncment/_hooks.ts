@@ -5,8 +5,8 @@ import * as api from "./_requests";
 const useRetrievesNotSendedOrder = () => {
     return useQuery(["ordersNotSend"], () => 
         api.retrievesNotSendedOrder(), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
+        // refetchOnMount: false,
+        // refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
     });
 };

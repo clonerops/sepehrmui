@@ -1,5 +1,6 @@
 import { http } from "../../../_cloner/helpers/axiosConfig"
-import { IEntrancePermit } from "./_models";
+import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl";
+import { IEntrancePermit, IEntrancePermitFilter } from "./_models";
 
 const getEntrancePermits = async () => {
     try {
@@ -12,6 +13,16 @@ const getEntrancePermits = async () => {
     }
 }
 
+const getEntrancePermitsByMutation = async (filter: IEntrancePermitFilter) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/EntrancePermit', filter)}`)
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
 const postEntrancePermits = async (formData: IEntrancePermit) => {
     try {
 
@@ -58,6 +69,7 @@ const deleteEntrancePermit = async (id: number) => {
 
 export {
     getEntrancePermits,
+    getEntrancePermitsByMutation,
     postEntrancePermits,
     getEntrancePermit,
     updateEntrancePermits,

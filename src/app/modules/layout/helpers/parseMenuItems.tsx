@@ -1,25 +1,17 @@
-
 import { IMenuItem, IMenuItemResponse } from "../core/_models";
 
-const notAllowedItems = ["ویرایش کاربر", "دسترسی کاربر", "پرینت فاکتور"];
+const parseMenuItem = (node: IMenuItemResponse): IMenuItem => ({
+  title: node.description,
+  icon: node.menuIcon,
+  id: node.id,
+  description: node.description,
+  to: node.accessUrl,
+  children: node.children
+    .map(parseMenuItem) // Recursively parse children
+});
 
 export const parseMenuItems = (items: IMenuItemResponse[]): IMenuItem[] => {
-  return items?.map((node: any) => ({
-    // title: i18next.t(node.applicationMenuNames[0]?.menuName),
-    title: node.description,
-    icon: node?.menuIcon,
-    id: node?.id,
-    description: node?.description,
-    to: node?.accessUrl,
-    children: node.children
-      .filter((item: any) => !notAllowedItems.includes(item.menuARName))
-      .map((nodeSubMenu: any) => ({
-        // title: i18next.t(nodeSubMenu.applicationMenuNames[0]?.menuName),
-        title: node.description,
-        icon: nodeSubMenu?.menuIcon,
-        id: nodeSubMenu?.id,
-        description: nodeSubMenu?.description,
-        to: nodeSubMenu?.accessUrl,
-      })),
-  }));
+  if (!items) return [];
+  
+  return items.map(parseMenuItem);
 };

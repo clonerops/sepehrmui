@@ -3,6 +3,7 @@ export interface IMenuItemResponse {
   accessUrl: string;
   description: string;
   menuIcon: string;
+  children: any
   applicationMenuNames: {
     menuName: string;
     language: string;
@@ -14,4 +15,5 @@ export interface IMenuItem {
   icon: string;
   description: string;
   to: string;
+  children: any
 }

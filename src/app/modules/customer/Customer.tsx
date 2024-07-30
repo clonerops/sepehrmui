@@ -15,21 +15,25 @@ import CustomerForm from "./components/CustomerForm";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import MuiTable from "../../../_cloner/components/MuiTable";
+import PhonebookGridButton from "../../../_cloner/components/PhonebookGridButton";
 
 const Customer = () => {
-    const customerTools= useGetCustomers();
+    const customerTools = useGetCustomers();
     const deleteCustomerTools = useDeleteCustomer();
-    
+
     const [results, setResults] = useState<ICustomer[]>([]);
 
     useEffect(() => {
         setResults(customerTools?.data?.data);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [customerTools?.data?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+    const [isPhoneBookOpen, setIsPhoneBookOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ICustomer>();
+    const [itemCustomer, setItemCustomer] = useState<ICustomer>();
     const [approve, setApprove] = useState<boolean>(false);
     const [deletedId, setDeletedId] = useState<string>("")
 
@@ -37,12 +41,16 @@ const Customer = () => {
         setItemForEdit(item);
         setIsEditOpen(true);
     };
+    const handleItemCustomer = (item: any) => {
+        setItemCustomer(item);
+        setIsPhoneBookOpen(true);
+    };
 
     const handleDelete = (id: string | undefined) => {
         if (id)
             deleteCustomerTools.mutate(id, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
                         setApprove(false)
                     } else {
@@ -57,17 +65,23 @@ const Customer = () => {
     const handleOpenApprove = (id: string) => {
         setApprove(true)
         setDeletedId(id)
-      }    
+    }
 
 
     const renderAction = (item: any) => {
         return (
             <div className="flex gap-4">
+                <PhonebookGridButton onClick={() => handleItemCustomer(item?.row)} />
                 <DeleteGridButton onClick={() => handleEdit(item?.row)} />
                 <EditGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
             </div>
         );
     };
+
+    const phoneBookColumn = [
+        { id: 1, header: "شماره تماس", accessor: "phoneNumber" },
+        { id: 2, header: "نوع شماره تماس", accessor: "phoneNumberType", render: (params: { phoneNumberType: { label: string } }) => <Typography>{params.phoneNumberType.label}</Typography> },
+    ]
 
     return (
         <>
@@ -81,10 +95,8 @@ const Customer = () => {
                                 "customerCode",
                                 "firstName",
                                 "lastName",
-                                "mobile",
                                 "representative",
                                 "customerValidityDesc",
-                                "tel1",
                                 "isSupplier",
                                 "fatherName",
                                 "nationalId",
@@ -102,7 +114,7 @@ const Customer = () => {
                         <Typography variant="h4" className="text-white">ایجاد مشتری</Typography >
                     </Button>
                 </div>
-                <MuiDataGrid    
+                <MuiDataGrid
                     columns={CustomerColumn(renderAction)}
                     rows={results}
                     data={customerTools?.data?.data}
@@ -125,6 +137,7 @@ const Customer = () => {
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
                 title="ویرایش"
+                width="80%"
                 description="درصورتی که مغایرتی در اطلاعات مشتری ثبت شده وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
                 <CustomerForm
@@ -133,6 +146,23 @@ const Customer = () => {
                     setIsCreateOpen={setIsCreateOpen}
                 />
 
+            </TransitionsModal>
+            <TransitionsModal
+                open={isPhoneBookOpen}
+                isClose={() => setIsPhoneBookOpen(false)}
+                title={` شماره های تماس ${itemCustomer?.firstName} ${itemCustomer?.lastName}`}
+                width="50%"
+                description="شماره تماس های مشتری بصورت ذیل ثبت شده است."
+            >
+                <MuiTable columns={phoneBookColumn} data={itemCustomer?.phonebook?.map((item: any) => (
+                    {
+                        phoneNumber: item.phoneNumber,
+                        phoneNumberType: {
+                            value: item.phoneNumberTypeId,
+                            label: item.phoneNumberTypeDesc,
+                        }
+                    }
+                )) || []} onDoubleClick={() => { }} />
             </TransitionsModal>
             <ConfirmDialog
                 open={approve}

@@ -24,6 +24,7 @@ import FormikDescription from "../../../_cloner/components/FormikDescription";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import MaskInput from "../../../_cloner/components/MaskInput";
 import FileUpload from "../../../_cloner/components/FileUpload";
+import { IEvacuationPermit } from "./_models";
 
 const initialValues = {
     id: 0,
@@ -58,7 +59,6 @@ const EvacuationPermit = () => {
          // eslint-disable-next-line
     }, [files]);
 
-
     useEffect(() => {
         if (detailTools?.data?.data?.details.length > 0) {
             const destructureData = detailTools?.data?.data?.details.map(
@@ -81,11 +81,11 @@ const EvacuationPermit = () => {
 
 
     const orderAndAmountInfo = [
-        { id: 1, title: "شماره حواله", icon: <NumbersOutlined color="secondary" />, value: detailTools?.data?.data?.id },
-        { id: 2, title: "تاریخ حواله", icon: <DateRangeRounded color="secondary" />, value: detailTools?.data?.data?.registerDate },
-        { id: 3, title: "نوع انتقال", icon: <TypeSpecimenTwoTone color="secondary" />, value: detailTools?.data?.data?.transferRemittanceTypeDesc },
-        { id: 4, title: "انبار مبدا", icon: <HomeMaxRounded color="secondary" />, value: detailTools?.data?.data?.originWarehouseName },
-        { id: 5, title: "انبار مقصد", icon: <HomeMiniOutlined color="secondary" />, value: detailTools?.data?.data?.destinationWarehouseName },
+        { id: 1, title: "شماره حواله", icon: <NumbersOutlined color="secondary" />, value: detailTools?.data?.data?.id || "ثبت نشده" },
+        { id: 2, title: "تاریخ حواله", icon: <DateRangeRounded color="secondary" />, value: detailTools?.data?.data?.registerDate || "ثبت نشده" },
+        { id: 3, title: "نوع انتقال", icon: <TypeSpecimenTwoTone color="secondary" />, value: detailTools?.data?.data?.transferRemittanceTypeDesc || "ثبت نشده" },
+        { id: 4, title: "انبار مبدا", icon: <HomeMaxRounded color="secondary" />, value: detailTools?.data?.data?.originWarehouseName || "ثبت نشده" },
+        { id: 5, title: "انبار مقصد", icon: <HomeMiniOutlined color="secondary" />, value: detailTools?.data?.data?.destinationWarehouseName || "ثبت نشده" },
     ]
 
     const fields: FieldType[][] = [
@@ -176,9 +176,8 @@ const EvacuationPermit = () => {
             }
             return convert
         })
-        const formData: any = {
+        const formData: IEvacuationPermit = {
             driverAccountNo: values.driverAccountNo.toString(),
-            bankAccountOwnerName: "",
             shippingName: values.shippingName,
             plaque: values.carPlaque,
             vehicleTypeId: values.vehicleTypeId,
@@ -186,13 +185,13 @@ const EvacuationPermit = () => {
             driverName: values.driverName,
             deliverDate: values.deliverDate,
             unloadingPlaceAddress: values.shippingName,
-            purchaseOrderTransferRemittanceEntrancePermitId: entranceId,
+            transferRemittanceEntrancePermitId: entranceId,
             fareAmount: +values.fareAmount,
             otherCosts: +values.otherAmount,
             description: values.description,
             attachments: attachments,
-            purchaseOrderTransferRemittanceUnloadingPermitDetails: evacuationList.map((item: any) => ({
-                purchaseOrderTransferRemittanceDetailId: item?.id,
+            unloadingPermitDetails: evacuationList.map((item: any) => ({
+                transferRemittanceDetailId: item.id,
                 unloadedAmount: +item.realAmount,
             })),
         };
@@ -251,10 +250,10 @@ const EvacuationPermit = () => {
                     return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                 })}
                 <div className="lg:col-span-3">
-                    <CardTitleValue title={"آدرس محل تخلیه"} value={detailTools?.data?.data?.unloadingPlaceAddress} icon={<HomeOutlined color="secondary" />} />
+                    <CardTitleValue title={"آدرس محل تخلیه"} value={detailTools?.data?.data?.unloadingPlaceAddress || "ثبت نشده"} icon={<HomeOutlined color="secondary" />} />
                 </div>
                 <div className="lg:col-span-4">
-                    <CardTitleValue title={"توضیحات"} value={detailTools?.data?.data?.description} icon={<Description color="secondary" />} />
+                    <CardTitleValue title={"توضیحات"} value={detailTools?.data?.data?.description || "ثبت نشده"} icon={<Description color="secondary" />} />
                 </div>
             </div>
             <ReusableCard cardClassName="mt-4">

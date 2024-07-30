@@ -1,12 +1,19 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { IEntrancePermit } from "./_models"
+import { IEntrancePermit, IEntrancePermitFilter } from "./_models"
 
 const useGetEntrancePermits = () => {
-    return useQuery(['EntrancePermits'], () => api.getEntrancePermits(), {
+    return useQuery(['EntrancePermits'], () => 
+        api.getEntrancePermits(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
+    })
+}
+
+const useGetEntrancePermitsByMutation = () => {
+    return useMutation((formData: IEntrancePermitFilter) => {
+        return api.getEntrancePermitsByMutation(formData)
     })
 }
 
@@ -35,6 +42,7 @@ const useDeleteEntrancePermits = () => {
 
 export {
     useGetEntrancePermits,
+    useGetEntrancePermitsByMutation,
     usePostEntrancePermits,
     useGetEntrancePermit,
     useUpdateEntrancePermits,

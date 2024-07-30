@@ -58,8 +58,8 @@ const Login = () => {
       <div
         className="h-screen  lg:block hidden "
         style={{
-          // backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
-          backgroundImage: `url(${toAbsoulteUrl("/1.jpg")})`,
+          backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
+          // backgroundImage: `url(${toAbsoulteUrl("/1.jpg")})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "left top ",
