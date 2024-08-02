@@ -49,7 +49,7 @@ const MenuItems = ({ menuItems }: { menuItems: any }) => {
                 className={`hover:bg-white hover:rounded-tr-full ${
                   isActive && "text-red-500"
                 } hover:rounded-br-full hover:text-[#272862] ${
-                  openSubMenu[index] && "text-[#272862] font-bold "
+                  openSubMenu[index] && "text-[#272862] font-bold"
                 }`}
                 onClick={() => toggleSubMenu(index)}
               >
@@ -58,7 +58,7 @@ const MenuItems = ({ menuItems }: { menuItems: any }) => {
                     <IconComponent iconName={menuItem.icon} />
                   </div>
                 </ListItemIcon>
-                <ListItemText primary={menuItem.title} />
+                <ListItemText primary={menuItem.title}/>
                 {openSubMenu[index] ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
               <Collapse

@@ -2,16 +2,9 @@ import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import { useDeleteRoleMenu, useGetAllApplicationMenus, useGetRoleMenusById, usePostRoleMenus } from "./_hooks";
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
-import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import { IRoleMenu } from "./_models";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import Backdrop from "../../../_cloner/components/Backdrop";
-
-const initialValues: IRoleMenu = {
-    roleId: "",
-    applicationMenuId: [],
-};
 
 type Props = {
     id: string;
@@ -82,7 +75,7 @@ const RoleMenus = (props: Props) => {
                                     const checked = event.target.checked;
                                     handleCheckboxChange(nodes.id, nodes.id, checked);
                                 }}
-                                checked={roleIds.includes(nodes.id)}
+                                checked={roleIds?.includes(nodes.id)}
                             />
                         }
                         label=""

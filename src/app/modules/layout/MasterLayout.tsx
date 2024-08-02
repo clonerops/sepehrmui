@@ -122,7 +122,6 @@ const MasterLayout = () => {
         </SwipeableDrawer>
       ) : (
         <Drawer
-          // disableScrollLock={true}
           variant="permanent"
           open={open}
           transitionDuration={10}
