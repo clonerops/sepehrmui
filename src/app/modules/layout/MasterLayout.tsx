@@ -117,7 +117,7 @@ const MasterLayout = () => {
           }}
         >
           <List>
-            <MenuItems menuItems={menuItemsData} />
+            <MenuItems menuItems={menuItemsData} isOpen={open} />
           </List>
         </SwipeableDrawer>
       ) : (
@@ -153,7 +153,7 @@ const MasterLayout = () => {
           </Box>
           <Divider color="#FFF" />
           <List>
-            <MenuItems menuItems={menuItemsData} />
+            <MenuItems menuItems={menuItemsData} isOpen={open} />
           </List>
         </Drawer>
       )}
