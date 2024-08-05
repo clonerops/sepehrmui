@@ -8,8 +8,9 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { Card } from "@mui/material";
 
 const initialValues = {
-  userName: "clonerops",
-  password: "aBo217767345@",
+  userName: "",
+  // password: "aBo217767345@",
+  password: "",
   captchaCode: ""
 };
 

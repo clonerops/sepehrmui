@@ -3171,6 +3171,49 @@ const TransferRemittanceColumn = (renderAction: any) => {
     return col
 }
 
+const CustomerLabelsColumn = (renderSwitch: any) => {
+    const col = [
+      {
+        field: 'id', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'کد نوع برچسب', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'desc', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'نوع برچسب', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'id', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'کد برچسب', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: 'desc', renderCell: (params: any) => {
+          return <Typography variant="h4">{params.value}</Typography>;
+        },
+        headerName: 'نام برچسب', headerClassName: "headerClassName", minWidth: 120,
+        flex: 1,
+      },
+      {
+        field: "isActive",
+        headerName: "وضعیت",
+        renderCell: renderSwitch,
+        headerClassName: "headerClassName",
+        minWidth: 160,
+        flex: 1,
+      },
+    ]
+    return col
+  }
+
+
 export {
     ProductBrandsColumn,
     ProductStandardsColumn,
@@ -3220,7 +3263,7 @@ export {
     RoleColumn,
     ReadyToEntranceColumn,
     TransferRemittanceColumn,
-    PaymentAccountingRegisterListColumn
-    // OrderDetailColumn,
+    PaymentAccountingRegisterListColumn,
+    CustomerLabelsColumn,
     // OrderConfirmColumn
 }

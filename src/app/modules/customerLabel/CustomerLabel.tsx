@@ -16,6 +16,7 @@ import { ILabel } from "./_models"
 import { useGetLabels, usePostLabels, useUpdateLabels } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
+import { CustomerLabelsColumn } from '../../../_cloner/helpers/columns'
 
 const initialValues = {
   id: 0,
@@ -60,33 +61,6 @@ const CustomerLabels = () => {
     }
   };
 
-  const columns = (renderSwitch: any) => {
-    const col = [
-      {
-        field: 'id', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'کد برچسب', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'desc', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
-        },
-        headerName: 'برچسب', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: "isActive",
-        headerName: "وضعیت",
-        renderCell: renderSwitch,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-        flex: 1,
-      },
-    ]
-    return col
-  }
 
 
   const renderSwitch = (item: any) => {
@@ -107,10 +81,9 @@ const CustomerLabels = () => {
     <>
       {updateLoading && <Backdrop loading={updateLoading} />}
       {postLoading && <Backdrop loading={postLoading} />}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <ReusableCard>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <ReusableCard cardClassName='lg:col-span-2'>
           <div>
-
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
                 try {
@@ -137,8 +110,8 @@ const CustomerLabels = () => {
               {({ handleSubmit }) => {
                 return <form onSubmit={handleSubmit} className="mb-4">
                   <div className="md:flex md:justify-start md:items-start gap-x-4 ">
-                    <FormikInput name="id" label="کد برچسب " disabled={true} boxClassName=" mt-2 md:mt-0" />
-                    <FormikInput name="desc" label="برچسب " autoFocus={true} boxClassName=" mt-2 md:mt-0" />
+                    <FormikInput name="id" label="نوع برچسب" disabled={true} boxClassName=" mt-2 md:mt-0" />
+                    <FormikInput name="desc" label="نام برچسب" autoFocus={true} boxClassName=" mt-2 md:mt-0" />
                     <ButtonComponent>
                       <Typography className="px-2">
                         <AddCircleOutline className='!text-white' />
@@ -156,13 +129,13 @@ const CustomerLabels = () => {
                 ]}
                 data={Labels?.data}
                 threshold={0.5}
-                setResults={setResults}
+                setResults={[]}
               />
             </div>
             <MuiDataGrid
-              columns={columns(renderSwitch)}
+              columns={CustomerLabelsColumn(renderSwitch)}
               rows={results}
-              data={Labels?.data}
+              data={[]}
               onDoubleClick={(item: any) => onUpdateStatus(item)}
               getRowId={(item: { id: number }) => item.id}
             />
@@ -170,7 +143,7 @@ const CustomerLabels = () => {
         </ReusableCard>
         <ReusableCard cardClassName='lg:flex gap-4 hidden'>
           <div>
-            <div className="hidden md:flex md:justify-center md:items-center"
+            <div className="hidden lg:flex lg:justify-center lg:items-center"
             >
               <img alt="sepehriranian"
                 src={toAbsoulteUrl("/media/logos/11089.jpg")}
