@@ -4,12 +4,12 @@ import { enqueueSnackbar } from "notistack";
 import Cookies from "js-cookie";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
 import { useFormik } from "formik";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { Card } from "@mui/material";
 
 const initialValues = {
-  userName: "",
+  // userName: "clonerops",
   // password: "aBo217767345@",
+  userName: "",
   password: "",
   captchaCode: ""
 };

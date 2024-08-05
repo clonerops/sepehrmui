@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { IconComponent } from "../../../../_cloner/components/DynamicIcon";
 
-const MenuItems = ({ menuItems }: { menuItems: any }) => {
+const MenuItems = ({ menuItems, isOpen }: { menuItems: any, isOpen:boolean }) => {
   const [openSubMenu, setOpenSubMenu] = useState<boolean[]>(
     new Array(menuItems.length).fill(false)
   );
@@ -38,22 +38,22 @@ const MenuItems = ({ menuItems }: { menuItems: any }) => {
           return (
             <div key={menuItem.id} className="cursor-pointer">
               <ListItem
-                // className={`hover:bg-white hover:rounded-tr-full ${
-                //   isActive && "text-red-500"
-                // } hover:rounded-br-full hover:text-[#272862] ${
-                //   openSubMenu[index] && "text-[#272862] font-bold "
-                // } ${
-                //   openSubMenu[index] &&
-                //   "bg-white rounded-tr-3xl rounded-br-3xl "
-                // }`}
                 className={`hover:bg-white hover:rounded-tr-full ${
                   isActive && "text-red-500"
                 } hover:rounded-br-full hover:text-[#272862] ${
-                  openSubMenu[index] && "text-[#272862] font-bold"
+                  openSubMenu[index] && "text-[#272862] font-bold "
+                } ${
+                  openSubMenu[index] &&
+                  "bg-white rounded-tr-3xl rounded-br-3xl "
                 }`}
+                // className={`hover:bg-white hover:rounded-tr-full ${
+                //   isActive && "text-red-500"
+                // } hover:rounded-br-full hover:text-[#272862] ${
+                //   openSubMenu[index] && "text-[#272862] font-bold"
+                // }`}
                 onClick={() => toggleSubMenu(index)}
               >
-                <ListItemIcon className="text-white hover:!text-[#272862] font-bold">
+                <ListItemIcon className={`text-white hover:!text-[#272862] font-bold ${isOpen && '!min-w-[30px]' }`}>
                   <div className="text-[#fcc615] hover:!text-[#272862] font-bold">
                     <IconComponent iconName={menuItem.icon} />
                   </div>
@@ -66,8 +66,10 @@ const MenuItems = ({ menuItems }: { menuItems: any }) => {
                 timeout="auto"
                 unmountOnExit
               >
-                <List component="div" disablePadding>
-                  <MenuItems menuItems={menuItem.children} />
+                <List component="div" disablePadding >
+                  <div className={`${isOpen && '!mr-2 opacity-80' }`}>
+                    <MenuItems menuItems={menuItem.children} isOpen={isOpen} />
+                  </div>
                 </List>
               </Collapse>
             </div>
@@ -76,10 +78,10 @@ const MenuItems = ({ menuItems }: { menuItems: any }) => {
           return (
             <Link id="RouterLink" key={menuItem.id} to={`${menuItem.to}`}>
               <ListItem
-                className={`!ml-2 ${isActive ? "bg-yellow-500" : ""}`}
+                className={`!ml-2 ${isActive ? "bg-yellow-500" : ""} text-gray ${isOpen && '!mr-2'}`}
                 key={menuItem.id}
               >
-                <ListItemIcon className="text-gray">
+                <ListItemIcon className={`text-gray ${isOpen && '!min-w-[20px]'}`}>
                   <div className="text-white">
                     <IconComponent
                       className="!w-4 !h-4"
@@ -87,7 +89,7 @@ const MenuItems = ({ menuItems }: { menuItems: any }) => {
                     />
                   </div>
                 </ListItemIcon>
-                <ListItemText primary={menuItem.description} className="text-gray-400" />
+                <ListItemText primary={menuItem.description} className="text-gray-300" />
               </ListItem>
             </Link>
           );
