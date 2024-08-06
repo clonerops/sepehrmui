@@ -61,8 +61,8 @@ const ToolbarComponent = () => {
                     <div className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
                         <Settings />
                     </div>
-                    <div className="border border-dashed px-4 py-1 border-black hidden md:block"> 
-                        <Typography className="text-black font-bold">{userInfo?.data?.userName}</Typography>
+                    <div className="px-4 py-1 hidden md:block bg-[#2E4374] rounded-sm"> 
+                        <Typography className="text-white font-bold">{userInfo?.data?.userName}</Typography>
                     </div>
                     <Button
                         onClick={handleClick}

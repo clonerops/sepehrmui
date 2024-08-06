@@ -1,44 +1,50 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { ILabel } from "./_models"
+import { ICustomerLabel } from "./_models"
 
-const useGetLabels = () => {
-    return useQuery(['Labels'], 
-        () => api.getLabels(), {
+const useGetCustomerLabels = () => {
+    return useQuery(['CustomerLabels'], 
+        () => api.getCustomerLabels(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
     })
 }
 
-const usePostLabels = () => {
-    return useMutation((formData: ILabel) => {
-        return api.postLabels(formData)
+const usePostCustomerLabels = () => {
+    return useMutation((formData: ICustomerLabel) => {
+        return api.postCustomerLabels(formData)
     })
 }
 
 
-const useGetLabel = (id: string) => {
-    return useQuery(['Labels', id], 
-        () => api.getLabel(id))
+const useGetCustomerLabel = (id: number) => {
+    return useQuery(['CustomerLabels', id], 
+        () => api.getCustomerLabel(id))
 }
-
-const useUpdateLabels = () => {
-    return useMutation((formData: ILabel) => {
-        return api.updateLabels(formData)
-    })
-}
-
-const useDeleteLabels = () => {
+const useGetCustomerLabelByMutation = () => {
     return useMutation((id: number) => {
-        return api.deleteLabel(id)
+        return api.getCustomerLabel(id)
+    })
+}
+
+const useUpdateCustomerLabels = () => {
+    return useMutation((formData: ICustomerLabel) => {
+        return api.updateCustomerLabels(formData)
+    })
+}
+
+const useDeleteCustomerLabels = () => {
+    return useMutation((id: number) => {
+        return api.deleteCustomerLabel(id)
     })
 }
 
 export {
-    useGetLabels,
-    usePostLabels,
-    useGetLabel,
-    useUpdateLabels,
-    useDeleteLabels
+    useGetCustomerLabels,
+    usePostCustomerLabels,
+    useGetCustomerLabel,
+    useGetCustomerLabelByMutation,
+    useUpdateCustomerLabels,
+    useDeleteCustomerLabels
 }

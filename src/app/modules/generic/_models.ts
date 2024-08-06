@@ -78,3 +78,9 @@ export interface IPhoneBookType {
     id: number,
     isActive: boolean
 }
+
+export interface ICustomerLabelType {
+    typeDescription: string,
+    id: number,
+    isActive: boolean
+}

@@ -40,7 +40,7 @@ export const translationMapping: any = {
     warehouses: "تعریف انبار",
     purchaser_order: " ثبت سفارش خرید ",
     sales_order: "ثبت سفارش فروش",
-    transferBetweenWarehouse: "انتقال به انبار",
+    transferWarehouse: "انتقال به انبار",
     customerWarehouse: "اختصاص انبار به مشتری",
     billlanding: "صدور حواله",
     presale: "سفارشات پیش فروش",

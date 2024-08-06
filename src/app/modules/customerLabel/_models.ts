@@ -1,5 +1,14 @@
-export interface ILabel {
-    id?: number | null | undefined
-    desc: string | null | undefined
-    isActive?: boolean | null | undefined
+export interface ICustomerLabel {
+    id?: number | undefined | null
+    customerLabelTypeId: number | undefined | null,
+    productId?: IValueLabel | undefined | null,
+    productTypeId?: number | undefined | null,
+    brandId?: IValueLabel | undefined | null,
+    productBrandId?: IValueLabel | undefined | null,
+    labelName: string | undefined | null
+}
+
+interface IValueLabel {
+    value: any
+    label: string
 }

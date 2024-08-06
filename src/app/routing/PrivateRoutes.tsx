@@ -17,6 +17,7 @@ import { PaymentAccountingRegisterListColumn } from "../../_cloner/helpers/colum
 import PaymentAccountingRegisterList from "../modules/payment/PaymentAccountingRegisterList";
 import EvacutionPrint from "../modules/prints/EvacutionPrint";
 import EntrancePermit from "../modules/entrancePermit/EntrancePermit";
+import TransferBetweenWarehouse from "../modules/warehouse/TransferBetweenWarehouse";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -270,6 +271,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
     { path: "dashboard/productBrand", element: <ProductBrands /> },
     { path: "dashboard/productService", element: <ProductService /> },
+    { path: "dashboard/transferWarehouse", element: <TransferBetweenWarehouse /> },
     
     { path: "dashboard/billlanding", element: <Billlanding /> },
     { path: "dashboard/billlandingEdit/:id", element: <BilllandingEdit /> },

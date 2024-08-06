@@ -404,6 +404,17 @@ const dropdownPhoneBookType = (data: any) => {
     );
 };
 
+const dropdownCustomerLabelType = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: number, labelTypeDesc: string }): any => {
+            const { labelTypeDesc, id } = obj;
+            return { value: id, label: labelTypeDesc };
+        })
+    );
+};
+
+
 
 export {
     dropdownBrand,
@@ -446,5 +457,6 @@ export {
     dropdownShareholders,
     dropdownOfficialBank,
     dropdownProductType,
-    dropdownPhoneBookType
+    dropdownPhoneBookType,
+    dropdownCustomerLabelType
 }

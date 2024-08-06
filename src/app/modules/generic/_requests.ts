@@ -74,6 +74,11 @@ const getPhoneBookTypes = async () => {
     return data;
 
 }
+const getCustomerLabelTypes = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetCustomerLabelTypes')
+    return data;
+
+}
 
 export {
     getSendTypes,
@@ -93,5 +98,6 @@ export {
     getOfficialBank,
     getOrderExitTypes,
     getUnits,
-    getPhoneBookTypes
+    getPhoneBookTypes,
+    getCustomerLabelTypes
 }

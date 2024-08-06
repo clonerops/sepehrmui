@@ -524,6 +524,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             renderPrice
                         )}
                         data={productData.selectedProduct}
+                        onDoubleClick={() => {}}
                     />
                     <div
                         className="flex justify-end items-end mt-4"

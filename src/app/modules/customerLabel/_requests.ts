@@ -1,10 +1,10 @@
 import { http } from "../../../_cloner/helpers/axiosConfig"
-import { ILabel } from "./_models";
+import { ICustomerLabel } from "./_models";
 
-const getLabels = async () => {
+const getCustomerLabels = async () => {
     try {
 
-        const { data } = await http.get('/v1/ProductStandard')
+        const { data } = await http.get('/v1/CustomerLabel')
         return data;
 
     } catch (error: any) {
@@ -12,10 +12,10 @@ const getLabels = async () => {
     }
 }
 
-const postLabels = async (formData: ILabel) => {
+const postCustomerLabels = async (formData: ICustomerLabel) => {
     try {
 
-        const { data } = await http.post('/v1/ProductStandard', JSON.stringify(formData))
+        const { data } = await http.post('/v1/CustomerLabel', JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -23,10 +23,10 @@ const postLabels = async (formData: ILabel) => {
     }
 }
 
-const getLabel = async (id: string) => {
+const getCustomerLabel = async (id: number) => {
     try {
 
-        const { data } = await http.get(`/v1/ProductStandard/${id}`)
+        const { data } = await http.get(`/v1/CustomerLabel/${id}`)
         return data;
 
     } catch (error: any) {
@@ -34,10 +34,10 @@ const getLabel = async (id: string) => {
     }
 }
 
-const updateLabels = async (formData: ILabel) => {
+const updateCustomerLabels = async (formData: ICustomerLabel) => {
     try {
 
-        const { data } = await http.put(`/v1/ProductStandard/${formData.id}`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/CustomerLabel/${formData.id}`, JSON.stringify(formData))
         return data;
 
     } catch (error: any) {
@@ -45,10 +45,10 @@ const updateLabels = async (formData: ILabel) => {
     }
 }
 
-const deleteLabel = async (id: number) => {
+const deleteCustomerLabel = async (id: number) => {
     try {
 
-        const { data } = await http.delete(`/v1/ProductStandard/${id}`)
+        const { data } = await http.delete(`/v1/CustomerLabel/${id}`)
         return data;
 
     } catch (error: any) {
@@ -57,9 +57,9 @@ const deleteLabel = async (id: number) => {
 }
 
 export {
-    getLabels,
-    postLabels,
-    getLabel,
-    updateLabels,
-    deleteLabel
+    getCustomerLabels,
+    postCustomerLabels,
+    getCustomerLabel,
+    updateCustomerLabels,
+    deleteCustomerLabel
 }

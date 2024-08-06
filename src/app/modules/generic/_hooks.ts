@@ -132,6 +132,13 @@ const useGetPhoneBookTypes = () => {
         refetchIntervalInBackground: false
     })
 }
+const useGetCustomerLabelTypes = () => {
+    return useQuery(['customerLabelTypes'], () => api.getCustomerLabelTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+}
 
 
 export {
@@ -152,5 +159,6 @@ export {
     useGetOfficialBank,
     useGetOrderExitTypes,
     useGetUnits,
-    useGetPhoneBookTypes
+    useGetPhoneBookTypes,
+    useGetCustomerLabelTypes
 };
