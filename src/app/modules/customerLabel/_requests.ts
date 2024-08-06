@@ -1,5 +1,5 @@
 import { http } from "../../../_cloner/helpers/axiosConfig"
-import { ICustomerLabel } from "./_models";
+import { IAssignCustomerLabel, ICustomerLabel } from "./_models";
 
 const getCustomerLabels = async () => {
     try {
@@ -56,10 +56,24 @@ const deleteCustomerLabel = async (id: number) => {
     }
 }
 
+// This Relation From Customer Module
+const postAsignCustomerLabels = async (formData: IAssignCustomerLabel) => {
+    try {
+
+        const { data } = await http.post('/v1/Customer/AssignCustomerLabels', JSON.stringify(formData))
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 export {
     getCustomerLabels,
     postCustomerLabels,
     getCustomerLabel,
     updateCustomerLabels,
-    deleteCustomerLabel
+    deleteCustomerLabel,
+    postAsignCustomerLabels
 }

@@ -1955,7 +1955,7 @@ const CustomerColumn = (renderAction: any) => {
             headerName: "عملیات",
             renderCell: renderAction,
             headerClassName: "headerClassName",
-            minWidth: 100,
+            minWidth: 160,
             flex: 1
         },
     ];
@@ -3285,6 +3285,76 @@ const TransferBetweenWarehouseColumn = (renderAction: any) => {
     return col
 }
 
+const AssignCustomerLabelsColumn = (setSelectedItems: React.Dispatch<any>, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const col = [
+        {
+            field: "customerCode",
+            headerName: "کدمشتری",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params?.row?.customerCode}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            maxWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "customerName",
+            headerName: "نام مشتری",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params?.row?.firstName} {params?.row?.lastName}</Typography>;
+            },
+            headerClassName:
+                "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+
+        {
+            field: "customerLabels",
+            headerName: "برچسب ها",
+            renderCell: (params: any) => {
+                return <Button variant='contained' color='secondary' onClick={() => {
+                    setSelectedItems(params.row)
+                    setIsOpen(true)
+                }}>
+                    <Typography>لیست برچسب ها</Typography>
+                </Button>
+            },
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 160,
+        },
+    ];
+    return col;
+}
+
+const AssignCustomerLabelColumn = () => {
+    const col = [
+        {
+            field: "id",
+            headerName: "کد برچسب",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params?.value}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            flex: 1,
+        },
+        {
+            field: "labelName",
+            headerName: "نام برچسب",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params?.value}</Typography>;
+            },
+            headerClassName:
+                "headerClassName",
+            flex: 1,
+        },
+
+    ];
+    return col;
+};
+
 export {
     ProductBrandsColumn,
     ProductStandardsColumn,
@@ -3336,6 +3406,8 @@ export {
     TransferRemittanceColumn,
     PaymentAccountingRegisterListColumn,
     CustomerLabelsColumn,
-    TransferBetweenWarehouseColumn
+    TransferBetweenWarehouseColumn,
+    AssignCustomerLabelColumn,
+    AssignCustomerLabelsColumn
     // OrderConfirmColumn
 }

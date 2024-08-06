@@ -34,6 +34,7 @@ export const translationMapping: any = {
     lading_list: 'لیست مجوز های بارگیری',
     orderUpdate: 'ویرایش سفارش',
     roles: "نقش ها",
+    customerLabel: "اختصاص برچسب به مشتری",
     permissions: "مجوزهای دسترسی کاربران",
     groups: "گروه کاربر",
     accessDenied: "دسترسی غیرمجاز",

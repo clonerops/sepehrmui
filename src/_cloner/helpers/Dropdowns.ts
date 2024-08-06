@@ -414,6 +414,16 @@ const dropdownCustomerLabelType = (data: any) => {
     );
 };
 
+const dropdownCustomerLabel = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: any; labelName: any }): any => {
+            const { id, labelName } = obj;
+            return { value: id, label: labelName };
+        })
+    );
+};
+
 
 
 export {
@@ -458,5 +468,6 @@ export {
     dropdownOfficialBank,
     dropdownProductType,
     dropdownPhoneBookType,
-    dropdownCustomerLabelType
+    dropdownCustomerLabelType,
+    dropdownCustomerLabel
 }

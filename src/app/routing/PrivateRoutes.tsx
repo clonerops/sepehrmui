@@ -18,6 +18,7 @@ import PaymentAccountingRegisterList from "../modules/payment/PaymentAccountingR
 import EvacutionPrint from "../modules/prints/EvacutionPrint";
 import EntrancePermit from "../modules/entrancePermit/EntrancePermit";
 import TransferBetweenWarehouse from "../modules/warehouse/TransferBetweenWarehouse";
+import AssignCustomerLabel from "../modules/customerLabel/AsignCustomerLabel";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -263,6 +264,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/brands", element: <Brands /> },
     { path: "dashboard/productTypes", element: <ProductTypes /> },
     { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },
+    { path: "dashboard/customerLabel", element: <AssignCustomerLabel /> },
     { path: "dashboard/productState", element: <ProductState /> },
     { path: "dashboard/productStandard", element: <ProductStandards /> },
     { path: "dashboard/labels", element: <CustomerLabels /> },

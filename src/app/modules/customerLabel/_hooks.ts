@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { ICustomerLabel } from "./_models"
+import { IAssignCustomerLabel, ICustomerLabel } from "./_models"
 
 const useGetCustomerLabels = () => {
     return useQuery(['CustomerLabels'], 
@@ -40,11 +40,20 @@ const useDeleteCustomerLabels = () => {
     })
 }
 
+// Relation From Customer Module
+const usePostAsignCustomerLabels = () => {
+    return useMutation((formData: IAssignCustomerLabel) => {
+        return api.postAsignCustomerLabels(formData)
+    })
+}
+
+
 export {
     useGetCustomerLabels,
     usePostCustomerLabels,
     useGetCustomerLabel,
     useGetCustomerLabelByMutation,
     useUpdateCustomerLabels,
-    useDeleteCustomerLabels
+    useDeleteCustomerLabels,
+    usePostAsignCustomerLabels
 }

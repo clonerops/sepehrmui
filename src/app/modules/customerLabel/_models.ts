@@ -12,3 +12,9 @@ interface IValueLabel {
     value: any
     label: string
 }
+
+export interface IAssignCustomerLabel {
+    id?: number | null | undefined
+    customerId: string | null | undefined
+    assignedLabels: number[] | null | undefined
+}
