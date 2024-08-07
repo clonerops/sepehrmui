@@ -77,8 +77,9 @@ const CustomerLabelForm:FC<IProps> = ({id, refetch, onClose}) => {
             productTypeId: values.productTypeId ? values.productTypeId : null,
             brandId: values.brandId?.value ? values.brandId.value : null,
             productBrandId: values.productBrandId?.value ? values.productBrandId?.value : null,
-            labelName: values.labelName
+            labelName: values.labelName 
         }
+        console.log(JSON.stringify(formData))
         postCustomerLabel(formData, {
             onSuccess: (response: any) => {
                 if (response.succeeded) {
