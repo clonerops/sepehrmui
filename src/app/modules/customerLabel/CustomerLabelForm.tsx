@@ -77,7 +77,7 @@ const CustomerLabelForm:FC<IProps> = ({id, refetch, onClose}) => {
             productTypeId: values.productTypeId ? values.productTypeId : null,
             brandId: values.brandId?.value ? values.brandId.value : null,
             productBrandId: values.productBrandId?.value ? values.productBrandId?.value : null,
-            labelName: values.labelName
+            labelName: values.labelName !== "" ? values.labelName : null
         }
         postCustomerLabel(formData, {
             onSuccess: (response: any) => {
@@ -100,7 +100,7 @@ const CustomerLabelForm:FC<IProps> = ({id, refetch, onClose}) => {
             productTypeId: values.productTypeId ? values.productTypeId : null,
             brandId: values.brandId?.value ? values.brandId.value : null,
             productBrandId: values.productBrandId?.value ? values.productBrandId?.value : null,
-            labelName: values.labelName
+            labelName: values.labelName !== "" ? values.labelName : null
         }
         updateCustomerLabel(formData, {
             onSuccess: (response: any) => {

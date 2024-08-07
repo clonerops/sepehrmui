@@ -7,6 +7,7 @@ const FormikCustomerLabel = (props: any) => {
     return (
         <FormikComboBox
             options={dropdownCustomerLabel(customerLabels?.data)}
+            disabled={props.disabeld}
             {...props}
         />
     );

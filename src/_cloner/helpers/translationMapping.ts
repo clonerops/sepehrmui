@@ -21,6 +21,7 @@ export const translationMapping: any = {
     productTypes: 'نوع کالا',
     users: 'کاربران',
     role: 'نقش',
+    customerReportMarketing: 'گزارش مشتریان جهت بازاریابی',
     productInventories: 'موجودی انبارها',
     productInventoriesSepehr: 'مدیریت موجودی سپهر',
     productBrand: 'کالا برند',

@@ -4,7 +4,6 @@ import { IconButton, Tooltip, Typography } from "@mui/material"
 import { Edit, Search, Visibility } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom"
 import { useGetTransferRemittanceStatus } from "../generic/_hooks"
-import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/dropdowns"
 import { useGetTransferRemitancesByMutation } from "./_hooks"
 import { TransferRemittanceColumn } from "../../../_cloner/helpers/columns"
 
@@ -15,6 +14,7 @@ import Backdrop from "../../../_cloner/components/Backdrop"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import Pagination from "../../../_cloner/components/Pagination"
 import RadioGroup from "../../../_cloner/components/RadioGroup"
+import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/dropdowns"
 
 const pageSize = 100
 
