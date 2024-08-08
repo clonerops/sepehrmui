@@ -17,3 +17,7 @@ export interface IAssignCustomerLabel {
     id?: number | null | undefined
     customerId: string | null | undefined
 }
+
+export interface ICustomerLabelFilter {
+    CustomerLabelTypeId?: number
+}

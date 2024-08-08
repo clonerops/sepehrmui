@@ -1,10 +1,21 @@
 import { http } from "../../../_cloner/helpers/axiosConfig"
-import { IAssignCustomerLabel, ICustomerLabel } from "./_models";
+import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl";
+import { IAssignCustomerLabel, ICustomerLabel, ICustomerLabelFilter } from "./_models";
 
 const getCustomerLabels = async () => {
     try {
 
         const { data } = await http.get('/v1/CustomerLabel')
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
+const getCustomerLabelsByMutation = async (formData: ICustomerLabelFilter) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/CustomerLabel', formData)}`)
         return data;
 
     } catch (error: any) {
@@ -75,5 +86,6 @@ export {
     getCustomerLabel,
     updateCustomerLabels,
     deleteCustomerLabel,
-    postAsignCustomerLabels
+    postAsignCustomerLabels,
+    getCustomerLabelsByMutation
 }

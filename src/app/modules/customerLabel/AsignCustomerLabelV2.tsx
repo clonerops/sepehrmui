@@ -24,8 +24,8 @@ const AssignCustomerLabelV2 = () => {
   const customers = useGetCustomers()
   const customerDetailTools = useGetCustomer()
   const customerLabelsTools = useGetCustomerLabels()
-  const { mutate: postCustomerLabel, isLoading: postLoading } = usePostAsignCustomerLabels();
 
+  const { mutate: postCustomerLabel, isLoading: postLoading } = usePostAsignCustomerLabels();
   const [resultLabels, setResultLabels] = useState<IAssignCustomerLabel[]>([]);
   const [selectedIds, setSelectedIds] = useState<any>([]);
 

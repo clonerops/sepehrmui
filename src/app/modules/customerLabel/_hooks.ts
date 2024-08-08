@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { IAssignCustomerLabel, ICustomerLabel } from "./_models"
+import { IAssignCustomerLabel, ICustomerLabel, ICustomerLabelFilter } from "./_models"
 
 const useGetCustomerLabels = () => {
     return useQuery(['CustomerLabels'], 
@@ -8,6 +8,12 @@ const useGetCustomerLabels = () => {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
+    })
+}
+
+const useGetCustomerLabelsByMutation = () => {
+    return useMutation((formData: ICustomerLabelFilter) => {
+        return api.getCustomerLabelsByMutation(formData)
     })
 }
 
@@ -55,5 +61,6 @@ export {
     useGetCustomerLabelByMutation,
     useUpdateCustomerLabels,
     useDeleteCustomerLabels,
-    usePostAsignCustomerLabels
+    usePostAsignCustomerLabels,
+    useGetCustomerLabelsByMutation
 }
