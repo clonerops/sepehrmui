@@ -20,6 +20,7 @@ import EntrancePermit from "../modules/entrancePermit/EntrancePermit";
 import TransferBetweenWarehouse from "../modules/warehouse/TransferBetweenWarehouse";
 import AssignCustomerLabel from "../modules/customerLabel/AsignCustomerLabel";
 import CustomerReportMarketing from "../modules/report/CustomerReportMarketing";
+import AssignCustomerLabelV2 from "../modules/customerLabel/AsignCustomerLabelV2";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -265,7 +266,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/brands", element: <Brands /> },
     { path: "dashboard/productTypes", element: <ProductTypes /> },
     { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },
-    { path: "dashboard/customerLabel", element: <AssignCustomerLabel /> },
+    { path: "dashboard/customerLabel", element: <AssignCustomerLabelV2 /> },
     { path: "dashboard/customerReportMarketing", element: <CustomerReportMarketing /> },
 
     { path: "dashboard/productState", element: <ProductState /> },

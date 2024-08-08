@@ -2149,6 +2149,12 @@ const OrderColumn = (renderAction: any) => {
             headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
         },
         {
+            field: 'bussinessCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'کد سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
             field: 'creatorName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -3318,7 +3324,7 @@ const AssignCustomerLabelsColumn = (setSelectedItems: React.Dispatch<any>, setIs
                     setSelectedItems(params.row)
                     setIsOpen(true)
                 }}>
-                    <Typography>لیست برچسب ها</Typography>
+                    <Typography>برچسب ها</Typography>
                 </Button>
             },
             headerClassName: "headerClassName",
@@ -3354,6 +3360,50 @@ const AssignCustomerLabelColumn = () => {
     ];
     return col;
 };
+
+const AssignCustomerLabelsCheckboxColumn = (renderCheckbox: any) => {
+    const col = [
+        {
+            field: "id",
+            // headerName: (
+            //     <Checkbox
+            //         color="primary"
+            //         checked={isSelectAll}
+            //         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+            //     />
+            // ),
+            headerName: "",
+            sortable: false,
+            renderCell: renderCheckbox,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            maxWidth: 80,
+            flex: 1
+        },
+        {
+            field: "customerLabelTypeDesc",
+            headerName: "نوع برچسب",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "labelName",
+            headerName: "نام برچسب",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName:
+                "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+    ];
+    return col;
+}
 
 export {
     ProductBrandsColumn,
@@ -3408,6 +3458,7 @@ export {
     CustomerLabelsColumn,
     TransferBetweenWarehouseColumn,
     AssignCustomerLabelColumn,
-    AssignCustomerLabelsColumn
+    AssignCustomerLabelsColumn,
+    AssignCustomerLabelsCheckboxColumn
     // OrderConfirmColumn
 }
