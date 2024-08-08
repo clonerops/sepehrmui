@@ -3332,7 +3332,7 @@ const AssignCustomerLabelsColumn = (setSelectedItems: React.Dispatch<any>, setIs
 const AssignCustomerLabelColumn = () => {
     const col = [
         {
-            field: "id",
+            field: "customerLabelId",
             headerName: "کد برچسب",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params?.value}</Typography>;
@@ -3341,7 +3341,7 @@ const AssignCustomerLabelColumn = () => {
             flex: 1,
         },
         {
-            field: "labelName",
+            field: "customerLabelName",
             headerName: "نام برچسب",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params?.value}</Typography>;

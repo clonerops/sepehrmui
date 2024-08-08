@@ -1,5 +1,6 @@
 import {
   Checkbox,
+  Chip,
   FormControl,
   InputLabel,
   MenuItem,
@@ -34,7 +35,7 @@ const FormikSelectCheckbox = <Value,>(props: FormikSelectPropsType<Value>) => {
     onChange,
     ...rest
   } = props;
-  const [field] = useField({ name });  // Removed 'value' from useField
+  const [field] = useField({ name }); 
   const formikProps = useFormikContext();
   const handleSelectChange = (event: SelectChangeEvent<Value>) => {
     const selectedValue = event.target.value;
@@ -53,6 +54,7 @@ const FormikSelectCheckbox = <Value,>(props: FormikSelectPropsType<Value>) => {
           variant={"outlined"}
           labelId={label + "-label"}
           id={label}
+          // input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           label={label}
           disabled={disabeld}
           {...field}
@@ -66,7 +68,8 @@ const FormikSelectCheckbox = <Value,>(props: FormikSelectPropsType<Value>) => {
               {options
                 .filter((option) => selected.includes(option.value))
                 .map((option) => (
-                  <Typography key={option.value}>{option.label}, </Typography>
+                  <Chip key={option.value} label={<Typography>{option.label}</Typography>} />
+                  // <Typography key={option.value}>{option.label}, </Typography>
                 ))}
             </div>
           )}
