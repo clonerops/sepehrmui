@@ -42,6 +42,7 @@ const CustomerReportMarketing = () => {
 
     const handleFilter = (values: any) => {
         let formData = {
+            CustomerLabelTypeId: values.customerLabelTypeId
         };
     }
 
@@ -59,8 +60,8 @@ const CustomerReportMarketing = () => {
                         return (
                             <>
                                 <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
-                                    <FormikCustomerLabelType name="customerLabelTypeId" label="نوع برچسب" />
-                                    <FormikCustomerLabel name="customerLabelId" label="نام برچسب" disabeld={!values.customerLabelTypeId} />
+                                    <FormikCustomerLabelType name="customerLabelTypeId" label="نوع برچسب"  />
+                                    <FormikCustomerLabel name="customerLabelId" label="نام برچسب"  disabeld={!values.customerLabelTypeId} />
                                 </div>
                                 <div>
                                     <RadioGroup
