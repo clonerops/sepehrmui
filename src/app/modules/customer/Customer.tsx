@@ -33,7 +33,7 @@ const Customer = () => {
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [isPhoneBookOpen, setIsPhoneBookOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ICustomer>();
-    const [itemCustomer, setItemCustomer] = useState<ICustomer>();
+        const [itemCustomer, setItemCustomer] = useState<ICustomer>();
     const [approve, setApprove] = useState<boolean>(false);
     const [deletedId, setDeletedId] = useState<string>("")
 

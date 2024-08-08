@@ -3405,6 +3405,105 @@ const AssignCustomerLabelsCheckboxColumn = (renderCheckbox: any) => {
     return col;
 }
 
+const CustomerReportMarketingColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "customerCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "کد مشتری",
+            align: "center",
+            headerClassName: "headerClassName",
+            maxWidth: 80,
+            flex: 1
+        },
+        {
+            field: "firstName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نام",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "lastName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نام خانوادگی",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "representative",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "معرف",
+            headerClassName: "headerClassName",
+            minWidth: 140,
+            flex: 1
+        },
+        {
+            field: "customerValidityDesc",
+            headerName: "اعتبار",
+            minWidth: 100,
+            renderCell: (params: any) => {
+                const backgroundColor = params.row.customerValidityColorCode; // Assuming this code exists in your data
+                return <Typography style={{
+                    backgroundColor: `#${backgroundColor}`,
+                    color: "white"
+                }} className={`rounded-md px-4 py-1`}>{params.value}</Typography>
+            },
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "isSupplier",
+            headerName: "تامین کننده؟",
+            renderCell: (params: any) => {
+                return <ActiveText params={params} successTitle="بله" dangerTitle="خیر" />
+
+            },
+            headerClassName: "headerClassName",
+            cellClassName: "text-center",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "fatherName",
+            headerName: "نام پدر",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "nationalId",
+            headerName: "کدملی",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "phoneBooks",
+            headerName: "شماره تلفن",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+    ];
+    return col;
+};
+
 export {
     ProductBrandsColumn,
     ProductStandardsColumn,
@@ -3459,6 +3558,7 @@ export {
     TransferBetweenWarehouseColumn,
     AssignCustomerLabelColumn,
     AssignCustomerLabelsColumn,
-    AssignCustomerLabelsCheckboxColumn
+    AssignCustomerLabelsCheckboxColumn,
+    CustomerReportMarketingColumn
     // OrderConfirmColumn
 }

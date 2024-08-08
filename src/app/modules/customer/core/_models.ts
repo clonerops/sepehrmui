@@ -32,3 +32,7 @@ export interface IPhoneBook {
         value: number
     }
 }
+
+export interface ICustomerFilter {
+    
+}
