@@ -67,8 +67,8 @@ const TransferBetweenWarehouseAction: FC<IProps> = () => {
         {
             id: 5,
             title: "وضعیت",
-            icon: <CheckBox color="secondary" />,
-            value: data?.data?.purchaseOrderStatusDesc,
+            icon: <CheckBox color="secondary" />,   
+            value: data?.data?.orderStatusDesc,
         },
         {
             id: 6,

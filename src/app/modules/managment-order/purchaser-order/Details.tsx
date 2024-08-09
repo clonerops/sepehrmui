@@ -56,6 +56,7 @@ const PurchaserOrderDetail = (props: Props) => {
 
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => <Typography>{params.productBrand.productName}</Typography> },
+        { id: 2, header: "برند", accessor: "brandName", render: (params: any) => <Typography>{params.productBrand.brandName}</Typography> },
         { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.proximateAmount)}</Typography> },
         { id: 4, header: "قیمت (ریال)", accessor: "price", render: (params: any) => <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.price)}</Typography> },
     ]

@@ -70,7 +70,8 @@ const SalesOrderDetail = (props: Props) => {
         { id: 2, header: "انبار", accessor: "warehouseName" },
         { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.proximateAmount)}</Typography> },
         { id: 3, header: "مقدار بارگیری شده", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.totalLoadedAmount)}</Typography> },
-        { id: 3, header: "مقدار باقیمانده جهت بارگیری", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.remainingLadingAmount)}</Typography> },
+        { id: 3, header: "مقدار باقیمانده", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.remainingLadingAmount)}</Typography> },
+        { id: 3, header: "مقدار باسکول", accessor: "remainingAmountToLadingLicence", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.remainingAmountToLadingLicence)}</Typography> },
         { id: 4, header: "قیمت (ریال)", accessor: "price", render: (params: any) => <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.price)}</Typography> },
     ]
     const orderServicesColumn = [

@@ -119,7 +119,7 @@ const ProductInventories = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 mt-2">
-                    <div className="col-span-2">
+                    <div className="col-span-3">
                         <MuiDataGrid
                             columns={InventoryColumn()}
                             isLoading={filterTools.isLoading}
@@ -128,7 +128,7 @@ const ProductInventories = () => {
                             height={400}
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <div className="hidden md:flex md:justify-center md:items-center">
                             <img 
                                 alt="sepehriranian"
@@ -137,7 +137,7 @@ const ProductInventories = () => {
                             />
                         </div>
 
-                    </div>
+                    </div> */}
 
                 </div>
             </ReusableCard>

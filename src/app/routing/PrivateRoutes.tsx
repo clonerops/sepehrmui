@@ -21,6 +21,7 @@ import TransferBetweenWarehouse from "../modules/warehouse/TransferBetweenWareho
 import AssignCustomerLabel from "../modules/customerLabel/AsignCustomerLabel";
 import CustomerReportMarketing from "../modules/report/CustomerReportMarketing";
 import AssignCustomerLabelV2 from "../modules/customerLabel/AsignCustomerLabelV2";
+import TransferBetweenWarehouseAction from "../modules/warehouse/TransferBetweenWarehouseAction";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -277,7 +278,8 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
     { path: "dashboard/productBrand", element: <ProductBrands /> },
     { path: "dashboard/productService", element: <ProductService /> },
-    { path: "dashboard/transferWarehouse", element: <TransferBetweenWarehouse /> },
+    { path: "dashboard/transferBetweenWarehouse", element: <TransferBetweenWarehouse /> },
+    { path: "dashboard/transferBetweenWarehouse/:id", element: <TransferBetweenWarehouseAction /> },
     
     { path: "dashboard/billlanding", element: <Billlanding /> },
     { path: "dashboard/billlandingEdit/:id", element: <BilllandingEdit /> },

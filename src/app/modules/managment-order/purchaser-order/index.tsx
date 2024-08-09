@@ -129,7 +129,10 @@ const PurchaserOrder = () => {
                 validateOnBlur={true}
                 validateOnMount={true}
                 innerRef={formikRef}
-                initialValues={saleOrderInitialValues}
+                initialValues={{
+                    ...saleOrderInitialValues,
+                    paymentTypeId: 1
+                }}
                 onSubmit={onSubmit}
                 validationSchema={saleOrderValidation}>
                 {({ values, setFieldValue, handleSubmit, resetForm }) => {
