@@ -2,6 +2,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { IProductFilters, IProducts } from "./_models";
 import * as api from './_requests'
 
+
+const useGetProducts = () => {
+    return useQuery(['Product'], () =>
+        api.getProducts(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+};
+
 const useGetProductList = () => {
     return useMutation((formdata: IProductFilters) =>
         api.getProductList(formdata));
@@ -52,6 +62,7 @@ const useEnableProduct = () => {
 
 
 export {
+    useGetProducts,
     useGetProductList,
     useGetProductsByType,
     useCreateProduct,

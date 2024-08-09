@@ -2,6 +2,19 @@ import { http } from "../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl";
 import { IProductFilters, IProducts } from "./_models";
 
+const getProducts = async () => {
+    try {
+
+        const { data } = await http.get(`/v1/Product`)
+        return data
+
+    } catch (error: any) {
+        return error.response;
+    }
+
+}
+
+
 const getProductList = async (formdata: IProductFilters) => {
     try {
 
@@ -81,6 +94,7 @@ const enableProduct = async (formDate: { id: string, active: boolean }) => {
 };
 
 export {
+    getProducts,
     getProductList,
     getProductsByType,
     createProducts,

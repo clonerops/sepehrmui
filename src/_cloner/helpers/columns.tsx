@@ -512,7 +512,7 @@ const InventoryColumn = () => {
             headerClassName: "headerClassName",
         },
         {
-            field: "inventotyCriticalPoint",
+            field: "OnTransitInventory",
             minWidth: 180,
             headerName: "موجودی در راه",
             flex: 1,
