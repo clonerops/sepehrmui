@@ -60,7 +60,7 @@ const CustomerReportMarketing = () => {
     return (
         <>
             <ReusableCard>
-                <Formik initialValues={{ customerLabelTypeId: "", customerLabelId: "", reportTypeId: 1 }} onSubmit={() => { }}>
+                <Formik initialValues={{ customerLabelTypeId: "", customerLabelId: "", reportTypeId: 2 }} onSubmit={() => { }}>
                     {({ values }) => {
                         return (
                             <>

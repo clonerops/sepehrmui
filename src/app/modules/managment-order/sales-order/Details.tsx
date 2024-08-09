@@ -11,6 +11,8 @@ import ImagePreview from "../../../../_cloner/components/ImagePreview";
 
 import { useRetrieveOrder } from "../core/_hooks";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
+import { useGetCargosList } from "../../cargoAnnouncment/_hooks";
+import { useEffect } from "react";
 
 
 type Props = {
@@ -32,10 +34,18 @@ const initialValues = {
 const SalesOrderDetail = (props: Props) => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
-    // const cargosList = useRetrieveCargos(id)
+    const cargosList = useGetCargosList()
+
+    useEffect(() => {
+        const filters = {
+            OrderId: id
+        }
+        cargosList.mutate(filters)
+    }, [id])
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode || "ثبت نشده"},
+        { id: 11, title: "کد سفارش", icon: <Person color="secondary" />, value: data?.data?.businessCode || "ثبت نشده"},
         { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName || "ثبت نشده"},
         { id: 9, title: "نوع سفارش", icon: <AttachMoney color="secondary" />, value: data?.data?.orderTypeDesc || "ثبت نشده"},
         { id: 10, title: "تاریخ تحویل", icon: <AttachMoney color="secondary" />, value: data?.data?.deliverDate || "ثبت نشده"},
@@ -56,8 +66,11 @@ const SalesOrderDetail = (props: Props) => {
 
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName" },
+        { id: 5, header: "برند", accessor: "brandName" },
         { id: 2, header: "انبار", accessor: "warehouseName" },
         { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.proximateAmount)}</Typography> },
+        { id: 3, header: "مقدار بارگیری شده", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.totalLoadedAmount)}</Typography> },
+        { id: 3, header: "مقدار باقیمانده جهت بارگیری", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.remainingLadingAmount)}</Typography> },
         { id: 4, header: "قیمت (ریال)", accessor: "price", render: (params: any) => <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.price)}</Typography> },
     ]
     const orderServicesColumn = [
@@ -117,7 +130,7 @@ const SalesOrderDetail = (props: Props) => {
                                 return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                             })}
                             {!props.isCargo &&
-                                <CardTitleValue key={renderOrderInfo.length + 1} className="md:col-span-5" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                                <CardTitleValue key={renderOrderInfo.length + 1} className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                             }
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
@@ -147,7 +160,7 @@ const SalesOrderDetail = (props: Props) => {
                         }
                         <ReusableCard cardClassName="p-4 mt-4">
                             <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
-                            {/* <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} /> */}
+                            <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data?.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
                         </ReusableCard>
                     </>
                 }}

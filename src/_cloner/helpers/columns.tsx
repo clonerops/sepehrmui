@@ -2149,10 +2149,10 @@ const OrderColumn = (renderAction: any) => {
             headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
         },
         {
-            field: 'bussinessCode', renderCell: (params: any) => {
+            field: 'businessCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'کد سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+            headerName: 'کد سفارش', headerClassName: "headerClassName", minWidth: 140, maxWidth: 180, flex: 1
         },
         {
             field: 'creatorName', renderCell: (params: any) => {

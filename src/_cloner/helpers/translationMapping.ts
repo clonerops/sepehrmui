@@ -66,7 +66,7 @@ export const translationMapping: any = {
     exit_list: "لیست مجوزهای خروج",
     approvedRent: "تایید کرایه",
     entranceList: "لیست مجوزهای ورود",
-    labels: "برچسب",
+    labels: "مدیریت برچسب مشتری",
     
     // Add more translations as needed
   };
