@@ -52,6 +52,7 @@ const LadingReport = () => {
                 rows={ladingList?.data?.data}
                 data={ladingList?.data?.data}
                 isLoading={ladingList.isLoading}
+                onDoubleClick={() => {}}
             />
             {/* <Pagination pageCount={ladingList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} /> */}
 

@@ -152,6 +152,7 @@ const AssignCustomerLabel = () => {
           rows={customerDetailTools?.data?.data?.customerLabels?.length > 0 ? customerDetailTools?.data?.data?.customerLabels : [{}]}
           data={customerDetailTools?.data?.data?.customerLabels?.length > 0 ? customerDetailTools?.data?.data?.customerLabels : [{}]}
           isLoading={customerDetailTools.isLoading}
+          onDoubleClick={() => {}}
         />
       </TransitionsModal>
     </>

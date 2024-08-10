@@ -112,6 +112,7 @@ const MonitoringProdcuct = () => {
                                     isLoading={filterTools.isLoading}
                                     rows={filterTools?.data?.data}
                                     data={filterTools?.data?.data}
+                                    onDoubleClick={() => {}}
                                 />
                             </div>
                         </div>

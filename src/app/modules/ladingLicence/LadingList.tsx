@@ -86,6 +86,7 @@ const LadingList = () => {
                     rows={ladingList?.data?.data}
                     data={ladingList?.data?.data}
                     isLoading={ladingList?.isLoading}
+                    onDoubleClick={() => {}}
                     hideFooter
                 />
                 <Pagination

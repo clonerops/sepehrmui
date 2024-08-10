@@ -104,6 +104,7 @@ const ExitList = () => {
                     rows={exitListTools?.data?.data}
                     data={exitListTools?.data?.data}
                     isLoading={exitListTools?.isLoading}
+                    onDoubleClick={() => {}}
                     hideFooter
                 />
                 <Pagination

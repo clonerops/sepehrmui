@@ -55,6 +55,7 @@ const ProductPriceLanding = () => {
                         rows={results[index]}
                         data={i.products}
                         isLoading={productTypeTools.isLoading}
+                        onDoubleClick={() => {}}
                     />
                 </div>
             ),

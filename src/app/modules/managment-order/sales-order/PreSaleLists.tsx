@@ -74,6 +74,7 @@ const PreSaleLists = () => {
                 rows={results}
                 data={orders?.data}
                 isLoading={isLoading}
+                onDoubleClick={() => {}}
             />
             {/* <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} /> */}
         </ReusableCard>

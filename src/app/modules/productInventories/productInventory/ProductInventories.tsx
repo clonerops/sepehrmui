@@ -125,6 +125,7 @@ const ProductInventories = () => {
                             isLoading={filterTools.isLoading}
                             rows={results}
                             data={filterTools?.data?.data}
+                            onDoubleClick={() => {}}
                             height={400}
                         />
                     </div>

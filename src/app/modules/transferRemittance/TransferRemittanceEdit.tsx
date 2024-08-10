@@ -333,6 +333,7 @@ const TransferRemittanceEdit = () => {
                                         rows={productsInventory.data?.data || []}
                                         data={productsInventory.data?.data || []}
                                         isLoading={productsInventory.isLoading}
+                                        onDoubleClick={() => {}}
                                     />
                                 </div>
                                 <div>
@@ -341,6 +342,7 @@ const TransferRemittanceEdit = () => {
                                         columns={columnsForTransferRemittance()}
                                         rows={productForTransferRemittance}
                                         data={productForTransferRemittance}
+                                        onDoubleClick={() => {}}
                                     />
                                 </div>
                             </ReusableCard>

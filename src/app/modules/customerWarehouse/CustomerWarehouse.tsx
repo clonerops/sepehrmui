@@ -146,6 +146,7 @@ const CustomerWarehouse = () => {
           columns={CustomerWarehouseColumn()}
           rows={selectedItems?.warehouses?.length > 0 ? selectedItems?.warehouses : [{}]}
           data={selectedItems?.warehouses?.length > 0 ? selectedItems?.warehouses : [{}]}
+          onDoubleClick={() => {}}
         />
       </TransitionsModal>
     </>
