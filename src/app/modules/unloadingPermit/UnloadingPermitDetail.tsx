@@ -11,6 +11,9 @@ import FileUpload from "../../../_cloner/components/FileUpload"
 import { useGetLadingLicenceById } from "../ladingLicence/_hooks"
 import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 import { useAddAttachmentsForUnloading, useGetUnloadingPermitById, usePostApproveDriverFareAmount } from "./_hooks"
+import ReusableCard from "../../../_cloner/components/ReusableCard"
+import MuiTable from "../../../_cloner/components/MuiTable"
+import { UnloadingPemritDetailColumn } from "../../../_cloner/helpers/columns"
 
 const UnloadingPermitDetail = () => {
     const [files, setFiles] = useState<File[]>([])
@@ -18,65 +21,52 @@ const UnloadingPermitDetail = () => {
 
     const {id}: any = useParams()
     
-    const exitDetailTools = useGetUnloadingPermitById(id)
-    const ladingDetailTools = useGetLadingLicenceById(exitDetailTools?.data?.data?.ladingPermitId)
+    const unloadingDetailTools = useGetUnloadingPermitById(id)
+    const ladingDetailTools = useGetLadingLicenceById(unloadingDetailTools?.data?.data?.ladingPermitId)
 
     const postApprove = usePostApproveDriverFareAmount()
     const attachmentTools = useAddAttachmentsForUnloading()
 
     const fieldsValue = [
         {
-            title: "شماره مجوز خروج",
-            value: exitDetailTools?.data?.data?.ladingExitPermitCode,
+            title: "شماره مجوز تخلیه",
+            value: unloadingDetailTools?.data?.data?.unloadingPermitCode || "ثبت نشده",
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
-            title: "شماره مجوز بارگیری",
-            value: exitDetailTools?.data?.data?.ladingPermitId,
-            icon: <Apps className="text-black" />,
+            title: "تاریخ ثبت مجوز تخلیه",
+            value: unloadingDetailTools?.data?.data?.createDate || "ثبت نشده",
+            icon: <Source className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
-        },
-        {
-            title: "شماره اعلام بار",
-            value: ladingDetailTools?.data?.data?.cargoAnnounce?.cargoAnnounceNo,
-            icon: <AddCard className="text-black" />,
-            bgColor: "bg-[#ECEFF3]"
-        },
-        {
-            title: "شماره سفارش فروش",
-            value: ladingDetailTools?.data?.data?.cargoAnnounce?.order?.orderCode,
-            icon: <Person className="text-black" />,
-            bgColor: "bg-[#ECEFF3]"
-        },
-        
+        },         
         {
             title: "مبلغ کرایه (ریال)",
-            value: separateAmountWithCommas(exitDetailTools?.data?.data?.fareAmount),
+            value: separateAmountWithCommas(unloadingDetailTools?.data?.data?.fareAmount) || "ثبت نشده",
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
-            title: "تاریخ ثبت مجوز خروج",
-            value: exitDetailTools?.data?.data?.createdDate,
-            icon: <Source className="text-black" />,
+            title: "تاریخ تحویل",
+            value: unloadingDetailTools?.data?.data?.deliverDate || "ثبت نشده",
+            icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "نام راننده",
-            value: ladingDetailTools?.data?.data?.cargoAnnounce?.driverName,
+            value: unloadingDetailTools?.data?.data?.driverName || "ثبت نشده",
             icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شماره همراه راننده",
-            value: ladingDetailTools?.data?.data?.cargoAnnounce?.driverMobile,
+            value: unloadingDetailTools?.data?.data?.driverMobile || "ثبت نشده",
             icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
-            title: "نوع خودرو",
-            value: ladingDetailTools?.data?.data?.cargoAnnounce?.vehicleTypeName,
+            title: "شماره حساب",
+            value: unloadingDetailTools?.data?.data?.driverAccountNo || "ثبت نشده",
             icon: <Filter1 className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },        
@@ -113,13 +103,13 @@ const UnloadingPermitDetail = () => {
         <>
             {attachmentTools.isLoading && <Backdrop loading={attachmentTools.isLoading} />}
             {postApprove?.isLoading && <Backdrop loading={postApprove?.isLoading} />}
-            {exitDetailTools.isLoading && <Backdrop loading={exitDetailTools.isLoading} />}
+            {unloadingDetailTools.isLoading && <Backdrop loading={unloadingDetailTools.isLoading} />}
             {ladingDetailTools.isLoading && <Backdrop loading={ladingDetailTools.isLoading} />}
 
-            <Typography color="primary" variant="h1" className="pb-8">جزئیات مجوز خروج</Typography>
+            <Typography color="primary" variant="h1" className="pb-8">جزئیات مجوز تخلیه</Typography>
             <div className="md:flex md:justify-end md:items-end gap-x-4 py-4">
-                <Badge badgeContent={exitDetailTools?.data?.data?.attachments.length || 0} color="secondary">
-                    <Button variant="contained" onClick={() => downloadAttachments(exitDetailTools?.data?.data?.attachments)} className='mb-2' color="primary">
+                <Badge badgeContent={unloadingDetailTools?.data?.data?.attachments.length || 0} color="secondary">
+                    <Button variant="contained" onClick={() => downloadAttachments(unloadingDetailTools?.data?.data?.attachments)} className='mb-2' color="primary">
                         <Typography>{"دانلود ضمیمه ها"}</Typography>
                     </Button>
                 </Badge>
@@ -133,14 +123,21 @@ const UnloadingPermitDetail = () => {
                         iconClassName={item.bgColor}
                     />
                 )}
-                <div className="lg:col-span-3">
+                <div className="lg:col-span-2"> 
                     <CardWithIcons
-                        title={"توضیحات مجوز خروج"}
+                        title={"توضیحات مجوز تخلیه"}
                         icon={<Numbers className="text-black" />}
-                        value={exitDetailTools?.data?.data?.exitPermitDescription}
+                        value={unloadingDetailTools?.data?.data?.description || "ثبت نشده"}
                         iconClassName={"bg-[#ECEFF3]"}
                     />
                 </div>
+                <ReusableCard cardClassName="lg:col-span-3">
+                    <MuiTable
+                        data={unloadingDetailTools?.data?.data?.unloadingPermitDetails}
+                        columns={UnloadingPemritDetailColumn()}
+                        onDoubleClick={() => {}}
+                    />
+                </ReusableCard>
                 {/* <Card className="lg:col-span-3 px-16 py-8">
                     <FileUpload files={files} setFiles={setFiles} />
                     <div className="flex justify-end items-end">
