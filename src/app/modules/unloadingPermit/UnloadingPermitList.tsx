@@ -65,12 +65,12 @@ const UnloadingPermitList = () => {
                             <Print color="primary" />
                         </Link>
                     </div>
-                </Tooltip>
+                </Tooltip> */}
                 <Tooltip title={<Typography variant='h3'>ابطال تخلیه</Typography>}>
                     <div className="flex gap-x-4">
                         <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
                     </div>
-                </Tooltip> */}
+                </Tooltip>
                 <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
                     {/* <Link to={`/dashboard/ladingUnloadingPermitDetail/${item?.row?.id}/${item?.row?.unloadingPermitCode}/${item?.row?.createdDate}`}> */}
                     <Link to={`/dashboard/unloadingDetail/${item?.row?.id}`}>
@@ -144,7 +144,6 @@ const UnloadingPermitList = () => {
                 onConfirm={() => handleRevokeUnloading(selecetdId)}
 
             />
-
         </>
     );
 };
