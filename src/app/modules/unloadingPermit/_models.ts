@@ -1,4 +1,4 @@
-export interface IEvacuationPermit {
+export interface IUnloadingPermit {
 
   transferRemittanceEntrancePermitId?: string | null | undefined,
   driverAccountNo?: string | null | undefined,

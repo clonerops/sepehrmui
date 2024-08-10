@@ -1,30 +1,30 @@
 import { useState, useRef, useEffect } from "react";
+
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import FormikInput from "../../../_cloner/components/FormikInput";
+import MuiTable from "../../../_cloner/components/MuiTable";
+import FormikMaskInput from "../../../_cloner/components/FormikMaskInput";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import FileUpload from "../../../_cloner/components/FileUpload";
+import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
+import FormikSelect from "../../../_cloner/components/FormikSelect";
+import FormikDescription from "../../../_cloner/components/FormikDescription";
+import CardTitleValue from "../../../_cloner/components/CardTitleValue";
+
 import { Button, Typography } from "@mui/material";
-import { NumbersOutlined, DateRangeRounded, TypeSpecimenTwoTone, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, Description } from "@mui/icons-material";
+import { DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, TypeSpecimenTwoTone } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { Formik, FormikErrors } from "formik";
 import { enqueueSnackbar } from "notistack";
 import { convertFilesToBase64 } from "../../../_cloner/helpers/convertToBase64";
-import { FieldType } from "../../../_cloner/components/globalTypes";
-import { useGetVehicleTypes } from "../generic/_hooks";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
-import { evacuationValidation } from "./_validation";
-import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
+import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
+import { OrderDetailForUnloadingColumn } from "../../../_cloner/helpers/columns";
 import { useGetTransferRemitanceById } from "../transferRemittance/_hooks";
-import { usePostEvacuation } from "./_hooks";
-
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import FormikInput from "../../../_cloner/components/FormikInput";
-import FormikSelect from "../../../_cloner/components/FormikSelect";
-import MuiTable from "../../../_cloner/components/MuiTable";
-import FormikMaskInput from "../../../_cloner/components/FormikMaskInput";
-import CardTitleValue from "../../../_cloner/components/CardTitleValue";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import FormikDescription from "../../../_cloner/components/FormikDescription";
-import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
-import MaskInput from "../../../_cloner/components/MaskInput";
-import FileUpload from "../../../_cloner/components/FileUpload";
-import { IEvacuationPermit } from "./_models";
+import { usePostUnloadingPermit } from "./_hooks";
+import { useGetVehicleTypes } from "../generic/_hooks";
+import { IUnloadingPermit } from "./_models";
+import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
+import { FieldType } from "../../../_cloner/components/globalTypes";
 
 const initialValues = {
     id: 0,
@@ -42,21 +42,24 @@ const initialValues = {
     otherAmount: "",
 };
 
-const EvacuationPermit = () => {
+const UnloadingPermit = () => {
     const { id, entranceId }: any = useParams();
     const detailTools = useGetTransferRemitanceById(id)
-    const postEvacuation = usePostEvacuation();
+    const postUnloading = usePostUnloadingPermit();
     const vehicleList = useGetVehicleTypes()
 
-    let realAmount = useRef<HTMLInputElement>(null);
 
-    const [evacuationList, setEvacuationList] = useState<any[]>([]);
+    let formikRef: any = useRef();
+    let realAmount = useRef<HTMLInputElement>(null);
+    let productSubUnitAmount = useRef<HTMLInputElement>(null);
+
+    const [UnloadingList, setUnloadingList] = useState<any[]>([]);
     const [files, setFiles] = useState<File[]>([]);
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
 
     useEffect(() => {
-        if (files.length > 0) convertFilesToBase64(files, setBase64Attachments);
-         // eslint-disable-next-line
+        if (files.length > 0) convertFilesToBase64(files, setBase64Attachments)
+        // eslint-disable-next-line
     }, [files]);
 
     useEffect(() => {
@@ -73,10 +76,10 @@ const EvacuationPermit = () => {
                 }
             );
             if (destructureData) {
-                setEvacuationList(destructureData);
+                setUnloadingList(destructureData);
             }
         }
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [detailTools?.data?.data?.details]);
 
 
@@ -131,42 +134,26 @@ const EvacuationPermit = () => {
     };
 
 
-    const detailTransfer = [
-        { id: 2, header: "نام کالا", accessor: "productName" },
-        { id: 3, header: "برند", accessor: "brandName" },
-        { id: 3, header: "مقدار انتقال داده شده", accessor: "transferAmount", render: (params: any) => <Typography variant="h3">{`${separateAmountWithCommas(params.transferAmount)} ${params.product.productMainUnitDesc}`}</Typography> },
-        {
-            id: 4,
-            header: "مقدار واقعی تخلیه شده",
-            accessor: "realAmount",
-            flex: 1,
-            headerClassName: "headerClassName",
-            render: (params: any) => {
-                return (
-                    <MaskInput
-                        thousandsSeparator=","
-                        mask={Number}
-                        label=""
-                        key={params.id}
-                        sx={{ minWidth: 140 }}
-                        onAccept={(value, mask) => handleRealAmountChange(params, mask.unmaskedValue)}
-                        inputRef={realAmount}
-                        size="small"
-                    />
-                );
-            },
-        },
-    ]
-
     const handleRealAmountChange = (params: any, value: string) => {
-        const updatedLadingList = evacuationList.map((item) => {
+        const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
             if (params.id === item.id) {
                 return { ...item, realAmount: +value }
             } else {
                 return item
             }
         })
-        setEvacuationList(updatedLadingList)
+        setUnloadingList(updatedLadingList);
+    };
+
+    const handleProductSubUnitAmountChange = (params: any, value: string) => {
+        const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
+            if (params.id === item.id) {
+                return { ...item, productSubUnitAmount: +value }
+            } else {
+                return item
+            }
+        })
+        setUnloadingList(updatedLadingList);
     };
 
     const onSubmit = async (values: any) => {
@@ -176,7 +163,8 @@ const EvacuationPermit = () => {
             }
             return convert
         })
-        const formData: IEvacuationPermit = {
+        const formData: IUnloadingPermit = {
+            transferRemittanceEntrancePermitId: entranceId,
             driverAccountNo: values.driverAccountNo.toString(),
             shippingName: values.shippingName,
             plaque: values.carPlaque,
@@ -184,46 +172,20 @@ const EvacuationPermit = () => {
             driverMobile: values.driverMobile,
             driverName: values.driverName,
             deliverDate: values.deliverDate,
-            unloadingPlaceAddress: values.shippingName,
-            transferRemittanceEntrancePermitId: entranceId,
+            unloadingPlaceAddress: values.unloadingPlaceAddress,
             fareAmount: +values.fareAmount,
             otherCosts: +values.otherAmount,
             description: values.description,
             attachments: attachments,
-            unloadingPermitDetails: evacuationList.map((item: any) => ({
+            unloadingPermitDetails: UnloadingList.map((item: any) => ({
                 transferRemittanceDetailId: item.id,
                 unloadedAmount: +item.realAmount,
             })),
         };
-        
-        let requiredRealAmount = evacuationList.some((item) => {
-            return !item.realAmount
-         })
-
-        //  let isValidRealAmount = evacuationList.some((item) => {
-        //     return item.realAmount > item.transferAmount
-        //  })
-         if(requiredRealAmount) {
-             enqueueSnackbar("افزودن مقدار واقعی تمامی اقلام سفارش اجباری می باشد", {
-                 variant: "error",
-                 anchorOrigin: { vertical: "top", horizontal: "center" },
-             });
-             return ;
-         } 
-        //  if(isValidRealAmount) {
-        //      enqueueSnackbar("مقدار واقعی بیشتر از مقدار ثبت شده است    ", {
-        //          variant: "error",
-        //          anchorOrigin: { vertical: "top", horizontal: "center" },
-        //      });
-        //      return ;
-        //  } 
-         postEvacuation.mutate(formData, {
+        postUnloading.mutate(formData, {
             onSuccess: (res) => {
                 if (res.succeeded) {
-                    enqueueSnackbar(res.message, {
-                        variant: "success",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
+                    renderAlert(`مجوز تخلیه بارنامه با شماره ${res.data.unloadingPermitCode} با موفقیت ثبت شد`)
                 } else {
                     enqueueSnackbar(res.data.Message, {
                         variant: "error",
@@ -231,15 +193,16 @@ const EvacuationPermit = () => {
                     });
                 }
             },
-        });    
+        });
     };
+
+    if (detailTools.isLoading) {
+        return <Backdrop loading={detailTools.isLoading} />
+    }
 
     return (
         <>
-            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
-            {postEvacuation.isLoading && <Backdrop loading={postEvacuation.isLoading} />}
-            {vehicleList.isLoading && <Backdrop loading={vehicleList.isLoading} />}
-
+            {postUnloading.isLoading && <Backdrop loading={postUnloading.isLoading} />}
             <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز تخلیه</Typography>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 space-y-4 lg:space-y-0 mb-8">
                 {orderAndAmountInfo.map((item: {
@@ -258,38 +221,36 @@ const EvacuationPermit = () => {
             </div>
             <ReusableCard cardClassName="mt-4">
                 <Typography variant="h2" color="primary" className="pb-4">
-                    اقلام مجوز تخلیه
+                    اقلام مجوز ورود
                 </Typography>
                 <MuiTable
+                    onDoubleClick={() => { }}
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
                     data={detailTools?.data?.data?.details}
-                    columns={detailTransfer}
+                    columns={OrderDetailForUnloadingColumn(realAmount, productSubUnitAmount, handleRealAmountChange, handleProductSubUnitAmountChange)}
                 />
             </ReusableCard>
             <ReusableCard cardClassName="mt-4">
                 <Formik
                     enableReinitialize
-                    initialValues={
-                        {
-                            ...initialValues,
-                            ...detailTools?.data?.data,
-                            fareAmount: detailTools?.data?.data?.fareAmount === 0 ? "" : detailTools?.data?.data?.fareAmount?.toString(),
-                            carPlaque: detailTools?.data?.data?.plaque ? detailTools?.data?.data?.plaque : "",
-                            vehicleTypeId: detailTools?.data?.data?.vehicleTypeId === 0 ? "" : detailTools?.data?.data?.vehicleTypeId,
-                            otherAmount: detailTools?.data?.data?.otherCosts === 0 ? "0" : detailTools?.data?.data?.otherAmount?.toString()
-                        
-                        }
-                    }
+                    innerRef={formikRef}
+                    initialValues={{
+                        ...initialValues,
+                        ...detailTools?.data?.data,
+                        fareAmount: detailTools?.data?.data?.fareAmount === 0 ? "" : detailTools?.data?.data?.fareAmount?.toString(),
+                        carPlaque: detailTools?.data?.data?.plaque ? detailTools?.data?.data?.plaque : "",
+                        vehicleTypeId: detailTools?.data?.data?.vehicleTypeId === 0 ? "" : detailTools?.data?.data?.vehicleTypeId,
+                        otherAmount: detailTools?.data?.data?.otherCosts === 0 ? "0" : detailTools?.data?.data?.otherAmount?.toString()
+                    }}
                     onSubmit={onSubmit}
-                    validationSchema={evacuationValidation}
                 >
                     {({ setFieldValue, handleSubmit }) => {
                         return (
                             <form className="mt-8">
                                 {fields.map((rowFields, index) => (
                                     <div key={index} className="md:flex md:justify-between md:items-start md:gap-4 space-y-4 md:space-y-0 my-4">
-                                        {rowFields.map((field, index) =>parseFields(field, setFieldValue, index))}
+                                        {rowFields.map((field, index) => parseFields(field, setFieldValue, index))}
                                     </div>
                                 ))}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:space-y-0 space-y-4" >
@@ -299,7 +260,7 @@ const EvacuationPermit = () => {
                                         <Typography variant="h2" color="primary" className="pb-4">
                                             افزودن پیوست
                                         </Typography>
-                                        <FileUpload files={files} setFiles={setFiles}/>
+                                        <FileUpload files={files} setFiles={setFiles} />
                                     </div>
                                 </div>
                                 <div className="mt-8">
@@ -310,6 +271,7 @@ const EvacuationPermit = () => {
                                     </Button>
                                 </div>
                             </form>
+
                         );
                     }}
                 </Formik>
@@ -318,4 +280,4 @@ const EvacuationPermit = () => {
     );
 };
 
-export default EvacuationPermit;
+export default UnloadingPermit;

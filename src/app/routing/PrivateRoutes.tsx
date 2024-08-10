@@ -13,15 +13,18 @@ import CustomerLabels from "../modules/customerLabel/CustomerLabel";
 import ExitDetail from "../modules/exitRemittance/ExitDetail";
 import CargoDetail from "../modules/cargoAnnouncment/CargoDetail";
 import TrasnferRemittanceDetails from "../modules/transferRemittance/TransferRemittanceDetails";
-import { PaymentAccountingRegisterListColumn } from "../../_cloner/helpers/columns";
 import PaymentAccountingRegisterList from "../modules/payment/PaymentAccountingRegisterList";
 import EvacutionPrint from "../modules/prints/EvacutionPrint";
 import EntrancePermit from "../modules/entrancePermit/EntrancePermit";
 import TransferBetweenWarehouse from "../modules/warehouse/TransferBetweenWarehouse";
-import AssignCustomerLabel from "../modules/customerLabel/AsignCustomerLabel";
 import CustomerReportMarketing from "../modules/report/CustomerReportMarketing";
 import AssignCustomerLabelV2 from "../modules/customerLabel/AsignCustomerLabelV2";
 import TransferBetweenWarehouseAction from "../modules/warehouse/TransferBetweenWarehouseAction";
+import ReadyToUnloading from "../modules/unloadingPermit/ReadyToUnloading";
+import UnloadingPermit from "../modules/unloadingPermit/UnloadingPermit";
+import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
+import UnloadingPermitList from "../modules/unloadingPermit/UnloadingPermitList";
+import UnloadingPermitDetail from "../modules/unloadingPermit/UnloadingPermitDetail";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -50,18 +53,6 @@ const BilllandingEdit = React.lazy(
 );
 const EntranceList = React.lazy(
     () => import("../modules/entrancePermit/EntranceList")
-);
-const ReadyToEvacuation = React.lazy(
-    () => import("../modules/evacuation/ReadyToEvacuation")
-);
-const EvacuationPermit = React.lazy(
-    () => import("../modules/evacuation/EvacuationPermit")
-);
-const RecievePaymentEdit = React.lazy(
-    () => import("../modules/payment/RecievePaymentEdit")
-);
-const EntranceReport = React.lazy(
-    () => import("../modules/report/EntranceReport")
 );
 // const LadingReport = React.lazy(
 //     () => import("../modules/report/LadingReport")
@@ -290,10 +281,12 @@ export const routes: RouteProps[] = [
     { path: "dashboard/transferRemittance/:id", element: <TrasnferRemittanceDetails /> },
     { path: "dashboard/entranceList", element: <EntranceList /> },
     { path: "dashboard/entranceReport", element: <EntranceList /> },
-    { path: "dashboard/ready_to_evacuation", element: <ReadyToEvacuation /> },
+    { path: "dashboard/ready_to_unloading", element: <ReadyToUnloading /> },
+    { path: "dashboard/unloading_list", element: <UnloadingPermitList /> },
 
-    { path: "dashboard/evacuation/:id/:entranceId", element: <EvacuationPermit /> },
-    { path: "dashboard/evacuation", element: <EvacuationPermit /> },
+
+    { path: "dashboard/unloading/:id/:entranceId", element: <UnloadingPermit /> },
+    { path: "dashboard/unloading", element: <UnloadingPermit /> },
     
     { path: "dashboard/ready_to_rent", element: <ReadyToRent /> },
     { path: "dashboard/rents", element: <RentPaymentList /> },
@@ -316,6 +309,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/ladingExitPermitOfficial_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingExitPermitPrintOfficial /> },
     { path: "dashboard/approveDriverFareAmount/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ApprovedRentPayment /> },
     { path: "dashboard/ladingExitPermitDetail/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitDetail /> },
+    { path: "dashboard/unloadingDetail/:id", element: <UnloadingPermitDetail /> },
     { path: "dashboard/exit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemittance /> },
     { path: "dashboard/exitEdit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemiitanceEdit /> },
     { path: "dashboard/cargoAnnouncment/:id", element: <CargoDetail /> },

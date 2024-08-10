@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Tooltip, Typography } from '@mui/material'
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
-import { Approval } from "@mui/icons-material";
+import { AirplaneTicket, Approval } from "@mui/icons-material";
 
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -30,7 +30,7 @@ const ReadyToPurchaserOrderConfirm = () => {
             <Tooltip title={<Typography variant='h3'>اقدام به ثبت تایید</Typography>}>
                 <Link to={`${item.row.orderStatusId === 1 ? `/dashboard/purchaser_order/ready_to_confirm/${item?.row?.id}` : ""}`} state={{ isConfirmed: true }}>
                     <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId >= 2}>
-                        <Approval />
+                        <Typography>تایید فاکتور</Typography>
                     </Button>
                 </Link>
             </Tooltip>

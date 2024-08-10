@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
-import { EvacuationColumn } from '../../../_cloner/helpers/columns'
+import { UnloadingPermitColumn } from '../../../_cloner/helpers/columns'
 import { Button, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -12,26 +11,26 @@ import { useGetEntrancePermitsByMutation } from '../entrancePermit/_hooks'
 
 const pageSize = 100
 
-const ReadyToEvacuation = () => {
+const ReadyToUnloading = () => {
     const navigate = useNavigate()
-    
+
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const entranceTools = useGetEntrancePermitsByMutation()
     useEffect(() => {
-      const filter = {
-        PageNumber: currentPage,
-        PageSize: pageSize,
-      }
-      entranceTools.mutate(filter)
-       // eslint-disable-next-line
+        const filter = {
+            PageNumber: currentPage,
+            PageSize: pageSize,
+        }
+        entranceTools.mutate(filter)
+        // eslint-disable-next-line
     }, [currentPage])
-  
+
 
     const renderAction = (item: any) => {
         return (
             <Link
-                to={`/dashboard/evacuation/${item?.row?.transferRemitance?.id}/${item?.row?.id}`}
+                to={`/dashboard/unloading/${item?.row?.transferRemitance?.id}/${item?.row?.id}`}
             >
                 <Button variant="contained" color="secondary">
                     <Typography>صدور مجوز تخلیه</Typography>
@@ -46,23 +45,23 @@ const ReadyToEvacuation = () => {
 
     const handleFilter = (values: any) => {
         let formData = {
-          TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
-          PageNumber: currentPage,
-          PageSize: pageSize,
+            TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
+            PageNumber: currentPage,
+            PageSize: pageSize,
         };
         entranceTools.mutate(formData);
-      }
-        
+    }
+
     return (
         <>
             <ReusableCard>
-                <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{TransferEntransePermitNo: ""}} onSubmit={handleFilter} label="شماره ورود" />
+                <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{ TransferEntransePermitNo: "" }} onSubmit={handleFilter} label="شماره ورود" />
                 <MuiDataGrid
-                    columns={EvacuationColumn(renderAction)}
+                    columns={UnloadingPermitColumn(renderAction)}
                     rows={entranceTools?.data?.data}
                     data={entranceTools?.data?.data}
                     isLoading={entranceTools.isLoading}
-                    onDoubleClick={(item: any) => navigate(`/dashboard/evacuation/${item?.row?.id}/${item?.row?.entrancePermitId}`)}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/unloadingPermit/${item?.row?.id}/${item?.row?.entrancePermitId}`)}
                 />
                 <Pagination pageCount={entranceTools?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 
@@ -71,4 +70,4 @@ const ReadyToEvacuation = () => {
     )
 }
 
-export default ReadyToEvacuation
+export default ReadyToUnloading

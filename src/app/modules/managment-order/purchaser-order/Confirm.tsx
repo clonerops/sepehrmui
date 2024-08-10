@@ -22,7 +22,6 @@ import FormikProductBrand from "../../../../_cloner/components/FormikProductBran
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import FileUpload from "../../../../_cloner/components/FileUpload";
 import { dropdownCustomerCompanies, dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
-import { useGetProductList } from "../../products/_hooks";
 
 const initialValues = {
     productName: "",

@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-const evacuationValidation = Yup.object().shape({
+const unloadingValidation = Yup.object().shape({
     driverName: Yup.string().required("نام و نام خانوادگی الزامی است"),
     // shippingName: Yup.string().required("باربری الزامی است"),
     // carPlaque: Yup.string().required("پلاک خودرو الزامی است"),
@@ -14,4 +14,4 @@ const evacuationValidation = Yup.object().shape({
     // otherAmount: Yup.string().required("مقدار سایر هزینه ها الزامی است"),
 });
 
-export { evacuationValidation };
+export { unloadingValidation };

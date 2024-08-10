@@ -1820,6 +1820,185 @@ const ExitRemittanceColumn = (renderAction: any) => {
     return col
 };
 
+const OrderDetailForUnloadingColumn = (realAmount: React.RefObject<HTMLInputElement>, productSubUnitAmount: React.RefObject<HTMLInputElement>, handleRealAmountChange: (params: any, value: string) => void, handleProductSubUnitAmountChange: (params: any, value: string) => void) => {
+    return [
+        {
+            id: 1,
+            header: "کد کالا",
+            accessor: "productCode",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4" sx={{ maxWidth: 120 }}>{params.product.productCode}</Typography>;
+            },
+        },
+        {
+            id: 1,
+            header: "نام کالا",
+            accessor: "productName",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4" sx={{ maxWidth: 120 }}>{params.productName}</Typography>;
+            },
+        },
+        {
+            id: 10,
+            header: "برند",
+            accessor: "brandName",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4" sx={{ maxWidth: 120 }}>{params.brandName}</Typography>;
+            },
+        },
+        {
+            id: 2,
+            header: "مقدار انتقال",
+            accessor: "transferAmount",
+            headerClassName: "headerClassName",
+            flex: 1,
+            render: (params: any) => {
+                return <Typography variant="h4">{params.transferAmount}</Typography>;
+            },
+        },
+        // {
+        //     id: 3,
+        //     header: "مقدار واحد فرعی",
+        //     accessor: "proximateAmount",
+        //     headerClassName: "headerClassName",
+        //     flex: 1,
+        //     render: (params: any) => {
+        //         return <Typography>{params.product.proximateAmount}</Typography>;
+        //     },
+        // },
+
+        {
+            id: 4,
+            header: "مقدار واقعی باسکول (واحد اصلی)",
+            accessor: "realAmount",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return (
+                    <OutlinedInput
+                        sx={{ minWidth: 140 }}
+                        onChange={(e) => {
+                            handleRealAmountChange(
+                                params,
+                                e.target.value
+                            );
+                        }}
+                        inputRef={realAmount}
+                        size="small"
+                    />
+                );
+            },
+        },
+        {
+            id: 4,
+            header: "واحد اصلی",
+            accessor: "productMainUnitDesc",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4">{params.product.productMainUnitDesc}</Typography>;
+            },
+        },
+        {
+            id: 4,
+            header: "واحد فرعی",
+            accessor: "productSubUnitDesc",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4">{params.product.productSubUnitDesc}</Typography>;
+            },
+        },
+        // {
+        //     id: 4,
+        //     header: "مقدار واقعی باسکول (واحد فرعی)",
+        //     accessor: "productSubUnitAmount",
+        //     flex: 1,
+        //     headerClassName: "headerClassName",
+        //     render: (params: any) => {
+        //         return (
+        //             <OutlinedInput
+        //                 inputRef={productSubUnitAmount}
+        //                 sx={{ minWidth: 140 }}
+        //                 onChange={(e) => {
+        //                     handleProductSubUnitAmountChange(
+        //                         params,
+        //                         e.target.value
+        //                     );
+        //                 }}
+        //                 size="small"
+        //             />
+        //         );
+        //     },
+        // },
+        // {
+        //     id: 4,
+        //     header: "واحد فرعی",
+        //     accessor: "productSubUnitDesc",
+        //     flex: 1,
+        //     headerClassName: "headerClassName",
+        //     render: (params: any) => {
+        //         return <Typography>{params.product.productSubUnitDesc}</Typography>;
+        //     },
+        // },
+    ];
+};
+
+const UnloadingPemritColumn = (renderAction: any) => {
+    const col = [
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 210, maxWidth: 210 },
+        {
+            field: 'unloadingPermitCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مجوز تخلیه', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'createdDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت مجوز', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'creatorName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'ثبت کننده مجوز تخلیه', headerClassName: "headerClassName", minWidth: 190, maxWidth: 190, flex: 1
+        },
+        {
+            field: 'driverName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'راننده', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'plaque', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'پلاک خودرو', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'deliverDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ تحویل', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+        {
+            field: 'fareAmount', renderCell: (params: any) => {
+                return <Typography variant="h3" className="text-green-500">{separateAmountWithCommas(+params.value)}</Typography>;
+            },
+            headerName: 'کرایه(ریال)', headerClassName: "headerClassName", minWidth: 100, flex: 1
+        },
+    ]
+    return col
+};
+
 const CustomerWarehousesColumn = (setSelectedItems: React.Dispatch<any>, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
     const col = [
         {
@@ -2561,7 +2740,7 @@ const LadingReportColumn = (renderAction: any) => {
     return col
 };
 
-const EvacuationColumn = (renderAction: any) => {
+const UnloadingPermitColumn = (renderAction: any) => {
     const col = [
         { field: "Action", headerName: 'ثبت مجوز', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
         {
@@ -3557,6 +3736,8 @@ export {
     LadingListColumn,
     OrderDetailForExitRemittanceColumn,
     ExitRemittanceColumn,
+    OrderDetailForUnloadingColumn,
+    UnloadingPemritColumn,
     CustomerWarehousesColumn,
     CustomerWarehouseColumn,
     CustomerColumn,
@@ -3568,7 +3749,7 @@ export {
     OrderListColumn,
     OrderPurchaserListColumn,
     LadingReportColumn,
-    EvacuationColumn,
+    UnloadingPermitColumn,
     EntranceReportColumn,
     ModalProductColumn,
     ProductInventoriesColumn,
