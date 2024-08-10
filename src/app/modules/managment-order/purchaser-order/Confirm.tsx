@@ -18,20 +18,16 @@ import { useGetInvoiceType } from "../../generic/_hooks";
 import { useGetCustomerCompaniesMutate } from "../../customerCompany/_hooks";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
-import FormikProduct from "../../../../_cloner/components/FormikProductComboSelect";
+import FormikProductBrand from "../../../../_cloner/components/FormikProductBrandComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
-// import { useRetrieveProductsByBrand } from "../../products/_hooks";
-import { dropdownCustomerCompanies, dropdownInvoiceType, dropdownProductByInventory } from "../../../../_cloner/helpers/dropdowns";
-import { useGetProductList } from "../../products/_hooks";
-import { IProductFilters } from "../../products/_models";
 import FileUpload from "../../../../_cloner/components/FileUpload";
+import { dropdownCustomerCompanies, dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
+import { useGetProductList } from "../../products/_hooks";
 
 const initialValues = {
     productName: "",
     proximateAmount: "",
     productPrice: "",
-    customerOfficialCompanyId: "",
-
     invoiceTypeDesc: "",
     invoiceTypeId: "",
     description: "",
@@ -43,7 +39,6 @@ const PurchaserOrderConfirm = () => {
     const { id } = useParams()
     const { data, isLoading } = useRetrievePurchaserOrder(id)
     // const { data: productsByBrand, } = useRetrieveProductsByBrand();
-    const productTools = useGetProductList();
     const { data: factor } = useGetInvoiceType();
     const customerCompaniesTools = useGetCustomerCompaniesMutate();
 
@@ -54,51 +49,50 @@ const PurchaserOrderConfirm = () => {
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
     const [approve, setApprove] = useState<boolean>(false);
 
+
     useEffect(() => {
         setCpData(data?.data?.details)
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [data])
 
     useEffect(() => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [files]);
 
     useEffect(() => {
         customerCompaniesTools.mutate(data?.data?.customer.id)
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [data?.data?.customer.id])
-
-    useEffect(() => {
-        const filters: IProductFilters = {
-            ByBrand: true
-        }
-        productTools.mutate(filters)
-    }, [])
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
-        { id: 3, title: "وضعیت", icon: <LocalShipping color="secondary" />, value: data?.data?.orderStatusDesc },
+        { id: 3, title: "اسم رسمی شرکت فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName || "ثبت نشده" },
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
     ]
 
     const orderOrderColumnMain = [
-        { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => { return  params.productBrand.productName } },
+        { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => { return params.productBrand.productName } },
         { id: 3, header: "مقدار", accessor: "proximateAmount" },
         { id: 4, header: "قیمت", accessor: "price" },
     ]
 
     const orderOrderColumnReplace = [
         { id: 5, header: "کالا رسمی", accessor: "productName", render: (params: any) => { return params.productName ? params.productName : params.productBrand.productName } },
-        { id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
-           return params.alternativeProductAmount === 0 ? params.proximateAmount : params.alternativeProductAmount
-        }},
-        { id: 7, header: "قیمت", accessor: "price", render: (params: any) => {
-          return params.alternativeProductPrice === 0 ? params.price : params.alternativeProductPrice
-        } }
+        {
+            id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
+                return params.alternativeProductAmount === 0 ? params.proximateAmount : params.alternativeProductAmount
+            }
+        },
+        {
+            id: 7, header: "قیمت", accessor: "price", render: (params: any) => {
+                return params.alternativeProductPrice === 0 ? params.price : params.alternativeProductPrice
+            }
+        }
+
     ]
 
     const orderParseFields = (fields: FieldType, values: any, setFieldValue: any, resetForm: any, index: number) => {
@@ -107,12 +101,17 @@ const PurchaserOrderConfirm = () => {
             case "product":
                 return (
                     <div key={index} className="flex gap-x-2 w-full">
-                        <FormikProduct
+                        <FormikProductBrand
                             disabled={!values.productName}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
-                            options={dropdownProductByInventory(productTools?.data?.data)}
                             {...rest}
                         />
+                        {/* <FormikProduct
+                            disabled={!values.productName}
+                            onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
+                            options={dropdownProductByInventory(productsByBrand?.data)}
+                            {...rest}
+                        /> */}
                     </div>
                 );
             case "price":
@@ -126,7 +125,7 @@ const PurchaserOrderConfirm = () => {
                     <PublishedWithChanges />
                 </Button>
             case "add":
-                return <Button key={index}  onClick={() => handleReplace(values, setFieldValue, resetForm)} className="!bg-[#fcc615]">
+                return <Button key={index} onClick={() => handleReplace(values, setFieldValue, resetForm)} className="!bg-[#fcc615]">
                     <PublishedWithChanges />
                 </Button>
             default:
@@ -142,7 +141,7 @@ const PurchaserOrderConfirm = () => {
     }
 
     const handleDoubleClick = (params: any, setFieldValue: any, rowIndex: number) => {
-        setFieldValue("productName", params.productName ? params.productName : params.productBrand.productName)
+        setFieldValue("productName", params.productName)
         setFieldValue("proximateAmount", params.proximateAmount)
         setFieldValue("productPrice", params.price)
         // setFieldValue("productPrice", params.price)
@@ -152,22 +151,30 @@ const PurchaserOrderConfirm = () => {
     }
 
     const handleReplace = (values: any, setFieldValue: any, resetForm: any) => {
-        if (selectedRow !== null) {
-            const updatedData = [...cpData];
-            updatedData[selectedRow] = {
-                ...updatedData[selectedRow],
-                productName: values.productNameReplace.label,
-                alternativeProductName: values.productNameReplace.label,
-                alternativeProductId: values.productNameReplace.value,
-                alternativeProductAmount: +values.proximateAmountReplace,
-                alternativeProductPrice: +values.productPriceReplace.replace(/,/g, ""),
-            };
-            setCpData(updatedData);
-            resetForm()
-            setFieldValue("productNameReplace", "")
-            setFieldValue("productName", "")
-            setFieldValue("proximateAmount", "")
-            setFieldValue("productPrice", "")
+        if (
+            (values.productNameReplace == null || values.productNameReplace == undefined) ||
+            (values.proximateAmountReplace == null || values.proximateAmountReplace == undefined) ||
+            (values.productPriceReplace == null || values.productPriceReplace == undefined)
+        ) {
+            EnqueueSnackbar("لطفا موارد کالای جایگزین را مشخص نمایید", "warning")
+        } else {
+            if (selectedRow !== null) {
+                const updatedData = [...cpData];
+                updatedData[selectedRow] = {
+                    ...updatedData[selectedRow],
+                    productName: values.productNameReplace.label,
+                    alternativeProductName: values.productNameReplace.label,
+                    alternativeProductId: values.productNameReplace.value,
+                    alternativeProductAmount: +values.proximateAmountReplace,
+                    alternativeProductPrice: +values.productPriceReplace.replace(/,/g, ""),
+                };
+                setCpData(updatedData);
+                resetForm()
+                setFieldValue("productNameReplace", "")
+                setFieldValue("productName", "")
+                setFieldValue("proximateAmount", "")
+                setFieldValue("productPrice", "")
+            }
         }
     }
 
@@ -186,7 +193,6 @@ const PurchaserOrderConfirm = () => {
             attachments: attachments,
             orderStatusId: statusId,
             customerOfficialCompanyId: values.customerOfficialCompanyId,
-            // details: data?.data?.details
             details: cpData.map((element: any) => ({
                 id: element.id,
                 alternativeProductBrandId: element.alternativeProductId,
@@ -194,21 +200,22 @@ const PurchaserOrderConfirm = () => {
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
-        console.log(JSON.stringify(formData))
+
         approveTools.mutate(formData, {
-            onSuccess: (response) => {
-                if (response.succeeded) {
+            onSuccess: (message) => {
+                if (message.succeeded) {
                     setApprove(false)
-                    EnqueueSnackbar(response.message, "success")
-                    
+                    EnqueueSnackbar(statusId === 2 ? "تایید سفارش با موفقیت انجام گردید" : "عدم تایید سفارش با موفقیت انجام شد", "info")
+
                 }
-                if (!response?.data?.Succeeded) {
-                    EnqueueSnackbar( response.data.Message , "error")
+                if (!message?.data?.Succeeded) {
+                    EnqueueSnackbar(message.data.Message, "error")
                 }
             },
 
         })
     }
+
 
     if (isLoading) {
         return <Backdrop loading={isLoading} />
@@ -261,7 +268,7 @@ const PurchaserOrderConfirm = () => {
                             </div>
                         </ReusableCard>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div className="flex flex-col">
                                 <ReusableCard >
                                     <Typography variant="h2" color="primary" className="pb-4">افزودن پیوست</Typography>
@@ -294,14 +301,14 @@ const PurchaserOrderConfirm = () => {
                                     </div>
                                     <div className="flex items-center">
                                         <FormikCheckbox label="" name="customerCompanyCheck" />
-                                        <Typography>آیا مایل به تغییر اسم رسمی شرکت مشتری می باشید؟</Typography>
+                                        <Typography>آیا مایل به تغییر اسم رسمی شرکت فروشنده می باشید؟</Typography>
                                     </div>
                                     <FormikSelect
                                         disabeld={!values.customerCompanyCheck}
                                         className="mb-4"
                                         options={dropdownCustomerCompanies(customerCompaniesTools?.data?.data)}
                                         defaultValue={data?.data?.customerOfficialCompany?.id}
-                                        name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
+                                        name="customerOfficialCompanyId" label="اسم رسمی شرکت فروشنده" />
                                     <FormikInput
                                         multiline
                                         minRows={3}
@@ -331,5 +338,3 @@ const PurchaserOrderConfirm = () => {
 }
 
 export default PurchaserOrderConfirm
-
-

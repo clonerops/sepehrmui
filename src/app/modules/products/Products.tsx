@@ -7,14 +7,13 @@ import FuzzySearch from "../../../_cloner/helpers/fuse";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import ActiveText from "../../../_cloner/components/ActiveText";
 import ProductForm from "./ProductForm";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import CardWithIcons from "../../../_cloner/components/CardWithIcons";
 
-import { IProductFilters, IProducts } from "./_models";
-import { useGetProductList } from "./_hooks";
+import {  IProducts } from "./_models";
+import {  useGetProducts } from "./_hooks";
 import { AddTask, AdfScanner, DesignServices, TextDecrease } from "@mui/icons-material";
 
 import _ from 'lodash'
@@ -22,19 +21,15 @@ import { ProductsColumn } from "../../../_cloner/helpers/columns";
 
 const Products = () => {
     // const productTools = useRetrieveProducts()
-    const productTools = useGetProductList()
+    // const productTools = useGetProductList()
+    const productTools = useGetProducts()
 
     const [results, setResults] = useState<IProducts[]>([]);
 
     useEffect(() => {
-        const filters: IProductFilters = {}
-        productTools.mutate(filters, {
-            onSuccess: (response) => {
-                setResults(response?.data);
-            }
-        })
+        setResults(productTools?.data?.data)
         // eslint-disable-next-line
-    }, []);
+    }, [productTools?.data?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -54,9 +49,11 @@ const Products = () => {
         );
     };
 
+    if(productTools?.isLoading) 
+        return <Backdrop loading={productTools.isLoading} />
+
     return (
         <>
-            {productTools.isLoading && <Backdrop loading={productTools.isLoading} />}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
                 <CardWithIcons
                     title='تعداد سرویس های ثبت شده'
@@ -124,7 +121,7 @@ const Products = () => {
                 description="لطفاً مشخصات محصول را با دقت وارد کنید تا مشتریان به آسانی اطلاعات مورد نیاز را بیابند اگر سوال یا نیاز به راهنمایی بیشتر دارید، با تیم پشتیبانی تماس بگیرید."
             >
                 <ProductForm
-                    productTools={productTools}
+                    refetch={productTools.refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>
@@ -137,7 +134,7 @@ const Products = () => {
             >
                 <ProductForm
                     id={itemForEdit?.id}
-                    productTools={productTools}
+                    refetch={productTools.refetch}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>

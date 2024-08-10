@@ -38,10 +38,10 @@ const initialValues = {
 const ProductForm = (props: {
     id?: string | undefined
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    // refetch: <TPageData>(
-    //     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-    // ) => Promise<QueryObserverResult<any, unknown>>;
-    productTools:  UseMutationResult<any, unknown, IProductFilters, unknown>;
+    refetch: <TPageData>(
+        options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+    ) => Promise<QueryObserverResult<any, unknown>>;
+    // productTools:  UseMutationResult<any, unknown, IProductFilters, unknown>;
 }) => {
     // Fetchig
     const { mutate, isLoading: postLoading } = useCreateProduct();
@@ -166,12 +166,12 @@ const ProductForm = (props: {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
-                        props.productTools.mutate({})
+                        
                         props.setIsCreateOpen(false)
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
-
+                    props.refetch()
                 },
             });
 
@@ -186,12 +186,12 @@ const ProductForm = (props: {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
-                        props.productTools.mutate({})
                         props.setIsCreateOpen(false)
 
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
+                    props.refetch()
 
                 },
             });
@@ -207,7 +207,7 @@ const ProductForm = (props: {
         }
         if (props.id) onUpdate(formData);
         else onAdd(values);
-        props.productTools.mutate({})
+        props.refetch()
     };
 
     if (props.id && detailTools?.isLoading) {
