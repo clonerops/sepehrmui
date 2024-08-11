@@ -72,16 +72,21 @@ const UnloadingPermit = () => {
                         transferAmount: item?.transferAmount,
                         productCode: item?.productCode,
                         productName: item?.productName,
+                        unloadedAmount: item?.unloadedAmount ? item?.unloadedAmount : " ",
+                        realAmount: item?.unloadedAmount ? item?.unloadedAmount : " "
                     };
                 }
             );
+            if (realAmount.current) {
+                realAmount.current.value = destructureData[0]?.realAmount || "";
+            }
+    
             if (destructureData) {
                 setUnloadingList(destructureData);
             }
         }
         // eslint-disable-next-line
     }, [detailTools?.data?.data?.details]);
-
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره حواله", icon: <NumbersOutlined color="secondary" />, value: detailTools?.data?.data?.id || "ثبت نشده" },
@@ -241,7 +246,7 @@ const UnloadingPermit = () => {
                         fareAmount: detailTools?.data?.data?.fareAmount === 0 ? "" : detailTools?.data?.data?.fareAmount?.toString(),
                         carPlaque: detailTools?.data?.data?.plaque ? detailTools?.data?.data?.plaque : "",
                         vehicleTypeId: detailTools?.data?.data?.vehicleTypeId === 0 ? "" : detailTools?.data?.data?.vehicleTypeId,
-                        otherAmount: detailTools?.data?.data?.otherCosts === 0 ? "0" : detailTools?.data?.data?.otherAmount?.toString()
+                        otherAmount: detailTools?.data?.data?.otherCosts === 0 ? "0" : detailTools?.data?.data?.otherCosts?.toString()
                     }}
                     onSubmit={onSubmit}
                 >

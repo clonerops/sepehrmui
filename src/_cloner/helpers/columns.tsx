@@ -1952,7 +1952,7 @@ const OrderDetailForUnloadingColumn = (realAmount: React.RefObject<HTMLInputElem
 
 const UnloadingPemritColumn = (renderAction: any) => {
     const col = [
-        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 210, maxWidth: 210 },
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120 },
         {
             field: 'unloadingPermitCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -1960,7 +1960,7 @@ const UnloadingPemritColumn = (renderAction: any) => {
             headerName: 'شماره مجوز تخلیه', headerClassName: "headerClassName", minWidth: 140, flex: 1
         },
         {
-            field: 'createdDate', renderCell: (params: any) => {
+            field: 'createDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'تاریخ ثبت مجوز', headerClassName: "headerClassName", minWidth: 140, flex: 1
@@ -1997,6 +1997,80 @@ const UnloadingPemritColumn = (renderAction: any) => {
         },
     ]
     return col
+};
+
+const UnloadingPemritDetailColumn = () => {
+    return [
+        {
+            id: 1,
+            header: "کد کالا",
+            accessor: "productCode",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4" sx={{ maxWidth: 120 }}>{params.transferRemittanceDetail.product.productCode}</Typography>;
+            },
+        },
+        {
+            id: 1,
+            header: "نام کالا",
+            accessor: "productName",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4" sx={{ maxWidth: 120 }}>{params.transferRemittanceDetail.product.productName}</Typography>;
+            },
+        },
+        {
+            id: 10,
+            header: "برند",
+            accessor: "brandName",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4" sx={{ maxWidth: 120 }}>{params.transferRemittanceDetail.brandName}</Typography>;
+            },
+        },
+        {
+            id: 2,
+            header: "مقدار انتقال",
+            accessor: "transferAmount",
+            headerClassName: "headerClassName",
+            flex: 1,
+            render: (params: any) => {
+                return <Typography variant="h4">{params.transferRemittanceDetail.transferAmount}</Typography>;
+            },
+        },
+        {
+            id: 4,
+            header: "مقدار واقعی باسکول (واحد اصلی)",
+            accessor: "unloadedAmount",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4">{params.unloadedAmount}</Typography>;            },
+        },
+        {
+            id: 4,
+            header: "واحد اصلی",
+            accessor: "productMainUnitDesc",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4">{params.transferRemittanceDetail.product.productMainUnitDesc}</Typography>;
+            },
+        },
+        {
+            id: 4,
+            header: "واحد فرعی",
+            accessor: "productSubUnitDesc",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return <Typography variant="h4">{params.transferRemittanceDetail.product.productSubUnitDesc}</Typography>;
+            },
+        },
+    ];
 };
 
 const CustomerWarehousesColumn = (setSelectedItems: React.Dispatch<any>, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -3738,6 +3812,7 @@ export {
     ExitRemittanceColumn,
     OrderDetailForUnloadingColumn,
     UnloadingPemritColumn,
+    UnloadingPemritDetailColumn,
     CustomerWarehousesColumn,
     CustomerWarehouseColumn,
     CustomerColumn,

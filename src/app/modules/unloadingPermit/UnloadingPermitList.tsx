@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Tooltip, Typography } from "@mui/material";
-import { Approval, LayersClear, Print, Visibility } from "@mui/icons-material";
+import { Approval, LayersClear, Print, Search, Visibility } from "@mui/icons-material";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
@@ -11,6 +11,9 @@ import Pagination from "../../../_cloner/components/Pagination";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import { UnloadingPemritColumn } from "../../../_cloner/helpers/columns";
 import { useGetUnloadingPermitListByMutation, useRevokeUnloadingById } from "./_hooks";
+import { Formik } from "formik";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import FormikInput from "../../../_cloner/components/FormikInput";
 
 const pageSize = 100;
 
@@ -35,8 +38,8 @@ const UnloadingPermitList = () => {
     const handleOpenApprove = (id: number) => {
         setApprove(true)
         setSelectedId(id)
-      }
-    
+    }
+
 
     const handleRevokeUnloading = (id: number) => {
         revokeUnloading.mutate(id, {
@@ -62,12 +65,12 @@ const UnloadingPermitList = () => {
                             <Print color="primary" />
                         </Link>
                     </div>
-                </Tooltip>
+                </Tooltip> */}
                 <Tooltip title={<Typography variant='h3'>ابطال تخلیه</Typography>}>
                     <div className="flex gap-x-4">
                         <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
                     </div>
-                </Tooltip> */}
+                </Tooltip>
                 <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
                     {/* <Link to={`/dashboard/ladingUnloadingPermitDetail/${item?.row?.id}/${item?.row?.unloadingPermitCode}/${item?.row?.createdDate}`}> */}
                     <Link to={`/dashboard/unloadingDetail/${item?.row?.id}`}>
@@ -87,7 +90,17 @@ const UnloadingPermitList = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
-    if(unloadingListTools.isLoading) {
+    const handleFilter = (values: any) => {
+        let formData = {
+            UnloadingPermitCode: values.UnloadingPermitCode,
+            PageNumber: currentPage,
+            PageSize: pageSize,
+        };
+        unloadingListTools.mutate(formData);
+
+    }
+
+    if (unloadingListTools.isLoading) {
         return <Backdrop loading={unloadingListTools.isLoading} />
     }
 
@@ -95,12 +108,26 @@ const UnloadingPermitList = () => {
         <>
             {revokeUnloading?.isLoading && <Backdrop loading={revokeUnloading?.isLoading} />}
             <ReusableCard>
+                <Formik initialValues={{ UnloadingPermitCode: "" }} onSubmit={() => { }}>
+                    {({ values }) => {
+                        return (
+                            <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
+                                <FormikInput name="UnloadingPermitCode" label="شماره مجوز تخلیه" />
+                                <ButtonComponent onClick={() => handleFilter(values)}>
+                                    <Search className="text-white" />
+                                    <Typography className="text-white"> جستجو </Typography>
+                                </ButtonComponent>
+                            </div>
+                        );
+                    }}
+                </Formik>
+
                 <MuiDataGrid
                     columns={UnloadingPemritColumn(renderAction)}
                     rows={unloadingListTools?.data?.data}
                     data={unloadingListTools?.data?.data}
                     isLoading={unloadingListTools?.isLoading}
-                    onDoubleClick={() => {}}
+                    onDoubleClick={() => { }}
                     hideFooter
                 />
                 <Pagination
@@ -117,7 +144,6 @@ const UnloadingPermitList = () => {
                 onConfirm={() => handleRevokeUnloading(selecetdId)}
 
             />
-
         </>
     );
 };
