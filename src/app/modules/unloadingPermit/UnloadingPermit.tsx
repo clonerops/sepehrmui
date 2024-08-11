@@ -220,9 +220,9 @@ const UnloadingPermit = () => {
                 </div>
             </div>
             <ReusableCard cardClassName="mt-4">
-                <Typography variant="h2" color="primary" className="pb-4">
+                {/* <Typography variant="h2" color="primary" className="pb-4">
                     اقلام مجوز ورود
-                </Typography>
+                </Typography> */}
                 <MuiTable
                     onDoubleClick={() => { }}
                     headClassName="bg-[#272862]"
