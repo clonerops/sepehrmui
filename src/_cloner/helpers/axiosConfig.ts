@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 export const http = axios.create({
     baseURL: "https://iraniansepehr.com/api/",
+    // baseURL: "http://192.168.10.125/api/",
     headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${Cookies.get("token")}`,
@@ -10,12 +11,14 @@ export const http = axios.create({
 });
 export const httpAuth = axios.create({
     baseURL: "https://iraniansepehr.com/api/",
+    // baseURL: "http://192.168.10.125/api/",
     headers: {
         "Content-Type": "application/json",
     },
 });
 export const httpFormData = axios.create({
     baseURL: "https://iraniansepehr.com/api/",
+    // baseURL: "http://192.168.10.125/api/",
     headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${Cookies.get("token")}`,

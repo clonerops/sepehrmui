@@ -66,7 +66,7 @@ const InvoiceOfficial = () => {
                             <header>
                                 <img
                                     src={toAbsoulteUrl(
-                                        "/media/mainlogo/headerInvoice1.png"
+                                        "/media/mainlogo/hinvoice.png"
                                     )}
                                     className="!w-full"
                                 />
@@ -113,7 +113,7 @@ const InvoiceOfficial = () => {
                                             />
                                             <RendertextValue
                                                 title="شهرستان"
-                                                value="ساوه"
+                                                value="رباط کریم"
                                             />
                                             <RendertextValue
                                                 title="کدپستی 10رقمی"
@@ -134,7 +134,7 @@ const InvoiceOfficial = () => {
                                             <div className="col-span-3">
                                                 <RendertextValue
                                                     title="نشانی"
-                                                    value="تهران،اتوبان ساوه،سه راه آدران،شهرک زواره ای،خیابان صنعت هشتم،کوچه فرعی دوم،پلاک66،طبقه دوم"
+                                                    value="تهران،اتوبان ساوه،سه راه آدران،شهرک زواره ای،خیابان صنعت هشتم،کوچه فرعی دوم،پلاک66"
                                                 />
                                             </div>
                                             <RendertextValue
@@ -234,7 +234,7 @@ const InvoiceOfficial = () => {
                                                 <tr>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">{index + 1}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">{item?.product?.productCode}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">{`${item?.product?.productName} ${item?.brandName}`}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">{`${item?.product?.productName}`}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{separateAmountWithCommas(item?.proximateAmount)}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{item?.product?.productMainUnitDesc}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">{separateAmountWithCommas(item?.price)}</td>

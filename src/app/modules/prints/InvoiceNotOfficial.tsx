@@ -34,9 +34,6 @@ const InvoiceNotOfficial = () => {
         return <Backdrop loading={isLoading} />
     }
 
-    console.log("data", data?.data)
-
-
     return (
         <>
             <button
@@ -119,7 +116,7 @@ const InvoiceNotOfficial = () => {
                                                 <tr>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">{index + 1}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">{item?.product?.productCode}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">{`${item?.product?.productName} ${item?.brandName}`}</td>
+                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">{`${item?.product?.productName}`}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{separateAmountWithCommas(item?.proximateAmount)}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{item?.product?.productMainUnitDesc}</td>
                                                     <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">{separateAmountWithCommas(item?.price)}</td>

@@ -9,6 +9,7 @@ import CardTitleValue from "../../../_cloner/components/CardTitleValue"
 import MuiTable from "../../../_cloner/components/MuiTable"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import { useGetEntrancePermit } from "../entrancePermit/_hooks"
+import ImagePreview from "../../../_cloner/components/ImagePreview"
 
 const TrasnferRemittanceDetails = () => {
     const { id }: any = useParams()
@@ -28,7 +29,7 @@ const TrasnferRemittanceDetails = () => {
         { id: 9, title: "نوع خودرو", icon: <TypeSpecimen color="secondary" />, value: detailTools?.data?.data?.vehicleTypeName || "ثبت نشده" },
         { id: 10, title: "مبلغ کرایه", icon: <PriceChange color="secondary" />, value: separateAmountWithCommas(detailTools?.data?.data?.fareAmount) || "ثبت نشده" },
         { id: 11, title: "تاریخ تحویل", icon: <DateRange color="secondary" />, value: detailTools?.data?.data?.deliverDate || "ثبت نشده" },
-        { id: 12, title: "باربری", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.shippingName || "ثبت نشده" },  
+        { id: 12, title: "باربری", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.shippingName || "ثبت نشده" },
         { id: 12, title: "شماره حساب راننده", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.driverAccountNo || "ثبت نشده" },
         { id: 12, title: "سایر هزینه ها", icon: <CarCrash color="secondary" />, value: detailTools?.data?.data?.otherCosts || "ثبت نشده" },
     ]
@@ -48,12 +49,10 @@ const TrasnferRemittanceDetails = () => {
         },
     ]
 
-    console.log("detailTools?.data?.data", detailTools?.data?.data)
-
     return (
         <>
-            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} /> }
-            {entranceDetailTools.isLoading && <Backdrop loading={entranceDetailTools.isLoading} /> }
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
+            {entranceDetailTools.isLoading && <Backdrop loading={entranceDetailTools.isLoading} />}
             <Typography color="primary" variant="h1" className="pb-8">جزئیات حواله</Typography>
             <div className='flex justify-end items-end mb-2 gap-x-4' >
                 <Badge badgeContent={entranceDetailTools?.data?.data?.attachments?.length || 0} color="secondary">
@@ -80,6 +79,9 @@ const TrasnferRemittanceDetails = () => {
             </div>
 
             <MuiTable data={detailTools?.data?.data?.details} columns={detailTransfer} />
+            <div className="mt-4">
+                <ImagePreview base64Strings={detailTools?.data?.data?.entrancePermit?.attachments || []} />
+            </div>
         </>
     )
 }
