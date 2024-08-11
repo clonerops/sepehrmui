@@ -1,7 +1,7 @@
 import FormikSelect from "./FormikSelect";
 import { useGetProductTypes } from "../../app/modules/generic/_hooks";
 import { IProductType } from "../../app/modules/generic/_models";
-import { dropdownTypes } from "../../app/modules/generic/productType/convertDropdown";
+import { dropdownTypes } from "../helpers/dropdowns";
 
 const FormikPeoductType = (props: any) => {
     const { data: productType } = useGetProductTypes();
@@ -16,9 +16,6 @@ const FormikPeoductType = (props: any) => {
                           ...productType.filter((i: IProductType) => i.isActive),
                       ])
             }
-            // options={dropdownTypes(
-            //     productType?.filter((i: IProductType) => i.isActive)
-            // )}
             {...props}
         />
     );

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { CSSObject, makeStyles, styled, Theme, useTheme } from "@mui/material/styles";
+import { CSSObject, styled, Theme, useTheme } from "@mui/material/styles";
 import {
   Box,
   CssBaseline,
@@ -20,8 +20,7 @@ import AppbarComponent from "./components/Appbar";
 import { useMenuItems } from "./core/_hooks";
 import { IMenuItem } from "./core/_models";
 import { parseMenuItems } from "./helpers/parseMenuItems";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
-import { menuItem } from "./helpers/MenuItem";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 
 const drawerWidth = 240;
 
@@ -88,6 +87,7 @@ const MasterLayout = () => {
 
   useEffect(() => {
     setMenuItemsData(parseMenuItems(data?.data));
+     // eslint-disable-next-line
   }, [data?.data]);
 
   const handleDrawerOpen = () => {
@@ -117,12 +117,11 @@ const MasterLayout = () => {
           }}
         >
           <List>
-            <MenuItems menuItems={menuItemsData} />
+            <MenuItems menuItems={menuItemsData} isOpen={open} />
           </List>
         </SwipeableDrawer>
       ) : (
         <Drawer
-          // disableScrollLock={true}
           variant="permanent"
           open={open}
           transitionDuration={10}
@@ -146,15 +145,15 @@ const MasterLayout = () => {
           <Divider />
 
           <Box className="md:flex md:justify-center md:items-center my-2 hidden transition">
-            <img
+            <img alt="sepehriranian"
               src={toAbsoulteUrl("/media/mainlogo/1.png")}
               width={open ? 60 : 30}
             />
-            {/* <img src={toAbsoulteUrl('/media/logos/folladlogowhite.png')} width={128} height={128} /> */}
+            {/* <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/folladlogowhite.png')} width={128} height={128} /> */}
           </Box>
           <Divider color="#FFF" />
           <List>
-            <MenuItems menuItems={menuItemsData} />
+            <MenuItems menuItems={menuItemsData} isOpen={open} />
           </List>
         </Drawer>
       )}

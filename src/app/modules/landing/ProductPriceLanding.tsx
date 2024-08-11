@@ -1,36 +1,44 @@
 import { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import ReusableTabComponent from "../../../_cloner/components/ReusableTab";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
-import FuzzySearch from "../../../_cloner/helpers/Fuse";
-import { useRetrieveProductsByType } from "../generic/products/_hooks";
-import { columnsProductPriceDashboard } from "../generic/productPrices/_columns";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 import Backdrop from "../../../_cloner/components/Backdrop";
+import { useGetProductsByType } from "../products/_hooks";
+import { IProductFilters } from "../products/_models";
+import { ProductPricesColumn } from "../../../_cloner/helpers/columns";
 
 const ProductPriceLanding = () => {
-    const { data: productsByType, isLoading } = useRetrieveProductsByType();
+    // const { data: productsByType, isLoading } = useRetrieveProductsByType();
+    const productTypeTools = useGetProductsByType();
 
     const [results, setResults] = useState<any>([]);
 
     useEffect(() => {
-        if (productsByType && productsByType.data) {
-            const initialResults = productsByType.data.map((i: any) => i.products);
-            setResults(initialResults);
-        }
-    }, [productsByType]);
+        const filters: IProductFilters = {}
+
+        productTypeTools.mutate(filters, {
+            onSuccess: (response) => {
+                if (response?.data.length > 0) {
+                    const initialResults = response?.data.map((i: any) => i.products);
+                    setResults(initialResults);
+                }
+            }
+        })
+         // eslint-disable-next-line
+    }, [productTypeTools?.data?.data]);
 
     const renderAction = () => { };
-    const tabs = productsByType?.data?.map((i: any, index: number) => {
+    const tabs = productTypeTools?.data?.data?.map((i: any, index: number) => {
         return {
             label: (
-                <Box component="div" className="flex gap-x-2">
+                <div className="flex gap-x-2">
                     <Typography variant="h5">{i.desc}</Typography>
-                </Box>
+                </div>
             ),
             content: (
-                <Box>
-                    <Box component="div" className="pb-4">
+                <div>
+                    <div className="pb-4">
                         <FuzzySearch
                             keys={["productName", "productBrandName"]}
                             data={i.products}
@@ -41,23 +49,24 @@ const ProductPriceLanding = () => {
                                 setResults(updatedResults);
                             }}
                         />
-                    </Box>
+                    </div>
                     <MuiDataGrid
-                        columns={columnsProductPriceDashboard(renderAction)}
+                        columns={ProductPricesColumn(renderAction)}
                         rows={results[index]}
                         data={i.products}
-                        isLoading={isLoading}
+                        isLoading={productTypeTools.isLoading}
+                        onDoubleClick={() => {}}
                     />
-                </Box>
+                </div>
             ),
         };
     });
     return (
         <>
-            {isLoading && <Backdrop loading={isLoading} />}
-            <Box component="div" className="flex flex-col">
+            {productTypeTools.isLoading && <Backdrop loading={productTypeTools.isLoading} />}
+            <div className="flex flex-col">
                 <ReusableTabComponent tabs={tabs} />
-            </Box>
+            </div>
         </>
     );
 };

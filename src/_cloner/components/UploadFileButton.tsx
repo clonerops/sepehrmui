@@ -1,9 +1,9 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query';
 
-import { EnqueueSnackbar } from '../helpers/Snackebar';
+import { EnqueueSnackbar } from '../helpers/snackebar';
 
 interface FileUploadProps {
     acceptedFileTypes?: string;
@@ -45,12 +45,12 @@ const FileUploadButton: React.FC<FileUploadProps> = ({ refetch, uploadFileMethod
 
     return (
         <>
-            <Box component="div">
+            <div>
                 <Button {...getRootProps()} variant="outlined" color="secondary">
                     <input {...getInputProps()} />
                     <Typography>آپلود فایل</Typography>
                 </Button>
-            </Box>
+            </div>
         </>
     );
 };

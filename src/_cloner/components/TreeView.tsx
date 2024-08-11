@@ -1,8 +1,7 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import { TreeView } from '@mui/x-tree-view/TreeView';
+import { SimpleTreeView  } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
-import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
+// import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
 
 type Props = {
     content: React.ReactNode
@@ -11,16 +10,16 @@ type Props = {
 export default function FileSystemNavigator(props: Props) {
     const {content} = props
   return (
-    <Box sx={{ minHeight: 180, flexGrow: 1}}>
-      <TreeView
+    <div style={{ minHeight: 180, flexGrow: 1}}>
+      <SimpleTreeView 
         aria-label="file system navigator"
-        defaultCollapseIcon={<RemoveCircleOutline />}
-        defaultExpandIcon={<AddCircleOutline />}
+        // defaultCollapseIcon={<RemoveCircleOutline />}
+        // defaultExpandIcon={<AddCircleOutline />}
       >
-        <TreeItem nodeId="1" label="مجوزها">
+        <TreeItem itemId="1" label="مجوزها">
             {content}
         </TreeItem>
-      </TreeView>
-    </Box>
+      </SimpleTreeView>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 // RadioGroup.tsx
 
-import React, { ChangeEvent, ReactNode } from 'react';
+import React, { ChangeEvent } from 'react';
 import { FormControl, FormLabel, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 
 interface RadioOption {
@@ -16,7 +16,7 @@ interface RadioGroupProps {
   className?: string
 }
 
-const ReusableRadioGroup: React.FC<RadioGroupProps> = ({ label, options, value, onChange, className }) => {
+const ReusableRadioGroup: React.FC<RadioGroupProps> = ({ label, options, value, onChange }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };

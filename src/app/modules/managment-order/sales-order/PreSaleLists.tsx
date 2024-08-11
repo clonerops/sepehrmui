@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {Box, Button, Typography} from '@mui/material'
+import {Button, Typography} from '@mui/material'
 
 import { useRetrieveOrders } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { orderColumns } from "../helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import { OrderColumn } from "../../../../_cloner/helpers/columns";
 // import Pagination from "../../../../_cloner/components/Pagination";
 
 // const pageSize = 20
@@ -27,6 +27,7 @@ const PreSaleLists = () => {
 
     useEffect(() => {
         setResults(orders?.data);
+         // eslint-disable-next-line
     }, [orders?.data]);
 
 
@@ -50,7 +51,7 @@ const PreSaleLists = () => {
     
     return (
         <ReusableCard>
-            <Box component="div" className="w-auto md:w-[40%] mb-4">
+            <div className="w-auto md:w-[40%] mb-4">
                 <FuzzySearch
                     keys={[
                         "orderCode",
@@ -65,15 +66,15 @@ const PreSaleLists = () => {
                         "exitType",
                     ]}
                     data={orders?.data}
-                    threshold={0.5}
                     setResults={setResults}
                 />
-            </Box>
+            </div>
             <MuiDataGrid
-                columns={orderColumns(renderAction)}
+                columns={OrderColumn(renderAction)}
                 rows={results}
                 data={orders?.data}
                 isLoading={isLoading}
+                onDoubleClick={() => {}}
             />
             {/* <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} /> */}
         </ReusableCard>

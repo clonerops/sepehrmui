@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
-import { Box } from '@mui/material'
-import { Formik, FormikProps } from "formik"
+import { useState, useRef, useEffect } from 'react'
+import { Formik, FormikErrors, FormikProps, FormikState } from "formik"
 import { saleOrderInitialValues } from "./initialValues"
 import { saleOrderValidation } from "./validation"
 
@@ -19,16 +18,20 @@ import CustomerChoose from './components/CustomerChoose'
 import { useCreateOrder } from '../core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
-import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
-import { useGetProductList } from '../../generic/products/_hooks'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
+import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
+import { useGetProductList } from '../../products/_hooks'
+import { useGetCustomer } from '../../customer/core/_hooks'
+import CustomerFeatcure from './components/CustomerFeatcure'
 
-const categories = [{ value: 2, title: "پیش فروش", defaultChecked: true },
-{ value: 1, title: "فروش فوری", defaultChecked: false }
+const categories = [
+    { value: 2, title: "پیش فروش", defaultChecked: false },
+{ value: 1, title: "فروش فوری", defaultChecked: true }
 ]
 
 const SalesOrder = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpenCustomerFeacture, setIsOpenCustomerFeacture] = useState<boolean>(false);
     const [orders, setOrders] = useState<IOrderItems[]>([]);
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]);
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]);
@@ -36,6 +39,8 @@ const SalesOrder = () => {
 
     const postSaleOrder = useCreateOrder();
     const products = useGetProductList();
+    const detailCustomer = useGetCustomer();
+
 
     let formikRef = useRef<FormikProps<any>>(null);
 
@@ -48,10 +53,10 @@ const SalesOrder = () => {
                     customerId: values.customerId,
                     totalAmount: calculateTotalAmount(orders, orderServices),
                     description: values.description,
-                    exitType: values.exitType,
+                    orderExitTypeId: values.orderExitTypeId,
                     orderSendTypeId: values.orderSendTypeId,
                     paymentTypeId: values.paymentTypeId,
-                    orderTypeId: values.orderType ? +values.orderType : 2,
+                    orderTypeId: values.orderType !== undefined ? +values.orderType : 1,
                     customerOfficialName: "string",
                     customerOfficialCompanyId: values.customerOfficialCompanyId && +values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null,
                     invoiceTypeId: values.invoiceTypeId,
@@ -72,6 +77,32 @@ const SalesOrder = () => {
                         purchaserCustomerName: item.purchaserCustomerName && item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : null,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                         warehouseId: item.warehouseId ? +item.warehouseId : null,
+                        warehouseTypeId: item.warehouseTypeId,
+                        
+                        purchaseOrder:  item?.warehouseTypeId == 2 ? {
+                            customerId: item.purchaserCustomerName && item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
+                            totalAmount: 
+                            +(item.purchasePrice ? Number(item.purchasePrice) : 0)
+                             * 
+                            +(item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0),
+                            description: "string",
+                            purchaseOrderSendTypeId: values.orderSendTypeId,
+                            invoiceTypeId: values.invoiceTypeId,
+
+                            details: [
+                                {
+                                    rowId: 0,
+                                    proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0,
+                                    numberInPackage: 0,
+                                    price: item.purchasePrice ? Number(item.purchasePrice) : 0,
+                                    productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
+                                    productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                                    productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                                    description: "string",
+                                    deliverDate: item.purchaseSettlementDate
+                                }
+                            ],
+                        } : null
                     })),
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
                         return {
@@ -93,10 +124,8 @@ const SalesOrder = () => {
 
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
-                        if (response.data.Errors && response.data.Errors.length > 0) {
-                            response.data.Errors.forEach((item: any) => {
-                                EnqueueSnackbar(item, "error")
-                            })
+                        if (response.data.Errors&&response.data.Errors.length > 0) {
+                            EnqueueSnackbar(response.data.Errors[0], "error")
                         } else {
                             if (response.succeeded) {
                                 renderAlert(response.message)
@@ -112,8 +141,19 @@ const SalesOrder = () => {
         }
     }
 
+    const handleReset = (resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void, 
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
+        window.location.reload()
+        // resetForm()
+        // setOrderPayment([])
+        // setOrderServices([])
+        // setOrders([])
+        // detailCustomer.reset()
+    }
+
     useEffect(() => {
-        calculateTotalAmount(orders, orderServices)
+        calculateTotalAmount(   orders, orderServices)
+         // eslint-disable-next-line
     }, [orders, orderServices]);
 
     return (
@@ -128,23 +168,25 @@ const SalesOrder = () => {
                 initialValues={saleOrderInitialValues}
                 onSubmit={onSubmit}
                 validationSchema={saleOrderValidation}>
-                {({ values, setFieldValue, handleSubmit }) => {
+                {({ values, setFieldValue, handleSubmit, resetForm }) => {
                     return <>
-                        <div className="">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <SaleHeaderBase 
                                 postSaleOrder={postSaleOrder} 
                                 orders={orders} 
                                 orderServices={orderServices} />
+                            <ReusableCard>
+                                <CustomerChoose 
+                                    formikRef={formikRef} 
+                                    openModalState={setIsOpen} 
+                                    openModalStateCustomerFeatcure={setIsOpenCustomerFeacture} 
+                                    postSaleOrder={postSaleOrder}
+                                    detailCustomer={detailCustomer} />
+                            </ReusableCard>
                         </div>
 
                         <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
-                            <ReusableCard>
-                                <CustomerChoose 
-                                formikRef={formikRef} 
-                                openModalState={setIsOpen} 
-                                postSaleOrder={postSaleOrder} />
-                            </ReusableCard>
-                            <ReusableCard cardClassName='lg:col-span-3'>
+                            <ReusableCard cardClassName='lg:col-span-4'>
                                 <OrderProductDetail
                                     postSaleOrder={postSaleOrder}
                                     products={products}
@@ -161,7 +203,7 @@ const SalesOrder = () => {
                                 />
                             </ReusableCard>
                         </div>
-                        <Box component="div" className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
+                        <div className="lg:grid lg:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
@@ -179,8 +221,15 @@ const SalesOrder = () => {
                                 orders={orders}
                                 formikRef={formikRef}
                                 setOrderPayment={setOrderPayment} />
-                        </Box>
-                        <Box  component="div" className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
+                        </div>
+                        <div className="flex gap-x-8 my-4 justify-between items-center lg:justify-between lg:items-center">
+                            <CustomButton
+                                title={"خالی کردن فرم"}
+                                onClick={() => handleReset(resetForm, setFieldValue)}
+                                color="secondary"
+                                isLoading={postSaleOrder.isLoading}
+                            />
+
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
@@ -190,13 +239,14 @@ const SalesOrder = () => {
                                     orderPayment.length <= 0 ||
                                     formikRef.current?.values.customerId === "" ||
                                     formikRef.current?.values.invoiceTypeId === "" ||
-                                    postSaleOrder?.data?.succeeded === "" ||
+                                    formikRef.current?.values.deliverDate === "" ||
+                                    postSaleOrder?.data?.succeeded ||
                                     !orderValid
                                 }
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />
-                        </Box>
+                        </div>
                     </>
                 }}
             </Formik>
@@ -210,6 +260,16 @@ const SalesOrder = () => {
                     <CustomerForm
                         setIsCreateOpen={setIsOpen}
                     />
+                </TransitionsModal >
+            }
+            {isOpenCustomerFeacture &&
+                <TransitionsModal
+                    title="نمایش ویژگی های مشتری"
+                    open={isOpenCustomerFeacture}
+                    isClose={() => setIsOpenCustomerFeacture(false)}
+                    width="50%"
+                >
+                    <CustomerFeatcure detailCustomer={detailCustomer}  />
                 </TransitionsModal >
             }
         </>

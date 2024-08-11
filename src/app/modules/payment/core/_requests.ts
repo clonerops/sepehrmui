@@ -1,6 +1,6 @@
 import { http, httpFormData } from "../../../../_cloner/helpers/axiosConfig"
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl"
-import { IPayment, IPaymentFilter } from "./_models"
+import {  IPaymentFilter } from "./_models"
 
 const getRecievePaymentByApproved = async (approvied:string = "0") => {
     try {
@@ -55,9 +55,17 @@ const deleteRecievePaymentById = async (id:string) => {
     }
 }
 
-const updatePaymentApproved = async (id:string) => {
+const updatePaymentApproved = async (formData: {ids: string[]}) => {
     try {
-        const { data } = await http.put(`/v1/ReceivePay/ReceivePayApprove/${id}`, JSON.stringify({id: id}))
+        const { data } = await http.put(`/v1/ReceivePay/ReceivePayApprove`, JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+const disApprovePaymentApproved = async (formData: {id: string, accountingDescription: string}) => {
+    try {
+        const { data } = await http.put(`/v1/ReceivePay/ReceivePayAccReject`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response
@@ -82,6 +90,7 @@ export {
     deleteRecievePaymentById,
     updatePaymentApproved,
     getRecievePayments,
-    putRecievePaymentRegister
+    putRecievePaymentRegister,
+    disApprovePaymentApproved
 
 }

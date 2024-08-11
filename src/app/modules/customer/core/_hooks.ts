@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ICustomer } from "./_models";
+import { ICustomer, ICustomerFilter } from "./_models";
 import * as api from "./_requests";
 
 const useCreateCustomer = () => {
@@ -15,6 +15,13 @@ const useGetCustomers = () => {
         refetchIntervalInBackground: false
     });
 };
+
+const useGetCustomersByMutation = () => {
+    return useMutation((filters: ICustomerFilter) => {
+        return api.getCustomersByMutation(filters);
+    });
+};
+
 
 const useGetCustomer = () => {
     return useMutation((id: string) => {
@@ -37,6 +44,7 @@ const useDeleteCustomer = () => {
 export {
     useCreateCustomer,
     useGetCustomers,
+    useGetCustomersByMutation,
     useGetCustomer,
     useUpdateCustomer,
     useDeleteCustomer,

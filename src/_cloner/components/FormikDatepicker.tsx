@@ -1,10 +1,10 @@
 import { forwardRef } from "react";
-import { Box, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { FormikErrors, useField, useFormikContext } from "formik";
 import MultiDatepicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import moment from "moment-jalaali";
@@ -41,9 +41,11 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
         }
     };
 
+    // const minDate = moment(new Date()).format("jYYYY/jMM/jDD");
+
     return (
         <>
-            <Box component="div" className={cx("w-full", boxClassName)}>
+            <div className={cx("w-full", boxClassName)}>
                 <MultiDatepicker
                     {...field}
                     {...rest}
@@ -53,6 +55,7 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
                     locale={persian_fa}
                     disabled={disabled}
                     calendar={persian}
+                    // minDate={minDate} 
                     className={cx("w-full")}
                     id={name}                       
                     render={
@@ -73,7 +76,7 @@ const FormikDatepicker = forwardRef((props: Props, ref) => {
                         {validationProps.helpertext}
                     </Typography>
                 )}
-            </Box>
+            </div>
         </>
     );
 });

@@ -1,15 +1,16 @@
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
-import { toAbsoulteUrl } from "../../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import LoginForm from "./LoginForm";
 import { enqueueSnackbar } from "notistack";
 import Cookies from "js-cookie";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
 import { useFormik } from "formik";
-import Backdrop from "../../../_cloner/components/Backdrop";
+import { Card } from "@mui/material";
 
 const initialValues = {
-  userName: "clonerops",
-  password: "aBo217767345@",
+  // userName: "clonerops",
+  // password: "aBo217767345@",
+  userName: "",
+  password: "",
   captchaCode: ""
 };
 
@@ -55,29 +56,30 @@ const Login = () => {
 
   return (
     <>
-      <Box
+      <div
         className="h-screen  lg:block hidden "
         style={{
           backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
+          // backgroundImage: `url(${toAbsoulteUrl("/1.jpg")})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "left top ",
         }}
       >
-        <Box
+        <div
           className={
             "md:w-[70%] xl:w-[50%] mr-auto h-full flex items-center justify-center"
           }
         >
-          <div
-            className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] hadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit "
+          <Card
+            className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] shadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit "
           >
             <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
-          </div>
-        </Box>
-      </Box>
+          </Card>
+        </div>
+      </div>
 
-      <Box
+      <div
         className={"lg:hidden h-screen"}
         style={{
           backgroundImage: `url(${toAbsoulteUrl(
@@ -88,7 +90,7 @@ const Login = () => {
           backgroundPosition: "center center ",
         }}
       >
-        <Box
+        <div
           className={"w-full h-full mr-auto flex items-center justify-center"}
         >
           <div
@@ -96,25 +98,9 @@ const Login = () => {
           >
             <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
           </div>
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      {/* {isLoading && <Backdrop loading={isLoading} />}
-      <Box component="Box" className="md:grid md:grid-cols-2 h-screen">
-
-        <Box component="Box" className="hidden md:block">
-          <Box component="Box"
-            className="h-screen w-full flex flex-col bg-cover"
-            style={{
-              backgroundImage: `url(${toAbsoulteUrl(
-                "/media/logos/bg.png"
-              )})`,
-            }}
-          >
-            <Box className="mt-auto" />
-          </Box>
-        </Box>
-      </Box> */}
     </>
   );
 };

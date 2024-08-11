@@ -19,7 +19,41 @@ export const orderFeatureFields: FieldType[][] = [
             name: "paymentTypeId",
             type: "paymentTypeId",
         },
-        { label: "نوع خروج", name: "exitType", type: "exitType" },
+        { label: "نوع خروج", name: "orderExitTypeId", type: "orderExitTypeId" },
+    ],
+    [
+        { label: "نوع ثبت", name: "isTemporary", type: "temporary" },
+        { label: "تاریخ تحویل", name: "deliverDate", type: "deliverDate" },
+    ],
+    [
+        { label: "orderType", name: "orderType", type: "orderType" },
+    ],
+    [
+        { label: "توضیحات", name: "description", type: "description" },
+    ]
+];
+
+
+export const purchaseOrderFeatureFields: FieldType[][] = [
+    [
+        {
+            label: "نوع ارسال",
+            name: "purchaseOrderSendTypeId",
+            type: "purchaseOrderSendTypeId",
+        },
+        {
+            label: "نوع فاکتور",
+            name: "invoiceTypeId",
+            type: "invoiceTypeId",
+        },
+    ],
+    [
+        {
+            label: "نوع کرایه",
+            name: "paymentTypeId",
+            type: "purchasePaymentTypeId",
+        },
+        { label: "نوع خروج", name: "exitType", type: "orderExitTypeId" },
     ],
     [
         { label: "نوع ثبت", name: "isTemporary", type: "temporary" },

@@ -30,7 +30,7 @@ export interface IWarehouse {
     products: string | number | null,
     id: number | null,
 }
-export interface IReceivePaymentSources extends IPurchaseInvoice {}
+export interface IReceivePaymentSources extends IPurchaseInvoice { }
 
 export interface IService {
     description: string,
@@ -40,13 +40,47 @@ export interface IService {
 
 export interface IProductType {
     desc: string,
-    typeColor: string | null ,
+    typeColor: string | null,
     id: number,
     isActive: boolean
 }
 
-export interface IVehicleType{
+export interface IVehicleType {
     name: string
+    id: number,
+    isActive: boolean
+}
+
+export interface ITransferRemittanceStatus {
+    id: number
+    statusDesc: string
+}
+
+export interface IOfficialBank {
+    id: number
+    bankName: string
+    isActive: boolean
+}
+
+export interface IOrderExitTypes {
+    exitTypeDesc: string
+    id: number
+    isActive: boolean
+}
+
+export interface IUnit {
+    id?: number | null | undefined
+    unitName: string | null | undefined
+}
+
+export interface IPhoneBookType {
+    typeDescription: string,
+    id: number,
+    isActive: boolean
+}
+
+export interface ICustomerLabelType {
+    typeDescription: string,
     id: number,
     isActive: boolean
 }

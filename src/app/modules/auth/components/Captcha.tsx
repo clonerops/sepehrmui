@@ -21,7 +21,7 @@ const Captcha: FC<IProps> = ({ captcha }) => {
         <>
             <div className="recaptcha">
                 <div className="recaptcha__content">
-                    <img
+                    <img 
                         id="imgCaptcha"
                         className=""
                         alt="captcha"

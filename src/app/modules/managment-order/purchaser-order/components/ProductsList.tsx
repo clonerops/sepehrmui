@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
+import { Button, TextField, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
 import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
@@ -8,13 +8,13 @@ import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 import MaskInput from "../../../../../_cloner/components/MaskInput";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
 
-import { columnsModalProduct, columnsSelectProduct } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
-import { useGetUnits } from "../../../generic/productUnit/_hooks";
 import { IOrderService } from "../../core/_models";
-import { IProducts } from "../../../generic/products/_models";
-import { useGetProductList } from "../../../generic/products/_hooks";
+import { IProducts } from "../../../products/_models";
+import { useGetProductList } from "../../../products/_hooks";
+import { useGetUnits } from "../../../generic/_hooks";
+import { ModalProductColumn, SelectProductColumn } from "../../../../../_cloner/helpers/columns";
 
 
 const ProductsList = (props: {
@@ -89,7 +89,7 @@ const ProductsList = (props: {
         const productId = params.row.id;
         return (
             <>
-                <OutlinedInput
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     value={productData.proximateAmounts[productId] || ""}
@@ -100,12 +100,14 @@ const ProductsList = (props: {
                             params.row.exchangeRate
                         )
                     }
+                    type="number"
                     autoFocus={true}
                     inputProps={{
                         "aria-label": "weight",
                         style: {
                             textAlign: "center",
                         },
+                        type:"number"
                     }}
                 />
             </>
@@ -122,11 +124,13 @@ const ProductsList = (props: {
                     thousandsSeparator=","
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    type="number"
                     inputProps={{
                         "aria-label": "weight",
                         style: {
                             textAlign: "center",
                         },
+                        type:"number"
                     }}
                 />
             </>
@@ -143,20 +147,22 @@ const ProductsList = (props: {
     const renderSubUnit = (params: any) => {
         const productId = params.row.id;
         return (
-            <Box component="div" className="flex gap-x-2">
-                <OutlinedInput
+            <div className="flex gap-x-2">
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     value={productData.proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
                         handleInputSubUnitChange(productId, e.target.value)
                     }
+                    type="number"
                     inputProps={{
                         "aria-label": "weight",
                         style: {
                             textAlign: "center",
                             width: 28,
                         },
+                        type: 'number'
                     }}
                 />
                 <FormControl fullWidth>
@@ -180,7 +186,7 @@ const ProductsList = (props: {
                         ))}
                     </Select>
                 </FormControl>{" "}
-            </Box>
+            </div>
         );
     };
 
@@ -371,6 +377,7 @@ const ProductsList = (props: {
                 setResults(res?.data)
             }
         });
+         // eslint-disable-next-line
     }, []);
 
 
@@ -381,7 +388,7 @@ const ProductsList = (props: {
             filteredTabs: productData.selectedTab === -1 ? filterTools?.data?.data : filtered 
         }))        
         setResults(productData.selectedTab === -1 ? filterTools?.data?.data : filtered);
-
+        // eslint-disable-next-line
     }, [productData.selectedTab]);
 
 
@@ -393,7 +400,7 @@ const ProductsList = (props: {
     return (
         <>
 
-            <Box component="div" className="w-full">
+            <div className="w-full">
                 <TabProducts
                     handleSelectionChange={handleSelectionChange}
                     productsByBrand={filterTools?.data?.data}
@@ -404,22 +411,22 @@ const ProductsList = (props: {
                     selectedTab={productData.selectedTab}
                     tabResult={productData.tabResult}
                 />
-            </Box>
-            <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
-                <Box component="div">
+            </div>
+            <div className="md:grid md:grid-cols-2 gap-x-8">
+                <div>
                     <MuiDataGrid
                         onDoubleClick={handleSelectionChange}
-                        columns={columnsModalProduct()}
+                        columns={ModalProductColumn()}
                         isLoading={filterTools.isLoading}
                         rows={results}
                         data={productData.filteredTabs}
                         height={400}
                     />
-                </Box>
-                <Box component="div">
+                </div>
+                <div>
                     <MuiSelectionDataGrid
                         selectionModel={productData.selectionModel}
-                        columns={columnsSelectProduct(
+                        columns={SelectProductColumn(
                             renderAction,
                             renderInput,
                             renderSubUnit,
@@ -431,8 +438,7 @@ const ProductsList = (props: {
                         hideFooter={true}
                         columnHeaderHeight={40}
                     />
-                    <Box
-                        component="div"
+                    <div
                         className="flex justify-end items-end mt-4"
                     >
                         <Button
@@ -443,9 +449,9 @@ const ProductsList = (props: {
                         >
                             <Typography>تایید</Typography>
                         </Button>
-                    </Box>
-                </Box>
-            </Box>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

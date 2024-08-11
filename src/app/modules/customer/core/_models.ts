@@ -1,5 +1,5 @@
 export interface ICustomer {
-    id?: string| undefined
+    id?: string | undefined
     customerCode?: number | undefined
     firstName?: string | undefined
     lastName?: string | undefined
@@ -7,13 +7,9 @@ export interface ICustomer {
     officialName?: string | undefined
     nationalId2?: string | undefined
     nationalId?: string | undefined
-    mobile?: string | undefined
     address1?: string | undefined
     customerType?: any
     customerValidityId?: any
-    tel?: string | undefined
-    tel1?: string | undefined
-    tel2?: string | undefined
     address2: string | undefined
     representative?: string | undefined
     isSupplier?: boolean | undefined
@@ -22,5 +18,21 @@ export interface ICustomer {
     customerCurrentDept?: string | undefined | null
     customerValidityDesc?: string | undefined | null
     customerValidityColorCode?: string | undefined | null
+    phonebook?: {
+        phoneNumber: string
+        phoneNumberTypeId: number
+    }[] | undefined | null
+
+}
+
+export interface IPhoneBook {
+    phoneNumber: string
+    phoneNumberType: {
+        label: string,
+        value: number
+    }
+}
+
+export interface ICustomerFilter {
     
 }

@@ -1,8 +1,5 @@
-import FormikSelect from './FormikSelect'
-
-import { dropdownWarehouses } from '../../app/modules/managment-order/helpers/dropdowns';
-
 import { useGetWarehouses } from '../../app/modules/generic/_hooks';
+import { dropdownWarehouses } from '../helpers/dropdowns';
 import FormikComboBox from './FormikComboBox';
 
 const FormikWarehouse = (props: any) => {

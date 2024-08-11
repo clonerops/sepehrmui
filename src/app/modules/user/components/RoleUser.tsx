@@ -1,22 +1,13 @@
-import { Box, Chip, Stack, Typography } from "@mui/material";
+import { Chip, Stack, Typography } from "@mui/material";
 
-// import {
-//     useDeleteUserRole,
-//     useGetRoles,
-//     useGetUserRole,
-//     usePostUserRole,
-// } from "../../access/roles/core/_hooks";
-import { IRole, IUpdateRole, IUserRole } from "../../access/roles/core/_models";
-// import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-// import { useQueryClient } from "@tanstack/react-query";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { Add, Close } from "@mui/icons-material";
-import { useGetApplicationRoles } from "../../access/groups/_hooks";
-import { useDeleteUserRoles, useGetUserRoles, usePostUserRoles } from "../../access/user-roles/_hooks";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
-// import { useGetUserDetail } from "../core/_hooks";
+import { useGetApplicationRoles } from "../../groups/_hooks";
+import { useDeleteUserRoles, useGetUserRoles, usePostUserRoles } from "../../user-roles/_hooks";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import Backdrop from "../../../../_cloner/components/Backdrop";
+import { IUserRole } from "../../user-roles/_models";
 
 const RoleUser = () => {
     const { id }: any = useParams();
@@ -69,7 +60,7 @@ const RoleUser = () => {
                 <Typography variant="h1" color="primary">
                     نام کاربری: {new URLSearchParams(searchParams).get("name")}
                 </Typography>
-                <Box className="pt-8">
+                <div className="pt-8">
                     <Typography variant="h2" className="pb-8">
                         گروه ها
                     </Typography>
@@ -87,7 +78,7 @@ const RoleUser = () => {
                             );
                         })}               
                     </Stack>
-                </Box>
+                </div>
             </ReusableCard>
         </>
     );

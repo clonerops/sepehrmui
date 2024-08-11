@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, Typography } from "@mui/material";
+import { Button, Dialog, Typography } from "@mui/material";
 import { DialogProps } from "@mui/material/Dialog/Dialog";
 
 type Props = Omit<DialogProps, "children"> & {
@@ -7,18 +7,19 @@ type Props = Omit<DialogProps, "children"> & {
     hintTitle?: string;
     confirmText?: string;
     notConfirmText?: string;
+    isEdit?: boolean
 };
 const ConfirmDialog = (props: Props) => {
     return (
         <Dialog {...props}>
-            <Box className={"py-6 px-10 space-y-7"}>
+            <div className={"py-6 px-10 space-y-7"}>
                 <Typography className={"leading-9 text-[16px]"}>
                     {props.hintTitle}
                 </Typography>
-                <Box className={"flex items-center gap-x-5"}>
+                <div className={"flex items-center gap-x-5"}>
                     <Button
                         className={
-                            "!bg-green-500 !text-white !text-[14px] !py-2 !px-[30px]"
+                            `${props.isEdit ? "!bg-yellow-500" :"!bg-green-500"} !text-white !text-[14px] !py-2 !px-[30px] `
                         }
                         onClick={() => props.onConfirm && props.onConfirm()}
                     >
@@ -35,8 +36,8 @@ const ConfirmDialog = (props: Props) => {
                     >
                         <Typography>{props.notConfirmText}</Typography>
                     </Button>
-                </Box>
-            </Box>
+                </div>
+            </div>
         </Dialog>
     );
 };

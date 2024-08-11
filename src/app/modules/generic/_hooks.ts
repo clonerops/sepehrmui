@@ -8,8 +8,22 @@ const useGetSendTypes = () => {
         refetchIntervalInBackground: false,
     });
 };
+const useGetPurchaseSendTypes = () => {
+    return useQuery(["purchaseSendTypes"], () => api.getPurchaseSendTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
 const useGetPaymentTypes = () => {
     return useQuery(["paymentTypes"], () => api.getPaymentTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
+const useGetPurchasePaymentTypes = () => {
+    return useQuery(["purchasePaymentTypes"], () => api.getPurchasePaymentTypes(), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -82,10 +96,56 @@ const useGetVehicleTypes = () => {
         refetchIntervalInBackground: false,
     });
 };
+const useGetTransferRemittanceStatus = () => {
+    return useQuery(["transferRemittanceStatus"], () => api.getTransferRemitanceStatus(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
+const useGetOfficialBank = () => {
+    return useQuery(["officialBank"], () => api.getOfficialBank(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
+const useGetOrderExitTypes = () => {
+    return useQuery(["orderExitTypes"], () => api.getOrderExitTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false,
+    });
+};
+
+const useGetUnits = () => {
+    return useQuery(['units'], () => api.getUnits(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+}
+const useGetPhoneBookTypes = () => {
+    return useQuery(['phoneBookTypes'], () => api.getPhoneBookTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+}
+const useGetCustomerLabelTypes = () => {
+    return useQuery(['customerLabelTypes'], () => api.getCustomerLabelTypes(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+}
+
 
 export {
     useGetSendTypes,
+    useGetPurchaseSendTypes,
     useGetPaymentTypes,
+    useGetPurchasePaymentTypes,
     useGetPurchaseInvoice,
     useGetInvoiceType,
     useGetCustomerValidities,
@@ -95,4 +155,10 @@ export {
     useGetServices,
     useGetProductTypes,
     useGetVehicleTypes,
+    useGetTransferRemittanceStatus,
+    useGetOfficialBank,
+    useGetOrderExitTypes,
+    useGetUnits,
+    useGetPhoneBookTypes,
+    useGetCustomerLabelTypes
 };

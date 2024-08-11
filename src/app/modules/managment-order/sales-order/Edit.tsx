@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { Alert, Box, IconButton, Typography } from '@mui/material'
+import { Alert, Typography } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 import Swal from 'sweetalert2'
 
@@ -16,14 +16,13 @@ import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import CustomButton from '../../../../_cloner/components/CustomButton'
-import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import { separateAmountWithCommas } from '../../../../_cloner/helpers/seprateAmount'
+import { toAbsoulteUrl } from '../../../../_cloner/helpers/assetsHelper'
 import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import OrderDetailBaseOrderCode from './components/OrderDetailBaseOrderCode'
-import { Autorenew } from '@mui/icons-material'
-import { useGetProductList } from '../../generic/products/_hooks'
+import { useGetProductList } from '../../products/_hooks'
 
 const SalesOrderEdit = () => {
 
@@ -41,7 +40,10 @@ const SalesOrderEdit = () => {
     const detailTools = useGetOrderDetailByCode()
     const { data: warehouse } = useGetWarehouses();
 
-    useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
+    useEffect(() => {
+        calculateTotalAmount(orders, orderServices)
+        // eslint-disable-next-line
+    }, [orders, orderServices]);
 
 
     useEffect(() => {
@@ -72,6 +74,7 @@ const SalesOrderEdit = () => {
                     productMainUnitDesc: i.product.productMainUnitDesc,
                     subUnit: i.product.productSubUnitDesc,
                     exchangeRate: +i.product.exchangeRate,
+                    deliverDate: i.purchaseSettlementDate,
                     purchasePrice: +i.purchasePrice,
                     warehouseId: warehouse.find((item: any) => item.name === i.warehouseName).id,
                     price: ~~i.price,
@@ -83,14 +86,14 @@ const SalesOrderEdit = () => {
             ]);
 
             setCategories([
-                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId == 2 ? true : false },
-                { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId == 1 ? true : false },
+                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId === 2 ? true : false },
+                { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId === 1 ? true : false },
             ])
         }
+        // eslint-disable-next-line
     }, [detailTools?.data?.data])
 
     const onSubmit = (values: any) => {
-
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد.", "error")
         } else {
@@ -101,14 +104,13 @@ const SalesOrderEdit = () => {
                 totalAmount: calculateTotalAmount(orders, orderServices), //ok
                 description: values.description ? values.description : detailTools?.data?.data.description, //ok
                 deliverDate: values.deliverDate ? values.deliverDate : detailTools?.data?.data.deliverDate, //ok
-                exitType: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
+                orderExitTypeId: values.orderExitTypeId ? +values.orderExitTypeId : detailTools?.data?.data.orderExitTypeId, //ok
                 orderTypeId: values.orderType ? +values.orderType : detailTools?.data?.data.orderTypeId, //ok
-                orderSendTypeId: values.orderSendTypeId ? Number(values.orderSendTypeId) : detailTools?.data?.data.orderSendTypeId,//ok
-                paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
+                orderSendTypeId: values.orderSendTypeId ? +values.orderSendTypeId : detailTools?.data?.data.orderSendTypeId,//ok
+                paymentTypeId: values.paymentTypeId ? +values.paymentTypeId : detailTools?.data?.data.paymentTypeId, //ok
                 customerOfficialName: "string",
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
                 invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId, //ok
-                // isTemporary: values.isTemporary === ? values.isTemporary : detailTools?.data?.data.isTemporary, //ok
                 isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
                 freightName: "string", //ok
                 settlementDate: "1402/02/02", //ok
@@ -130,10 +132,39 @@ const SalesOrderEdit = () => {
                         description: item.description,
                         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
-                        purchaserCustomerId: item.purchaserCustomerName.value ? item.purchaserCustomerName.value : item.purchaserCustomerId,
-                        purchaserCustomerName: item.purchaserCustomerName.label ? item.purchaserCustomerName.label : item.purchaserCustomerName,
+                        // purchaserCustomerId: item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                        // purchaserCustomerName: item.purchaserCustomerName,
                         purchaseSettlementDate: item.purchaseSettlementDate,
                         sellerCompanyRow: item.sellerCompanyRow ? item.sellerCompanyRow : "string",
+                        purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                        purchaserCustomerName: item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : item.purchaserCustomerName ? item.purchaserCustomerName : null,
+                        warehouseTypeId: item.warehouseTypeId,
+                        
+                        purchaseOrder: item.warehouseTypeId === 2 ? {
+                            customerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId ? item.purchaserCustomerId : null,
+                            totalAmount: 
+                            +(item.purchasePrice ? Number(item.purchasePrice) : 0)
+                             * 
+                            +(item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0),
+                            description: "string",
+                            purchaseOrderSendTypeId: values.orderSendTypeId ? +values.orderSendTypeId : detailTools?.data?.data.orderSendTypeId,
+                            invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId,
+
+                            details: [
+                                {
+                                    rowId: 0,
+                                    proximateAmount: item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0,
+                                    numberInPackage: 0,
+                                    price: item.purchasePrice ? Number(item.purchasePrice) : 0,
+                                    productBrandId: item.productBrandId ? Number(item.productBrandId) : 25,
+                                    productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                                    productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                                    description: "string",
+                                    deliverDate: item.deliverDate
+                                }
+                            ],
+                        } : null
+
                     };
 
                     // Conditionally include id if it exists
@@ -146,7 +177,7 @@ const SalesOrderEdit = () => {
                 orderPayments: orderPayment?.map((item: IOrderPayment) => {
                     return {
                         id: item.orderPaymentId ? item.orderPaymentId : null,
-                        amount:item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
+                        amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
                         paymentDate: item.orderPaymentDate,
                         daysAfterExit: item.orderPaymentDaysAfterExit && +item.orderPaymentDaysAfterExit,
                         paymentType: item.orderPaymentType
@@ -160,6 +191,7 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
+            console.log(JSON.stringify(formData))
             try {
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
@@ -196,9 +228,12 @@ const SalesOrderEdit = () => {
         }
     }
 
+    if (detailTools.isLoading) {
+        return <Backdrop loading={detailTools.isLoading} />
+    }
+
     return (
         <>
-            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
             {postSaleOrder?.data?.succeeded &&
                 <Alert>
@@ -212,7 +247,7 @@ const SalesOrderEdit = () => {
                     ...saleOrderEditInitialValues,
                     ...detailTools?.data?.data,
                     paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
-                    isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
+                    isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2,
                 }
             } onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {
@@ -224,7 +259,7 @@ const SalesOrderEdit = () => {
                                 <OrderFeature categories={categories} postOrder={postSaleOrder} />
                             </div>
                             <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
-                                <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
+                                <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
                             </ReusableCard>
                         </div>
                         {/*The design of the main section of the order module order */}
@@ -243,11 +278,10 @@ const SalesOrderEdit = () => {
                                     setOrderValid={setOrderValid}
                                     values={values}
                                     setFieldValue={setFieldValue}
-
                                 />
                             </ReusableCard>
                         </div>
-                        <div className="md:grid md:grid-cols-2 gap-x-4 mt-4">
+                        <div className="lg:grid lg:grid-cols-2 gap-x-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}

@@ -1,12 +1,12 @@
 import * as Yup from "yup";
 import {  Formik } from "formik";
 import { useGetUpdateUser, useGetUserDetail, useRegisterUser } from "../core/_hooks";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import FormikInput from "../../../../_cloner/components/FormikInput";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { IUser } from "../core/_models";
-import { EnqueueSnackbar } from "../../../../_cloner/helpers/Snackebar";
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
 import { useEffect } from "react";
 import Backdrop from "../../../../_cloner/components/Backdrop";
@@ -61,6 +61,7 @@ const UserForm = (props: Props) => {
 
     useEffect(() => {
         detailTools.mutate(id)
+         // eslint-disable-next-line
     }, [id])
 
     const fields: FieldType[][] = [
@@ -151,7 +152,7 @@ const UserForm = (props: Props) => {
         }
     };
 
-    const handleSubmit = (values: IUser) => {
+    const onSubmit = (values: IUser) => {
         if (id) onUpdate(values);
         else onAdd(values);
     };
@@ -173,27 +174,25 @@ const UserForm = (props: Props) => {
                                     roleId:  detailTools?.data?.data.userRoles.map((item: {roleId: string}) => item.roleId) || [] 
                                 }}
                                 validationSchema={isNew && registerValidation}
-                                onSubmit={handleSubmit}
+                                onSubmit={onSubmit}
                             >
                                 {({ handleSubmit }) => {
                                     return (
-                                        <>
+                                        <form onSubmit={handleSubmit}>
                                             {fields.map((rowFields) => (
-                                                <Box
-                                                    component="div"
+                                                <div
                                                     className="flex items-start gap-x-4 my-4 justify-between"
                                                 >
                                                     {rowFields.map((field) =>
                                                         parseFields(field)
                                                     )}
-                                                </Box>
+                                                </div>
                                             ))}
-                                            <Box
-                                                component="div"
+                                            <div
                                                 className="flex justify-end items-end"
                                             >
                                                 <Button
-                                                    onClick={() => handleSubmit()}
+                                                    type="submit"
                                                     variant="contained"
                                                     color="secondary"
                                                 >
@@ -204,8 +203,8 @@ const UserForm = (props: Props) => {
                                                         {isNew ? "ثبت کاربر جدید" : "ویرایش کاربر"}
                                                     </Typography>
                                                 </Button>
-                                            </Box>
-                                        </>
+                                            </div>
+                                        </form>
                                     );
                                 }}
                             </Formik>

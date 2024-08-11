@@ -36,12 +36,19 @@ const retrieveOrders = async (formData: { pageNumber?: number; pageSize?: number
 }
 
 
-const retrieveOrdersMutation = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number }) => {
+const retrieveOrdersMutation = async (formData: { 
+    pageNumber?: number; 
+    pageSize?: number; 
+    InvoiceTypeId?: number[]; 
+    OrderStatusId?: number
+    OrderCode?: number
+ }) => {
     const filter = {
         pageNumber: formData.pageNumber,
         pageSize: formData.pageSize,
         InvoiceTypeId: formData.InvoiceTypeId,
         OrderStatusId: formData.OrderStatusId,
+        OrderCode: formData.OrderCode,
       };
 
     try {
@@ -122,13 +129,22 @@ const retrievePurchaserOrder = async (id: string | undefined) => {
     }
 }
 
-const retrievePurchaserOrdersMutation = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; PurchaseOrderStatusId?: number | null, IsNotTransferedToWarehouse?: boolean | null }) => {
+const retrievePurchaserOrdersMutation = async (formData: { 
+    pageNumber?: number; 
+    pageSize?: number; 
+    InvoiceTypeId?: number[]; 
+    PurchaseOrderStatusId?: number | null, 
+    IsNotTransferedToWarehouse?: boolean | null
+    OrderCode?: number | null, 
+    
+ }) => {
     const filter = {
         pageNumber: formData.pageNumber,
         pageSize: formData.pageSize,
         InvoiceTypeId: formData.InvoiceTypeId,
         PurchaseOrderStatusId: formData.PurchaseOrderStatusId,
-        IsNotTransferedToWarehouse: formData.IsNotTransferedToWarehouse
+        IsNotTransferedToWarehouse: formData.IsNotTransferedToWarehouse,
+        OrderCode: formData.OrderCode
       };
 
     try {

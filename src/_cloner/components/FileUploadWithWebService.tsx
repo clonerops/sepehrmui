@@ -1,7 +1,7 @@
-import { Box, Button, Typography, LinearProgress  } from '@mui/material';
+import { Button, Typography, LinearProgress } from '@mui/material';
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { EnqueueSnackbar } from '../helpers/Snackebar';
+import { EnqueueSnackbar } from '../helpers/snackebar';
 
 interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')
@@ -52,21 +52,20 @@ const FileUploadWithWebService: React.FC<FileUploadProps> = ({ files, setFiles,t
   });
 
   return (
-    <Box component="div">
-      <Box
-        component="div"
+    <div>
+      <div
         {...getRootProps()}
         className="border-2 border-dashed p-4 border-gray-300"
       >
         <input {...getInputProps()} />
         <Typography>{title}</Typography>
-      </Box>
+      </div>
       {uploadProgress !== null && <LinearProgress variant="determinate" value={uploadProgress} />}
-      <Box component="div">
+      <div>
         {/* <Typography className="pt-4">فایل های انتخاب شده:</Typography> */}
-        <Box component="ul" className="mt-8 flex gap-x-4">
+        <ul className="mt-8 flex gap-x-4">
           {files.map((file, index) => (
-            <Box component="li" className="text-xl " key={index}>
+            <li className="text-xl " key={index}>
               {/* {file.name} */}
               <img
                 src={URL.createObjectURL(file)}
@@ -80,11 +79,11 @@ const FileUploadWithWebService: React.FC<FileUploadProps> = ({ files, setFiles,t
               >
                 <Typography className="text-red-500">حذف</Typography>
               </Button>
-            </Box>
+            </li>
           ))}
-        </Box>
-      </Box>
-    </Box>
+        </ul>
+      </div>
+    </div>
   );
 };
 

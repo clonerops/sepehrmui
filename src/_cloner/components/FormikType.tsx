@@ -1,7 +1,7 @@
 import FormikSelect from './FormikSelect'
-import { useGetTypes } from '../../app/modules/generic/productType/_hooks';
-import { IType } from '../../app/modules/generic/productType/_models';
-import { dropdownTypes } from '../../app/modules/generic/productType/convertDropdown';
+import { useGetTypes } from '../../app/modules/productType/_hooks';
+import { IType } from '../../app/modules/productType/_models';
+import { dropdownTypes } from '../helpers/dropdowns';
 
 const FormikType = (props: any) => {
     const { data: productType } = useGetTypes();

@@ -1,6 +1,6 @@
 import {
-  Box,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -8,9 +8,10 @@ import {
 } from "@mui/material";
 import { SelectChangeEvent, SelectProps } from "@mui/material/Select/Select";
 import { useField, useFormikContext } from "formik";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 import cx from "classnames";
 import { memo } from "react";
+import { Clear } from "@mui/icons-material";
 
 export type FormikSelectPropsType<Value> = {
   name: string;
@@ -47,8 +48,13 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
     formikProps.setFieldValue(name, selectedValue);
   };
 
+  const handleClear = () => {
+    formikProps.setFieldValue(name, ''); // Clear the field value
+  };
+
+
   return (
-    <Box component={"div"} className={cx("w-full", boxClassName)}>
+    <div className={cx("w-full", boxClassName)}>
       <FormControl fullWidth size={"small"} error={getFormikFieldValidationProps(formikProps, name).error}>
         <InputLabel id={label + "-label"}>{label}</InputLabel>
         <Select
@@ -57,6 +63,16 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
           labelId={label + "-label"}
           id={label}
           label={label}
+          IconComponent={field.value ? null : undefined as any}
+          endAdornment={field.value && (
+            <IconButton
+              aria-label="clear selection"
+              onClick={handleClear}
+              edge="end"
+            >
+              <Clear />
+            </IconButton>
+          )}
           disabled={disabeld}
           {...field}
           {...rest}
@@ -73,7 +89,7 @@ const FormikSelect = <Value,>(props: FormikSelectPropsType<Value>) => {
           {getFormikFieldValidationProps(formikProps, name).helpertext}
         </Typography>
       </FormControl>
-    </Box>
+    </div>
   );
 };
 export default memo(FormikSelect);

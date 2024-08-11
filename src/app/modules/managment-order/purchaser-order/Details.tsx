@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Box, Typography, Button } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import { AttachMoney, CheckBox, ConfirmationNumber, Description, ExitToApp, LocalShipping, Newspaper, Person } from "@mui/icons-material";
 import { Formik } from "formik";
 
@@ -10,7 +10,7 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import ImagePreview from "../../../../_cloner/components/ImagePreview";
 
 import { useRetrievePurchaserOrder } from "../core/_hooks";
-import { separateAmountWithCommas } from "../../../../_cloner/helpers/SeprateAmount";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 
 
 type Props = {
@@ -35,27 +35,28 @@ const PurchaserOrderDetail = (props: Props) => {
     // const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
-        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
-        { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
-        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
-        { id: 4, title: "مبدا", icon: <LocalShipping color="secondary" />, value: data?.data?.originWarehouseDesc },
-        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.purchaseOrderStatusDesc },
-        { id: 6, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc },
-        { id: 7, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
-        { id: 8, title: "وضعیت تایید حسابداری", icon: <CheckBox color="secondary" />, value: data?.data?.confirmedStatus === false ? "تایید نشده" : "تایید شده" },
-        { id: 8, title: "مقصد", icon: <CheckBox color="secondary" />, value: data?.data?.destinationWarehouseDesc},
+        { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode || "ثبت نشده" },
+        { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName || "ثبت نشده"},
+        { id: 3, title: "تاریخ ثبت سفارش", icon: <ExitToApp color="secondary" />, value: data?.data?.registerDate || "ثبت نشده"},
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc  || "ثبت نشده"},
+        { id: 4, title: "مبدا", icon: <LocalShipping color="secondary" />, value: data?.data?.originWarehouseDesc  || "ثبت نشده"},
+        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc  || "ثبت نشده"},
+        { id: 6, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc  || "ثبت نشده"},
+        { id: 7, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc  || "ثبت نشده"},
+        { id: 8, title: "وضعیت تایید حسابداری", icon: <CheckBox color="secondary" />, value: data?.data?.confirmedStatus === false ? "تایید نشده" : "تایید شده"  || "ثبت نشده"},
+        { id: 8, title: "مقصد", icon: <CheckBox color="secondary" />, value: data?.data?.destinationWarehouseDesc || "ثبت نشده"},
     ]
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.exitType === 1 ? "عادی" : "بعد از تسویه" },
+        { id: 3, title: "نوع خروج", icon: <ExitToApp color="secondary" />, value: data?.data?.orderExitTypeDesc },
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
         { id: 5, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc },
     ]
 
     const orderOrderColumnMain = [
         { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => <Typography>{params.productBrand.productName}</Typography> },
+        { id: 2, header: "برند", accessor: "brandName", render: (params: any) => <Typography>{params.productBrand.brandName}</Typography> },
         { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.proximateAmount)}</Typography> },
         { id: 4, header: "قیمت (ریال)", accessor: "price", render: (params: any) => <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.price)}</Typography> },
     ]
@@ -102,10 +103,11 @@ const PurchaserOrderDetail = (props: Props) => {
     return (
         <>
             {/* <ReusableTab /> */}
+            <Typography color="primary" variant="h1" className="pb-8">جزئیات سفارش خرید</Typography>
             <Formik initialValues={initialValues} onSubmit={() => { }}>
-                {({ }) => {
+                {() => {
                     return <>
-                        <Box component="div" className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-5"} gap-4 my-4`}>
+                        <div className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-5"} gap-4 my-4`}>
                             {renderOrderInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
@@ -116,8 +118,8 @@ const PurchaserOrderDetail = (props: Props) => {
                             {!props.isCargo &&
                                 <CardTitleValue key={renderOrderInfo.length + 1} className="md:col-span-5" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                             }
-                        </Box>
-                        <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
                             {!props.isCargo &&
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">بسته های خدمت</Typography>
@@ -128,9 +130,9 @@ const PurchaserOrderDetail = (props: Props) => {
                                 <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                                 <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                             </ReusableCard>
-                        </Box>
+                        </div>
                         {!props.isCargo && !props.isLading && 
-                            <Box component="div" className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>
                                     <MuiTable data={data?.data?.orderPayments} columns={orderPaymentsColumn} onDoubleClick={() => { }} />
@@ -140,7 +142,7 @@ const PurchaserOrderDetail = (props: Props) => {
                                     <Typography variant="h2" color="primary" className="pb-4">ضمیمه ها</Typography>
                                     <ImagePreview base64Strings={data?.data?.attachments.map((i: any) => i.fileData)} />
                                 </ReusableCard>
-                            </Box>
+                            </div>
                         }
                     </>
                 }}

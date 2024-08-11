@@ -1,5 +1,5 @@
 import * as Yup from "yup"
-import { numberRegExp } from "../../../../_cloner/helpers/NumberReg";
+import { numberRegExp } from "../../../../_cloner/helpers/numberReg";
 
 
 export const registerSchema = Yup.object().shape({

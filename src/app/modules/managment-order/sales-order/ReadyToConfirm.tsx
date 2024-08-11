@@ -1,46 +1,52 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
-import {Button, Typography, Box} from '@mui/material'
+import { Button, Tooltip, Typography } from '@mui/material'
 
 import { IOrder } from "../core/_models";
 import { useRetrieveOrdersByMutation } from "../core/_hooks";
-import { salesOrderConfirm } from "../helpers/columns";
+import { Approval } from "@mui/icons-material";
+import { SalesOrderConfirmColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
+import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 
 
 const ReadyToSalesOrderConfirm = () => {
+    const navigate = useNavigate()
     
-    const { mutate, data: orders, isLoading } = useRetrieveOrdersByMutation();
+    const orderTools = useRetrieveOrdersByMutation();
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
         const formData = {
-            InvoiceTypeId: [1, 2], 
+            InvoiceTypeId: [2],
+            OrderStatusId: 1
         }
-        mutate(formData, {
+        orderTools.mutate(formData, {
             onSuccess: (message) => {
                 setResults(message?.data);
             }
         })
+        // eslint-disable-next-line
     }, []);
 
 
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`${item.row.orderStatusId !== 2 ? `/dashboard/sales_order/ready-to-confirm/${item?.row?.id}` : ""}`}
-                state={{ isConfirmed: true }}
-            >
-                <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId === 2}> 
-                    <Typography variant="h4" color="primary">اقدام به ثبت تایید</Typography>
-                </Button>
-            </Link>
+            <Tooltip title={<Typography variant='h3'>اقدام به ثبت تایید</Typography>}>
+                <Link
+                    to={`${item.row.orderStatusId === 1 ? `/dashboard/sales_order/ready_to_confirm/${item?.row?.id}` : ""}`}
+                    state={{ isConfirmed: true }}
+                >
+                    <Button variant="contained" color="secondary" disabled={item?.row?.orderStatusId >= 2}>
+                        <Approval />
+                    </Button>
+                </Link>
+            </Tooltip>
         );
     };
 
@@ -50,11 +56,12 @@ const ReadyToSalesOrderConfirm = () => {
         { value: 1, label: "جدید" }];
 
     const handleFilterBasedofStatus = (values: any) => {
-        if(+values === -1) {
+        if (+values === -1) {
             const formData = {
-                InvoiceTypeId: [1, 2],
+                // InvoiceTypeId: [1, 2],
+                InvoiceTypeId: [2],
             };
-            mutate(formData, {
+            orderTools.mutate(formData, {
                 onSuccess: (message) => {
                     setResults(message?.data);
                 },
@@ -62,10 +69,11 @@ const ReadyToSalesOrderConfirm = () => {
 
         } else {
             const formData = {
-                InvoiceTypeId: [1, 2],
+                // InvoiceTypeId: [1, 2],
+                InvoiceTypeId: [2],
                 OrderStatusId: +values,
             };
-            mutate(formData, {
+            orderTools.mutate(formData, {
                 onSuccess: (message) => {
                     setResults(message?.data);
                 },
@@ -75,8 +83,8 @@ const ReadyToSalesOrderConfirm = () => {
 
     return (
         <ReusableCard>
-            <Box component="div" className="flex justify-between items-center mb-4">
-                <Box component="div" className="w-auto md:w-[40%]">
+            <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 mb-4">
+                <div className="w-full lg:w-[40%]">
                     <FuzzySearch
                         keys={[
                             "orderCode",
@@ -89,24 +97,25 @@ const ReadyToSalesOrderConfirm = () => {
                             "totalAmount",
                             "exitType",
                         ]}
-                        data={orders?.data}
+                        data={orderTools?.data?.data}
                         threshold={0.5}
                         setResults={setResults}
                     />
-                </Box>
-                <Formik initialValues={{ statusId: -1 }} onSubmit={() => { }}>
-                    {({ }) => {
+                </div>
+                <Formik initialValues={{ statusId: 1 }} onSubmit={() => { }}>
+                    {() => {
                         return <>
                             <FormikRadioGroup onChange={handleFilterBasedofStatus} radioData={allOption} name="statusId" />
                         </>
                     }}
                 </Formik>
-            </Box>
+            </div>
             <MuiDataGrid
-                columns={salesOrderConfirm(renderAction)}
+                columns={SalesOrderConfirmColumn(renderAction)}
                 rows={results}
-                data={orders?.data}
-                isLoading={isLoading}
+                data={orderTools?.data?.data}
+                isLoading={orderTools.isLoading}
+                onDoubleClick={(item: any) => navigate(`${item.row.orderStatusId === 1 ? `/dashboard/sales_order/ready_to_confirm/${item?.row?.id}` : ""}`)}
             />
         </ReusableCard>
     );

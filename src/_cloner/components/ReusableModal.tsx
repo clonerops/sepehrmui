@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Box, Dialog, Modal, Fade, Backdrop } from "@mui/material"
+import { Box, Modal, Fade, Backdrop } from "@mui/material"
 import { Typography } from '@mui/material';
 import { Close } from '@mui/icons-material';
-import { IconComponent } from './DynamicIcon';
-import { toAbsoulteUrl } from '../helpers/AssetsHelper';
+import { toAbsoulteUrl } from '../helpers/assetsHelper';
 
 
 type Props = {

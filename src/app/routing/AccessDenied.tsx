@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { toAbsoulteUrl } from "../../_cloner/helpers/AssetsHelper";
+import { toAbsoulteUrl } from "../../_cloner/helpers/assetsHelper";
 import { Box, Typography } from "@mui/material";
 import Cookies from "js-cookie";
 
@@ -13,9 +13,8 @@ const AccessDenied = () => {
     <div className={"flex flex-col items-center justify-center space-y-4"}>
       <Typography variant="h2">دسترسی غیر مجاز</Typography>
       <h3>شما دسترسی های لازم برای انجام عملیات روی صفحه مورد نظر را ندارید! لطفا با پشتیبانی تماس بگیرید</h3>
-      <img
+      <img alt="sepehriranian"
         src={toAbsoulteUrl("/media/images/access-denied.jpg")}
-        alt={"access-denied-img"}
         className={"w-[400px]"}
       />
 

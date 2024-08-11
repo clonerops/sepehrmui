@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 import { calculateTotalAmount } from "../../helpers/functions";
@@ -6,11 +5,10 @@ import { calculateTotalAmount } from "../../helpers/functions";
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
-import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
-import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
-import { orderPurchaserListColumns } from "../../helpers/columns";
-import { IProducts } from "../../../generic/products/_models";
+import { separateAmountWithCommas } from "../../../../../_cloner/helpers/seprateAmount";
+import { IProducts } from "../../../products/_models";
 import { FormikErrors } from "formik";
+import { OrderPurchaserListColumn } from "../../../../../_cloner/helpers/columns";
 
 type ProductProps = {
     orders?: IOrderItems[] ;
@@ -28,7 +26,7 @@ type ProductProps = {
 }
 
 const OrderProductList = (props: ProductProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, selectedOrderIndex, products, disabled, values,setOrderIndex, setIsUpdate, setFieldValue } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, disabled ,setOrderIndex, setIsUpdate, setFieldValue } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
@@ -45,13 +43,12 @@ const OrderProductList = (props: ProductProps) => {
         return (
             <>
                 {!disabled &&
-                    <Box
-                        component="div"
+                    <div
                         onClick={() => handleDeleteFromList(index)}
                         className="cursor-pointer"
                     >
                         <Delete className="text-red-500" />
-                    </Box>
+                    </div>
                 }
             </>
         );
@@ -101,7 +98,7 @@ const OrderProductList = (props: ProductProps) => {
         }
     };
 
-    const filteredColumns = orderPurchaserListColumns(renderActions).filter(column =>
+    const filteredColumns = OrderPurchaserListColumn(renderActions).filter(column =>
         column.field !== "warehouseId" &&
         column.field !== "productBrandId" &&
         column.field !== "rowId" &&

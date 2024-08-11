@@ -1,81 +1,97 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import {Box, Button, Typography} from '@mui/material'
+import { Link, useNavigate } from "react-router-dom";
+import { Tooltip, Typography } from '@mui/material'
 
-import { useRetrieveOrders } from "../core/_hooks";
+import { useRetrieveOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { orderColumns } from "../helpers/columns";
+import { Print, Visibility } from "@mui/icons-material";
+import { OrderColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
-// import Pagination from "../../../../_cloner/components/Pagination";
+import Pagination from "../../../../_cloner/components/Pagination";
+import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
+import Backdrop from "../../../../_cloner/components/Backdrop";
 
-// const pageSize = 20
+const pageSize = 100
 
 const SalesOrderList = () => {
-    // const [currentPage, setCurrentPage] = useState<number>(1);
+    const navigate = useNavigate()
 
-    let formData = {
-        pageNumber: 1,
-        pageSize: 100,    
-    }
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const { data: orders, isLoading } = useRetrieveOrders(formData);
+    const orderLists = useRetrieveOrdersByMutation()
 
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
-        setResults(orders?.data);
-    }, [orders?.data]);
+        const formData = {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+        }
+        orderLists.mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+        // eslint-disable-next-line
+    }, [currentPage]);
 
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`/dashboard/sales_order/lists/${item?.row?.id}`}
-                state={{ isConfirmed: false }}
-            >
-                <Button variant="contained" color="secondary"> 
-                    <Typography variant="h4" color="primary">نمایش جزئیات</Typography>
-                </Button>
-
-            </Link>
+            <div className="flex flex-row gap-x-4">
+                <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                    <Link
+                        to={`/dashboard/sales_order/lists/${item?.row?.id}`}
+                        state={{ isConfirmed: false }}
+                    >
+                        <Visibility color="secondary" />
+                    </Link>
+                </Tooltip>
+                <Tooltip title={<Typography variant='h3'>فاکتور رسمی</Typography>}>
+                    <a target='_blank'  href={`/dashboard/${[1, 2].includes(+item.row.invoiceTypeId) ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
+                        <Print color="primary" />
+                    </a>
+                </Tooltip>
+            </div>
         );
     };
 
-    // const handlePageChange = (selectedItem: { selected: number }) => {
-    //     setCurrentPage(selectedItem.selected + 1);
-    // };
-    
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
+
+    const onSubmit = (values: any) => {
+        const formData = values?.orderCode ? {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+            OrderCode: +values?.orderCode
+        } : {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+        }
+        orderLists.mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+    }
+
     return (
-        <ReusableCard>
-            <Box component="div" className="w-auto md:w-[40%] mb-4">
-                <FuzzySearch
-                    keys={[
-                        "orderCode",
-                        "registerDate",
-                        "customerFirstName",
-                        "customerLastName",
-                        "orderSendTypeDesc",
-                        "paymentTypeDesc",
-                        "invoiceTypeDesc",
-                        "isTemporary",
-                        "totalAmount",
-                        "exitType",
-                    ]}
-                    data={orders?.data}
-                    setResults={setResults}
+        <>
+            {orderLists.isLoading && <Backdrop loading={orderLists.isLoading} />}
+            <ReusableCard>
+                <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
+                <MuiDataGrid
+                    columns={OrderColumn(renderAction)}
+                    rows={results}
+                    data={orderLists?.data?.data}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/sales_order/lists/${item?.row?.id}`)}
                 />
-            </Box>
-            <MuiDataGrid
-                columns={orderColumns(renderAction)}
-                rows={results}
-                data={orders?.data}
-                isLoading={isLoading}
-            />
-            {/* <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} /> */}
-        </ReusableCard>
+                <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
+            </ReusableCard>
+        </>
     );
 };
 

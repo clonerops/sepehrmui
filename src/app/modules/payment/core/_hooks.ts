@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IPayment, IPaymentFilter } from "./_models";
+import { IPaymentFilter } from "./_models";
 import * as api from "./_requests";
 
 const useGetRecievePaymentByApproved = () => {
@@ -26,7 +26,7 @@ const useUpdateRecievePaymentById = () => {
 };
 
 const useGetRecievePaymentById = (id: string) => {
-    return useQuery(['recievePayDetail', id], () => api.getRecievePaymentById(id))
+    return useQuery(['RecievePayDetail', id], () => api.getRecievePaymentById(id))
 };
 const useDeleteRecievePaymentById = () => {
     return useMutation((id: string) => {
@@ -34,8 +34,13 @@ const useDeleteRecievePaymentById = () => {
     });
 };
 const useUpdatePaymentApproved = () => {
-    return useMutation((id: string) => {
-        return api.updatePaymentApproved(id);
+    return useMutation((formData: {ids: string[]}) => {
+        return api.updatePaymentApproved(formData);
+    });
+};
+const useDisApprovePaymentApproved = () => {
+    return useMutation((formData: {id: string, accountingDescription: string}) => {
+        return api.disApprovePaymentApproved(formData);
     });
 };
 
@@ -54,5 +59,6 @@ export {
     useDeleteRecievePaymentById,
     useUpdatePaymentApproved,
     useGetRecievePayments,
-    usePutRecievePaymentRegister
+    usePutRecievePaymentRegister,
+    useDisApprovePaymentApproved
 };

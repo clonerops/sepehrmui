@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IApproveInvoice, IPurchaserOrder, IPurchaserTransferBetweenWarehouse, ISalesOrder } from "./_models";
+import { IApproveInvoice, IPurchaserOrder } from "./_models";
 import * as api from "./_requests";
 
 // Sales Order
@@ -15,7 +15,13 @@ const useRetrieveOrders = (formData: { pageNumber?: number; pageSize?: number; I
     });
 };
 
-const useRetrieveOrdersByMutation = () => useMutation((formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number;}) => api.retrieveOrdersMutation(formData));
+const useRetrieveOrdersByMutation = () => useMutation((formData: { 
+    pageNumber?: number; 
+    pageSize?: number; 
+    InvoiceTypeId?: number[]; 
+    OrderStatusId?: number;
+    OrderCode?: number;
+}) => api.retrieveOrdersMutation(formData));
 
 const useRetrieveOrder = (id: string | undefined) => {
     return useQuery(["order", id], () => api.retrieveOrder(id), {
@@ -48,7 +54,15 @@ const useRetrievePurchaserOrder = (id: string | undefined) => {
     });
 };
 
-const useRetrievePurchaserOrdersByMutation = () => useMutation((formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; PurchaseOrderStatusId?: number | null; IsNotTransferedToWarehouse?: boolean | null}) => api.retrievePurchaserOrdersMutation(formData));
+const useRetrievePurchaserOrdersByMutation = () => useMutation((formData: { 
+    pageNumber?: number; 
+    pageSize?: number; 
+    InvoiceTypeId?: number[]; 
+    PurchaseOrderStatusId?: number | null; 
+    IsNotTransferedToWarehouse?: boolean | null
+    OrderCode?: number | null; 
+
+}) => api.retrievePurchaserOrdersMutation(formData));
 const useApprovePurchaserInvoiceType = () =>  useMutation((formData: IApproveInvoice) => api.approvePurchaserInvoiceType(formData))
 const useGetPurchaserOrderDetailByCode = () => useMutation((orderCode: number) => api.getPurchaserOrderDetailByCode(orderCode))
 const useUpdatePurchaserOrder = () => useMutation((formData: IPurchaserOrder) =>  api.updatePurchaserOrder(formData))

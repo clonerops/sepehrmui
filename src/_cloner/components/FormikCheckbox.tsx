@@ -1,11 +1,11 @@
-import { Box, Checkbox, Typography } from "@mui/material";
+import { Checkbox } from "@mui/material";
 import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
   CheckboxProps,
 } from "@mui/material/Checkbox/Checkbox";
 import { useField, useFormikContext } from "formik";
-import { getFormikFieldValidationProps } from "../helpers/GetFormikFieldValidationProps";
+import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 
 export type Label = keyof typeof translation;
 
@@ -27,7 +27,7 @@ const FormikCheckbox = (props: Props) => {
   const formikProps = useFormikContext();
 
   return (
-    <Box component={"div"} className={cx("my-2", boxClassName)}>
+    <div className={cx("my-2", boxClassName)}>
       <Checkbox
         size="small"
         disabled={disabled}
@@ -37,7 +37,7 @@ const FormikCheckbox = (props: Props) => {
         {...field}
         {...rest}
       />
-    </Box>
+    </div>
   );
 };
 export default FormikCheckbox;

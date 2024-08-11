@@ -1,7 +1,5 @@
+import { dropdownWarehouses } from '../helpers/dropdowns'
 import FormikSelect from './FormikSelect'
-
-import { dropdownWarehouses } from '../../app/modules/managment-order/helpers/dropdowns';
-
 
 const FormikWarehouseBasedOfType = (props: any) => {
 

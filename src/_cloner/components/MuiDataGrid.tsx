@@ -1,5 +1,4 @@
 import { useMemo, useCallback } from "react";
-import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
 type Props = {
@@ -22,15 +21,19 @@ const MuiDataGrid = (props: Props) => {
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
-        const defaultRowHeight = numRows < 6 ? 76 : 52;
+        const defaultRowHeight = numRows  < 6 && numRows > 1 ? 76 : numRows < 2 ? 92 : 52;
         const headerHeight = 56;
         const scrollbarHeight = 0;
-
+        if (!data || data.length === 0) {
+            // Set a minimum height to display the header
+            return 100; // Adjust this value as needed
+        }
         const calculatedHeight =
             numRows * defaultRowHeight + headerHeight + scrollbarHeight;
         return calculatedHeight <= maxVisibleRows * defaultRowHeight
             ? calculatedHeight
             : maxVisibleRows * defaultRowHeight;
+             // eslint-disable-next-line
     }, [data, maxVisibleRows]);
 
     const getRowClassName = useCallback((params: any) => {
@@ -40,14 +43,15 @@ const MuiDataGrid = (props: Props) => {
             className = "custom-row-style";
         }
         return className;
+         // eslint-disable-next-line
     }, [])
-
 
     const uniqueData = rows?.map((row: any, index: number) => ({ ...row, uniqueId: `${row.id}${index}` }));
     const getRowIdFunc = (row: any) => row.uniqueId;
 
     return (
-        <Box sx={{ width: width }}>
+        // <div style={{ width: width }}>
+        <div style={{ width: width }}>
             <DataGrid
                 {...data}
                 sx={{
@@ -64,17 +68,17 @@ const MuiDataGrid = (props: Props) => {
                 }}
                 rows={uniqueData ? uniqueData : []}
                 columns={columns}
-                getRowId={getRowId ? getRowId :getRowIdFunc}
-                // getRowId={(row) => row.id}
+                getRowId={getRowId ? getRowId : getRowIdFunc}
                 rowHeight={42}
                 pageSize={data?.length}
                 hideFooter={hideFooter} 
-                onRowDoubleClick={onDoubleClick}
+                onRowDoubleClick={onDoubleClick}                
                 getRowClassName={getRowClassName}
                 loading={isLoading}
                 columnHeaderHeight={32}
                 onCellEditCommit={onCellEditCommit}
                 localeText={{
+                    noRowsLabel: "هیچ ردیفی موجود نیست",
                     MuiTablePagination: {
                       labelDisplayedRows: ({ from, to, count }) =>`${from} - ${to} تعداد کل: ${count}`,
                       labelRowsPerPage: "تعداد سطر قابل نمایش"
@@ -83,7 +87,7 @@ const MuiDataGrid = (props: Props) => {
                   }}
                 style={{ height: height ? height : gridHeight, maxHeight: gridHeight, overflow: "hidden" }}
             />
-        </Box>
+        </div>
     );
 }
 

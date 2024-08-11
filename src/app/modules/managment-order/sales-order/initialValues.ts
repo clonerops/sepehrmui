@@ -1,11 +1,12 @@
 export const saleOrderInitialValues = {
     customerId: "",
     description: "",
-    exitType: 1,
+    orderExitTypeId: 1,
     orderSendTypeId: 1,
     paymentTypeId: 2,
     customerOfficialName: "",
     customerOfficialCompanyId: 0,
+    deliverDate: "",
     invoiceTypeId: "",
     freightName: "",
     isTemporary: 1,
@@ -53,7 +54,7 @@ export const saleOrderEditInitialValues = {
 
     customerId: "",
     description: "",
-    exitType: 0,
+    orderExitTypeId: 0,
     orderSendTypeId: 0,
     paymentTypeId: 0,
     customerOfficialName: "",

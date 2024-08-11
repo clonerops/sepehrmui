@@ -1,39 +1,44 @@
 import { useEffect, useState } from 'react'
-import { Form, Formik } from 'formik'
-import { Box, Button, Typography } from '@mui/material'
-import { Search, Visibility } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
-import { useGetTransferRemitancesByMutation } from '../logestic/core/_hooks'
+import { Formik } from 'formik'
+import { Button,  Typography } from '@mui/material'
+import { Search } from '@mui/icons-material'
+import { Link, useNavigate } from 'react-router-dom'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
-import { entranceReportColumns, evacuationColumns } from '../managment-order/helpers/columns'
 import Pagination from '../../../_cloner/components/Pagination'
+import { useGetTransferRemitancesByMutation } from '../transferRemittance/_hooks'
+import { EntranceReportColumn } from '../../../_cloner/helpers/columns'
+import FormikWarehouse from '../../../_cloner/components/FormikWarehouse'
 
-const pageSize = 20
+const pageSize = 100
 
 const EntranceReport = () => {
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const transferList = useGetTransferRemitancesByMutation()
     useEffect(() => {
         const filter = {
             PageNumber: currentPage,
-            PageSize: 100,
+            PageSize: pageSize,
             IsEntranced: true
         }
         transferList.mutate(filter)
+        // eslint-disable-next-line
     }, [currentPage])
 
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`/dashboard/billlandingList/${item?.row?.id}`}
-            >
-                <Visibility color='secondary' />
-            </Link>
+                <Link
+                    to={`/dashboard/billlandingList/${item?.row?.id}`}
+                >
+                    <Button variant='contained' color="secondary">
+                        <Typography variant='h5'>جزئیات</Typography> 
+                    </Button>
+                </Link>
         );
     };
 
@@ -44,8 +49,9 @@ const EntranceReport = () => {
     const handleFilter = (values: any) => {
         let formData = {
             TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
+            OriginWarehouseId: values?.originWarehouseId?.value ? values?.originWarehouseId?.value : '',
             PageNumber: currentPage,
-            PageSize: 100,
+            PageSize: pageSize,
             IsEntranced: true
         };
         transferList.mutate(formData);
@@ -54,33 +60,27 @@ const EntranceReport = () => {
     return (
         <>
             <ReusableCard>
-
-                <Formik initialValues={{
-                    id: "",
-                }} onSubmit={() => { }}>
+            <Formik initialValues={{ id: "", originWarehouseId: ""}} onSubmit={() => { }}>
                     {({ values }) => {
                         return (
-                            <form>
-                                <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
-                                    <FormikInput
-                                        name="TransferEntransePermitNo"
-                                        label="شماره ورود"
-                                    />
-                                    <ButtonComponent onClick={() => handleFilter(values)}>
-                                        <Search className="text-white" />
-                                        <Typography className="px-2 text-white">جستجو</Typography>
-                                    </ButtonComponent>
-                                </div>
-                            </form>
+                            <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
+                                <FormikInput name="TransferEntransePermitNo" label="شماره ورود" />
+                                <FormikWarehouse name="originWarehouseId" label="انبار مبدا" />
+                                <ButtonComponent onClick={() => handleFilter(values)}>
+                                    <Search className="text-white" />
+                                    <Typography className="text-white"> جستجو </Typography>
+                                </ButtonComponent>
+                            </div>
                         );
                     }}
                 </Formik>
 
                 <MuiDataGrid
-                    columns={entranceReportColumns(renderAction)}
+                    columns={EntranceReportColumn(renderAction)}
                     rows={transferList?.data?.data}
                     data={transferList?.data?.data}
                     isLoading={transferList.isLoading}
+                    onDoubleClick={(item: any) => navigate(`/dashboard/transferRemittance/${item?.row?.id}/entrance`)}
                 />
                 <Pagination pageCount={transferList?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 

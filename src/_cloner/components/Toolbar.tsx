@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Avatar, Box, Button, Popover, Typography } from "@mui/material";
-import { toAbsoulteUrl } from "../helpers/AssetsHelper";
+import { Avatar, Button, Popover, Typography } from "@mui/material";
+import { toAbsoulteUrl } from "../helpers/assetsHelper";
 import Cookies from "js-cookie";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import {
@@ -45,22 +45,25 @@ const ToolbarComponent = () => {
 
     return (
         <>
-            <Box component="div" className="flex justify-between items-center">
-                <Box component="div" className="flex items-center">
+            <div className="flex justify-between items-center">
+                <div className="flex items-center">
                     {/* {toolbarIcons.map((item) =>
-                        <Box component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
+                        <div className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
                             {item.component}
-                        </Box>
+                        </div>
                     )} */}
-                    <Box onClick={() => setIsPriceOpen(true)} component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
+                    <div onClick={() => setIsPriceOpen(true)}  className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
                         <Assessment />
-                    </Box>
-                    <Box component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
+                    </div>
+                    <div className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
                         <Announcement />
-                    </Box>
-                    <Box component="div" className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
+                    </div>
+                    <div className="text-[#2E4374] hover:text-[#fcc615] hover:bg-[#fcf4d6] hover:rounded-full hover:p-2 transition cursor-pointer px-2 hidden md:block">
                         <Settings />
-                    </Box>
+                    </div>
+                    <div className="px-4 py-1 hidden md:block bg-[#2E4374] rounded-sm"> 
+                        <Typography className="text-white font-bold">{userInfo?.data?.userName}</Typography>
+                    </div>
                     <Button
                         onClick={handleClick}
                         aria-describedby={id}
@@ -85,41 +88,38 @@ const ToolbarComponent = () => {
                             horizontal: "center",
                         }}
                     >
-                        <Box>
-                            <Box
-                                sx={{
+                        <div>
+                            <div
+                                style={{
                                     display: "flex",
                                     flexDirection: "column",
                                 }}
                             >
-                                <Box
-                                    component="div"
+                                <div
                                     className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
                                 >
                                     <Person />
                                     <Typography>کاربر: {userInfo?.data?.userName}</Typography>
-                                </Box>
-                                <Box
+                                </div>
+                                <div
                                     onClick={onChangePassword}
-                                    component="div"
                                     className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
                                 >
                                     <LockReset />
                                     <Typography>تغییر کلمه عبور</Typography>
-                                </Box>
-                                <Box
+                                </div>
+                                <div
                                     onClick={logout}
-                                    component="div"
                                     className="flex flex-row text-gray-700 cursor-pointer gap-x-4 hover:bg-gray-200 leading-9 p-4"
                                 >
                                     <ExitToAppIcon />
                                     <Typography>خروج</Typography>
-                                </Box>
-                            </Box>
-                        </Box>
+                                </div>
+                            </div>
+                        </div>
                     </Popover>{" "}
-                </Box>
-            </Box>
+                </div>
+            </div>
 
             <TransitionsModal  width="50%" title="قیمت محصولات" open={isPriceOpen} isClose={() => setIsPriceOpen(false)}>
                 <ProductPriceLanding />

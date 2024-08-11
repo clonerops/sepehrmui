@@ -1,14 +1,14 @@
 import FormikSelect from './FormikSelect'
 
-import { dropdownWarehouses } from '../../app/modules/managment-order/helpers/dropdowns';
-
 import { useEffect } from 'react';
-import { useGetWarehousesByFilter } from '../../app/modules/generic/warehouse/_hooks';
+import { useGetWarehousesByFilter } from '../../app/modules/warehouse/_hooks';
+import { dropdownWarehouses } from '../helpers/dropdowns';
 
 const FormikWarehouseBasedOfCustomer = (props: any) => {
     const data = useGetWarehousesByFilter();
     useEffect(() => {
-        data.mutate({customerId: props.customerId})        
+        data.mutate({customerId: props.customerId})
+         // eslint-disable-next-line        
     }, [props.customerId])
     return (
         <FormikSelect

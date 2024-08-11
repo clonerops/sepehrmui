@@ -16,101 +16,64 @@
     }
 }
 
-* {
-    scrollbar-width: 18px !important;
-    scrollbar-color: #071952 rgb(255, 255, 255);
+::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+  overflow-x: auto;
 }
 
-*::-webkit-scrollbar {
-    width: 12px !important;
-    /* display: hidden !important;
-    visibility: hidden; */
+::-webkit-scrollbar
+{
+  width: 2px;
+  height: 2px;
+  background-color: #F5F5F5;
+  overflow-x: auto;
 }
 
-*::-webkit-scrollbar-track {
-    background: rgb(255, 255, 255);
-    /* display: hidden !important;
-    visibility: hidden; */
+::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #071952;
+  overflow-x: auto;
 }
 
-*::-webkit-scrollbar-thumb {
-    background-color: #071952;
-    border-radius: 20px;
-    border: 3px solid rgb(255, 255, 255);
-    /* display: hidden !important;
-    visibility: hidden; */
-}
 
-/* @font-face {
-    font-family: Yekan_reqular;
-    src: url("../fonts/IRANSansWeb\(FaNum\).ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_medium;
-    src: url("../fonts/IRANSansWeb\(FaNum\)_Medium.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_light;
-    src: url("../fonts/IRANSansWeb\(FaNum\)_Light.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_bold;
-    src: url("../fonts/IRANSansWeb\(FaNum\)_Bold.ttf");
-    font-style: normal;
-} */
 @font-face {
     font-family: Yekan_reqular;
-    src: url("../fonts/Vazir-FD-WOL.ttf");
+    src: url("../fonts/PeydaFaNum-Regular.ttf");
     font-style: normal;
 }
 
 @font-face {
     font-family: Yekan_medium;
-    src: url("../fonts/Vazir-Medium-FD-WOL.ttf");
+    src: url("../fonts/PeydaFaNum-Medium.ttf");
     font-style: normal;
 }
 
 @font-face {
     font-family: Yekan_light;
-    src: url("../fonts/Vazir-Light-FD-WOL.ttf");
+    src: url("../fonts/PeydaFaNum-Light.ttf");
     font-style: normal;
 }
 
 @font-face {
     font-family: Yekan_bold;
-    src: url("../fonts/Vazir-Bold-FD-WOL.ttf");
+    src: url("../fonts/PeydaFaNum-Bold.ttf");
     font-style: normal;
 }
 
-/* @font-face {
-    font-family: Yekan_reqular;
-    src: url("../fonts/YekanBakhFaNum-Regular.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_medium;
-    src: url("../fonts/YekanBakhFaNum-Black.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_light;
-    src: url("../fonts/YekanBakhFaNum-Light.ttf");
-    font-style: normal;
-}
-@font-face {
-    font-family: Yekan_bold;
-    src: url("../fonts/YekanBakhFaNum-Bold.ttf");
-    font-style: normal;
-} */
+
 .rmdp-container {
     width: 100% !important;
 }
 
 .MuiDataGrid-cell {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .MuiSelect-root {
@@ -133,9 +96,6 @@
     background-color: pink !important; /* Example custom background color */
     font-weight: bold; /* Example custom font weight */
 }
-/* .MuiDataGrid-root .MuiDataGrid-cell:focus-within {
-    outline: none !important;
-} */
 
 input[type="radio"]:checked+span { 
     background-color: #009EF7;
@@ -143,3 +103,31 @@ input[type="radio"]:checked+span {
     border-radius: 4px;
     transition: all 0.3s ease-in-out;
  }
+
+ .trapezoid {
+    display: flex;
+    justify-content: center;
+	border-bottom: 20px solid #272862;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	height: 0;
+	width: 280px;
+}
+ .trapezoidColor {
+    display: flex;
+    justify-content: center;
+	border-bottom: 20px solid #fcc615;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	height: 0;
+	width: 280px;
+}
+.numeric-input {
+    width: 140px !important;
+    background: transparent;
+    border: 1px solid #c9c9c9;
+    border-radius: 4px;
+    padding: 8.5px 14px;
+
+
+}

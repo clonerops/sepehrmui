@@ -1,7 +1,7 @@
 import FormikSelect from './FormikSelect'
-import { dropdownCustomerCompanies } from '../../app/modules/managment-order/helpers/dropdowns';
-import { useGetCustomerCompaniesMutate } from '../../app/modules/generic/customerCompany/_hooks';
+import { useGetCustomerCompaniesMutate } from '../../app/modules/customerCompany/_hooks';
 import { useEffect } from 'react';
+import { dropdownCustomerCompanies } from '../helpers/dropdowns';
 
 
 const FormikCompany = (props: any) => {
@@ -13,12 +13,17 @@ const FormikCompany = (props: any) => {
     useEffect(() => {
         if(customerid)
             mutate(customerid)
+         // eslint-disable-next-line
     }, [customerid])
 
     return (
-        <FormikSelect
-            options={dropdownCustomerCompanies(customerCompanies?.data?.length > 0 ? customerCompanies?.data.filter((item: {isActive: boolean}) => item.isActive) : [])}
-            {...props} />
+        <>
+            {customerCompanies?.data?.length > 0 &&
+                <FormikSelect
+                    options={dropdownCustomerCompanies(customerCompanies?.data?.length > 0 ? customerCompanies?.data.filter((item: {isActive: boolean}) => item.isActive) : [])}
+                    {...props} />
+            }
+        </>
     )
 }
 

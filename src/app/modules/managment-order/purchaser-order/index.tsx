@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { Box } from '@mui/material'
-import { Formik, FormikProps } from "formik"
+import { Formik, FormikProps, FormikState } from "formik"
 
 import { saleOrderInitialValues } from "./initialValues"
 import { saleOrderValidation } from "./validation"
@@ -19,13 +18,11 @@ import PurchaserHeaderBase from './components/PurchaserHeaderBase'
 import PurchaserChoose from './components/PurchaserChoose'
 
 import { useCreatePurchaserOrder } from '../core/_hooks'
-import { useGetCustomer } from '../../customer/core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
-import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
-import { useGetProductList } from '../../generic/products/_hooks'
-import { useGetWarehouses } from '../../generic/_hooks'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
+import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
+import { useGetProductList } from '../../products/_hooks'
 
 
 const PurchaserOrder = () => {
@@ -41,7 +38,10 @@ const PurchaserOrder = () => {
     const products = useGetProductList();
 
 
-    useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
+    useEffect(() => {
+        calculateTotalAmount(orders, orderServices)
+        // eslint-disable-next-line
+    }, [orders, orderServices]);
 
 
     const onSubmit = (values: any) => {
@@ -53,7 +53,7 @@ const PurchaserOrder = () => {
                     customerId: values.customerId.value,
                     totalAmount: calculateTotalAmount(orders, orderServices),
                     description: values.description,
-                    exitType: +values.exitType,
+                    orderExitTypeId: +values.exitType,
                     purchaseOrderSendTypeId: +values.orderSendTypeId,
                     paymentTypeId: +values.paymentTypeId,
                     originWarehouseId: +values.originWarehouseId,
@@ -62,34 +62,34 @@ const PurchaserOrder = () => {
                     invoiceTypeId: +values.invoiceTypeId,
                     isTemporary: +values.isTemporary === 1 ? false : true,
                     details: orders?.map(({ id, ...item }) => ({
-                      rowId: item.rowId ? +item.rowId : 0,
-                      productBrandId: item.productBrandId ? +item.productBrandId : 25,
-                      numberInPackage: 1,
-                      productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
-                      productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
-                      proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
-                      price: item.price ? +item.price?.replace(/,/g, "") : null,
-                      description: item.description,
-                      deliverDate: item.deliverDate,
+                        rowId: item.rowId ? +item.rowId : 0,
+                        productBrandId: item.productBrandId ? +item.productBrandId : 25,
+                        numberInPackage: 1,
+                        productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
+                        productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
+                        proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
+                        price: item.price ? +item.price?.replace(/,/g, "") : null,
+                        description: item.description,
+                        deliverDate: item.deliverDate,
 
-                  })),
+                    })),
                     orderPayments: orderPayment?.map((item: IOrderPayment) => {
-                      return {
-                          amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
-                          paymentDate: item.orderPaymentDate,
-                          daysAfterExit: item.orderPaymentDaysAfterExit,
-                          paymentType: item.orderPaymentType
-                    
-                      }
-                  }),
-                  orderServices: orderServices?.map((item: IOrderService) => {
-                      return {
-                          id: item.orderServiceMainId,
-                          serviceId: item.orderServiceId,
-                          description: item?.orderServiceDescription &&  item.orderServiceDescription.replace(/,/g, "")
-                      } 
-                  })
-              };
+                        return {
+                            amount: item.orderPaymentAmount && +(item.orderPaymentAmount.replace(/,/g, "")),
+                            paymentDate: item.orderPaymentDate,
+                            daysAfterExit: item.orderPaymentDaysAfterExit,
+                            paymentType: item.orderPaymentType
+
+                        }
+                    }),
+                    orderServices: orderServices?.map((item: IOrderService) => {
+                        return {
+                            id: item.orderServiceMainId,
+                            serviceId: item.orderServiceId,
+                            description: item?.orderServiceDescription && item.orderServiceDescription.replace(/,/g, "")
+                        }
+                    })
+                };
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
 
@@ -111,36 +111,48 @@ const PurchaserOrder = () => {
             }
         }
     }
+
+    const handleReset = (resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void) => {
+        window.location.reload();
+        // resetForm()
+        // setOrderPayment([])
+        // setOrderServices([])
+        // setOrders([])
+    }
+
     return (
         <>
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
-            <Formik 
-                enableReinitialize 
+            <Formik
+                enableReinitialize
                 validateOnChange={false}
                 validateOnBlur={true}
                 validateOnMount={true}
-                innerRef={formikRef} 
-                initialValues={saleOrderInitialValues} 
-                onSubmit={onSubmit} 
+                innerRef={formikRef}
+                initialValues={{
+                    ...saleOrderInitialValues,
+                    paymentTypeId: 1
+                }}
+                onSubmit={onSubmit}
                 validationSchema={saleOrderValidation}>
-                {({ values, setFieldValue, handleSubmit }) => {
+                {({ values, setFieldValue, handleSubmit, resetForm }) => {
                     return <>
-                        <div className="">
-                        <PurchaserHeaderBase 
-                            postSaleOrder={postSaleOrder} 
-                            orders={orders} 
-                            orderServices={orderServices} />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <PurchaserHeaderBase
+                                postSaleOrder={postSaleOrder}
+                                orders={orders}
+                                orderServices={orderServices} />
+                            <ReusableCard>
+                                <PurchaserChoose
+                                    formikRef={formikRef}
+                                    openModalState={setIsOpen}
+                                    postSaleOrder={postSaleOrder} />
+                            </ReusableCard>
                         </div>
 
                         <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
-                            <ReusableCard>
-                              <PurchaserChoose 
-                                formikRef={formikRef}
-                                openModalState={setIsOpen} 
-                                postSaleOrder={postSaleOrder} />
-                            </ReusableCard>
-                            <ReusableCard cardClassName='lg:col-span-3'>
-                              <OrderProductDetail
+                            <ReusableCard cardClassName='lg:col-span-4'>
+                                <OrderProductDetail
                                     setFieldValue={setFieldValue}
                                     values={values}
                                     postSaleOrder={postSaleOrder}
@@ -155,7 +167,7 @@ const PurchaserOrder = () => {
                                 />
                             </ReusableCard>
                         </div>
-                        <Box component="div" className="md:grid md:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">
+                        <div className="lg:grid lg:grid-cols-3 space-y-4 lg:space-y-0 gap-4 mt-4">
                             <OrderService
                                 orderService={orderServices}
                                 setOrderService={setOrderServices}
@@ -166,7 +178,7 @@ const PurchaserOrder = () => {
                             <OrderFeature
                                 categories={[]}
                                 isPurchaser={true}
-                                postOrder={postSaleOrder}  />
+                                postOrder={postSaleOrder} />
                             <OrderPayment
                                 orderPayment={orderPayment}
                                 orderService={orderServices}
@@ -174,8 +186,15 @@ const PurchaserOrder = () => {
                                 orders={orders}
                                 formikRef={formikRef}
                                 setOrderPayment={setOrderPayment} />
-                        </Box>
-                        <Box  component="div" className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end">
+                        </div>
+                        <div className="flex gap-x-8 my-4 justify-between items-center lg:justify-between lg:items-center">
+                            <CustomButton
+                                title={"خالی کردن فرم"}
+                                onClick={() => handleReset(resetForm)}
+                                color="secondary"
+                                isLoading={postSaleOrder.isLoading}
+                            />
+
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
@@ -190,7 +209,8 @@ const PurchaserOrder = () => {
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />
-                        </Box>
+
+                        </div>
                     </>
                 }}
             </Formik>

@@ -58,17 +58,17 @@ export default function CustomTabs({ tabs, tabContents }: CustomTabsProps) {
   };
 
   return (
-    <Box component="div" color="secondary">
-      <AppBar color='secondary' position="static">
+    <Box component="div" color="primary">
+      <AppBar color='primary' position="static">
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor="secondary"
+          indicatorColor="primary"
           textColor="inherit"
           variant="fullWidth"
         >
           {tabs.map((label, index) => (
-            <Tab label={label} key={index} {...a11yProps(index)} />
+            <Tab label={<Typography>{label}</Typography>} key={index} {...a11yProps(index)} />
           ))}
         </Tabs>
       </AppBar>

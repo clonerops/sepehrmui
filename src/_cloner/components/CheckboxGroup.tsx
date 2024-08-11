@@ -1,43 +1,6 @@
-// import React from 'react';
-// import { Box, Checkbox, FormControl, FormControlLabel } from '@mui/material';
-// import { Field, FieldProps } from 'formik';
-
-// interface Option {
-//     value: string;
-//     label: string;
-// }
-
-// interface CheckboxGroupProps {
-//     name: string;
-//     label: string;
-//     boxClassName?: string;
-//     options: Option[];
-// }
-
-// const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ name, label, boxClassName, options }) => {
-//     return (
-//         <FormControl>
-//             <Box component="div" className={`${boxClassName}`} >
-//                 {options?.map((option) => (
-//                     <Field key={option.value} name={`${name}.${option.value}`} type="checkbox">
-//                         {({ field }: FieldProps) => (
-//                             <FormControlLabel
-
-//                                 control={<Checkbox {...field} />}
-//                                 label={option.label}
-//                             />
-//                         )}
-//                     </Field>
-//                 ))}
-//             </Box>
-//         </FormControl>
-//     );
-// };
-
-// export default CheckboxGroup;
 import React from 'react';
-import { Box, Checkbox, FormControl, FormControlLabel } from '@mui/material';
-import { Field, FieldProps, useFormikContext } from 'formik';
+import { Checkbox, FormControl, FormControlLabel } from '@mui/material';
+import { useFormikContext } from 'formik';
 
 interface Option {
     value: string;
@@ -68,7 +31,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ name, label, boxClassName
 
     return (
         <FormControl>
-            <Box component="div" className={`${boxClassName}`} >
+            <div className={`${boxClassName}`} >
                 {options?.map((option) => (
                     <FormControlLabel
                         key={option.value}
@@ -81,7 +44,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ name, label, boxClassName
                         label={option.label}
                     />
                 ))}
-            </Box>
+            </div>
         </FormControl>
     );
 };

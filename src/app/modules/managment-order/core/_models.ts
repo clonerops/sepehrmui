@@ -136,7 +136,7 @@ export interface IOrderItems {
     warehouseId?: string | null | undefined;
     productBrandName?: string | null | undefined;
     productBrandId?: string | null | undefined;
-    warehouseTypeId?: string | null | undefined;
+    warehouseTypeId?: any;
     warehouseName?: string | null | undefined;
     productDesc?: string | null | undefined;
     purchasePrice?: number | null | undefined;
@@ -210,7 +210,7 @@ export interface IPurchaserOrder {
     customerId: string | undefined | null;
     totalAmount: number | undefined | null;
     description: string | undefined | null;
-    exitType: number | undefined | null;
+    orderExitTypeId: number | undefined | null;
     purchaseOrderSendTypeId: number | undefined | null;
     paymentTypeId: number | undefined | null;
     customerOfficialCompanyId: number | undefined | null;

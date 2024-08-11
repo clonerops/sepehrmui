@@ -1,14 +1,12 @@
 import {useEffect, useState} from 'react'
 
-import { Form, FormikErrors, FormikProps } from "formik"
-import {Box, Button, InputAdornment, Typography} from '@mui/material'
+import { FormikErrors, FormikProps } from "formik"
+import {Button, InputAdornment, Typography} from '@mui/material'
 import OrderProductList from './OrderProductList'
 import { ISaleOrderDetail, IOrderItems, IOrderPayment, IOrderService } from '../../core/_models'
 import { calculateTotalAmount } from '../../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../../_cloner/helpers/sliceNumberPrice'
-import { orderField } from '../fields'
-import { orderDetailParseFields } from '../renderFields'
-import { EnqueueSnackbar } from '../../../../../_cloner/helpers/Snackebar'
+import { EnqueueSnackbar } from '../../../../../_cloner/helpers/snackebar'
 import FormikProductBrand from '../../../../../_cloner/components/FormikProductBrandComboSelect'
 import FormikProximateAmount from '../../../../../_cloner/components/FormikProximateAmount'
 import FormikInput from '../../../../../_cloner/components/FormikInput'
@@ -57,8 +55,6 @@ const OrderProductDetail = (props: Props) => {
         orderPayment,
         setOrderPayment,
         orderServices,
-        setOrderServices,
-        formikRef
     } = props;
 
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -69,6 +65,7 @@ const OrderProductDetail = (props: Props) => {
             ByBrand: true,
         }
         products.mutate(filter)
+         // eslint-disable-next-line
     }, [])
 
     const changeProductFunction = (value: any) => { 
@@ -84,7 +81,7 @@ const OrderProductDetail = (props: Props) => {
 
     const handleOrder = () => {
         const productOrder: any = {
-            id: values?.productId?.value ? values?.productId?.value : values.id,
+            // id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,
             productId: values?.productId?.value ? values?.productId?.value : values.productId,
             warehouseId: values?.productId?.warehouseId ? values?.productId?.warehouseId : values.warehouseId,

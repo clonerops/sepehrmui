@@ -1,17 +1,16 @@
 import { FC, memo } from "react";
-import { Box } from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 import { calculateTotalAmount } from "../../helpers/functions";
 
 import { IOrderItems, IOrderPayment, IOrderService } from "../../core/_models";
-import { separateAmountWithCommas } from "../../../../../_cloner/helpers/SeprateAmount";
-import { orderListColumns } from "../../helpers/columns";
-import { FormikErrors, FormikProps } from "formik";
+import { separateAmountWithCommas } from "../../../../../_cloner/helpers/seprateAmount";
+import { FormikErrors } from "formik";
 import { BUY_WAREHOUSE_TYPES } from "../../helpers/constants";
 
 import MuiDataGridCustomRowStyle from "../../../../../_cloner/components/MuiDataGridCustomRowStyle";
-import { IProducts } from "../../../generic/products/_models";
+import { IProducts } from "../../../products/_models";
+import { OrderListColumn } from "../../../../../_cloner/helpers/columns";
 
 interface IProps {
     orders?: IOrderItems[] 
@@ -26,20 +25,22 @@ interface IProps {
     setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>
     values: any,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
-
 }
 
 const OrderProductList:FC<IProps> = (props: IProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, setOrderValid, disabled,  setIsUpdate, setOrderIndex, values, setFieldValue } = props;
+    const { orders, orderServices, setOrders, setOrderPayment, setOrderValid, disabled,  setIsUpdate, setOrderIndex, setFieldValue } = props;
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
+            // const updatedOrders = orders.filter((order) =>
+            //         order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
+            // );
             const updatedOrders = orders.filter((order) =>
-                    order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
+                    order.productBrandId !== indexToDelete.row.productBrandId
             );
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
-            if (setFieldValue) setFieldValue('orderPaymentAmount', calculateTotalAmount(updatedOrders, orderServices))
+            if (setFieldValue) setFieldValue('orderPaymentAmount', separateAmountWithCommas(calculateTotalAmount(updatedOrders, orderServices)))
         }
     };
 
@@ -47,13 +48,12 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         return (
             <>
                 {!disabled &&
-                    <Box
-                        component="div"
+                    <div
                         onClick={() => handleDeleteFromList(index)}
                         className="cursor-pointer"
                     >
                         <Delete className="text-red-500" />
-                    </Box>
+                    </div>
                 }
             </>
         );
@@ -61,7 +61,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
 
     const onDoubleClick = (params: any) => {
         if (orders) {
-            const selectedRow: any = orders.find(order => order.id === params.row.id);
+            const selectedRow: any = orders.find(order => order.productBrandId === params.row.productBrandId);
             const rowIndex = orders.indexOf(selectedRow);
             setOrderIndex(rowIndex)
             const fieldValue = [
@@ -98,7 +98,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         }
     };
 
-    const filteredColumns = orderListColumns(renderActions).filter(column =>
+    const filteredColumns = OrderListColumn(renderActions).filter(column =>
         column.field !== "warehouseId" &&
         column.field !== "warehouseTypeId" &&
         column.field !== "productBrandId" &&
@@ -119,7 +119,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                 rows={orders}
                 data={orders}
                 getRowClassName={(params: any) => {
-                    if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseId) && (
+                    if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseTypeId) && (
                         params.row.purchaseSettlementDate === "" ||
                         params.row.purchasePrice === "" ||
                         params.row.proximateAmount === "" ||
@@ -128,7 +128,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                     )) {
                         setOrderValid(false)
                         return 'custom-row-style'
-                    } else if ([2, 6].includes(params.row.warehouseId) && (
+                    } else if ([2].includes(params.row.warehouseTypeId) && (
                         params.row.proximateAmount === "" ||
                         params.row.price === "0" ||
                         params.row.price === 0 ||

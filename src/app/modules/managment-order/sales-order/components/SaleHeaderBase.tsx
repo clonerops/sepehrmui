@@ -1,9 +1,8 @@
 import React, { FC, memo, useMemo } from 'react'
 import { UseMutationResult } from '@tanstack/react-query'
 
-// import { saleBaseOrderInformation } from '../informations'
 import { calculateTotalAmount } from '../../helpers/functions'
-import { IOrderPayment, IOrderService, ISalesOrder } from '../../core/_models'
+import { IOrderService, ISalesOrder } from '../../core/_models'
 import CardWithIcons from '../../../../../_cloner/components/CardWithIcons'
 import { AttachMoney, DateRange, MonetizationOn, ProductionQuantityLimits } from '@mui/icons-material'
 import moment from 'moment-jalaali'
@@ -12,7 +11,6 @@ import { convertToPersianWord } from '../../../../../_cloner/helpers/convertPers
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>
-    // orders: IOrderPayment[] 
     orders: any 
     orderServices: IOrderService[]
 }
@@ -30,7 +28,7 @@ const saleBaseOrderInformation = (orderCode: number, totalAmount: number) => {
 const SaleHeaderBase:FC<IProps> = ({ postSaleOrder, orders, orderServices }) => {
     let totalAmount = useMemo(() => calculateTotalAmount(orders, orderServices), [orders, orderServices])
     return (
-        <div className="flex flex-col lg:flex-row flex-warp  gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {saleBaseOrderInformation(
                 postSaleOrder?.data?.data?.orderCode, 
                 totalAmount)

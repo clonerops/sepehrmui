@@ -1,23 +1,24 @@
-import React, { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Box, Button, OutlinedInput, Typography, FormControl, MenuItem, Select } from "@mui/material";
+import React, { FC, memo, useCallback, useEffect, useState } from "react";
+import { Button, TextField, Typography, FormControl, MenuItem, Select } from "@mui/material";
 
-import MuiSelectionDataGrid from "../../../../../_cloner/components/MuiSelectionDataGrid";
 import DeleteGridButton from "../../../../../_cloner/components/DeleteGridButton";
 import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
-import MaskInput from "../../../../../_cloner/components/MaskInput";
 
-import { columnsModalProduct, columnsSelectProduct } from "../../helpers/columns";
 import { sliceNumberPriceRial } from "../../../../../_cloner/helpers/sliceNumberPrice";
 import { calculateTotalAmount } from "../../helpers/functions";
-import { useGetUnits } from "../../../generic/productUnit/_hooks";
 import { IOrderService } from "../../core/_models";
-import { Form, Formik, FormikErrors, FormikProps } from "formik";
+import { Form, Formik, FormikErrors } from "formik";
 import FormikRadioGroup from "../../../../../_cloner/components/FormikRadioGroup";
-import { dropdownWarehouseType } from "../../helpers/dropdowns";
-import { useGetProductTypes, useGetWarehouseTypes } from "../../../generic/_hooks";
+import { useGetProductTypes, useGetUnits, useGetWarehouseTypes } from "../../../generic/_hooks";
 import Backdrop from "../../../../../_cloner/components/Backdrop";
-import { useGetProductList } from "../../../generic/products/_hooks";
+import { useGetProductList } from "../../../products/_hooks";
 import SearchBackendInput from "../../../../../_cloner/components/SearchBackendInput";
+import { EnqueueSnackbar } from "../../../../../_cloner/helpers/snackebar";
+import FormikSelect from "../../../../../_cloner/components/FormikSelect";
+import MuiTable from "../../../../../_cloner/components/MuiTable";
+import { NumericFormat } from "react-number-format";
+import { dropdownProductType, dropdownWarehouseType } from "../../../../../_cloner/helpers/dropdowns";
+import { ModalProductColumn, SelectProductMuiTableColumn } from "../../../../../_cloner/helpers/columns";
 
 interface IProps {
     setOrders?: any
@@ -86,6 +87,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     useEffect(() => {
         handleFilterProduct(currentFilter)
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -99,17 +101,17 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         }, 1000)
 
         return () => clearTimeout(delayDebounceFn)
+        // eslint-disable-next-line
     }, [searchTerm])
 
     const handleSelectProduct = useCallback((newSelectionModel: any) => {
         const selectedRow = newSelectionModel.row;
         setProductData((prevState) => ({
             ...prevState,
-            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow.id]: newSelectionModel.row.productSubUnitId },
-            price: productData.price,
+            productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow?.productBrandId]: newSelectionModel.row.productSubUnitId },
         }))
         const isDuplicate = productData.selectedProduct.some((item) => {
-            return item.id === selectedRow.id;
+            return item?.productBrandId === selectedRow?.productBrandId;
         });
         if (!isDuplicate) {
             setProductData((prevState) => ({
@@ -117,10 +119,13 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
                 selectionModel: newSelectionModel
             }))
+            EnqueueSnackbar("کالا به لیست اضافه گردید", 'success')
 
         } else {
             alert("کالا قبلا به لیست کالا های انتخاب شده اضافه شده است");
         }
+
+        // eslint-disable-next-line
     }, [productData.selectedProduct, productData.selectionModel]);
 
     const renderAction = useCallback((indexToDelete: any) => {
@@ -130,7 +135,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     onClick={() => {
                         if (productData.selectedProduct) {
                             const updatedOrders = productData.selectedProduct.filter(
-                                (item: any) => item.id !== indexToDelete.id
+                                (item: any) => +item.productBrandId !== +indexToDelete.productBrandId
                             );
                             setProductData((prevState) => ({
                                 ...prevState,
@@ -145,18 +150,21 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.selectedProduct]);
 
     const renderInput = useCallback((params: any) => {
-        const productId = params.row.id;
+        // const productId = params?.row?.productBrandId;
+        const productId = params?.productBrandId;
         return (
             <>
-                <OutlinedInput
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    type="number"
+                    className="w-[140px] lg:w-[120px]"
                     value={productData.proximateAmounts[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
                             ...prevState,
                             proximateAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
-                            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.row.exchangeRate)).toString() },
+                            proximateSubAmounts: { ...prevState.proximateSubAmounts, [productId]: Math.ceil(Number(e.target.value) / Number(params.exchangeRate)).toString() },
                         }))
                     }
                     autoFocus={true}
@@ -172,26 +180,28 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.proximateAmounts])
 
     const renderSubUnit = useCallback((params: any) => {
-        const productId = params.row.id;
+        const productId = params.productBrandId;
         return (
-            <Box component="div" className="flex gap-x-2">
-                <OutlinedInput
+            <div className="flex gap-x-2">
+                <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
+                    type="number"
+                    className="w-[140px] lg:w-[120px]"
                     value={productData.proximateSubAmounts[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
                             ...prevState,
-                            proximateSubAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
+                            proximateSubAmounts: { ...prevState.proximateSubAmounts, [productId]: e.target.value },
                         }))
                     }
                     inputProps={{
                         style: {
                             textAlign: "center",
-                            width: 28,
                         },
                     }}
                 />
+
                 <FormControl fullWidth>
                     <Select
                         labelId={`demo-simple-select-label-${productId}`}
@@ -204,10 +214,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             }))
                         }
                         size="small"
+                        className="w-[140px] lg:w-[80px]"
                         inputProps={{
                             "aria-label": "weight",
                             style: {
-                                width: 28,
+                                width: 48,
                             },
                         }}
                     >
@@ -216,67 +227,64 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         ))}
                     </Select>
                 </FormControl>{" "}
-            </Box>
+            </div>
         );
-    }, [productData.proximateSubAmounts])
+        // eslint-disable-next-line
+    }, [productData.proximateSubAmounts, productData.productSubUnitDesc])
 
     const renderPrice = useCallback((params: any) => {
-        const productId = params.row.id;
+        // const productId = params.row.productBrandId;
+        const productId = params.productBrandId;
         return (
             <>
-                <MaskInput
-                    label=""
-                    mask={Number}
-                    onAccept={(value: any) =>
+                <NumericFormat
+                    id={`outlined-adornment-weight-${productId}`}
+                    className="numeric-input"
+                    value={productData.price[productId] || ""}
+                    onChange={(e: any) =>
                         setProductData((prevState) => ({
                             ...prevState,
-                            price: { ...prevState.price, [productId]: value },
+                            price: { ...prevState.price, [productId]: e.target.value },
                         }))
                     }
-                    thousandsSeparator=","
-                    id={`outlined-adornment-weight-${productId}`}
-                    size="small"
-                    inputProps={{
-                        "aria-label": "weight",
-                        style: {
-                            textAlign: "center",
-                        },
-                    }}
+                    // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    //     const inputValue = event.target.value.replace(/[^0-9]/g, "");
+                    //     const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    //     event.target.value = formattedValue;
+                    // }}
+
+                    thousandSeparator
+
                 />
             </>
         );
+        // eslint-disable-next-line
     }, [productData.price])
-
-
 
     const handleSubmitSelectedProduct = () => {
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
-            const { id, warehouseId, productBrandId, productName, exchangeRate, productBrandName, warehouseName, productDesc = "", purchasePrice = "", purchaseSettlementDate = "", purchaseInvoiceTypeId = 0, sellerCompanyRow = "string", productMainUnitDesc, rowId = 0, proximateAmount = productData.proximateAmounts[product.id] || "", warehouseTypeId = 0 } = product;
-            const productSubUnitDesc = productData.productSubUnitDesc[product.id]
-                ? units.find((i: any) => i.id === productData.productSubUnitDesc[product.id]).unitName
+            const { id, warehouseId, productBrandId, productName, exchangeRate, productBrandName, warehouseName, productDesc = "", purchasePrice = "", purchaseSettlementDate = "", purchaseInvoiceTypeId = 0, sellerCompanyRow = "string", productMainUnitDesc, rowId = 0, proximateAmount = productData.proximateAmounts[product.productBrandId] || "", warehouseTypeId = 0 } = product;
+
+            const productSubUnitDesc = productData.productSubUnitDesc[product.productBrandId]
+                ? units.find((i: any) => i.id === productData.productSubUnitDesc[product.productBrandId]).unitName
                 : product.productSubUnitDesc;
 
-            const productSubUnitId = productData.productSubUnitId[product.id]
-                ? units.find((i: any) => i.id === productData.productSubUnitId[product.id]).unitName
+            const productSubUnitId = productData.productSubUnitId[product.productBrandId]
+                ? units.find((i: any) => i.id === productData.productSubUnitId[product.productBrandId]).unitName
                 : product.productSubUnitId;
 
-            const price = productData.price[product.id] ? productData.price[product.id].replace(/,/g, "") : ""
+            const price = productData.price[product.productBrandId] ? productData.price[product.productBrandId].replace(/,/g, "") : ""
 
             const proximateSubUnit =
-                productData.proximateSubAmounts[product.id] === undefined
+                productData.proximateSubAmounts[product.productBrandId] === undefined
                     ? 0
-                    : productData.proximateSubAmounts[product.id];
+                    : productData.proximateSubAmounts[product.productBrandId];
 
             return { id, productId: id, warehouseId, productBrandId, productName, productBrandName, warehouseName, productDesc, purchasePrice, exchangeRate, purchaseSettlementDate, purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId), purchaseInvoiceTypeDesc: "", sellerCompanyRow, purchaserCustomerId: "", purchaserCustomerName: "", productMainUnitDesc, productSubUnitDesc, productSubUnitId, rowId, proximateAmount, warehouseTypeId, price, proximateSubUnit };
         });
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
-            orders.some(
-                (existingProduct: any) =>
-                    existingProduct.id === newProduct.id &&
-                    existingProduct.warehouseId === newProduct.warehouseId &&
-                    existingProduct.productBrandId === newProduct.productBrandId
-            )
+            orders.some((existingProduct: any) => existingProduct.productBrandId === newProduct.productBrandId)
         );
 
 
@@ -301,11 +309,13 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
 
+    console.log("productTypeTools", productTypeTools?.data)
+
     return (
         <>
-            <Box className="mx-1">
+            <div className="mx-1 hidden lg:block">
                 <Button
-                    className={`${currentFilter.ProductTypeId == -1 ? "!bg-[#fcc615] !text-black" : ""
+                    className={`${currentFilter.ProductTypeId === -1 ? "!bg-[#fcc615] !text-black" : ""
                         }`}
                     onClick={() => {
                         setCurrentFilter({
@@ -323,7 +333,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 {productTypeTools?.data?.map((item: any, index: number) => {
                     return (
                         <Button key={index}
-                            className={`${currentFilter.ProductTypeId == item.id
+                            className={`${currentFilter.ProductTypeId === item.id
                                 ? "!bg-[#fcc615] !text-black"
                                 : ""
                                 }`}
@@ -344,11 +354,34 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         </Button>
                     );
                 })}
-            </Box>
+            </div>
 
-            <Box component="div" className="col-span-2 mx-4 my-2">
+            <div className="lg:hidden mt-4">
+                <Formik initialValues={{ productTypeId: "" }} onSubmit={() => { }}>
+                    {() => {
+                        return <Form>
+                            <FormikSelect
+                                name="productTypeId"
+                                label="نوع محصول"
+                                options={dropdownProductType(productTypeTools?.data)}
+                                onChange={(e: any) => {
+                                    console.log(e)
+                                    setCurrentFilter({
+                                        ...currentFilter,
+                                        ProductTypeId: e
+                                    })
+                                    handleFilterProduct({
+                                        ...currentFilter,
+                                        ProductTypeId: e
+                                    })
+                                }} />
+                        </Form>
+                    }}
+                </Formik>
+            </div>
+            <div className="col-span-2 mx-4 my-2">
                 <Formik initialValues={{ warehouseTypeId: "1" }} onSubmit={() => { }}>
-                    {({ }) => {
+                    {() => {
                         return <Form>
                             <FormikRadioGroup
                                 onChange={(value: number) => {
@@ -366,38 +399,134 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         </Form>
                     }}
                 </Formik>
-            </Box>
-            <Box component="div" className="md:grid md:grid-cols-2 gap-x-8">
-                <Box component="div">
-                    <Box className="my-2">
+            </div>
+            {/* <ReusableAccordion
+                title="لیست کالاها قابل انتخاب"
+                content={
+                    <div style={{direction: "rtl"}}>
+                        <div className="my-2">
+                            <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
+                        </div>
+                        <MuiDataGrid
+                            onDoubleClick={handleSelectProduct}
+                            columns={columnsModalProduct()}
+                            isLoading={filterTools.isLoading}
+                            rows={filterTools?.data?.data}
+                            data={filterTools?.data?.data}
+                            height={340}
+                        />
+                    </div>
+                }
+            />
+            <ReusableAccordion
+                title="لیست کالاهای انتخاب شده"
+                content={
+                    <div style={{direction: "rtl"}}>
+                        <MuiSelectionDataGrid
+                            selectionModel={productData.selectionModel}
+                            columns={columnsSelectProduct(
+                                renderAction,
+                                renderInput,
+                                renderSubUnit,
+                                renderPrice
+                            )}
+                            rows={productData.selectedProduct}
+                            data={productData.selectedProduct}
+                            getRowId={(row: { id: string }) => row.id.toString()}
+                            hideFooter={true}
+                            columnHeaderHeight={40}
+                        />
+                        <div
+                            className="flex justify-end items-end mt-4"
+                        >
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className=""
+                                onClick={handleSubmitSelectedProduct}
+                            >
+                                <Typography>تایید</Typography>
+                            </Button>
+                        </div>
+                    </div>
+                }
+            /> */}
+
+            {/* <CustomTabs
+                tabs={["لیست کالاهای موجود در انبار", "لیست کالاهای انتخاب شده"]}
+                tabContents={[
+                    <div style={{direction: "rtl"}}>
+                        <div className="my-2">
+                            <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
+                        </div>
+                        <MuiDataGrid
+                            onDoubleClick={handleSelectProduct}
+                            columns={columnsModalProduct()}
+                            isLoading={filterTools.isLoading}
+                            rows={filterTools?.data?.data}
+                            data={filterTools?.data?.data}
+                            height={340}
+                        />
+                    </div>,
+                    <div style={{direction: "rtl"}}>
+                        <MuiSelectionDataGrid
+                            selectionModel={productData.selectionModel}
+                            columns={columnsSelectProduct(
+                                renderAction,
+                                renderInput,
+                                renderSubUnit,
+                                renderPrice
+                            )}
+                            rows={productData.selectedProduct}
+                            data={productData.selectedProduct}
+                            getRowId={(row: { id: string }) => row.id.toString()}
+                            hideFooter={true}
+                            columnHeaderHeight={40}
+                        />
+                        <div
+                            className="flex justify-end items-end mt-4"
+                        >
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className=""
+                                onClick={handleSubmitSelectedProduct}
+                            >
+                                <Typography>تایید</Typography>
+                            </Button>
+                        </div>
+                    </div>
+
+
+                ]}
+            /> */}
+            {/* <div className="md:grid md:grid-cols-3 gap-x-8"> */}
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                <div className="lg:col-span-2">
+                    <div className="my-2">
                         <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
-                    </Box>
+                    </div>
                     <MuiDataGrid
                         onDoubleClick={handleSelectProduct}
-                        columns={columnsModalProduct()}
+                        columns={ModalProductColumn()}
                         isLoading={filterTools.isLoading}
                         rows={filterTools?.data?.data}
                         data={filterTools?.data?.data}
-                        height={400}
+                        height={420}
                     />
-                </Box>
-                <Box component="div">
-                    <MuiSelectionDataGrid
-                        selectionModel={productData.selectionModel}
-                        columns={columnsSelectProduct(
+                </div>
+                <div className="lg:col-span-3">
+                    <MuiTable
+                        columns={SelectProductMuiTableColumn(
                             renderAction,
                             renderInput,
                             renderSubUnit,
                             renderPrice
                         )}
-                        rows={productData.selectedProduct}
                         data={productData.selectedProduct}
-                        getRowId={(row: { id: string }) => row.id.toString()}
-                        hideFooter={true}
-                        columnHeaderHeight={40}
+                        onDoubleClick={() => {}}
                     />
-                    <Box
-                        component="div"
+                    <div
                         className="flex justify-end items-end mt-4"
                     >
                         <Button
@@ -408,9 +537,9 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         >
                             <Typography>تایید</Typography>
                         </Button>
-                    </Box>
-                </Box>
-            </Box>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

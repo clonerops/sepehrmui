@@ -1,12 +1,7 @@
-import { Box, Button, InputAdornment, Typography } from '@mui/material'
-import { Edit, Add, Grading } from "@mui/icons-material"
-import { FormikProps } from 'formik';
 import { UseMutationResult } from '@tanstack/react-query';
 
 import { FieldType } from "../../../../_cloner/components/globalTypes";
-import { dropdownProductByBrandName } from '../../generic/_functions';
 
-import FormikCustomer from "../../../../_cloner/components/FormikCustomer";
 import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker';
 import FormikOrderSend from '../../../../_cloner/components/FormikOrderSend';
 import FormikInvoiceType from '../../../../_cloner/components/FormikInvoiceType';
@@ -15,16 +10,8 @@ import FormikExitType from '../../../../_cloner/components/FormikExitType';
 import FormikTemporary from '../../../../_cloner/components/FormikTemporary';
 import FormikDescription from '../../../../_cloner/components/FormikDescription';
 import FormikInput from '../../../../_cloner/components/FormikInput';
-import FormikWarehouse from '../../../../_cloner/components/FormikWarehouse';
-import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType';
-import FormikProximateAmount from '../../../../_cloner/components/FormikProximateAmount';
-import FormikPrice from '../../../../_cloner/components/FormikPrice';
-import FormikAmount from '../../../../_cloner/components/FormikAmount';
 
-import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService } from '../core/_models';
-import TransitionsModal from '../../../../_cloner/components/ReusableModal';
-import FormikProduct from '../../../../_cloner/components/FormikProductComboSelect';
-import ProductsList from './components/ProductsList';
+import { ISalesOrder } from '../core/_models';
 
 
 

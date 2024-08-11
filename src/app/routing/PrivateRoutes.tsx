@@ -1,58 +1,95 @@
-import React, { Suspense } from "react";
+import React from "react";
 
 import { Navigate, Route, RouteProps, Routes } from "react-router-dom";
-import ReadyToExit from "../modules/logestic/exit/ReadyToExit";
-import Permissions from "../modules/access/permissions/Permissions";
-import TransferRemitancesList from "../modules/logestic/entrance/TransferRemittancesList";
-import TransferRemittanceDetails from "../modules/logestic/entrance/TransferRemittanceDetails";
-import BilllandingEdit from "../modules/logestic/billlanding/BilllandingEdit";
-import EntranceList from "../modules/logestic/entrance/EntranceList";
-import EntranceLading from "../modules/logestic/entrance/EntranceLading";
-import ReadyToEvacuation from "../modules/logestic/evacuation/ReadyToEvacuation";
-import EvacuationPermit from "../modules/logestic/evacuation/EvacuationPermit";
+import RentPrint from "../modules/prints/RentPrint";
+import LadingPermitPrint from "../modules/prints/LadingPermitPrint";
+import ExitRemiitanceEdit from "../modules/exitRemittance/ExitRemittanceEdit";
+import LadingExitPermitPrint from "../modules/prints/LadingExitPermitPrint";
+import ApprovedRentPayment from "../modules/exitRemittance/ApprovedRentPayment";
+import LadingExitPermitPrintOfficial from "../modules/prints/LadingExitPermitPrintOfficial";
+import InvoiceOfficial from "../modules/prints/InvoiceOfficial";
+import InvoiceNotOfficial from "../modules/prints/InvoiceNotOfficial";
+import CustomerLabels from "../modules/customerLabel/CustomerLabel";
+import ExitDetail from "../modules/exitRemittance/ExitDetail";
+import CargoDetail from "../modules/cargoAnnouncment/CargoDetail";
+import TrasnferRemittanceDetails from "../modules/transferRemittance/TransferRemittanceDetails";
+import PaymentAccountingRegisterList from "../modules/payment/PaymentAccountingRegisterList";
+import EvacutionPrint from "../modules/prints/EvacutionPrint";
+import EntrancePermit from "../modules/entrancePermit/EntrancePermit";
+import TransferBetweenWarehouse from "../modules/warehouse/TransferBetweenWarehouse";
+import CustomerReportMarketing from "../modules/report/CustomerReportMarketing";
+import AssignCustomerLabelV2 from "../modules/customerLabel/AsignCustomerLabelV2";
+import TransferBetweenWarehouseAction from "../modules/warehouse/TransferBetweenWarehouseAction";
+import ReadyToUnloading from "../modules/unloadingPermit/ReadyToUnloading";
+import UnloadingPermit from "../modules/unloadingPermit/UnloadingPermit";
 import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
-import EntranceReport from "../modules/report/EntranceReport";
-import LadingReport from "../modules/report/LadingReport";
-import PaymentAccountingRegister from "../modules/payment/PaymentAccountingRegister";
-import SinglePaymentRegister from "../modules/payment/components/SinglePaymentRegister";
+import UnloadingPermitList from "../modules/unloadingPermit/UnloadingPermitList";
+import UnloadingPermitDetail from "../modules/unloadingPermit/UnloadingPermitDetail";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
+const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
+const ExitList = React.lazy(() => import("../modules/exitRemittance/ExitList"));
+const ReadyToRent = React.lazy(() => import("../modules/rent-payment/ReadyToRent"));
+const RentPaymentList = React.lazy(() => import("../modules/rent-payment/RentPaymentList"));
 const Customer = React.lazy(() => import("../modules/customer/Customer"));
-const Products = React.lazy(() => import("../modules/generic/products/Products"));
-const Suppliers = React.lazy(() => import("../modules/generic/productSuppliers/Suppliers"));
+const Shareholders = React.lazy(() => import("../modules/shareHolders/Shareholders"));
+const PettyCashs = React.lazy(() => import("../modules/pettyCash/PettyCashes"));
+const CashDesks = React.lazy(() => import("../modules/cashDesk/CashDesk"));
+const InComs = React.lazy(() => import("../modules/inCome/InCome"));
+const Costs = React.lazy(() => import("../modules/cost/Cost"));
+const Products = React.lazy(() => import("../modules/products/Products"));
+const Suppliers = React.lazy(() => import("../modules/productSuppliers/Suppliers"));
+const ReadyToExit = React.lazy(
+    () => import("../modules/exitRemittance/ReadyToExit")
+);
+const Permissions = React.lazy(
+    () => import("../modules/permissions/Permissions")
+);
+const TransferRemitancesList = React.lazy(
+    () => import("../modules/entrancePermit/ReadyToEntrance")
+);
+const BilllandingEdit = React.lazy(
+    () => import("../modules/transferRemittance/TransferRemittanceEdit")
+);
+const EntranceList = React.lazy(
+    () => import("../modules/entrancePermit/EntranceList")
+);
+// const LadingReport = React.lazy(
+//     () => import("../modules/report/LadingReport")
+// );
+const PaymentAccountingRegister = React.lazy(
+    () => import("../modules/payment/PaymentAccountingRegister")
+);
+const SinglePaymentRegister = React.lazy(
+    () => import("../modules/payment/components/SinglePaymentRegister")
+);
 const Billlanding = React.lazy(
-    () => import("../modules/logestic/billlanding/Billlanding")
+    () => import("../modules/transferRemittance/TransferRemittance")
 );
 const ListOfBilllanding = React.lazy(
-    () => import("../modules/logestic/billlanding/ListOfBilllanding")
+    () => import("../modules/transferRemittance/ListOfTransferRemittance")
 );
 const BilllandingDetails = React.lazy(
-    () => import("../modules/logestic/billlanding/BilllandingDetails")
+    () => import("../modules/transferRemittance/TransferRemittanceDetails")
 );
 const ProductPrice = React.lazy(
-    () => import("../modules/generic/productPrices/ProductPrice")
+    () => import("../modules/productPrices/ProductPrice")
 );
 const ReadyToCargo = React.lazy(
-    () => import("../modules/logestic/cargo/ReadyToCargo")
+    () => import("../modules/cargoAnnouncment/ReadyToCargo")
 );
 const CustomerWarehouse = React.lazy(
-    () => import("../modules/generic/customerWarehouse/CustomerWarehouse")
+    () => import("../modules/customerWarehouse/CustomerWarehouse")
 );
 
 const CargoList = React.lazy(
-    () => import("../modules/logestic/cargo/CargoList")
+    () => import("../modules/cargoAnnouncment/CargoList")
 );
 const CargoForm = React.lazy(
-    () => import("../modules/logestic/cargo/CargoForm")
-);
-const TransferBetweenWarehouse = React.lazy(
-    () => import("../modules/generic/warehouse/TransferBetweenWarehouse")
-);
-const TransferBetweenWarehouseAction = React.lazy(
-    () => import("../modules/generic/warehouse/TransferBetweenWarehouseAction")
+    () => import("../modules/cargoAnnouncment/CargoForm")
 );
 const CargoEditForm = React.lazy(
-    () => import("../modules/logestic/cargo/CargoEditForm")
+    () => import("../modules/cargoAnnouncment/CargoEditForm")
 );
 const RecievePayment = React.lazy(
     () => import("../modules/payment/RecievePayment")
@@ -103,21 +140,21 @@ const Dashboard = React.lazy(() => import("../modules/Dashboard"));
 const DynamicBreadcrumbs = React.lazy(
     () => import("../../_cloner/components/Breadcumbs")
 );
-const Brands = React.lazy(() => import("../modules/generic/brands/Brands"));
+const Brands = React.lazy(() => import("../modules/brands/Brands"));
 const ProductTypes = React.lazy(
-    () => import("../modules/generic/productType/ProductTypes")
+    () => import("../modules/productType/ProductTypes")
 );
 const ProductState = React.lazy(
-    () => import("../modules/generic/productState/ProductState")
+    () => import("../modules/productState/ProductState")
 );
 const ProductStandards = React.lazy(
-    () => import("../modules/generic/productStandard/ProductStandard")
+    () => import("../modules/productStandard/ProductStandard")
 );
 const Warehouse = React.lazy(
-    () => import("../modules/generic/warehouse/Warehouse")
+    () => import("../modules/warehouse/Warehouse")
 );
 const ProductBrands = React.lazy(
-    () => import("../modules/generic/productBrands/ProductBrands")
+    () => import("../modules/productBrands/ProductBrands")
 );
 const Users = React.lazy(() => import("../modules/user/Users"));
 const UserForm = React.lazy(
@@ -127,41 +164,34 @@ const RoleUser = React.lazy(
     () => import("../modules/user/components/RoleUser")
 );
 const ProductInventories = React.lazy(
-    () => import("../modules/generic/productInventories/productInventory/ProductInventories")
+    () => import("../modules/productInventories/productInventory/ProductInventories")
 );
 const ProductInventoriesSepehr = React.lazy(
-    () => import("../modules/generic/productInventories/productInventorySepehr/ProductInventories")
-);
-const ProductForm = React.lazy(
-    () => import("../modules/generic/products/ProductForm")
+    () => import("../modules/productInventories/productInventorySepehr/ProductInventories")
 );
 const ProductService = React.lazy(
-    () => import("../modules/generic/productService/ProductService")
-);
-const CargoPaper = React.lazy(
-    () => import("../modules/logestic/cargo/CargoPaper")
+    () => import("../modules/productService/ProductService")
 );
 const CustomerCompanies = React.lazy(
-    () => import("../modules/generic/customerCompany/CustomerCompany")
+    () => import("../modules/customerCompany/CustomerCompany")
 );
-const LadingLicence = React.lazy(
-    () => import("../modules/logestic/lading/LadingLicence")
+const LadingPermit = React.lazy(
+    () => import("../modules/ladingLicence/LadingLicence")
 );
 const LadingList = React.lazy(
-    () => import("../modules/logestic/lading/LadingList")
+    () => import("../modules/ladingLicence/LadingList")
 );
 const ReadyToLading = React.lazy(
-    () => import("../modules/logestic/lading/ReadyToLading")
+    () => import("../modules/ladingLicence/ReadyToLading")
 );
 const ExitRemittance = React.lazy(
-    () => import("../modules/logestic/exit/ExitRemittance")
+    () => import("../modules/exitRemittance/ExitRemittance")
 );
 const ExitRemittanceList = React.lazy(
-    () => import("../modules/logestic/exit/ReadyToExit")
+    () => import("../modules/exitRemittance/ReadyToExit")
 );
-const Roles = React.lazy(() => import("../modules/access/roles/Roles"));
-const RoleMenu = React.lazy(() => import("../modules/access/roles/RoleMenu"));
-const RoleGroups = React.lazy(() => import("../modules/access/groups/Groups"));
+const Roles = React.lazy(() => import("../modules/role/Roles"));
+const RoleGroups = React.lazy(() => import("../modules/groups/Groups"));
 // const GroupForm = React.lazy(
 //     () => import("../modules/access/groups/GroupForm")
 // );
@@ -178,25 +208,31 @@ export const routes: RouteProps[] = [
     { path: "dashboard/sales_order/presale-to-urgentsale/:id", element: <ConvertPreSaleToUrgentSale /> },
     { path: "dashboard/purchaser_order/lists/:id", element: <PurchaserOrderDetail /> },
     {
-        path: "dashboard/sales_order/ready-to-confirm/:id",
+        path: "dashboard/sales_order/ready_to_confirm/:id",
         element: <SalesOrderConfirm />,
     },
     {
-        path: "dashboard/purchaser_order/ready-to-confirm/:id",
+        path: "dashboard/purchaser_order/ready_to_confirm/:id",
         element: <PurchaserOrderConfirm />,
     },
     {
-        path: "dashboard/sales_order/ready-to-confirm",
+        path: "dashboard/sales_order/ready_to_confirm",
         element: <ReadyToSalesOrderConfirm />,
     },
     {
-        path: "dashboard/purchaser_order/ready-to-confirm",
+        path: "dashboard/purchaser_order/ready_to_confirm",
         element: <ReadyToPurchaserOrderConfirm />,
     },
     { path: "dashboard/sales_order/edit", element: <SalesOrderEdit /> },
     { path: "dashboard/purchaser_order/edit", element: <PurchaserOrderEdit /> },
     { path: "dashboard/customers", element: <Customer /> },
     { path: "dashboard/products", element: <Products /> },
+    { path: "dashboard/organizationBank", element: <OrganizationBank /> },
+    { path: "dashboard/shareholders", element: <Shareholders /> },
+    { path: "dashboard/pettyCash", element: <PettyCashs /> },
+    { path: "dashboard/cashDesk", element: <CashDesks /> },
+    { path: "dashboard/income", element: <InComs /> },
+    { path: "dashboard/cost", element: <Costs /> },
     { path: "dashboard/suppliers", element: <Suppliers /> },
     { path: "dashboard/customerCompany", element: <CustomerCompanies /> },
     { path: "dashboard/productPrices", element: <ProductPrice /> },
@@ -204,25 +240,30 @@ export const routes: RouteProps[] = [
     { path: "dashboard/cargoList/:id", element: <CargoEditForm /> },
     { path: "dashboard/order_ready_cargo", element: <ReadyToCargo /> },
     { path: "dashboard/order_ready_cargo/:id", element: <CargoForm /> },
-    { path: "dashboard/cargoList/paper", element: <CargoPaper /> },
-    { path: "dashboard/lading/:id", element: <LadingLicence /> },
+    { path: "dashboard/lading/:id", element: <LadingPermit /> },
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },
-    { path: "dashboard/exit/:id", element: <ExitRemittance /> },
-    { path: "dashboard/ladingReport", element: <LadingReport /> },
+    // { path: "dashboard/exit/:id", element: <ExitRemittance /> },
+    // { path: "dashboard/ladingReport", element: <LadingReport /> },
     { path: "dashboard/lading_list", element: <LadingList /> },
+    { path: "dashboard/exit_list", element: <ExitList /> },
     { path: "dashboard/exitRemittanceList", element: <ExitRemittanceList /> },
     { path: "dashboard/payment", element: <RecievePayment /> },
     { path: "dashboard/payment/accounting", element: <PaymentAccounting /> },
     { path: "dashboard/payment/accounting/register", element: <PaymentAccountingRegister /> },
+    { path: "dashboard/payment/accounting/register/list", element: <PaymentAccountingRegisterList /> },
     { path: "dashboard/payment/accounting/:id", element: <Detail /> },
     { path: "dashboard/payment/accounting/register/:id", element: <SinglePaymentRegister /> },
     { path: "dashboard/payment/edit/:id", element: <RecievePaymentEdit /> },
     { path: "dashboard/brands", element: <Brands /> },
     { path: "dashboard/productTypes", element: <ProductTypes /> },
     { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },
+    { path: "dashboard/customerLabel", element: <AssignCustomerLabelV2 /> },
+    { path: "dashboard/customerReportMarketing", element: <CustomerReportMarketing /> },
+
     { path: "dashboard/productState", element: <ProductState /> },
     { path: "dashboard/productStandard", element: <ProductStandards /> },
+    { path: "dashboard/labels", element: <CustomerLabels /> },
     { path: "dashboard/warehouses", element: <Warehouse /> },
     { path: "dashboard/productInventories", element: <ProductInventories /> },
     { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
@@ -230,30 +271,52 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productService", element: <ProductService /> },
     { path: "dashboard/transferBetweenWarehouse", element: <TransferBetweenWarehouse /> },
     { path: "dashboard/transferBetweenWarehouse/:id", element: <TransferBetweenWarehouseAction /> },
+    
     { path: "dashboard/billlanding", element: <Billlanding /> },
     { path: "dashboard/billlandingEdit/:id", element: <BilllandingEdit /> },
     { path: "dashboard/billlandingList", element: <ListOfBilllanding /> },
     { path: "dashboard/billlandingList/:id", element: <BilllandingDetails /> },
+    { path: "dashboard/transferRemittance/:id/entrance", element: <EntrancePermit /> },
     { path: "dashboard/transferRemittance", element: <TransferRemitancesList /> },
-    { path: "dashboard/transferRemittance", element: <TransferRemitancesList /> },
-    { path: "dashboard/transferRemittance/:id", element: <TransferRemittanceDetails /> },
+    { path: "dashboard/transferRemittance/:id", element: <TrasnferRemittanceDetails /> },
     { path: "dashboard/entranceList", element: <EntranceList /> },
-    { path: "dashboard/entranceReport", element: <EntranceReport /> },
-    { path: "dashboard/entranceLading", element: <EntranceLading /> },
-    { path: "dashboard/ready_to_evacuation", element: <ReadyToEvacuation /> },
+    { path: "dashboard/entranceReport", element: <EntranceList /> },
+    { path: "dashboard/ready_to_unloading", element: <ReadyToUnloading /> },
+    { path: "dashboard/unloading_list", element: <UnloadingPermitList /> },
 
-    { path: "dashboard/evacuation/:id/:entranceId", element: <EvacuationPermit /> },
-    { path: "dashboard/evacuation", element: <EvacuationPermit /> },
+
+    { path: "dashboard/unloading/:id/:entranceId", element: <UnloadingPermit /> },
+    { path: "dashboard/unloading", element: <UnloadingPermit /> },
+    
+    { path: "dashboard/ready_to_rent", element: <ReadyToRent /> },
+    { path: "dashboard/rents", element: <RentPaymentList /> },
+    { path: "dashboard/approvedRent", element: <ApprovedRentPayment /> },
+
 
     { path: "dashboard/users", element: <Users /> },
     { path: "dashboard/user/create", element: <UserForm /> },
     { path: "dashboard/user/role/:id", element: <RoleUser /> },
     { path: "dashboard/roles", element: <Roles /> },
-    { path: "dashboard/roles/menu", element: <RoleMenu /> },
     { path: "dashboard/groups", element: <RoleGroups /> },
     // { path: "dashboard/groups/form", element: <GroupForm /> },
     { path: "dashboard/permissions", element: <Permissions /> },
-    { path: "dashboard/roles/menu", element: <RoleMenu /> },
+    
+    // prints
+    { path: "dashboard/rent_print/:id", element: <RentPrint /> },
+    { path: "dashboard/ladingPermit_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingPermitPrint /> },
+    { path: "dashboard/ladingExitPermit_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingExitPermitPrint /> },
+    { path: "dashboard/evacution_print", element: <EvacutionPrint /> },
+    { path: "dashboard/ladingExitPermitOfficial_print/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <LadingExitPermitPrintOfficial /> },
+    { path: "dashboard/approveDriverFareAmount/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ApprovedRentPayment /> },
+    { path: "dashboard/ladingExitPermitDetail/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitDetail /> },
+    { path: "dashboard/unloadingDetail/:id", element: <UnloadingPermitDetail /> },
+    { path: "dashboard/exit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemittance /> },
+    { path: "dashboard/exitEdit/:id/:ladingCode/:ladingDateYear/:ladingDateMonth/:ladingDateDay", element: <ExitRemiitanceEdit /> },
+    { path: "dashboard/cargoAnnouncment/:id", element: <CargoDetail /> },
+
+    { path: "dashboard/invoiceOfficial/:id", element: <InvoiceOfficial /> },
+    { path: "dashboard/invoiceNotOfficial/:id", element: <InvoiceNotOfficial /> },
+
     { path: "*", element: <Navigate to="/error/404" /> },
 
 ];

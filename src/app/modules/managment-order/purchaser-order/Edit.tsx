@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { Box, Typography, IconButton } from '@mui/material'
+import { Typography } from '@mui/material'
 import { Formik, FormikProps } from "formik"
 
 import { orderPaymentValues, orderServiceValues, saleOrderEditInitialValues } from "./initialValues"
@@ -10,23 +10,21 @@ import OrderFeature from '../components/OrderFearure'
 import OrderService from '../components/OrderService'
 import OrderPayment from '../components/OrderPayment'
 
-import { useGetOrderDetailByCode, useGetPurchaserOrderDetailByCode, useUpdateOrder, useUpdatePurchaserOrder } from '../core/_hooks'
+import { useGetPurchaserOrderDetailByCode, useUpdatePurchaserOrder } from '../core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
 import { calculateTotalAmount } from '../helpers/functions'
 import Backdrop from '../../../../_cloner/components/Backdrop'
 import CustomButton from '../../../../_cloner/components/CustomButton'
-import { separateAmountWithCommas } from '../../../../_cloner/helpers/SeprateAmount'
+import { separateAmountWithCommas } from '../../../../_cloner/helpers/seprateAmount'
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
-import FormikInput from '../../../../_cloner/components/FormikInput'
-import { SearchRounded } from '@mui/icons-material'
-import { toAbsoulteUrl } from '../../../../_cloner/helpers/AssetsHelper'
+import { toAbsoulteUrl } from '../../../../_cloner/helpers/assetsHelper'
 import { useGetWarehouses } from '../../generic/_hooks'
 import OrderProductDetail from './components/OrderProductDetail'
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
-import { renderAlert } from '../../../../_cloner/helpers/SweetAlert'
-import { useGetProductList } from '../../generic/products/_hooks'
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
+import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
+import { useGetProductList } from '../../products/_hooks'
 import FormikWarehouseBasedOfType from '../../../../_cloner/components/FormikWarehouseBasedOfType'
-import FormikWarehouse from '../../../../_cloner/components/FormikWarehouse'
+import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
 
 const PurchaserOrderEdit = () => {
 
@@ -43,7 +41,10 @@ const PurchaserOrderEdit = () => {
   const warehouse = useGetWarehouses()
 
 
-  useEffect(() => { calculateTotalAmount(orders, orderServices) }, [orders, orderServices]);
+  useEffect(() => { 
+    calculateTotalAmount(orders, orderServices)
+     // eslint-disable-next-line 
+  }, [orders, orderServices]);
   useEffect(() => {
     if (detailTools?.data?.data) {
 
@@ -52,7 +53,8 @@ const PurchaserOrderEdit = () => {
           orderServiceMainId: i.id,
           serviceName: i?.serviceDesc,
           orderServiceId: i?.serviceId,
-          orderServiceDescription: i?.description
+          orderServiceDescription: i?.description,
+          
         })) || []
       ]);
 
@@ -85,10 +87,11 @@ const PurchaserOrderEdit = () => {
       ]);
 
     }
+     // eslint-disable-next-line
   }, [detailTools?.data?.data])
 
-  const onGetOrderDetailByCode = (orderCode: number) => {
-    detailTools.mutate(orderCode, {
+  const onGetOrderDetailByCode = (values: any) => {
+    detailTools.mutate(+values.orderCode, {
       onSuccess: () => {
         formikRef.current?.setFieldValue("searchOrderCode", 545)
       }
@@ -104,9 +107,9 @@ const PurchaserOrderEdit = () => {
         customerId: detailTools?.data?.data.customer.id, //ok
         totalAmount: calculateTotalAmount(orders, orderServices),
         description: values.description ? values.description : detailTools?.data?.data.description, //ok
-        exitType: values.exitType ? Number(values.exitType) : detailTools?.data?.data.exitType, //ok
-        purchaseOrderSendTypeId: Number(values.orderSendTypeId),
-        paymentTypeId: values.paymentTypeId ? Number(values.paymentTypeId) : detailTools?.data?.data.paymentTypeId, //ok
+        orderExitTypeId: values.exitType ? +values.exitType : detailTools?.data?.data.exitType, //ok
+        purchaseOrderSendTypeId: values.purchaseOrderSendTypeId ? +values.purchaseOrderSendTypeId : detailTools?.data?.data.orderSendTypeId ,
+        paymentTypeId: values.paymentTypeId ? +values.paymentTypeId : detailTools?.data?.data.purchaseOrderSendTypeId, //ok
         productBrandId: 40,
         originWarehouseId: values.originWarehouseId ? +values.originWarehouseId : detailTools?.data?.data?.originWarehouseId,
         destinationWarehouseId: values.destinationWarehouseId ? values.destinationWarehouseId : detailTools?.data?.data?.destinationWarehouseId,
@@ -116,7 +119,7 @@ const PurchaserOrderEdit = () => {
         details: orders?.map((item: any) => {
           const orderDetails: any = {
             rowId: item.rowId ? +item.rowId : 0,
-            productId: item.id,
+            productId: item.productId,
             productBrandId: item.productBrandId ? +item.productBrandId : 40,
             proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
             productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
@@ -184,6 +187,7 @@ const PurchaserOrderEdit = () => {
         ...detailTools?.data?.data,
         paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
         destinationWarehouseId: detailTools?.data?.data.destinationWarehouseId,
+        purchaseOrderSendTypeId: detailTools?.data?.data.orderSendTypeId,
         isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2
       }} onSubmit={onSubmit}>
         {({ values, setFieldValue, handleSubmit }) => {
@@ -192,12 +196,13 @@ const PurchaserOrderEdit = () => {
             <div className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
               <ReusableCard cardClassName="col-span-2">
                 {!postSaleOrder?.data?.succeeded &&
-                  <div className="flex mt-4 gap-4">
-                    <FormikInput label="شماره سفارش" name="searchOrderCode" />
-                    <IconButton onClick={() => onGetOrderDetailByCode(values.searchOrderCode)}>
-                      <SearchRounded color="secondary" />
-                    </IconButton>
-                  </div>
+                    <SearchFromBack inputName='orderCode' initialValues={{searchOrderCode: ""}} onSubmit={onGetOrderDetailByCode} label="شماره سفارش" />
+                  // <form onSubmit={(e: any) => onGetOrderDetailByCode(e, values.searchOrderCode)} className="flex mt-4 gap-4">
+                  //   <FormikInput label="شماره سفارش" name="searchOrderCode" />
+                  //   <IconButton type="submit">
+                  //     <SearchRounded color="secondary" />
+                  //   </IconButton>
+                  // </form>
                 }
                 <div className="mt-8 space-y-8">
                   <div className="flex justify-between">
@@ -230,7 +235,7 @@ const PurchaserOrderEdit = () => {
                 <OrderFeature categories={[]} isPurchaser={true} postOrder={postSaleOrder} />
               </div>
               <ReusableCard cardClassName="col-span-3 flex items-center justify-center">
-                <img src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
+                <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
               </ReusableCard>
             </div>
             {/*The design of the main section of the order module order */}
@@ -262,7 +267,7 @@ const PurchaserOrderEdit = () => {
                 </div>
               </ReusableCard>
             </div>
-            <div className="md:grid md:grid-cols-2 gap-x-4 mt-4">
+            <div className="lg:grid lg:grid-cols-2 gap-x-4 mt-4">
               <OrderService
                 orderService={orderServices}
                 setOrderService={setOrderServices}
@@ -278,8 +283,7 @@ const PurchaserOrderEdit = () => {
                 formikRef={formikRef}
                 setOrderPayment={setOrderPayment} />
             </div>
-            <Box
-              component="div"
+            <div
               className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
             >
               <CustomButton
@@ -294,7 +298,7 @@ const PurchaserOrderEdit = () => {
                 color="primary"
                 isLoading={postSaleOrder.isLoading}
               />
-            </Box>
+            </div>
 
           </>
         }}

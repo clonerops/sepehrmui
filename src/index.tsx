@@ -1,7 +1,8 @@
+// eslint-disable-next-line
 import React from "react";
 import theme from "./_cloner/theme/theme";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material";
-import rtlPlugin from "stylis-plugin-rtl";
+import rtlPlugin from 'stylis-plugin-rtl'
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { prefixer } from "stylis";
@@ -14,12 +15,17 @@ import ReactDOM from "react-dom/client";
 import { SnackbarProvider } from "notistack";
 
 import "./_cloner/assets/css/index.css";
+import 'react-medium-image-zoom/dist/styles.css'
+
 import { AppRoutes } from "./app/routing/AppRoutes";
 
 const cacheRtl = createCache({
     key: "muirtl",
-    stylisPlugins: [prefixer, rtlPlugin],
-});
+    stylisPlugins: [prefixer, rtlPlugin] || [],
+    
+} as any);
+
+
 
 const jss = create({
     plugins: [...jssPreset().plugins, rtl()],

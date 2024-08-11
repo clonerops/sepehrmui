@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "react-medium-image-zoom/dist/styles.css";
-import Zoom from "react-medium-image-zoom";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 interface ImagePreviewProps {
     base64Strings: string[];
@@ -16,6 +14,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
 
     useEffect(() => {
         setImageSrcs(dataURLs);
+         // eslint-disable-next-line
     }, [base64Strings]);
 
     // Function to handle image load
@@ -26,13 +25,12 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
     };
 
     return (
-        <Box component="div" className="flex flex-wrap gap-x-8">
+        <div className="flex flex-wrap gap-x-8">
             {/* Display the image previews */}
             {dataURLs.map((dataURL, index) => (
-                <Box component="div" key={index}>
+                <div key={index}>
                     {imageSrcs[index] ? (
-                        <Zoom>
-                            <img  
+                            <img
                                 src={imageSrcs[index]}
                                 alt={`Preview ${index + 1}`}
                                 onLoad={() => handleImageLoad(index)}
@@ -40,7 +38,6 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
                                 height={200}
                                 className="rounded-md cursor-pointer"
                             />
-                        </Zoom>
                     ) : (
                         <Typography variant="h3">درحال بارگزاری...</Typography>
                     )}
@@ -55,9 +52,9 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
                             <Typography>دانلود</Typography>
                         </a>
                     )}
-                </Box>
+                </div>
             ))}
-        </Box>
+        </div>
     );
 };
 

@@ -1,17 +1,18 @@
+// eslint-disable-next-line
 import { useParams } from "react-router-dom"
-import { Badge, Box, Button, Typography } from "@mui/material"
-import { useGetRecievePaymentById, usePutRecievePaymentRegister, useUpdatePaymentApproved } from "../core/_hooks"
-import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePNG } from "../../../../_cloner/helpers/DownloadFiles"
-import { EnqueueSnackbar } from '../../../../_cloner/helpers/Snackebar'
+import { Badge, Button, Typography } from "@mui/material"
+import { useGetRecievePaymentById, usePutRecievePaymentRegister } from "../core/_hooks"
+import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePDF, DownloadFilePNG } from "../../../../_cloner/helpers/downloadFiles"
+import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../../_cloner/components/CardWithIcons"
-import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, Paid, Person, Source } from "@mui/icons-material"
+import { AddCard, AddHomeWork, Apps, CheckCircleOutline, Description, Filter1, Numbers, Person, Source } from "@mui/icons-material"
 import { useRef, useState } from "react"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import { Formik, FormikProps } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
-import { renderAlert } from "../../../../_cloner/helpers/SweetAlert"
+import { renderAlert } from "../../../../_cloner/helpers/sweetAlert"
 
 const SinglePaymentRegister = () => {
     const putRecievePayRegister = usePutRecievePaymentRegister()
@@ -32,13 +33,14 @@ const SinglePaymentRegister = () => {
         },
         {
             title: "دریافت از",
-            value: data?.data?.receivePaymentSourceFromDesc + " " + (data?.data?.receiveFromCustomerName === null ? "" : data?.data?.receiveFromCustomerName),
+            value: data?.data?.receiveFromDesc,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "پرداخت به",
-            value: data?.data?.receivePaymentSourceToDesc + " " + (data?.data?.payToCustomerName === null ? "" : data?.data?.payToCustomerName),
+            // value: data?.data?.receivePaymentSourceToDesc + " " + (data?.data?.payToCustomerName === null ? "" : data?.data?.payToCustomerName),
+            value: data?.data?.payToDesc,
             icon: <AddCard className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
@@ -114,7 +116,11 @@ const SinglePaymentRegister = () => {
                         const outputFilenameJpeg = `filesattachments${Date.now()}.jpeg`;
                         DownloadFileJPEG(element.fileData, outputFilenameJpeg)
                         break;
-
+                    case "application/pdf":
+                        const outputFilenamePdf = `filesattachments${Date.now()}.pdf`;
+                        DownloadFilePDF(element.fileData, outputFilenamePdf)
+                        break;
+    
                     default:
                         break;
                 }
@@ -156,7 +162,7 @@ const SinglePaymentRegister = () => {
                 </Badge>
             </div>
 
-            <Box component="div" className="grid grid-cols-1 md:grid-cols-3 text-right gap-4">
+            <div className="lg:grid lg:grid-cols-3 text-right lg:gap-4 lg:space-y-0 space-y-4">
                 {fieldsValue.map((item: any) =>
                     <CardWithIcons
                         title={item.title}
@@ -173,12 +179,12 @@ const SinglePaymentRegister = () => {
                         iconClassName="bg-[#ECEFF3]"
                     />
                 </div>
-            </Box>
-            <Box component="div" className="md:flex md:justify-end md:items-end gap-x-4 py-4">
-                <Button variant="contained" onClick={() => setIsOpen(true)} className='mb-2' color="secondary">
+            </div>
+            <div className="md:flex md:justify-end md:items-end gap-x-4 py-4">
+                <Button variant="contained" disabled={data?.data?.receivePayStatusId >= 3} onClick={() => setIsOpen(true)} className='mb-2' color="secondary">
                     <Typography>{"ثبت سند حسابداری"}</Typography>
                 </Button>
-            </Box>
+            </div>
             <TransitionsModal
                 open={isOpen}
                 isClose={() => setIsOpen(false)}
@@ -186,8 +192,11 @@ const SinglePaymentRegister = () => {
                 description="لطفا شماره سند را برای ثبت حسابداری دریافت و پرداخت را وارد نمایید"
             >
                 <>
-                    <Formik innerRef={formikRefAccountDocNo} initialValues={{ accountDocNo: "" }} onSubmit={() => { }}>
-                        {({ }) => (
+                    <Formik innerRef={formikRefAccountDocNo} initialValues={{ accountDocNo: "" }} onSubmit={
+                        () => {
+                        }
+                }>
+                        {() => (
                             <div className="flex flex-col space-y-4">
                                 <div className="mt-8">
                                     <FormikInput name="accountDocNo" label="شماره سند" />

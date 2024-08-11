@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useMemo } from "react";
+import { Suspense, useCallback, useMemo } from "react";
 import { useMenuItems } from "../modules/layout/core/_hooks";
 import { Navigate, useLocation } from "react-router-dom";
 import { matchPath, matchRoutes } from "react-router";
@@ -6,11 +6,10 @@ import { PrivateRoutes, routes as privateArrayRoutes } from "./PrivateRoutes";
 import RoleUser from "../modules/user/components/RoleUser";
 import UserForm from "../modules/user/components/UserForm";
 import AccessDenied from "./AccessDenied";
-import Backdrop from "../../_cloner/components/Backdrop";
 import LazyLoad from "../../_cloner/components/LazyLoad";
 
 const CheckRoute = () => {
-  const { data, isLoading } = useMenuItems();
+  const { data } = useMenuItems();
   const location = useLocation();
   const overRoutes = [
     {
@@ -41,6 +40,7 @@ const CheckRoute = () => {
     });
 
     return result?.flat();
+    // eslint-disable-next-line
   }, [data?.data, window.location.pathname]);
 
   const checkRoute = useCallback(() => {
@@ -99,6 +99,7 @@ const CheckRoute = () => {
         }
       }
     }
+     // eslint-disable-next-line
   }, [routes]);
 
   // if (isLoading) {

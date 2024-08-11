@@ -4,8 +4,16 @@ const getSendTypes = async () => {
     const { data } = await http.get('/v1/GenericApi/GetOrderSendTypes')
     return data
 }
+const getPurchaseSendTypes = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetPurchaseOrderSendTypes')
+    return data
+}
 const getPaymentTypes = async () => {
     const { data } = await http.get('/v1/GenericApi/GetRentPaymentTypes')
+    return data
+}
+const getPurchasePaymentTypes = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetPurchaseFarePaymentTypes')
     return data
 }
 const getPurchaseInvoice = async () => {
@@ -44,10 +52,39 @@ const getVehicleTypes = async () => {
     const { data } = await http.get('/v1/GenericApi/GetVehicleTypes')
     return data
 }
+const getTransferRemitanceStatus = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetAllTransferRemittanceStatus')
+    return data
+}
+const getOfficialBank = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetAllBanks')
+    return data
+}
+const getOrderExitTypes = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetOrderExitTypes')
+    return data
+}
+
+const getUnits = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetProductUnits')
+    return data;
+}
+const getPhoneBookTypes = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetPhoneNumberTypes')
+    return data;
+
+}
+const getCustomerLabelTypes = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetCustomerLabelTypes')
+    return data;
+
+}
 
 export {
     getSendTypes,
+    getPurchaseSendTypes,
     getPaymentTypes,
+    getPurchasePaymentTypes,
     getPurchaseInvoice,
     getInvoiceType,
     getCustomerValidities,
@@ -56,5 +93,11 @@ export {
     getReceivePaymentSources,
     getServices,
     getProductTypes,
-    getVehicleTypes
+    getVehicleTypes,
+    getTransferRemitanceStatus,
+    getOfficialBank,
+    getOrderExitTypes,
+    getUnits,
+    getPhoneBookTypes,
+    getCustomerLabelTypes
 }

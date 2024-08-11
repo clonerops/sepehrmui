@@ -1,81 +1,89 @@
 import { useEffect, useState } from "react";
 import { Visibility } from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import {Box, Button, Typography} from '@mui/material'
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Typography } from '@mui/material'
 
-import { useRetrievePurchaserOrders } from "../core/_hooks";
+import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { orderColumns, purchaserOrderColumns } from "../helpers/columns";
+import { PurchaserOrderColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
-import FuzzySearch from "../../../../_cloner/helpers/Fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
+import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 
-const pageSize = 20
+const pageSize = 100
 
 const PurchaserOrderList = () => {
+    const navigate = useNavigate()
+
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    let formData = {
-        pageNumber: currentPage,
-        pageSize: pageSize,    
-    }
-
-    const { data: orders, isLoading } = useRetrievePurchaserOrders(formData);
+    const orderLists = useRetrievePurchaserOrdersByMutation()
 
     const [results, setResults] = useState<IOrder[]>([]);
 
     useEffect(() => {
-        setResults(orders?.data);
-    }, [orders?.data]);
+        const formData = {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+        }
+        orderLists.mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+        // eslint-disable-next-line
+    }, [currentPage]);
+
 
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
-                state={{ isConfirmed: false }}
-            >
-                <Button variant="contained"  color="secondary">
-                    <Visibility color="primary" />
-                    <Typography className="px-2" variant="h5">مشاهده جزئیات</Typography>
-                </Button>
-            </Link>
+                <Link
+                    to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
+                    state={{ isConfirmed: false }}
+                >
+                    <Button variant="contained" color="secondary">
+                        <Visibility color="primary" /> <Typography variant="h5">جزئیات</Typography>
+                    </Button>
+                </Link>
         );
     };
 
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
-    
+
+    const onSubmit = (values: any) => {
+        const formData = values?.orderCode ? {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+            OrderCode: +values?.orderCode
+        } : {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+        }
+        orderLists.mutate(formData, {
+            onSuccess: (response) => {
+                setResults(response?.data);
+            }
+        })
+    }
+
+
     return (
         <ReusableCard>
-            <Box component="div" className="w-auto md:w-[40%] mb-4">
-                <FuzzySearch
-                    keys={[
-                        "orderCode",
-                        "registerDate",
-                        "customerFirstName",
-                        "customerLastName",
-                        "orderSendTypeDesc",
-                        "paymentTypeDesc",
-                        "invoiceTypeDesc",
-                        "isTemporary",
-                        "totalAmount",
-                        "exitType",
-                    ]}
-                    data={orders?.data}
-                    setResults={setResults}
-                />
-            </Box>
+            <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
             <MuiDataGrid
-                columns={purchaserOrderColumns(renderAction)}
+                columns={PurchaserOrderColumn(renderAction)}
                 rows={results || [{}]}
-                data={orders?.data || [{}]}
-                isLoading={isLoading}
+                data={orderLists?.data?.data || [{}]}
+                isLoading={orderLists?.isLoading}
+                onDoubleClick={(item: any) => navigate(`/dashboard/purchaser_order/lists/${item?.row?.id}`)}
+                hideFooter
             />
-            <Pagination pageCount={+orders?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
+            <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
         </ReusableCard>
     );
 };
