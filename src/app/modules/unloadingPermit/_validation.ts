@@ -6,10 +6,10 @@ const unloadingValidation = Yup.object().shape({
     // carPlaque: Yup.string().required("پلاک خودرو الزامی است"),
     // vehicleTypeId: Yup.mixed().required("نوع خودرو الزامی است"),
     driverMobile: Yup.number().required("شماره همراه راننده الزامی است"),
-    // deliverDate: Yup.string().required("تاریخ تحویل الزامی است"),
-    fareAmount: Yup.string().required("مبلغ کرایه الزامی است"),
+    deliverDate: Yup.string().required("تاریخ تحویل الزامی است"),
+    // fareAmount: Yup.string().required("مبلغ کرایه الزامی است"),
     // unloadingPlaceAddress: Yup.string().required("آدرس محل تخلیه الزامی است"),
-    driverAccountNo: Yup.string().required("شماره حساب راننده الزامی است"),
+    // driverAccountNo: Yup.string().required("شماره حساب راننده الزامی است"),
     // driverCreditCardNo: Yup.string().required("شماره کارت راننده الزامی است"),
     // otherAmount: Yup.string().required("مقدار سایر هزینه ها الزامی است"),
 });

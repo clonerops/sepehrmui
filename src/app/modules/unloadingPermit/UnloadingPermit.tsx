@@ -25,6 +25,7 @@ import { useGetVehicleTypes } from "../generic/_hooks";
 import { IUnloadingPermit } from "./_models";
 import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 import { FieldType } from "../../../_cloner/components/globalTypes";
+import { unloadingValidation } from "./_validation";
 
 const initialValues = {
     id: 0,
@@ -240,6 +241,7 @@ const UnloadingPermit = () => {
                 <Formik
                     enableReinitialize
                     innerRef={formikRef}
+                    validationSchema={unloadingValidation}
                     initialValues={{
                         ...initialValues,
                         ...detailTools?.data?.data,

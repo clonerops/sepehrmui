@@ -52,6 +52,8 @@ const ReadyToUnloading = () => {
         entranceTools.mutate(formData);
     }
 
+    console.log("entranceTools?.data?.data", entranceTools?.data?.data)
+
     return (
         <>
             <ReusableCard>
