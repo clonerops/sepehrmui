@@ -309,7 +309,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
 
-    console.log("productTypeTools", productTypeTools?.data)
+    console.log("warehouseTypeTools?.data", warehouseTypeTools?.data)
 
     return (
         <>
@@ -394,7 +394,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                                         WarehouseTypeId: +value
                                     })
                                 }}
-                                radioData={dropdownWarehouseType(warehouseTypeTools?.data)}
+                                radioData={dropdownWarehouseType(warehouseTypeTools?.data.filter((item: {id: number}) => item.id !== 5))}
                                 name="warehouseTypeId" />
                         </Form>
                     }}

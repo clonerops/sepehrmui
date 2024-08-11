@@ -3211,6 +3211,15 @@ const SelectProductMuiTableColumn = (renderAction: any, renderInput: any, render
         },
         {
             accessor: "productSubUnitDesc",
+            header: "واحد اصلی",
+            headerAlign: "center",
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 90,
+            maxWidth: 90,
+        },
+        {
+            accessor: "productSubUnitDesc",
             header: "واحد فرعی",
             render: renderSubUnit,
             headerClassName: "headerClassName",

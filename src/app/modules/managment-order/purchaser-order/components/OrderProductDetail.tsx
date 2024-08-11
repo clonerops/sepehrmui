@@ -132,10 +132,10 @@ const OrderProductDetail = (props: Props) => {
                 return;
             }
 
-            if (isDuplicate) {
-                EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error");
-                return;
-            }
+                if (isDuplicate) {
+                    EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error");
+                    return;
+                }
 
             setOrders([...orders, productOrder]);
             setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderServices)));
