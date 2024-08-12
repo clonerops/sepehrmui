@@ -2512,31 +2512,31 @@ const ConvertPreSaleColumn = (renderAction: any) => {
             field: 'registerDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120,maxWidth: 120, flex: 1
+            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
         },
         {
             field: 'orderTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120,maxWidth: 120, flex: 1
+            headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
         },
         {
             field: 'customerName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 190,maxWidth: 190, flex: 1
+            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 190, maxWidth: 190, flex: 1
         },
         {
             field: 'totalAmount', renderCell: (params: any) => {
                 return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.value)}</Typography>;
             },
-            headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120,maxWidth: 120, flex: 1
+            headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
         },
         {
             field: 'invoiceTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'نوع فاکتور', headerClassName: "headerClassName", minWidth: 120,maxWidth: 120, flex: 1
+            headerName: 'نوع فاکتور', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
         },
         {
             field: 'orderStatusId', renderCell: (params: any) => {
@@ -3991,6 +3991,37 @@ const TransferRemittanceDetailForTransferColumn = (renderDelete: (values: any) =
     return col;
 };
 
+const PaymentRequestColumn = (renderAction: any) => {
+    const col = [
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120  },
+        {
+            field: 'id', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره درخواست', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'registerDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ درخواست', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+        },
+        {
+            field: 'creatorName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'ثبت کننده درخواست', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'creatorName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'درخواست کننده', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+        },
+    ]
+    return col
+}
+
 
 export {
     ProductBrandsColumn,
@@ -4053,6 +4084,7 @@ export {
     CustomerReportMarketingColumn,
     TransferRemittanceDetailColumn,
     TransferRemittanceDetailForTransferColumn,
-    ConvertPreSaleColumn
+    ConvertPreSaleColumn,
+    PaymentRequestColumn
     // OrderConfirmColumn
 }
