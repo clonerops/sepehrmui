@@ -228,7 +228,6 @@ const CustomerForm = (props: {
                 }
             ))
         };
-        console.log(JSON.stringify(formData))
         try {
             return postTools.mutate(formData, {
                 onSuccess: (response) => {

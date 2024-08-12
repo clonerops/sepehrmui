@@ -26,7 +26,7 @@ import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
 import UnloadingPermitList from "../modules/unloadingPermit/UnloadingPermitList";
 import UnloadingPermitDetail from "../modules/unloadingPermit/UnloadingPermitDetail";
 import TransferToWarehouse from "../modules/warehouse/TransferToWarehouse";
-import PaymentRequest from "../modules/paymentRequest/PaymentRequest";
+import PaymentRequest from "../modules/paymentRequest/PaymentRequestForm";
 import ListOfPaymentRequest from "../modules/paymentRequest/ListOfPaymentRequest";
 import PaymentRequestDetail from "../modules/paymentRequest/PaymentRequestDetail";
 import FinlizePreSale from "../modules/managment-order/sales-order/FinlizePreSale";
