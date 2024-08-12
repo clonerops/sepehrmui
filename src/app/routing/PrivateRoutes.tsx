@@ -25,6 +25,7 @@ import UnloadingPermit from "../modules/unloadingPermit/UnloadingPermit";
 import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
 import UnloadingPermitList from "../modules/unloadingPermit/UnloadingPermitList";
 import UnloadingPermitDetail from "../modules/unloadingPermit/UnloadingPermitDetail";
+import TransferToWarehouse from "../modules/warehouse/TransferToWarehouse";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -265,6 +266,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productStandard", element: <ProductStandards /> },
     { path: "dashboard/labels", element: <CustomerLabels /> },
     { path: "dashboard/warehouses", element: <Warehouse /> },
+    { path: "dashboard/transferToWarehouse", element: <TransferToWarehouse /> },
     { path: "dashboard/productInventories", element: <ProductInventories /> },
     { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
     { path: "dashboard/productBrand", element: <ProductBrands /> },

@@ -23,6 +23,7 @@ export const translationMapping: any = {
     role: 'نقش',
     customerReportMarketing: 'گزارش مشتریان جهت بازاریابی',
     productInventories: 'موجودی انبارها',
+    transferToWarehouse: 'انتقال به انبار',
     productInventoriesSepehr: 'مدیریت موجودی سپهر',
     productBrand: 'کالا برند',
     productService: 'بسته خدمت',
