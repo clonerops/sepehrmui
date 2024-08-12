@@ -40,7 +40,7 @@ const ToolbarComponent = () => {
     };
 
     const onChangePassword = () => {
-        navigate("dashboard/change-pass");
+        
     };
 
     return (

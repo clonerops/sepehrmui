@@ -16,7 +16,7 @@ import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
 
 const pageSize = 100
 
-const ConvertPreSale = () => {
+const FinlizePreSale = () => {
     const navigate = useNavigate()
     
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -57,7 +57,7 @@ const ConvertPreSale = () => {
                 </Tooltip>
                 <div>
                     <Button onClick={() => handleOpenApprove(item)} variant="contained" color="primary" >
-                        <Typography>تغییر وضعیت پیش فروش</Typography>
+                        <Typography>نهایی کردن سفارش</Typography>
                     </Button>
                 </div>
 
@@ -118,4 +118,4 @@ const ConvertPreSale = () => {
     );
 };
 
-export default ConvertPreSale;
+export default FinlizePreSale;
