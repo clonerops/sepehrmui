@@ -2241,6 +2241,67 @@ const CustomerColumn = (renderAction: any) => {
     ];
     return col;
 };
+const PersonnelColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "personnelCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "کد پرسنل",
+            align: "center",
+            headerClassName: "headerClassName",
+            maxWidth: 80,
+            flex: 1
+        },
+        {
+            field: "firstName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نام",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "lastName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نام خانوادگی",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "fatherName",
+            headerName: "نام پدر",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "nationalId",
+            headerName: "کدملی",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            headerName: "عملیات",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+    ];
+    return col;
+};
 
 const CustomerCompaniesColumn = (renderAction: any) => {
     const col = [
@@ -4124,6 +4185,7 @@ export {
     CustomerWarehousesColumn,
     CustomerWarehouseColumn,
     CustomerColumn,
+    PersonnelColumn,
     CustomerCompaniesColumn,
     SuppliersColumn,
     OrderColumn,

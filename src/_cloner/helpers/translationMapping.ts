@@ -43,6 +43,7 @@ export const translationMapping: any = {
     customerLabel: "اختصاص برچسب به مشتری",
     permissions: "مجوزهای دسترسی کاربران",
     groups: "گروه کاربر",
+    personnels: "پرسنل",
     accessDenied: "دسترسی غیرمجاز",
     warehouses: "تعریف انبار",
     purchaser_order: " ثبت سفارش خرید ",
