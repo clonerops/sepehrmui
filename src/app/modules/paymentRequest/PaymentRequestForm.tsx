@@ -17,6 +17,7 @@ import FormikPrice from '../../../_cloner/components/FormikPrice'
 import { IRequestPayment } from './_models'
 import { renderAlert } from '../../../_cloner/helpers/sweetAlert'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
+import FormikPaymentRequestReason from '../../../_cloner/components/FormikPaymentRequestReason'
 
 const initialValues: IRequestPayment = {
     customerId: {
@@ -24,12 +25,11 @@ const initialValues: IRequestPayment = {
         label: ""
     },
     amount: "",
-    paymentReason: "",
+    paymentRequestReasonId: 0,
     bankAccountOrShabaNo: "",
     accountOwnerName: "",
     bankId: 0,
     applicatorName: "",
-    paymentRequestStatusId: 0,
     paymentRequestDescription: ""
 }
 
@@ -50,8 +50,7 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
         const formData = {
             ...values,
             customerId: values.customerId.value,
-            amount: values.amount ? +values.amount?.replace(/,/g, "") : "",
-            paymentRequestStatusId: 1
+            amount: values.amount ? +values.amount?.replace(/,/g, "") : ""
         }
 
         postPaymentRequestTools.mutate(formData, {
@@ -91,12 +90,12 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
             <ReusableCard>
                 <div className='mt-2'>
                     <Formik initialValues={initialValues} onSubmit={onSubmit}>
-                        {({ handleSubmit, values }) => {
+                        {({ handleSubmit }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 space-y-4 lg:grid-cols-3 lg:space-y-0 lg:gap-4 mb-4'>
                                     <FormikCustomer name={"customerId"} label={"مشتری"} />
                                     <FormikPrice name={"amount"} label={"مبلغ"} type='text' />
-                                    <FormikInput name={"paymentReason"} label='بابت' type='text' />
+                                    <FormikPaymentRequestReason name={"paymentRequestReasonId"} label='بابت' />
                                     <FormikInput name={"bankAccountOrShabaNo"} label='شماره حساب/کارت/شبا' type='text' />
                                     <FormikInput name={"accountOwnerName"} label='صاحب حساب' type='text' />
                                     <FormikOrganzationBank name={"bankId"} label='بانک' />

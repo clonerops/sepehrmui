@@ -424,6 +424,17 @@ const dropdownCustomerLabel = (data: any) => {
     );
 };
 
+const dropdownPaymentRequestReason = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { reasonDesc: string, id: string }): any => {
+            const { reasonDesc, id } = obj;
+            return { value: id, label: reasonDesc };
+        })
+    );
+};
+
+
 
 
 export {
@@ -469,5 +480,6 @@ export {
     dropdownProductType,
     dropdownPhoneBookType,
     dropdownCustomerLabelType,
-    dropdownCustomerLabel
+    dropdownCustomerLabel,
+    dropdownPaymentRequestReason
 }

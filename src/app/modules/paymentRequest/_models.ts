@@ -4,12 +4,11 @@ export interface IRequestPayment {
         value: string, label: string
     },
     amount: string | null | undefined,
-    paymentReason: string | null | undefined,
+    paymentRequestReasonId: number | null | undefined,
     bankAccountOrShabaNo: string | null | undefined,
     accountOwnerName: string | null | undefined,
     bankId: number | null | undefined,
     applicatorName: string | null | undefined,
-    paymentRequestStatusId: number | null | undefined,
     paymentRequestDescription: string | null | undefined
 }
 
