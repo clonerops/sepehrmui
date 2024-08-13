@@ -1,4 +1,5 @@
 import { http } from "../../../_cloner/helpers/axiosConfig";
+import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl";
 
 const getTransferWarehouseInventoryLists = async () => {
     try {
@@ -10,6 +11,18 @@ const getTransferWarehouseInventoryLists = async () => {
         return error.response;
     }
 }
+
+const getTransferWarehouseInventoryListsFiltered = async (filter: any) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/TransferWarehouseInventory', filter)}`)
+        return data
+
+    } catch (error: any) {
+        return error.response;
+    }
+}
+
 
 const postTransferWarehouseInventory = async (formData: any) => {
     try {
@@ -46,6 +59,7 @@ const updateTransferWarehouseInventory = async (formData: any) => {
 
 export {
     getTransferWarehouseInventoryLists,
+    getTransferWarehouseInventoryListsFiltered,
     postTransferWarehouseInventory,
     getTransferWarehouseInventoryById,
     updateTransferWarehouseInventory

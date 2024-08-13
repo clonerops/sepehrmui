@@ -5,6 +5,11 @@ const useGetTransferWarehouseLists = () => {
     return useQuery(['transferWarehouseInventory'], () => api.getTransferWarehouseInventoryLists())
 }
 
+const useGetTransferWarehouseListsFiltered = () => {
+    return useMutation((filters: any) => {
+        return api.getTransferWarehouseInventoryListsFiltered(filters)
+    })
+}
 const usePostTransferWarehouseInventory = () => {
     return useMutation((formData: any) => {
         return api.postTransferWarehouseInventory(formData)
@@ -22,6 +27,7 @@ const useUpdateTransferWarehouseInventory = () => {
 export {
     useGetTransferWarehouseLists,
     usePostTransferWarehouseInventory,
+    useGetTransferWarehouseListsFiltered,
     useGetTransferWarehouseInventory,
     useUpdateTransferWarehouseInventory
 }

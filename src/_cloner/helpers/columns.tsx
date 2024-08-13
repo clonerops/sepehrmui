@@ -4032,7 +4032,7 @@ const TransferRemittanceDetailForTransferColumn = (renderDelete: (values: any) =
             },
             headerName: "مقدار واردشده جهت انتقال",
             headerClassName: "headerClassName",
-            minWidth: 240,
+            minWidth: 200,
             flex: 1,
         },
         {
@@ -4109,7 +4109,7 @@ const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) =
             flex: 1,
         },
         {
-            field: "productName",
+            field: "createdDate",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -4119,7 +4119,17 @@ const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) =
             flex: 1,
         },
         {
-            field: "productBrandName",
+            field: "creatorName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "ثبت کننده",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
+        {
+            field: "originWarehouseDesc",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -4129,7 +4139,7 @@ const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) =
             flex: 1,
         },
         {
-            field: "transferAmount",
+            field: "originWarehouseDesc",
             renderCell: (params: any) => {
                 return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
             },

@@ -2,16 +2,32 @@ import { Tooltip, Typography } from "@mui/material"
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import { TransferWarehouseInventoryColumn } from "../../../_cloner/helpers/columns"
 import { Visibility } from "@mui/icons-material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import TransitionsModal from "../../../_cloner/components/ReusableModal"
 import MuiTable from "../../../_cloner/components/MuiTable"
 import SearchFromBack from "../../../_cloner/components/SearchFromBack"
 import ReusableCard from "../../../_cloner/components/ReusableCard"
+import { useGetTransferWarehouseListsFiltered } from "./_hooks"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 
 const TransferWarehouseInventoryList = () => {
+    const transferWarehouseInventoryTools = useGetTransferWarehouseListsFiltered()
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [itemSelected, setItemSelected] = useState<any>({})
+
+    const handleFilter = (filters: {}) => {
+        transferWarehouseInventoryTools.mutate(filters, {
+            onSuccess: (response) => {
+                if(!response.succeeded)
+                    return EnqueueSnackbar(response.data.Message, "error") 
+            }
+        })
+     }
+
+     useEffect(() => {
+        handleFilter({})
+     }, [])
 
     const renderAction = (item: any) => {
         return (
@@ -29,7 +45,6 @@ const TransferWarehouseInventoryList = () => {
         setIsOpen(true)
     }
 
-    const handleFilter = () => { }
 
     const TransferWarehouseDetailColumn = [
         { id: 1, header: "کد کالا", accessor: "productCode" },
@@ -37,14 +52,12 @@ const TransferWarehouseInventoryList = () => {
         { id: 3, header: "مقدار انتقال", accessor: "productCode" },
     ]
 
-
-
     return (
         <ReusableCard>
             <SearchFromBack inputName='orderCode' initialValues={{ orderCode: "" }} onSubmit={handleFilter} label="شماره سفارش" />
             <MuiDataGrid
-                rows={[{}]}
-                data={[{}]}
+                rows={transferWarehouseInventoryTools?.data?.data}
+                data={transferWarehouseInventoryTools?.data?.data}
                 columns={TransferWarehouseInventoryColumn(renderAction)}
             />
 
