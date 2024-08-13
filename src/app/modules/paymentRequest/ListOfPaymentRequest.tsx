@@ -10,32 +10,34 @@ import ReusableCard from "../../../_cloner/components/ReusableCard"
 import ButtonComponent from "../../../_cloner/components/ButtonComponent"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import Pagination from "../../../_cloner/components/Pagination"
+import { useGetPaymentRequestByIdMutation, useGetPaymentRequests } from "./_hooks"
 
 const pageSize = 100
 
 const ListOfPaymentRequest = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const paymentRequests = useGetPaymentRequests()
 
   useEffect(() => {
     const filter = {
       PageNumber: currentPage,
       PageSize: pageSize,
     }
-    // transferList.mutate(filter)
+    paymentRequests.mutate(filter)
     // eslint-disable-next-line
   }, [currentPage])
 
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
       <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-        <Link to={`/dashboard/BilllandingList/${params.row.id}`}>
+        <Link to={`/dashboard/paymentRequestDetail/${params.row.id}`}>
           <IconButton size="small" color="primary">
             <Visibility />
           </IconButton>
         </Link>
       </Tooltip>
       <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
-        <Link to={`/dashboard/BilllandingEdit/${params.row.id}`}>
+        <Link to={`/dashboard/paymentRequestEdit/${params.row.id}`}>
           <IconButton size="small" color="secondary">
             <Edit />
           </IconButton>
@@ -45,38 +47,30 @@ const ListOfPaymentRequest = () => {
   }
   const handleFilter = (values: any) => {
     let formData = {
-      id: values.id ? values.id : "",
+      paymentRequestCode: values.paymentRequestCode ? values.paymentRequestCode : "",
       PageNumber: currentPage,
       PageSize: 100,
     };
-    // transferList.mutate(formData);
+    paymentRequests.mutate(formData);
   }
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected + 1);
   };
 
-  const handleChangeStatus = (id: number) => {
-    let formData = {
-      PageNumber: currentPage,
-      PageSize: pageSize,
-      TransferRemittStatusId: id,
-    };
-    // transferList.mutate(formData);
-  }
 
   return (
     <>
       {/* {transferList.isLoading && <Backdrop loading={transferList.isLoading} />} */}
       <ReusableCard>
         <Formik initialValues={{
-          id: "",
+          paymentRequestCode: "",
         }} onSubmit={() => { }}>
           {({ values }) => {
             return (
               <>
                 <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
-                  <FormikInput name="id" label="شماره درخواست" />
+                  <FormikInput name="paymentRequestCode" label="شماره درخواست" />
                   <ButtonComponent onClick={() => handleFilter(values)}>
                     <Search className="text-white" />
                     <Typography className="px-2 text-white">جستجو</Typography>
@@ -89,12 +83,12 @@ const ListOfPaymentRequest = () => {
 
         <MuiDataGrid
           columns={PaymentRequestColumn(renderAction)}
-          rows={[]}
-          data={[]}
+          rows={paymentRequests?.data?.data}
+          data={paymentRequests?.data?.data}
           onDoubleClick={() => {}}
           hideFooter={true}
         />
-        <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
+        <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>
 
     </>

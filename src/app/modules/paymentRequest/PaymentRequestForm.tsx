@@ -18,6 +18,7 @@ import { IRequestPayment } from './_models'
 import { renderAlert } from '../../../_cloner/helpers/sweetAlert'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import FormikPaymentRequestReason from '../../../_cloner/components/FormikPaymentRequestReason'
+import { useParams } from 'react-router-dom'
 
 const initialValues: IRequestPayment = {
     customerId: {
@@ -33,11 +34,10 @@ const initialValues: IRequestPayment = {
     paymentRequestDescription: ""
 }
 
-interface IProps {
-    id?: any
-}
+interface IProps {}
 
-const PaymentRequestForm: FC<IProps> = ({ id }) => {
+const PaymentRequestForm: FC<IProps> = ({}) => {
+    const {id} = useParams()
     const [trachingCode, setTrachingCode] = useState<any>(0)
 
     const recievePayTools = useGetReceivePaymentSources()
@@ -46,14 +46,18 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
     const detailPaymentRequestTools = useGetPaymentRequestByIdMutation()
 
     useEffect(() => {
-        if(id) detailPaymentRequestTools.mutate(id)
+        if(id) detailPaymentRequestTools.mutate(id, {
+            onSuccess: (response) => {
+                if(response.succeeded) setTrachingCode(response.data.paymentRequestCode)
+            }
+        })
     }, [id])
 
     const onUpdate = (values: IRequestPayment) => {
         const formData = {
             ...values,
             customerId: values.customerId.value,
-            amount: values.amount ? +values.amount?.replace(/,/g, "") : ""
+            amount: typeof(values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
         }
         updatePaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
@@ -77,7 +81,7 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
         postPaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
-                    renderAlert("درخواست پرداخت با موفقیت ایجاد گردید")
+                    renderAlert(`درخواست پرداخت با شماره ${response.data.paymentRequestCode} موفقیت ایجاد گردید`)
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")
                 }
@@ -89,6 +93,8 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
         if (id) onUpdate(values);
         else onAdd(values);
     };
+
+    console.log("detailPaymentRequestTools?.data?.data", detailPaymentRequestTools?.data?.data)
 
     if(detailPaymentRequestTools.isLoading) {
         return <Backdrop loading={detailPaymentRequestTools.isLoading} />
@@ -109,7 +115,7 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
                 <CardWithIcons
                     title='تاریخ ثبت'
                     icon={<DateRange className="text-white" />}
-                    value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
+                    value={id? detailPaymentRequestTools?.data?.data?.createdDate : moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
                     iconClassName='bg-[#EB5553]' />
             </div>
 
@@ -137,7 +143,9 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
 
                                 <div className='flex justify-end items-end'>
                                     <Button onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                        <Typography variant="h3" className="px-8 py-2">ثبت درخواست پرداخت</Typography>
+                                        <Typography variant="h3" className="px-8 py-2">
+                                            {id ? "ویرایش درخواست پرداخت" : "ثبت درخواست پرداخت"}
+                                        </Typography>
                                     </Button>
                                 </div>
                             </form>

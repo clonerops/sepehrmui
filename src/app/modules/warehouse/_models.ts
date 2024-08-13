@@ -13,3 +13,13 @@ export interface IWarehouseFilter {
     warehouseId?: number | null | undefined
     customerId?: string | null | undefined
 }
+
+
+export enum WarehouseType {
+    Vaseteh = 1,
+    Amani = 2,
+    Mabadi = 3,
+    Rasmi = 4,
+    Addi = 5,
+    Kharid = 6,
+}

@@ -21,6 +21,7 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import TransferAmount from "../transferRemittance/TransferAmount";
 import { usePostTransferWarehouseInventory } from "./_hooks";
+import { WarehouseType } from "../warehouse/_models";
 
 const initialValues = {
     originWarehouseId: "",
@@ -50,29 +51,25 @@ const TransferWarehouseInventory = () => {
         setProductForTransferRemittance(filtered)
     }
 
-    const onFilterWarehouseFrom = (value: any) => {
+    const onFilterWarehouseFrom = (values: any) => {
         const filter = {
             ByBrand: true,
             HasPurchaseInventory: true,
-            WarehouseId: +value
+            WarehouseId: +values
         }
         productsInventory.mutate(filter)
     }
 
     const handleTransferRemittance = (values: any) => {
         const formData: any = {
-            ...values,
             originWarehouseId: +values.originWarehouseId,
-            destinationWarehouseId: +values.destinationWarehouseId.value,
             details: _.map(productForTransferRemittance, (item) => {
                 return {
                     productBrandId: +item.productBrandId,
                     transferAmount: +item.transferAmount,
                 }
             }),
-            description: values.description
         }
-
         transfer.mutate(formData, {
             onSuccess: (response) => {
                 if (response.data.Errors && response.data.Errors.length > 0) {
@@ -94,8 +91,9 @@ const TransferWarehouseInventory = () => {
             {warehouse.isLoading && <Backdrop loading={warehouse.isLoading} />}
             {productsInventory.isLoading && <Backdrop loading={productsInventory.isLoading} />}
 
+
             <Formik initialValues={initialValues} onSubmit={handleTransferRemittance}>
-                {({ handleSubmit }) => {
+                {({ handleSubmit, setFieldValue, values }) => {
                     return (
                         <form onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 lg:grid-cols-3 mb-4 gap-4">
@@ -114,11 +112,13 @@ const TransferWarehouseInventory = () => {
                                         name="originWarehouseId"
                                         label="انبار مبدا"
                                         onChange={onFilterWarehouseFrom}
-                                        warehouse={warehouse?.data?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                        warehouse={warehouse?.data?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
                                     />
-                                    <FormikWarehouse
-                                        name="destinationWarehouseId"
+                                    <FormikWarehouseBasedOfType
+                                        name="originWarehouseId"
                                         label="انبار مقصد"
+                                        warehouse={warehouse?.data?.data}
+                                        disabled={true}
                                     />
                                 </ReusableCard>
                             </div>

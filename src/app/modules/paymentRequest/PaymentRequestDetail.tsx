@@ -11,6 +11,7 @@ import FileUpload from "../../../_cloner/components/FileUpload"
 import { useGetLadingLicenceById } from "../ladingLicence/_hooks"
 import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 import ImagePreview from "../../../_cloner/components/ImagePreview"
+import { useGetPaymentRequestByIdMutation } from "./_hooks"
 
 const PaymentRequestDetail = () => {
     const [files, setFiles] = useState<File[]>([])
@@ -18,71 +19,67 @@ const PaymentRequestDetail = () => {
 
     const { id }: any = useParams()
 
-    // const ladingDetailTools = useGetLadingLicenceById(0)
+    const paymentRequestDetailTools = useGetPaymentRequestByIdMutation()
+    useEffect(() => {
+        paymentRequestDetailTools.mutate(id)
+    }, [id])
 
     const fieldsValue = [
         {
             title: "شماره درخواست",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.paymentRequestCode || "ثبت نشده"}`,
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "تاریخ درخواست",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.createdDate || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "درخواست کننده",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.applicatorName || "ثبت نشده"}`,
             // value: separateAmountWithCommas(exitDetailTools?.data?.data?.fareAmount),
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "پرداخت به حساب",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.customerName || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "مبلغ",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.amount || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "بابت",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.paymentRequestReasonDesc || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "شماره حساب/کارت/شبا",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.bankAccountOrShabaNo || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "صاحب حساب",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.accountOwnerName || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
             title: "بانک",
-            value: "ثبت نشده",
+            value: `${paymentRequestDetailTools?.data?.data?.bankName || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
-        {
-            title: "پرداخت از",
-            value: "ثبت نشده",
-            icon: <Apps className="text-black" />,
-            bgColor: "bg-[#ECEFF3]"
-        },
-
     ]
 
     useEffect(() => {
@@ -102,9 +99,9 @@ const PaymentRequestDetail = () => {
                 {/* <Badge badgeContent={exitDetailTools?.data?.data?.attachments.length || 0} color="secondary"> */}
                 <Badge badgeContent={0} color="secondary">
                     {/* <Button variant="contained" onClick={() => downloadAttachments(exitDetailTools?.data?.data?.attachments)} className='mb-2' color="primary"> */}
-                    <Button variant="contained" onClick={() => {}} className='mb-2' color="primary">
+                    {/* <Button variant="contained" onClick={() => {}} className='mb-2' color="primary">
                         <Typography>{"دانلود ضمیمه ها"}</Typography>
-                    </Button>
+                    </Button> */}
                 </Badge>
             </div>
             <div className="lg:grid lg:grid-cols-3 text-right lg:gap-4 lg:space-y-0 space-y-4">
@@ -116,11 +113,11 @@ const PaymentRequestDetail = () => {
                         iconClassName={item.bgColor}
                     />
                 )}
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-3">
                     <CardWithIcons
                         title={"توضیحات درخواست"}
                         icon={<Numbers className="text-black" />}
-                        value={"ثبت نشده"}
+                        value={`${paymentRequestDetailTools?.data?.data?.paymentRequestDescription || "ثبت نشده"}` }
                         iconClassName={"bg-[#ECEFF3]"}
                     />
                 </div>

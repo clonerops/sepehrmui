@@ -47,7 +47,7 @@ const getPaymentRequestByIdMutation = async (id:string) => {
 }
 const updatePaymentRequestById = async (formData: any) => {
     try {
-        const { data } = await http.put(`/v1/PaymentRequest/${formData.get("Id")}`, formData)
+        const { data } = await http.put(`/v1/PaymentRequest/${formData.id}`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response

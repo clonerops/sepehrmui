@@ -3993,15 +3993,15 @@ const TransferRemittanceDetailForTransferColumn = (renderDelete: (values: any) =
 
 const PaymentRequestColumn = (renderAction: any) => {
     const col = [
-        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120  },
+        { field: "Action", headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120  },
         {
-            field: 'id', renderCell: (params: any) => {
+            field: 'paymentRequestCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'شماره درخواست', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: 'registerDate', renderCell: (params: any) => {
+            field: 'createdDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'تاریخ درخواست', headerClassName: "headerClassName", minWidth: 120,  flex: 1
@@ -4013,10 +4013,16 @@ const PaymentRequestColumn = (renderAction: any) => {
             headerName: 'ثبت کننده درخواست', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
-            field: 'creatorName', renderCell: (params: any) => {
+            field: 'applicatorName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'درخواست کننده', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+        },
+        {
+            field: 'paymentRequestReasonDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'بابت', headerClassName: "headerClassName", minWidth: 120,  flex: 1
         },
     ]
     return col
