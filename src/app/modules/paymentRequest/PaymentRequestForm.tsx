@@ -94,8 +94,6 @@ const PaymentRequestForm: FC<IProps> = ({}) => {
         else onAdd(values);
     };
 
-    console.log("detailPaymentRequestTools?.data?.data", detailPaymentRequestTools?.data?.data)
-
     if(detailPaymentRequestTools.isLoading) {
         return <Backdrop loading={detailPaymentRequestTools.isLoading} />
     }

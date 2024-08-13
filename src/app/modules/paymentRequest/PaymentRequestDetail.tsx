@@ -1,17 +1,14 @@
 import { useParams } from "react-router-dom"
-import { Badge, Button, Card, Typography } from "@mui/material"
+import { Badge, Button, Typography } from "@mui/material"
 
-import { AddCard, AddHomeWork, Apps, Filter1, Numbers, Person, Source } from "@mui/icons-material"
+import { Apps, Numbers, Person } from "@mui/icons-material"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../_cloner/components/CardWithIcons"
-import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 import { useEffect, useState } from "react"
 import { convertFilesToBase64 } from "../../../_cloner/helpers/convertToBase64"
-import FileUpload from "../../../_cloner/components/FileUpload"
-import { useGetLadingLicenceById } from "../ladingLicence/_hooks"
-import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
-import ImagePreview from "../../../_cloner/components/ImagePreview"
 import { useGetPaymentRequestByIdMutation } from "./_hooks"
+import ImagePreview from "../../../_cloner/components/ImagePreview"
+import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 
 const PaymentRequestDetail = () => {
     const [files, setFiles] = useState<File[]>([])
@@ -92,16 +89,13 @@ const PaymentRequestDetail = () => {
 
     return (
         <>
-            {/* {ladingDetailTools.isLoading && <Backdrop loading={ladingDetailTools.isLoading} />} */}
-
+            {paymentRequestDetailTools.isLoading && <Backdrop loading={paymentRequestDetailTools.isLoading} />}
             <Typography color="primary" variant="h1" className="pb-8">جزئیات درخواست پرداخت</Typography>
             <div className="md:flex md:justify-end md:items-end gap-x-4 py-4">
-                {/* <Badge badgeContent={exitDetailTools?.data?.data?.attachments.length || 0} color="secondary"> */}
-                <Badge badgeContent={0} color="secondary">
-                    {/* <Button variant="contained" onClick={() => downloadAttachments(exitDetailTools?.data?.data?.attachments)} className='mb-2' color="primary"> */}
-                    {/* <Button variant="contained" onClick={() => {}} className='mb-2' color="primary">
+                <Badge badgeContent={paymentRequestDetailTools?.data?.data?.attachments?.length || 0} color="secondary">
+                    <Button variant="contained" onClick={() => downloadAttachments(paymentRequestDetailTools?.data?.data?.attachments)} className='mb-2' color="primary">
                         <Typography>{"دانلود ضمیمه ها"}</Typography>
-                    </Button> */}
+                    </Button>
                 </Badge>
             </div>
             <div className="lg:grid lg:grid-cols-3 text-right lg:gap-4 lg:space-y-0 space-y-4">
@@ -117,12 +111,12 @@ const PaymentRequestDetail = () => {
                     <CardWithIcons
                         title={"توضیحات درخواست"}
                         icon={<Numbers className="text-black" />}
-                        value={`${paymentRequestDetailTools?.data?.data?.paymentRequestDescription || "ثبت نشده"}` }
+                        value={`${paymentRequestDetailTools?.data?.data?.paymentRequestDescription || "ثبت نشده"}`}
                         iconClassName={"bg-[#ECEFF3]"}
                     />
                 </div>
                 <div className="mt-4">
-                    {/* <ImagePreview base64Strings={exitDetailTools?.data?.data?.attachments || []} /> */}
+                    <ImagePreview base64Strings={paymentRequestDetailTools?.data?.data?.attachments || []} />
                 </div>
             </div>
         </>

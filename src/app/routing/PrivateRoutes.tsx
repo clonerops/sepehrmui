@@ -31,6 +31,7 @@ import PaymentRequestDetail from "../modules/paymentRequest/PaymentRequestDetail
 import FinlizePreSale from "../modules/managment-order/sales-order/FinlizePreSale";
 import TransferWarehouseInventory from "../modules/transferWarehouseInventory/TransferWarehouseInventory";
 import TransferWarehouseInventoryList from "../modules/transferWarehouseInventory/TransferWarehouseInventoryList";
+import ProceedPaymentRequest from "../modules/paymentRequest/ProceedPaymentRequest";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -278,6 +279,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/warehouses", element: <Warehouse /> },
     { path: "dashboard/transferToWarehouse", element: <TransferWarehouseInventory /> },
     { path: "dashboard/transferToWarehouseList", element: <TransferWarehouseInventoryList /> },
+    { path: "dashboard/proceedPaymentRequest/:id", element: <ProceedPaymentRequest /> },
     { path: "dashboard/productInventories", element: <ProductInventories /> },
     { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
     { path: "dashboard/productBrand", element: <ProductBrands /> },

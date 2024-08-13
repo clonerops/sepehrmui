@@ -2,12 +2,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { IRequestPaymentFilter } from "./_models";
 import * as api from "./_requests";
 
-const useGetPaymentRequestByApproved = () => {
-    return useMutation((approvied: string) => {
-        return api.getPaymentRequestByApproved(approvied);
-    });
-};
-
 const useGetPaymentRequests = () => {
     return useMutation((filters: IRequestPaymentFilter) => {
         return api.getPaymentRequests(filters);
@@ -34,38 +28,32 @@ const useGetPaymentRequestByIdMutation = () => {
         return api.getPaymentRequestByIdMutation(id);
     });
 };
-const useDeletePaymentRequestById = () => {
+
+const useApprovePaymentRequest = () => {
     return useMutation((id: string) => {
-        return api.deletePaymentRequestById(id);
+        return api.approvePaymentRequest(id);
     });
 };
-const useUpdatePaymentApproved = () => {
-    return useMutation((formData: {ids: string[]}) => {
-        return api.updatePaymentApproved(formData);
-    });
-};
-const useDisApprovePaymentApproved = () => {
-    return useMutation((formData: {id: string, accountingDescription: string}) => {
-        return api.disApprovePaymentApproved(formData);
+const useProceedPaymentRequest = () => {
+    return useMutation((formData: {id: string, attachments: any}) => {
+        return api.proceedPaymentRequest(formData);
     });
 };
 
-const usePutPaymentRequestRegister = () => {
-    return useMutation((formData: any) => {
-        return api.putPaymentRequestRegister(formData);
+const useRejectPaymentRequest = () => {
+    return useMutation((formData: {id: string, rejectReasonDesc: string}) => {
+        return api.rejectPaymentRequest(formData);
     });
 };
 
 
 export {
-    useGetPaymentRequestByApproved,
     usePostPaymentRequest,
     useUpdatePaymentRequestById,
     useGetPaymentRequestById,
-    useDeletePaymentRequestById,
-    useUpdatePaymentApproved,
+    useApprovePaymentRequest,
+    useProceedPaymentRequest,
+    useRejectPaymentRequest,
     useGetPaymentRequests,
-    usePutPaymentRequestRegister,
-    useDisApprovePaymentApproved,
     useGetPaymentRequestByIdMutation
 };

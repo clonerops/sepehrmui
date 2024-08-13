@@ -1,65 +1,52 @@
 import { useEffect, useState } from "react"
 import { Formik } from "formik"
-import { Button, IconButton, Tooltip, Typography } from "@mui/material"
-import { Edit, Search, Visibility } from "@mui/icons-material"
+import { Button, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
 import { PaymentRequestColumn } from "../../../_cloner/helpers/columns"
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import ReusableCard from "../../../_cloner/components/ReusableCard"
-import ButtonComponent from "../../../_cloner/components/ButtonComponent"
-import FormikInput from "../../../_cloner/components/FormikInput"
 import Pagination from "../../../_cloner/components/Pagination"
-import { useGetPaymentRequestByIdMutation, useGetPaymentRequests } from "./_hooks"
+import { useApprovePaymentRequest, useGetPaymentRequests, useRejectPaymentRequest } from "./_hooks"
+import Backdrop from "../../../_cloner/components/Backdrop"
+import SearchFromBack from "../../../_cloner/components/SearchFromBack"
+import ConfirmDialog from "../../../_cloner/components/ConfirmDialog"
+import { renderAlert } from "../../../_cloner/helpers/sweetAlert"
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
+import TransitionsModal from "../../../_cloner/components/ReusableModal"
+import FormikInput from "../../../_cloner/components/FormikInput"
+import { rejectReasonValidation } from "./_validation"
 
 const pageSize = 100
 
 const ListOfPaymentRequest = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const paymentRequests = useGetPaymentRequests()
+  const [approve, setApprove] = useState<boolean>(false);
+  const [reject, setReject] = useState<boolean>(false);
+  const [selecetdItem, setSelectedItem] = useState<any>({})
 
-  useEffect(() => {
+  const paymentRequests = useGetPaymentRequests()
+  const approvePaymentRequest = useApprovePaymentRequest()
+  const rejectPaymentRequest = useRejectPaymentRequest()
+
+  const getData = () => {
     const filter = {
       PageNumber: currentPage,
       PageSize: pageSize,
     }
     paymentRequests.mutate(filter)
+  }
+
+  useEffect(() => {
+    getData()
     // eslint-disable-next-line
   }, [currentPage])
 
-  const renderAction = (params: any) => {
-    return <div className="flex gap-x-4">
-      <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-        <Link to={`/dashboard/paymentRequestDetail/${params.row.id}`}>
-          <IconButton size="small" color="primary">
-            <Visibility />
-          </IconButton>
-        </Link>
-      </Tooltip>
-      <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
-        <Link to={`/dashboard/paymentRequestEdit/${params.row.id}`}>
-          <IconButton size="small" color="secondary">
-            <Edit />
-          </IconButton>
-        </Link>
-      </Tooltip>
-      <div>
-        <Button className="!bg-green-500 hover:!bg-green-700">
-          <Typography className="">تایید</Typography>
-        </Button>
-      </div>
-      <div>
-        <Button className="!bg-red-500 hover:!bg-red-700">
-          <Typography className="text-white">عدم تایید</Typography>
-        </Button>
-      </div>
-    </div>
-  }
   const handleFilter = (values: any) => {
     let formData = {
-      paymentRequestCode: values.paymentRequestCode ? values.paymentRequestCode : "",
+      PaymentRequestCoode: values.PaymentRequestCoode ? values.PaymentRequestCoode : "",
       PageNumber: currentPage,
-      PageSize: 100,
+      PageSize: pageSize,
     };
     paymentRequests.mutate(formData);
   }
@@ -68,27 +55,83 @@ const ListOfPaymentRequest = () => {
     setCurrentPage(selectedItem.selected + 1);
   };
 
+  const handleOpenApprove = (item: any) => {
+    setApprove(true)
+    setSelectedItem(item.id)
+  }
+  const handleOpenReject = (item: any) => {
+    setReject(true)
+    setSelectedItem(item)
+  }
+
+  const handleApprovePaymentRequest = (id: string) => {
+    approvePaymentRequest.mutate(id, {
+      onSuccess: (response) => {
+        if (response.succeeded) {
+          renderAlert("تایید درخواست پرداخت با موفقیت انجام شد")
+          getData()
+        } else {
+          EnqueueSnackbar(response.data.Message, "warning")
+        }
+      }
+    })
+  }
+
+  const handleRejectPaymentRequest = (values: { rejectReasonDesc: string }) => {
+    const formData = {
+      id: selecetdItem.id,
+      rejectReasonDesc: values.rejectReasonDesc
+    }
+    rejectPaymentRequest.mutate(formData, {
+      onSuccess: (response) => {
+        if (response.succeeded) {
+          renderAlert("تایید درخواست پرداخت با موفقیت انجام شد")
+          getData()
+        } else {
+          EnqueueSnackbar(response.data.Message, "warning")
+        }
+      }
+    })
+  }
+
+
+  const renderAction = (params: any) => {
+    return <div className="flex gap-x-4">
+      <Link to={`/dashboard/proceedPaymentRequest/${params.row.id}`}>
+        <Button className="!bg-fuchsia-500 hover:!bg-fuchsia-700">
+          <Typography className="text-white">پرداخت</Typography>
+        </Button>
+      </Link>
+      <Link to={`/dashboard/paymentRequestDetail/${params.row.id}`}>
+        <Button className="!bg-indigo-500 hover:!bg-indigo-700">
+          <Typography className="text-white">جزئیات</Typography>
+        </Button>
+      </Link>
+      <Link to={`/dashboard/paymentRequestEdit/${params.row.id}`}>
+        <Button className="!bg-yellow-500 hover:!bg-yellow-700">
+          <Typography className="">ویرایش</Typography>
+        </Button>
+      </Link>
+      <div>
+        <Button onClick={() => handleOpenApprove(params?.row?.id)} className="!bg-green-500 hover:!bg-green-700">
+          <Typography className="">تایید</Typography>
+        </Button>
+      </div>
+      <div>
+        <Button onClick={() => handleOpenReject(params?.row)} className="!bg-red-500 hover:!bg-red-700">
+          <Typography className="text-white">عدم تایید</Typography>
+        </Button>
+      </div>
+    </div>
+  }
 
   return (
     <>
-      {/* {transferList.isLoading && <Backdrop loading={transferList.isLoading} />} */}
+      {approvePaymentRequest.isLoading && <Backdrop loading={approvePaymentRequest.isLoading} />}
+      {rejectPaymentRequest.isLoading && <Backdrop loading={rejectPaymentRequest.isLoading} />}
       <ReusableCard>
-        <Formik initialValues={{
-          paymentRequestCode: "",
-        }} onSubmit={() => { }}>
-          {({ values }) => {
-            return (
-              <>
-                <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
-                  <FormikInput name="paymentRequestCode" label="شماره درخواست" />
-                  <ButtonComponent onClick={() => handleFilter(values)}>
-                    <Search className="text-white" />
-                    <Typography className="px-2 text-white">جستجو</Typography>
-                  </ButtonComponent>
-                </div>
-              </>
-            );
-          }}
+        <Formik initialValues={{ PaymentRequestCoode: "" }} onSubmit={() => { }}>
+          {() => <SearchFromBack inputName='PaymentRequestCoode' initialValues={{ PaymentRequestCoode: "" }} onSubmit={handleFilter} label="شماره درخواست" />}
         </Formik>
 
         <MuiDataGrid
@@ -96,11 +139,33 @@ const ListOfPaymentRequest = () => {
           rows={paymentRequests?.data?.data}
           data={paymentRequests?.data?.data}
           onDoubleClick={() => { }}
+          isLoading={paymentRequests.isLoading}
           hideFooter={true}
         />
         <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>
-
+      <ConfirmDialog
+        open={approve}
+        hintTitle="آیا از تایید مطمئن هستید؟"
+        notConfirmText="لغو"
+        confirmText={approvePaymentRequest.isLoading ? "درحال پردازش ..." : "تایید"}
+        onCancel={() => setApprove(false)}
+        onConfirm={() => handleApprovePaymentRequest(selecetdItem.id)}
+      />
+      <TransitionsModal width="50%" open={reject} isClose={() => setReject(false)} title={`عدم تایید درخواست پرداخت به شماره ${selecetdItem?.paymentRequestCode}`}>
+        <Formik validationSchema={rejectReasonValidation} initialValues={{ rejectReasonDesc: "" }} onSubmit={handleRejectPaymentRequest}>
+          {({ handleSubmit }) => {
+            return <div className="mt-4">
+              <FormikInput multiline minRows={3} name="rejectReasonDesc" label="دلیل عدم تایید" />
+              <div className="flex justify-end items-end my-4">
+                <Button onClick={() => handleSubmit()} className="!bg-red-500 hover:!bg-red-700">
+                  <Typography className="text-white">ثبت</Typography>
+                </Button>
+              </div>
+            </div>
+          }}
+        </Formik>
+      </TransitionsModal>
     </>
   )
 }
