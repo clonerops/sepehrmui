@@ -37,6 +37,14 @@ const getPaymentRequestById = async (id:string) => {
         return error.response
     }
 }
+const getPaymentRequestByIdMutation = async (id:string) => {
+    try {
+        const { data } = await http.get(`/v1/PaymentRequest/${id}`)
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
 const updatePaymentRequestById = async (formData: any) => {
     try {
         const { data } = await http.put(`/v1/PaymentRequest/${formData.get("Id")}`, formData)
@@ -91,6 +99,7 @@ export {
     updatePaymentApproved,
     getPaymentRequests,
     putPaymentRequestRegister,
-    disApprovePaymentApproved
+    disApprovePaymentApproved,
+    getPaymentRequestByIdMutation
 
 }

@@ -2,26 +2,25 @@ import { useState } from "react";
 import { Formik } from "formik";
 import { Typography } from "@mui/material";
 
-import ReusableCard from "../../../_cloner/components/ReusableCard";
-import FormikWarehouse from "../../../_cloner/components/FormikWarehouse";
-import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import Backdrop from "../../../_cloner/components/Backdrop";
-import CardWithIcons from "../../../_cloner/components/CardWithIcons";
-import FormikWarehouseBasedOfType from "../../../_cloner/components/FormikWarehouseBasedOfType";
-import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-
-import { useGetWarehouses } from "../generic/_hooks";
-import { useGetProductList } from "../products/_hooks";
-import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
-import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { AddTask, DesignServices } from "@mui/icons-material";
 
 import moment from "moment-jalaali";
 import _ from "lodash";
+import { useGetWarehouses } from "../warehouse/_hooks";
+import { useGetProductList } from "../products/_hooks";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
+import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
+import Backdrop from "../../../_cloner/components/Backdrop";
+import CardWithIcons from "../../../_cloner/components/CardWithIcons";
+import ReusableCard from "../../../_cloner/components/ReusableCard";
+import FormikWarehouseBasedOfType from "../../../_cloner/components/FormikWarehouseBasedOfType";
+import FormikWarehouse from "../../../_cloner/components/FormikWarehouse";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
-import { usePostTransferRemittance } from "../transferRemittance/_hooks";
+import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import TransferAmount from "../transferRemittance/TransferAmount";
+import { usePostTransferWarehouseInventory } from "./_hooks";
 
 const initialValues = {
     originWarehouseId: "",
@@ -31,10 +30,13 @@ const initialValues = {
 }
 
 
-const TransferToWarehouse = () => {
+const TransferWarehouseInventory = () => {
+    // From Warehouse Module
     const warehouse = useGetWarehouses()
     const productsInventory = useGetProductList()
-    const transfer = usePostTransferRemittance()
+
+    //From This Module
+    const transfer = usePostTransferWarehouseInventory()
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [itemSelected, setItemSelected] = useState<any>({})
@@ -61,9 +63,7 @@ const TransferToWarehouse = () => {
         const formData: any = {
             ...values,
             originWarehouseId: +values.originWarehouseId,
-            fareAmount: values.fareAmount ? +values.fareAmount : 0,
             destinationWarehouseId: +values.destinationWarehouseId.value,
-            transferRemittanceTypeId: 1,
             details: _.map(productForTransferRemittance, (item) => {
                 return {
                     productBrandId: +item.productBrandId,
@@ -114,7 +114,7 @@ const TransferToWarehouse = () => {
                                         name="originWarehouseId"
                                         label="انبار مبدا"
                                         onChange={onFilterWarehouseFrom}
-                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                        warehouse={warehouse?.data?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
                                     />
                                     <FormikWarehouse
                                         name="destinationWarehouseId"
@@ -168,4 +168,4 @@ const TransferToWarehouse = () => {
     );
 };
 
-export default TransferToWarehouse;
+export default TransferWarehouseInventory;

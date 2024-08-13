@@ -4022,6 +4022,61 @@ const PaymentRequestColumn = (renderAction: any) => {
     return col
 }
 
+const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) => {
+    const col = [
+        {
+            field: "productCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شماره انتقال",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "productName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "تاریخ انتقال",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
+        {
+            field: "productBrandName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "مبدا",
+            headerClassName: "headerClassName",
+            minWidth: 90,
+            flex: 1,
+        },
+        {
+            field: "transferAmount",
+            renderCell: (params: any) => {
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: "مقصد",
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1,
+        },
+        {
+            field: "detail",
+            renderCell: renderAction,
+            headerName: "جزئیات",
+            headerClassName: "headerClassName",
+            maxWidth: 80,
+            minWidth: 80,
+            flex: 1,
+        },
+    ];
+    return col;
+};
+
 
 export {
     ProductBrandsColumn,
@@ -4085,6 +4140,7 @@ export {
     TransferRemittanceDetailColumn,
     TransferRemittanceDetailForTransferColumn,
     ConvertPreSaleColumn,
-    PaymentRequestColumn
+    PaymentRequestColumn,
+    TransferWarehouseInventoryColumn
     // OrderConfirmColumn
 }

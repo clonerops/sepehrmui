@@ -1,10 +1,10 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { Button, Typography } from '@mui/material'
 import { DateRange, Paid } from '@mui/icons-material'
 import moment from 'moment-jalaali'
 
-import { usePostPaymentRequest } from './_hooks'
+import { useGetPaymentRequestByIdMutation, usePostPaymentRequest, useUpdatePaymentRequestById } from './_hooks'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
 
 import FormikInput from '../../../_cloner/components/FormikInput'
@@ -42,9 +42,30 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
 
     const recievePayTools = useGetReceivePaymentSources()
     const postPaymentRequestTools = usePostPaymentRequest()
+    const updatePaymentRequestTools = useUpdatePaymentRequestById()
+    const detailPaymentRequestTools = useGetPaymentRequestByIdMutation()
 
+    useEffect(() => {
+        if(id) detailPaymentRequestTools.mutate(id)
+    }, [id])
 
-    const onUpdate = (values: IRequestPayment) => { }
+    const onUpdate = (values: IRequestPayment) => {
+        const formData = {
+            ...values,
+            customerId: values.customerId.value,
+            amount: values.amount ? +values.amount?.replace(/,/g, "") : ""
+        }
+        updatePaymentRequestTools.mutate(formData, {
+            onSuccess: (response) => {
+                if (response.succeeded) {
+                    renderAlert("درخواست پرداخت با موفقیت ویرایش گردید")
+                } else {
+                    EnqueueSnackbar(response.data.Message, "warning")
+                }
+            }
+        })
+
+    }
 
     const onAdd = (values: IRequestPayment) => {
         const formData = {
@@ -55,7 +76,7 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
 
         postPaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
-                if(response.succeeded) {
+                if (response.succeeded) {
                     renderAlert("درخواست پرداخت با موفقیت ایجاد گردید")
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")
@@ -69,14 +90,19 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
         else onAdd(values);
     };
 
+    if(detailPaymentRequestTools.isLoading) {
+        return <Backdrop loading={detailPaymentRequestTools.isLoading} />
+    }
+
     return (
         <>
             {recievePayTools.isLoading && <Backdrop loading={recievePayTools.isLoading} />}
             {postPaymentRequestTools.isLoading && <Backdrop loading={postPaymentRequestTools.isLoading} />}
+            {updatePaymentRequestTools.isLoading && <Backdrop loading={updatePaymentRequestTools.isLoading} />}
 
             <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
                 <CardWithIcons
-                    title='شماره'
+                    title='شماره درخواست'
                     icon={<Paid className="text-white" />}
                     value={trachingCode || 0}
                     iconClassName='bg-[#F8B30E]' />
@@ -89,7 +115,11 @@ const PaymentRequestForm: FC<IProps> = ({ id }) => {
 
             <ReusableCard>
                 <div className='mt-2'>
-                    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                    <Formik initialValues={id ? {
+                        ...initialValues,
+                        ...detailPaymentRequestTools?.data?.data,
+                        customerId: { value: detailPaymentRequestTools?.data?.data?.customerId, label: detailPaymentRequestTools?.data?.data?.customerName }
+                    } : initialValues} onSubmit={onSubmit}>
                         {({ handleSubmit }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 space-y-4 lg:grid-cols-3 lg:space-y-0 lg:gap-4 mb-4'>

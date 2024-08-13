@@ -29,6 +29,11 @@ const useUpdatePaymentRequestById = () => {
 const useGetPaymentRequestById = (id: string) => {
     return useQuery(['RecievePayDetail', id], () => api.getPaymentRequestById(id))
 };
+const useGetPaymentRequestByIdMutation = () => {
+    return useMutation((id: any) => {
+        return api.getPaymentRequestByIdMutation(id);
+    });
+};
 const useDeletePaymentRequestById = () => {
     return useMutation((id: string) => {
         return api.deletePaymentRequestById(id);
@@ -61,5 +66,6 @@ export {
     useUpdatePaymentApproved,
     useGetPaymentRequests,
     usePutPaymentRequestRegister,
-    useDisApprovePaymentApproved
+    useDisApprovePaymentApproved,
+    useGetPaymentRequestByIdMutation
 };
