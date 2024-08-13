@@ -3993,7 +3993,7 @@ const TransferRemittanceDetailForTransferColumn = (renderDelete: (values: any) =
 
 const PaymentRequestColumn = (renderAction: any) => {
     const col = [
-        { field: "Action", headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120  },
+        { field: "Action", headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 280, maxWidth: 280  },
         {
             field: 'paymentRequestCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;

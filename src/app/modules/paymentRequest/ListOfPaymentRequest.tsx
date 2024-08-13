@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Formik } from "formik"
-import { IconButton, Tooltip, Typography } from "@mui/material"
+import { Button, IconButton, Tooltip, Typography } from "@mui/material"
 import { Edit, Search, Visibility } from "@mui/icons-material"
 import { Link } from "react-router-dom"
 import { PaymentRequestColumn } from "../../../_cloner/helpers/columns"
@@ -43,6 +43,16 @@ const ListOfPaymentRequest = () => {
           </IconButton>
         </Link>
       </Tooltip>
+      <div>
+        <Button className="!bg-green-500 hover:!bg-green-700">
+          <Typography className="">تایید</Typography>
+        </Button>
+      </div>
+      <div>
+        <Button className="!bg-red-500 hover:!bg-red-700">
+          <Typography className="text-white">عدم تایید</Typography>
+        </Button>
+      </div>
     </div>
   }
   const handleFilter = (values: any) => {
@@ -85,7 +95,7 @@ const ListOfPaymentRequest = () => {
           columns={PaymentRequestColumn(renderAction)}
           rows={paymentRequests?.data?.data}
           data={paymentRequests?.data?.data}
-          onDoubleClick={() => {}}
+          onDoubleClick={() => { }}
           hideFooter={true}
         />
         <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
