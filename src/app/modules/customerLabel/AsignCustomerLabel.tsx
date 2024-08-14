@@ -43,8 +43,6 @@ const AssignCustomerLabel = () => {
     if(selectedItems.id) customerDetailTools.mutate(selectedItems.id)
   }, [selectedItems.id])
 
-  console.log("customerDetailTools", customerDetailTools?.data?.data)
-
   const onAdd = async (values: any) => {
     try {
       const formData = {

@@ -50,7 +50,6 @@ const CustomerLabelForm:FC<IProps> = ({id, refetch, onClose}) => {
     }, [id])
 
     const renderFields = (customerLabelType: number | undefined | null) => {
-        console.log(customerLabelType)
         switch (customerLabelType) {
             case 1:
                 return <FormikType name="productTypeId" label="برچسب" boxClassName=" mt-2 md:mt-0" />

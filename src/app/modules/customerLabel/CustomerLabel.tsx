@@ -25,8 +25,6 @@ const CustomerLabels = () => {
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [itemForEdit, setItemForEdit] = useState<ICustomerLabel>();
 
-  console.log(CustomerLabels?.data)
-
   useEffect(() => {
     setResults(CustomerLabels?.data);
     // eslint-disable-next-line

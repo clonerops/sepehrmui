@@ -76,9 +76,7 @@ const ProductInventories = () => {
         });
 
     }
-
-    console.log("filterTools?.data?.data", filterTools?.data?.data)
-
+    
     return (
         <>
             {filterTools.isLoading && <Backdrop loading={filterTools.isLoading} />}

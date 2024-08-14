@@ -34,9 +34,6 @@ const InvoiceOfficial = () => {
         return <Backdrop loading={isLoading} />
     }
 
-    console.log("data", data?.data)
-
-
     return (
         <>
             <button

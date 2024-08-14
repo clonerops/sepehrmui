@@ -6,7 +6,6 @@ import { IRequestPaymentReason } from '../../app/modules/generic/_models';
 
 const FormikPaymentRequestReason = (props: any) => {
     const { data: requestPayment } = useGetRequestPaymentReason();
-    console.log("requestPayment", requestPayment)
 
     return (
         <FormikSelect

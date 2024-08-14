@@ -73,7 +73,6 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
     }
 
     const handleOrder = () => {
-        console.log("values", values)
         const productOrder: any = {
             id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,

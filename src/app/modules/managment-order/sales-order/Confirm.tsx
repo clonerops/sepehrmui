@@ -82,7 +82,6 @@ const SalesOrderConfirm = () => {
 
     const orderOrderColumnReplace = [
         { id: 5, header: "کالا رسمی", accessor: "productName", render: (params: any) => {
-            console.log(params)
             return params.alternativeProductAmount === 0 ? `${params.productName}-(${params.brandName})` : params.alternativeProductName
          }},
         { id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {

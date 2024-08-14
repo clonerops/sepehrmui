@@ -243,7 +243,6 @@ const CargoForm = () => {
                         EnqueueSnackbar(message.data.Errors[0], "error")
                     } else {
                         if (message.succeeded) {
-                            console.log(message)
                             renderSwal(`اعلام بار با شماره ${message?.data[0].cargoAnnounceNo} ثبت گردید`)
                             orderTools.refetch()
                             cargosList.mutate({})
