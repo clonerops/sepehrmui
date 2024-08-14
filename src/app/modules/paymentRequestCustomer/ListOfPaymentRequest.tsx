@@ -57,7 +57,7 @@ const ListOfPaymentRequest = () => {
 
   const handleOpenApprove = (item: any) => {
     setApprove(true)
-    setSelectedItem(item.id)
+    setSelectedItem(item)
   }
   const handleOpenReject = (item: any) => {
     setReject(true)
@@ -68,7 +68,8 @@ const ListOfPaymentRequest = () => {
     approvePaymentRequest.mutate(id, {
       onSuccess: (response) => {
         if (response.succeeded) {
-          renderAlert("تایید درخواست پرداخت با موفقیت انجام شد")
+          EnqueueSnackbar("تایید درخواست پرداخت با موفقیت انجام شد", "success")
+          setApprove(false)
           getData()
         } else {
           EnqueueSnackbar(response.data.Message, "warning")
@@ -85,7 +86,8 @@ const ListOfPaymentRequest = () => {
     rejectPaymentRequest.mutate(formData, {
       onSuccess: (response) => {
         if (response.succeeded) {
-          renderAlert("تایید درخواست پرداخت با موفقیت انجام شد")
+          EnqueueSnackbar("عدم تایید درخواست پرداخت با موفقیت انجام شد", "success")
+          setReject(false)
           getData()
         } else {
           EnqueueSnackbar(response.data.Message, "warning")
@@ -113,7 +115,7 @@ const ListOfPaymentRequest = () => {
         </Button>
       </Link>
       <div>
-        <Button onClick={() => handleOpenApprove(params?.row?.id)} className="!bg-green-500 hover:!bg-green-700">
+        <Button onClick={() => handleOpenApprove(params?.row)} className="!bg-green-500 hover:!bg-green-700">
           <Typography className="">تایید</Typography>
         </Button>
       </div>
@@ -127,6 +129,7 @@ const ListOfPaymentRequest = () => {
 
   return (
     <>
+      {paymentRequests.isLoading && <Backdrop loading={paymentRequests.isLoading} />}
       {approvePaymentRequest.isLoading && <Backdrop loading={approvePaymentRequest.isLoading} />}
       {rejectPaymentRequest.isLoading && <Backdrop loading={rejectPaymentRequest.isLoading} />}
       <ReusableCard>
@@ -139,7 +142,7 @@ const ListOfPaymentRequest = () => {
           rows={paymentRequests?.data?.data}
           data={paymentRequests?.data?.data}
           onDoubleClick={() => { }}
-          isLoading={paymentRequests.isLoading}
+          // isLoading={paymentRequests.isLoading}
           hideFooter={true}
         />
         <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />

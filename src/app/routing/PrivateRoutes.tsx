@@ -20,19 +20,19 @@ import TransferBetweenWarehouse from "../modules/warehouse/TransferBetweenWareho
 import CustomerReportMarketing from "../modules/report/CustomerReportMarketing";
 import AssignCustomerLabelV2 from "../modules/customerLabel/AsignCustomerLabelV2";
 import TransferBetweenWarehouseAction from "../modules/warehouse/TransferBetweenWarehouseAction";
-import ReadyToUnloading from "../modules/unloadingPermit/ReadyToUnloading";
 import UnloadingPermit from "../modules/unloadingPermit/UnloadingPermit";
 import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
 import UnloadingPermitList from "../modules/unloadingPermit/UnloadingPermitList";
 import UnloadingPermitDetail from "../modules/unloadingPermit/UnloadingPermitDetail";
-import PaymentRequest from "../modules/paymentRequest/PaymentRequestForm";
-import ListOfPaymentRequest from "../modules/paymentRequest/ListOfPaymentRequest";
-import PaymentRequestDetail from "../modules/paymentRequest/PaymentRequestDetail";
+import PaymentRequest from "../modules/paymentRequestCustomer/PaymentRequestForm";
+import PaymentRequestDetail from "../modules/paymentRequestCustomer/PaymentRequestDetail";
 import FinlizePreSale from "../modules/managment-order/sales-order/FinlizePreSale";
 import TransferWarehouseInventory from "../modules/transferWarehouseInventory/TransferWarehouseInventory";
 import TransferWarehouseInventoryList from "../modules/transferWarehouseInventory/TransferWarehouseInventoryList";
-import ProceedPaymentRequest from "../modules/paymentRequest/ProceedPaymentRequest";
+import ProceedPaymentRequest from "../modules/paymentRequestCustomer/ProceedPaymentRequest";
 import Personnel from "../modules/personnel/Personnel";
+import ReadyToUnloading from "../modules/unloadingPermit/ReadyToUnloading";
+import ListOfPaymentRequest from "../modules/paymentRequestCustomer/ListOfPaymentRequest";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
