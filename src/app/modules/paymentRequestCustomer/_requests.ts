@@ -1,4 +1,4 @@
-import { http, httpFormData } from "../../../_cloner/helpers/axiosConfig"
+import { http } from "../../../_cloner/helpers/axiosConfig"
 import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl"
 import {  IRequestPaymentFilter } from "./_models"
 

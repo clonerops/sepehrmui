@@ -1,4 +1,4 @@
-import { http, httpFormData } from "../../../_cloner/helpers/axiosConfig"
+import { http } from "../../../_cloner/helpers/axiosConfig"
 import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl"
 import {  IRequestPaymentFilter } from "./_models"
 
@@ -49,7 +49,7 @@ const updatePaymentRequestById = async (formData: any) => {
 
 const approvePaymentRequest = async (id: string) => {
     try {
-        const { data } = await http.put(`/v1/PersonnelPaymentRequest/ApprovePaymentRequest`, JSON.stringify({id: id}))
+        const { data } = await http.put(`/v1/PersonnelPaymentRequest/ApprovePersonnelPaymentRequest`, JSON.stringify({id: id}))
         return data
     } catch (error: any) {
         return error.response
@@ -58,7 +58,7 @@ const approvePaymentRequest = async (id: string) => {
 
 const proceedPaymentRequest = async (formData: {id: string, attachments: any}) => {
     try {
-        const { data } = await http.put(`/v1/PersonnelPaymentRequest/ProceedToPaymentRequest`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/PersonnelPaymentRequest/ProceedToPersonnelPaymentRequest`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response
@@ -66,7 +66,7 @@ const proceedPaymentRequest = async (formData: {id: string, attachments: any}) =
 }
 const rejectPaymentRequest = async (formData: {id: string, rejectReasonDesc: string}) => {
     try {
-        const { data } = await http.put(`/v1/PersonnelPaymentRequest/RejectPaymentRequest`, JSON.stringify(formData))
+        const { data } = await http.put(`/v1/PersonnelPaymentRequest/RejectPersonnelPaymentRequest`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response
