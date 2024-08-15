@@ -33,6 +33,9 @@ import ProceedPaymentRequest from "../modules/paymentRequestCustomer/ProceedPaym
 import Personnel from "../modules/personnel/Personnel";
 import ReadyToUnloading from "../modules/unloadingPermit/ReadyToUnloading";
 import ListOfPaymentRequest from "../modules/paymentRequestCustomer/ListOfPaymentRequest";
+import PaymentRequestFormPersonnel from "../modules/paymentRequestPersonnel/PaymentRequestForm";
+import PaymentRequestDetailPersonnel from "../modules/paymentRequestPersonnel/PaymentRequestDetail";
+import ListOfPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/ListOfPaymentRequest";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -237,6 +240,10 @@ export const routes: RouteProps[] = [
     { path: "dashboard/paymentRequest/list", element: <ListOfPaymentRequest /> },
     { path: "dashboard/paymentRequestDetail/:id", element: <PaymentRequestDetail /> },
     { path: "dashboard/paymentRequestEdit/:id", element: <PaymentRequest /> },
+    { path: "dashboard/personnelPaymentRequest", element: <PaymentRequestFormPersonnel /> },
+    { path: "dashboard/personnelPaymentRequest/list", element: <ListOfPaymentRequestPersonnel /> },
+    { path: "dashboard/personnelPaymentRequestDetail/:id", element: <PaymentRequestDetailPersonnel /> },
+    { path: "dashboard/personnelPaymentRequestEdit/:id", element: <PaymentRequestFormPersonnel /> },
     { path: "dashboard/purchaser_order/edit", element: <PurchaserOrderEdit /> },
     { path: "dashboard/customers", element: <Customer /> },
     { path: "dashboard/personnels", element: <Personnel /> },

@@ -20,6 +20,16 @@ const dropdownCustomer = (data: any) => {
     );
 };
 
+const dropdownPersonnel = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { firstName: string; lastName: string, id: string }): any => {
+            const { firstName, lastName, id } = obj;
+            return { value: id, label: `${firstName} ${lastName}` };
+        })
+    );
+};
+
 const dropdownBrandName = (data: any) => {
     return (
         data &&
@@ -440,6 +450,7 @@ const dropdownPaymentRequestReason = (data: any) => {
 export {
     dropdownBrand,
     dropdownCustomer,
+    dropdownPersonnel,
     dropdownBrandName,
     dropdownProduct,
     dropdownProductByBrandName,

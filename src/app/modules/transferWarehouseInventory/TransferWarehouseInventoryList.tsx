@@ -47,14 +47,14 @@ const TransferWarehouseInventoryList = () => {
 
 
     const TransferWarehouseDetailColumn = [
-        { id: 1, header: "کد کالا", accessor: "productCode" },
-        { id: 2, header: "نام کالا", accessor: "productCode" },
-        { id: 3, header: "مقدار انتقال", accessor: "productCode" },
+        { id: 1, header: "نام کالا", accessor: "productName" },
+        { id: 2, header: "نام برند", accessor: "brandName" },
+        { id: 3, header: "مقدار انتقال", accessor: "transferAmount" },
     ]
 
     return (
         <ReusableCard>
-            <SearchFromBack inputName='orderCode' initialValues={{ orderCode: "" }} onSubmit={handleFilter} label="شماره سفارش" />
+            <SearchFromBack inputName='id' initialValues={{ id: "" }} onSubmit={handleFilter} label="شماره انتقال" />
             <MuiDataGrid
                 rows={transferWarehouseInventoryTools?.data?.data}
                 data={transferWarehouseInventoryTools?.data?.data}
@@ -62,7 +62,7 @@ const TransferWarehouseInventoryList = () => {
             />
 
             <TransitionsModal width="50%" title="جزئیات انتقال کالا" open={isOpen} isClose={() => setIsOpen(false)}>
-                <MuiTable tooltipTitle={""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={[]} columns={TransferWarehouseDetailColumn} />
+                <MuiTable tooltipTitle={""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={itemSelected.details} columns={TransferWarehouseDetailColumn} />
             </TransitionsModal>
 
         </ReusableCard>

@@ -4099,9 +4099,9 @@ const PaymentRequestColumn = (renderAction: any) => {
 const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) => {
     const col = [
         {
-            field: "productCode",
+            field: "id",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || 0}</Typography>;
             },
             headerName: "شماره انتقال",
             headerClassName: "headerClassName",
@@ -4131,21 +4131,11 @@ const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) =
         {
             field: "originWarehouseDesc",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
             },
             headerName: "مبدا",
             headerClassName: "headerClassName",
             minWidth: 90,
-            flex: 1,
-        },
-        {
-            field: "originWarehouseDesc",
-            renderCell: (params: any) => {
-                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
-            },
-            headerName: "مقصد",
-            headerClassName: "headerClassName",
-            minWidth: 240,
             flex: 1,
         },
         {
