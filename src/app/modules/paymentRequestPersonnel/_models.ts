@@ -8,6 +8,7 @@ export interface IRequestPayment {
     bankAccountOrShabaNo: string | null | undefined,
     accountOwnerName: string | null | undefined,
     bankId: number | null | undefined,
+    paymentRequestTypeId: number | null | undefined,
     applicatorName: string | null | undefined,
     paymentRequestDescription: string | null | undefined
 }

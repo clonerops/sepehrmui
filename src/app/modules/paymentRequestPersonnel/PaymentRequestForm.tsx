@@ -11,14 +11,14 @@ import FormikInput from '../../../_cloner/components/FormikInput'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
-import FormikOrganzationBank from '../../../_cloner/components/FormikOrganzationBank'
 import FormikPrice from '../../../_cloner/components/FormikPrice'
 import { IRequestPayment } from './_models'
 import { renderAlert } from '../../../_cloner/helpers/sweetAlert'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
-import FormikPaymentRequestReason from '../../../_cloner/components/FormikPaymentRequestReason'
 import { useParams } from 'react-router-dom'
 import FormikPersonnel from '../../../_cloner/components/FormikPersonnel'
+import { useUserInfo } from '../user/core/_hooks'
+import RadioGroup from '../../../_cloner/components/RadioGroup'
 
 const initialValues: IRequestPayment = {
     personnelId: {
@@ -27,6 +27,7 @@ const initialValues: IRequestPayment = {
     },
     amount: "",
     paymentRequestReasonId: 0,
+    paymentRequestTypeId: 0,
     bankAccountOrShabaNo: "",
     accountOwnerName: "",
     bankId: 0,
@@ -34,11 +35,17 @@ const initialValues: IRequestPayment = {
     paymentRequestDescription: ""
 }
 
-interface IProps {}
+interface IProps { }
 
-const PaymentRequestFormPersonnel: FC<IProps> = ({}) => {
-    const {id} = useParams()
+const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
+    const { data: userInfo } = useUserInfo()
+
+    const { id } = useParams()
     const [trachingCode, setTrachingCode] = useState<any>(0)
+    const [categories, setCategories] = useState<{value: number, title: string, defaultChecked: boolean}[]>([
+        { value: 1, title: "رسمی", defaultChecked: true },
+        { value: 2, title: "غیررسمی", defaultChecked: false }
+    ])
 
     const recievePayTools = useGetReceivePaymentSources()
     const postPaymentRequestTools = usePostPaymentRequest()
@@ -46,9 +53,11 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({}) => {
     const detailPaymentRequestTools = useGetPaymentRequestByIdMutation()
 
     useEffect(() => {
-        if(id) detailPaymentRequestTools.mutate(id, {
+        if (id) detailPaymentRequestTools.mutate(id, {
             onSuccess: (response) => {
-                if(response.succeeded) setTrachingCode(response.data.paymentRequestCode)
+                if (response.succeeded) {
+                    setTrachingCode(response.data.paymentRequestCode)
+                }
             }
         })
     }, [id])
@@ -57,7 +66,7 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({}) => {
         const formData = {
             ...values,
             personnelId: values.personnelId.value,
-            amount: typeof(values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
+            amount: typeof (values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
         }
         updatePaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
@@ -94,10 +103,9 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({}) => {
         else onAdd(values);
     };
 
-    if(detailPaymentRequestTools.isLoading) {
+    if (detailPaymentRequestTools.isLoading) {
         return <Backdrop loading={detailPaymentRequestTools.isLoading} />
     }
-
     return (
         <>
             {recievePayTools.isLoading && <Backdrop loading={recievePayTools.isLoading} />}
@@ -113,27 +121,37 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({}) => {
                 <CardWithIcons
                     title='تاریخ ثبت'
                     icon={<DateRange className="text-white" />}
-                    value={id? detailPaymentRequestTools?.data?.data?.createdDate : moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
+                    value={id ? detailPaymentRequestTools?.data?.data?.createdDate : moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
                     iconClassName='bg-[#EB5553]' />
             </div>
-
+            {/* userInfo?.data?.userName */}
             <ReusableCard>
                 <div className='mt-2'>
-                    <Formik initialValues={id ? {
+                    <Formik enableReinitialize initialValues={id ? {
                         ...initialValues,
                         ...detailPaymentRequestTools?.data?.data,
+                        applicatorName: userInfo?.data?.userName,
                         personnelId: { value: detailPaymentRequestTools?.data?.data?.personnelId, label: detailPaymentRequestTools?.data?.data?.personnelName }
-                    } : initialValues} onSubmit={onSubmit}>
+                    } : {
+                        ...initialValues,
+                        applicatorName: userInfo?.data?.userName,
+                    }} onSubmit={onSubmit}>
                         {({ handleSubmit }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 space-y-4 lg:grid-cols-3 lg:space-y-0 lg:gap-4 mb-4'>
-                                    <FormikPersonnel name={"personnelId"} label={"پرسنل"} />
+                                    <FormikPersonnel name={"personnelId"} label={"پرداخت به حساب"} />
                                     <FormikPrice name={"amount"} label={"مبلغ"} type='text' />
-                                    <FormikPaymentRequestReason name={"paymentRequestReasonId"} label='بابت' />
+                                    <FormikInput name={"paymentRequestReason"} label='بابت' />
                                     <FormikInput name={"bankAccountOrShabaNo"} label='شماره حساب/کارت/شبا' type='text' />
                                     <FormikInput name={"accountOwnerName"} label='صاحب حساب' type='text' />
-                                    <FormikOrganzationBank name={"bankId"} label='بانک' />
-                                    <FormikInput name={"applicatorName"} label='درخواست کننده' type='text' />
+                                    <RadioGroup
+                                        categories={categories}
+                                        disabled={postPaymentRequestTools?.data?.succeeded}
+                                        id="paymentRequestTypeId"
+                                        key="paymentRequestTypeId"
+                                        name="paymentRequestTypeId"
+                                    />
+                                    <FormikInput name={"applicatorName"} label='درخواست کننده' type='text' disabled={true} />
                                     <div className='lg:col-span-2'>
                                         <FormikInput multiline minRows={3} name={"paymentRequestDescription"} label='توضیحات' type='text' />
                                     </div>
