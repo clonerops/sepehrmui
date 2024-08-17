@@ -64,8 +64,8 @@ const ListOfPaymentRequestPersonnel = () => {
     setSelectedItem(item)
   }
 
-  const handleApprovePaymentRequest = (id: string) => {
-    approvePaymentRequest.mutate(id, {
+  const handleApprovePaymentRequest = () => {
+    approvePaymentRequest.mutate('1', {
       onSuccess: (response) => {
         if (response.succeeded) {
           EnqueueSnackbar("تایید درخواست پرداخت با موفقیت انجام شد", "success")
@@ -147,14 +147,28 @@ const ListOfPaymentRequestPersonnel = () => {
         />
         <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>
-      <ConfirmDialog
+      {/* <ConfirmDialog
         open={approve}
         hintTitle="آیا از تایید مطمئن هستید؟"
         notConfirmText="لغو"
         confirmText={approvePaymentRequest.isLoading ? "درحال پردازش ..." : "تایید"}
         onCancel={() => setApprove(false)}
         onConfirm={() => handleApprovePaymentRequest(selecetdItem.id)}
-      />
+      /> */}
+      <TransitionsModal width="50%" open={approve} isClose={() => setApprove(false)} title={` تایید درخواست پرداخت به شماره ${selecetdItem?.paymentRequestCode}`}>
+        <Formik initialValues={{ }} onSubmit={handleApprovePaymentRequest}>
+          {({ handleSubmit }) => {
+            return <div className="mt-4">
+              
+              <div className="flex justify-end items-end my-4">
+                <Button onClick={() => handleSubmit()} className="!bg-red-500 hover:!bg-red-700">
+                  <Typography className="text-white">ثبت</Typography>
+                </Button>
+              </div>
+            </div>
+          }}
+        </Formik>
+      </TransitionsModal>
       <TransitionsModal width="50%" open={reject} isClose={() => setReject(false)} title={`عدم تایید درخواست پرداخت به شماره ${selecetdItem?.paymentRequestCode}`}>
         <Formik validationSchema={rejectReasonValidation} initialValues={{ rejectReasonDesc: "" }} onSubmit={handleRejectPaymentRequest}>
           {({ handleSubmit }) => {
