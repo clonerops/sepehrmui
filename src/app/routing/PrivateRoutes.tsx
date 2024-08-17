@@ -36,6 +36,8 @@ import ListOfPaymentRequest from "../modules/paymentRequestCustomer/ListOfPaymen
 import PaymentRequestFormPersonnel from "../modules/paymentRequestPersonnel/PaymentRequestForm";
 import PaymentRequestDetailPersonnel from "../modules/paymentRequestPersonnel/PaymentRequestDetail";
 import ListOfPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/ListOfPaymentRequest";
+import CustomerWarehouseV2 from "../modules/customerWarehouse/CustomerWarehouseV2";
+import ProceedPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/ProceedPaymentRequest";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -278,7 +280,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/payment/edit/:id", element: <RecievePaymentEdit /> },
     { path: "dashboard/brands", element: <Brands /> },
     { path: "dashboard/productTypes", element: <ProductTypes /> },
-    { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },
+    { path: "dashboard/customerWarehouse", element: <CustomerWarehouseV2 /> },
     { path: "dashboard/customerLabel", element: <AssignCustomerLabelV2 /> },
     { path: "dashboard/customerReportMarketing", element: <CustomerReportMarketing /> },
 
@@ -289,6 +291,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/transferToWarehouse", element: <TransferWarehouseInventory /> },
     { path: "dashboard/transferToWarehouseList", element: <TransferWarehouseInventoryList /> },
     { path: "dashboard/proceedPaymentRequest/:id", element: <ProceedPaymentRequest /> },
+    { path: "dashboard/personnelProceedPaymentRequest/:id", element: <ProceedPaymentRequestPersonnel /> },
     { path: "dashboard/productInventories", element: <ProductInventories /> },
     { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
     { path: "dashboard/productBrand", element: <ProductBrands /> },

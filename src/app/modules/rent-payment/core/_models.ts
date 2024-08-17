@@ -13,8 +13,8 @@ export interface IRentFilter {
     driverName?: string
     driverMobile?: string
     orderType?: string
-    fromDate?: string
-    toDate?: string
+    fromDate?: string | null
+    toDate?: string | null
     pageNumber?: number
     pageSize?: number
 }
@@ -22,7 +22,7 @@ export interface IRentFilter {
 export interface IRentPaymentFields {
     referenceCode: number,
     ladingExitPermitId: string,
-    purchaseOrderTransferRemittanceUnloadingPermitId: string,
+    unloadingPermitId: string,
     referenceDate: string,
     cargoAnnounceNo: number,
     orderTypeDesc: string,

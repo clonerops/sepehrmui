@@ -21,6 +21,8 @@ const PaymentRequestDetailPersonnel = () => {
         paymentRequestDetailTools.mutate(id)
     }, [id])
 
+    console.log("paymentRequestDetailTools", paymentRequestDetailTools?.data?.data)
+
     const fieldsValue = [
         {
             title: "شماره درخواست",

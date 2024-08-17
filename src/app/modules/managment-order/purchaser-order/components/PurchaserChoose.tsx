@@ -13,6 +13,7 @@ import Backdrop from '../../../../../_cloner/components/Backdrop'
 import FormikWarehouse from '../../../../../_cloner/components/FormikWarehouse'
 import FormikWarehouseBasedOfType from '../../../../../_cloner/components/FormikWarehouseBasedOfType'
 import { useGetWarehouses } from '../../../generic/_hooks'
+import { WarehouseType } from '../../../warehouse/_models'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, IPurchaserOrder, unknown>
@@ -63,7 +64,7 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState 
                 <FormikWarehouseBasedOfType
                     name="originWarehouseId"
                     label="انبار مبدا"
-                    warehouse={warehouse?.data?.filter((item: {warehouseTypeId: number}) => item.warehouseTypeId === 4)}
+                    warehouse={warehouse?.data?.filter((item: {warehouseTypeId: number}) => item.warehouseTypeId === WarehouseType.Mabadi)}
                 />
                 <FormikWarehouse name="destinationWarehouseId" label="انبار مقصد" />
             </div>

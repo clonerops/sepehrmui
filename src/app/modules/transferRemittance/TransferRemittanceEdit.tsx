@@ -27,6 +27,7 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import CardWithIcons from "../../../_cloner/components/CardWithIcons";
 import moment from "moment-jalaali";
 import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
+import { WarehouseType } from "../warehouse/_models";
 
 const initialValues = {
     originWarehouseId: "",
@@ -201,7 +202,7 @@ const TransferRemittanceEdit = () => {
                                         name="originWarehouseId"
                                         label="انبار مبدا"
                                         onChange={onFilterWarehouseFrom}
-                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
                                         disabled
                                     />
                                     <FormikWarehouseBasedOfType

@@ -77,7 +77,6 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({}) => {
             personnelId: values.personnelId.value,
             amount: values.amount ? +values.amount?.replace(/,/g, "") : ""
         }
-
         postPaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {

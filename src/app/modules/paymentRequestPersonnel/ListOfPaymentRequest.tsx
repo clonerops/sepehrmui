@@ -99,17 +99,17 @@ const ListOfPaymentRequestPersonnel = () => {
 
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
-      <Link to={`/dashboard/proceedPaymentRequest/${params.row.id}`}>
+      <Link to={`/dashboard/personnelProceedPaymentRequest/${params.row.id}`}>
         <Button className="!bg-fuchsia-500 hover:!bg-fuchsia-700">
           <Typography className="text-white">پرداخت</Typography>
         </Button>
       </Link>
-      <Link to={`/dashboard/paymentRequestDetail/${params.row.id}`}>
+      <Link to={`/dashboard/personnelPaymentRequestDetail/${params.row.id}`}>
         <Button className="!bg-indigo-500 hover:!bg-indigo-700">
           <Typography className="text-white">جزئیات</Typography>
         </Button>
       </Link>
-      <Link to={`/dashboard/paymentRequestEdit/${params.row.id}`}>
+      <Link to={`/dashboard/personnelPaymentRequestEdit/${params.row.id}`}>
         <Button className="!bg-yellow-500 hover:!bg-yellow-700">
           <Typography className="">ویرایش</Typography>
         </Button>

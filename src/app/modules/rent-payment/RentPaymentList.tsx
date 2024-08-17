@@ -21,8 +21,10 @@ const initialValues = {
     rentPaymentCode: "",
     referenceCode: "",
     driverName: "",
-    fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    fromDate: null,
+    toDate: null,
     orderType: ""
 }
 
@@ -38,8 +40,10 @@ const RentPaymentList = () => {
     const formData ={
         pageSize: pageSize,
         pageNumber: currentPage,
-        fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-        toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
+        // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+        fromDate: null,
+        // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
+        toDate: null,        
     }
     rentPayments.mutate(formData)
      // eslint-disable-next-line

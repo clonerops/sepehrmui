@@ -22,8 +22,10 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 const initialValues = {
     referenceCode: "",
     driverName: "",
-    fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    fromDate: null,
+    toDate: null,
     orderType: ""
 }
 
@@ -42,8 +44,10 @@ const ReadyToRent = () => {
 
     useEffect(() => {
         const formData = {
-            fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-            toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
+            // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+            // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
+            fromDate: null,
+            toDate: null,        
         }
         rentTools.mutate(formData)
         // eslint-disable-next-line

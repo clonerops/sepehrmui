@@ -50,8 +50,8 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
     const onSubmit = (values: any) => {
         const formData = {
             receivePaymentOriginId: values.receivePaymentOriginId,
-            puOrderTransRemittUnloadingPermitIds: item?.purchaseOrderTransferRemittanceUnloadingPermitId === null ? [] : [
-                item?.purchaseOrderTransferRemittanceUnloadingPermitId
+            puOrderTransRemittUnloadingPermitIds: item?.unloadingPermitId === null ? [] : [
+                item?.unloadingPermitId
             ],
             ladingExitPermitIds: item?.ladingExitPermitId === null ? [] : [
                 item?.ladingExitPermitId

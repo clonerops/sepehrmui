@@ -31,6 +31,7 @@ import moment from "moment-jalaali";
 import _ from "lodash";
 import { usePostTransferRemittance } from "./_hooks";
 import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
+import { WarehouseType } from "../warehouse/_models";
 
 const initialValues = {
     originWarehouseId: "",
@@ -166,7 +167,7 @@ const TransferRemittance = () => {
                                         name="originWarehouseId"
                                         label="انبار مبدا"
                                         onChange={onFilterWarehouseFrom}
-                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
                                     />
                                     <FormikWarehouse
                                         name="destinationWarehouseId"

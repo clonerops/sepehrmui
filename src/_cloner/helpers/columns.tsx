@@ -3836,6 +3836,32 @@ const AssignCustomerLabelsCheckboxColumn = (renderCheckbox: any) => {
     return col;
 }
 
+const AssignCustomerWarehouseCheckboxColumn = (renderCheckbox: any) => {
+    const col = [
+        {
+            field: "id",
+            headerName: "",
+            sortable: false,
+            renderCell: renderCheckbox,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "name",
+            headerName: "انبار",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+    ];
+    return col;
+}
+
+
 const CustomerReportMarketingColumn = (renderAction: any) => {
     const col = [
         {
@@ -3969,11 +3995,11 @@ const TransferRemittanceDetailColumn = (setIsOpen: (value: React.SetStateAction<
             flex: 1,
         },
         {
-            field: "purchaseInventory",
+            field: "approximateInventory",
             renderCell: (params: any) => {
                 return <Typography className="text-green-500" variant="h4">{params.value}</Typography>;
             },
-            headerName: "موجودی خرید",
+            headerName: "موجودی تقریبی",
             headerClassName: "headerClassName",
             minWidth: 120,
             maxWidth: 120,
@@ -4216,6 +4242,7 @@ export {
     TransferRemittanceDetailForTransferColumn,
     ConvertPreSaleColumn,
     PaymentRequestColumn,
-    TransferWarehouseInventoryColumn
+    TransferWarehouseInventoryColumn,
+    AssignCustomerWarehouseCheckboxColumn
     // OrderConfirmColumn
 }
