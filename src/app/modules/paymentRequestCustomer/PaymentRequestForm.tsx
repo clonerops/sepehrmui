@@ -19,6 +19,7 @@ import { renderAlert } from '../../../_cloner/helpers/sweetAlert'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import FormikPaymentRequestReason from '../../../_cloner/components/FormikPaymentRequestReason'
 import { useParams } from 'react-router-dom'
+import RadioGroup from '../../../_cloner/components/RadioGroup'
 
 const initialValues: IRequestPayment = {
     customerId: {
@@ -26,19 +27,23 @@ const initialValues: IRequestPayment = {
         label: ""
     },
     amount: "",
-    paymentRequestReasonId: 0,
+    paymentRequestReasonDesc: "",
     bankAccountOrShabaNo: "",
     accountOwnerName: "",
-    bankId: 0,
-    applicatorName: "",
+    paymentRequestTypeId: "1",
     paymentRequestDescription: ""
 }
 
-interface IProps {}
+interface IProps { }
 
-const PaymentRequestForm: FC<IProps> = ({}) => {
-    const {id} = useParams()
+const PaymentRequestForm: FC<IProps> = ({ }) => {
+    const { id } = useParams()
+
     const [trachingCode, setTrachingCode] = useState<any>(0)
+    const [categories, setCategories] = useState<{ value: string, title: string, defaultChecked: boolean }[]>([
+        { value: "1", title: "رسمی", defaultChecked: true },
+        { value: "2", title: "غیررسمی", defaultChecked: false }
+    ])
 
     const recievePayTools = useGetReceivePaymentSources()
     const postPaymentRequestTools = usePostPaymentRequest()
@@ -46,9 +51,15 @@ const PaymentRequestForm: FC<IProps> = ({}) => {
     const detailPaymentRequestTools = useGetPaymentRequestByIdMutation()
 
     useEffect(() => {
-        if(id) detailPaymentRequestTools.mutate(id, {
+        if (id) detailPaymentRequestTools.mutate(id, {
             onSuccess: (response) => {
-                if(response.succeeded) setTrachingCode(response.data.paymentRequestCode)
+                if (response.succeeded) {
+                    setTrachingCode(response.data.paymentRequestCode)
+                    setCategories([
+                        { value: "1", title: "رسمی", defaultChecked: response.data.paymentRequestTypeId === 1 ? true : false },
+                        { value: "2", title: "غیررسمی", defaultChecked: response.data.paymentRequestTypeId === 2 ? true : false }
+                    ])
+                }
             }
         })
     }, [id])
@@ -57,7 +68,7 @@ const PaymentRequestForm: FC<IProps> = ({}) => {
         const formData = {
             ...values,
             customerId: values.customerId.value,
-            amount: typeof(values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
+            amount: typeof (values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
         }
         updatePaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
@@ -75,9 +86,9 @@ const PaymentRequestForm: FC<IProps> = ({}) => {
         const formData = {
             ...values,
             customerId: values.customerId.value,
-            amount: values.amount ? +values.amount?.replace(/,/g, "") : ""
+            amount: values.amount ? +values.amount?.replace(/,/g, "") : "",
+            paymentRequestTypeId: values.paymentRequestTypeId ? +values.paymentRequestTypeId : 1
         }
-
         postPaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
@@ -94,7 +105,7 @@ const PaymentRequestForm: FC<IProps> = ({}) => {
         else onAdd(values);
     };
 
-    if(detailPaymentRequestTools.isLoading) {
+    if (detailPaymentRequestTools.isLoading) {
         return <Backdrop loading={detailPaymentRequestTools.isLoading} />
     }
 
@@ -113,28 +124,36 @@ const PaymentRequestForm: FC<IProps> = ({}) => {
                 <CardWithIcons
                     title='تاریخ ثبت'
                     icon={<DateRange className="text-white" />}
-                    value={id? detailPaymentRequestTools?.data?.data?.createdDate : moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
+                    value={id ? detailPaymentRequestTools?.data?.data?.createdDate : moment(new Date(Date.now())).format('jYYYY/jMM/jDD')}
                     iconClassName='bg-[#EB5553]' />
             </div>
 
             <ReusableCard>
                 <div className='mt-2'>
-                    <Formik initialValues={id ? {
+                    <Formik enableReinitialize initialValues={id ? {
                         ...initialValues,
                         ...detailPaymentRequestTools?.data?.data,
                         customerId: { value: detailPaymentRequestTools?.data?.data?.customerId, label: detailPaymentRequestTools?.data?.data?.customerName }
-                    } : initialValues} onSubmit={onSubmit}>
+                    } : {
+                        ...initialValues,
+                    }} onSubmit={onSubmit}>
                         {({ handleSubmit }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 space-y-4 lg:grid-cols-3 lg:space-y-0 lg:gap-4 mb-4'>
-                                    <FormikCustomer name={"customerId"} label={"مشتری"} />
+                                    <FormikCustomer name={"customerId"} label={"پرداخت به حساب"} />
                                     <FormikPrice name={"amount"} label={"مبلغ"} type='text' />
-                                    <FormikPaymentRequestReason name={"paymentRequestReasonId"} label='بابت' />
+                                    <FormikInput name={"paymentRequestReasonDesc"} label='بابت' />
                                     <FormikInput name={"bankAccountOrShabaNo"} label='شماره حساب/کارت/شبا' type='text' />
                                     <FormikInput name={"accountOwnerName"} label='صاحب حساب' type='text' />
-                                    <FormikOrganzationBank name={"bankId"} label='بانک' />
-                                    <FormikInput name={"applicatorName"} label='درخواست کننده' type='text' />
-                                    <div className='lg:col-span-2'>
+                                    <RadioGroup
+                                        categories={categories}
+                                        disabled={postPaymentRequestTools?.data?.succeeded}
+                                        id="paymentRequestTypeId"
+                                        key="paymentRequestTypeId"
+                                        name="paymentRequestTypeId"
+                                    />
+
+                                    <div className='lg:col-span-3'>
                                         <FormikInput multiline minRows={3} name={"paymentRequestDescription"} label='توضیحات' type='text' />
                                     </div>
                                 </div>
