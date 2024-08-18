@@ -3997,7 +3997,7 @@ const TransferRemittanceDetailColumn = (setIsOpen: (value: React.SetStateAction<
         {
             field: "approximateInventory",
             renderCell: (params: any) => {
-                return <Typography className="text-green-500" variant="h4">{params.value}</Typography>;
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
             },
             headerName: "موجودی تقریبی",
             headerClassName: "headerClassName",

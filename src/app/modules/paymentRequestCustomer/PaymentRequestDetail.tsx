@@ -78,6 +78,12 @@ const PaymentRequestDetail = () => {
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
+        {
+            title: "پرداخت از",
+            value: `${paymentRequestDetailTools?.data?.data?.paymentOriginDesc || "ثبت نشده"}`,
+            icon: <Apps className="text-black" />,
+            bgColor: "bg-[#ECEFF3]"
+        },
     ]
 
     useEffect(() => {
@@ -108,7 +114,7 @@ const PaymentRequestDetail = () => {
                         iconClassName={item.bgColor}
                     />
                 )}
-                <div className="lg:col-span-3">
+                <div className="lg:col-span-2">
                     <CardWithIcons
                         title={"توضیحات درخواست"}
                         icon={<Numbers className="text-black" />}
