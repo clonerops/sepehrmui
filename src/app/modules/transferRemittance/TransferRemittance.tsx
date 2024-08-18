@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import { Formik, FormikErrors, FormikProps } from "formik";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikWarehouse from "../../../_cloner/components/FormikWarehouse";
-import RadioGroup from "../../../_cloner/components/RadioGroup";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikAmount from "../../../_cloner/components/FormikAmount";
 import FormikInput from "../../../_cloner/components/FormikInput";
@@ -20,10 +19,9 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { useGetVehicleTypes, useGetWarehouses } from "../generic/_hooks";
 import { useGetProductList } from "../products/_hooks";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
-import { AddTask, DesignServices } from "@mui/icons-material";
+import { AddTask, DesignServices, Sell } from "@mui/icons-material";
 import { TransferRemittanceValidation } from "./_validation";
 import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 
@@ -182,9 +180,9 @@ const TransferRemittance = () => {
                             <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
                                 <CardWithIcons
                                     title='شماره سفارش خرید'
-                                    icon={<DesignServices className="text-white" />}
+                                    icon={<Sell className="text-white" />}
                                     value={<FormikInput name="purchaseOrderCode" label="شماره سفارش" onBlur={handleGetPurchaseOderDetail} />}
-                                    iconClassName='bg-[#3322D8]'
+                                    iconClassName='bg-[#5836A5]'
                                     textClassName="!mt-4" />
                                 <CardWithIcons
                                     title='شماره حواله'
