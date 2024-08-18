@@ -7,9 +7,10 @@ interface IProps {
     title: string
     value: any,
     iconClassName: string
+    textClassName?: string
 }
 
-const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName}) => {
+const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName, textClassName}) => {
     return (
         <>
             <ReusableCard cardClassName="w-full">
@@ -23,7 +24,7 @@ const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName}) => {
                         {icon}
                     </div>
                 </div>
-                <Typography variant="h2">{value}</Typography>
+                <Typography variant="h2" className={textClassName}>{value}</Typography>
             </ReusableCard>
         </>
     );

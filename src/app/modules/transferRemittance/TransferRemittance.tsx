@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Formik, FormikErrors } from "formik";
+import { useRef, useState } from "react";
+import { Formik, FormikErrors, FormikProps } from "formik";
 import { Button, Typography } from "@mui/material";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
@@ -32,11 +32,13 @@ import _ from "lodash";
 import { usePostTransferRemittance } from "./_hooks";
 import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
 import { WarehouseType } from "../warehouse/_models";
+import { useGetPurchaserOrderDetailByCode } from "../managment-order/core/_hooks";
 
 const initialValues = {
     originWarehouseId: "",
     destinationWarehouseId: "",
     transferRemittanceTypeId: "",
+    purchaseOrderCode: "",
     description: ""
 }
 
@@ -66,10 +68,13 @@ const fields: FieldType[][] = [
 
 
 const TransferRemittance = () => {
+    let formikRef = useRef<FormikProps<any>>(null);
+
     const vehicleList = useGetVehicleTypes()
     const warehouse = useGetWarehouses()
     const productsInventory = useGetProductList()
     const transfer = usePostTransferRemittance()
+    const purchaseOrderDetail = useGetPurchaserOrderDetailByCode()
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [itemSelected, setItemSelected] = useState<any>({})
@@ -109,6 +114,26 @@ const TransferRemittance = () => {
         productsInventory.mutate(filter)
     }
 
+    const handleGetPurchaseOderDetail = (values: any) => {
+        purchaseOrderDetail.mutate(formikRef?.current?.values?.purchaseOrderCode, {
+            onSuccess: (response) => {
+                if(response.succeeded) {
+                    formikRef?.current?.setFieldValue("originWarehouseId", +response?.data?.originWarehouseId)
+                    formikRef?.current?.setFieldValue("destinationWarehouseId", {value: response?.data?.destinationWarehouseId, label: response?.data?.destinationWarehouseDesc})
+                    const filter = {
+                        ByBrand: true,
+                        HasPurchaseInventory: true,
+                        WarehouseId: +response?.data?.originWarehouseId
+                    }
+                    productsInventory.mutate(filter)
+            
+                } else {
+                    EnqueueSnackbar(response.data.Message, "warning")
+                }
+            }
+        })
+    }
+
     const handleTransferRemittance = (values: any) => {
         const formData: any = {
             ...values,
@@ -140,6 +165,8 @@ const TransferRemittance = () => {
         })
     }
 
+    console.log(purchaseOrderDetail)
+
     return (
         <>
             {transfer.isLoading && <Backdrop loading={transfer.isLoading} />}
@@ -147,11 +174,17 @@ const TransferRemittance = () => {
             {warehouse.isLoading && <Backdrop loading={warehouse.isLoading} />}
             {productsInventory.isLoading && <Backdrop loading={productsInventory.isLoading} />}
 
-            <Formik initialValues={initialValues} validationSchema={TransferRemittanceValidation} onSubmit={handleTransferRemittance}>
+            <Formik enableReinitialize innerRef={formikRef} initialValues={initialValues} validationSchema={TransferRemittanceValidation} onSubmit={handleTransferRemittance}>
                 {({ setFieldValue, handleSubmit }) => {
                     return (
                         <form onSubmit={handleSubmit}>
-                            <div className="grid grid-cols-1 lg:grid-cols-3 mb-4 gap-4">
+                            <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
+                                <CardWithIcons
+                                    title='شماره سفارش خرید'
+                                    icon={<DesignServices className="text-white" />}
+                                    value={<FormikInput name="purchaseOrderCode" label="شماره سفارش" onBlur={handleGetPurchaseOderDetail} />}
+                                    iconClassName='bg-[#3322D8]'
+                                    textClassName="!mt-4" />
                                 <CardWithIcons
                                     title='شماره حواله'
                                     icon={<DesignServices className="text-white" />}
@@ -168,10 +201,12 @@ const TransferRemittance = () => {
                                         label="انبار مبدا"
                                         onChange={onFilterWarehouseFrom}
                                         warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
+                                        disabled={!purchaseOrderDetail?.data?.succeeded}
                                     />
                                     <FormikWarehouse
                                         name="destinationWarehouseId"
                                         label="انبار مقصد"
+                                        disabled={!purchaseOrderDetail?.data?.succeeded}
                                     />
                                 </ReusableCard>
                                 {/* <ReusableCard cardClassName="flex justify-center items-center flex-col gap-y-4">
@@ -216,7 +251,7 @@ const TransferRemittance = () => {
                                 ))}
                             </ReusableCard>
                             <div className="flex justify-end items-end mt-8">
-                                <ButtonComponent disabled={productForTransferRemittance.length < 0}>
+                                <ButtonComponent disabled={productForTransferRemittance.length <= 0 || !purchaseOrderDetail?.data?.succeeded}>
                                     <Typography variant="h4" className="px-4 py-2 text-white">ثبت صدور حواله</Typography>
                                 </ButtonComponent>
                             </div>
