@@ -19,6 +19,7 @@ import { useParams } from 'react-router-dom'
 import FormikPersonnel from '../../../_cloner/components/FormikPersonnel'
 import { useUserInfo } from '../user/core/_hooks'
 import RadioGroup from '../../../_cloner/components/RadioGroup'
+import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
 
 const initialValues: IRequestPayment = {
     personnelId: {
@@ -26,25 +27,22 @@ const initialValues: IRequestPayment = {
         label: ""
     },
     amount: "",
-    paymentRequestReasonId: 0,
-    paymentRequestTypeId: 0,
+    paymentRequestReasonDesc: "",
     bankAccountOrShabaNo: "",
     accountOwnerName: "",
-    bankId: 0,
-    applicatorName: "",
+    paymentRequestTypeId: "1",
     paymentRequestDescription: ""
 }
 
 interface IProps { }
 
 const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
-    const { data: userInfo } = useUserInfo()
 
     const { id } = useParams()
     const [trachingCode, setTrachingCode] = useState<any>(0)
-    const [categories, setCategories] = useState<{value: number, title: string, defaultChecked: boolean}[]>([
-        { value: 1, title: "رسمی", defaultChecked: true },
-        { value: 2, title: "غیررسمی", defaultChecked: false }
+    const [categories, setCategories] = useState<{value: string, title: string, defaultChecked: boolean}[]>([
+        { value: "1", title: "رسمی", defaultChecked: true },
+        { value: "2", title: "غیررسمی", defaultChecked: false }
     ])
 
     const recievePayTools = useGetReceivePaymentSources()
@@ -57,6 +55,10 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
             onSuccess: (response) => {
                 if (response.succeeded) {
                     setTrachingCode(response.data.paymentRequestCode)
+                    setCategories([
+                        { value: "1", title: "رسمی", defaultChecked: response.data.paymentRequestTypeId === 1 ? true : false },
+                        { value: "2", title: "غیررسمی", defaultChecked: response.data.paymentRequestTypeId === 2 ? true : false }
+                    ])
                 }
             }
         })
@@ -66,7 +68,9 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
         const formData = {
             ...values,
             personnelId: values.personnelId.value,
-            amount: typeof (values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
+            amount: typeof (values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount,
+            paymentRequestTypeId: values.paymentRequestTypeId ? +values.paymentRequestTypeId : 1
+
         }
         updatePaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
@@ -84,11 +88,14 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
         const formData = {
             ...values,
             personnelId: values.personnelId.value,
-            amount: values.amount ? +values.amount?.replace(/,/g, "") : ""
+            amount: values.amount ? +values.amount?.replace(/,/g, "") : "",
+            paymentRequestTypeId: values.paymentRequestTypeId ? +values.paymentRequestTypeId : 1
+
         }
         postPaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
+                    setTrachingCode(response.data.paymentRequestCode)
                     renderAlert(`درخواست پرداخت با شماره ${response.data.paymentRequestCode} موفقیت ایجاد گردید`)
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")
@@ -105,6 +112,7 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
     if (detailPaymentRequestTools.isLoading) {
         return <Backdrop loading={detailPaymentRequestTools.isLoading} />
     }
+    console.log(detailPaymentRequestTools?.data?.data)
     return (
         <>
             {recievePayTools.isLoading && <Backdrop loading={recievePayTools.isLoading} />}
@@ -129,18 +137,17 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
                     <Formik enableReinitialize initialValues={id ? {
                         ...initialValues,
                         ...detailPaymentRequestTools?.data?.data,
-                        applicatorName: userInfo?.data?.userName,
+                        amount: separateAmountWithCommas(detailPaymentRequestTools?.data?.data?.amount),
                         personnelId: { value: detailPaymentRequestTools?.data?.data?.personnelId, label: detailPaymentRequestTools?.data?.data?.personnelName }
                     } : {
                         ...initialValues,
-                        applicatorName: userInfo?.data?.userName,
                     }} onSubmit={onSubmit}>
                         {({ handleSubmit }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 space-y-4 lg:grid-cols-3 lg:space-y-0 lg:gap-4 mb-4'>
                                     <FormikPersonnel name={"personnelId"} label={"پرداخت به حساب"} />
                                     <FormikPrice name={"amount"} label={"مبلغ"} type='text' />
-                                    <FormikInput name={"paymentRequestReason"} label='بابت' />
+                                    <FormikInput name={"paymentRequestReasonDesc"} label='بابت' />
                                     <FormikInput name={"bankAccountOrShabaNo"} label='شماره حساب/کارت/شبا' type='text' />
                                     <FormikInput name={"accountOwnerName"} label='صاحب حساب' type='text' />
                                     <RadioGroup
@@ -150,8 +157,7 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
                                         key="paymentRequestTypeId"
                                         name="paymentRequestTypeId"
                                     />
-                                    <FormikInput name={"applicatorName"} label='درخواست کننده' type='text' disabled={true} />
-                                    <div className='lg:col-span-2'>
+                                    <div className='lg:col-span-3'>
                                         <FormikInput multiline minRows={3} name={"paymentRequestDescription"} label='توضیحات' type='text' />
                                     </div>
                                 </div>

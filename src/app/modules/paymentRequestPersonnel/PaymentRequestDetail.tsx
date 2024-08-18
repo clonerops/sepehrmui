@@ -9,6 +9,7 @@ import { convertFilesToBase64 } from "../../../_cloner/helpers/convertToBase64"
 import { useGetPaymentRequestByIdMutation } from "./_hooks"
 import ImagePreview from "../../../_cloner/components/ImagePreview"
 import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 
 const PaymentRequestDetailPersonnel = () => {
     const [files, setFiles] = useState<File[]>([])
@@ -38,7 +39,7 @@ const PaymentRequestDetailPersonnel = () => {
         },
         {
             title: "درخواست کننده",
-            value: `${paymentRequestDetailTools?.data?.data?.applicatorName || "ثبت نشده"}`,
+            value: `${paymentRequestDetailTools?.data?.data?.creatorName || "ثبت نشده"}`,
             // value: separateAmountWithCommas(exitDetailTools?.data?.data?.fareAmount),
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
@@ -51,7 +52,7 @@ const PaymentRequestDetailPersonnel = () => {
         },
         {
             title: "مبلغ",
-            value: `${paymentRequestDetailTools?.data?.data?.amount || "ثبت نشده"}`,
+            value: `${separateAmountWithCommas(paymentRequestDetailTools?.data?.data?.amount) || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
@@ -70,12 +71,6 @@ const PaymentRequestDetailPersonnel = () => {
         {
             title: "صاحب حساب",
             value: `${paymentRequestDetailTools?.data?.data?.accountOwnerName || "ثبت نشده"}`,
-            icon: <Apps className="text-black" />,
-            bgColor: "bg-[#ECEFF3]"
-        },
-        {
-            title: "بانک",
-            value: `${paymentRequestDetailTools?.data?.data?.bankName || "ثبت نشده"}`,
             icon: <Apps className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
@@ -115,7 +110,7 @@ const PaymentRequestDetailPersonnel = () => {
                         iconClassName={item.bgColor}
                     />
                 )}
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-3">
                     <CardWithIcons
                         title={"توضیحات درخواست"}
                         icon={<Numbers className="text-black" />}

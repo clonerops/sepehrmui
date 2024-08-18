@@ -17,6 +17,7 @@ import TransitionsModal from "../../../_cloner/components/ReusableModal"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import { rejectReasonValidation } from "./_validation"
 import FormikPrice from "../../../_cloner/components/FormikPrice"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 
 const pageSize = 100
 
@@ -57,7 +58,6 @@ const ListOfPaymentRequestPersonnel = () => {
   };
 
   const handleOpenApprove = (item: any) => {
-    console.log(item)
     setApprove(true)
     setSelectedItem(item)
   }
@@ -66,8 +66,13 @@ const ListOfPaymentRequestPersonnel = () => {
     setSelectedItem(item)
   }
 
-  const handleApprovePaymentRequest = () => {
-    approvePaymentRequest.mutate('1', {
+  const handleApprovePaymentRequest = (values: any) => {
+    const formData = {
+      id: selecetdItem.id,
+      amount: typeof (values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
+    }
+
+    approvePaymentRequest.mutate(formData, {
       onSuccess: (response) => {
         if (response.succeeded) {
           EnqueueSnackbar("تایید درخواست پرداخت با موفقیت انجام شد", "success")
@@ -152,12 +157,13 @@ const ListOfPaymentRequestPersonnel = () => {
         <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>
       <TransitionsModal width="50%" open={approve} isClose={() => setApprove(false)} title={` تایید درخواست پرداخت به شماره ${selecetdItem?.paymentRequestCode}`}>
-        <Formik initialValues={{ amount: selecetdItem?.amount }} onSubmit={handleApprovePaymentRequest}>
+        <Formik initialValues={{ amount: separateAmountWithCommas(selecetdItem?.amount) }} onSubmit={handleApprovePaymentRequest}>
           {({ handleSubmit }) => {
             return <div className="mt-4">
+              <Typography variant="h4" className="text-red-500 !mb-4">درصورتی که نیاز به ویرایش مبلغ درخواست شده دارید از طریق فرم زیر می تواندی اقدام به ویرایش و سپس ثبت تایید نمایید</Typography>
               <FormikPrice name="amount" label="مبلغ" />
               <div className="flex justify-end items-end my-4">
-                <Button onClick={() => handleSubmit()} className="!bg-red-500 hover:!bg-red-700">
+                <Button onClick={() => handleSubmit()} className="!bg-green-500 hover:!bg-green-700">
                   <Typography className="text-white">ثبت</Typography>
                 </Button>
               </div>

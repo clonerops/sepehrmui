@@ -80,7 +80,7 @@ const ProceedPaymentRequest = () => {
             id: id,
             attachments: attachments,
             paymentOriginTypeId: +values.paymentOriginTypeId,
-            paymentOriginId: +values.paymentOriginTypeId === 1 ? values.paymentOriginId.value : values.paymentOriginId
+            paymentOriginId: +values.paymentOriginTypeId === 1 ? values.paymentOriginId.value : values.paymentOriginId.toString()
         }
         proceedPaymentRequest.mutate(formData, {
             onSuccess: (response) => {

@@ -95,6 +95,7 @@ const PaymentRequestForm: FC<IProps> = ({ }) => {
         postPaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
+                    setTrachingCode(response.data.paymentRequestCode)
                     renderAlert(`درخواست پرداخت با شماره ${response.data.paymentRequestCode} موفقیت ایجاد گردید`)
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")

@@ -1,6 +1,6 @@
 import { http } from "../../../_cloner/helpers/axiosConfig"
 import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl"
-import {  IRequestPaymentFilter } from "./_models"
+import {  IArrpoveRequestPayment, IProccedRequestPayment, IRequestPaymentFilter } from "./_models"
 
 const getPaymentRequests = async (filters: IRequestPaymentFilter) => {
     try {
@@ -47,16 +47,16 @@ const updatePaymentRequestById = async (formData: any) => {
 }
 
 
-const approvePaymentRequest = async (id: string) => {
+const approvePaymentRequest = async (formData: IArrpoveRequestPayment) => {
     try {
-        const { data } = await http.put(`/v1/PersonnelPaymentRequest/ApprovePersonnelPaymentRequest`, JSON.stringify({id: id}))
+        const { data } = await http.put(`/v1/PersonnelPaymentRequest/ApprovePersonnelPaymentRequest`, JSON.stringify(formData))
         return data
     } catch (error: any) {
         return error.response
     }
 }
 
-const proceedPaymentRequest = async (formData: {id: string, attachments: any}) => {
+const proceedPaymentRequest = async (formData: IProccedRequestPayment) => {
     try {
         const { data } = await http.put(`/v1/PersonnelPaymentRequest/ProceedToPersonnelPaymentRequest`, JSON.stringify(formData))
         return data

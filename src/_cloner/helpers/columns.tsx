@@ -4102,13 +4102,7 @@ const PaymentRequestColumn = (renderAction: any) => {
             field: 'creatorName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'ثبت کننده درخواست', headerClassName: "headerClassName", minWidth: 120, flex: 1
-        },
-        {
-            field: 'applicatorName', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
-            },
-            headerName: 'درخواست کننده', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+            headerName: 'درخواست کننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'paymentRequestReasonDesc', renderCell: (params: any) => {
