@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IRequestPaymentFilter } from "./_models";
+import { IArrpoveRequestPayment, IProccedRequestPayment, IRequestPaymentFilter } from "./_models";
 import * as api from "./_requests";
 
 const useGetPaymentRequests = () => {
@@ -30,12 +30,12 @@ const useGetPaymentRequestByIdMutation = () => {
 };
 
 const useApprovePaymentRequest = () => {
-    return useMutation((id: string) => {
-        return api.approvePaymentRequest(id);
+    return useMutation((formData: IArrpoveRequestPayment) => {
+        return api.approvePaymentRequest(formData);
     });
 };
 const useProceedPaymentRequest = () => {
-    return useMutation((formData: {id: string, attachments: any}) => {
+    return useMutation((formData: IProccedRequestPayment) => {
         return api.proceedPaymentRequest(formData);
     });
 };

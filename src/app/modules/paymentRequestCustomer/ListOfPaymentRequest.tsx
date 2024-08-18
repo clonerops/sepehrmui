@@ -16,6 +16,8 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 import TransitionsModal from "../../../_cloner/components/ReusableModal"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import { rejectReasonValidation } from "./_validation"
+import FormikPrice from "../../../_cloner/components/FormikPrice"
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 
 const pageSize = 100
 
@@ -64,8 +66,12 @@ const ListOfPaymentRequest = () => {
     setSelectedItem(item)
   }
 
-  const handleApprovePaymentRequest = (id: string) => {
-    approvePaymentRequest.mutate(id, {
+  const handleApprovePaymentRequest = (values: any) => {
+    const formData = {
+      id: selecetdItem.id,
+      amount: typeof (values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
+    }
+    approvePaymentRequest.mutate(formData, {
       onSuccess: (response) => {
         if (response.succeeded) {
           EnqueueSnackbar("تایید درخواست پرداخت با موفقیت انجام شد", "success")
@@ -127,6 +133,8 @@ const ListOfPaymentRequest = () => {
     </div>
   }
 
+  console.log(selecetdItem)
+
   return (
     <>
       {paymentRequests.isLoading && <Backdrop loading={paymentRequests.isLoading} />}
@@ -147,14 +155,21 @@ const ListOfPaymentRequest = () => {
         />
         <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>
-      <ConfirmDialog
-        open={approve}
-        hintTitle="آیا از تایید مطمئن هستید؟"
-        notConfirmText="لغو"
-        confirmText={approvePaymentRequest.isLoading ? "درحال پردازش ..." : "تایید"}
-        onCancel={() => setApprove(false)}
-        onConfirm={() => handleApprovePaymentRequest(selecetdItem.id)}
-      />
+      <TransitionsModal width="50%" open={approve} isClose={() => setApprove(false)} title={` تایید درخواست پرداخت به شماره ${selecetdItem?.paymentRequestCode}`}>
+        <Formik initialValues={{  amount: separateAmountWithCommas(selecetdItem?.amount)}} onSubmit={handleApprovePaymentRequest}>
+          {({ handleSubmit }) => {
+            return <div className="mt-4">
+              <Typography variant="h4" className="text-red-500 !mb-4">درصورتی که نیاز به ویرایش مبلغ درخواست شده دارید از طریق فرم زیر می تواندی اقدام به ویرایش و سپس ثبت تایید نمایید</Typography>
+              <FormikPrice name="amount" label="مبلغ" />
+              <div className="flex justify-end items-end my-4">
+                <Button onClick={() => handleSubmit()} className="!bg-green-500 hover:!bg-green-700">
+                  <Typography className="text-white">ثبت</Typography>
+                </Button>
+              </div>
+            </div>
+          }}
+        </Formik>
+      </TransitionsModal>
       <TransitionsModal width="50%" open={reject} isClose={() => setReject(false)} title={`عدم تایید درخواست پرداخت به شماره ${selecetdItem?.paymentRequestCode}`}>
         <Formik validationSchema={rejectReasonValidation} initialValues={{ rejectReasonDesc: "" }} onSubmit={handleRejectPaymentRequest}>
           {({ handleSubmit }) => {

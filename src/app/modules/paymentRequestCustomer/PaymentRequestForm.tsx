@@ -20,6 +20,7 @@ import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import FormikPaymentRequestReason from '../../../_cloner/components/FormikPaymentRequestReason'
 import { useParams } from 'react-router-dom'
 import RadioGroup from '../../../_cloner/components/RadioGroup'
+import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
 
 const initialValues: IRequestPayment = {
     customerId: {
@@ -68,7 +69,9 @@ const PaymentRequestForm: FC<IProps> = ({ }) => {
         const formData = {
             ...values,
             customerId: values.customerId.value,
-            amount: typeof (values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount
+            amount: typeof (values.amount) === "string" ? +values.amount?.replace(/,/g, "") : values.amount,
+            paymentRequestTypeId: values.paymentRequestTypeId ? +values.paymentRequestTypeId : 1
+
         }
         updatePaymentRequestTools.mutate(formData, {
             onSuccess: (response) => {
@@ -133,6 +136,7 @@ const PaymentRequestForm: FC<IProps> = ({ }) => {
                     <Formik enableReinitialize initialValues={id ? {
                         ...initialValues,
                         ...detailPaymentRequestTools?.data?.data,
+                        amount: separateAmountWithCommas(detailPaymentRequestTools?.data?.data?.amount),
                         customerId: { value: detailPaymentRequestTools?.data?.data?.customerId, label: detailPaymentRequestTools?.data?.data?.customerName }
                     } : {
                         ...initialValues,

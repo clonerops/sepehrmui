@@ -16,6 +16,7 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 import TransitionsModal from "../../../_cloner/components/ReusableModal"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import { rejectReasonValidation } from "./_validation"
+import FormikPrice from "../../../_cloner/components/FormikPrice"
 
 const pageSize = 100
 
@@ -56,6 +57,7 @@ const ListOfPaymentRequestPersonnel = () => {
   };
 
   const handleOpenApprove = (item: any) => {
+    console.log(item)
     setApprove(true)
     setSelectedItem(item)
   }
@@ -127,6 +129,8 @@ const ListOfPaymentRequestPersonnel = () => {
     </div>
   }
 
+  console.log(selecetdItem)
+
   return (
     <>
       {paymentRequests.isLoading && <Backdrop loading={paymentRequests.isLoading} />}
@@ -147,19 +151,11 @@ const ListOfPaymentRequestPersonnel = () => {
         />
         <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>
-      {/* <ConfirmDialog
-        open={approve}
-        hintTitle="آیا از تایید مطمئن هستید؟"
-        notConfirmText="لغو"
-        confirmText={approvePaymentRequest.isLoading ? "درحال پردازش ..." : "تایید"}
-        onCancel={() => setApprove(false)}
-        onConfirm={() => handleApprovePaymentRequest(selecetdItem.id)}
-      /> */}
       <TransitionsModal width="50%" open={approve} isClose={() => setApprove(false)} title={` تایید درخواست پرداخت به شماره ${selecetdItem?.paymentRequestCode}`}>
-        <Formik initialValues={{ }} onSubmit={handleApprovePaymentRequest}>
+        <Formik initialValues={{ amount: selecetdItem?.amount }} onSubmit={handleApprovePaymentRequest}>
           {({ handleSubmit }) => {
             return <div className="mt-4">
-              
+              <FormikPrice name="amount" label="مبلغ" />
               <div className="flex justify-end items-end my-4">
                 <Button onClick={() => handleSubmit()} className="!bg-red-500 hover:!bg-red-700">
                   <Typography className="text-white">ثبت</Typography>

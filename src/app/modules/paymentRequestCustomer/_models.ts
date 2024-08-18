@@ -11,6 +11,18 @@ export interface IRequestPayment {
     paymentRequestTypeId: string | null | undefined
 }
 
+export interface IArrpoveRequestPayment {
+    id: string
+    amount: number
+}
+
+export interface IProccedRequestPayment {
+    id: string,
+    paymentOriginTypeId: number,
+    paymentOriginId: any,
+    attachments: any
+  
+}
 
 export interface IRequestPaymentFilter {
     FromDate?: string | null | undefined
