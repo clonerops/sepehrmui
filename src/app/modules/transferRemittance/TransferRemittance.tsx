@@ -138,6 +138,7 @@ const TransferRemittance = () => {
         const formData: any = {
             ...values,
             originWarehouseId: +values.originWarehouseId,
+            purchaseOrderId: purchaseOrderDetail?.data?.id,
             fareAmount: values.fareAmount ? +values.fareAmount : 0,
             destinationWarehouseId: +values.destinationWarehouseId.value,
             transferRemittanceTypeId: 1,
