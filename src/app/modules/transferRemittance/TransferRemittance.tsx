@@ -136,7 +136,7 @@ const TransferRemittance = () => {
         const formData: any = {
             ...values,
             originWarehouseId: +values.originWarehouseId,
-            purchaseOrderId: purchaseOrderDetail?.data?.id,
+            purchaseOrderId: purchaseOrderDetail?.data?.data?.id,
             fareAmount: values.fareAmount ? +values.fareAmount : 0,
             destinationWarehouseId: +values.destinationWarehouseId.value,
             transferRemittanceTypeId: 1,
@@ -148,7 +148,7 @@ const TransferRemittance = () => {
             }),
             description: values.description
         }
-
+        console.log(formData)
         transfer.mutate(formData, {
             onSuccess: (response) => {
                 if (response.data.Errors && response.data.Errors.length > 0) {
@@ -164,7 +164,7 @@ const TransferRemittance = () => {
         })
     }
 
-    console.log(purchaseOrderDetail)
+    console.log(purchaseOrderDetail?.data?.data)
 
     return (
         <>
