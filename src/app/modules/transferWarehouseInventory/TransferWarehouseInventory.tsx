@@ -16,7 +16,7 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikWarehouseBasedOfType from "../../../_cloner/components/FormikWarehouseBasedOfType";
 import FormikWarehouse from "../../../_cloner/components/FormikWarehouse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
+import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn, TransferRemittanceDetailInventoryColumn } from "../../../_cloner/helpers/columns";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import TransferAmount from "../transferRemittance/TransferAmount";
@@ -126,7 +126,7 @@ const TransferWarehouseInventory = () => {
                                 <div>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای موجود در انبار</Typography>
                                     <MuiDataGrid
-                                        columns={TransferRemittanceDetailColumn(setIsOpen, setItemSelected)}
+                                        columns={TransferRemittanceDetailInventoryColumn(setIsOpen, setItemSelected)}
                                         rows={productsInventory.data?.data || []}
                                         data={productsInventory.data?.data || []}
                                         isLoading={productsInventory.isLoading}

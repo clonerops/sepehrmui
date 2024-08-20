@@ -4018,6 +4018,76 @@ const TransferRemittanceDetailColumn = (setIsOpen: (value: React.SetStateAction<
     ];
     return col;
 };
+
+const TransferRemittanceDetailInventoryColumn = (setIsOpen: (value: React.SetStateAction<boolean>) => void, setItemSelected: (value: any) => void) => {
+    const col = [
+        {
+            field: "productCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "کد کالا",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            maxWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "productName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام کالا",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
+        {
+            field: "productBrandName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "برند",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "purchaseInventory",
+            renderCell: (params: any) => {
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: "موجودی خرید",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            maxWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "approximateInventory",
+            renderCell: (params: any) => {
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: "موجودی تقریبی",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            maxWidth: 120,
+            flex: 1,
+        },
+        {
+            headerName: 'عملیات', flex: 1, renderCell: (params: any) => {
+                return <Button variant="contained" color="secondary" onClick={() => {
+                    setIsOpen(true)
+                    setItemSelected(params.row)
+                }}>
+                    <Typography>انتقال</Typography>
+                </Button>
+            }, headerClassName: "headerClassName", minWidth: 160
+        }
+    ];
+    return col;
+};
+
 const TransferRemittanceDetailForTransferColumn = (renderDelete: (values: any) => void) => {
     const col = [
         {
@@ -4237,6 +4307,7 @@ export {
     ConvertPreSaleColumn,
     PaymentRequestColumn,
     TransferWarehouseInventoryColumn,
-    AssignCustomerWarehouseCheckboxColumn
+    AssignCustomerWarehouseCheckboxColumn,
+    TransferRemittanceDetailInventoryColumn
     // OrderConfirmColumn
 }
