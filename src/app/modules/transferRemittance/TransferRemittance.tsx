@@ -107,7 +107,8 @@ const TransferRemittance = () => {
         const filter = {
             ByBrand: true,
             HasPurchaseInventory: true,
-            WarehouseId: +value
+            WarehouseId: +value,
+            OrderCode: formikRef?.current?.values?.purchaseOrderCode
         }
         productsInventory.mutate(filter)
     }
@@ -121,7 +122,8 @@ const TransferRemittance = () => {
                     const filter = {
                         ByBrand: true,
                         HasPurchaseInventory: true,
-                        WarehouseId: +response?.data?.originWarehouseId
+                        WarehouseId: +response?.data?.originWarehouseId,
+                        OrderCode: formikRef?.current?.values?.purchaseOrderCode
                     }
                     productsInventory.mutate(filter)
             
@@ -148,7 +150,6 @@ const TransferRemittance = () => {
             }),
             description: values.description
         }
-        console.log(formData)
         transfer.mutate(formData, {
             onSuccess: (response) => {
                 if (response.data.Errors && response.data.Errors.length > 0) {
@@ -163,8 +164,6 @@ const TransferRemittance = () => {
             }
         })
     }
-
-    console.log(productsInventory.data?.data)
 
     return (
         <>

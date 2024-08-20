@@ -96,7 +96,8 @@ const TransferRemittanceEdit = () => {
         const filter = {
             ByBrand: true,
             HasPurchaseInventory: true,
-            WarehouseId: +value
+            WarehouseId: +value,
+            OrderId: itemSelected.id
         }
         productsInventory.mutate(filter, {
             onSuccess: (response) => {
@@ -120,7 +121,8 @@ const TransferRemittanceEdit = () => {
                     const filter = {
                         ByBrand: true,
                         HasPurchaseInventory: true,
-                        WarehouseId: response?.data.originWarehouseId
+                        WarehouseId: response?.data.originWarehouseId,
+                        OrderId: itemSelected.id
                     }
                     productsInventory.mutate(filter, {
                         onSuccess: (response) => { }
