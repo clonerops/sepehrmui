@@ -17,7 +17,7 @@ const ReadyToPurchaserOrderConfirm = () => {
 
     useEffect(() => {
         const formData = {
-            InvoiceTypeId: [1, 2],
+            InvoiceTypeId: [2],
         }
         mutate(formData)
         // eslint-disable-next-line
@@ -45,14 +45,14 @@ const ReadyToPurchaserOrderConfirm = () => {
     const handleFilterBasedofStatus = (values: any) => {
         if (+values === -1) {
             const formData = {
-                InvoiceTypeId: [1, 2],
+                InvoiceTypeId: [2],
                 OrderCode: +values?.orderCode
             };
             mutate(formData);
 
         } else {
             const formData = {
-                InvoiceTypeId: [1, 2],
+                InvoiceTypeId: [2],
                 OrderStatusId: +values,
                 OrderCode: +values?.orderCode
             };
