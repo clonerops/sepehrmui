@@ -60,8 +60,12 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForTransferRemittanc
                     <Typography variant="h3" className="text-gray-500">{item.productBrandName}</Typography>
                 </div>
                 <div className="flex flex-col gap-y-4">
-                    <Typography variant="h4">موجودی</Typography>
+                    <Typography variant="h4">موجودی تقریبی</Typography>
                     <Typography variant="h3" className="text-gray-500">{separateAmountWithCommas(item.approximateInventory)}</Typography>
+                </div>
+                <div className="flex flex-col gap-y-4">
+                    <Typography variant="h4">موجودی خرید</Typography>
+                    <Typography variant="h3" className="text-gray-500">{separateAmountWithCommas(item.purchaseInventory)}</Typography>
                 </div>
             </div>
             <Formik initialValues={{transferAmount: ""}} onSubmit={handleSetAmountForTransferRemittance}>

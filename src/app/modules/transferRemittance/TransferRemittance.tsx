@@ -164,7 +164,7 @@ const TransferRemittance = () => {
         })
     }
 
-    console.log(purchaseOrderDetail?.data?.data)
+    console.log(productsInventory.data?.data)
 
     return (
         <>
