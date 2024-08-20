@@ -18,6 +18,7 @@ import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker'
 import FormikOrderExitType from '../../../../_cloner/components/FormikOrderExitType'
 import FormikPurchaseOrderSend from '../../../../_cloner/components/FormikPurchaseOrderSend'
 import FormikPurchasePaymentType from '../../../../_cloner/components/FormikPurchasePaymentType'
+import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType'
 
 interface IProps {
     postOrder: any,
@@ -49,7 +50,7 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
             case `${isPurchaser ? 'purchaseOrderSendTypeId' : 'orderSendTypeId'}`:
                 return isPurchaser ?  <FormikPurchaseOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} /> : <FormikOrderSend key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "invoiceTypeId":
-                return <FormikInvoiceType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
+                return isPurchaser ?  <FormikPurchaserInvoiceType key={index} disabled={postOrder?.data?.succeeded} {...rest} /> :  <FormikInvoiceType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case `${isPurchaser ? 'purchasePaymentTypeId' : 'paymentTypeId'}`:
                 return isPurchaser ?  <FormikPurchasePaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} /> : <FormikPaymentType key={index} disabled={postOrder?.data?.succeeded} {...rest} />
             case "orderExitTypeId":
