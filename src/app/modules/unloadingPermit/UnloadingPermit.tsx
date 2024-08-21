@@ -26,6 +26,7 @@ import { IUnloadingPermit } from "./_models";
 import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { unloadingValidation } from "./_validation";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 
 const initialValues = {
     id: 0,
@@ -73,8 +74,8 @@ const UnloadingPermit = () => {
                         transferAmount: item?.transferAmount,
                         productCode: item?.productCode,
                         productName: item?.productName,
-                        unloadedAmount: item?.unloadedAmount ? item?.unloadedAmount : " ",
-                        realAmount: item?.unloadedAmount ? item?.unloadedAmount : " "
+                        unloadedAmount: item?.unloadedAmount ? item?.unloadedAmount : "",
+                        realAmount: item?.unloadedAmount ? item?.unloadedAmount : ""
                     };
                 }
             );
@@ -188,18 +189,23 @@ const UnloadingPermit = () => {
                 unloadedAmount: +item.realAmount,
             })),
         };
-        postUnloading.mutate(formData, {
-            onSuccess: (res) => {
-                if (res.succeeded) {
-                    renderAlert(`مجوز تخلیه بارنامه با شماره ${res.data.unloadingPermitCode} با موفقیت ثبت شد`)
-                } else {
-                    enqueueSnackbar(res.data.Message, {
-                        variant: "error",
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
-                }
-            },
-        });
+
+        if(UnloadingList.every((item: {realAmount: ""}) => item.realAmount === "" || item.realAmount === null || item.realAmount === undefined)) {
+            EnqueueSnackbar("وزن واقعی باسکول  مشخص نگردیده است", "warning")
+        } else {
+            postUnloading.mutate(formData, {
+                onSuccess: (res) => {
+                    if (res.succeeded) {
+                        renderAlert(`مجوز تخلیه بارنامه با شماره ${res.data.unloadingPermitCode} با موفقیت ثبت شد`)
+                    } else {
+                        enqueueSnackbar(res.data.Message, {
+                            variant: "error",
+                            anchorOrigin: { vertical: "top", horizontal: "center" },
+                        });
+                    }
+                },
+            });
+        }
     };
 
     if (detailTools.isLoading) {
