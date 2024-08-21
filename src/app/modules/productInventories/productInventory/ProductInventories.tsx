@@ -87,11 +87,7 @@ const ProductInventories = () => {
                         return <form className="flex flex-col lg:flex-row lg:w-[50%] gap-4 mb-4">
                             <FormikWarehouseType name="warehouseTypeId" label="نوع انبار" onChange={onFilterProductByWarehouseType} />
                             <FormikWarehouseBasedOfType name="warehouseId" label="انبار" warehouse={filterWarehouse?.data?.data} onChange={onFilterProductByWarehouse} />
-                            <Button
-                                onClick={() => handleDownloadExcel(values)}
-                                variant="outlined"
-                                color="success"
-                            >
+                            <Button onClick={() => handleDownloadExcel(values)} variant="outlined" color="success">
                                 <img alt="sepehriranian"
                                     className={"mr-3"}
                                     src={toAbsoulteUrl(
