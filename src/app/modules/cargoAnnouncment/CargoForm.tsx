@@ -236,7 +236,10 @@ const CargoForm = () => {
         }
         if (ladingOrderDetail.some((item: any) => +item.remainingLadingAmount < +ladingAmount[item.id])) {
             EnqueueSnackbar("مقدار بارگیری را به درستی وارد کنید", "warning")
-        } else {
+        }  else if(ladingOrderDetail.length <= 0) {
+            EnqueueSnackbar("کالایی جهت بارگیری انتخاب نشده است", "warning")
+        } 
+        else {
             postCargoTools.mutate(formData, {
                 onSuccess: (message) => {
                     if (message.data.Errors && message.data.Errors.length > 0) {
@@ -245,7 +248,11 @@ const CargoForm = () => {
                         if (message.succeeded) {
                             renderSwal(`اعلام بار با شماره ${message?.data[0].cargoAnnounceNo} ثبت گردید`)
                             orderTools.refetch()
-                            cargosList.mutate({})
+                            const filter: ICargoFilter = {
+                                OrderId: id
+                            }
+                    
+                            cargosList.mutate(filter)
                         }
 
                         if (!message?.data?.Succeeded) {
