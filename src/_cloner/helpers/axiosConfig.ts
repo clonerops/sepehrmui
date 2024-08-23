@@ -36,7 +36,6 @@ export const httpFormData = axios.create({
 
 http.interceptors.response.use(
     (response) => {
-        console.log("response axios", response)
         return response
     },
     async (error) => {

@@ -22,4 +22,5 @@ export enum WarehouseType {
     Rasmi = 4,
     Addi = 5,
     Kharid = 6,
+    Karkhaneh = 7,
 }

@@ -409,7 +409,21 @@ const SepehrInventoryColumn = (renderIncreaseInventory: (item: { row: IProducts 
             field: "floorInventory",
             minWidth: 140,
             maxWidth: 180,
-            headerName: "موجودی",
+            headerName: "موجودی واقعی",
+            renderCell: (params: any) => {
+                return <Typography variant="h4" color={params.value < 0 ? "red" : params.value > 0 ? "green" : "black"}>
+                    {separateAmountWithCommas(params.value)} {params.value < 0 ? (<CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? (<CallMade className="text-green-500" fontSize="small" />) : null}
+                </Typography>;
+            },
+
+            headerClassName: "headerClassName",
+            flex: 1,
+        },
+        {
+            field: "approximateInventory",
+            minWidth: 140,
+            maxWidth: 180,
+            headerName: "موجودی تقریبی",
             renderCell: (params: any) => {
                 return <Typography variant="h4" color={params.value < 0 ? "red" : params.value > 0 ? "green" : "black"}>
                     {separateAmountWithCommas(params.value)} {params.value < 0 ? (<CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? (<CallMade className="text-green-500" fontSize="small" />) : null}

@@ -5,7 +5,7 @@ import { dropdownProductBrand } from "../helpers/dropdowns";
 
 const FormikProductBrand = (props: any) => {
     const { data } = useGetProductBrands()
-
+    
     return <FormikComboBox
         disabled={props.disabled}
         options={dropdownProductBrand(data?.data)}

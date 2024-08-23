@@ -142,7 +142,8 @@ const UnloadingPermit = () => {
 
 
     const handleRealAmountChange = (params: any, value: string) => {
-        const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
+        // const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
+        const updatedLadingList = UnloadingList.map((item: { id: any; }) => {
             if (params.id === item.id) {
                 return { ...item, realAmount: +value }
             } else {
@@ -207,6 +208,7 @@ const UnloadingPermit = () => {
             });
         }
     };
+
 
     if (detailTools.isLoading) {
         return <Backdrop loading={detailTools.isLoading} />

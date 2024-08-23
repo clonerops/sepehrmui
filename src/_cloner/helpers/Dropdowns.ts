@@ -74,8 +74,8 @@ const dropdownProductBrand = (data: any) => {
     return (
         data &&
         data?.map((obj: { id: any; productName: any, brandName: string, exchangeRate: any, productSubUnitId: number, productSubUnitDesc: string, productMainUnitId: number, productMainUnitDesc: string, productBrandId: number, productBrandName: string, product: any, brand: any, }): any => {
-            const { id, productName, brandName } = obj;
-            return { value: id, label: `${productName}-(${brandName})`, exchangeRate: obj.product.exchangeRate, productSubUnitId: obj.product.productSubUnitId, productSubUnitDesc: obj.product.productSubUnitDesc, productMainUnitId: obj.product.productMainUnitId, productMainUnitDesc: obj.product.productMainUnitDesc, productBrandId: obj.id, productBrandName: obj.brand.name };
+            const { id, productName, brandName, product } = obj;
+            return { value: id, label: `${product.productCode}-${productName}-(${brandName})`, exchangeRate: obj.product.exchangeRate, productSubUnitId: obj.product.productSubUnitId, productSubUnitDesc: obj.product.productSubUnitDesc, productMainUnitId: obj.product.productMainUnitId, productMainUnitDesc: obj.product.productMainUnitDesc, productBrandId: obj.id, productBrandName: obj.brand.name };
         })
     );
 };

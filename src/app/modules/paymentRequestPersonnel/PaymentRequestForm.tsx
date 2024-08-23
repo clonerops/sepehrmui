@@ -112,7 +112,6 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
     if (detailPaymentRequestTools.isLoading) {
         return <Backdrop loading={detailPaymentRequestTools.isLoading} />
     }
-    console.log(detailPaymentRequestTools?.data?.data)
     return (
         <>
             {recievePayTools.isLoading && <Backdrop loading={recievePayTools.isLoading} />}

@@ -133,10 +133,6 @@ const ListOfPaymentRequestPersonnel = () => {
     </div>
   }
 
-
-
-  console.log(selecetdItem)
-
   return (
     <>
       {paymentRequests.isLoading && <Backdrop loading={paymentRequests.isLoading} />}

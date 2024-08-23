@@ -150,7 +150,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.selectedProduct]);
 
     const renderInput = useCallback((params: any) => {
-        // const productId = params?.row?.productBrandId;
         const productId = params?.productBrandId;
         return (
             <>
@@ -233,7 +232,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [productData.proximateSubAmounts, productData.productSubUnitDesc])
 
     const renderPrice = useCallback((params: any) => {
-        // const productId = params.row.productBrandId;
         const productId = params.productBrandId;
         return (
             <>
@@ -247,14 +245,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             price: { ...prevState.price, [productId]: e.target.value },
                         }))
                     }
-                    // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    //     const inputValue = event.target.value.replace(/[^0-9]/g, "");
-                    //     const formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    //     event.target.value = formattedValue;
-                    // }}
-
                     thousandSeparator
-
                 />
             </>
         );
@@ -364,7 +355,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                                 label="نوع محصول"
                                 options={dropdownProductType(productTypeTools?.data)}
                                 onChange={(e: any) => {
-                                    console.log(e)
                                     setCurrentFilter({
                                         ...currentFilter,
                                         ProductTypeId: e
@@ -393,113 +383,12 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                                         WarehouseTypeId: +value
                                     })
                                 }}
-                                radioData={dropdownWarehouseType(warehouseTypeTools?.data.filter((item: {id: number}) => item.id !== 5))}
+                                radioData={dropdownWarehouseType(warehouseTypeTools?.data.filter((item: {id: number}) => item.id !== 4))}
                                 name="warehouseTypeId" />
                         </Form>
                     }}
                 </Formik>
             </div>
-            {/* <ReusableAccordion
-                title="لیست کالاها قابل انتخاب"
-                content={
-                    <div style={{direction: "rtl"}}>
-                        <div className="my-2">
-                            <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
-                        </div>
-                        <MuiDataGrid
-                            onDoubleClick={handleSelectProduct}
-                            columns={columnsModalProduct()}
-                            isLoading={filterTools.isLoading}
-                            rows={filterTools?.data?.data}
-                            data={filterTools?.data?.data}
-                            height={340}
-                        />
-                    </div>
-                }
-            />
-            <ReusableAccordion
-                title="لیست کالاهای انتخاب شده"
-                content={
-                    <div style={{direction: "rtl"}}>
-                        <MuiSelectionDataGrid
-                            selectionModel={productData.selectionModel}
-                            columns={columnsSelectProduct(
-                                renderAction,
-                                renderInput,
-                                renderSubUnit,
-                                renderPrice
-                            )}
-                            rows={productData.selectedProduct}
-                            data={productData.selectedProduct}
-                            getRowId={(row: { id: string }) => row.id.toString()}
-                            hideFooter={true}
-                            columnHeaderHeight={40}
-                        />
-                        <div
-                            className="flex justify-end items-end mt-4"
-                        >
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className=""
-                                onClick={handleSubmitSelectedProduct}
-                            >
-                                <Typography>تایید</Typography>
-                            </Button>
-                        </div>
-                    </div>
-                }
-            /> */}
-
-            {/* <CustomTabs
-                tabs={["لیست کالاهای موجود در انبار", "لیست کالاهای انتخاب شده"]}
-                tabContents={[
-                    <div style={{direction: "rtl"}}>
-                        <div className="my-2">
-                            <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
-                        </div>
-                        <MuiDataGrid
-                            onDoubleClick={handleSelectProduct}
-                            columns={columnsModalProduct()}
-                            isLoading={filterTools.isLoading}
-                            rows={filterTools?.data?.data}
-                            data={filterTools?.data?.data}
-                            height={340}
-                        />
-                    </div>,
-                    <div style={{direction: "rtl"}}>
-                        <MuiSelectionDataGrid
-                            selectionModel={productData.selectionModel}
-                            columns={columnsSelectProduct(
-                                renderAction,
-                                renderInput,
-                                renderSubUnit,
-                                renderPrice
-                            )}
-                            rows={productData.selectedProduct}
-                            data={productData.selectedProduct}
-                            getRowId={(row: { id: string }) => row.id.toString()}
-                            hideFooter={true}
-                            columnHeaderHeight={40}
-                        />
-                        <div
-                            className="flex justify-end items-end mt-4"
-                        >
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className=""
-                                onClick={handleSubmitSelectedProduct}
-                            >
-                                <Typography>تایید</Typography>
-                            </Button>
-                        </div>
-                    </div>
-
-
-                ]}
-            /> */}
-            {/* <div className="md:grid md:grid-cols-3 gap-x-8"> */}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
                 <div className="lg:col-span-2">
                     <div className="my-2">

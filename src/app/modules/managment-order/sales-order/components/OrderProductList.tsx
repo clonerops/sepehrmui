@@ -32,9 +32,6 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
     
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
-            // const updatedOrders = orders.filter((order) =>
-            //         order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
-            // );
             const updatedOrders = orders.filter((order) =>
                     order.productBrandId !== indexToDelete.row.productBrandId
             );
@@ -48,10 +45,7 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
         return (
             <>
                 {!disabled &&
-                    <div
-                        onClick={() => handleDeleteFromList(index)}
-                        className="cursor-pointer"
-                    >
+                    <div onClick={() => handleDeleteFromList(index)} className="cursor-pointer">
                         <Delete className="text-red-500" />
                     </div>
                 }
@@ -128,7 +122,8 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                     )) {
                         setOrderValid(false)
                         return 'custom-row-style'
-                    } else if ([2].includes(params.row.warehouseTypeId) && (
+                    } 
+                    else if (BUY_WAREHOUSE_TYPES.includes(params.row.warehouseTypeId) && (
                         params.row.proximateAmount === "" ||
                         params.row.price === "0" ||
                         params.row.price === 0 ||
@@ -136,7 +131,8 @@ const OrderProductList:FC<IProps> = (props: IProps) => {
                     )) {
                         setOrderValid(false)
                         return 'custom-row-style'
-                    } else {
+                    } 
+                    else {
                         setOrderValid(true)
                         return ""
                     }

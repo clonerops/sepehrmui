@@ -1,5 +1,6 @@
-// export const BUY_WAREHOUSE_TYPES = [1, 3, 4, 5, 7];
-export const BUY_WAREHOUSE_TYPES = [2];
+import { WarehouseType } from "../../warehouse/_models";
+
+export const BUY_WAREHOUSE_TYPES = [WarehouseType.Karkhaneh,WarehouseType.Vaseteh];
 
 export const FIELD_VALUE = [
     { title: "productName", value: "" },

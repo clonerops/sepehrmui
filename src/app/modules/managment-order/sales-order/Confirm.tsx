@@ -22,6 +22,7 @@ import FormikProductBrand from "../../../../_cloner/components/FormikProductBran
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import FileUpload from "../../../../_cloner/components/FileUpload";
 import { dropdownCustomerCompanies, dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 
 const initialValues = {
     productName: "",
@@ -76,8 +77,12 @@ const SalesOrderConfirm = () => {
             return `${params.productName}-(${params.brandName})`
          }},
         // { id: 2, header: "انبار", accessor: "warehouseName" },
-        { id: 3, header: "مقدار", accessor: "proximateAmount" },
-        { id: 4, header: "قیمت", accessor: "price" },
+        { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
+            return separateAmountWithCommas(params.proximateAmount)
+        } },
+        { id: 4, header: "قیمت", accessor: "price", render: (params: any) => {
+            return separateAmountWithCommas(params.price)
+        } },
     ]
 
     const orderOrderColumnReplace = [
@@ -85,10 +90,10 @@ const SalesOrderConfirm = () => {
             return params.alternativeProductAmount === 0 ? `${params.productName}-(${params.brandName})` : params.alternativeProductName
          }},
         { id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
-           return params.alternativeProductAmount === 0 ? params.proximateAmount : params.alternativeProductAmount
+           return params.alternativeProductAmount === 0 ? separateAmountWithCommas(params.proximateAmount) : separateAmountWithCommas(params.alternativeProductAmount)
         }},
         { id: 7, header: "قیمت", accessor: "price", render: (params: any) => {
-          return params.alternativeProductPrice === 0 ? params.price : params.alternativeProductPrice
+          return params.alternativeProductPrice === 0 ? separateAmountWithCommas(params.price) : separateAmountWithCommas(params.alternativeProductPrice)
         } }
 
     ]
@@ -198,7 +203,6 @@ const SalesOrderConfirm = () => {
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
-
         approveTools.mutate(formData, {
             onSuccess: (message) => {
                 if (message.succeeded) {

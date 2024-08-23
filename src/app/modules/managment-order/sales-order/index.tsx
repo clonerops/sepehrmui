@@ -23,6 +23,7 @@ import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useGetProductList } from '../../products/_hooks'
 import { useGetCustomer } from '../../customer/core/_hooks'
 import CustomerFeatcure from './components/CustomerFeatcure'
+import { WarehouseType } from '../../warehouse/_models'
 
 const categories = [
     { value: 2, title: "پیش فروش", defaultChecked: false },
@@ -78,8 +79,8 @@ const SalesOrder = () => {
                         purchaseInvoiceTypeId: item.purchaseInvoiceTypeId ? item.purchaseInvoiceTypeId : null,
                         warehouseId: item.warehouseId ? +item.warehouseId : null,
                         warehouseTypeId: item.warehouseTypeId,
-                        
-                        purchaseOrder:  item?.warehouseTypeId == 2 ? {
+
+                        purchaseOrder:  item?.warehouseTypeId == WarehouseType.Karkhaneh || item?.warehouseTypeId == WarehouseType.Vaseteh ? {
                             customerId: item.purchaserCustomerName && item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
                             totalAmount: 
                             +(item.purchasePrice ? Number(item.purchasePrice) : 0)
@@ -121,7 +122,6 @@ const SalesOrder = () => {
                         } 
                     })
                 }
-
                 postSaleOrder.mutate(formData, {
                     onSuccess: (response) => {
                         if (response.data.Errors&&response.data.Errors.length > 0) {
