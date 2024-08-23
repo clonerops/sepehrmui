@@ -197,6 +197,7 @@ const SalesOrder = () => {
                                     orderServices={orderServices}
                                     setOrderServices={setOrderServices}
                                     formikRef={formikRef}
+                                    orderValid={orderValid}
                                     setOrderValid={setOrderValid}
                                     values={values}
                                     setFieldValue={setFieldValue}

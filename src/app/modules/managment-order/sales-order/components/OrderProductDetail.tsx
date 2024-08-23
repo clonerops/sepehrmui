@@ -49,11 +49,12 @@ interface IProps {
     setOrderServices: React.Dispatch<React.SetStateAction<IOrderService[]>>,
     formikRef: React.RefObject<FormikProps<any>>,
     setOrderValid: React.Dispatch<React.SetStateAction<boolean>>
+    orderValid: boolean,
     values: any,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
 }
 
-const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
+const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, orderValid, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
     const [orderIndex, setOrderIndex] = useState<number>(0);
@@ -274,6 +275,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     setOrderPayment={setOrderPayment}
                     setIsUpdate={setIsUpdate}
                     setOrderValid={setOrderValid}
+                    orderValid={orderValid}
                     setFieldValue={setFieldValue}
                     values={values}
 
