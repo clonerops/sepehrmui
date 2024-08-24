@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { Formik, FormikErrors } from "formik"
 import { Button, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
-import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, OpenInBrowser, Person } from "@mui/icons-material"
+import { Add, AttachMoney, Close, Description, Details, ExitToApp, LocalShipping, OpenInBrowser, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
 import { useGetVehicleTypes } from "../generic/_hooks"
@@ -62,6 +62,8 @@ const CargoForm = () => {
     const [files, setFiles] = useState<File[]>([]);
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [isOpenDetail, setIsOpenDetail] = useState<boolean>(false)
+    const [cargoAnnounceDetails, setCargoAnnounceDetails] = useState<any>({})
 
     useEffect(() => {
         if (files.length > 0) {
@@ -77,6 +79,12 @@ const CargoForm = () => {
         cargosList.mutate(filter)
         // eslint-disable-next-line
     }, [])
+
+    const handleOpenDetails = (params: any) => {
+        setCargoAnnounceDetails(params)
+        setIsOpenDetail(true)
+    }
+    
 
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: orderTools?.data?.data?.orderCode },
@@ -97,6 +105,7 @@ const CargoForm = () => {
         },
         { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params.product.productCode },
         { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params.product.productName} ${params.brandName}` },
+        { id: 7, header: "انبار", accessor: "warehouseName", render: (params: any) => console.log(params) },
         { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
         { id: 5, header: "مجموع مقدار بارگیریهای قبلی", accessor: "totalLoadedAmount", render: (params: any) => separateAmountWithCommas(params.totalLoadedAmount) },
         { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
@@ -137,6 +146,17 @@ const CargoForm = () => {
         { id: 5, header: "باربری", accessor: "shippingName" },
         { id: 6, header: "تاریخ تحویل", accessor: "deliveryDate" },
         { id: 7, header: "آدرس محل تخلیه", accessor: "unloadingPlaceAddress" },
+        { id: 8, header: "", accessor: "details", render: (params: any) => {
+            return <Button onClick={() => handleOpenDetails(params)} size="small" variant="contained" className="!bg-cyan-700">
+                <Typography>مشاهده جزئیات</Typography>
+            </Button>
+        }},
+    ]
+    const lastCargoDetail: any = [
+        { id: 1, header: "کالا", accessor: "productName", render: (params: {orderDetail: {productName: string}}) => params.orderDetail.productName },
+        { id: 2, header: "برند", accessor: "brandName", render: (params: {orderDetail: {brandName: string}}) => params.orderDetail.brandName },
+        { id: 3, header: "مقدار اولیه", accessor: "realAmount", render: (params: {realAmount: number}) => separateAmountWithCommas(params.realAmount) },
+        { id: 4, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: {ladingAmount: number}) => separateAmountWithCommas(params.ladingAmount) },
     ]
 
     const fields: FieldType[][] = [
@@ -335,6 +355,9 @@ const CargoForm = () => {
             </ReusableCard>
             <TransitionsModal  width="80%" title="لیست اعلام بارهای قبلی" open={isOpen} isClose={() => setIsOpen(false)}>
                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
+            </TransitionsModal>
+            <TransitionsModal  width="50%" title={`جزئیات اعلام بار ${cargoAnnounceDetails.cargoAnnounceNo}`} open={isOpenDetail} isClose={() => setIsOpenDetail(false)}>
+                <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargoAnnounceDetails?.cargoAnnounceDetails?.length > 0 ? cargoAnnounceDetails?.cargoAnnounceDetails : []} columns={lastCargoDetail} />
             </TransitionsModal>
 
         </>

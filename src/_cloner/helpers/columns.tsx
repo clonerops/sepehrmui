@@ -1646,6 +1646,12 @@ const LadingListColumn = (renderAction: any) => {
             headerName: 'ثبت کننده مجوز بارگیری', headerClassName: "headerClassName", minWidth: 180, maxWidth: 180, flex: 1
         },
         {
+            field: 'orderCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.order.orderCode}</Typography>;
+            },
+            headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 160, flex: 1
+        },
+        {
             field: 'cargoAnnounceNo', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.row.cargoAnnounce.cargoAnnounceNo}</Typography>;
             },

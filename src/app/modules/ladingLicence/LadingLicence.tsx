@@ -80,7 +80,7 @@ const LadingLicence = () => {
                     </Button>
                     {postLadingLicence?.data?.data?.cargoAnnounceId &&
                         <Button variant='contained' color='secondary' className="flex gap-x-4">
-                            <Link to={`/dashboard/ladingLicence_print/${postLadingLicence?.data?.data?.cargoAnnounceId}/${postLadingLicence?.data?.data?.id}/${moment(postLadingLicence?.data?.data?.created).format('jYYYY/jMM/jDD')}`}>
+                            <Link to={`/dashboard/ladingPermit_print/${postLadingLicence?.data?.data?.cargoAnnounceId}/${postLadingLicence?.data?.data?.id}/${moment(postLadingLicence?.data?.data?.created).format('jYYYY/jMM/jDD')}`}>
                                 <Print color="primary" />
                             </Link>
                         </Button>
