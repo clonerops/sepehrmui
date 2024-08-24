@@ -105,7 +105,7 @@ const CargoForm = () => {
         },
         { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params.product.productCode },
         { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params.product.productName} ${params.brandName}` },
-        { id: 7, header: "انبار", accessor: "warehouseName", render: (params: any) => console.log(params) },
+        { id: 7, header: "انبار", accessor: "warehouseName" },
         { id: 4, header: "مقدار اولیه", accessor: "proximateAmount", render: (params: any) => separateAmountWithCommas(params.proximateAmount) },
         { id: 5, header: "مجموع مقدار بارگیریهای قبلی", accessor: "totalLoadedAmount", render: (params: any) => separateAmountWithCommas(params.totalLoadedAmount) },
         { id: 6, header: "مقدار باقیمانده جهت بارگیری", accessor: "remainingLadingAmount", render: (params: any) => separateAmountWithCommas(params.remainingLadingAmount) },
@@ -207,9 +207,16 @@ const CargoForm = () => {
         }
     };
 
+    
+
     const handleSelectProduct = (item: any) => {
+
         const isExist = ladingOrderDetail.some((l: any) => l.id === item.id)
-        if (isExist) {
+        const isSameWarehouseType = ladingOrderDetail.length > 0 ? ladingOrderDetail.some((c: { warehouseTypeId: number }) => c.warehouseTypeId === item.warehouseTypeId) : true;
+
+        if(!isSameWarehouseType) {
+            EnqueueSnackbar("امکان بارگیری از انبارهای متفاوت وجود ندارد", "warning")
+        } else if (isExist) {
             EnqueueSnackbar("کالا قبلا به لیست اضافه شده است", "warning")
         } else if (item.remainingLadingAmount === 0) {
             EnqueueSnackbar("مقدار باقیمانده جهت بارگیری صفر می باشد و امکان بارگیری ندارد", "warning")
@@ -218,6 +225,7 @@ const CargoForm = () => {
                 id: item.id,
                 productName: item.productName,
                 warehouseName: item.warehouseName,
+                warehouseTypeId: item.warehouseTypeId,
                 proximateAmount: item.proximateAmount,
                 remainingLadingAmount: item.remainingLadingAmount,
                 cargoAnnounceId: id,

@@ -66,14 +66,8 @@ const Login = () => {
           backgroundPosition: "left top ",
         }}
       >
-        <div
-          className={
-            "md:w-[70%] xl:w-[50%] mr-auto h-full flex items-center justify-center"
-          }
-        >
-          <Card
-            className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] shadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit "
-          >
+        <div className={ "md:w-[70%] xl:w-[50%] mr-auto h-full flex items-center justify-center"}>
+          <Card className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] shadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit">
             <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
           </Card>
         </div>
