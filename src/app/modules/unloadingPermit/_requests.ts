@@ -67,7 +67,7 @@ const revokeUnloadingById = async (id: number) => {
 const postApproveDriverFareAmount = async (formdata: any) => {
     try {
 
-        const { data } = await http.post( `/v1/UnloadingPermit/ApproveDriverFareAmount`, JSON.stringify(formdata) );
+        const { data } = await http.post(`/v1/PurchaseOrder/ApprovePurOrderTransRemittFareAmount`, JSON.stringify(formdata) );
         return data;
     
     } catch (error: any) {

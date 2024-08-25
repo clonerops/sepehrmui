@@ -14,8 +14,8 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import RentPayment from "./RentPayment";
-import RentPaymentSelected from "./RentPaymentSelected";
+import RentPayment from "./components/RentPayment";
+import RentPaymentSelected from "./components/RentPaymentSelected";
 import moment from "moment-jalaali";
 import Backdrop from "../../../_cloner/components/Backdrop";
 

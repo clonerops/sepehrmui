@@ -86,5 +86,5 @@ export {
     postRentPayments,
     getRentPayment,
     updateRentPayments,
-    deleteRentPayment
+    deleteRentPayment,
 }

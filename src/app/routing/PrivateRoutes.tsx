@@ -5,7 +5,7 @@ import RentPrint from "../modules/prints/RentPrint";
 import LadingPermitPrint from "../modules/prints/LadingPermitPrint";
 import ExitRemiitanceEdit from "../modules/exitRemittance/ExitRemittanceEdit";
 import LadingExitPermitPrint from "../modules/prints/LadingExitPermitPrint";
-import ApprovedRentPayment from "../modules/exitRemittance/ApprovedRentPayment";
+import ApprovedRentPayment from "../modules/exitRemittance/ApproveExitFAreAmount";
 import LadingExitPermitPrintOfficial from "../modules/prints/LadingExitPermitPrintOfficial";
 import InvoiceOfficial from "../modules/prints/InvoiceOfficial";
 import InvoiceNotOfficial from "../modules/prints/InvoiceNotOfficial";
@@ -38,6 +38,8 @@ import PaymentRequestDetailPersonnel from "../modules/paymentRequestPersonnel/Pa
 import ListOfPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/ListOfPaymentRequest";
 import CustomerWarehouseV2 from "../modules/customerWarehouse/CustomerWarehouseV2";
 import ProceedPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/ProceedPaymentRequest";
+import ReadyToApproveRentPayment from "../modules/exitRemittance/ReadyToApproveExitFareAmount";
+import ReadyToApproveRents from "../modules/rent-payment/ReadyToApproveRents";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -266,6 +268,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/lading/:id", element: <LadingPermit /> },
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },
+    { path: "dashboard/ready_to_approve_rents", element: <ReadyToApproveRents /> },
     // { path: "dashboard/exit/:id", element: <ExitRemittance /> },
     // { path: "dashboard/ladingReport", element: <LadingReport /> },
     { path: "dashboard/lading_list", element: <LadingList /> },

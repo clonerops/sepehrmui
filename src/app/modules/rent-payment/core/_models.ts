@@ -13,6 +13,7 @@ export interface IRentFilter {
     driverName?: string
     driverMobile?: string
     orderType?: string
+    fareAmountStatusId?: number
     fromDate?: string | null
     toDate?: string | null
     pageNumber?: number
@@ -36,4 +37,3 @@ export interface IRentPaymentFields {
     totalPayableAmount: number,
     totalLadingAmount: number
 }
-  

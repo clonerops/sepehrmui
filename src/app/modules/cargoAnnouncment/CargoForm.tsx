@@ -69,7 +69,7 @@ const CargoForm = () => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
-        
+
     }, [files]);
 
     useEffect(() => {
@@ -84,7 +84,7 @@ const CargoForm = () => {
         setCargoAnnounceDetails(params)
         setIsOpenDetail(true)
     }
-    
+
 
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: orderTools?.data?.data?.orderCode },
@@ -146,17 +146,19 @@ const CargoForm = () => {
         { id: 5, header: "باربری", accessor: "shippingName" },
         { id: 6, header: "تاریخ تحویل", accessor: "deliveryDate" },
         { id: 7, header: "آدرس محل تخلیه", accessor: "unloadingPlaceAddress" },
-        { id: 8, header: "", accessor: "details", render: (params: any) => {
-            return <Button onClick={() => handleOpenDetails(params)} size="small" variant="contained" className="!bg-cyan-700">
-                <Typography>مشاهده جزئیات</Typography>
-            </Button>
-        }},
+        {
+            id: 8, header: "", accessor: "details", render: (params: any) => {
+                return <Button onClick={() => handleOpenDetails(params)} size="small" variant="contained" className="!bg-cyan-700">
+                    <Typography>مشاهده جزئیات</Typography>
+                </Button>
+            }
+        },
     ]
     const lastCargoDetail: any = [
-        { id: 1, header: "کالا", accessor: "productName", render: (params: {orderDetail: {productName: string}}) => params.orderDetail.productName },
-        { id: 2, header: "برند", accessor: "brandName", render: (params: {orderDetail: {brandName: string}}) => params.orderDetail.brandName },
-        { id: 3, header: "مقدار اولیه", accessor: "realAmount", render: (params: {realAmount: number}) => separateAmountWithCommas(params.realAmount) },
-        { id: 4, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: {ladingAmount: number}) => separateAmountWithCommas(params.ladingAmount) },
+        { id: 1, header: "کالا", accessor: "productName", render: (params: { orderDetail: { productName: string } }) => params.orderDetail.productName },
+        { id: 2, header: "برند", accessor: "brandName", render: (params: { orderDetail: { brandName: string } }) => params.orderDetail.brandName },
+        { id: 3, header: "مقدار اولیه", accessor: "realAmount", render: (params: { realAmount: number }) => separateAmountWithCommas(params.realAmount) },
+        { id: 4, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: { ladingAmount: number }) => separateAmountWithCommas(params.ladingAmount) },
     ]
 
     const fields: FieldType[][] = [
@@ -207,14 +209,14 @@ const CargoForm = () => {
         }
     };
 
-    
+
 
     const handleSelectProduct = (item: any) => {
 
         const isExist = ladingOrderDetail.some((l: any) => l.id === item.id)
         const isSameWarehouseType = ladingOrderDetail.length > 0 ? ladingOrderDetail.some((c: { warehouseTypeId: number }) => c.warehouseTypeId === item.warehouseTypeId) : true;
 
-        if(!isSameWarehouseType) {
+        if (!isSameWarehouseType) {
             EnqueueSnackbar("امکان بارگیری از انبارهای متفاوت وجود ندارد", "warning")
         } else if (isExist) {
             EnqueueSnackbar("کالا قبلا به لیست اضافه شده است", "warning")
@@ -264,31 +266,24 @@ const CargoForm = () => {
         }
         if (ladingOrderDetail.some((item: any) => +item.remainingLadingAmount < +ladingAmount[item.id])) {
             EnqueueSnackbar("مقدار بارگیری را به درستی وارد کنید", "warning")
-        }  else if(ladingOrderDetail.length <= 0) {
+        } else if (ladingOrderDetail.length <= 0) {
             EnqueueSnackbar("کالایی جهت بارگیری انتخاب نشده است", "warning")
-        } 
+        }
         else {
             postCargoTools.mutate(formData, {
-                onSuccess: (message) => {
-                    if (message.data.Errors && message.data.Errors.length > 0) {
-                        EnqueueSnackbar(message.data.Errors[0], "error")
-                    } else {
-                        if (message.succeeded) {
-                            renderSwal(`اعلام بار با شماره ${message?.data[0].cargoAnnounceNo} ثبت گردید`)
-                            orderTools.refetch()
-                            const filter: ICargoFilter = {
-                                OrderId: id
-                            }
-                    
-                            cargosList.mutate(filter)
+                onSuccess: (response) => {
+                    if (response.succeeded) {
+                        renderSwal(`اعلام بار با شماره ${response?.data.cargoAnnounceNo} ثبت گردید`)
+                        orderTools.refetch()
+                        const filter: ICargoFilter = {
+                            OrderId: id
                         }
 
-                        if (!message?.data?.Succeeded) {
-                            enqueueSnackbar(message.data.Message, {
-                                variant: `error`,
-                                anchorOrigin: { vertical: "top", horizontal: "center" }
-                            })
-                        }
+                        cargosList.mutate(filter)
+                    } else if (response.data.Errors && response.data.Errors.length > 0) {
+                        EnqueueSnackbar(response.data.Errors[0], "error")
+                    } else {
+                        EnqueueSnackbar(response.data.Message, "error")
                     }
                 }
             })
@@ -321,7 +316,7 @@ const CargoForm = () => {
                     <div className="flex justify-between items-center mb-4">
                         <Typography variant="h2" color="primary" className="pb-4">اقلام سفارش</Typography>
                         <Button onClick={() => setIsOpen(true)} variant="contained" size="small" className="flex justify-center items-center !bg-indigo-500">
-                           <OpenInBrowser /><Typography variant="h5" className="text-white px-4 py-2">اعلام بار های قبلی</Typography>
+                            <OpenInBrowser /><Typography variant="h5" className="text-white px-4 py-2">اعلام بار های قبلی</Typography>
                         </Button>
                     </div>
                     <MuiTable tooltipTitle={orderTools?.data?.data?.description ? <Typography>{orderTools?.data?.data?.description}</Typography> : ""} onDoubleClick={(item: any) => handleSelectProduct(item)} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={orderTools?.data?.data?.details} columns={orderOrderColumnMain} />
@@ -361,10 +356,10 @@ const CargoForm = () => {
                     }}
                 </Formik>
             </ReusableCard>
-            <TransitionsModal  width="80%" title="لیست اعلام بارهای قبلی" open={isOpen} isClose={() => setIsOpen(false)}>
+            <TransitionsModal width="80%" title="لیست اعلام بارهای قبلی" open={isOpen} isClose={() => setIsOpen(false)}>
                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargosList?.data?.data.length > 0 ? cargosList?.data?.data : []} columns={lastCargoList} />
             </TransitionsModal>
-            <TransitionsModal  width="50%" title={`جزئیات اعلام بار ${cargoAnnounceDetails.cargoAnnounceNo}`} open={isOpenDetail} isClose={() => setIsOpenDetail(false)}>
+            <TransitionsModal width="50%" title={`جزئیات اعلام بار ${cargoAnnounceDetails.cargoAnnounceNo}`} open={isOpenDetail} isClose={() => setIsOpenDetail(false)}>
                 <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargoAnnounceDetails?.cargoAnnounceDetails?.length > 0 ? cargoAnnounceDetails?.cargoAnnounceDetails : []} columns={lastCargoDetail} />
             </TransitionsModal>
 

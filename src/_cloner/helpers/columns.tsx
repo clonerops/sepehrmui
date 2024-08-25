@@ -1506,6 +1506,83 @@ const RentListsColumn = (renderPrint: any) => {
     return col
 };
 
+const ReadyToApproveRentsColumn = (renderAction: any) => {
+    const col = [
+        { field: "Action", headerName: '', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 210, maxWidth: 210 },
+        {
+            field: 'referenceCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 100,
+            flex: 1,
+        },
+        {
+            field: 'referenceDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت', headerClassName: "headerClassName", minWidth: 100,
+            flex: 1,
+        },
+        {
+            field: 'totalAmount', renderCell: (params: any) => {
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'مبلغ کرایه(ریال)', headerClassName: "headerClassName", minWidth: 100,
+            flex: 1,
+        },
+        {
+            field: 'farePaymentStatusId', renderCell: (params: any) => {
+                return params.row.farePaymentStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography> : params.row.farePaymentStatusId === 2 ? <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography> : <Typography className="border-2 border-indigo-500 text-indigo-500 rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت کرایه', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'creatorName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'ثبت کننده', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: 'otherCosts', renderCell: (params: any) => {
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: 'driverName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: 'driverMobile', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره همراه راننده', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: 'driverAccountNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره حساب راننده', headerClassName: "headerClassName", minWidth: 180,
+            flex: 1,
+        },
+        {
+            field: 'orderTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+
+    ]
+    return col
+};
+
 const ReadyToCargoColumn = (renderAction: any) => {
     const col = [
         { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
@@ -4328,6 +4405,7 @@ export {
     PaymentRequestColumn,
     TransferWarehouseInventoryColumn,
     AssignCustomerWarehouseCheckboxColumn,
-    TransferRemittanceDetailInventoryColumn
+    TransferRemittanceDetailInventoryColumn,
+    ReadyToApproveRentsColumn
     // OrderConfirmColumn
 }

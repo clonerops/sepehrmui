@@ -36,6 +36,7 @@ export const translationMapping: any = {
     ready_to_lading: 'صدور مجوز بارگیری',
     ready_to_exit: 'صدور مجوز خروج',
     transferToWarehouseList: 'لیست انتقال به انبار',
+    ready_to_approve_rents: 'لیست کرایه ها جهت تایید',
     unloading_list: 'لیست مجوزهای تخلیه',
     lading_list: 'لیست مجوز های بارگیری',
     personnelPaymentRequest: 'درخواست پرداخت پرسنل',

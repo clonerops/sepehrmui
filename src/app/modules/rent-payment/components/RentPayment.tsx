@@ -1,20 +1,26 @@
 import { Formik } from "formik"
 import { ApprovalRounded, AttachMoney, CheckBox, DateRangeSharp, LocalShipping, Newspaper, Person } from "@mui/icons-material"
 
-import ReusableCard from "../../../_cloner/components/ReusableCard"
-import FormikInput from "../../../_cloner/components/FormikInput"
-import FormikOrganzationBank from "../../../_cloner/components/FormikOrganzationBank"
-import FormikDatepicker from "../../../_cloner/components/FormikDatepicker"
-import ButtonComponent from "../../../_cloner/components/ButtonComponent"
+import ReusableCard from "../../../../_cloner/components/ReusableCard"
+import FormikInput from "../../../../_cloner/components/FormikInput"
+import FormikOrganzationBank from "../../../../_cloner/components/FormikOrganzationBank"
+import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker"
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import moment from "moment-jalaali"
-import Backdrop from "../../../_cloner/components/Backdrop"
+import Backdrop from "../../../../_cloner/components/Backdrop"
 
 import { Typography } from "@mui/material"
-import { IRentPaymentFields } from "./core/_models"
+import { IRentPaymentFields } from "../core/_models"
 import { FC } from "react"
-import { usePostRentPayments } from "./core/_hooks"
-import { renderAlert } from "../../../_cloner/helpers/sweetAlert"
-import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
+import { usePostRentPayments } from "../core/_hooks"
+import { renderAlert } from "../../../../_cloner/helpers/sweetAlert"
+import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar"
+import FormikCustomer from "../../../../_cloner/components/FormikCustomer"
+import FormikCashDesk from "../../../../_cloner/components/FormikCashDesk"
+import FormikIncome from "../../../../_cloner/components/FormikIncome"
+import FormikPettyCash from "../../../../_cloner/components/FormikPettyCash"
+import FormikCost from "../../../../_cloner/components/FormikCost"
+import FormikShareholders from "../../../../_cloner/components/FormikShareholders"
 
 
 interface IProps {
@@ -46,6 +52,30 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
         { id: 9, title: "مبلغ کرایه", icon: <CheckBox color="secondary" />, value: item?.totalAmount},
         { id: 10, title: "سایر هزینه ها", icon: <CheckBox color="secondary" />, value: item?.otherCosts},
     ]
+
+    const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
+        switch (receivePaymentSourceId) {
+            case 1:
+                return <FormikCustomer name={customerIdFieldName} label={label} />;
+            case 2:
+                return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
+            case 3:
+                return <FormikCashDesk name={customerIdFieldName} label={label} />;
+            case 4:
+                return <FormikIncome name={customerIdFieldName} label={label} />;
+            case 5:
+                return <FormikPettyCash name={customerIdFieldName} label={label} />;
+            case 6:
+                return <FormikCost name={customerIdFieldName} label={label} />;
+            case 7:
+                return <FormikShareholders name={customerIdFieldName} label={label} />;
+            case 8:
+                return <FormikShareholders name={customerIdFieldName} label={label} />;
+            default:
+                return <FormikInput name={customerIdFieldName} label={label} disabled={true} />;
+        }
+    };
+
 
     const onSubmit = (values: any) => {
         const formData = {

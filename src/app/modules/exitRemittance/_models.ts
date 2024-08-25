@@ -20,6 +20,7 @@ export interface IExitRemittance {
 
 export interface IApproveDriveFareAmount {
   ladingExitPermitId: string
+  fareAmount: number
   description: string
 }
 
