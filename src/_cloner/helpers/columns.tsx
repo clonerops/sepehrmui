@@ -1378,24 +1378,10 @@ const RentsColumns = (renderAction: any, renderCheckbox: any, isSelectAll: boole
         },
 
         {
-            field: 'cargoAnnounceNo', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
-            },
-            headerName: 'شماره بارنامه', headerClassName: "headerClassName", minWidth: 100, flex: 1
-        },
-
-        {
             field: 'orderTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 100, flex: 1
-        },
-
-        {
-            field: 'cargoTotalWeight', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
-            },
-            headerName: 'وزن بار', headerClassName: "headerClassName", minWidth: 100, flex: 1
         },
 
         {
@@ -1410,14 +1396,6 @@ const RentsColumns = (renderAction: any, renderCheckbox: any, isSelectAll: boole
             },
             headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 100, flex: 1
         },
-
-        {
-            field: 'totalPayableAmount', renderCell: (params: any) => {
-                return <Typography variant="h3" className="text-green-500">{params.value}</Typography>;
-            },
-            headerName: 'مبلغ قابل پرداخت', headerClassName: "headerClassName", minWidth: 120, flex: 1
-        },
-
         {
             field: 'driverName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;

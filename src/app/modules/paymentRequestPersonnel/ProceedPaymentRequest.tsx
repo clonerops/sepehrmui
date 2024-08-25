@@ -10,18 +10,8 @@ import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar';
 import { convertFilesToBase64 } from '../../../_cloner/helpers/convertToBase64';
 import Backdrop from '../../../_cloner/components/Backdrop';
 import { Formik } from 'formik';
-import FormikCustomer from '../../../_cloner/components/FormikCustomer';
-import FormikOrganzationBank from '../../../_cloner/components/FormikOrganzationBank';
-import FormikCashDesk from '../../../_cloner/components/FormikCashDesk';
-import FormikIncome from '../../../_cloner/components/FormikIncome';
-import FormikPettyCash from '../../../_cloner/components/FormikPettyCash';
-import FormikCost from '../../../_cloner/components/FormikCost';
-import FormikShareholders from '../../../_cloner/components/FormikShareholders';
-import FormikInput from '../../../_cloner/components/FormikInput';
 import { IProccedRequestPayment } from './_models';
-import FormikSelect from '../../../_cloner/components/FormikSelect';
-import { dropdownReceivePaymentResource } from '../../../_cloner/helpers/dropdowns';
-import { useGetReceivePaymentSources } from '../generic/_hooks';
+import PaymentOriginType from '../../../_cloner/components/PaymentOriginType';
 
 const initialValues = {
     paymentOriginTypeId: 0,
@@ -35,7 +25,6 @@ const ProceedPaymentRequestPersonnel = () => {
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
 
     const proceedPaymentRequest = useProceedPaymentRequest()
-    const recievePayTools = useGetReceivePaymentSources()
 
     useEffect(() => {
         if (files.length > 0) {
@@ -44,28 +33,6 @@ const ProceedPaymentRequestPersonnel = () => {
 
     }, [files]);
 
-    const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
-        switch (receivePaymentSourceId) {
-            case 1:
-                return <FormikCustomer name={customerIdFieldName} label={label} />;
-            case 2:
-                return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
-            case 3:
-                return <FormikCashDesk name={customerIdFieldName} label={label} />;
-            case 4:
-                return <FormikIncome name={customerIdFieldName} label={label} />;
-            case 5:
-                return <FormikPettyCash name={customerIdFieldName} label={label} />;
-            case 6:
-                return <FormikCost name={customerIdFieldName} label={label} />;
-            case 7:
-                return <FormikShareholders name={customerIdFieldName} label={label} />;
-            case 8:
-                return <FormikShareholders name={customerIdFieldName} label={label} />;
-            default:
-                return <FormikInput name={customerIdFieldName} label={label} disabled={true} />;
-        }
-    };
 
 
     const handleProceedPaymentRequest = (values: any) => {
@@ -102,8 +69,7 @@ const ProceedPaymentRequestPersonnel = () => {
                 <Formik initialValues={initialValues} onSubmit={handleProceedPaymentRequest}>
                     {({ values }) => <div>
                         <div className='flex flex-row gap-4 mb-4'>
-                            <FormikSelect name='paymentOriginTypeId' label='نوع پرداخت از' options={dropdownReceivePaymentResource(recievePayTools?.data)} />
-                            {renderFields("paymentOriginId", "پرداخت از", values.paymentOriginTypeId)}
+                            <PaymentOriginType className='flex flex-row gap-x-4' label="نوع پرداخت به" officialLabel="پرداخت به" typeName="paymentOriginTypeId" officialName="paymentOriginId" typeId={values.paymentOriginTypeId} />
                         </div>
                         <FileUpload files={files} setFiles={setFiles} />
                         <div className='flex justify-end items-end my-4'>

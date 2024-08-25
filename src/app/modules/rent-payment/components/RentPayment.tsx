@@ -2,8 +2,6 @@ import { Formik } from "formik"
 import { ApprovalRounded, AttachMoney, CheckBox, DateRangeSharp, LocalShipping, Newspaper, Person } from "@mui/icons-material"
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import FormikInput from "../../../../_cloner/components/FormikInput"
-import FormikOrganzationBank from "../../../../_cloner/components/FormikOrganzationBank"
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import moment from "moment-jalaali"
@@ -15,12 +13,9 @@ import { FC } from "react"
 import { usePostRentPayments } from "../core/_hooks"
 import { renderAlert } from "../../../../_cloner/helpers/sweetAlert"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar"
-import FormikCustomer from "../../../../_cloner/components/FormikCustomer"
-import FormikCashDesk from "../../../../_cloner/components/FormikCashDesk"
-import FormikIncome from "../../../../_cloner/components/FormikIncome"
-import FormikPettyCash from "../../../../_cloner/components/FormikPettyCash"
-import FormikCost from "../../../../_cloner/components/FormikCost"
-import FormikShareholders from "../../../../_cloner/components/FormikShareholders"
+import PaymentOriginType from "../../../../_cloner/components/PaymentOriginType"
+import FormikAmount from "../../../../_cloner/components/FormikAmount"
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount"
 
 
 interface IProps {
@@ -34,7 +29,10 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
         receivePaymentTypeId: "",
         receivePaymentOriginId: 0,
         date: moment(new Date(Date.now())).format("jYYYY/jMM/jDD"),
-        totalFareAmount: item?.totalAmount
+        totalFareAmount: item?.totalAmount ? separateAmountWithCommas(item?.totalAmount) : 0,
+        paymentOriginTypeId: 0,
+        paymentOriginId: "",
+            
     }
     
     const postRentPayment = usePostRentPayments()
@@ -49,33 +47,10 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
         { id: 6, title: "شماره همراه", icon: <Newspaper color="secondary" />, value: item?.driverMobile },
         { id: 7, title: "شماره حساب", icon: <AttachMoney color="secondary" />, value: item?.driverAccountNo },
         { id: 8, title: "نام صاحب حساب", icon: <CheckBox color="secondary" />, value: item?.accountOwnerName },
-        { id: 9, title: "مبلغ کرایه", icon: <CheckBox color="secondary" />, value: item?.totalAmount},
+        { id: 9, title: "مبلغ کرایه", icon: <CheckBox color="secondary" />, value: item?.totalAmount ? separateAmountWithCommas(item?.totalAmount) : 0},
         { id: 10, title: "سایر هزینه ها", icon: <CheckBox color="secondary" />, value: item?.otherCosts},
     ]
-
-    const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
-        switch (receivePaymentSourceId) {
-            case 1:
-                return <FormikCustomer name={customerIdFieldName} label={label} />;
-            case 2:
-                return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
-            case 3:
-                return <FormikCashDesk name={customerIdFieldName} label={label} />;
-            case 4:
-                return <FormikIncome name={customerIdFieldName} label={label} />;
-            case 5:
-                return <FormikPettyCash name={customerIdFieldName} label={label} />;
-            case 6:
-                return <FormikCost name={customerIdFieldName} label={label} />;
-            case 7:
-                return <FormikShareholders name={customerIdFieldName} label={label} />;
-            case 8:
-                return <FormikShareholders name={customerIdFieldName} label={label} />;
-            default:
-                return <FormikInput name={customerIdFieldName} label={label} disabled={true} />;
-        }
-    };
-
+    
 
     const onSubmit = (values: any) => {
         const formData = {
@@ -105,14 +80,14 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
     <>
         {postRentPayment.isLoading && <Backdrop loading={postRentPayment.isLoading} />}
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            {({handleSubmit}) => (
+            {({handleSubmit, values}) => (
                 <form onSubmit={handleSubmit}>
                     <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 my-4`}>
                         {orderAndAmountInfo.map((item: {
                             title: string,
                             icon: React.ReactNode,
                             value: any
-                        }, index) => {
+                        }) => {
                             return <div className="flex items-center gap-x-4">
                                 <Typography>{item.title}:</Typography>
                                 <Typography variant="h3">{item.value}</Typography>
@@ -123,9 +98,9 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
                         <div className="my-4">
                             <Typography variant="h3">لطفا اطلاعات زیر را جهت پرداخت کرایه وارد نمایید</Typography>
                         </div>
-                            <FormikOrganzationBank name="receivePaymentOriginId" label="دریافت از" />
+                        <PaymentOriginType className='flex flex-row gap-x-4' label="نوع پرداخت از" officialLabel="پرداخت از" typeName="paymentOriginTypeId"  officialName="paymentOriginId" typeId={values.paymentOriginTypeId} />
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-                            <FormikInput name="totalFareAmount" label="مجموع مبلغ قابل پرداخت" />
+                            <FormikAmount name="totalFareAmount" label="مجموع مبلغ قابل پرداخت" />
                             <FormikDatepicker disabled name="date" label="تاریخ پرداخت" />
                         </div>
                         <div className="flex justify-end items-end mt-4">

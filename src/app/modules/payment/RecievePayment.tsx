@@ -7,24 +7,16 @@ import moment from 'moment-jalaali'
 import { usePostRecievePayment } from './core/_hooks'
 import { useGetReceivePaymentSources } from '../generic/_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
-import { dropdownReceivePaymentResource } from '../../../_cloner/helpers/dropdowns'
 
-import FormikSelect from '../../../_cloner/components/FormikSelect'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 import FormikDescription from '../../../_cloner/components/FormikDescription'
-import FormikCustomer from '../../../_cloner/components/FormikCustomer'
-import FormikOrganzationBank from '../../../_cloner/components/FormikOrganzationBank'
-import FormikCashDesk from '../../../_cloner/components/FormikCashDesk'
-import FormikIncome from '../../../_cloner/components/FormikIncome'
 import FormikPrice from '../../../_cloner/components/FormikPrice'
-import FormikCost from '../../../_cloner/components/FormikCost'
-import FormikPettyCash from '../../../_cloner/components/FormikPettyCash'
-import FormikShareholders from '../../../_cloner/components/FormikShareholders'
 import FormikCompany from '../../../_cloner/components/FormikCompany'
 import FileUpload from '../../../_cloner/components/FileUpload'
+import PaymentOriginType from '../../../_cloner/components/PaymentOriginType'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -49,39 +41,13 @@ const initialValues = {
 const RecievePayment = () => {
     const [trachingCode, setTrachingCode] = useState<any>(0)
 
-    const recievePayTools = useGetReceivePaymentSources()
     const postRecievePayTools = usePostRecievePayment()
 
     const [files, setFiles] = useState<File[]>([]);
 
 
-    const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
-        switch (receivePaymentSourceId) {
-            case 1:
-                return <FormikCustomer name={customerIdFieldName} label={label} />;
-            case 2:
-                return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
-            case 3:
-                return <FormikCashDesk name={customerIdFieldName} label={label} />;
-            case 4:
-                return <FormikIncome name={customerIdFieldName} label={label} />;
-            case 5:
-                return <FormikPettyCash name={customerIdFieldName} label={label} />;
-            case 6:
-                return <FormikCost name={customerIdFieldName} label={label} />;
-            case 7:
-                return <FormikShareholders name={customerIdFieldName} label={label} />;
-            case 8:
-                return <FormikShareholders name={customerIdFieldName} label={label} />;
-            default:
-                return <FormikInput name={customerIdFieldName} label={label} disabled={true} />;
-        }
-    };
-
-
     return (
         <>
-            {recievePayTools.isLoading && <Backdrop loading={recievePayTools.isLoading} />}
             {postRecievePayTools.isLoading && <Backdrop loading={postRecievePayTools.isLoading} />}
 
             <div className="flex flex-col lg:flex-row justify-between items-center mb-4 gap-4">
@@ -119,7 +85,7 @@ const RecievePayment = () => {
                             });
                             postRecievePayTools.mutate(formData, {
                                 onSuccess: (response) => {
-                                    if(response.data.Errors && response.data.Errors.length > 0) {
+                                    if (response.data.Errors && response.data.Errors.length > 0) {
                                         EnqueueSnackbar(response.data.Errors[0], "error")
                                     } else {
                                         if (response?.succeeded) {
@@ -136,13 +102,12 @@ const RecievePayment = () => {
                         {({ handleSubmit, values }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
-                                    <FormikSelect name='ReceivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(recievePayTools?.data)} />
-                                    {renderFields("ReceiveFromId", "دریافت از", values.ReceivePaymentTypeFromId)}
+                                    <PaymentOriginType label="نوع دریافت از" officialLabel="دریافت از" typeName="ReceivePaymentTypeFromId" officialName="ReceiveFromId" typeId={values.ReceivePaymentTypeFromId} />
                                     {values?.ReceiveFromId?.value &&
                                         <FormikCompany customerid={values?.ReceiveFromId?.value} name="ReceiveFromCompanyId" label="نام شرکت دریافت از" />
                                     }
-                                    <FormikSelect name='ReceivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(recievePayTools?.data)} />
-                                    {renderFields("PayToId", "پرداخت به", values.ReceivePaymentTypeToId)}
+                                    <PaymentOriginType label="نوع پرداخت به" officialLabel="پرداخت به" typeName="ReceivePaymentTypeToId" officialName="PayToId" typeId={values.ReceivePaymentTypeToId} />
+
                                     {values?.PayToId?.value &&
                                         <FormikCompany customerid={values?.PayToId?.value} name="PayToCompanyId" label="نام شرکت پرداخت به" />
                                     }
@@ -151,7 +116,7 @@ const RecievePayment = () => {
                                         <FormikPrice name='Amount' label='مبلغ' type='text' />
                                     </div>
                                     <FormikInput name='TrachingCode' label='کد پیگیری' type='text' />
-                                    
+
                                     <FormikInput name='ContractCode' label='کد قرارداد' type='text' />
                                 </div>
                                 <div className='grid grid-cols-1 my-8'>
