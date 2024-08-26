@@ -2,7 +2,6 @@ import { Button, IconButton, TextField, Typography } from "@mui/material";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import Captcha from "./components/Captcha";
 import { Autorenew } from "@mui/icons-material";
-import { FormikProps } from "formik";
 import { UseQueryResult } from "@tanstack/react-query";
 import { FC } from "react";
 

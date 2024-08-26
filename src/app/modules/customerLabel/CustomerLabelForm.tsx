@@ -1,6 +1,6 @@
 import { Formik } from "formik"
 import { ICustomerLabel } from "./_models"
-import { useGetCustomerLabel, useGetCustomerLabelByMutation, usePostCustomerLabels, useUpdateCustomerLabels } from "./_hooks"
+import { useGetCustomerLabelByMutation, usePostCustomerLabels, useUpdateCustomerLabels } from "./_hooks"
 import FormikType from "../../../_cloner/components/FormikType"
 import FormikProduct from "../../../_cloner/components/FormikProductComboSelect"
 import FormikBrand from "../../../_cloner/components/FormikBrand"
@@ -47,25 +47,21 @@ const CustomerLabelForm:FC<IProps> = ({id, refetch, onClose}) => {
 
     useEffect(() => {
         if(id) detailTools.mutate(id || 0)
+            // eslint-disable-next-line
     }, [id])
 
     const renderFields = (customerLabelType: number | undefined | null) => {
         switch (customerLabelType) {
             case 1:
                 return <FormikType name="productTypeId" label="برچسب" boxClassName=" mt-2 md:mt-0" />
-                break;
             case 2:
                 return <FormikProduct name="productId" label="برچسب" boxClassName=" mt-2 md:mt-0" />
-                break;
             case 3:
                 return <FormikBrand name="brandId" label="برچسب" boxClassName=" mt-2 md:mt-0" />
-                break;
             case 4:
                 return <FormikProductBrand name="productBrandId" label="برچسب" boxClassName=" mt-2 md:mt-0" />
-                break;
             default:
                 return <FormikInput name="labelName" label="برچسب" boxClassName=" mt-2 md:mt-0" />
-                break;
         }
     }
 

@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom"
 import { Formik, FormikErrors } from "formik"
 import { Button, Typography } from "@mui/material"
-import { enqueueSnackbar } from "notistack"
-import { Add, AttachMoney, Close, Description, Details, ExitToApp, LocalShipping, OpenInBrowser, Person } from "@mui/icons-material"
+import { Add, AttachMoney, Close, Description, ExitToApp, LocalShipping, OpenInBrowser, Person } from "@mui/icons-material"
 import moment from "moment-jalaali"
 
 import { useGetVehicleTypes } from "../generic/_hooks"

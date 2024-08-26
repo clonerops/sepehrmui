@@ -10,11 +10,10 @@ import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { useGetCustomer, useGetCustomers } from '../customer/core/_hooks'
-import { AssignCustomerLabelsCheckboxColumn, AssignCustomerWarehouseCheckboxColumn } from '../../../_cloner/helpers/columns'
+import { AssignCustomerWarehouseCheckboxColumn } from '../../../_cloner/helpers/columns'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { ICustomerWarehouse } from './_models'
 import { usePostCustomerWarehouses } from './_hooks'
-import { useGetCustomerLabels } from '../customerLabel/_hooks'
 import { useGetWarehouses } from '../generic/_hooks'
 
 const initialValues: any = {

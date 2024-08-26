@@ -21,7 +21,7 @@ import { saleOrderFieldConfirm } from "./fields";
 import FormikProductBrand from "../../../../_cloner/components/FormikProductBrandComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import FileUpload from "../../../../_cloner/components/FileUpload";
-import { dropdownCustomerCompanies, dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
+import { dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 
 const initialValues = {
@@ -149,9 +149,9 @@ const PurchaserOrderConfirm = () => {
 
     const handleReplace = (values: any, setFieldValue: any, resetForm: any) => {
         if (
-            (values.productNameReplace == null || values.productNameReplace == undefined) ||
-            (values.proximateAmountReplace == null || values.proximateAmountReplace == undefined) ||
-            (values.productPriceReplace == null || values.productPriceReplace == undefined)
+            (values.productNameReplace === null || values.productNameReplace === undefined) ||
+            (values.proximateAmountReplace === null || values.proximateAmountReplace === undefined) ||
+            (values.productPriceReplace === null || values.productPriceReplace === undefined)
         ) {
             EnqueueSnackbar("لطفا موارد کالای جایگزین را مشخص نمایید", "warning")
         } else {

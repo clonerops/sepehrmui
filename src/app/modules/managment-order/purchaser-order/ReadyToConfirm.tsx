@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Tooltip, Typography } from '@mui/material'
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
-import { AirplaneTicket, Approval } from "@mui/icons-material";
 
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
