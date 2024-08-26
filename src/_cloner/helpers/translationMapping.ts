@@ -67,7 +67,7 @@ export const translationMapping: any = {
     cost: "انواع هزینه ها",
     shareholders: "سهامداران",
     rentPayment: "پرداخت کرایه",
-    ready_to_rent: "تایید و پرداخت کرایه",
+    ready_to_rent: "پرداخت کرایه",
     rents: "لیست کرایه ها",
     pettyCash: "تنخواه گردان",
     ready_to_confirm: "تایید فاکتور سفارش",

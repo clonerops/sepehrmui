@@ -16,23 +16,27 @@ import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar"
 import PaymentOriginType from "../../../../_cloner/components/PaymentOriginType"
 import FormikAmount from "../../../../_cloner/components/FormikAmount"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount"
+import FormikInput from "../../../../_cloner/components/FormikInput"
 
 
 interface IProps {
     item: IRentPaymentFields | undefined
     setIsOpen:  React.Dispatch<React.SetStateAction<boolean>>
+    isOpenSelected?: boolean
+    selectedLadingIds?: any
+    selectedTransferRemittanceIds?: any
+    setIsOpenSelected?: React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
-const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
+const RentPayment:FC<IProps> = ({item, setIsOpen, isOpenSelected = false, selectedLadingIds, selectedTransferRemittanceIds, setIsOpenSelected}) => {
 
     const initialValues = {
-        receivePaymentTypeId: "",
-        receivePaymentOriginId: 0,
         date: moment(new Date(Date.now())).format("jYYYY/jMM/jDD"),
         totalFareAmount: item?.totalAmount ? separateAmountWithCommas(item?.totalAmount) : 0,
         paymentOriginTypeId: 0,
         paymentOriginId: "",
-            
+        description: "",            
     }
     
     const postRentPayment = usePostRentPayments()
@@ -41,7 +45,6 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
         { id: 1, title: "شماره مرجع", icon: <Person color="secondary" />, value: item?.referenceCode },
         // { id: 2, title: "فرستنده/گیرنده", icon: <Person color="secondary" />, value: 'ابوالفضل معصومی' },
         { id: 3, title: "تاریخ", icon: <DateRangeSharp color="secondary" />, value: item?.referenceDate },
-        { id: 4, title: "شماره بارنامه", icon: <LocalShipping color="secondary" />, value: item?.cargoAnnounceNo },
         { id: 4, title: "نوع", icon: <LocalShipping color="secondary" />, value: item?.orderTypeDesc },
         { id: 5, title: "نام راننده", icon: <CheckBox color="secondary" />, value: item?.driverName },
         { id: 6, title: "شماره همراه", icon: <Newspaper color="secondary" />, value: item?.driverMobile },
@@ -54,26 +57,28 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
 
     const onSubmit = (values: any) => {
         const formData = {
-            receivePaymentOriginId: values.receivePaymentOriginId,
-            puOrderTransRemittUnloadingPermitIds: item?.unloadingPermitId === null ? [] : [
+            ...values,
+            paymentOriginId : values.paymentOriginTypeId === 1 ? values.paymentOriginId.value : values.paymentOriginId,
+            puOrderTransRemittUnloadingPermitIds:  item?.unloadingPermitId  === null ? [] : item?.unloadingPermitId ? [
                 item?.unloadingPermitId
-            ],
-            ladingExitPermitIds: item?.ladingExitPermitId === null ? [] : [
+            ] : selectedTransferRemittanceIds,
+            ladingExitPermitIds: item?.ladingExitPermitId === null ? [] : item?.ladingExitPermitId ? [
                 item?.ladingExitPermitId
-            ],
-            totalFareAmount: values.totalFareAmount,
-            description: "string"
+            ] : selectedLadingIds,
+            totalFareAmount: +values.totalFareAmount,
+            description: values.description
         }
-        postRentPayment.mutate(formData, {
-            onSuccess: (response) => {
-                if(response.succeeded) {
-                    renderAlert("کرایه با موفقیت ثبت شد")
-                    setIsOpen(false)
-                } else {
-                    EnqueueSnackbar(response.data.Message, "error")
-                }
-            }
-        })
+        console.log("FormData", formData)
+        // postRentPayment.mutate(formData, {
+        //     onSuccess: (response) => {
+        //         if(response.succeeded) {
+        //             renderAlert("کرایه با موفقیت ثبت شد")
+        //             setIsOpen(false)
+        //         } else {
+        //             EnqueueSnackbar(response.data.Message, "error")
+        //         }
+        //     }
+        // })
     }
 
   return (
@@ -82,26 +87,31 @@ const RentPayment:FC<IProps> = ({item, setIsOpen}) => {
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({handleSubmit, values}) => (
                 <form onSubmit={handleSubmit}>
-                    <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 my-4`}>
-                        {orderAndAmountInfo.map((item: {
-                            title: string,
-                            icon: React.ReactNode,
-                            value: any
-                        }) => {
-                            return <div className="flex items-center gap-x-4">
-                                <Typography>{item.title}:</Typography>
-                                <Typography variant="h3">{item.value}</Typography>
-                            </div>
-                        })}
-                    </div>
+                    {!isOpenSelected &&
+                        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 my-4`}>
+                            {orderAndAmountInfo.map((item: {
+                                title: string,
+                                icon: React.ReactNode,
+                                value: any
+                            }) => {
+                                return <div className="flex items-center gap-x-4">
+                                    <Typography>{item.title}:</Typography>
+                                    <Typography variant="h3">{item.value}</Typography>
+                                </div>
+                            })}
+                        </div>
+                    }
                     <ReusableCard>
                         <div className="my-4">
                             <Typography variant="h3">لطفا اطلاعات زیر را جهت پرداخت کرایه وارد نمایید</Typography>
                         </div>
-                        <PaymentOriginType className='flex flex-row gap-x-4' label="نوع پرداخت از" officialLabel="پرداخت از" typeName="paymentOriginTypeId"  officialName="paymentOriginId" typeId={values.paymentOriginTypeId} />
+                        <PaymentOriginType className='flex flex-col lg:flex-row gap-4' label="نوع پرداخت از" officialLabel="پرداخت از" typeName="paymentOriginTypeId"  officialName="paymentOriginId" typeId={values.paymentOriginTypeId} />
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
                             <FormikAmount name="totalFareAmount" label="مجموع مبلغ قابل پرداخت" />
                             <FormikDatepicker disabled name="date" label="تاریخ پرداخت" />
+                        </div>
+                        <div className="my-4 lg:col-span-2">
+                            <FormikInput multiline minRows={3} name="description" label="توضیحات"  />
                         </div>
                         <div className="flex justify-end items-end mt-4">
                             <ButtonComponent>

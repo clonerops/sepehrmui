@@ -17,6 +17,7 @@ import moment from "moment-jalaali"
 const initialValues = {
     receivePaymentTypeId: "",
     receivePaymentOriginId: 0,
+    description: "",
     date: moment(new Date(Date.now())).format("jYYYY/jMM/jDD")
 }
 
@@ -31,6 +32,7 @@ const RentPaymentSelected:FC<IProps> = ({selectedLadingIds, selectedTransferRemi
 
     const onSubmit = (values: any) => {
         const formData = {
+            ...values,
             receivePaymentOriginId: values.receivePaymentOriginId,
             puOrderTransRemittUnloadingPermitIds: selectedTransferRemittanceIds,
             ladingExitPermitIds: selectedLadingIds,
@@ -62,6 +64,9 @@ const RentPaymentSelected:FC<IProps> = ({selectedLadingIds, selectedTransferRemi
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
                             <FormikInput name="totalFareAmount" label="مجموع مبلغ قابل پرداخت" />
                             <FormikDatepicker disabled name="date" label="تاریخ پرداخت" />
+                        </div>
+                        <div className="my-4 lg:col-span-2">
+                            <FormikInput multiline minRows={3} name="description" label="توضیحات"  />
                         </div>
                         <div className="flex justify-end items-end mt-4">
                             <ButtonComponent onClick={() => handleSubmit()}>

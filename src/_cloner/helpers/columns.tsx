@@ -1343,25 +1343,27 @@ const ShareholdersColumn = (renderAction: any) => {
     return col;
 };
 
-const RentsColumns = (renderAction: any, renderCheckbox: any, isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
+// const RentsColumns = (renderAction: any, renderCheckbox: any, isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
+const RentsColumns = (renderAction: any, renderCheckbox: any) => {
     const col = [
         {
             field: "ladingExitPermitId",
-            headerName: (
-                <Checkbox
-                    color="primary"
-                    checked={isSelectAll}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
-                />
-            ),
+            // headerName: (
+            //     <Checkbox
+            //         color="primary"
+            //         checked={isSelectAll}
+            //         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+            //     />
+            // ),
+            headerName: '',
             sortable: false,
             renderCell: renderCheckbox,
             headerClassName: "headerClassName",
-            minWidth: 80,
+            maxWidth: 80,
             flex: 1
         },
         {
-            field: "Action", headerName: 'جزئیات و تایید', flex: 1, minWidth: 120, maxWidth: 120, renderCell: renderAction, headerClassName: "headerClassName"
+            field: "Action", headerName: 'پرداخت', flex: 1, minWidth: 120, maxWidth: 120, renderCell: renderAction, headerClassName: "headerClassName"
         },
         {
             field: 'referenceCode', renderCell: (params: any) => {
