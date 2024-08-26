@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Button, Checkbox, Tooltip, Typography } from '@mui/material'
+import { Button, Checkbox, Typography } from '@mui/material'
 
-import { Approval, ApprovalTwoTone, Search } from "@mui/icons-material";
+import { Approval, Search } from "@mui/icons-material";
 import { IRentPaymentFields } from "./core/_models";
 import { RentsColumns } from "../../../_cloner/helpers/columns";
 import { Formik } from "formik";
@@ -15,7 +15,6 @@ import FormikSelect from "../../../_cloner/components/FormikSelect";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import RentPayment from "./components/RentPayment";
-import RentPaymentSelected from "./components/RentPaymentSelected";
 import Backdrop from "../../../_cloner/components/Backdrop";
 
 const initialValues = {
@@ -152,7 +151,6 @@ const ReadyToRent = () => {
         rentTools.mutate(values);
     };
 
-    console.log("selectedTransferRemittanceIds", selectedTransferRemittanceIds)
     // console.log("selectedLadingIds", selectedLadingIds)
 
     return (
@@ -200,7 +198,12 @@ const ReadyToRent = () => {
                 title="ثبت کرایه"
                 description="درصورتی که مغایرتی در اطلاعات مشتری ثبت شده وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <RentPayment item={item} setIsOpen={setIsOpen} />
+                <RentPayment
+                    item={item}
+                    setIsOpen={setIsOpen}
+                    rentTools={rentTools}
+                    setSelectedLadingIds={setSelectedLadingIds}
+                    setSelectedTransferRemittanceIds={setSelectedTransferRemittanceIds} />
             </TransitionsModal>
 
             <TransitionsModal
@@ -215,7 +218,10 @@ const ReadyToRent = () => {
                     setIsOpen={setIsOpen}
                     setIsOpenSelected={setIsOpenSelected}
                     selectedLadingIds={selectedLadingIds}
-                    selectedTransferRemittanceIds={selectedTransferRemittanceIds} />
+                    selectedTransferRemittanceIds={selectedTransferRemittanceIds}
+                    rentTools={rentTools}
+                    setSelectedLadingIds={setSelectedLadingIds}
+                    setSelectedTransferRemittanceIds={setSelectedTransferRemittanceIds} />
             </TransitionsModal>
 
         </>

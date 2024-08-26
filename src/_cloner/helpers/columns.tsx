@@ -1369,7 +1369,13 @@ const RentsColumns = (renderAction: any, renderCheckbox: any) => {
             field: 'referenceCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 100, flex: 1
+            headerName: 'شماره مرجع', headerClassName: "headerClassName", maxWidth: 100, minWidth: 100, flex: 1
+        },
+        {
+            field: 'farePaymentStatusId', renderCell: (params: any) => {
+                return params.row.farePaymentStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography> : params.row.farePaymentStatusId === 2 ? <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography> : <Typography className="border-2 border-indigo-500 text-indigo-500 rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت کرایه', headerClassName: "headerClassName", maxWidth: 140, minWidth: 140, flex: 1
         },
 
         {
