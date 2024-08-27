@@ -52,7 +52,7 @@ const SalesOrderEdit = () => {
 
             setOrderServices([
                 ...detailTools?.data?.data?.orderServices?.map((i: any) => ({
-                    orderServiceMainId: i.id,
+                    orderServiceMainId: i.id,  
                     serviceName: i?.serviceDesc,
                     orderServiceId: i?.serviceId,
                     orderServiceDescription: i?.description
@@ -87,7 +87,7 @@ const SalesOrderEdit = () => {
             ]);
 
             setCategories([
-                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId === 2 ? true : false },
+                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId === 2 ? true : false }, 
                 { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId === 1 ? true : false },
             ])
         }
