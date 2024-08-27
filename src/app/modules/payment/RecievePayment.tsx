@@ -5,7 +5,6 @@ import { DateRange, Paid } from '@mui/icons-material'
 import moment from 'moment-jalaali'
 
 import { usePostRecievePayment } from './core/_hooks'
-import { useGetReceivePaymentSources } from '../generic/_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 
 import FormikInput from '../../../_cloner/components/FormikInput'

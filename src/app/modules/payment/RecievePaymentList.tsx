@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useGetRecievePayments } from "./core/_hooks";
 import { Link, useNavigate } from "react-router-dom";
-import { Typography, Checkbox, Tooltip } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import { IPayment, IPaymentFilter } from "./core/_models";
 import { Visibility } from "@mui/icons-material";
 import { Formik, FormikProps } from "formik";
-import { PaymentAccountingRegisterListColumn } from "../../../_cloner/helpers/columns";
+import { RecievePaymentListColumn } from "../../../_cloner/helpers/columns";
 
 import Backdrop from "../../../_cloner/components/Backdrop";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
@@ -13,33 +13,25 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Pagination from "../../../_cloner/components/Pagination";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import moment from "moment-jalaali";
 
 const pageSize = 100
 
 const initialValues = {
     isApproved: 0,
-    // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
     fromDate: "",
     toDate: "",
 }
 
-
-const PaymentAccountingRegisterList = () => {
+const RecievePaymentList = () => {
     // Fetching
     const recievePaymentTools = useGetRecievePayments();
     // States
     const [results, setResults] = useState<IPayment[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [selectedIds, setSelectedIds] = useState<any>([]);
-    const [isSelectAll, setIsSelectAll] = useState<boolean>(false)
 
     const formikRef = useRef<FormikProps<any>>(null)
-    const navigate = useNavigate()
 
     const getReceivePayments = (filters: IPaymentFilter) => {
-
         recievePaymentTools.mutate(filters)
     }
 
@@ -47,9 +39,9 @@ const PaymentAccountingRegisterList = () => {
         setResults(recievePaymentTools?.data?.data);
         // eslint-disable-next-line
     }, [recievePaymentTools?.data?.data]);
+
     useEffect(() => {
         const filters = {
-            StatusId: 3,
             FromDate: formikRef?.current?.values?.fromDate,
             ToDate: formikRef?.current?.values?.toDate,
             PageNumber: currentPage,
@@ -61,28 +53,18 @@ const PaymentAccountingRegisterList = () => {
 
     const renderActions = (item: any) => {
         return (
-            <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-                <div className="flex justify-center items-center gap-x-4">
-                    <Link to={`/dashboard/payment/accounting/register/${item?.row?.id}`}>
+            <div className="flex justify-center items-center gap-x-4">
+                <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                    <Link to={`/dashboard/payment/accounting/${item?.row?.id}`}>
                         <Typography variant="h4">
                             <Visibility color="primary" />
                         </Typography>
                     </Link>
-                </div>
-            </Tooltip>
+                </Tooltip>
+            </div>
+
         );
     };
-
-    const handleHeaderCheckboxClick = (isChecked: boolean) => {
-        const allIds = results.map((item: any) => item.id);
-        setSelectedIds(isChecked ? allIds : []);
-        setIsSelectAll(isChecked);
-    };
-
-    useEffect(() => {
-        handleHeaderCheckboxClick(isSelectAll)
-        // eslint-disable-next-line
-    }, [isSelectAll])
 
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
@@ -91,13 +73,14 @@ const PaymentAccountingRegisterList = () => {
     const handleFilter = (values: any) => {
         const filters: any = {
             fromDate: values.fromDate,
-            StatusId: 3,
             toDate: values.toDate,
+            StatusId: 1,
             pageNumber: currentPage,
-            pageSize: 100,
+            pageSize: pageSize,
         }
         getReceivePayments(filters)
     }
+
 
     return (
         <>
@@ -106,7 +89,7 @@ const PaymentAccountingRegisterList = () => {
                 <Formik innerRef={formikRef} initialValues={initialValues} onSubmit={handleFilter}>
                     {({ handleSubmit }) => {
                         return <form onSubmit={handleSubmit}>
-                            <div className="flex flex-col lg:flex-row justify-center items-center gap-8">
+                            <div className="flex justify-center items-center gap-8">
                                 <FormikDatepicker name="fromDate" label="از تاریخ" />
                                 <FormikDatepicker name="toDate" label="تا تاریخ" />
                             </div>
@@ -119,16 +102,15 @@ const PaymentAccountingRegisterList = () => {
                     }}
                 </Formik>
                 <MuiDataGrid
-                    columns={PaymentAccountingRegisterListColumn(renderActions)}
+                    columns={RecievePaymentListColumn(renderActions)}
                     rows={results}
                     data={recievePaymentTools?.data?.data}
-                    onDoubleClick={(item: any) => navigate(`/dashboard/payment/accounting/register/${item?.row?.id}`)}
+                    onDoubleClick={(item: any) => {}}
                 />
                 <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
             </ReusableCard>
-
         </>
     );
 };
 
-export default PaymentAccountingRegisterList;
+export default RecievePaymentList;

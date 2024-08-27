@@ -40,6 +40,7 @@ import CustomerWarehouseV2 from "../modules/customerWarehouse/CustomerWarehouseV
 import ProceedPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/ProceedPaymentRequest";
 import ReadyToApproveRentPayment from "../modules/exitRemittance/ReadyToApproveExitFareAmount";
 import ReadyToApproveRents from "../modules/rent-payment/ReadyToApproveRents";
+import RecievePaymentList from "../modules/payment/RecievePaymentList";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -274,6 +275,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/lading_list", element: <LadingList /> },
     { path: "dashboard/exit_list", element: <ExitList /> },
     { path: "dashboard/exitRemittanceList", element: <ExitRemittanceList /> },
+    { path: "dashboard/paymentList", element: <RecievePaymentList /> },
     { path: "dashboard/payment", element: <RecievePayment /> },
     { path: "dashboard/payment/accounting", element: <PaymentAccounting /> },
     { path: "dashboard/payment/accounting/register", element: <PaymentAccountingRegister /> },

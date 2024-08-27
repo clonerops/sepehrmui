@@ -33,6 +33,7 @@ export const translationMapping: any = {
     customerCompany: 'ثبت شرکتهای مشتریان',
     paymentRequest: 'درخواست پرداخت مشتریان',
     lading: 'مجوز بارگیری',
+    paymentList: 'لیست دریافت پرداخت ها',
     ready_to_lading: 'صدور مجوز بارگیری',
     ready_to_exit: 'صدور مجوز خروج',
     transferToWarehouseList: 'لیست انتقال به انبار',
