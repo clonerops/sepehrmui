@@ -300,7 +300,7 @@ const SalesOrderEdit = () => {
                         </div>
                         <div
                             className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
-                        >
+                        > 
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ویرایش سفارش فروش"}
                                 onClick={() => handleSubmit()}
