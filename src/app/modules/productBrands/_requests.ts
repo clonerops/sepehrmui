@@ -1,10 +1,21 @@
 import { http } from "../../../_cloner/helpers/axiosConfig"
-import { IProductBrand } from "./_models";
+import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl";
+import { IProductBrand, IProductBrandFilter } from "./_models";
 
 const getProductBrands = async () => {
     try {
 
         const { data } = await http.get('/v1/ProductBrand')
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
+const getProductBrandsByMutation = async (formData: IProductBrandFilter) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/ProductBrand', formData)}`)
         return data;
 
     } catch (error: any) {
@@ -70,6 +81,7 @@ const deleteProductBrand = async (id: number) => {
 
 export {
     getProductBrands,
+    getProductBrandsByMutation,
     getProductBrandsByProductId,
     postProductBrands,
     getProductBrand,

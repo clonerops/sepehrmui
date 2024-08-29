@@ -4,3 +4,8 @@ export interface IProductBrand {
     brandId: number | null | undefined
     isActive?: boolean | null | undefined
 }
+
+export interface IProductBrandFilter {
+    PageNumber: number
+    PageSize: number
+}
