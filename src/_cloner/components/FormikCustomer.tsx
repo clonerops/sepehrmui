@@ -5,7 +5,10 @@ import { useGetCustomers } from '../../app/modules/customer/core/_hooks';
 import { dropdownCustomer } from '../helpers/dropdowns';
 
 const FormikCustomer = (props: any) => {
-    const { data: customers } = useGetCustomers();
+    const { data: customers, isLoading } = useGetCustomers();
+    if(isLoading) {
+        return <Typography>درحال بارگزاری لیست مشتریان</Typography>
+    }
     return (
         <FormikComboBox
             options={dropdownCustomer(customers?.data)}

@@ -47,7 +47,7 @@ const EntranceReport = () => {
 
     const handleFilter = (values: any) => {
         let formData = {
-            TransferEntransePermitNo: values.TransferEntransePermitNo ? values.TransferEntransePermitNo : "",
+            EntrancePermitNo: values.entrancePermitNo ? values.entrancePermitNo : "",
             OriginWarehouseId: values?.originWarehouseId?.value ? values?.originWarehouseId?.value : '',
             PageNumber: currentPage,
             PageSize: pageSize,
@@ -58,11 +58,11 @@ const EntranceReport = () => {
     return (
         <>
             <ReusableCard>
-            <Formik initialValues={{ id: "", originWarehouseId: ""}} onSubmit={() => { }}>
+            <Formik initialValues={{ id: "", originWarehouseId: "", entrancePermitNo: ""}} onSubmit={() => { }}>
                     {({ values }) => {
                         return (
                             <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
-                                <FormikInput name="TransferEntransePermitNo" label="شماره ورود" />
+                                <FormikInput name="entrancePermitNo" label="شماره ورود" />
                                 <FormikWarehouse name="originWarehouseId" label="انبار مبدا" />
                                 <ButtonComponent onClick={() => handleFilter(values)}>
                                     <Search className="text-white" />

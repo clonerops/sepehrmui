@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { Formik, FormikErrors } from "formik";
-import { Button, Typography } from "@mui/material";
+import { useRef, useState } from "react";
+import { Formik, FormikErrors, FormikProps } from "formik";
+import { Typography } from "@mui/material";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikWarehouse from "../../../_cloner/components/FormikWarehouse";
-import RadioGroup from "../../../_cloner/components/RadioGroup";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import FormikAmount from "../../../_cloner/components/FormikAmount";
 import FormikInput from "../../../_cloner/components/FormikInput";
@@ -20,21 +19,24 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { useGetVehicleTypes, useGetWarehouses } from "../generic/_hooks";
 import { useGetProductList } from "../products/_hooks";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
-import { AddTask, DesignServices } from "@mui/icons-material";
+import { AddTask, DesignServices, Sell } from "@mui/icons-material";
 import { TransferRemittanceValidation } from "./_validation";
 import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 
 import moment from "moment-jalaali";
 import _ from "lodash";
 import { usePostTransferRemittance } from "./_hooks";
+import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
+import { WarehouseType } from "../warehouse/_models";
+import { useGetPurchaserOrderDetailByCode } from "../managment-order/core/_hooks";
 
 const initialValues = {
     originWarehouseId: "",
     destinationWarehouseId: "",
     transferRemittanceTypeId: "",
+    purchaseOrderCode: "",
     description: ""
 }
 
@@ -56,18 +58,21 @@ const fields: FieldType[][] = [
     ]
 ];
 
-const categories = [
-    { value: 1, title: "طبق برنامه", defaultChecked: true },
-    { value: 2, title: "برای رزرو", defaultChecked: false },
-    { value: 3, title: "برای انبار", defaultChecked: false }
-]
+// const categories = [
+//     { value: 1, title: "طبق برنامه", defaultChecked: true },
+//     { value: 2, title: "برای رزرو", defaultChecked: false },
+//     { value: 3, title: "برای انبار", defaultChecked: false }
+// ]
 
 
 const TransferRemittance = () => {
+    let formikRef = useRef<FormikProps<any>>(null);
+
     const vehicleList = useGetVehicleTypes()
     const warehouse = useGetWarehouses()
     const productsInventory = useGetProductList()
     const transfer = usePostTransferRemittance()
+    const purchaseOrderDetail = useGetPurchaserOrderDetailByCode()
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [itemSelected, setItemSelected] = useState<any>({})
@@ -90,123 +95,6 @@ const TransferRemittance = () => {
         }
     };
 
-    const columns = () => {
-        const col = [
-            {
-                field: "productCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کد کالا",
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                maxWidth: 80,
-                flex: 1,
-            },
-            {
-                field: "productName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام کالا",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "productBrandName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "برند",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "purchaseInventory",
-                renderCell: (params: any) => {
-                    return <Typography className="text-green-500" variant="h4">{params.value}</Typography>;
-                },
-                headerName: "موجودی خرید",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                maxWidth: 120,
-                flex: 1,
-            },
-            {
-                headerName: 'عملیات', flex: 1, renderCell: (params: any) => {
-                    return <Button variant="contained" color="secondary" onClick={() => {
-                        setIsOpen(true)
-                        setItemSelected(params.row)
-                    }}>
-                        <Typography>انتقال</Typography>
-                    </Button>
-                }, headerClassName: "headerClassName", minWidth: 160
-            }
-        ];
-        return col;
-    };
-    const columnsForTransferRemittance = () => {
-        const col = [
-            {
-                field: "productCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کد کالا",
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                maxWidth: 80,
-                flex: 1,
-            },
-            {
-                field: "productName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام کالا",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "productBrandName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "برند",
-                headerClassName: "headerClassName",
-                minWidth: 90,
-                flex: 1,
-            },
-            {
-                field: "transferAmount",
-                renderCell: (params: any) => {
-                    return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
-                },
-                headerName: "مقدار واردشده جهت انتقال",
-                headerClassName: "headerClassName",
-                minWidth: 240,
-                flex: 1,
-            },
-            {
-                field: "delete",
-                renderCell: (params: any) => {
-                    return <Button onClick={() => renderDelete(params.row)} className="!bg-red-500" variant="contained">
-                        <Typography>حذف</Typography>
-                    </Button>
-                },
-                headerName: "حذف",
-                headerClassName: "headerClassName",
-                maxWidth: 80,
-                minWidth: 80,
-                flex: 1,
-            },
-        ];
-        return col;
-    };
-
     const renderDelete = (values: any) => {
         const filtered = productForTransferRemittance.filter((item: { productBrandId: number }) => {
             return +item.productBrandId !== +values.productBrandId
@@ -219,18 +107,41 @@ const TransferRemittance = () => {
         const filter = {
             ByBrand: true,
             HasPurchaseInventory: true,
-            WarehouseId: +value
+            WarehouseId: +value,
+            OrderCode: formikRef?.current?.values?.purchaseOrderCode
         }
         productsInventory.mutate(filter)
+    }
+
+    const handleGetPurchaseOderDetail = (values: any) => {
+        purchaseOrderDetail.mutate(formikRef?.current?.values?.purchaseOrderCode, {
+            onSuccess: (response) => {
+                if(response.succeeded) {
+                    formikRef?.current?.setFieldValue("originWarehouseId", +response?.data?.originWarehouseId)
+                    formikRef?.current?.setFieldValue("destinationWarehouseId", {value: response?.data?.destinationWarehouseId, label: response?.data?.destinationWarehouseDesc})
+                    const filter = {
+                        ByBrand: true,
+                        HasPurchaseInventory: true,
+                        WarehouseId: +response?.data?.originWarehouseId,
+                        OrderCode: formikRef?.current?.values?.purchaseOrderCode
+                    }
+                    productsInventory.mutate(filter)
+            
+                } else {
+                    EnqueueSnackbar(response.data.Message, "warning")
+                }
+            }
+        })
     }
 
     const handleTransferRemittance = (values: any) => {
         const formData: any = {
             ...values,
             originWarehouseId: +values.originWarehouseId,
+            purchaseOrderId: purchaseOrderDetail?.data?.data?.id,
             fareAmount: values.fareAmount ? +values.fareAmount : 0,
             destinationWarehouseId: +values.destinationWarehouseId.value,
-            transferRemittanceTypeId: +values.transferRemittanceTypeId ? +values.transferRemittanceTypeId : 1,
+            transferRemittanceTypeId: 1,
             details: _.map(productForTransferRemittance, (item) => {
                 return {
                     productBrandId: +item.productBrandId,
@@ -239,15 +150,13 @@ const TransferRemittance = () => {
             }),
             description: values.description
         }
-
         transfer.mutate(formData, {
             onSuccess: (response) => {
-                if(response.data.Errors && response.data.Errors.length > 0) {
+                if (response.data.Errors && response.data.Errors.length > 0) {
                     EnqueueSnackbar(response.data.Errors[0], "error")
                 } else {
                     if (response.succeeded) {
-                        renderAlert(`حواله انتقال با شماره ${response.data.id} با موفقیت انجام پذیرفت`)                        
-    
+                        renderAlert(`حواله انتقال با شماره ${response.data.id} با موفقیت انجام پذیرفت`)
                     } else {
                         EnqueueSnackbar(response.data.Message, "error")
                     }
@@ -263,11 +172,17 @@ const TransferRemittance = () => {
             {warehouse.isLoading && <Backdrop loading={warehouse.isLoading} />}
             {productsInventory.isLoading && <Backdrop loading={productsInventory.isLoading} />}
 
-            <Formik initialValues={initialValues} validationSchema={TransferRemittanceValidation} onSubmit={handleTransferRemittance}>
+            <Formik enableReinitialize innerRef={formikRef} initialValues={initialValues} validationSchema={TransferRemittanceValidation} onSubmit={handleTransferRemittance}>
                 {({ setFieldValue, handleSubmit }) => {
                     return (
                         <form onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
+                                <CardWithIcons
+                                    title='شماره سفارش خرید'
+                                    icon={<Sell className="text-white" />}
+                                    value={<FormikInput name="purchaseOrderCode" label="شماره سفارش" onBlur={handleGetPurchaseOderDetail} />}
+                                    iconClassName='bg-[#5836A5]'
+                                    textClassName="!mt-4" />
                                 <CardWithIcons
                                     title='شماره حواله'
                                     icon={<DesignServices className="text-white" />}
@@ -283,41 +198,43 @@ const TransferRemittance = () => {
                                         name="originWarehouseId"
                                         label="انبار مبدا"
                                         onChange={onFilterWarehouseFrom}
-                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
+                                        disabled={!purchaseOrderDetail?.data?.succeeded}
                                     />
                                     <FormikWarehouse
                                         name="destinationWarehouseId"
                                         label="انبار مقصد"
+                                        disabled={!purchaseOrderDetail?.data?.succeeded}
                                     />
                                 </ReusableCard>
-                                <ReusableCard cardClassName="flex justify-center items-center flex-col gap-y-4">
+                                {/* <ReusableCard cardClassName="flex justify-center items-center flex-col gap-y-4">
                                     <RadioGroup
                                         categories={categories}
                                         id="transferRemittanceTypeId"
                                         key="transferRemittanceTypeId"
                                         name="transferRemittanceTypeId"
                                     />
-                                </ReusableCard>
+                                </ReusableCard> */}
 
                             </div>
                             <ReusableCard cardClassName="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
                                 <div>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای موجود در انبار</Typography>
                                     <MuiDataGrid
-                                        columns={columns()}
+                                        columns={TransferRemittanceDetailColumn(setIsOpen, setItemSelected)}
                                         rows={productsInventory.data?.data || []}
                                         data={productsInventory.data?.data || []}
                                         isLoading={productsInventory.isLoading}
-                                        onDoubleClick={() => {}}
+                                        onDoubleClick={() => { }}
                                     />
                                 </div>
                                 <div>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای انتخاب شده جهت انتقال حواله</Typography>
                                     <MuiDataGrid
-                                        columns={columnsForTransferRemittance()}
+                                        columns={TransferRemittanceDetailForTransferColumn(renderDelete)}
                                         rows={productForTransferRemittance}
                                         data={productForTransferRemittance}
-                                        onDoubleClick={() => {}}
+                                        onDoubleClick={() => { }}
                                     />
                                 </div>
                             </ReusableCard>
@@ -332,7 +249,7 @@ const TransferRemittance = () => {
                                 ))}
                             </ReusableCard>
                             <div className="flex justify-end items-end mt-8">
-                                <ButtonComponent disabled={productForTransferRemittance.length < 0}>
+                                <ButtonComponent disabled={productForTransferRemittance.length <= 0 || !purchaseOrderDetail?.data?.succeeded}>
                                     <Typography variant="h4" className="px-4 py-2 text-white">ثبت صدور حواله</Typography>
                                 </ButtonComponent>
                             </div>

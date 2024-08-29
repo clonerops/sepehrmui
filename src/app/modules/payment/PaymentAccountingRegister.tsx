@@ -15,7 +15,6 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Pagination from "../../../_cloner/components/Pagination";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import moment from "moment-jalaali";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
@@ -24,8 +23,10 @@ const pageSize = 100
 
 const initialValues = {
     isApproved: 0,
-    fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    fromDate: "",
+    toDate: "",
 }
 
 

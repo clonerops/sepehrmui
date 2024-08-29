@@ -84,3 +84,9 @@ export interface ICustomerLabelType {
     id: number,
     isActive: boolean
 }
+
+export interface IRequestPaymentReason {
+    reasonDesc: string,
+    id: number,
+    isActive: boolean
+}

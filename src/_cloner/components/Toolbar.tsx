@@ -11,13 +11,11 @@ import {
     Person
 } from "@mui/icons-material";
 
-import { useNavigate } from "react-router-dom";
 import ProductPriceLanding from "../../app/modules/landing/ProductPriceLanding";
 import TransitionsModal from "./ReusableModal";
 import { useUserInfo } from "../../app/modules/user/core/_hooks";
 
 const ToolbarComponent = () => {
-    const navigate = useNavigate();
     
     const {data: userInfo} = useUserInfo()
     
@@ -40,7 +38,7 @@ const ToolbarComponent = () => {
     };
 
     const onChangePassword = () => {
-        navigate("dashboard/change-pass");
+        
     };
 
     return (

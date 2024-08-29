@@ -20,6 +20,16 @@ const dropdownCustomer = (data: any) => {
     );
 };
 
+const dropdownPersonnel = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { firstName: string; lastName: string, id: string }): any => {
+            const { firstName, lastName, id } = obj;
+            return { value: id, label: `${firstName} ${lastName}` };
+        })
+    );
+};
+
 const dropdownBrandName = (data: any) => {
     return (
         data &&
@@ -64,8 +74,8 @@ const dropdownProductBrand = (data: any) => {
     return (
         data &&
         data?.map((obj: { id: any; productName: any, brandName: string, exchangeRate: any, productSubUnitId: number, productSubUnitDesc: string, productMainUnitId: number, productMainUnitDesc: string, productBrandId: number, productBrandName: string, product: any, brand: any, }): any => {
-            const { id, productName, brandName } = obj;
-            return { value: id, label: `${productName}-(${brandName})`, exchangeRate: obj.product.exchangeRate, productSubUnitId: obj.product.productSubUnitId, productSubUnitDesc: obj.product.productSubUnitDesc, productMainUnitId: obj.product.productMainUnitId, productMainUnitDesc: obj.product.productMainUnitDesc, productBrandId: obj.id, productBrandName: obj.brand.name };
+            const { id, productName, brandName, product } = obj;
+            return { value: id, label: `${product.productCode}-${productName}-(${brandName})`, exchangeRate: obj.product.exchangeRate, productSubUnitId: obj.product.productSubUnitId, productSubUnitDesc: obj.product.productSubUnitDesc, productMainUnitId: obj.product.productMainUnitId, productMainUnitDesc: obj.product.productMainUnitDesc, productBrandId: obj.id, productBrandName: obj.brand.name };
         })
     );
 };
@@ -424,11 +434,23 @@ const dropdownCustomerLabel = (data: any) => {
     );
 };
 
+const dropdownPaymentRequestReason = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { reasonDesc: string, id: string }): any => {
+            const { reasonDesc, id } = obj;
+            return { value: id, label: reasonDesc };
+        })
+    );
+};
+
+
 
 
 export {
     dropdownBrand,
     dropdownCustomer,
+    dropdownPersonnel,
     dropdownBrandName,
     dropdownProduct,
     dropdownProductByBrandName,
@@ -469,5 +491,6 @@ export {
     dropdownProductType,
     dropdownPhoneBookType,
     dropdownCustomerLabelType,
-    dropdownCustomerLabel
+    dropdownCustomerLabel,
+    dropdownPaymentRequestReason
 }

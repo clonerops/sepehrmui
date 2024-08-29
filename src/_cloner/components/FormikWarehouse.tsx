@@ -9,6 +9,7 @@ const FormikWarehouse = (props: any) => {
         // <FormikSelect
         <FormikComboBox
         options={dropdownWarehouses(warehouse)}
+        disabled={props.disabled}
         {...props} />
     )
 }

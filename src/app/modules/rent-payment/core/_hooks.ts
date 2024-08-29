@@ -44,6 +44,8 @@ const useDeleteRentPayments = () => {
     })
 }
 
+
+
 export {
     useGetRentPayments,
     useGetRentPaymentsByMutation,
@@ -51,5 +53,5 @@ export {
     usePostRentPayments,
     useGetRentPayment,
     useUpdateRentPayments,
-    useDeleteRentPayments
+    useDeleteRentPayments,
 }

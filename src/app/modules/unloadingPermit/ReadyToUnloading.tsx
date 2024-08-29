@@ -8,6 +8,10 @@ import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
 import Pagination from '../../../_cloner/components/Pagination'
 import SearchFromBack from '../../../_cloner/components/SearchFromBack'
 import { useGetEntrancePermitsByMutation } from '../entrancePermit/_hooks'
+import RadioGroup from '../../../_cloner/components/RadioGroup'
+import { useGetTransferRemittanceStatus } from '../generic/_hooks'
+import { dropdownTransferRemittanceStatus } from '../../../_cloner/helpers/dropdowns'
+import { Formik } from 'formik'
 
 const pageSize = 100
 
@@ -17,6 +21,8 @@ const ReadyToUnloading = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const entranceTools = useGetEntrancePermitsByMutation()
+    const transferRemittanceStatus = useGetTransferRemittanceStatus()
+
     useEffect(() => {
         const filter = {
             PageNumber: currentPage,
@@ -29,10 +35,8 @@ const ReadyToUnloading = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link
-                to={`/dashboard/unloading/${item?.row?.transferRemitance?.id}/${item?.row?.id}`}
-            >
-                <Button variant="contained" color="secondary">
+            <Link to={`${item.row.transferRemitance.transferRemittanceStatusId > 2 ? "" : `/dashboard/unloading/${item?.row?.transferRemitance?.id}/${item?.row?.id}`}`}>
+                <Button disabled={item.row.transferRemitance.transferRemittanceStatusId > 2} variant="contained" color="secondary">
                     <Typography>صدور مجوز تخلیه</Typography>
                 </Button>
             </Link>
@@ -52,16 +56,53 @@ const ReadyToUnloading = () => {
         entranceTools.mutate(formData);
     }
 
+    const handleChangeStatus = (id: number) => {
+        let formData = {
+            PageNumber: currentPage,
+            PageSize: 100,
+            TransferRemittStatusId: id,
+        };
+        entranceTools.mutate(formData);
+    }
+
+    const filteredTransferRemittacneStatus = transferRemittanceStatus?.data?.filter((item: {id: number}) => [2,3].includes(+item.id))
+
     return (
         <>
             <ReusableCard>
                 <SearchFromBack inputName='TransferEntransePermitNo' initialValues={{ TransferEntransePermitNo: "" }} onSubmit={handleFilter} label="شماره ورود" />
+                <Formik initialValues={{ id: "" }} onSubmit={() => { }}>
+                    {({ handleSubmit }) => {
+                        return (
+                            <form onSubmit={handleSubmit}>
+                                <div className="mb-4">
+                                    <RadioGroup
+                                        key="TransferRemittStatusId"
+                                        disabled={false}
+                                        categories={
+                                            filteredTransferRemittacneStatus === undefined
+                                                ? [{ value: null, title: "همه", defaultChecked: true }]
+                                                : dropdownTransferRemittanceStatus([
+                                                    { id: null, statusDesc: "همه", defaultChecked: true },
+                                                    ...filteredTransferRemittacneStatus,
+                                                ])
+                                        }
+                                        name="TransferRemittStatusId"
+                                        id="TransferRemittStatusId"
+                                        onChange={(id: number) => handleChangeStatus(id)}
+                                    />
+                                </div>
+                            </form>
+                        );
+                    }}
+                </Formik>
+
                 <MuiDataGrid
                     columns={UnloadingPermitColumn(renderAction)}
                     rows={entranceTools?.data?.data}
                     data={entranceTools?.data?.data}
                     isLoading={entranceTools.isLoading}
-                    onDoubleClick={(item: any) => navigate(`/dashboard/unloadingPermit/${item?.row?.id}/${item?.row?.entrancePermitId}`)}
+                    onDoubleClick={(item: any) => item.row.transferRemitance.transferRemittanceStatusId > 2 ? {} : navigate(`/dashboard/unloadingPermit/${item?.row?.id}/${item?.row?.entrancePermitId}`)}
                 />
                 <Pagination pageCount={entranceTools?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 

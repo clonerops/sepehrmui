@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { Badge, Button, Card, Typography } from "@mui/material"
 
-import { AddCard, AddHomeWork, Apps,  Filter1, Numbers, Person, Source } from "@mui/icons-material"
+import { AddCard, AddHomeWork, Apps, Filter1, Numbers, Person, Source } from "@mui/icons-material"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../_cloner/components/CardWithIcons"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
@@ -11,13 +11,14 @@ import FileUpload from "../../../_cloner/components/FileUpload"
 import { useGetLadingLicenceById } from "../ladingLicence/_hooks"
 import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 import { useAddAttachmentsForExit, useGetLadingExitPermitById, usePostApproveDriverFareAmount } from "./_hooks"
+import ImagePreview from "../../../_cloner/components/ImagePreview"
 
 const ExitDetail = () => {
     const [files, setFiles] = useState<File[]>([])
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
 
-    const {id}: any = useParams()
-    
+    const { id }: any = useParams()
+
     const exitDetailTools = useGetLadingExitPermitById(id)
     const ladingDetailTools = useGetLadingLicenceById(exitDetailTools?.data?.data?.ladingPermitId)
 
@@ -49,7 +50,7 @@ const ExitDetail = () => {
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
-        
+
         {
             title: "مبلغ کرایه (ریال)",
             value: separateAmountWithCommas(exitDetailTools?.data?.data?.fareAmount),
@@ -79,14 +80,14 @@ const ExitDetail = () => {
             value: ladingDetailTools?.data?.data?.cargoAnnounce?.vehicleTypeName,
             icon: <Filter1 className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
-        },        
+        },
     ]
 
     useEffect(() => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [files]);
 
     const handleSubmitAttach = () => {
@@ -101,7 +102,7 @@ const ExitDetail = () => {
             id: id,
             attachments: attachments
         }
-        
+
         attachmentTools.mutate(formData, {
             onSuccess: () => {
 
@@ -141,6 +142,10 @@ const ExitDetail = () => {
                         iconClassName={"bg-[#ECEFF3]"}
                     />
                 </div>
+                <div className="mt-4">
+                    <ImagePreview base64Strings={exitDetailTools?.data?.data?.attachments || []} />
+                </div>
+
                 <Card className="lg:col-span-3 px-16 py-8">
                     <FileUpload files={files} setFiles={setFiles} />
                     <div className="flex justify-end items-end">

@@ -16,11 +16,12 @@ import FormikInput from '../../../../../_cloner/components/FormikInput'
 import FormikProximateAmount from '../../../../../_cloner/components/FormikProximateAmount'
 import FormikPrice from '../../../../../_cloner/components/FormikPrice'
 import FormikCustomer from '../../../../../_cloner/components/FormikCustomer'
-import FormikPurchaserInvoiceType from '../../../../../_cloner/components/FormikPurchaserInvoiceType'
 import FormikDatepicker from '../../../../../_cloner/components/FormikDatepicker'
 import { Add, Edit } from '@mui/icons-material'
 import BottomDrawer from '../../../../../_cloner/components/BottomSheetDrawer'
 import { dropdownProductByBrandName } from '../../../../../_cloner/helpers/dropdowns'
+import { WarehouseType } from '../../../warehouse/_models'
+import FormikInvoiceType from '../../../../../_cloner/components/FormikInvoiceType'
 
 const fields = [
     "warehouseId",
@@ -48,11 +49,12 @@ interface IProps {
     setOrderServices: React.Dispatch<React.SetStateAction<IOrderService[]>>,
     formikRef: React.RefObject<FormikProps<any>>,
     setOrderValid: React.Dispatch<React.SetStateAction<boolean>>
+    orderValid: boolean,
     values: any,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>
 }
 
-const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
+const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, orderValid, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
     const [orderIndex, setOrderIndex] = useState<number>(0);
@@ -73,7 +75,6 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
     }
 
     const handleOrder = () => {
-        console.log("values", values)
         const productOrder: any = {
             id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,
@@ -181,77 +182,70 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     </Button>
                 </div>
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">
-                    {isUpdate &&
+
+                    <FormikWarehouse
+                        name={!isUpdate ? "warehouseId" : "warehouseName"}
+                        label="انبار"
+                        disabled={true}
+                        onChange={changeWarehouseFunction} />
+                    <FormikProduct
+                        name={!isUpdate ? "productId" : "productName"}
+                        label="کالا/محصول"
+                        disabled={true}
+                        options={dropdownProductByBrandName(products?.data?.data)} />
+                    <FormikProximateAmount
+                        name="proximateAmount"
+                        label="مقدار"
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {values?.productId?.productMainUnitDesc || ""}
+                                </InputAdornment>
+                            ),
+                        }} />
+                    <FormikInput
+                        name="productSubUnitAmount"
+                        label="مقدار واحد فرعی"
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {values?.productId?.productSubUnitDesc || ""}
+                                </InputAdornment>
+                            ),
+                        }} />
+                    <FormikPrice
+                        name="price"
+                        label="قیمت (ریال)"
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                    <FormikInput
+                        name="detailDescription"
+                        label="توضیحات"
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                    <FormikInput
+                        name="rowId"
+                        label="ردیف فروش"
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                    {values.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseId?.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseTypeId === WarehouseType.Vaseteh ?
                         <>
-                            <FormikWarehouse
-                                name={!isUpdate ? "warehouseId" : "warehouseName"}
-                                label="انبار"
-                                // disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 }
-                                disabled={true}
-                                onChange={changeWarehouseFunction} />
-                            <FormikProduct
-                                name={!isUpdate ? "productId" : "productName"}
-                                label="کالا/محصول"
-                                // disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
-                                disabled={true}
-                                options={dropdownProductByBrandName(products?.data?.data)} />
-
-                            <FormikProximateAmount
-                                name="proximateAmount"
-                                label="مقدار"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="start">
-                                            {values?.productId?.productMainUnitDesc || ""}
-                                        </InputAdornment>
-                                    ),
-                                }} />
-                            <FormikInput
-                                name="productSubUnitAmount"
-                                label="مقدار واحد فرعی"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="start">
-                                            {values?.productId?.productSubUnitDesc || ""}
-                                        </InputAdornment>
-                                    ),
-                                }} />
-                            <FormikPrice
-                                name="price"
-                                label="قیمت (ریال)"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
-                            <FormikInput
-                                name="detailDescription"
-                                label="توضیحات"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
-                            <FormikInput
-                                name="rowId"
-                                label="ردیف فروش"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
-
-                        </>
-                    }
-                    {values.warehouseTypeId === 5 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 1 ?
-                        <></> : <>
                             <FormikCustomer
                                 name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
                                 label="خرید از"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
+                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
                             <FormikPrice
                                 name="purchasePrice"
                                 label="قیمت خرید (ریال)"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
-                            <FormikPurchaserInvoiceType
+                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                            <FormikInvoiceType
                                 name="purchaseInvoiceTypeId"
                                 label="نوع فاکتور خرید"
-                                disabeld={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
+                                disabeld={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
                             <FormikDatepicker
                                 name="purchaseSettlementDate"
                                 label="تاریخ تسویه خرید"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0 || values.warehouseId?.warehouseTypeId === 5 || values.warehouseTypeId === 5 || values.warehouseTypeId === 1} />
-                        </>
+                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                        </> : <> </>
                     }
                     {isUpdate ? (
                         <Button
@@ -281,6 +275,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, setOr
                     setOrderPayment={setOrderPayment}
                     setIsUpdate={setIsUpdate}
                     setOrderValid={setOrderValid}
+                    orderValid={orderValid}
                     setFieldValue={setFieldValue}
                     values={values}
 

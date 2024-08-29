@@ -4,33 +4,24 @@ import { Button, Typography } from '@mui/material'
 import moment from 'moment-jalaali'
 
 import { useDisApprovePaymentApproved, useGetRecievePaymentById, useUpdatePaymentApproved, useUpdateRecievePaymentById } from './core/_hooks'
-import { useGetReceivePaymentSources } from '../generic/_hooks'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 import { useParams } from 'react-router-dom'
 import { DateRange, Paid } from '@mui/icons-material'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
-import { dropdownReceivePaymentResource } from '../../../_cloner/helpers/dropdowns'
 
-import FormikSelect from '../../../_cloner/components/FormikSelect'
 import FormikInput from '../../../_cloner/components/FormikInput'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import FormikPrice from '../../../_cloner/components/FormikPrice'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 import FormikDescription from '../../../_cloner/components/FormikDescription'
-import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 import useBase64toFile from '../../../_cloner/helpers/convertBaseToFile'
 import ConfirmDialog from '../../../_cloner/components/ConfirmDialog'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'
-import FormikOrganzationBank from '../../../_cloner/components/FormikOrganzationBank'
-import FormikCashDesk from '../../../_cloner/components/FormikCashDesk'
-import FormikIncome from '../../../_cloner/components/FormikIncome'
-import FormikPettyCash from '../../../_cloner/components/FormikPettyCash'
-import FormikCost from '../../../_cloner/components/FormikCost'
-import FormikShareholders from '../../../_cloner/components/FormikShareholders'
 import FormikCompany from '../../../_cloner/components/FormikCompany'
 import FileUpload from '../../../_cloner/components/FileUpload'
+import PaymentOriginType from '../../../_cloner/components/PaymentOriginType'
 
 const RecievePaymentEdit = () => {
     const { id }: any = useParams()
@@ -44,7 +35,6 @@ const RecievePaymentEdit = () => {
     const { mutate, isLoading } = useUpdateRecievePaymentById()
     const updateApprove = useUpdatePaymentApproved()
 
-    const { data: paymentResource } = useGetReceivePaymentSources()
     const { mutate: reject, isLoading: rejectLoading } = useDisApprovePaymentApproved()
 
     const detailTools = useGetRecievePaymentById(id)
@@ -83,16 +73,16 @@ const RecievePaymentEdit = () => {
     formData.append("CompanyName", formikRef.current?.values?.companyName ? formikRef.current?.values?.companyName : detailTools?.data?.data?.companyName)
     formData.append("ContractCode", formikRef.current?.values?.contractCode ? formikRef.current?.values?.contractCode : detailTools?.data?.data?.contractCode)
     formData.append("AccountingDocNo", formikRef.current?.values?.accountingDocNo ? +formikRef.current?.values?.accountingDocNo : detailTools?.data?.data?.accountingDocNo)
-    formData.append("AccountingDescription",  formikRef.current?.values?.accountingDescription ? formikRef.current?.values?.accountingDescription : (detailTools?.data?.data?.accountingDescription === "" || detailTools?.data?.data?.accountingDescription === null) ? "ندارد" : detailTools?.data?.data?.accountingDescription)
+    formData.append("AccountingDescription", formikRef.current?.values?.accountingDescription ? formikRef.current?.values?.accountingDescription : (detailTools?.data?.data?.accountingDescription === "" || detailTools?.data?.data?.accountingDescription === null) ? "ندارد" : detailTools?.data?.data?.accountingDescription)
     formData.append("Description", formikRef.current?.values?.description ? formikRef.current?.values?.description : detailTools?.data?.data?.description)
     formData.append("ReceivedFrom", "")
     formData.append("ReceiveFromCompanyId", formikRef.current?.values?.receiveFromCompanyId ? formikRef.current?.values?.receiveFromCompanyId : detailTools?.data?.data?.receiveFromCompanyId === null ? "" : detailTools?.data?.data?.receiveFromCompanyId)
     formData.append("PayToCompanyId", formikRef.current?.values?.payToCompanyId ? formikRef.current?.values?.payToCompanyId : detailTools?.data?.data?.payToCompanyId === null ? "" : detailTools?.data?.data?.payToCompanyId)
     formData.append("PayTo", "")
-        files.forEach((file) => {
-            formData.append('Attachments', file);
+    files.forEach((file) => {
+        formData.append('Attachments', file);
     });
-    
+
     const onSubmit = async (values: any) => {
         mutate(formData, {
             onSuccess: (response) => {
@@ -112,7 +102,7 @@ const RecievePaymentEdit = () => {
             onSuccess: (response) => {
                 if (response?.succeeded) {
                     EnqueueSnackbar("ویرایش با موفقیت انجام پذیرفت", "success")
-                    if(approve) {
+                    if (approve) {
                         setApprove(false)
                         const approveSendData = {
                             ids: [id]
@@ -125,7 +115,7 @@ const RecievePaymentEdit = () => {
                                     EnqueueSnackbar(response.data.Message, "warning")
                                 }
                             }
-                        })            
+                        })
                     }
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")
@@ -133,50 +123,6 @@ const RecievePaymentEdit = () => {
             }
         })
     }
-
-    const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
-        let fieldNameFrom = "receiveFromId";
-        
-        if (receivePaymentSourceId === 1 && detailTools?.data?.data?.receivePaymentTypeFromId === 1) {
-            fieldNameFrom = "receiveFromDesc"; 
-        }
-
-        let fieldNameTo = "payToId";
-        if (receivePaymentSourceId === 1 && detailTools?.data?.data?.receivePaymentTypeToId === 1) {
-            fieldNameTo = "payToDesc"; 
-        }
-    
-        // Check if customerIdFieldName matches "receiveFromId" or "payToId"
-        const isReceiveFrom = customerIdFieldName === "receiveFromId";
-        const isPayTo = customerIdFieldName === "payToId";
-    
-        switch (receivePaymentSourceId) {
-            case 1:
-                if (isReceiveFrom) {
-                    return <FormikCustomer name={fieldNameFrom} label={label} />;
-                }
-                if (isPayTo) {
-                    return <FormikCustomer name={fieldNameTo} label={label} />;
-                }
-                break;
-            case 2:
-                return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
-            case 3:
-                return <FormikCashDesk name={customerIdFieldName} label={label} />;
-            case 4:
-                return <FormikIncome name={customerIdFieldName} label={label} />;
-            case 5:
-                return <FormikPettyCash name={customerIdFieldName} label={label} />;
-            case 6:
-                return <FormikCost name={customerIdFieldName} label={label} />;
-            case 7:
-            case 8:
-                return <FormikShareholders name={customerIdFieldName} label={label} />;
-            default:
-                return <FormikInput name={customerIdFieldName} label={label} disabled={true} />;
-        }
-    };
-    
 
     const handleDisApproveConfirm = (values: any) => {
         const formData = {
@@ -236,14 +182,13 @@ const RecievePaymentEdit = () => {
                         {({ handleSubmit, values }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-0'>
-                                    <FormikSelect disabeld  name='receivePaymentTypeFromId' label='نوع دریافت از' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {renderFields("receiveFromId", "دریافت از", values.receivePaymentTypeFromId)}
+                                    <PaymentOriginType label="نوع دریافت از" officialLabel="دریافت از" typeName="receivePaymentTypeFromId" officialName="receiveFromId" typeId={values.receivePaymentTypeFromId} />
                                     {detailTools?.data?.data?.receivePaymentTypeFromId === 1 &&
                                         <FormikCompany customerid={values?.receiveFromDesc ? values?.receiveFromDesc?.value : detailTools?.data?.data?.receiveFromId} name="receiveFromCompanyId" label="نام شرکت دریافت از" />
                                     }
-                                    <FormikSelect disabled name='receivePaymentTypeToId' label='نوع پرداخت به' options={dropdownReceivePaymentResource(paymentResource)} />
-                                    {renderFields("payToId", "پرداخت به", values.receivePaymentTypeToId)}
-                                    {detailTools?.data?.data?.receivePaymentTypeToId  === 1 && 
+                                    <PaymentOriginType label="نوع پرداخت به" officialLabel="پرداخت به" typeName="receivePaymentTypeToId" officialName="payToId" typeId={values.receivePaymentTypeToId} />
+
+                                    {detailTools?.data?.data?.receivePaymentTypeToId === 1 &&
                                         <FormikCompany customerid={values?.payToDesc ? values?.payToDesc?.value : detailTools?.data?.data?.payToId} name="payToCompanyId" label="نام شرکت پرداخت به" />
                                     }
                                     <FormikInput name='accountOwner' label='صاحب حساب' type='text' />
@@ -299,8 +244,8 @@ const RecievePaymentEdit = () => {
             >
                 <div className="flex flex-col space-y-4 mt-4">
                     <Typography variant="h3"> شماره دریافت پرداخت: {detailTools?.data?.data?.receivePayCode}</Typography>
-                    <Formik initialValues={{accountingDescription: ""}} onSubmit={handleDisApproveConfirm}>
-                        {({handleSubmit}) => (
+                    <Formik initialValues={{ accountingDescription: "" }} onSubmit={handleDisApproveConfirm}>
+                        {({ handleSubmit }) => (
                             <form>
                                 <FormikDescription name="accountingDescription" label="توضیحات حسابداری" />
                                 <div className="flex gap-x-4 justify-end items-end mt-2">

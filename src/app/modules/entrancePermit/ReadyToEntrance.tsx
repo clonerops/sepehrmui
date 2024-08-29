@@ -29,79 +29,79 @@ const ReadyToEntrance = () => {
   useEffect(() => {
     const filter: any = {
       PageNumber: currentPage,
-      PageSize: pageSize,     
+      PageSize: pageSize,
     }
     transferList.mutate(filter)
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [currentPage])
 
   const renderAction = (params: any) => {
     return <Link to={params.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${params.row.id}/entrance`}>
-          <Button variant="contained" color="secondary" disabled={params.row.transferRemittanceStatusId >= 2} onClick={() => { }}>
-            <Typography className="px-2" color="primary">صدور مجوز ورود</Typography>
-          </Button>
+      <Button variant="contained" color="secondary" disabled={params.row.transferRemittanceStatusId >= 2} onClick={() => { }}>
+        <Typography className="px-2" color="primary">صدور مجوز ورود</Typography>
+      </Button>
     </Link>
   }
   const handleFilter = (values: any) => {
     let formData = {
-        id: values.id ? values.id : "",
-        pageNumber: currentPage,
-        pageSize: 100,          
+      id: values.id ? values.id : "",
+      pageNumber: currentPage,
+      pageSize: 100,
     };
     transferList.mutate(formData);
-}
+  }
 
   const handlePageChange = (selectedItem: { selected: number }) => {
-      setCurrentPage(selectedItem.selected + 1);
+    setCurrentPage(selectedItem.selected + 1);
   };
 
   const handleChangeStatus = (id: number) => {
     let formData = {
       PageNumber: currentPage,
       PageSize: 100,
-      TransferRemittStatusId: id, 
+      TransferRemittStatusId: id,
     };
     transferList.mutate(formData);
   }
 
-return (
+  return (
     <>
       {transferRemittanceStatus.isLoading && <Backdrop loading={transferRemittanceStatus.isLoading} />}
       {transferList.isLoading && <Backdrop loading={transferList.isLoading} />}
 
       <ReusableCard>
-        <Formik initialValues={{id: ""}} onSubmit={handleFilter}>
-                    {({handleSubmit}) => {
-                        return (
-                            <form onSubmit={handleSubmit}>
-                                <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
-                                    <FormikInput name="id" label="شماره حواله" />
-                                    <ButtonComponent>
-                                        <Search className="text-white" />
-                                        <Typography className="px-2 text-white">جستجو</Typography>
-                                    </ButtonComponent>
-                                </div>
-                                <div className="mb-4">
-                                  <RadioGroup
-                                    key="TransferRemittStatusId"
-                                    disabled={false}
-                                    categories={
-                                      transferRemittanceStatus?.data === undefined
-                                          ? [{ value: null, title: "همه", defaultChecked: true }]
-                                          : dropdownTransferRemittanceStatus([
-                                                { id: null, statusDesc: "همه", defaultChecked: true },
-                                                ...transferRemittanceStatus?.data,
-                                            ])
-                                  }
-                                    name="TransferRemittStatusId"
-                                    id="TransferRemittStatusId"
-                                    onChange={(id: number) => handleChangeStatus(id)}
-                                  />
-                              </div>
-                            </form>
-                        );
-                    }}
-                </Formik>
+        <Formik initialValues={{ id: "" }} onSubmit={handleFilter}>
+          {({ handleSubmit }) => {
+            return (
+              <form onSubmit={handleSubmit}>
+                <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%] mb-4">
+                  <FormikInput name="id" label="شماره حواله" />
+                  <ButtonComponent>
+                    <Search className="text-white" />
+                    <Typography className="px-2 text-white">جستجو</Typography>
+                  </ButtonComponent>
+                </div>
+                <div className="mb-4">
+                  <RadioGroup
+                    key="TransferRemittStatusId"
+                    disabled={false}
+                    categories={
+                      transferRemittanceStatus?.data === undefined
+                        ? [{ value: null, title: "همه", defaultChecked: true }]
+                        : dropdownTransferRemittanceStatus([
+                          { id: null, statusDesc: "همه", defaultChecked: true },
+                          ...transferRemittanceStatus?.data,
+                        ])
+                    }
+                    name="TransferRemittStatusId"
+                    id="TransferRemittStatusId"
+                    onChange={(id: number) => handleChangeStatus(id)}
+                  />
+                </div>
+              </form>
+            );
+          }}
+        </Formik>
 
         <MuiDataGrid
           columns={ReadyToEntranceColumn(renderAction)}
@@ -109,7 +109,7 @@ return (
           data={transferList?.data?.data || [{}]}
           onDoubleClick={(item: any) => navigate(item.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${item.row.id}/entrance`)}
           hideFooter={true}
-          
+
         />
         <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>

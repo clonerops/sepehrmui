@@ -22,7 +22,7 @@ const ReadyToSalesOrderConfirm = () => {
 
     useEffect(() => {
         const formData = {
-            InvoiceTypeId: [2],
+            InvoiceTypeId: [1],
             OrderStatusId: 1
         }
         orderTools.mutate(formData, {
@@ -59,7 +59,7 @@ const ReadyToSalesOrderConfirm = () => {
         if (+values === -1) {
             const formData = {
                 // InvoiceTypeId: [1, 2],
-                InvoiceTypeId: [2],
+                InvoiceTypeId: [1],
             };
             orderTools.mutate(formData, {
                 onSuccess: (message) => {
@@ -70,7 +70,7 @@ const ReadyToSalesOrderConfirm = () => {
         } else {
             const formData = {
                 // InvoiceTypeId: [1, 2],
-                InvoiceTypeId: [2],
+                InvoiceTypeId: [1],
                 OrderStatusId: +values,
             };
             orderTools.mutate(formData, {

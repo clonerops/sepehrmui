@@ -71,7 +71,6 @@ const ProductInventoriesSepehr = () => {
                     <Typography variant="h3" color="red" className="pb-4">جهت آپلود فایل موجودی روزانه، رعایت موارد زیر الزامی باشد</Typography>
                     <ul className="space-y-4">
                         <Typography variant="h4">فرمت فایل باید بصورت اکسل (xlsx.) باشد</Typography>
-                        <Typography variant="h4">ترتیب فیلدها مهم می باشد: کد کالابرند، کدانبار، موجودی تقریبی، موجودی کف، حداکثر موجودی، حداقل موجودی</Typography>
                     </ul>
                 </div>
             </Alert>

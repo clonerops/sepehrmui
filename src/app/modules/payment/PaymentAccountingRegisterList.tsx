@@ -19,8 +19,10 @@ const pageSize = 100
 
 const initialValues = {
     isApproved: 0,
-    fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    fromDate: "",
+    toDate: "",
 }
 
 

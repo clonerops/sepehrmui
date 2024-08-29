@@ -77,6 +77,10 @@ const getPhoneBookTypes = async () => {
 const getCustomerLabelTypes = async () => {
     const { data } = await http.get('/v1/GenericApi/GetCustomerLabelTypes')
     return data;
+}
+const getRequestPaymentReason = async () => {
+    const { data } = await http.get('/v1/GenericApi/GetAllPaymentRequestReasons')
+    return data;
 
 }
 
@@ -99,5 +103,6 @@ export {
     getOrderExitTypes,
     getUnits,
     getPhoneBookTypes,
-    getCustomerLabelTypes
+    getCustomerLabelTypes,
+    getRequestPaymentReason
 }

@@ -409,7 +409,21 @@ const SepehrInventoryColumn = (renderIncreaseInventory: (item: { row: IProducts 
             field: "floorInventory",
             minWidth: 140,
             maxWidth: 180,
-            headerName: "موجودی",
+            headerName: "موجودی واقعی",
+            renderCell: (params: any) => {
+                return <Typography variant="h4" color={params.value < 0 ? "red" : params.value > 0 ? "green" : "black"}>
+                    {separateAmountWithCommas(params.value)} {params.value < 0 ? (<CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? (<CallMade className="text-green-500" fontSize="small" />) : null}
+                </Typography>;
+            },
+
+            headerClassName: "headerClassName",
+            flex: 1,
+        },
+        {
+            field: "approximateInventory",
+            minWidth: 140,
+            maxWidth: 180,
+            headerName: "موجودی تقریبی",
             renderCell: (params: any) => {
                 return <Typography variant="h4" color={params.value < 0 ? "red" : params.value > 0 ? "green" : "black"}>
                     {separateAmountWithCommas(params.value)} {params.value < 0 ? (<CallReceived className="text-red-500" fontSize="small" />) : params.value > 0 ? (<CallMade className="text-green-500" fontSize="small" />) : null}
@@ -512,7 +526,7 @@ const InventoryColumn = () => {
             headerClassName: "headerClassName",
         },
         {
-            field: "OnTransitInventory",
+            field: "onTransitInventory",
             minWidth: 180,
             headerName: "موجودی در راه",
             flex: 1,
@@ -820,9 +834,9 @@ const PaymentAccountingRegisterColumn = (renderCheckbox: any, renderAction: any,
     return col;
 };
 
-const PaymentAccountingRegisterListColumn = (renderAction: any, ) => {
+const PaymentAccountingRegisterListColumn = (renderAction: any,) => {
     const col = [
-        
+
         {
             headerName: "جزئیات ثبت حسابداری",
             renderCell: renderAction,
@@ -1074,6 +1088,134 @@ const PaymentAccountingColumn = (renderAction: any, renderCheckbox: any, isSelec
     ];
     return col;
 };
+
+const RecievePaymentListColumn = (renderAction: any) => {
+    const col = [
+        {
+            headerName: "جزئیات",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "receivePayCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شماره ثبت",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "receiveFromDesc",
+            headerName: "دریافت از",
+            renderCell: (value: any) => (
+                <Typography variant="h4">
+                    {value.row.receiveFromDesc}
+                </Typography>
+            ),
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1
+        },
+        {
+            field: "receiveFromCompanyName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "شرکت دریافت از",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "payToDesc",
+            renderCell: (value: any) => (
+                <Typography variant="h4">
+                    {value.row.payToDesc +
+                        " " +
+                        (value.row?.receivePaymentSourceToId !== 1
+                            ? ""
+                            : value.row?.payToCustomerName)}
+                </Typography>
+            ),
+            headerName: "پرداخت به",
+            headerClassName: "headerClassName",
+            minWidth: 240,
+            flex: 1
+        },
+        {
+            field: "payToCompanyName",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "شرکت پرداخت به",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "amount",
+            headerName: "مبلغ",
+            renderCell: (value: any) => (
+                <Typography color="primary" variant="h4">
+                    {separateAmountWithCommas(value.row.amount) + "تومان"}
+                </Typography>
+            ),
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "receivePayStatusDesc",
+            headerName: "وضعیت",
+            renderCell: (value: any) => (
+                <Typography className={`${value.row.receivePayStatusId === 1 ? "text-yellow-500" :
+                    value.row.receivePayStatusId === 2 ? "text-green-500" :
+                        value.row.receivePayStatusId === 3 ? "text-violet-500" : ""}`} variant="h4">
+                    {value.row.receivePayStatusDesc}
+                </Typography>
+            ),
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+        {
+            field: "accountOwner",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "صاحب حساب",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "trachingCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography>;
+            },
+            headerName: "کد پیگیری",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            field: "contractCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "شماره قرارداد",
+            headerClassName: "headerClassName",
+            minWidth: 100,
+            flex: 1
+        },
+    ];
+    return col;
+};
+
 
 const IncomeColumn = (renderSwitch: any) => {
     const col = [
@@ -1329,31 +1471,39 @@ const ShareholdersColumn = (renderAction: any) => {
     return col;
 };
 
-const RentsColumns = (renderAction: any, renderCheckbox: any, isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
+// const RentsColumns = (renderAction: any, renderCheckbox: any, isSelectAll: boolean, setIsSelectAll: React.Dispatch<React.SetStateAction<boolean>>) => {
+const RentsColumns = (renderAction: any, renderCheckbox: any) => {
     const col = [
         {
             field: "ladingExitPermitId",
-            headerName: (
-                <Checkbox
-                    color="primary"
-                    checked={isSelectAll}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
-                />
-            ),
+            // headerName: (
+            //     <Checkbox
+            //         color="primary"
+            //         checked={isSelectAll}
+            //         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setIsSelectAll(event.target.checked)}
+            //     />
+            // ),
+            headerName: '',
             sortable: false,
             renderCell: renderCheckbox,
             headerClassName: "headerClassName",
-            minWidth: 80,
+            maxWidth: 80,
             flex: 1
         },
         {
-            field: "Action", headerName: 'جزئیات و تایید', flex: 1, minWidth: 120, maxWidth: 120, renderCell: renderAction, headerClassName: "headerClassName"
+            field: "Action", headerName: 'پرداخت', flex: 1, minWidth: 120, maxWidth: 120, renderCell: renderAction, headerClassName: "headerClassName"
         },
         {
             field: 'referenceCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 100, flex: 1
+            headerName: 'شماره مرجع', headerClassName: "headerClassName", maxWidth: 100, minWidth: 100, flex: 1
+        },
+        {
+            field: 'farePaymentStatusId', renderCell: (params: any) => {
+                return params.row.farePaymentStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography> : params.row.farePaymentStatusId === 2 ? <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography> : <Typography className="border-2 border-indigo-500 text-indigo-500 rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت کرایه', headerClassName: "headerClassName", maxWidth: 140, minWidth: 140, flex: 1
         },
 
         {
@@ -1364,24 +1514,10 @@ const RentsColumns = (renderAction: any, renderCheckbox: any, isSelectAll: boole
         },
 
         {
-            field: 'cargoAnnounceNo', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
-            },
-            headerName: 'شماره بارنامه', headerClassName: "headerClassName", minWidth: 100, flex: 1
-        },
-
-        {
             field: 'orderTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 100, flex: 1
-        },
-
-        {
-            field: 'cargoTotalWeight', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
-            },
-            headerName: 'وزن بار', headerClassName: "headerClassName", minWidth: 100, flex: 1
         },
 
         {
@@ -1396,14 +1532,6 @@ const RentsColumns = (renderAction: any, renderCheckbox: any, isSelectAll: boole
             },
             headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 100, flex: 1
         },
-
-        {
-            field: 'totalPayableAmount', renderCell: (params: any) => {
-                return <Typography variant="h3" className="text-green-500">{params.value}</Typography>;
-            },
-            headerName: 'مبلغ قابل پرداخت', headerClassName: "headerClassName", minWidth: 120, flex: 1
-        },
-
         {
             field: 'driverName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -1485,6 +1613,83 @@ const RentListsColumn = (renderPrint: any) => {
         {
             field: 'print', renderCell: renderPrint,
             headerName: 'پرینت رسید پرداخت', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+
+    ]
+    return col
+};
+
+const ReadyToApproveRentsColumn = (renderAction: any) => {
+    const col = [
+        { field: "Action", headerName: '', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 210, maxWidth: 210 },
+        {
+            field: 'referenceCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره مرجع', headerClassName: "headerClassName", minWidth: 100,
+            flex: 1,
+        },
+        {
+            field: 'referenceDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت', headerClassName: "headerClassName", minWidth: 100,
+            flex: 1,
+        },
+        {
+            field: 'totalAmount', renderCell: (params: any) => {
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'مبلغ کرایه(ریال)', headerClassName: "headerClassName", minWidth: 100,
+            flex: 1,
+        },
+        {
+            field: 'farePaymentStatusId', renderCell: (params: any) => {
+                return params.row.farePaymentStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography> : params.row.farePaymentStatusId === 2 ? <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography> : <Typography className="border-2 border-indigo-500 text-indigo-500 rounded-[4px] px-3 py-1">{params.row.farePaymentStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت کرایه', headerClassName: "headerClassName", minWidth: 140, flex: 1
+        },
+        {
+            field: 'creatorName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'ثبت کننده', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: 'otherCosts', renderCell: (params: any) => {
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'سایر هزینه ها', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: 'driverName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'راننده', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: 'driverMobile', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره همراه راننده', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: 'driverAccountNo', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره حساب راننده', headerClassName: "headerClassName", minWidth: 180,
+            flex: 1,
+        },
+        {
+            field: 'orderTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120,
             flex: 1,
         },
 
@@ -1629,7 +1834,13 @@ const LadingListColumn = (renderAction: any) => {
             field: 'creatorName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'ثبت کننده مجوز بارگیری', headerClassName: "headerClassName", minWidth: 180,maxWidth: 180, flex: 1
+            headerName: 'ثبت کننده مجوز بارگیری', headerClassName: "headerClassName", minWidth: 180, maxWidth: 180, flex: 1
+        },
+        {
+            field: 'orderCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.row.cargoAnnounce.order.orderCode}</Typography>;
+            },
+            headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 160, flex: 1
         },
         {
             field: 'cargoAnnounceNo', renderCell: (params: any) => {
@@ -2048,7 +2259,8 @@ const UnloadingPemritDetailColumn = () => {
             flex: 1,
             headerClassName: "headerClassName",
             render: (params: any) => {
-                return <Typography variant="h4">{params.unloadedAmount}</Typography>;            },
+                return <Typography variant="h4">{params.unloadedAmount}</Typography>;
+            },
         },
         {
             id: 4,
@@ -2209,6 +2421,67 @@ const CustomerColumn = (renderAction: any) => {
             headerClassName: "headerClassName",
             cellClassName: "text-center",
             minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "fatherName",
+            headerName: "نام پدر",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "nationalId",
+            headerName: "کدملی",
+            renderCell: (params: any) => {
+                return <Typography variant="h5">{params.value}</Typography >;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1
+        },
+        {
+            headerName: "عملیات",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1
+        },
+    ];
+    return col;
+};
+const PersonnelColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "personnelCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "کد پرسنل",
+            align: "center",
+            headerClassName: "headerClassName",
+            maxWidth: 80,
+            flex: 1
+        },
+        {
+            field: "firstName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نام",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "lastName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نام خانوادگی",
+            headerClassName: "headerClassName",
+            minWidth: 160,
             flex: 1
         },
         {
@@ -2440,7 +2713,7 @@ const OrderColumn = (renderAction: any) => {
             headerName: 'ثبت کننده سفارش', headerClassName: "headerClassName", minWidth: 160, maxWidth: 160, flex: 1
         },
         {
-            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 100, maxWidth: 100
+            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 140, maxWidth: 140
         },
 
         {
@@ -2482,6 +2755,71 @@ const OrderColumn = (renderAction: any) => {
     ]
     return col
 };
+
+const ConvertPreSaleColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: 'orderCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
+        },
+        {
+            field: 'businessCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'کد سفارش', headerClassName: "headerClassName", minWidth: 140, maxWidth: 180, flex: 1
+        },
+        {
+            field: 'creatorName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'ثبت کننده سفارش', headerClassName: "headerClassName", minWidth: 160, maxWidth: 160, flex: 1
+        },
+        {
+            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 320, maxWidth: 320
+        },
+
+        {
+            field: 'registerDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
+        },
+        {
+            field: 'orderTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
+        },
+        {
+            field: 'customerName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'سفارش دهنده', headerClassName: "headerClassName", minWidth: 190, maxWidth: 190, flex: 1
+        },
+        {
+            field: 'totalAmount', renderCell: (params: any) => {
+                return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: 'مبلغ کل (ریال)', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
+        },
+        {
+            field: 'invoiceTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نوع فاکتور', headerClassName: "headerClassName", minWidth: 120, maxWidth: 120, flex: 1
+        },
+        {
+            field: 'orderStatusId', renderCell: (params: any) => {
+                return params.value === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.orderStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+    ]
+    return col
+};
+
 
 const SalesOrderConfirmColumn = (renderAction: any) => {
     const col = [
@@ -2848,6 +3186,12 @@ const UnloadingPermitColumn = (renderAction: any) => {
             headerName: 'تاریخ حواله', headerClassName: "headerClassName", minWidth: 90, flex: 1
         },
         {
+            field: 'transferRemittanceStatusDesc', renderCell: (params: any) => {
+                return params.row.transferRemitance.transferRemittanceStatusId === 2 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.transferRemitance.transferRemittanceStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.transferRemitance.transferRemittanceStatusDesc}</Typography>
+            },
+            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 180, flex: 1
+        },
+        {
             field: 'transferRemittanceTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.row.transferRemitance.transferRemittanceTypeDesc || "ثبت نشده"}</Typography>;
             },
@@ -3204,6 +3548,15 @@ const SelectProductMuiTableColumn = (renderAction: any, renderInput: any, render
         },
         {
             accessor: "productSubUnitDesc",
+            header: "واحد اصلی",
+            headerAlign: "center",
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 90,
+            maxWidth: 90,
+        },
+        {
+            accessor: "productSubUnitDesc",
             header: "واحد فرعی",
             render: renderSubUnit,
             headerClassName: "headerClassName",
@@ -3280,22 +3633,32 @@ const PurchaserOrderConfirmColumn = (renderAction: any) => {
 
 const UserListColumn = (renderAction: any) => {
     const col = [
-        { field: 'firstName', flex: 1, headerName: 'نام', headerClassName: "headerClassName", renderCell: (params: any) => {
-            return <Typography variant="h4">{params.value}</Typography>
-        }, minWidth: 130 },
-        { field: 'lastName', flex: 1, headerName: 'نام خانوادگی', headerClassName: "headerClassName", renderCell: (params: any) => {
-            return <Typography variant="h4">{params.value}</Typography>
-        }, minWidth: 140 },
-        { field: 'userName', flex: 1, headerName: 'نام کاربری', headerClassName: "headerClassName", renderCell: (params: any) => {
-            return <Typography variant="h4">{params.value}</Typography>
-        }, minWidth: 140 },
-        { field: 'phoneNumber', flex: 1, headerName: 'موبایل', headerClassName: "headerClassName", renderCell: (params: any) => {
-            return <Typography variant="h4">{params.value}</Typography>
-        }, minWidth: 120 },
-        { field: 'email', flex: 1, headerName: 'ایمیل', headerClassName: "headerClassName", renderCell: (params: any) => {
-            return <Typography variant="h4">{params.value}</Typography>
-        }, minWidth: 120 },
-        { headerName: 'عملیات', flex: 1,  renderCell: renderAction, headerClassName: "headerClassName", minWidth: 80 }
+        {
+            field: 'firstName', flex: 1, headerName: 'نام', headerClassName: "headerClassName", renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, minWidth: 130
+        },
+        {
+            field: 'lastName', flex: 1, headerName: 'نام خانوادگی', headerClassName: "headerClassName", renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, minWidth: 140
+        },
+        {
+            field: 'userName', flex: 1, headerName: 'نام کاربری', headerClassName: "headerClassName", renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, minWidth: 140
+        },
+        {
+            field: 'phoneNumber', flex: 1, headerName: 'موبایل', headerClassName: "headerClassName", renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, minWidth: 120
+        },
+        {
+            field: 'email', flex: 1, headerName: 'ایمیل', headerClassName: "headerClassName", renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>
+            }, minWidth: 120
+        },
+        { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 80 }
     ]
     return col
 };
@@ -3390,14 +3753,14 @@ const ReadyToEntranceColumn = (renderAction: any) => {
             },
             headerName: 'انبار مقصد', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        {field: "Action", headerName: 'صدور مجوز', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
+        { field: "Action", headerName: 'صدور مجوز', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
     ]
     return col
 };
 
 const TransferRemittanceColumn = (renderAction: any) => {
     const col = [
-        {field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
+        { field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 160 },
         {
             field: 'id', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
@@ -3458,33 +3821,33 @@ const TransferRemittanceColumn = (renderAction: any) => {
 
 const CustomerLabelsColumn = (renderAction: any) => {
     const col = [
-      {
-        field: 'customerLabelTypeDesc', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
+        {
+            field: 'customerLabelTypeDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: ' نوع برچسب', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
         },
-        headerName: ' نوع برچسب', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: 'labelName', renderCell: (params: any) => {
-          return <Typography variant="h4">{params.value}</Typography>;
+        {
+            field: 'labelName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'نام برچسب', headerClassName: "headerClassName", minWidth: 120,
+            flex: 1,
         },
-        headerName: 'نام برچسب', headerClassName: "headerClassName", minWidth: 120,
-        flex: 1,
-      },
-      {
-        field: "isActive",
-        headerName: "عملیات",
-        renderCell: renderAction,
-        headerClassName: "headerClassName",
-        minWidth: 160,
-        flex: 1,
-      },
+        {
+            field: "isActive",
+            headerName: "عملیات",
+            renderCell: renderAction,
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
     ]
     return col
-  }
+}
 
-  
+
 const TransferBetweenWarehouseColumn = (renderAction: any) => {
     const col = [
         {
@@ -3684,6 +4047,32 @@ const AssignCustomerLabelsCheckboxColumn = (renderCheckbox: any) => {
     return col;
 }
 
+const AssignCustomerWarehouseCheckboxColumn = (renderCheckbox: any) => {
+    const col = [
+        {
+            field: "id",
+            headerName: "",
+            sortable: false,
+            renderCell: renderCheckbox,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "name",
+            headerName: "انبار",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+    ];
+    return col;
+}
+
+
 const CustomerReportMarketingColumn = (renderAction: any) => {
     const col = [
         {
@@ -3783,6 +4172,287 @@ const CustomerReportMarketingColumn = (renderAction: any) => {
     return col;
 };
 
+const TransferRemittanceDetailColumn = (setIsOpen: (value: React.SetStateAction<boolean>) => void, setItemSelected: (value: any) => void) => {
+    const col = [
+        {
+            field: "productCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "کد کالا",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            maxWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "productName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام کالا",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
+        {
+            field: "productBrandName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "برند",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "approximateInventory",
+            renderCell: (params: any) => {
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: "موجودی تقریبی",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            maxWidth: 120,
+            flex: 1,
+        },
+        {
+            headerName: 'عملیات', flex: 1, renderCell: (params: any) => {
+                return <Button variant="contained" color="secondary" onClick={() => {
+                    setIsOpen(true)
+                    setItemSelected(params.row)
+                }}>
+                    <Typography>انتقال</Typography>
+                </Button>
+            }, headerClassName: "headerClassName", minWidth: 160
+        }
+    ];
+    return col;
+};
+
+const TransferRemittanceDetailInventoryColumn = (setIsOpen: (value: React.SetStateAction<boolean>) => void, setItemSelected: (value: any) => void) => {
+    const col = [
+        {
+            field: "productCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "کد کالا",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            maxWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "productName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام کالا",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
+        {
+            field: "productBrandName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "برند",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "purchaseInventory",
+            renderCell: (params: any) => {
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: "موجودی خرید",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            maxWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "approximateInventory",
+            renderCell: (params: any) => {
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: "موجودی تقریبی",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            maxWidth: 120,
+            flex: 1,
+        },
+        {
+            headerName: 'عملیات', flex: 1, renderCell: (params: any) => {
+                return <Button variant="contained" color="secondary" onClick={() => {
+                    setIsOpen(true)
+                    setItemSelected(params.row)
+                }}>
+                    <Typography>انتقال</Typography>
+                </Button>
+            }, headerClassName: "headerClassName", minWidth: 160
+        }
+    ];
+    return col;
+};
+
+const TransferRemittanceDetailForTransferColumn = (renderDelete: (values: any) => void) => {
+    const col = [
+        {
+            field: "productCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "کد کالا",
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            maxWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "productName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "نام کالا",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
+        {
+            field: "productBrandName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "برند",
+            headerClassName: "headerClassName",
+            minWidth: 90,
+            flex: 1,
+        },
+        {
+            field: "transferAmount",
+            renderCell: (params: any) => {
+                return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
+            },
+            headerName: "مقدار واردشده جهت انتقال",
+            headerClassName: "headerClassName",
+            minWidth: 200,
+            flex: 1,
+        },
+        {
+            field: "delete",
+            renderCell: (params: any) => {
+                return <Button onClick={() => renderDelete(params.row)} className="!bg-red-500" variant="contained">
+                    <Typography>حذف</Typography>
+                </Button>
+            },
+            headerName: "حذف",
+            headerClassName: "headerClassName",
+            maxWidth: 80,
+            minWidth: 80,
+            flex: 1,
+        },
+    ];
+    return col;
+};
+
+const PaymentRequestColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: 'paymentRequestCode', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'شماره درخواست', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'createdDate', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'تاریخ درخواست', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+        },
+        {
+            field: 'paymentRequestStatusDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+        },
+        {
+            field: 'creatorName', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'درخواست کننده', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
+            field: 'paymentRequestReasonDesc', renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: 'بابت', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+        },
+        { field: "Action", headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 420, maxWidth: 420  },
+
+    ]
+    return col
+}
+
+const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) => {
+    const col = [
+        {
+            field: "id",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value || 0}</Typography>;
+            },
+            headerName: "شماره انتقال",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "createdDate",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "تاریخ انتقال",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
+        {
+            field: "creatorName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerName: "ثبت کننده",
+            headerClassName: "headerClassName",
+            minWidth: 160,
+            flex: 1,
+        },
+        {
+            field: "originWarehouseDesc",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value || "ثبت نشده"}</Typography>;
+            },
+            headerName: "مبدا",
+            headerClassName: "headerClassName",
+            minWidth: 90,
+            flex: 1,
+        },
+        {
+            field: "detail",
+            renderCell: renderAction,
+            headerName: "جزئیات",
+            headerClassName: "headerClassName",
+            maxWidth: 80,
+            minWidth: 80,
+            flex: 1,
+        },
+    ];
+    return col;
+};
+
+
 export {
     ProductBrandsColumn,
     ProductStandardsColumn,
@@ -3816,6 +4486,7 @@ export {
     CustomerWarehousesColumn,
     CustomerWarehouseColumn,
     CustomerColumn,
+    PersonnelColumn,
     CustomerCompaniesColumn,
     SuppliersColumn,
     OrderColumn,
@@ -3841,6 +4512,15 @@ export {
     AssignCustomerLabelColumn,
     AssignCustomerLabelsColumn,
     AssignCustomerLabelsCheckboxColumn,
-    CustomerReportMarketingColumn
+    CustomerReportMarketingColumn,
+    TransferRemittanceDetailColumn,
+    TransferRemittanceDetailForTransferColumn,
+    ConvertPreSaleColumn,
+    PaymentRequestColumn,
+    TransferWarehouseInventoryColumn,
+    AssignCustomerWarehouseCheckboxColumn,
+    TransferRemittanceDetailInventoryColumn,
+    ReadyToApproveRentsColumn,
+    RecievePaymentListColumn
     // OrderConfirmColumn
 }

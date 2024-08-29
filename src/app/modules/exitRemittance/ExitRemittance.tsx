@@ -56,7 +56,7 @@ const ExitRemiitance = () => {
 
     useEffect(() => {
         if (files.length > 0) convertFilesToBase64(files, setBase64Attachments)
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [files]);
 
     useEffect(() => {
@@ -84,7 +84,7 @@ const ExitRemiitance = () => {
                 setLadingList(destructureData);
             }
         }
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [cargoDetailTools?.data?.data?.cargoAnnounceDetails]);
 
     const handleRealAmountChange = (params: any, value: string) => {
@@ -120,7 +120,7 @@ const ExitRemiitance = () => {
             ladingPermitId: +ladingCode,
             bankAccountNo: values.bankAccountNo,
             bankAccountOwnerName: values.bankAccountOwnerName,
-            creditCardNo: values.bankAccountNo ,
+            creditCardNo: values.bankAccountNo,
             fareAmount: +values.fareAmount,
             otherAmount: +values.otherAmount,
             hasExitPermit: true,
@@ -147,13 +147,15 @@ const ExitRemiitance = () => {
         });
     };
 
-    {cargoDetailTools.isLoading && <Backdrop loading={cargoDetailTools.isLoading} />}
-    {ladingDetailTools.isLoading && <Backdrop loading={ladingDetailTools.isLoading} />}
+    if(cargoDetailTools.isLoading)
+        return <Backdrop loading={cargoDetailTools.isLoading} />
+
     return (
         <>
+            {ladingDetailTools.isLoading && <Backdrop loading={ladingDetailTools.isLoading} />}
             {postExitRemittance.isLoading && <Backdrop loading={postExitRemittance.isLoading} />}
 
-            <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز خروج</Typography>    
+            <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز خروج</Typography>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-4">
                 <CardTitleValue icon={<Person color="secondary" />} title="شماره مجوز بارگیری" value={ladingCode} />
@@ -200,7 +202,7 @@ const ExitRemiitance = () => {
                     {({ values }) => {
                         return (
                             <Form className="mt-8">
-                                
+
                                 <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 mb-4 md:space-y-0 space-y-4" >
                                     <FormikInput name="bankAccountNo" label="شماره حساب/کارت راننده" disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2} />
                                     <FormikInput name="bankAccountOwnerName" label="صاحب حساب" disabled={+cargoDetailTools?.data?.data?.order?.farePaymentTypeId === 2} />
@@ -215,7 +217,7 @@ const ExitRemiitance = () => {
                                         <Typography variant="h2" color="primary" className="pb-4">
                                             افزودن پیوست
                                         </Typography>
-                                        <FileUpload files={files} setFiles={setFiles}/>
+                                        <FileUpload files={files} setFiles={setFiles} />
                                     </div>
                                 </div>
                                 <div className="mt-8 flex gap-x-4">
@@ -224,7 +226,7 @@ const ExitRemiitance = () => {
                                             ثبت مجوز
                                         </Typography>
                                     </Button>
-                                    {postExitRemittance?.data?.data?.id && 
+                                    {postExitRemittance?.data?.data?.id &&
                                         <Link to={`/dashboard/ladingExitPermitOfficial_print/${postExitRemittance?.data?.data?.id}/${postExitRemittance?.data?.data?.ladingExitPermitCode}/${moment(postExitRemittance?.data?.data?.created).format('jYYYY/jMM/jDD')}`}>
                                             <Button className="flex gap-x-4" variant="contained" color="secondary">
                                                 <Print color="primary" />

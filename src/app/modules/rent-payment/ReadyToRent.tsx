@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Button, Checkbox, Tooltip, Typography } from '@mui/material'
+import { Button, Checkbox, Typography } from '@mui/material'
 
-import { Approval, ApprovalTwoTone, Search } from "@mui/icons-material";
+import { Approval, Search } from "@mui/icons-material";
 import { IRentPaymentFields } from "./core/_models";
 import { RentsColumns } from "../../../_cloner/helpers/columns";
 import { Formik } from "formik";
@@ -14,16 +14,14 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import FormikSelect from "../../../_cloner/components/FormikSelect";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
-import RentPayment from "./RentPayment";
-import RentPaymentSelected from "./RentPaymentSelected";
-import moment from "moment-jalaali";
+import RentPayment from "./components/RentPayment";
 import Backdrop from "../../../_cloner/components/Backdrop";
 
 const initialValues = {
     referenceCode: "",
     driverName: "",
-    fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    fromDate: null,
+    toDate: null,
     orderType: ""
 }
 
@@ -33,7 +31,7 @@ const ReadyToRent = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [isOpenSelected, setIsOpenSelected] = useState<boolean>(false)
     const [item, setItem] = useState<IRentPaymentFields>()
-    const [isSelectAll, setIsSelectAll] = useState<boolean>(false)
+    // const [isSelectAll, setIsSelectAll] = useState<boolean>(false)
 
     const [selectedLadingIds, setSelectedLadingIds] = useState<any>([]);
     const [selectedTransferRemittanceIds, setSelectedTransferRemittanceIds] = useState<any>([]);
@@ -42,8 +40,8 @@ const ReadyToRent = () => {
 
     useEffect(() => {
         const formData = {
-            fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-            toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
+            fromDate: null,
+            toDate: null,
         }
         rentTools.mutate(formData)
         // eslint-disable-next-line
@@ -53,68 +51,74 @@ const ReadyToRent = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Tooltip title={<Typography variant='h3'>  مشاهده جزئیات و تایید</Typography>}>
-                <Typography onClick={() => handleOpen(item.row)}>
-                    <ApprovalTwoTone className="!text-yellow-500" />
+            <Button onClick={() => handleOpen(item.row)} variant="contained" size="small" color="secondary">
+                <Typography>
+                    پرداخت کرایه
                 </Typography>
-            </Tooltip>
+            </Button>
         );
     };
 
     const renderCheckbox = (item: any) => {
-        const isLadingChecked =
-            isSelectAll ?
-                selectedLadingIds.length === rentTools?.data?.data.length :
-                selectedLadingIds.includes(item.row.ladingExitPermitId);
+        // const isLadingChecked =
+        //     isSelectAll ?
+        //         selectedLadingIds.length === rentTools?.data?.data.length :
+        //         selectedLadingIds.includes(item.row.ladingExitPermitId);
+        const isLadingChecked = selectedLadingIds.includes(item.row.ladingExitPermitId);
 
-        const isTransferRemittanceChecked =
-            isSelectAll ?
-                selectedTransferRemittanceIds.length === rentTools?.data?.data.length :
-                selectedTransferRemittanceIds.includes(item.row.purchaseOrderTransferRemittanceUnloadingPermitId);
+        // const isTransferRemittanceChecked =
+        //     isSelectAll ?
+        //         selectedTransferRemittanceIds.length === rentTools?.data?.data.length :
+        //         selectedTransferRemittanceIds.includes(item.row.unloadingPermitId);
+        const isTransferRemittanceChecked = selectedTransferRemittanceIds.includes(item.row.unloadingPermitId);
 
-        const id = item.row.ladingExitPermitId === null ? item.row.purchaseOrderTransferRemittanceUnloadingPermitId : item.row.ladingExitPermitId;
+        const id = item.row.ladingExitPermitId === null ? item.row.unloadingPermitId : item.row.ladingExitPermitId;
 
         return (
             <div className="flex justify-center items-center gap-x-4">
                 <Checkbox
-                    checked={isSelectAll ? true : isLadingChecked || isTransferRemittanceChecked}
+                    // checked={isSelectAll ? true : isLadingChecked || isTransferRemittanceChecked}
+                    checked={isLadingChecked || isTransferRemittanceChecked}
                     onChange={() => {
-                        if (isSelectAll) {
-                            handleHeaderCheckboxClick(isLadingChecked || isTransferRemittanceChecked);
-                        } else {
-                            handleCheckboxClick(id, item.row.ladingExitPermitId);
-                        }
+                        handleCheckboxClick(id, item.row.ladingExitPermitId);
+
+                        // if (isSelectAll) {
+                        //     handleHeaderCheckboxClick(isLadingChecked || isTransferRemittanceChecked);
+                        // } else {
+                        //     handleCheckboxClick(id, item.row.ladingExitPermitId);
+                        // }
                     }}
                 />
             </div>
         );
     };
 
-    const handleHeaderCheckboxClick = (isChecked: boolean) => {
-        const ladingIds = rentTools?.data?.data
-            .filter((item: { ladingExitPermitId: string }) => item.ladingExitPermitId !== null)
-            .map((item: { ladingExitPermitId: string }) => item.ladingExitPermitId);
+    // const handleHeaderCheckboxClick = (isChecked: boolean) => {
+    //     const ladingIds = rentTools?.data?.data
+    //         .filter((item: { ladingExitPermitId: string }) => item.ladingExitPermitId !== null)
+    //         .map((item: { ladingExitPermitId: string }) => item.ladingExitPermitId);
 
-        const transferRemittanceIds = rentTools?.data?.data
-            .filter((item: { purchaseOrderTransferRemittanceUnloadingPermitId: string }) => item.purchaseOrderTransferRemittanceUnloadingPermitId !== null)
-            .map((item: { purchaseOrderTransferRemittanceUnloadingPermitId: string }) => item.purchaseOrderTransferRemittanceUnloadingPermitId);
+    //     const transferRemittanceIds = rentTools?.data?.data
+    //         .filter((item: { purchaseOrderTransferRemittanceUnloadingPermitId: string }) => item.purchaseOrderTransferRemittanceUnloadingPermitId !== null)
+    //         .map((item: { purchaseOrderTransferRemittanceUnloadingPermitId: string }) => item.purchaseOrderTransferRemittanceUnloadingPermitId);
 
-        setSelectedLadingIds(isChecked ? ladingIds : []);
-        setSelectedTransferRemittanceIds(isChecked ? transferRemittanceIds : []);
-        setIsSelectAll(isChecked);
-    };
+    //     setSelectedLadingIds(isChecked ? ladingIds : []);
+    //     setSelectedTransferRemittanceIds(isChecked ? transferRemittanceIds : []);
+    //     setIsSelectAll(isChecked);
+    // };
 
 
 
-    useEffect(() => {
-        handleHeaderCheckboxClick(isSelectAll)
-        // eslint-disable-next-line
-    }, [isSelectAll])
+    // useEffect(() => {
+    //     handleHeaderCheckboxClick(isSelectAll)
+    //     // eslint-disable-next-line
+    // }, [isSelectAll])
 
     const handleCheckboxClick = (id: any, ladingExitPermitId: any) => {
         if (ladingExitPermitId === null) {
             const currentIndex = selectedTransferRemittanceIds.indexOf(id);
             const newSelectedIds = [...selectedTransferRemittanceIds];
+            console.log(newSelectedIds)
 
             if (currentIndex === -1) {
                 newSelectedIds.push(id);
@@ -147,6 +151,8 @@ const ReadyToRent = () => {
         rentTools.mutate(values);
     };
 
+    // console.log("selectedLadingIds", selectedLadingIds)
+
     return (
         <>
             {rentTools.isLoading && <Backdrop loading={rentTools.isLoading} />}
@@ -169,7 +175,8 @@ const ReadyToRent = () => {
                     </Formik>
                 </div>
                 <MuiDataGrid
-                    columns={RentsColumns(renderAction, renderCheckbox, isSelectAll, setIsSelectAll)}
+                    // columns={RentsColumns(renderAction, renderCheckbox, isSelectAll, setIsSelectAll)}
+                    columns={RentsColumns(renderAction, renderCheckbox)}
                     rows={rentTools?.data?.data}
                     data={rentTools?.data?.data}
                     isLoading={rentTools.isLoading}
@@ -191,7 +198,12 @@ const ReadyToRent = () => {
                 title="ثبت کرایه"
                 description="درصورتی که مغایرتی در اطلاعات مشتری ثبت شده وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <RentPayment item={item} setIsOpen={setIsOpen} />
+                <RentPayment
+                    item={item}
+                    setIsOpen={setIsOpen}
+                    rentTools={rentTools}
+                    setSelectedLadingIds={setSelectedLadingIds}
+                    setSelectedTransferRemittanceIds={setSelectedTransferRemittanceIds} />
             </TransitionsModal>
 
             <TransitionsModal
@@ -200,10 +212,16 @@ const ReadyToRent = () => {
                 title="ثبت کرایه"
                 description="درصورتی که مغایرتی در اطلاعات مشتری ثبت شده وجود دارد می توانید از طریق فرم ذیل اقدام به ویرایش اطلاعات کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
-                <RentPaymentSelected
+                <RentPayment
+                    item={item}
+                    isOpenSelected={isOpenSelected}
+                    setIsOpen={setIsOpen}
+                    setIsOpenSelected={setIsOpenSelected}
                     selectedLadingIds={selectedLadingIds}
                     selectedTransferRemittanceIds={selectedTransferRemittanceIds}
-                    setIsOpenSelected={setIsOpenSelected} />
+                    rentTools={rentTools}
+                    setSelectedLadingIds={setSelectedLadingIds}
+                    setSelectedTransferRemittanceIds={setSelectedTransferRemittanceIds} />
             </TransitionsModal>
 
         </>

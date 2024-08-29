@@ -5,6 +5,7 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 
 import FormikInput from "../../../_cloner/components/FormikInput";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 
 interface IProps {
     item: any
@@ -59,8 +60,12 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForTransferRemittanc
                     <Typography variant="h3" className="text-gray-500">{item.productBrandName}</Typography>
                 </div>
                 <div className="flex flex-col gap-y-4">
-                    <Typography variant="h4">موجودی</Typography>
-                    <Typography variant="h3" className="text-gray-500">{item.purchaseInventory}</Typography>
+                    <Typography variant="h4">موجودی تقریبی</Typography>
+                    <Typography variant="h3" className="text-gray-500">{separateAmountWithCommas(item.approximateInventory)}</Typography>
+                </div>
+                <div className="flex flex-col gap-y-4">
+                    <Typography variant="h4">موجودی خرید</Typography>
+                    <Typography variant="h3" className="text-gray-500">{separateAmountWithCommas(item.purchaseInventory)}</Typography>
                 </div>
             </div>
             <Formik initialValues={{transferAmount: ""}} onSubmit={handleSetAmountForTransferRemittance}>

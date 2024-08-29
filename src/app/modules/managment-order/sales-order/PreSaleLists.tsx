@@ -11,14 +11,14 @@ import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { OrderColumn } from "../../../../_cloner/helpers/columns";
 // import Pagination from "../../../../_cloner/components/Pagination";
 
-// const pageSize = 20
+const pageSize = 100
 
 const PreSaleLists = () => {
     // const [currentPage, setCurrentPage] = useState<number>(1);
 
     let formData = {
         pageNumber: 1,
-        pageSize: 100,    
+        pageSize: pageSize,    
     }
 
     const { data: orders, isLoading } = useRetrieveOrders(formData);

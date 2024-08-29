@@ -25,6 +25,7 @@ import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useGetProductList } from '../../products/_hooks'
 import FormikWarehouseBasedOfType from '../../../../_cloner/components/FormikWarehouseBasedOfType'
 import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
+import { WarehouseType } from '../../warehouse/_models'
 
 const PurchaserOrderEdit = () => {
 
@@ -261,7 +262,7 @@ const PurchaserOrderEdit = () => {
                   <FormikWarehouseBasedOfType
                     name="originWarehouseId"
                     label="انبار مبدا"
-                    warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                    warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
                   />
                   <FormikWarehouseBasedOfType name="destinationWarehouseId" label="انبار مقصد" warehouse={warehouse?.data} />
                 </div>

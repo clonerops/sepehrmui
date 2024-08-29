@@ -139,6 +139,13 @@ const useGetCustomerLabelTypes = () => {
         refetchIntervalInBackground: false
     })
 }
+const useGetRequestPaymentReason = () => {
+    return useQuery(['requestPaymentReason'], () => api.getRequestPaymentReason(), {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: false
+    })
+}
 
 
 export {
@@ -160,5 +167,6 @@ export {
     useGetOrderExitTypes,
     useGetUnits,
     useGetPhoneBookTypes,
-    useGetCustomerLabelTypes
+    useGetCustomerLabelTypes,
+    useGetRequestPaymentReason
 };

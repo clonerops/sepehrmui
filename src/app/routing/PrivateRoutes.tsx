@@ -5,7 +5,7 @@ import RentPrint from "../modules/prints/RentPrint";
 import LadingPermitPrint from "../modules/prints/LadingPermitPrint";
 import ExitRemiitanceEdit from "../modules/exitRemittance/ExitRemittanceEdit";
 import LadingExitPermitPrint from "../modules/prints/LadingExitPermitPrint";
-import ApprovedRentPayment from "../modules/exitRemittance/ApprovedRentPayment";
+import ApprovedRentPayment from "../modules/exitRemittance/ApproveExitFAreAmount";
 import LadingExitPermitPrintOfficial from "../modules/prints/LadingExitPermitPrintOfficial";
 import InvoiceOfficial from "../modules/prints/InvoiceOfficial";
 import InvoiceNotOfficial from "../modules/prints/InvoiceNotOfficial";
@@ -20,11 +20,27 @@ import TransferBetweenWarehouse from "../modules/warehouse/TransferBetweenWareho
 import CustomerReportMarketing from "../modules/report/CustomerReportMarketing";
 import AssignCustomerLabelV2 from "../modules/customerLabel/AsignCustomerLabelV2";
 import TransferBetweenWarehouseAction from "../modules/warehouse/TransferBetweenWarehouseAction";
-import ReadyToUnloading from "../modules/unloadingPermit/ReadyToUnloading";
 import UnloadingPermit from "../modules/unloadingPermit/UnloadingPermit";
 import RecievePaymentEdit from "../modules/payment/RecievePaymentEdit";
 import UnloadingPermitList from "../modules/unloadingPermit/UnloadingPermitList";
 import UnloadingPermitDetail from "../modules/unloadingPermit/UnloadingPermitDetail";
+import PaymentRequest from "../modules/paymentRequestCustomer/PaymentRequestForm";
+import PaymentRequestDetail from "../modules/paymentRequestCustomer/PaymentRequestDetail";
+import FinlizePreSale from "../modules/managment-order/sales-order/FinlizePreSale";
+import TransferWarehouseInventory from "../modules/transferWarehouseInventory/TransferWarehouseInventory";
+import TransferWarehouseInventoryList from "../modules/transferWarehouseInventory/TransferWarehouseInventoryList";
+import ProceedPaymentRequest from "../modules/paymentRequestCustomer/ProceedPaymentRequest";
+import Personnel from "../modules/personnel/Personnel";
+import ReadyToUnloading from "../modules/unloadingPermit/ReadyToUnloading";
+import ListOfPaymentRequest from "../modules/paymentRequestCustomer/ListOfPaymentRequest";
+import PaymentRequestFormPersonnel from "../modules/paymentRequestPersonnel/PaymentRequestForm";
+import PaymentRequestDetailPersonnel from "../modules/paymentRequestPersonnel/PaymentRequestDetail";
+import ListOfPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/ListOfPaymentRequest";
+import CustomerWarehouseV2 from "../modules/customerWarehouse/CustomerWarehouseV2";
+import ProceedPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/ProceedPaymentRequest";
+import ReadyToApproveRentPayment from "../modules/exitRemittance/ReadyToApproveExitFareAmount";
+import ReadyToApproveRents from "../modules/rent-payment/ReadyToApproveRents";
+import RecievePaymentList from "../modules/payment/RecievePaymentList";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -224,8 +240,18 @@ export const routes: RouteProps[] = [
         element: <ReadyToPurchaserOrderConfirm />,
     },
     { path: "dashboard/sales_order/edit", element: <SalesOrderEdit /> },
+    { path: "dashboard/finlizePreSale", element: <FinlizePreSale /> },
+    { path: "dashboard/paymentRequest", element: <PaymentRequest /> },
+    { path: "dashboard/paymentRequest/list", element: <ListOfPaymentRequest /> },
+    { path: "dashboard/paymentRequestDetail/:id", element: <PaymentRequestDetail /> },
+    { path: "dashboard/paymentRequestEdit/:id", element: <PaymentRequest /> },
+    { path: "dashboard/personnelPaymentRequest", element: <PaymentRequestFormPersonnel /> },
+    { path: "dashboard/personnelPaymentRequest/list", element: <ListOfPaymentRequestPersonnel /> },
+    { path: "dashboard/personnelPaymentRequestDetail/:id", element: <PaymentRequestDetailPersonnel /> },
+    { path: "dashboard/personnelPaymentRequestEdit/:id", element: <PaymentRequestFormPersonnel /> },
     { path: "dashboard/purchaser_order/edit", element: <PurchaserOrderEdit /> },
     { path: "dashboard/customers", element: <Customer /> },
+    { path: "dashboard/personnels", element: <Personnel /> },
     { path: "dashboard/products", element: <Products /> },
     { path: "dashboard/organizationBank", element: <OrganizationBank /> },
     { path: "dashboard/shareholders", element: <Shareholders /> },
@@ -243,11 +269,13 @@ export const routes: RouteProps[] = [
     { path: "dashboard/lading/:id", element: <LadingPermit /> },
     { path: "dashboard/ready_to_lading", element: <ReadyToLading /> },
     { path: "dashboard/ready_to_exit", element: <ReadyToExit /> },
+    { path: "dashboard/ready_to_approve_rents", element: <ReadyToApproveRents /> },
     // { path: "dashboard/exit/:id", element: <ExitRemittance /> },
     // { path: "dashboard/ladingReport", element: <LadingReport /> },
     { path: "dashboard/lading_list", element: <LadingList /> },
     { path: "dashboard/exit_list", element: <ExitList /> },
     { path: "dashboard/exitRemittanceList", element: <ExitRemittanceList /> },
+    { path: "dashboard/paymentList", element: <RecievePaymentList /> },
     { path: "dashboard/payment", element: <RecievePayment /> },
     { path: "dashboard/payment/accounting", element: <PaymentAccounting /> },
     { path: "dashboard/payment/accounting/register", element: <PaymentAccountingRegister /> },
@@ -257,7 +285,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/payment/edit/:id", element: <RecievePaymentEdit /> },
     { path: "dashboard/brands", element: <Brands /> },
     { path: "dashboard/productTypes", element: <ProductTypes /> },
-    { path: "dashboard/customerWarehouse", element: <CustomerWarehouse /> },
+    { path: "dashboard/customerWarehouse", element: <CustomerWarehouseV2 /> },
     { path: "dashboard/customerLabel", element: <AssignCustomerLabelV2 /> },
     { path: "dashboard/customerReportMarketing", element: <CustomerReportMarketing /> },
 
@@ -265,6 +293,10 @@ export const routes: RouteProps[] = [
     { path: "dashboard/productStandard", element: <ProductStandards /> },
     { path: "dashboard/labels", element: <CustomerLabels /> },
     { path: "dashboard/warehouses", element: <Warehouse /> },
+    { path: "dashboard/transferToWarehouse", element: <TransferWarehouseInventory /> },
+    { path: "dashboard/transferToWarehouseList", element: <TransferWarehouseInventoryList /> },
+    { path: "dashboard/proceedPaymentRequest/:id", element: <ProceedPaymentRequest /> },
+    { path: "dashboard/personnelProceedPaymentRequest/:id", element: <ProceedPaymentRequestPersonnel /> },
     { path: "dashboard/productInventories", element: <ProductInventories /> },
     { path: "dashboard/productInventoriesSepehr", element: <ProductInventoriesSepehr /> },
     { path: "dashboard/productBrand", element: <ProductBrands /> },

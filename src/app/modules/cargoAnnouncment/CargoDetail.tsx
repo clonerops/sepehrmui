@@ -7,6 +7,7 @@ import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount
 
 import Backdrop from "../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../_cloner/components/CardWithIcons"
+import ImagePreview from "../../../_cloner/components/ImagePreview"
 
 const CargoDetail = () => {
     const {id}: any = useParams()
@@ -74,6 +75,10 @@ const CargoDetail = () => {
                     />
                 )}
             </div>
+            <div className="mt-4">
+                <ImagePreview base64Strings={cargoTools?.data?.data?.attachments || []} />
+            </div>
+
         </>
     )
 }

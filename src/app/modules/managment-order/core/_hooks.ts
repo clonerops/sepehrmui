@@ -32,6 +32,7 @@ const useRetrieveOrder = (id: string | undefined) => {
 };
 
 const useConfirmOrder = () =>  useMutation((id: string) => api.confirmOrder(id))
+const useConvertPreSaleOrder = () =>  useMutation((id: string) => api.convertPreSaleOrder(id))
 
 const useApproveInvoiceType = () =>  useMutation((formData: IApproveInvoice) => api.approveInvoiceType(formData))
 
@@ -76,6 +77,7 @@ export {
     useRetrieveOrders,
     useRetrieveOrder,
     useConfirmOrder,
+    useConvertPreSaleOrder,
     useApproveInvoiceType,
     useRetrieveOrdersByMutation,
     useGetOrderDetailByCode,

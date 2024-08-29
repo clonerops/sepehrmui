@@ -41,6 +41,7 @@ const SalesOrderDetail = (props: Props) => {
             OrderId: id
         }
         cargosList.mutate(filters)
+        // eslint-disable-next-line
     }, [id])
 
     const orderAndAmountInfo = [

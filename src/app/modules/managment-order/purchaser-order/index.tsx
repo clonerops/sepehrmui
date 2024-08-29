@@ -174,7 +174,7 @@ const PurchaserOrder = () => {
                                 setOrderPayment={setOrderPayment}
                                 formikRef={formikRef}
                                 postSaleOrder={postSaleOrder}
-                                orders={orders} />
+                                orders={orders}  />
                             <OrderFeature
                                 categories={[]}
                                 isPurchaser={true}

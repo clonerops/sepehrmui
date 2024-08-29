@@ -6,6 +6,7 @@ const FormikWarehouseBasedOfType = (props: any) => {
     return (
         <FormikSelect
         options={dropdownWarehouses(props.warehouse)}
+        disabeld={props.disabled}
         {...props} />
     )
 }

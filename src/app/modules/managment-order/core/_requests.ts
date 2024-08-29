@@ -75,6 +75,14 @@ const confirmOrder = async (id: string) => {
         return error.response
     }
 }
+const convertPreSaleOrder = async (id: string) => {
+    try {
+        const { data } = await http.put(`/v1/Order/ConvertPreSaleOrder/${id}`, JSON.stringify({id: id}))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
 const approveInvoiceType = async (formData: IApproveInvoice) => {
     try {
         const { data } = await http.put(`/v1/Order/ApproveInvoiceType`, JSON.stringify(formData))
@@ -206,6 +214,7 @@ export {
     retrieveOrders,
     retrieveOrder,
     confirmOrder,
+    convertPreSaleOrder,
     approveInvoiceType,
     retrieveOrdersMutation,
     getOrderDetailByCode,

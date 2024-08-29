@@ -5,9 +5,9 @@ import { ILadingLicence, ILadingLicenceFilter } from "./_models";
 const useGetLadingLicenceList = () => {
     return useQuery(["LadingLicence"], () => 
         api.getLadingLicenceList(), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
+        // refetchOnMount: false,
+        // refetchOnWindowFocus: false,
+        // refetchIntervalInBackground: false
     });
 };
 const useGetLadingLicenceListByMutation = () => {
@@ -24,9 +24,9 @@ const usePostLadingLicence = () => {
 
 const useGetLadingLicenceById = (id: string) => {
     return useQuery(["LadingLicenceById", id], () => api.getLadingLicenceById(id), {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchIntervalInBackground: false
+        // refetchOnMount: false,
+        // refetchOnWindowFocus: false,
+        // refetchIntervalInBackground: false
     });
 };
 

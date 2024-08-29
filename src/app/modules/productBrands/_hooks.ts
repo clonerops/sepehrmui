@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
-import { IProductBrand } from "./_models"
+import { IProductBrand, IProductBrandFilter } from "./_models"
 
 const useGetProductBrands = () => {
     return useQuery(['ProductBrands'], 
@@ -11,6 +11,11 @@ const useGetProductBrands = () => {
     })
 }
 
+const useGetProductBrandsByMutation = () => {
+    return useMutation((formData: IProductBrandFilter) => {
+        return api.getProductBrandsByMutation(formData)
+    })
+}
 const usePostProductBrands = () => {
     return useMutation((formData: IProductBrand) => {
         return api.postProductBrands(formData)
@@ -44,5 +49,6 @@ export {
     usePostProductBrands,
     useGetProductBrand,
     useUpdateProductBrands,
-    useDeleteProductBrands
+    useDeleteProductBrands,
+    useGetProductBrandsByMutation
 }

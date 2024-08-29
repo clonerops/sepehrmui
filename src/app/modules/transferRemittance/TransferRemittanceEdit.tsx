@@ -26,6 +26,8 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import CardWithIcons from "../../../_cloner/components/CardWithIcons";
 import moment from "moment-jalaali";
+import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
+import { WarehouseType } from "../warehouse/_models";
 
 const initialValues = {
     originWarehouseId: "",
@@ -82,111 +84,6 @@ const TransferRemittanceEdit = () => {
         }
     };
 
-    const columns = () => {
-        const col = [
-            {
-                field: "productCode",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "کد کالا",
-                headerClassName: "headerClassName",
-                minWidth: 80,
-                maxWidth: 80,
-                flex: 1,
-            },
-            {
-                field: "productName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام کالا",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "productBrandName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "برند",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                field: "purchaseInventory",
-                renderCell: (params: any) => {
-                    return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
-                },
-                headerName: "موجودی خرید",
-                headerClassName: "headerClassName",
-                minWidth: 120,
-                flex: 1,
-            },
-            {
-                headerName: 'عملیات', flex: 1, renderCell: (params: any) => {
-                    return <Button variant="contained" color="secondary" onClick={() => {
-                        setIsOpen(true)
-                        setItemSelected(params.row)
-                    }}>
-                        <Typography>انتقال</Typography>
-                    </Button>
-                }, headerClassName: "headerClassName", minWidth: 160
-            }
-        ];
-        return col;
-    };
-    const columnsForTransferRemittance = () => {
-        const col = [
-            {
-                field: "productName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.value}</Typography>;
-                },
-                headerName: "نام کالا",
-                headerClassName: "headerClassName",
-                minWidth: 160,
-                flex: 1,
-            },
-            {
-                field: "brandName",
-                renderCell: (params: any) => {
-                    return <Typography variant="h4">{params.row.brandName ? params.row.brandName : params.row.productBrandName}</Typography>;
-                },
-                headerName: "برند",
-                headerClassName: "headerClassName",
-                minWidth: 90,
-                flex: 1,
-            },
-            {
-                field: "transferAmount",
-                renderCell: (params: any) => {
-                    return <Typography className="text-green-500" variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
-                },
-                headerName: "مقدار واردشده جهت انتقال",
-                headerClassName: "headerClassName",
-                minWidth: 240,
-                flex: 1,
-            },
-            {
-                field: "delete",
-                renderCell: (params: any) => {
-                    return <Button onClick={() => renderDelete(params.row)} className="!bg-red-500" variant="contained">
-                        <Typography>حذف</Typography>
-                    </Button>
-                },
-                headerName: "حذف",
-                headerClassName: "headerClassName",
-                maxWidth: 80,
-                minWidth: 80,
-                flex: 1,
-            },
-        ];
-        return col;
-    };
-
     const renderDelete = (values: any) => {
         const filtered = productForTransferRemittance.filter((item: { productBrandId: number }) => {
             return +item.productBrandId !== +values.productBrandId
@@ -199,7 +96,8 @@ const TransferRemittanceEdit = () => {
         const filter = {
             ByBrand: true,
             HasPurchaseInventory: true,
-            WarehouseId: +value
+            WarehouseId: +value,
+            OrderId: itemSelected.id
         }
         productsInventory.mutate(filter, {
             onSuccess: (response) => {
@@ -213,17 +111,18 @@ const TransferRemittanceEdit = () => {
             detailTools.mutate(id, {
                 onSuccess: (response) => {
                     setProductForTransferRemittance(response?.data.details)
-                    setCategoies(
-                        [
-                            { value: 1, title: "طبق برنامه", defaultChecked: response?.data?.transferRemittanceTypeId === 1 ? true : false },
-                            { value: 2, title: "برای رزرو", defaultChecked: response?.data?.transferRemittanceTypeId === 2 ? true : false },
-                            { value: 3, title: "برای انبار", defaultChecked: response?.data?.transferRemittanceTypeId === 3 ? true : false }
-                        ]
-                    )
+                    // setCategoies(
+                    //     [
+                    //         { value: 1, title: "طبق برنامه", defaultChecked: response?.data?.transferRemittanceTypeId === 1 ? true : false },
+                    //         { value: 2, title: "برای رزرو", defaultChecked: response?.data?.transferRemittanceTypeId === 2 ? true : false },
+                    //         { value: 3, title: "برای انبار", defaultChecked: response?.data?.transferRemittanceTypeId === 3 ? true : false }
+                    //     ]
+                    // )
                     const filter = {
                         ByBrand: true,
                         HasPurchaseInventory: true,
-                        WarehouseId: response?.data.originWarehouseId
+                        WarehouseId: response?.data.originWarehouseId,
+                        OrderId: itemSelected.id
                     }
                     productsInventory.mutate(filter, {
                         onSuccess: (response) => { }
@@ -248,7 +147,7 @@ const TransferRemittanceEdit = () => {
             originWarehouseId: values.originWarehouseId ? +values.originWarehouseId : detailTools?.data?.data?.originWarehouseId,
             fareAmount: values.fareAmount ? +values.fareAmount : detailTools?.data?.data?.fareAmount,
             destinationWarehouseId: values.destinationWarehouseId ? +values.destinationWarehouseId : detailTools?.data?.data?.destinationWarehouseId,
-            transferRemittanceTypeId: +values.transferRemittanceTypeId ? +values.transferRemittanceTypeId : detailTools?.data?.data?.transferRemittanceTypeId,
+            transferRemittanceTypeId: 1,
             details: _.map(productForTransferRemittance, (item) => {
                 return {
                     id: item.id ? +item.id : null,
@@ -297,7 +196,7 @@ const TransferRemittanceEdit = () => {
                 {({  setFieldValue, handleSubmit }) => {
                     return (
                         <form onSubmit={handleSubmit}>
-                            <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 mb-4 gap-4">
                                 <CardWithIcons title='شماره حواله' icon={<DesignServices className="text-white" />} value={detailTools?.data?.data?.id} iconClassName='bg-[#3322D8]' />
                                 <CardWithIcons title='تاریخ حواله' icon={<AddTask className="text-white" />} value={moment(new Date(Date.now())).format('jYYYY/jMM/jDD')} iconClassName='bg-[#369BFD]' />
                                 <ReusableCard cardClassName="flex flex-col gap-y-4">
@@ -305,7 +204,7 @@ const TransferRemittanceEdit = () => {
                                         name="originWarehouseId"
                                         label="انبار مبدا"
                                         onChange={onFilterWarehouseFrom}
-                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === 4)}
+                                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
                                         disabled
                                     />
                                     <FormikWarehouseBasedOfType
@@ -316,20 +215,20 @@ const TransferRemittanceEdit = () => {
                                         disabled
                                     />
                                 </ReusableCard>
-                                <ReusableCard cardClassName="flex justify-center items-center flex-col gap-y-4">
+                                {/* <ReusableCard cardClassName="flex justify-center items-center flex-col gap-y-4">
                                     <RadioGroup
                                         categories={categories}
                                         id="transferRemittanceTypeId"
                                         key="transferRemittanceTypeId"
                                         name="transferRemittanceTypeId"
                                     />
-                                </ReusableCard>
+                                </ReusableCard> */}
                             </div>
                             <ReusableCard cardClassName="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
                                 <div>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای موجود در انبار</Typography>
                                     <MuiDataGrid
-                                        columns={columns()}
+                                        columns={TransferRemittanceDetailColumn(setIsOpen, setItemSelected)}
                                         rows={productsInventory.data?.data || []}
                                         data={productsInventory.data?.data || []}
                                         isLoading={productsInventory.isLoading}
@@ -339,7 +238,7 @@ const TransferRemittanceEdit = () => {
                                 <div>
                                     <Typography variant="h3" className="text-gray-500 pb-2">لیست کالاهای انتخاب شده جهت انتقال حواله</Typography>
                                     <MuiDataGrid
-                                        columns={columnsForTransferRemittance()}
+                                        columns={TransferRemittanceDetailForTransferColumn(renderDelete)}
                                         rows={productForTransferRemittance}
                                         data={productForTransferRemittance}
                                         onDoubleClick={() => {}}

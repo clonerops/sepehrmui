@@ -3,7 +3,6 @@ import { useGetRecievePayments, useUpdatePaymentApproved } from "./core/_hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Tooltip, Typography } from "@mui/material";
 import { IPayment, IPaymentFilter } from "./core/_models";
-import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
 import { DoneAll, Visibility } from "@mui/icons-material";
 import { Formik, FormikProps } from "formik";
 import { renderAlert } from "../../../_cloner/helpers/sweetAlert";
@@ -23,8 +22,10 @@ const pageSize = 100
 
 const initialValues = {
     isApproved: 0,
-    fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
+    fromDate: "",
+    toDate: "",
 }
 
 const PaymentAccounting = () => {

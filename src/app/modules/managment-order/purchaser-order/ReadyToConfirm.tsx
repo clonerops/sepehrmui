@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Tooltip, Typography } from '@mui/material'
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
-import { AirplaneTicket, Approval } from "@mui/icons-material";
 
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -17,7 +16,7 @@ const ReadyToPurchaserOrderConfirm = () => {
 
     useEffect(() => {
         const formData = {
-            InvoiceTypeId: [1, 2],
+            InvoiceTypeId: [1],
         }
         mutate(formData)
         // eslint-disable-next-line
@@ -45,14 +44,14 @@ const ReadyToPurchaserOrderConfirm = () => {
     const handleFilterBasedofStatus = (values: any) => {
         if (+values === -1) {
             const formData = {
-                InvoiceTypeId: [1, 2],
+                InvoiceTypeId: [1],
                 OrderCode: +values?.orderCode
             };
             mutate(formData);
 
         } else {
             const formData = {
-                InvoiceTypeId: [1, 2],
+                InvoiceTypeId: [1],
                 OrderStatusId: +values,
                 OrderCode: +values?.orderCode
             };

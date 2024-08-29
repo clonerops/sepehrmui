@@ -87,7 +87,8 @@ const ApprovedRentPayment = () => {
     const handleConfirm = (values: any) => {
         const formData ={
             ladingExitPermitId: id,
-            description: values.description
+            description: values.description,
+            fareAmount: 2,
         }
         postApprove.mutate(formData, {
             onSuccess: (response) => {

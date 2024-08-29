@@ -21,7 +21,8 @@ import { saleOrderFieldConfirm } from "./fields";
 import FormikProductBrand from "../../../../_cloner/components/FormikProductBrandComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import FileUpload from "../../../../_cloner/components/FileUpload";
-import { dropdownCustomerCompanies, dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
+import { dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 
 const initialValues = {
     productName: "",
@@ -69,28 +70,31 @@ const PurchaserOrderConfirm = () => {
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Description color="secondary" />, value: data?.data?.orderCode },
         { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName },
-        { id: 3, title: "اسم رسمی شرکت فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerOfficialCompany?.companyName || "ثبت نشده" },
         { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc },
     ]
 
     const orderOrderColumnMain = [
-        { id: 1, header: "نام کالا", accessor: "productName", render: (params: any) => { return params.productBrand.productName } },
-        { id: 3, header: "مقدار", accessor: "proximateAmount" },
-        { id: 4, header: "قیمت", accessor: "price" },
+        { id: 1, header: "نام کالا", accessor: "productName",render: (params: any) => {
+            return `${params.productName}-(${params.brandName})`
+         }},
+        { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
+            return separateAmountWithCommas(params.proximateAmount)
+        } },
+        { id: 4, header: "قیمت", accessor: "price", render: (params: any) => {
+            return separateAmountWithCommas(params.price)
+        } },
     ]
 
     const orderOrderColumnReplace = [
-        { id: 5, header: "کالا رسمی", accessor: "productName", render: (params: any) => { return params.productName ? params.productName : params.productBrand.productName } },
-        {
-            id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
-                return params.alternativeProductAmount === 0 ? params.proximateAmount : params.alternativeProductAmount
-            }
-        },
-        {
-            id: 7, header: "قیمت", accessor: "price", render: (params: any) => {
-                return params.alternativeProductPrice === 0 ? params.price : params.alternativeProductPrice
-            }
-        }
+        { id: 5, header: "کالا رسمی", accessor: "productName", render: (params: any) => {
+            return params.alternativeProductAmount === 0 ? `${params.productName}-(${params.brandName})` : params.alternativeProductName
+         }},
+        { id: 6, header: "مقدار", accessor: "proximateAmount", render: (params: any) => {
+           return params.alternativeProductAmount === 0 ? separateAmountWithCommas(params.proximateAmount) : separateAmountWithCommas(params.alternativeProductAmount)
+        }},
+        { id: 7, header: "قیمت", accessor: "price", render: (params: any) => {
+          return params.alternativeProductPrice === 0 ? separateAmountWithCommas(params.price) : separateAmountWithCommas(params.alternativeProductPrice)
+        } }
 
     ]
 
@@ -105,12 +109,6 @@ const PurchaserOrderConfirm = () => {
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
                             {...rest}
                         />
-                        {/* <FormikProduct
-                            disabled={!values.productName}
-                            onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
-                            options={dropdownProductByInventory(productsByBrand?.data)}
-                            {...rest}
-                        /> */}
                     </div>
                 );
             case "price":
@@ -151,9 +149,9 @@ const PurchaserOrderConfirm = () => {
 
     const handleReplace = (values: any, setFieldValue: any, resetForm: any) => {
         if (
-            (values.productNameReplace == null || values.productNameReplace == undefined) ||
-            (values.proximateAmountReplace == null || values.proximateAmountReplace == undefined) ||
-            (values.productPriceReplace == null || values.productPriceReplace == undefined)
+            (values.productNameReplace === null || values.productNameReplace === undefined) ||
+            (values.proximateAmountReplace === null || values.proximateAmountReplace === undefined) ||
+            (values.productPriceReplace === null || values.productPriceReplace === undefined)
         ) {
             EnqueueSnackbar("لطفا موارد کالای جایگزین را مشخص نمایید", "warning")
         } else {
@@ -199,7 +197,6 @@ const PurchaserOrderConfirm = () => {
                 alternativeProductPrice: element.alternativeProductPrice
             }))
         }
-
         approveTools.mutate(formData, {
             onSuccess: (message) => {
                 if (message.succeeded) {
@@ -231,7 +228,7 @@ const PurchaserOrderConfirm = () => {
             } onSubmit={(_) => handleConfirmOrder(_, 0)}>
                 {({ values, setFieldValue, resetForm }) => {
                     return <>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
                             {orderAndAmountInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
@@ -239,7 +236,7 @@ const PurchaserOrderConfirm = () => {
                             }, index) => {
                                 return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                             })}
-                            <CardTitleValue key={orderAndAmountInfo.length + 1} className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                            <CardTitleValue key={orderAndAmountInfo.length + 1} className="md:col-span-3" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                         </div>
                         <ReusableCard cardClassName="my-4">
                             {saleOrderFieldConfirm.map((rowFields, index) => (
@@ -267,7 +264,7 @@ const PurchaserOrderConfirm = () => {
                             </div>
                         </ReusableCard>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="flex flex-col">
                                 <ReusableCard >
                                     <Typography variant="h2" color="primary" className="pb-4">افزودن پیوست</Typography>
@@ -292,7 +289,7 @@ const PurchaserOrderConfirm = () => {
                                     />
                                 </ReusableCard>
                             </div>
-                            <div className="flex flex-col">
+                            {/* <div className="flex flex-col">
                                 <ReusableCard>
                                     <div className="flex justify-between items-center">
                                         <Typography variant="h2" color="primary" className="pb-4">شرکت رسمی و توضیحات</Typography>
@@ -314,7 +311,7 @@ const PurchaserOrderConfirm = () => {
                                         label="" name="description"
                                     />
                                 </ReusableCard>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="flex justify-end items-end gap-x-4 my-4 ">
                             <Button onClick={() => setApprove(true)} className="!bg-[#fcc615] !text-black">
