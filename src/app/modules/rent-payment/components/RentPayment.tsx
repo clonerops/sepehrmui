@@ -9,7 +9,7 @@ import Backdrop from "../../../../_cloner/components/Backdrop"
 
 import { Typography } from "@mui/material"
 import { IRentFilter, IRentPaymentFields } from "../core/_models"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { usePostRentPayments } from "../core/_hooks"
 import { renderAlert } from "../../../../_cloner/helpers/sweetAlert"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar"
@@ -18,6 +18,8 @@ import FormikAmount from "../../../../_cloner/components/FormikAmount"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import { UseMutationResult } from "@tanstack/react-query"
+import { convertFilesToBase64 } from "../../../../_cloner/helpers/convertToBase64"
+import FileUpload from "../../../../_cloner/components/FileUpload"
 
 
 interface IProps {
@@ -45,6 +47,13 @@ const RentPayment: FC<IProps> = ({
     }
 
     const postRentPayment = usePostRentPayments()
+    const [base64Attachments, setBase64Attachments] = useState<string[]>([])
+    const [files, setFiles] = useState<File[]>([]);
+
+    useEffect(() => {
+        if (files.length > 0) convertFilesToBase64(files, setBase64Attachments)
+        // eslint-disable-next-line
+    }, [files]);
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره مرجع", icon: <Person color="secondary" />, value: item?.referenceCode },
@@ -61,6 +70,13 @@ const RentPayment: FC<IProps> = ({
 
 
     const onSubmit = (values: any) => {
+        let attachments = base64Attachments.map((i) => {
+            let convert = {
+                fileData: i,
+            }
+            return convert
+        })
+
         const formData = {
             ...values,
             paymentOriginId: values.paymentOriginTypeId === 1 ? values.paymentOriginId.value : values.paymentOriginId,
@@ -71,7 +87,9 @@ const RentPayment: FC<IProps> = ({
                 item?.ladingExitPermitId
             ] : selectedLadingIds,
             totalFareAmount: +values.totalFareAmount,
-            description: values.description
+            description: values.description,
+            attachments: attachments,
+
         }
         postRentPayment.mutate(formData, {
             onSuccess: (response) => {
@@ -129,6 +147,13 @@ const RentPayment: FC<IProps> = ({
                             <div className="my-4 lg:col-span-2">
                                 <FormikInput multiline minRows={3} name="description" label="توضیحات" />
                             </div>
+                            <div className="flex flex-col w-full" >
+                                <Typography variant="h2" color="primary" className="pb-4">
+                                    افزودن پیوست
+                                </Typography>
+                                <FileUpload files={files} setFiles={setFiles} />
+                            </div>
+
                             <div className="flex justify-end items-end mt-4">
                                 <ButtonComponent>
                                     <ApprovalRounded className="text-white" />
