@@ -8,21 +8,15 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 import { IProductPrice } from "./_models"
 import { createProductPriceValidations } from "./_validation"
 import { useCreateProductPrice, useRetrieveProductPriceById, useUpdateProductPrice } from "./_hooks"
-// import { useRetrieveProducts } from "../products/_hooks"
 
 import FormikInput from "../../../_cloner/components/FormikInput"
-import FormikComboBox from "../../../_cloner/components/FormikComboBox"
-import FormikBrandPriceSelect from "../../../_cloner/components/FormikBrandPriceSelect"
 import FormikAmount from "../../../_cloner/components/FormikAmount"
 import SwitchComponent from "../../../_cloner/components/Switch"
 import Backdrop from "../../../_cloner/components/Backdrop"
-import { dropdownProduct } from "../../../_cloner/helpers/dropdowns"
-import { useGetProductList } from "../products/_hooks"
-import FormikProduct from "../../../_cloner/components/FormikProductComboSelect"
+import FormikProductBrand from "../../../_cloner/components/FormikProductBrandComboSelect"
 
 const initialValues = {
     price: "",
-    productId: "",
     productBrandId: ""
 }
 
@@ -46,23 +40,18 @@ const ProductPriceForm = (props: Props) => {
 
     const fields: FieldType[][] = [
         [
-            { label: "کالا", name: "productId", type: "productId" },
-        ],
-        [
-            { label: "برند", name: "productBrandId", type: "productBrandId" },
+            { label: "کالا برند", name: "productBrandId", type: "productBrandId" },
         ],
         [
             { label: "قیمت", name: "price", type: "price" },
         ],
     ];
 
-    const parseFields = (fields: FieldType, values: any) => {
+    const parseFields = (fields: FieldType) => {
         const { type, ...rest } = fields;
         switch (type) {
-            case "productId":
-                return <FormikProduct disabled={!isNew} {...rest} />;
             case "productBrandId":
-                return <FormikBrandPriceSelect disabled={!isNew} productId={isNew ? values.productId.value : props.items.productId} {...rest} />
+                return <FormikProductBrand  {...rest} />
             case "price":
                 return <FormikAmount {...rest} />;
             default:
@@ -156,15 +145,11 @@ const ProductPriceForm = (props: Props) => {
                         : { ...initialValues, ...detailTools?.data?.data, productId: props.items.productName, price: detailTools?.data?.data.price.toString() }
                 }
                 validationSchema={createProductPriceValidations} onSubmit={handleSubmit}>
-                {({ handleSubmit, values }) => {
+                {({ handleSubmit }) => {
                     return <form onSubmit={handleSubmit}>
                         {fields.map((rowFields) => (
-                            <div
-                                className="md:flex md:justify-between md:gap-4 space-y-4 md:space-y-0 my-4"
-                            >
-                                {rowFields.map((field) =>
-                                    parseFields(field, values)
-                                )}
+                            <div className="md:flex md:justify-between md:gap-4 space-y-4 md:space-y-0 my-4">
+                                {rowFields.map((field) => parseFields(field) )}
                             </div>
                         ))}
                         <div className="flex flex-col">
