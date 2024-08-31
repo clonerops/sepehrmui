@@ -79,7 +79,7 @@ const RentPayment: FC<IProps> = ({
 
         const formData = {
             ...values,
-            paymentOriginId: values.paymentOriginTypeId === 1 ? values.paymentOriginId.value : values.paymentOriginId,
+            paymentOriginId: values.paymentOriginTypeId === 1 ? values.paymentOriginId.value : values.paymentOriginId.toString(),
             puOrderTransRemittUnloadingPermitIds: item?.unloadingPermitId === null ? [] : item?.unloadingPermitId ? [
                 item?.unloadingPermitId
             ] : selectedTransferRemittanceIds,

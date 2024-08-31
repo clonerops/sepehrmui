@@ -76,6 +76,7 @@ export const translationMapping: any = {
     approvedRent: "تایید کرایه",
     entranceList: "لیست مجوزهای ورود",
     labels: "مدیریت برچسب مشتری",
+    customerAccount: "صورتحساب مشتری",
     
     // Add more translations as needed
   };

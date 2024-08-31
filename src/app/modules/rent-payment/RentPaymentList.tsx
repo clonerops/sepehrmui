@@ -3,7 +3,7 @@ import { Typography } from "@mui/material"
 import Backdrop from '../../../_cloner/components/Backdrop'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
-import { useGetRentPaymentsByMutation } from './core/_hooks'
+import { useGetAllRents, useGetRentPaymentsByMutation } from './core/_hooks'
 import Pagination from '../../../_cloner/components/Pagination'
 import { Formik } from 'formik'
 import FormikInput from '../../../_cloner/components/FormikInput'
@@ -11,9 +11,8 @@ import FormikDatepicker from '../../../_cloner/components/FormikDatepicker'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import { Print, Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
-import moment from 'moment-jalaali'
-import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
 import { RentListsColumn } from '../../../_cloner/helpers/columns'
+import { getAllRents } from './core/_requests'
 
 let pageSize = 100;
 
@@ -23,15 +22,15 @@ const initialValues = {
     driverName: "",
     // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
     // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    fromDate: null,
-    toDate: null,
+    fromDate: "",
+    toDate: "",
     orderType: ""
 }
 
 
 const RentPaymentList = () => {
   const navigate = useNavigate()
-  const rentPayments = useGetRentPaymentsByMutation()
+  const rentPayments = useGetAllRents()
   const [currentPage, setCurrentPage] = useState<number>(1);
 
 
@@ -41,9 +40,9 @@ const RentPaymentList = () => {
         pageSize: pageSize,
         pageNumber: currentPage,
         // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-        fromDate: null,
+        fromDate: "",
         // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
-        toDate: null,        
+        toDate: "",        
     }
     rentPayments.mutate(formData)
      // eslint-disable-next-line
@@ -62,6 +61,8 @@ const handleFilterBasedofStatus = (values: any) => {
         },
     });
 };
+
+console.log("rentPayments", rentPayments)
 
 const renderPrint = (item: any) => {
   return <div>

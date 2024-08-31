@@ -1555,13 +1555,6 @@ const RentsColumns = (renderAction: any, renderCheckbox: any) => {
 const RentListsColumn = (renderPrint: any) => {
     const col = [
         {
-            field: 'id', renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography>;
-            },
-            headerName: 'شماره پرداخت', headerClassName: "headerClassName", minWidth: 130,
-            flex: 1,
-        },
-        {
             field: 'referenceCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -1569,7 +1562,8 @@ const RentListsColumn = (renderPrint: any) => {
             flex: 1,
         },
         {
-            field: 'totalFareAmount', renderCell: (params: any) => {
+            field: 'totalAmount', renderCell: (params: any) => {
+                // return <Typography variant="h4">{separateAmountWithCommas(+params.row.totalAmount + +params.row.otherCosts)}</Typography>;
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>;
             },
             headerName: 'مبلغ پرداخت شده(ریال)', headerClassName: "headerClassName", minWidth: 120,
@@ -1604,7 +1598,7 @@ const RentListsColumn = (renderPrint: any) => {
             flex: 1,
         },
         {
-            field: 'orderType', renderCell: (params: any) => {
+            field: 'orderTypeDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120,
@@ -2452,6 +2446,113 @@ const CustomerColumn = (renderAction: any) => {
     ];
     return col;
 };
+
+const CustomerAccountColumn = () => {
+    const col = [
+        {
+            field: "customerCode",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "تاریخ",
+            align: "center",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "firstName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "تاریخ وزن",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "lastName",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "نوع سند",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "representative1",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "مقدار",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "representative2",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "قیمت",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "representative3",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "بدهکار",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "representative4",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "بستانکار",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "representative5",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "تشخیص",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "representative6",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "مانده",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "representative7",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "مانده موعود شده تا این تاریخ",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+        {
+            field: "representative8",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography >;
+            },
+            headerName: "توضیحات",
+            headerClassName: "headerClassName",
+            flex: 1
+        },
+    ];
+    return col;
+};
+
 const PersonnelColumn = (renderAction: any) => {
     const col = [
         {
@@ -4521,6 +4622,7 @@ export {
     AssignCustomerWarehouseCheckboxColumn,
     TransferRemittanceDetailInventoryColumn,
     ReadyToApproveRentsColumn,
-    RecievePaymentListColumn
+    RecievePaymentListColumn,
+    CustomerAccountColumn
     // OrderConfirmColumn
 }

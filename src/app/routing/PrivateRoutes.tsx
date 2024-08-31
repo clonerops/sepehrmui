@@ -41,6 +41,7 @@ import ProceedPaymentRequestPersonnel from "../modules/paymentRequestPersonnel/P
 import ReadyToApproveRentPayment from "../modules/exitRemittance/ReadyToApproveExitFareAmount";
 import ReadyToApproveRents from "../modules/rent-payment/ReadyToApproveRents";
 import RecievePaymentList from "../modules/payment/RecievePaymentList";
+import CustomerAccount from "../modules/customer/components/CustomerAccount";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -251,6 +252,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/personnelPaymentRequestEdit/:id", element: <PaymentRequestFormPersonnel /> },
     { path: "dashboard/purchaser_order/edit", element: <PurchaserOrderEdit /> },
     { path: "dashboard/customers", element: <Customer /> },
+    { path: "dashboard/customerAccount", element: <CustomerAccount /> },
     { path: "dashboard/personnels", element: <Personnel /> },
     { path: "dashboard/products", element: <Products /> },
     { path: "dashboard/organizationBank", element: <OrganizationBank /> },
