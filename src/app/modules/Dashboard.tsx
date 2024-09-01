@@ -5,6 +5,7 @@ import { VariableRadiusPieChart3D } from "../../_cloner/components/VariableRadiu
 import ReusableCard from "../../_cloner/components/ReusableCard";
 import MonitoringProdcuct from "../../_cloner/components/MonitoringProduct";
 import CardInformation from "../../_cloner/components/CardInformation";
+import SaleReport from "./report/SaleReport";
 
 const Dashboard = () => {
 
@@ -23,8 +24,7 @@ const Dashboard = () => {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
                 <ReusableCard cardClassName="col-span-2 w-full">
-                    <Typography variant="h2" className="pb-8 px-2">مانیتورینگ محصولات</Typography>
-                    <MonitoringProdcuct />
+                    <SaleReport />
                 </ReusableCard>
 
                 <div className="flex flex-col gap-y-4">
