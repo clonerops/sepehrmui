@@ -21,6 +21,7 @@ import FormikPaymentRequestReason from '../../../_cloner/components/FormikPaymen
 import { useParams } from 'react-router-dom'
 import RadioGroup from '../../../_cloner/components/RadioGroup'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
+import FormikSearchableCustomer from '../../../_cloner/components/FormikSearchableCustomer'
 
 const initialValues: IRequestPayment = {
     customerId: {
@@ -145,7 +146,7 @@ const PaymentRequestForm: FC<IProps> = ({ }) => {
                         {({ handleSubmit }) => {
                             return <form onSubmit={handleSubmit}>
                                 <div className='grid grid-cols-1 space-y-4 lg:grid-cols-3 lg:space-y-0 lg:gap-4 mb-4'>
-                                    <FormikCustomer name={"customerId"} label={"پرداخت به حساب"} />
+                                    <FormikSearchableCustomer name={"customerId"} label={"پرداخت به حساب"} />
                                     <FormikPrice name={"amount"} label={"مبلغ"} type='text' />
                                     <FormikInput name={"paymentRequestReasonDesc"} label='بابت' />
                                     <FormikInput name={"bankAccountOrShabaNo"} label='شماره حساب/کارت/شبا' type='text' />

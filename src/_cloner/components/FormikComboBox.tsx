@@ -25,6 +25,7 @@ type Props = {
     setState?: any;
     onChange?: any;
     renderOption?: any;
+    onInputChange?: any;
     boxClassName?: string;
 } & Omit<TextFieldProps, "variant">;
 
@@ -43,6 +44,7 @@ const FormikComboBox = (props: Props) => {
         options,
         onChange,
         renderOption,
+        onInputChange,
         ...rest
     } = props;
 
@@ -80,6 +82,7 @@ const FormikComboBox = (props: Props) => {
                     option?.id === value?.id
                 }
                 defaultValue={defaultValue}
+                onInputChange={onInputChange}
                 onChange={handleSelectChange}
                 filterOptions={(optionData, { inputValue }) => {
                     const searchWords = inputValue

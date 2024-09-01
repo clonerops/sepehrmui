@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { useGetCaptcha, useLoginUser } from "./core/_hooks";
 import { useFormik } from "formik";
 import { Card } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   // userName: "clonerops",
@@ -17,6 +18,7 @@ const initialValues = {
 const Login = () => {
   const { mutate, isLoading } = useLoginUser();
   const { data: captcha, refetch } = useGetCaptcha()
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues,
@@ -37,6 +39,7 @@ const Login = () => {
               })
               localStorage.setItem("auth", JSON.stringify(loginData?.data));
               Cookies.set("token", `${loginData?.data?.accessToken}`);
+              navigate('/dashboard')
               window.location.reload();
             } else {
               refetch()

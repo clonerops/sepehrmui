@@ -14,7 +14,7 @@ import { createSupplierValidations } from "./_validations";
 import { useEffect } from "react";
 import { ISuppliers } from "./_models";
 import FormikProduct from "../../../_cloner/components/FormikProductComboSelect";
-import FormikCustomer from "../../../_cloner/components/FormikCustomer";
+import FormikSearchableCustomer from "../../../_cloner/components/FormikSearchableCustomer";
 
 const initialValues = {
     price: "",
@@ -144,7 +144,7 @@ const SupplierForm = (props: {
                 {({ handleSubmit, setFieldValue }) => {
                     return <form onSubmit={handleSubmit} className="container">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
-                            <FormikCustomer name={"customerId"} label="مشتری" />
+                            <FormikSearchableCustomer name={"customerId"} label="مشتری" />
                             <FormikProduct name={"productId"} label="کالا" />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-4">

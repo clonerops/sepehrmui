@@ -146,7 +146,7 @@ const MasterLayout = () => {
 
           <Box className="md:flex md:justify-center md:items-center my-2 hidden transition">
             <img alt="sepehriranian"
-              src={toAbsoulteUrl("/media/mainlogo/1.png")}
+              src={toAbsoulteUrl("/media/mainlogo/2.png")}
               width={open ? 60 : 30}
             />
             {/* <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/folladlogowhite.png')} width={128} height={128} /> */}

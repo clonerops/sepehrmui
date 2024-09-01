@@ -12,6 +12,7 @@ import { useGetCustomer } from '../../../customer/core/_hooks'
 import { separateAmountWithCommas } from '../../../../../_cloner/helpers/seprateAmount'
 import Backdrop from '../../../../../_cloner/components/Backdrop'
 import { Add, Person } from '@mui/icons-material'
+import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>
@@ -67,7 +68,7 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
                 <div>
                     <div className="flex flex-col space-y-4">
                         <div className="flex gap-x-2 w-full md:col-span-4">
-                            <FormikCustomer
+                            <FormikSearchableCustomer
                                 disabled={postSaleOrder?.data?.succeeded}
                                 onChange={changeCustomerFunction}
                                 isLabelSetValue={true}

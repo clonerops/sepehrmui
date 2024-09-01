@@ -34,5 +34,9 @@ export interface IPhoneBook {
 }
 
 export interface ICustomerFilter {
-    
+    keyword?: string
+    CustomerLabelId?: number
+    ReportType?: number
+    PageNumber?: number
+    PageSize?: number
 }

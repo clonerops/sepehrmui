@@ -272,7 +272,7 @@ const InvoiceOfficial = () => {
                             <footer>
                                 <img
                                     src={toAbsoulteUrl(
-                                        "/media/mainlogo/footerInvoice1.png"
+                                        "/media/mainlogo/footerInvoice2.png"
                                     )}
                                     className="!w-full"
                                 />

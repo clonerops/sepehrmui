@@ -15,13 +15,13 @@ import ProductsList from './ProductsList'
 import FormikInput from '../../../../../_cloner/components/FormikInput'
 import FormikProximateAmount from '../../../../../_cloner/components/FormikProximateAmount'
 import FormikPrice from '../../../../../_cloner/components/FormikPrice'
-import FormikCustomer from '../../../../../_cloner/components/FormikCustomer'
 import FormikDatepicker from '../../../../../_cloner/components/FormikDatepicker'
 import { Add, Edit } from '@mui/icons-material'
 import BottomDrawer from '../../../../../_cloner/components/BottomSheetDrawer'
 import { dropdownProductByBrandName } from '../../../../../_cloner/helpers/dropdowns'
 import { WarehouseType } from '../../../warehouse/_models'
 import FormikInvoiceType from '../../../../../_cloner/components/FormikInvoiceType'
+import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
 
 const fields = [
     "warehouseId",
@@ -229,7 +229,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                         disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
                     {values.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseId?.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseTypeId === WarehouseType.Vaseteh ?
                         <>
-                            <FormikCustomer
+                            <FormikSearchableCustomer
                                 name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
                                 label="خرید از"
                                 disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />

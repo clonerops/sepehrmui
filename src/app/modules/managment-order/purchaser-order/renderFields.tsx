@@ -1,12 +1,10 @@
-import { IconButton, Typography, Button, InputAdornment } from '@mui/material'
-import { AddCircle, Edit, Add, Grading } from "@mui/icons-material"
+import { Typography, Button, InputAdornment } from '@mui/material'
+import { Edit, Add } from "@mui/icons-material"
 import { FormikErrors } from 'formik';
 import { UseMutationResult } from '@tanstack/react-query';
 
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 
-import FormikCustomer from "../../../../_cloner/components/FormikCustomer";
-import FormikCompany from '../../../../_cloner/components/FormikCompany';
 import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker';
 import FormikOrderSend from '../../../../_cloner/components/FormikOrderSend';
 import FormikInvoiceType from '../../../../_cloner/components/FormikInvoiceType';
@@ -15,7 +13,6 @@ import FormikExitType from '../../../../_cloner/components/FormikExitType';
 import FormikTemporary from '../../../../_cloner/components/FormikTemporary';
 import FormikDescription from '../../../../_cloner/components/FormikDescription';
 import FormikInput from '../../../../_cloner/components/FormikInput';
-import FormikWarehouse from '../../../../_cloner/components/FormikWarehouse';
 import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType';
 import FormikProximateAmount from '../../../../_cloner/components/FormikProximateAmount';
 import FormikPrice from '../../../../_cloner/components/FormikPrice';
@@ -23,9 +20,8 @@ import FormikAmount from '../../../../_cloner/components/FormikAmount';
 
 import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService, IPurchaserOrder } from '../core/_models';
 import { ICustomer } from '../../customer/core/_models';
-import TransitionsModal from '../../../../_cloner/components/ReusableModal';
-import ProductsList from './components/ProductsList';
 import FormikProductBrand from '../../../../_cloner/components/FormikProductBrandComboSelect';
+import FormikSearchableCustomer from '../../../../_cloner/components/FormikSearchableCustomer';
 
 
 
@@ -50,7 +46,7 @@ const saleOrderParseFields = (
                     <div className="flex flex-col space-y-4">
                         <Typography variant="h2">انتخاب فروشنده</Typography>
                         <Typography variant="body1" className='text-violet-800'>از طریق لیست زیر، فروشنده ای که قصد خرید کالا از آن دارید را انتخاب نمایید</Typography>
-                        <FormikCustomer disabled={postSaleOrder?.data?.succeeded} onChange={(value: any) => changeCustomerFunction(value, setFieldValue)} {...rest} />
+                        <FormikSearchableCustomer disabled={postSaleOrder?.data?.succeeded} onChange={(value: any) => changeCustomerFunction(value, setFieldValue)} {...rest} />
                     </div>
                 </div>
             );
@@ -108,7 +104,7 @@ const orderDetailParseFields = (
                 </div>
             );
         case "purchaserCustomer":
-            return <FormikCustomer key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} {...rest} />
+            return <FormikSearchableCustomer key={index} disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} {...rest} />
             case "settlementDate":
                 return <FormikDatepicker {...rest} />;    
         case "purchaseInvoiceType":

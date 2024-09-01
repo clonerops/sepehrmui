@@ -3,7 +3,6 @@ import moment from 'moment-jalaali'
 import { FormikProps } from 'formik'
 import { Typography } from '@mui/material'
 
-import FormikCustomer from '../../../../../_cloner/components/FormikCustomer'
 import FormikCompany from '../../../../../_cloner/components/FormikCompany'
 
 import { UseMutationResult } from '@tanstack/react-query'
@@ -14,6 +13,7 @@ import FormikWarehouse from '../../../../../_cloner/components/FormikWarehouse'
 import FormikWarehouseBasedOfType from '../../../../../_cloner/components/FormikWarehouseBasedOfType'
 import { useGetWarehouses } from '../../../generic/_hooks'
 import { WarehouseType } from '../../../warehouse/_models'
+import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, IPurchaserOrder, unknown>
@@ -53,7 +53,7 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState 
                 <Typography variant="h2">انتخاب فروشنده و انبار</Typography>
                 <Typography variant="body1" className='text-violet-800'>از طریق لیست زیر، فروشنده ای که قصد خرید کالا از آن دارید را انتخاب نمایید</Typography>
                 <div className="flex gap-x-2 w-full md:col-span-4">
-                    <FormikCustomer
+                    <FormikSearchableCustomer
                         disabled={postSaleOrder?.data?.succeeded}
                         onChange={changeCustomerFunction}
                         isLabelSetValue

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDeleteCustomer, useGetCustomers } from "./core/_hooks";
+import { useDeleteCustomer, useGetCustomers, useGetCustomersByMutation } from "./core/_hooks";
 import { ICustomer } from "./core/_models";
 import { Button, Typography } from "@mui/material";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
@@ -17,9 +17,13 @@ import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import PhonebookGridButton from "../../../_cloner/components/PhonebookGridButton";
+import SearchBackendInput from "../../../_cloner/components/SearchBackendInput";
+import Pagination from "../../../_cloner/components/Pagination";
+
+const pageSize = 100
 
 const Customer = () => {
-    const customerTools = useGetCustomers();
+    const customerTools = useGetCustomersByMutation()
     const deleteCustomerTools = useDeleteCustomer();
 
     const [results, setResults] = useState<ICustomer[]>([]);
@@ -33,9 +37,12 @@ const Customer = () => {
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [isPhoneBookOpen, setIsPhoneBookOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<ICustomer>();
-        const [itemCustomer, setItemCustomer] = useState<ICustomer>();
+    const [itemCustomer, setItemCustomer] = useState<ICustomer>();
     const [approve, setApprove] = useState<boolean>(false);
     const [deletedId, setDeletedId] = useState<string>("")
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [keyword, setKeyword] = useState<string>("")
+
 
     const handleEdit = (item: ICustomer) => {
         setItemForEdit(item);
@@ -45,6 +52,22 @@ const Customer = () => {
         setItemCustomer(item);
         setIsPhoneBookOpen(true);
     };
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            const filter = {
+                PageSize: pageSize,
+                PageNumber: currentPage,
+                keyword
+            }
+            customerTools.mutate(filter);
+
+        }, 1000)
+
+        return () => clearTimeout(delayDebounceFn)
+        // eslint-disable-next-line
+    }, [keyword, currentPage])
+
 
     const handleDelete = (id: string | undefined) => {
         if (id)
@@ -57,7 +80,7 @@ const Customer = () => {
                         EnqueueSnackbar(response.data.Message, "warning")
                         setApprove(false)
                     }
-                    customerTools.refetch();
+                    customerTools.mutate({});
                 },
             });
     };
@@ -83,6 +106,10 @@ const Customer = () => {
         { id: 2, header: "نوع شماره تماس", accessor: "phoneNumberType", render: (params: { phoneNumberType: { label: string } }) => <Typography>{params.phoneNumberType.label}</Typography> },
     ]
 
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
+
     return (
         <>
             {customerTools.isLoading && <Backdrop loading={customerTools.isLoading} />}
@@ -90,20 +117,7 @@ const Customer = () => {
             <ReusableCard>
                 <div className="md:flex md:justify-between md:items-center space-y-2" >
                     <div className="w-auto md:w-[40%] mb-2">
-                        <FuzzySearch
-                            keys={[
-                                "customerCode",
-                                "firstName",
-                                "lastName",
-                                "representative",
-                                "customerValidityDesc",
-                                "isSupplier",
-                                "fatherName",
-                                "nationalId",
-                            ]}
-                            data={customerTools?.data?.data}
-                            setResults={setResults}
-                        />
+                        <SearchBackendInput label="جستجو" name="keyword" value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e?.target.value)} />
                     </div>
                     <Button
                         onClick={() => setIsCreateOpen(true)}
@@ -118,8 +132,14 @@ const Customer = () => {
                     columns={CustomerColumn(renderAction)}
                     rows={results}
                     data={customerTools?.data?.data}
+                    hideFooter={true}
                     onDoubleClick={(item: any) => handleEdit(item?.row)}
                 />
+                <Pagination
+                    pageCount={customerTools?.data?.totalCount / pageSize}
+                    onPageChange={handlePageChange}
+                />
+
             </ReusableCard>
             <TransitionsModal
                 open={isCreateOpen}
@@ -129,7 +149,7 @@ const Customer = () => {
                 description="برای ایجاد مشتری جدید، لطفاً مشخصات مشتری خود را با دقت وارد کنید  اگر سوالی دارید یا نیاز به راهنمایی دارید، تیم پشتیبانی ما همیشه در دسترس شماست."
             >
                 <CustomerForm
-                    refetch={customerTools.refetch}
+                    // refetch={customerTools.mutate({})}
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>
@@ -142,7 +162,7 @@ const Customer = () => {
             >
                 <CustomerForm
                     id={itemForEdit?.id}
-                    refetch={customerTools.refetch}
+                    // refetch={customerTools.mutate({})}
                     setIsCreateOpen={setIsCreateOpen}
                 />
 

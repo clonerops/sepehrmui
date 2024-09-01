@@ -1,6 +1,5 @@
 import { Formik } from "formik"
 import ReusableCard from "../../../../_cloner/components/ReusableCard"
-import FormikCustomer from "../../../../_cloner/components/FormikCustomer"
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { Search } from "@mui/icons-material"
@@ -10,6 +9,7 @@ import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import { CustomerAccountColumn, CustomerColumn } from "../../../../_cloner/helpers/columns"
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount"
 import { convertToPersianWord } from "../../../../_cloner/helpers/convertPersian"
+import FormikSearchableCustomer from "../../../../_cloner/components/FormikSearchableCustomer"
 
 const categories = [
   { value: "1", title: "با احتساب تقریبی", defaultChecked: true },
@@ -23,7 +23,7 @@ const CustomerAccount = () => {
       <Formik initialValues={{}} onSubmit={() => { }}>
         {({ handleSubmit }) => <form>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <FormikCustomer name="customerId" label="مشتری" />
+            <FormikSearchableCustomer name="customerId" label="مشتری" />
 
             <FormikDatepicker name='fromDate' label="از تاریخ" />
             <FormikDatepicker name='toDate' label="تا تاریخ" />

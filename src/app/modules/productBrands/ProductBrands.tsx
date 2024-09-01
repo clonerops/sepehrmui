@@ -5,7 +5,7 @@ import { AddCircleOutline } from '@mui/icons-material'
 import { IProductBrand, IProductBrandFilter } from "./_models"
 import { useGetProductBrandsByMutation, usePostProductBrands, useUpdateProductBrands } from './_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
-import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
+// import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
 import { ProductBrandsColumn } from '../../../_cloner/helpers/columns'
 
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
@@ -19,6 +19,7 @@ import FormikProduct from '../../../_cloner/components/FormikProductComboSelect'
 import Pagination from '../../../_cloner/components/Pagination'
 
 import _ from 'lodash'
+import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 
 const initialValues: any = {
   id: 0,
@@ -83,11 +84,11 @@ const ProductBrands = () => {
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected + 1);
-};
+  };
 
 
 
-  let groupedProductBrand = _.groupBy(productBrandTools?.data?.data, "productName")
+  // let groupedProductBrand = _.groupBy(productBrandTools?.data?.data, "productName")
 
   return (
     <>
@@ -161,11 +162,12 @@ const ProductBrands = () => {
           <Pagination pageCount={+productBrandTools?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
         </ReusableCard>
         <ReusableCard>
-          <VerticalCharts
-            text='تعداد برندها برحسب کالا'
-            categories={Object.keys(groupedProductBrand) || [{}]}
-            data={Object.values(groupedProductBrand).map((item: any) => item.length)}
-          />
+          <div className="hidden md:flex md:justify-center md:items-center">
+            <img alt="sepehriranian"
+              src={toAbsoulteUrl("/media/logos/6075528.jpg")}
+              width={400}
+            />
+          </div>
         </ReusableCard>
       </div>
     </>

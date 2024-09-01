@@ -6,7 +6,6 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid"
 import FuzzySearch from "../../../_cloner/helpers/fuse"
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import Backdrop from '../../../_cloner/components/Backdrop'
-import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { useGetCustomer, useGetCustomers } from '../customer/core/_hooks'
@@ -15,6 +14,7 @@ import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { ICustomerWarehouse } from './_models'
 import { usePostCustomerWarehouses } from './_hooks'
 import { useGetWarehouses } from '../generic/_hooks'
+import FormikSearchableCustomer from '../../../_cloner/components/FormikSearchableCustomer'
 
 const initialValues: any = {
     id: 0,
@@ -106,7 +106,7 @@ const CustomerWarehouseV2 = () => {
                             {() => {
                                 return <form className="mb-4">
                                     <div className="flex flex-col space-y-4">
-                                        <FormikCustomer name="customerId" label="مشتری" divClassName="mt-2 md:mt-0" onChange={onChangeCustomer} />
+                                        <FormikSearchableCustomer name="customerId" label="مشتری" divClassName="mt-2 md:mt-0" onChange={onChangeCustomer} />
                                         <div className="mb-4">
                                             <FuzzySearch
                                                 keys={[

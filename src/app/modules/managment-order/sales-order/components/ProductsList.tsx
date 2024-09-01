@@ -19,6 +19,7 @@ import MuiTable from "../../../../../_cloner/components/MuiTable";
 import { NumericFormat } from "react-number-format";
 import { dropdownProductType, dropdownWarehouseType } from "../../../../../_cloner/helpers/dropdowns";
 import { ModalProductColumn, SelectProductMuiTableColumn } from "../../../../../_cloner/helpers/columns";
+import Pagination from "../../../../../_cloner/components/Pagination";
 
 interface IProps {
     setOrders?: any
@@ -53,6 +54,8 @@ interface IFilter {
     PageSize?: number
 }
 
+const pageSize = 100;
+
 const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderService, setIsOpen, setFieldValue }) => {
     const filterTools = useGetProductList();
     const warehouseTypeTools = useGetWarehouseTypes();
@@ -61,10 +64,14 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     const { data: units } = useGetUnits();
 
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentFilter, setCurrentFilter] = useState<IFilter>({
         ByBrand: true,
         WarehouseTypeId: 1,
-        ProductTypeId: -1
+        ProductTypeId: -1,
+        PageNumber: currentPage,
+        PageSize: pageSize,
+
     })
 
     const [productData, setProductData] = useState<IProductData>({
@@ -88,7 +95,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     useEffect(() => {
         handleFilterProduct(currentFilter)
         // eslint-disable-next-line
-    }, [])
+    }, [currentPage])
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -296,10 +303,13 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         }
     };
 
+    const handlePageChange = (selectedItem: { selected: number }) => {
+        setCurrentPage(selectedItem.selected + 1);
+    };
+
     if (warehouseTypeTools?.isLoading || productTypeTools?.isLoading) {
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
-
 
     return (
         <>
@@ -383,7 +393,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                                         WarehouseTypeId: +value
                                     })
                                 }}
-                                radioData={dropdownWarehouseType(warehouseTypeTools?.data.filter((item: {id: number}) => item.id !== 4))}
+                                radioData={dropdownWarehouseType(warehouseTypeTools?.data.filter((item: { id: number }) => item.id !== 4))}
                                 name="warehouseTypeId" />
                         </Form>
                     }}
@@ -400,8 +410,14 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                         isLoading={filterTools.isLoading}
                         rows={filterTools?.data?.data}
                         data={filterTools?.data?.data}
+                        hideFooter={true}
                         height={420}
                     />
+                    <Pagination
+                        pageCount={filterTools?.data?.totalCount / pageSize}
+                        onPageChange={handlePageChange}
+                    />
+
                 </div>
                 <div className="lg:col-span-3">
                     <MuiTable
@@ -412,7 +428,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             renderPrice
                         )}
                         data={productData.selectedProduct}
-                        onDoubleClick={() => {}}
+                        onDoubleClick={() => { }}
                     />
                     <div
                         className="flex justify-end items-end mt-4"

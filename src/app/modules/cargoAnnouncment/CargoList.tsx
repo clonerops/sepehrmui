@@ -11,11 +11,11 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import Pagination from "../../../_cloner/components/Pagination";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
-import FormikCustomer from "../../../_cloner/components/FormikCustomer";
 
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { useGetCargosList, useRevokeCargoById } from "./_hooks";
 import { ReadyToLadingColumn } from "../../../_cloner/helpers/columns";
+import FormikSearchableCustomer from "../../../_cloner/components/FormikSearchableCustomer";
 
 const pageSize = 100
 
@@ -105,7 +105,7 @@ const CargoList = () => {
                             <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
                                 <FormikInput name="cargoAnnounceNo" label="شماره اعلام بار" />
                                 <FormikInput name="orderCode" label="شماره سفارش" />
-                                <FormikCustomer label="سفارش دهنده" name="customerId" />
+                                <FormikSearchableCustomer label="سفارش دهنده" name="customerId" />
                                 <ButtonComponent onClick={() => handleFilter(values)}>
                                     <Search className="text-white" />
                                     <Typography className="text-white"> جستجو </Typography>

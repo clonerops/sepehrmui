@@ -12,7 +12,7 @@ import { enqueueSnackbar } from 'notistack';
 import FormikMaskInput from '../../../_cloner/components/FormikMaskInput';
 import Backdrop from '../../../_cloner/components/Backdrop';
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar';
-import FormikCustomer from '../../../_cloner/components/FormikCustomer';
+import FormikSearchableCustomer from '../../../_cloner/components/FormikSearchableCustomer';
 
 const initialValues = {
     companyName: "",
@@ -93,7 +93,7 @@ const CustomerCompanyForm = (props: Props) => {
                     //     options={dropdownCustomer(customerTools?.data?.data)}
                     //     {...rest}
                     // />
-                    <FormikCustomer isLabelSetValue disabled={!isNew} {...rest} />
+                    <FormikSearchableCustomer isLabelSetValue disabled={!isNew} {...rest} />
                 );
             case "customerType":
                 return (

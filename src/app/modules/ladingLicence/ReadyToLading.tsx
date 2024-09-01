@@ -10,8 +10,8 @@ import FormikInput from "../../../_cloner/components/FormikInput";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../_cloner/components/Pagination";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
-import FormikCustomer from "../../../_cloner/components/FormikCustomer";
 import { ReadyToLadingColumn } from "../../../_cloner/helpers/columns";
+import FormikSearchableCustomer from "../../../_cloner/components/FormikSearchableCustomer";
 
 const pageSize = 100;
 
@@ -63,7 +63,7 @@ const ReadyToLading = () => {
                             <form onSubmit={handleSubmit}>
                                 <div className="flex gap-4 w-[50%] mb-4" >
                                     <FormikInput name="orderCode" label="شماره سفارش" />
-                                    <FormikCustomer label="مشتری" name="customerId" />
+                                    <FormikSearchableCustomer label="مشتری" name="customerId" />
                                     <ButtonComponent onClick={() => handleFilter(values)}>
                                         <Typography>
                                             <Search />

@@ -35,7 +35,7 @@ const initialValues = {
 const CustomerForm = (props: {
     id?: string | undefined;
     setIsCreateOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    refetch?: any;
+    // refetch?: any;
 }) => {
     const postTools = useCreateCustomer();
     const updateTools = useUpdateCustomer();
@@ -204,7 +204,7 @@ const CustomerForm = (props: {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
-                        props.refetch()
+                        // props.refetch()
                     } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                     }
@@ -234,7 +234,7 @@ const CustomerForm = (props: {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message, "success")
                         props.setIsCreateOpen(false)
-                        props.refetch()
+                        // props.refetch()
                     } else {
                         EnqueueSnackbar(response.data.Message, "warning")
                     }
@@ -248,7 +248,7 @@ const CustomerForm = (props: {
     const handleSubmit = (values: ICustomer) => {
         if (props.id) onUpdate(values);
         else onAdd(values);
-        props?.refetch();
+        // props?.refetch();
     };
 
     if (props.id && detailTools?.isLoading) {

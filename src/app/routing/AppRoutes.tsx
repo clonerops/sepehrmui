@@ -7,6 +7,7 @@ import Login from "../modules/auth/Login";
 import CheckRoute from "./CheckRoute";
 import ErrorsPage from "./ErrorsPage";
 import AccessDenied from "./AccessDenied";
+import CheckRouteV2 from "./CheckRouteV2";
 
 const { PUBLIC_URL } = process.env;
 
@@ -21,7 +22,8 @@ const AppRoutes: FC = () => {
             <>
             
               <Route path="/dashboard/accessDenied" element={<AccessDenied />} />
-              <Route path="/*" element={<CheckRoute />} />
+              {/* <Route path="/*" element={<CheckRoute />} /> */}
+              <Route path="/*" element={<CheckRouteV2 />} />
               <Route index element={<Navigate to="/dashboard" />} />
             </>
           ) : (

@@ -91,7 +91,7 @@ const ProductInventories = () => {
                                 <img alt="sepehriranian"
                                     className={"mr-3"}
                                     src={toAbsoulteUrl(
-                                        "/media/logos/excelLogo.png"
+                                        "/media/logos/excel2.png"
                                     )}
                                     width={30}
                                     height={30}

@@ -3,13 +3,13 @@ import { useGetReceivePaymentSources } from "../../app/modules/generic/_hooks";
 import { dropdownReceivePaymentResource } from "../helpers/dropdowns";
 import FormikCashDesk from "./FormikCashDesk";
 import FormikCost from "./FormikCost";
-import FormikCustomer from "./FormikCustomer";
 import FormikIncome from "./FormikIncome";
 import FormikInput from "./FormikInput";
 import FormikOrganzationBank from "./FormikOrganzationBank";
 import FormikPettyCash from "./FormikPettyCash";
 import FormikShareholders from "./FormikShareholders";
 import FormikSelect from "./FormikSelect";
+import FormikSearchableCustomer from "./FormikSearchableCustomer";
 
 interface IProps {
     typeName: string
@@ -26,7 +26,7 @@ const PaymentOriginType: FC<IProps> = ({ typeName, typeId, officialName, label, 
     const renderFields = (customerIdFieldName: string, label: string, receivePaymentSourceId: number) => {
         switch (receivePaymentSourceId) {
             case 1:
-                return <FormikCustomer name={customerIdFieldName} label={label} />;
+                return <FormikSearchableCustomer name={customerIdFieldName} label={label} />;
             case 2:
                 return <FormikOrganzationBank name={customerIdFieldName} label={label} />;
             case 3:

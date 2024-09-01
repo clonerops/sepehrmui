@@ -10,13 +10,13 @@ import { IAssignCustomerLabel } from "./_models"
 import { usePostAsignCustomerLabels } from './_hooks'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
-import FormikCustomer from '../../../_cloner/components/FormikCustomer'
 import { useGetCustomer, useGetCustomers } from '../customer/core/_hooks'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import { AssignCustomerLabelColumn, AssignCustomerLabelsColumn, CustomerWarehouseColumn, CustomerWarehousesColumn } from '../../../_cloner/helpers/columns'
 import FormikCustomerLabelMultiplie from '../../../_cloner/components/FormikCustomerLabelMiltiplie'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
+import FormikSearchableCustomer from '../../../_cloner/components/FormikSearchableCustomer'
 
 const initialValues: any = {
   id: 0,
@@ -82,7 +82,7 @@ const AssignCustomerLabel = () => {
 
                       className="md:flex md:flex-col md:justify-start md:items-start gap-4 space-y-4 lg:space-y-0"
                     >
-                      <FormikCustomer name="customerId" label="مشتری" divClassName="mt-2 md:mt-0" />
+                      <FormikSearchableCustomer name="customerId" label="مشتری" divClassName="mt-2 md:mt-0" />
                       <FormikCustomerLabelMultiplie name='assignedLabels' label="برچسب" />
                       <div className="mt-2 md:mt-0">
                         <ButtonComponent onClick={() => handleSubmit()}>
