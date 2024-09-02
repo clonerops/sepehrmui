@@ -62,8 +62,6 @@ const handleFilterBasedofStatus = (values: any) => {
     });
 };
 
-console.log("rentPayments", rentPayments)
-
 const renderPrint = (item: any) => {
   return <div>
     <Link to={`/dashboard/rent_print/${item.row.id}`}>

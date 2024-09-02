@@ -118,7 +118,6 @@ const ReadyToRent = () => {
         if (ladingExitPermitId === null) {
             const currentIndex = selectedTransferRemittanceIds.indexOf(id);
             const newSelectedIds = [...selectedTransferRemittanceIds];
-            console.log(newSelectedIds)
 
             if (currentIndex === -1) {
                 newSelectedIds.push(id);
@@ -150,8 +149,6 @@ const ReadyToRent = () => {
     const handleFilterBasedofStatus = (values: any) => {
         rentTools.mutate(values);
     };
-
-    // console.log("selectedLadingIds", selectedLadingIds)
 
     return (
         <>

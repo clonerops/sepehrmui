@@ -194,7 +194,6 @@ const UnloadingPermit = () => {
         if(UnloadingList.every((item: {realAmount: ""}) => item.realAmount === "" || item.realAmount === null || item.realAmount === undefined)) {
             EnqueueSnackbar("وزن واقعی باسکول  مشخص نگردیده است", "warning")
         } else {
-            console.log(JSON.stringify(formData))
             postUnloading.mutate(formData, {
                 onSuccess: (res) => {
                     if (res.succeeded) {

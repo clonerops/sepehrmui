@@ -75,7 +75,6 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
     }
 
     const handleOrder = () => {
-        console.log("values", values)
         const productOrder: any = {
             id: values?.productId?.value ? values?.productId?.value : values.id,
             rowId: values?.rowId,
@@ -145,7 +144,6 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                 ...productOrder,
             };
 
-            console.log("updatedOrder", updatedOrder)
             const updatedOrders: any = [...orders];
             updatedOrders[orderIndex ? orderIndex : 0] = updatedOrder;
 

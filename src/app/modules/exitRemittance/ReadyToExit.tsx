@@ -20,8 +20,6 @@ const ReadyToExit = () => {
             </Link>
         );
     };
-
-    console.log("ladingList?.data?.data", ladingList?.data?.data)
     
   return (
     <>
