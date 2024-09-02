@@ -59,8 +59,8 @@ const SaleReport = () => {
             <div>
                 <VerticalCharts
                     text='گزارش فروش براساس نوع کالا'
-                    categories={[{}]}
-                    data={[{}]}
+                    categories={reportTools?.data?.data.map((item: {productTypeDesc: string}) => item.productTypeDesc) || [{}]}
+                    data={reportTools?.data?.data.map((item: {saleAmount: string}) => item.saleAmount) || [{}]}
                 />
 
             </div>

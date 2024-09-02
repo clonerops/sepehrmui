@@ -99,11 +99,15 @@ const OrderProductList: FC<IProps> = ({
                         ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate)
                         : params.row.proximateSubUnit,
                 },
+                // {
+                //     title: "productSubUnitAmount",
+                //     value: params.row.exchangeRate
+                //         ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate)
+                //         : params.row.productSubUnitAmount,
+                // },
                 {
                     title: "productSubUnitAmount",
-                    value: params.row.exchangeRate
-                        ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate)
-                        : params.row.proximateSubUnit,
+                    value: params.row.productSubUnitAmount,
                 },
                 { title: "purchasePrice", value: separateAmountWithCommas(params.row.purchasePrice) },
                 { title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc },

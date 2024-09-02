@@ -3066,9 +3066,9 @@ const OrderListColumn = (renderActions: any) => {
             }, headerClassName: "headerClassName", flex: 1, minWidth: 90,
         },
         {
-            headerName: "مقدار(فرعی)", field: "proximateSubUnit",
+            headerName: "مقدار(فرعی)", field: "productSubUnitAmount",
             renderCell: (params: any) => {
-                const combinedValue = `${params.row.proximateSubUnit} ${params.row.productSubUnitDesc}`;
+                const combinedValue = `${params.row.productSubUnitAmount} ${params.row.productSubUnitDesc}`;
                 return <Typography variant="h4">{combinedValue}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },

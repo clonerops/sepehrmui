@@ -133,7 +133,7 @@ const CustomerWarehouse = () => {
           </ReusableCard>
           <ReusableCard cardClassName='col-span-2 flex justify-center items-center'>
             <img alt="sepehriranian"
-              src={toAbsoulteUrl("/media/mainlogo/2.png")}
+              src={toAbsoulteUrl("/media/mainlogo/logo-no-background.png")}
               className="rounded-md"
               width={100}
             />

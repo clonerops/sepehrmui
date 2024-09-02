@@ -6,6 +6,7 @@ import TextField, {
 } from "@mui/material/TextField/TextField";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
+import { normalizeDigits } from "../helpers/normalizeDigits";
 
 type Props = {
     label: string;
@@ -51,14 +52,13 @@ const FormikComboBox = (props: Props) => {
     const [field]: any = useField({ name, value });
     const formikProps = useFormikContext();
 
-    const handleSelectChange = (e: any, value: {value: any, label: string}) => {
+    const handleSelectChange = (e: any, value: { value: any; label: string }) => {
         const selectedValue = value;
         if (onChange) {
             onChange(selectedValue);
         }
         formikProps.setFieldValue(name, value);
     };
-
 
     return (
         <div className={cx("w-full", boxClassName)}>
@@ -67,47 +67,41 @@ const FormikComboBox = (props: Props) => {
                 {...rest}
                 {...getFormikFieldValidationProps(formikProps, name)}
                 options={options || []}
-                // value={field?.value?.label}
                 value={isLabelSetValue ? field?.value?.label : field?.value}
                 disabled={disabled}
-                // renderOption={renderOption}
-                renderOption={renderOption ? renderOption : (props, option: any) => {
-                    return (
-                      <li {...props} key={option?.value}>
-                        {option?.label}
-                      </li>
-                    );
-                  }}                
-                isOptionEqualToValue={(option: any, value) => 
-                    option?.id === value?.id
+                renderOption={
+                    renderOption
+                        ? renderOption
+                        : (props, option: any) => (
+                              <li {...props} key={option?.value}>
+                                  {option?.label}
+                              </li>
+                          )
                 }
+                isOptionEqualToValue={(option: any, value) => option?.id === value?.id}
                 defaultValue={defaultValue}
                 onInputChange={onInputChange}
                 onChange={handleSelectChange}
                 filterOptions={(optionData, { inputValue }) => {
-                    const searchWords = inputValue
+                    const normalizedInput = normalizeDigits(inputValue)
                         .trim()
                         .toLowerCase()
                         .split(/\s+/);
+
                     return optionData.filter((item: any) => {
-                        return searchWords.every((word) => {
-                            return item.label.toLowerCase().includes(word);
-                        });
+                        const normalizedLabel = normalizeDigits(item.label.toLowerCase());
+                        return normalizedInput.every((word) => normalizedLabel.includes(word));
                     });
                 }}
-                renderInput={(params: any) => {
-                    return  <TextField
-                    label={label}
-                    name={name}
-                    error={
-                        getFormikFieldValidationProps(formikProps, name)
-                            .error
-                    }
-                    {...params}
-                    size="small"
-                />
-
-                }}
+                renderInput={(params: any) => (
+                    <TextField
+                        label={label}
+                        name={name}
+                        error={getFormikFieldValidationProps(formikProps, name).error}
+                        {...params}
+                        size="small"
+                    />
+                )}
             />
             <Typography variant="body2" className={"text-red-600"}>
                 {getFormikFieldValidationProps(formikProps, name).helpertext}
@@ -115,5 +109,5 @@ const FormikComboBox = (props: Props) => {
         </div>
     );
 };
-export default FormikComboBox;
 
+export default FormikComboBox;

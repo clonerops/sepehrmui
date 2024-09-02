@@ -46,7 +46,7 @@ const LadingExitPermitPrint = () => {
             <div ref={printComponentRef} style={{ direction: "rtl", paddingLeft: "8px", paddingRight: "8px" }}>
                 <div className="flex flex-col justify-center items-center">
                     <img alt="sepehriranian"
-                        src={toAbsoulteUrl("/media/mainlogo/2.png")}
+                        src={toAbsoulteUrl("/media/mainlogo/logo-no-background.png")}
                         width={60}
                         className="text-center"
                     />

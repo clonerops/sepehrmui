@@ -69,7 +69,7 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                     <Link to="/dashboard" className="flex items-center">
                         <div className="mx-4 hidden md:block">
                             <img alt="sepehriranian"
-                                src={toAbsoulteUrl("/media/mainlogo/2.png")}
+                                src={toAbsoulteUrl("/media/mainlogo/logo-no-background.png")}
                                 width={30}
                             />
                         </div>

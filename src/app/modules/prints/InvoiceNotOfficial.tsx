@@ -59,7 +59,7 @@ const InvoiceNotOfficial = () => {
                             <header>
                                 <img
                                     src={toAbsoulteUrl(
-                                        "/media/mainlogo/invoiceHeader2.png"
+                                        "/media/mainlogo/invoiceHeaderlogo-no-background.png"
                                     )}
                                     className="!w-full"
                                 />
@@ -135,7 +135,7 @@ const InvoiceNotOfficial = () => {
                             <footer>
                                 <img
                                     src={toAbsoulteUrl(
-                                        "/media/mainlogo/footerInvoice2.png"
+                                        "/media/mainlogo/footerInvoicelogo-no-background.png"
                                     )}
                                     className="!w-full"
                                 />

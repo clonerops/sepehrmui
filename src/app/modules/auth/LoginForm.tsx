@@ -37,7 +37,7 @@ const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha }) => {
     >
       <div className="mb-4 space-y-4 text-center">
         <img
-          src={toAbsoulteUrl("/media/mainlogo/2.png")}
+          src={toAbsoulteUrl("/media/mainlogo/logo-no-background.png")}
           alt="background"
           className="mx-auto"
           width={60}
