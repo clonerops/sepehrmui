@@ -33,6 +33,7 @@ const FormikSearchableCustomer = (props: any) => {
             options={dropdownCustomer(customerTools?.data?.data || [])}
             isLabelSetValue={props.isLabelSetValue}
             onInputChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e?.target.value)}
+            noOptionsText={"جهت انتخاب مشتری جستجو کنید ..."}
             renderOption={(props: any, option: any) => {
                 return <li {...props} key={option.value}>
                     <div style={{

@@ -28,6 +28,7 @@ type Props = {
     renderOption?: any;
     onInputChange?: any;
     boxClassName?: string;
+    noOptionsText?: string;
 } & Omit<TextFieldProps, "variant">;
 
 const FormikComboBox = (props: Props) => {
@@ -46,6 +47,7 @@ const FormikComboBox = (props: Props) => {
         onChange,
         renderOption,
         onInputChange,
+        noOptionsText,
         ...rest
     } = props;
 
@@ -82,6 +84,7 @@ const FormikComboBox = (props: Props) => {
                 defaultValue={defaultValue}
                 onInputChange={onInputChange}
                 onChange={handleSelectChange}
+                noOptionsText={noOptionsText}
                 filterOptions={(optionData, { inputValue }) => {
                     const normalizedInput = normalizeDigits(inputValue)
                         .trim()
