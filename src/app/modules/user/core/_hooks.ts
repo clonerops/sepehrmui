@@ -14,9 +14,9 @@ const useUsers = () => useQuery(["users"], () => api.fetchUsers(), {
     refetchIntervalInBackground: false
 });
 const useUserInfo = () => useQuery(["userInfo"], () => api.fetchUserInfo(), {
-    // refetchOnMount: false,
-    // refetchOnWindowFocus: false,
-    // refetchIntervalInBackground: true
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    refetchIntervalInBackground: false
 });
 
 const useGetUserDetail = () => {
