@@ -29,8 +29,8 @@ import moment from "moment-jalaali";
 import _ from "lodash";
 import { usePostTransferRemittance } from "./_hooks";
 import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
-import { WarehouseType } from "../warehouse/_models";
 import { useGetPurchaserOrderDetailByCode } from "../managment-order/core/_hooks";
+import { WarehouseType } from "../../../_cloner/helpers/Enums";
 
 const initialValues = {
     originWarehouseId: "",

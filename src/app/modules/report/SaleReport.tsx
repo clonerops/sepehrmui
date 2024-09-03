@@ -34,6 +34,7 @@ const SaleReport = () => {
             ProductTypeId: 0        
         }
         reportTools.mutate(filters)
+         // eslint-disable-next-line
     }, [])
 
 

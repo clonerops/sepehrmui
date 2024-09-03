@@ -3,7 +3,7 @@ import { Typography } from "@mui/material"
 import Backdrop from '../../../_cloner/components/Backdrop'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
 import MuiDataGrid from '../../../_cloner/components/MuiDataGrid'
-import { useGetAllRents, useGetRentPaymentsByMutation } from './core/_hooks'
+import { useGetAllRents } from './core/_hooks'
 import Pagination from '../../../_cloner/components/Pagination'
 import { Formik } from 'formik'
 import FormikInput from '../../../_cloner/components/FormikInput'
@@ -12,7 +12,6 @@ import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import { Print, Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import { RentListsColumn } from '../../../_cloner/helpers/columns'
-import { getAllRents } from './core/_requests'
 
 let pageSize = 100;
 
@@ -20,8 +19,6 @@ const initialValues = {
     rentPaymentCode: "",
     referenceCode: "",
     driverName: "",
-    // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
-    // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
     fromDate: "",
     toDate: "",
     orderType: ""
@@ -39,9 +36,7 @@ const RentPaymentList = () => {
     const formData ={
         pageSize: pageSize,
         pageNumber: currentPage,
-        // fromDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),
         fromDate: "",
-        // toDate: moment(new Date(Date.now())).format('jYYYY/jMM/jDD'),        
         toDate: "",        
     }
     rentPayments.mutate(formData)

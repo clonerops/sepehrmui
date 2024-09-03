@@ -12,8 +12,8 @@ import Backdrop from '../../../../../_cloner/components/Backdrop'
 import FormikWarehouse from '../../../../../_cloner/components/FormikWarehouse'
 import FormikWarehouseBasedOfType from '../../../../../_cloner/components/FormikWarehouseBasedOfType'
 import { useGetWarehouses } from '../../../generic/_hooks'
-import { WarehouseType } from '../../../warehouse/_models'
 import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
+import { WarehouseType } from '../../../../../_cloner/helpers/Enums'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, IPurchaserOrder, unknown>

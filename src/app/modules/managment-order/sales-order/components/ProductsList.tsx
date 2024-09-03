@@ -277,8 +277,12 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 productData.proximateSubAmounts[product.productBrandId] === undefined
                     ? 0
                     : productData.proximateSubAmounts[product.productBrandId];
+            const productSubUnitAmount =
+                productData.proximateSubAmounts[product.productBrandId] === undefined
+                    ? 0
+                    : productData.proximateSubAmounts[product.productBrandId];
 
-            return { id, productId: id, warehouseId, productBrandId, productName, productBrandName, warehouseName, productDesc, purchasePrice, exchangeRate, purchaseSettlementDate, purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId), purchaseInvoiceTypeDesc: "", sellerCompanyRow, purchaserCustomerId: "", purchaserCustomerName: "", productMainUnitDesc, productSubUnitDesc, productSubUnitId, rowId, proximateAmount, warehouseTypeId, price, proximateSubUnit };
+            return { id, productId: id, warehouseId, productBrandId, productName, productBrandName, warehouseName, productDesc, purchasePrice, exchangeRate, purchaseSettlementDate, purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId), purchaseInvoiceTypeDesc: "", sellerCompanyRow, purchaserCustomerId: "", purchaserCustomerName: "", productMainUnitDesc, productSubUnitDesc, productSubUnitId, rowId, proximateAmount, warehouseTypeId, price, proximateSubUnit, productSubUnitAmount };
         });
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
@@ -288,6 +292,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
         if (!duplicatesExist) {
             const updatedOrders = [...orders, ...selectedProductWithAmounts];
+            console.log("updatedOrders", updatedOrders)
 
             setOrders(updatedOrders);
             setOrderPayment([]);

@@ -23,7 +23,7 @@ import OrderProductDetail from './components/OrderProductDetail'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import OrderDetailBaseOrderCode from './components/OrderDetailBaseOrderCode'
 import { useGetProductList } from '../../products/_hooks'
-import { WarehouseType } from '../../warehouse/_models'
+import { WarehouseType } from '../../../../_cloner/helpers/Enums'
 
 const SalesOrderEdit = () => {
 

@@ -12,6 +12,7 @@ import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
+import { InvoiceType } from "../../../../_cloner/helpers/Enums";
 
 const pageSize = 100
 
@@ -50,7 +51,7 @@ const SalesOrderList = () => {
                     </Link>
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>فاکتور رسمی</Typography>}>
-                    <a target='_blank'  href={`/dashboard/${[2].includes(+item.row.invoiceTypeId) ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
+                    <a target='_blank'  href={`/dashboard/${item.row.invoiceTypeId ===  InvoiceType.Rasmi ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
                         <Print color="primary" />
                     </a>
                 </Tooltip>

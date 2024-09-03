@@ -27,7 +27,7 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import CardWithIcons from "../../../_cloner/components/CardWithIcons";
 import moment from "moment-jalaali";
 import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
-import { WarehouseType } from "../warehouse/_models";
+import { WarehouseType } from "../../../_cloner/helpers/Enums";
 
 const initialValues = {
     originWarehouseId: "",

@@ -14,14 +14,13 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import CardWithIcons from "../../../_cloner/components/CardWithIcons";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikWarehouseBasedOfType from "../../../_cloner/components/FormikWarehouseBasedOfType";
-import FormikWarehouse from "../../../_cloner/components/FormikWarehouse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
-import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn, TransferRemittanceDetailInventoryColumn } from "../../../_cloner/helpers/columns";
+import { TransferRemittanceDetailForTransferColumn, TransferRemittanceDetailInventoryColumn } from "../../../_cloner/helpers/columns";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import TransferAmount from "../transferRemittance/TransferAmount";
 import { usePostTransferWarehouseInventory } from "./_hooks";
-import { WarehouseType } from "../warehouse/_models";
+import { WarehouseType } from "../../../_cloner/helpers/Enums";
 
 const initialValues = {
     originWarehouseId: "",

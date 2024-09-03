@@ -25,7 +25,7 @@ import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useGetProductList } from '../../products/_hooks'
 import FormikWarehouseBasedOfType from '../../../../_cloner/components/FormikWarehouseBasedOfType'
 import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
-import { WarehouseType } from '../../warehouse/_models'
+import { WarehouseType } from '../../../../_cloner/helpers/Enums'
 
 const PurchaserOrderEdit = () => {
 

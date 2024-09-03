@@ -1,4 +1,4 @@
-import { WarehouseType } from "../../warehouse/_models";
+import { WarehouseType } from "../../../../_cloner/helpers/Enums";
 
 export const BUY_WAREHOUSE_TYPES = [WarehouseType.Karkhaneh,WarehouseType.Vaseteh];
 

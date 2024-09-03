@@ -19,9 +19,9 @@ import FormikDatepicker from '../../../../../_cloner/components/FormikDatepicker
 import { Add, Edit } from '@mui/icons-material'
 import BottomDrawer from '../../../../../_cloner/components/BottomSheetDrawer'
 import { dropdownProductByBrandName } from '../../../../../_cloner/helpers/dropdowns'
-import { WarehouseType } from '../../../warehouse/_models'
 import FormikInvoiceType from '../../../../../_cloner/components/FormikInvoiceType'
 import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
+import { WarehouseType } from '../../../../../_cloner/helpers/Enums'
 
 const fields = [
     "warehouseId",

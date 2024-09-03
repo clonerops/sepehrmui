@@ -14,6 +14,7 @@ import Backdrop from '../../../../_cloner/components/Backdrop'
 import CustomButton from '../../../../_cloner/components/CustomButton'
 import SaleHeaderBase from './components/SaleHeaderBase'
 import CustomerChoose from './components/CustomerChoose'
+import CustomerFeatcure from './components/CustomerFeatcure'
 
 import { useCreateOrder } from '../core/_hooks'
 import { IOrderItems, IOrderPayment, IOrderService } from '../core/_models'
@@ -22,8 +23,7 @@ import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useGetProductList } from '../../products/_hooks'
 import { useGetCustomer } from '../../customer/core/_hooks'
-import CustomerFeatcure from './components/CustomerFeatcure'
-import { WarehouseType } from '../../warehouse/_models'
+import { InvoiceType, WarehouseType } from '../../../../_cloner/helpers/Enums'
 
 const categories = [
     { value: 2, title: "پیش فروش", defaultChecked: false },
@@ -122,19 +122,29 @@ const SalesOrder = () => {
                         } 
                     })
                 }
-                postSaleOrder.mutate(formData, {
-                    onSuccess: (response) => {
-                        if (response.data.Errors&&response.data.Errors.length > 0) {
-                            EnqueueSnackbar(response.data.Errors[0], "error")
-                        } else {
-                            if (response.succeeded) {
-                                renderAlert(response.message)
-                            } else {
-                                EnqueueSnackbar(response?.data.Message, "error")
+
+                if(formikRef.current?.values?.invoiceTypeId === InvoiceType.Rasmi && (
+                    formikRef.current?.values.customerOfficialCompanyId === "" || 
+                    formikRef.current?.values.customerOfficialCompanyId === null ||
+                    formikRef.current?.values.customerOfficialCompanyId === 0 ||
+                    formikRef.current?.values.customerOfficialCompanyId === undefined)) {
+                        EnqueueSnackbar("در سفارشات رسمی باید شرکت رسمی مشتری انتخاب گردد", "warning")
+                    } else {
+                        postSaleOrder.mutate(formData, {
+                            onSuccess: (response) => {
+                                if (response.data.Errors&&response.data.Errors.length > 0) {
+                                    EnqueueSnackbar(response.data.Errors[0], "error")
+                                } else {
+                                    if (response.succeeded) {
+                                        renderAlert(response.message)
+                                    } else {
+                                        EnqueueSnackbar(response?.data.Message, "error")
+                                    }
+                                }
                             }
-                        }
+                        });
                     }
-                });
+
             } catch (error) {
                 EnqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید.", "error")
             }
