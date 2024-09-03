@@ -4553,6 +4553,15 @@ const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) =
     return col;
 };
 
+const ExitDetailColumn = [
+    { id: 1, header: "کالا", accessor: "productName" },
+    { id: 2, header: "برند", accessor: "productBrandName" },
+    { id: 3, header: "مقدار اولیه", accessor: "ladingAmount", render: (params: any) => <Typography variant="h3">{separateAmountWithCommas(params.ladingAmount)}</Typography> },
+    { id: 4, header: "واحد اصلی", accessor: "productMainUnitDesc" },
+    { id: 5, header: "واحد فرعی", accessor: "productSubUnitDesc" },
+    { id: 6, header: "مقدار باسکول", accessor: "realAmount", render: (params: any) => <Typography variant="h3">{separateAmountWithCommas(params.realAmount)}</Typography> },
+]
+
 
 export {
     ProductBrandsColumn,
@@ -4623,6 +4632,7 @@ export {
     TransferRemittanceDetailInventoryColumn,
     ReadyToApproveRentsColumn,
     RecievePaymentListColumn,
-    CustomerAccountColumn
+    CustomerAccountColumn,
+    ExitDetailColumn
     // OrderConfirmColumn
 }

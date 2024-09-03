@@ -12,7 +12,8 @@ import ImagePreview from "../../../../_cloner/components/ImagePreview";
 import { useRetrieveOrder } from "../core/_hooks";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 import { useGetCargosList } from "../../cargoAnnouncment/_hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 
 
 type Props = {
@@ -35,6 +36,9 @@ const SalesOrderDetail = (props: Props) => {
     const { id } = useParams()
     const { data, isLoading } = useRetrieveOrder(id)
     const cargosList = useGetCargosList()
+    const [cargoAnnounceDetails, setCargoAnnounceDetails] = useState<any>({})
+    const [isOpenDetail, setIsOpenDetail] = useState<boolean>(false)
+
 
     useEffect(() => {
         const filters = {
@@ -72,7 +76,6 @@ const SalesOrderDetail = (props: Props) => {
         { id: 3, header: "مقدار", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.proximateAmount)}</Typography> },
         { id: 3, header: "مقدار بارگیری شده", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.totalLoadedAmount)}</Typography> },
         { id: 3, header: "مقدار باقیمانده", accessor: "proximateAmount", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.remainingLadingAmount)}</Typography> },
-        { id: 3, header: "مقدار باسکول", accessor: "remainingAmountToLadingLicence", render: (params: any) => <Typography variant="h4">{separateAmountWithCommas(params.remainingAmountToLadingLicence)}</Typography> },
         { id: 4, header: "قیمت (ریال)", accessor: "price", render: (params: any) => <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.price)}</Typography> },
     ]
     const orderServicesColumn = [
@@ -89,14 +92,29 @@ const SalesOrderDetail = (props: Props) => {
 
     const lastCargoList: any = [
         { id: 1, header: "شماره بارنامه", accessor: "cargoAnnounceNo" },
-        { id: 1, header: "راننده", accessor: "driverName" },
-        { id: 2, header: "شماره موبایل راننده", accessor: "driverMobile" },
-        { id: 3, header: "شماره پلاک", accessor: "carPlaque" },
-        { id: 4, header: "کرایه(ریال)", accessor: "rentAmount", render: (params: any) => separateAmountWithCommas(params.rentAmount) },
-        { id: 4, header: "باربری", accessor: "shippingName" },
-        { id: 4, header: "تاریخ تحویل", accessor: "deliveryDate" },
-        { id: 4, header: "آدرس محل تخلیه", accessor: "unloadingPlaceAddress" },
+        { id: 2, header: "راننده", accessor: "driverName" },
+        { id: 3, header: "شماره موبایل راننده", accessor: "driverMobile" },
+        { id: 4, header: "شماره پلاک", accessor: "carPlaque" },
+        { id: 5, header: "کرایه(ریال)", accessor: "rentAmount", render: (params: any) => separateAmountWithCommas(params.rentAmount) },
+        { id: 6 , header: "باربری", accessor: "shippingName" },
+        { id: 7, header: "تاریخ تحویل", accessor: "deliveryDate" },
+        { id: 8, header: "آدرس محل تخلیه", accessor: "unloadingPlaceAddress" },
+        {
+            id: 9, header: "", accessor: "details", render: (params: any) => {
+                return <Button onClick={() => handleOpenDetails(params)} size="small" variant="contained" className="!bg-cyan-700">
+                    <Typography>مشاهده جزئیات</Typography>
+                </Button>
+            }
+        },
     ]
+
+    const lastCargoDetail: any = [
+        { id: 1, header: "کالا", accessor: "productName", render: (params: { orderDetail: { productName: string } }) => params.orderDetail.productName },
+        { id: 2, header: "برند", accessor: "brandName", render: (params: { orderDetail: { brandName: string } }) => params.orderDetail.brandName },
+        { id: 3, header: "مقدار اولیه", accessor: "realAmount", render: (params: { realAmount: number }) => separateAmountWithCommas(params.realAmount) },
+        { id: 4, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: { ladingAmount: number }) => separateAmountWithCommas(params.ladingAmount) },
+    ]
+
 
     if(props.isLading) {
         const appendActionLading = {
@@ -109,12 +127,16 @@ const SalesOrderDetail = (props: Props) => {
         lastCargoList.push(appendActionLading)
     }
 
+    const handleOpenDetails = (params: any) => {
+        setCargoAnnounceDetails(params)
+        setIsOpenDetail(true)
+    }
+
+    let renderOrderInfo = !props.isCargo ? orderAndAmountInfo : orderAndAmountInfoInCargo
 
     if (isLoading) {
         return <Backdrop loading={isLoading} />
     }
-
-    let renderOrderInfo = !props.isCargo ? orderAndAmountInfo : orderAndAmountInfoInCargo
 
     return (
         <>
@@ -167,6 +189,10 @@ const SalesOrderDetail = (props: Props) => {
                     </>
                 }}
             </Formik>
+            <TransitionsModal width="50%" title={`جزئیات اعلام بار ${cargoAnnounceDetails.cargoAnnounceNo}`} open={isOpenDetail} isClose={() => setIsOpenDetail(false)}>
+                <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargoAnnounceDetails?.cargoAnnounceDetails?.length > 0 ? cargoAnnounceDetails?.cargoAnnounceDetails : []} columns={lastCargoDetail} />
+            </TransitionsModal>
+
         </>
     )
 }
