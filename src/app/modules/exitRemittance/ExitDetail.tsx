@@ -15,10 +15,10 @@ import Backdrop from "../../../_cloner/components/Backdrop"
 import ImagePreview from "../../../_cloner/components/ImagePreview"
 import FileUpload from "../../../_cloner/components/FileUpload"
 import MuiTable from "../../../_cloner/components/MuiTable"
+import AttachmentAfterExit from "./components/AttachmentAfterExit"
 
 const ExitDetail = () => {
     const [files, setFiles] = useState<File[]>([])
-    const [base64Attachments, setBase64Attachments] = useState<string[]>([])
 
     const { id }: any = useParams()
 
@@ -26,7 +26,6 @@ const ExitDetail = () => {
     const ladingDetailTools = useGetLadingLicenceById(exitDetailTools?.data?.data?.ladingPermitId)
 
     const postApprove = usePostApproveDriverFareAmount()
-    const attachmentTools = useAddAttachmentsForExit()
 
     const fieldsValue = [
         {
@@ -87,36 +86,10 @@ const ExitDetail = () => {
     ]
 
 
-    useEffect(() => {
-        if (files.length > 0) {
-            convertFilesToBase64(files, setBase64Attachments);
-        }
-        // eslint-disable-next-line
-    }, [files]);
 
-    const handleSubmitAttach = () => {
-        let attachments = base64Attachments.map((i) => {
-            let convert = {
-                fileData: i,
-            }
-            return convert
-        })
-
-        const formData: any = {
-            id: id,
-            attachments: attachments
-        }
-
-        attachmentTools.mutate(formData, {
-            onSuccess: () => {
-
-            }
-        })
-    }
 
     return (
         <>
-            {attachmentTools.isLoading && <Backdrop loading={attachmentTools.isLoading} />}
             {postApprove?.isLoading && <Backdrop loading={postApprove?.isLoading} />}
             {exitDetailTools.isLoading && <Backdrop loading={exitDetailTools.isLoading} />}
             {ladingDetailTools.isLoading && <Backdrop loading={ladingDetailTools.isLoading} />}
@@ -152,15 +125,9 @@ const ExitDetail = () => {
                 <div className="mt-4">
                     <ImagePreview base64Strings={exitDetailTools?.data?.data?.attachments || []} />
                 </div>
-
-                <Card className="lg:col-span-3 px-16 py-8">
-                    <FileUpload files={files} setFiles={setFiles} />
-                    <div className="flex justify-end items-end">
-                        <Button onClick={handleSubmitAttach} variant="contained" color="secondary">
-                            <Typography>ثبت ضمیمه</Typography>
-                        </Button>
-                    </div>
-                </Card>
+                <div className="lg:col-span-3">
+                    <AttachmentAfterExit files={files} setFiles={setFiles} id={id} />
+                </div>
             </div>
         </>
     )

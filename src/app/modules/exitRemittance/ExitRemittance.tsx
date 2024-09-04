@@ -22,6 +22,8 @@ import { ICargoDetail } from "../cargoAnnouncment/_models";
 import { usePostExitRemiitance } from "./_hooks";
 import { IExitRemittance } from "./_models";
 import { OrderDetailForExitRemittanceColumn } from "../../../_cloner/helpers/columns";
+import TransitionsModal from "../../../_cloner/components/ReusableModal";
+import AttachmentAfterExit from "./components/AttachmentAfterExit";
 
 const initialValues: ICargoDetail = {
     id: 0,
@@ -50,9 +52,12 @@ const ExitRemiitance = () => {
     let realAmount = useRef<HTMLInputElement>(null);
     let productSubUnitAmount = useRef<HTMLInputElement>(null);
 
+
     const [ladingList, setLadingList] = useState<any[]>([]);
     const [files, setFiles] = useState<File[]>([]);
+    const [filesAfterSubmit, setFilesAfterSubmit] = useState<File[]>([]);
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     useEffect(() => {
         if (files.length > 0) convertFilesToBase64(files, setBase64Attachments)
@@ -147,7 +152,7 @@ const ExitRemiitance = () => {
         });
     };
 
-    if(cargoDetailTools.isLoading)
+    if (cargoDetailTools.isLoading)
         return <Backdrop loading={cargoDetailTools.isLoading} />
 
     return (
@@ -227,11 +232,16 @@ const ExitRemiitance = () => {
                                         </Typography>
                                     </Button>
                                     {postExitRemittance?.data?.data?.id &&
-                                        <Link to={`/dashboard/ladingExitPermitOfficial_print/${postExitRemittance?.data?.data?.id}/${postExitRemittance?.data?.data?.ladingExitPermitCode}/${moment(postExitRemittance?.data?.data?.created).format('jYYYY/jMM/jDD')}`}>
+                                        <Link target="_blank" to={`/dashboard/ladingExitPermitOfficial_print/${postExitRemittance?.data?.data?.id}/${postExitRemittance?.data?.data?.ladingExitPermitCode}/${moment(postExitRemittance?.data?.data?.created).format('jYYYY/jMM/jDD')}`}>
                                             <Button className="flex gap-x-4" variant="contained" color="secondary">
                                                 <Print color="primary" />
                                             </Button>
                                         </Link>
+                                    }
+                                    {postExitRemittance?.data?.data?.id &&
+                                        <Button onClick={() => setIsOpen(true)} className="flex gap-x-4" variant="contained" color="secondary">
+                                            <Typography>افزودن رسید راننده</Typography>
+                                        </Button>
                                     }
 
                                 </div>
@@ -240,6 +250,10 @@ const ExitRemiitance = () => {
                     }}
                 </Formik>
             </ReusableCard>
+
+            {isOpen && <TransitionsModal width="50%" open={isOpen} isClose={() => setIsOpen(false)} title="افرودن رسید راننده">
+                <AttachmentAfterExit files={filesAfterSubmit} setFiles={setFilesAfterSubmit} id={postExitRemittance?.data?.data?.id} />
+            </TransitionsModal>}
         </>
     );
 };
