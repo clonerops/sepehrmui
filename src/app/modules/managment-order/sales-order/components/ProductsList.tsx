@@ -161,7 +161,24 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const productId = params?.productBrandId;
         return (
             <>
-                <TextField
+                <NumericFormat
+                    id={`outlined-adornment-weight-${productId}`}
+                    className="numeric-input"
+                    value={productData.proximateAmounts[productId] || ""}
+                    onChange={(e: any) =>{
+                        console.log("e.ta", e.target.value)
+                        setProductData((prevState) => ({
+                            ...prevState,
+                            proximateAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
+                            proximateSubAmounts: { ...prevState.proximateSubAmounts, [productId]: Math.ceil(Number(e.target.value.replace(/,/g, "")) / Number(params.exchangeRate)).toString() },
+                        }))
+                    }
+                    }
+                    autoFocus={true}
+                    thousandSeparator
+                />
+
+                {/* <TextField
                     id={`outlined-adornment-weight-${productId}`}
                     size="small"
                     type="number"
@@ -181,7 +198,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                             textAlign: "center",
                         },
                     }}
-                />
+                /> */}
             </>
         );
     }, [productData.proximateAmounts])
