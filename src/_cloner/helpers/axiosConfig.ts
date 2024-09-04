@@ -12,6 +12,7 @@ export const http = axios.create({
         // mode: 'no-cors',
     },
 });
+
 export const httpAuth = axios.create({
     // baseURL: "https://iraniansepehr.com/api/",
     baseURL: "http://devbama.ir/api/",

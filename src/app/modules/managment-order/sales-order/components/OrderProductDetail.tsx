@@ -179,7 +179,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                         onClick={() => setIsOpen(true)}
                         variant="contained"
                         color="primary"
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}>
+                        disabled={postSaleOrder.data?.succeeded}>
                         <Typography>انتخاب کالا</Typography>
                     </Button>
                 </div>
@@ -198,7 +198,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                     <FormikProximateAmount
                         name="proximateAmount"
                         label="مقدار"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
@@ -209,7 +209,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                     <FormikInput
                         name="productSubUnitAmount"
                         label="مقدار واحد فرعی"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="start">
@@ -220,33 +220,33 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                     <FormikPrice
                         name="price"
                         label="قیمت (ریال)"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                     <FormikInput
                         name="detailDescription"
                         label="توضیحات"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                     <FormikInput
                         name="rowId"
                         label="ردیف فروش"
-                        disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                     {values.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseId?.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseTypeId === WarehouseType.Vaseteh ?
                         <>
                             <FormikSearchableCustomer
                                 name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
                                 label="خرید از"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                                disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                             <FormikPrice
                                 name="purchasePrice"
                                 label="قیمت خرید (ریال)"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                                disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                             <FormikInvoiceType
                                 name="purchaseInvoiceTypeId"
                                 label="نوع فاکتور خرید"
-                                disabeld={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                                disabeld={!isUpdate || postSaleOrder.data?.succeeded} />
                             <FormikDatepicker
                                 name="purchaseSettlementDate"
                                 label="تاریخ تسویه خرید"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} />
+                                disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                         </> : <> </>
                     }
                     {isUpdate ? (
@@ -258,8 +258,8 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                     ) : (
                         <Button
                             onClick={handleOrder}
-                            disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
-                            className={postSaleOrder.data?.succeeded || orderPayment.length > 0 ? "!bg-gray-200" : "!bg-green-500"} >
+                            disabled={postSaleOrder.data?.succeeded}
+                            className={postSaleOrder.data?.succeeded ? "!bg-gray-200" : "!bg-green-500"} >
                             <Add />
                             <Typography>افزودن به لیست سفارشات</Typography>
                         </Button>

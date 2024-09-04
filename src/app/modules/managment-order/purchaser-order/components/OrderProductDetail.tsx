@@ -7,12 +7,12 @@ import { ISaleOrderDetail, IOrderItems, IOrderPayment, IOrderService } from '../
 import { calculateTotalAmount } from '../../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../../_cloner/helpers/sliceNumberPrice'
 import { EnqueueSnackbar } from '../../../../../_cloner/helpers/snackebar'
-import FormikProductBrand from '../../../../../_cloner/components/FormikProductBrandComboSelect'
 import FormikProximateAmount from '../../../../../_cloner/components/FormikProximateAmount'
 import FormikInput from '../../../../../_cloner/components/FormikInput'
 import FormikPrice from '../../../../../_cloner/components/FormikPrice'
 import FormikDatepicker from '../../../../../_cloner/components/FormikDatepicker'
 import { Add, Edit } from '@mui/icons-material'
+import FormikSearchableProductBrand from '../../../../../_cloner/components/FormikSearchableProductBrand'
 
 const fields = [
     "warehouseId",
@@ -175,7 +175,7 @@ const OrderProductDetail = (props: Props) => {
         <>
             <form>
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">
-                    <FormikProductBrand
+                    <FormikSearchableProductBrand
                         name={!isUpdate ? "productId" : "productName"}
                         label="کالا/محصول"
                         disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} 

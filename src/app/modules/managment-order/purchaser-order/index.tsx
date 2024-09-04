@@ -23,6 +23,8 @@ import { calculateTotalAmount } from '../helpers/functions'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useGetProductList } from '../../products/_hooks'
+import CustomerFeatcure from '../sales-order/components/CustomerFeatcure'
+import { useGetCustomer } from '../../customer/core/_hooks'
 
 
 const PurchaserOrder = () => {
@@ -30,12 +32,14 @@ const PurchaserOrder = () => {
     let formikRef = useRef<FormikProps<any>>(null);
 
     const [isOpen, setIsOpen] = useState<boolean>(false); // OK
+    const [isOpenCustomerFeacture, setIsOpenCustomerFeacture] = useState<boolean>(false); //ok
     const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
     const [orderPayment, setOrderPayment] = useState<IOrderPayment[]>([]); //OK
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
 
     const postSaleOrder = useCreatePurchaserOrder();
     const products = useGetProductList();
+    const detailCustomer = useGetCustomer();
 
 
     useEffect(() => {
@@ -145,8 +149,10 @@ const PurchaserOrder = () => {
                             <ReusableCard>
                                 <PurchaserChoose
                                     formikRef={formikRef}
-                                    openModalState={setIsOpen}
-                                    postSaleOrder={postSaleOrder} />
+                                    openModalState={setIsOpen} 
+                                    openModalStateCustomerFeatcure={setIsOpenCustomerFeacture} 
+                                    postSaleOrder={postSaleOrder}
+                                    detailCustomer={detailCustomer} />
                             </ReusableCard>
                         </div>
 
@@ -174,7 +180,7 @@ const PurchaserOrder = () => {
                                 setOrderPayment={setOrderPayment}
                                 formikRef={formikRef}
                                 postSaleOrder={postSaleOrder}
-                                orders={orders}  />
+                                orders={orders} />
                             <OrderFeature
                                 categories={[]}
                                 isPurchaser={true}
@@ -224,6 +230,16 @@ const PurchaserOrder = () => {
                     <CustomerForm
                         setIsCreateOpen={setIsOpen}
                     />
+                </TransitionsModal >
+            }
+            {isOpenCustomerFeacture &&
+                <TransitionsModal
+                    title="نمایش ویژگی های مشتری"
+                    open={isOpenCustomerFeacture}
+                    isClose={() => setIsOpenCustomerFeacture(false)}
+                    width="50%"
+                >
+                    <CustomerFeatcure detailCustomer={detailCustomer} />
                 </TransitionsModal >
             }
         </>

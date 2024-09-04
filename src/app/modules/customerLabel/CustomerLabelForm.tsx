@@ -4,7 +4,6 @@ import { useGetCustomerLabelByMutation, usePostCustomerLabels, useUpdateCustomer
 import FormikType from "../../../_cloner/components/FormikType"
 import FormikProduct from "../../../_cloner/components/FormikProductComboSelect"
 import FormikBrand from "../../../_cloner/components/FormikBrand"
-import FormikProductBrand from "../../../_cloner/components/FormikProductBrandComboSelect"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
@@ -13,6 +12,7 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent"
 import { AddCircleOutline } from "@mui/icons-material"
 import { Typography } from "@mui/material"
 import { FC, useEffect } from "react"
+import FormikSearchableProductBrand from "../../../_cloner/components/FormikSearchableProductBrand"
 
 const initialValues: ICustomerLabel = {
     id: 0,
@@ -59,7 +59,7 @@ const CustomerLabelForm:FC<IProps> = ({id, refetch, onClose}) => {
             case 3:
                 return <FormikBrand name="brandId" label="برچسب" boxClassName=" mt-2 md:mt-0" />
             case 4:
-                return <FormikProductBrand name="productBrandId" label="برچسب" boxClassName=" mt-2 md:mt-0" />
+                return <FormikSearchableProductBrand name="productBrandId" label="برچسب" boxClassName=" mt-2 md:mt-0" />
             default:
                 return <FormikInput name="labelName" label="برچسب" boxClassName=" mt-2 md:mt-0" />
         }

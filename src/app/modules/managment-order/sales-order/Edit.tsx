@@ -24,6 +24,7 @@ import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import OrderDetailBaseOrderCode from './components/OrderDetailBaseOrderCode'
 import { useGetProductList } from '../../products/_hooks'
 import { WarehouseType } from '../../../../_cloner/helpers/Enums'
+import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 
 const SalesOrderEdit = () => {
 
@@ -52,7 +53,7 @@ const SalesOrderEdit = () => {
 
             setOrderServices([
                 ...detailTools?.data?.data?.orderServices?.map((i: any) => ({
-                    orderServiceMainId: i.id,  
+                    orderServiceMainId: i.id,
                     serviceName: i?.serviceDesc,
                     orderServiceId: i?.serviceId,
                     orderServiceDescription: i?.description
@@ -87,7 +88,7 @@ const SalesOrderEdit = () => {
             ]);
 
             setCategories([
-                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId === 2 ? true : false }, 
+                { value: 2, title: "پیش فروش", defaultChecked: detailTools?.data?.data.orderTypeId === 2 ? true : false },
                 { value: 1, title: "فروش فوری", defaultChecked: detailTools?.data?.data.orderTypeId === 1 ? true : false },
             ])
         }
@@ -140,13 +141,13 @@ const SalesOrderEdit = () => {
                         purchaserCustomerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId ? item.purchaserCustomerId : null,
                         purchaserCustomerName: item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : item.purchaserCustomerName ? item.purchaserCustomerName : null,
                         warehouseTypeId: item.warehouseTypeId,
-                        
+
                         purchaseOrder: item?.warehouseTypeId == WarehouseType.Karkhaneh || item?.warehouseTypeId == WarehouseType.Vaseteh ? {
                             customerId: item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : item.purchaserCustomerId ? item.purchaserCustomerId : null,
-                            totalAmount: 
-                            +(item.purchasePrice ? Number(item.purchasePrice) : 0)
-                             * 
-                            +(item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0),
+                            totalAmount:
+                                +(item.purchasePrice ? Number(item.purchasePrice) : 0)
+                                *
+                                +(item.proximateAmount ? Number(item.proximateAmount?.replace(/,/g, "")) : 0),
                             description: "string",
                             purchaseOrderSendTypeId: values.orderSendTypeId ? +values.orderSendTypeId : detailTools?.data?.data.orderSendTypeId,
                             invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId,
@@ -192,38 +193,29 @@ const SalesOrderEdit = () => {
                     }
                 }) //ok
             };
-            try {
-                postSaleOrder.mutate(formData, {
-                    onSuccess: (response) => {
-                        if (response.data.Errors && response.data.Errors.length > 0) {
-                            response.data.Errors.forEach((item: any) => {
-                                EnqueueSnackbar(item, "error")
-                            })
-                        } else {
-                            if (response.succeeded) {
-                                Swal.fire({
-                                    title: `سفارش با موفقیت ویرایش گردید`,
-                                    confirmButtonColor: "#fcc615",
-                                    showClass: {
-                                        popup: 'animate__animated animate__fadeInDown'
-                                    },
-                                    hideClass: {
-                                        popup: 'animate__animated animate__fadeOutUp'
-                                    },
-                                    confirmButtonText: "بستن",
-                                    icon: "success",
-                                    customClass: {
-                                        title: "text-lg"
-                                    }
+            if (formikRef.current?.values.orderPaymentAmount && +formikRef.current?.values.orderPaymentAmount.replace(/,/g, "") > 0) {
+                EnqueueSnackbar("مقداری از مبالغ تسویه حساب تعیین تکلیف نشده است", "warning")
+            } else {
+                try {
+                    postSaleOrder.mutate(formData, {
+                        onSuccess: (response) => {
+                            if (response.data.Errors && response.data.Errors.length > 0) {
+                                response.data.Errors.forEach((item: any) => {
+                                    EnqueueSnackbar(item, "error")
                                 })
                             } else {
-                                EnqueueSnackbar(response?.data.Message, "error")
+                                if (response.succeeded) {
+                                    renderAlert('سفارش با موفقیت ویرایش گردید')
+                                } else {
+                                    EnqueueSnackbar(response?.data.Message, "error")
+                                }
                             }
                         }
-                    }
-                });
-            } catch (error) {
-                EnqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید", "error")
+                    });
+                } catch (error) {
+                    EnqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید", "error")
+                }
+
             }
         }
     }
@@ -300,11 +292,14 @@ const SalesOrderEdit = () => {
                         </div>
                         <div
                             className="flex gap-x-8 my-4 justify-center items-center md:justify-end md:items-end"
-                        > 
+                        >
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ویرایش سفارش فروش"}
                                 onClick={() => handleSubmit()}
-                                disabled={!orderValid || orderPayment.length <= 0 || orders.length <= 0 || postSaleOrder?.data?.succeeded}
+                                disabled={!orderValid ||
+                                    orderPayment.length <= 0 ||
+                                    orders.length <= 0 ||
+                                    postSaleOrder?.data?.succeeded}
                                 color="primary"
                                 isLoading={postSaleOrder.isLoading}
                             />

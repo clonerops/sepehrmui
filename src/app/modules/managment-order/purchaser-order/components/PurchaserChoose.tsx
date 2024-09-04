@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react'
 import moment from 'moment-jalaali'
 import { FormikProps } from 'formik'
-import { Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 
 import FormikCompany from '../../../../../_cloner/components/FormikCompany'
 
@@ -14,16 +14,18 @@ import FormikWarehouseBasedOfType from '../../../../../_cloner/components/Formik
 import { useGetWarehouses } from '../../../generic/_hooks'
 import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
 import { WarehouseType } from '../../../../../_cloner/helpers/Enums'
+import { Add, Person } from '@mui/icons-material'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, IPurchaserOrder, unknown>
     formikRef: React.RefObject<FormikProps<any>>
     openModalState: React.Dispatch<React.SetStateAction<boolean>>
+    openModalStateCustomerFeatcure: React.Dispatch<React.SetStateAction<boolean>>
+    detailCustomer: UseMutationResult<any, unknown, string, unknown>
 }
 
-const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState }) => {
+const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, openModalStateCustomerFeatcure, detailCustomer }) => {
 
-    const detailCustomer = useGetCustomer();
     const warehouse = useGetWarehouses()
 
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
@@ -61,12 +63,25 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState 
                         label="فروشنده" />
                 </div>
                 <FormikCompany disabled={postSaleOrder?.data?.succeeded} customerid={formikRef.current?.values.customerId?.value} name="customerOfficialCompanyId" label="اسم رسمی شرکت فروشنده" />
-                <FormikWarehouseBasedOfType
-                    name="originWarehouseId"
-                    label="انبار مبدا"
-                    warehouse={warehouse?.data?.filter((item: {warehouseTypeId: number}) => item.warehouseTypeId === WarehouseType.Mabadi)}
-                />
-                <FormikWarehouse name="destinationWarehouseId" label="انبار مقصد" />
+                <div className='flex flex-row gap-x-4'>
+                    <FormikWarehouseBasedOfType
+                        name="originWarehouseId"
+                        label="انبار مبدا"
+                        warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
+                    />
+                    <FormikWarehouse name="destinationWarehouseId" label="انبار مقصد" />
+                </div>
+                <div className='mt-4 flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-end items-end gap-x-8'>
+                    <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalState(true)} variant="contained" className="w-full">
+                        <Add />
+                        <Typography>ایجاد مشتری جدید</Typography>
+                    </Button>
+                    <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
+                        <Person />
+                        <Typography>نمایش ویژگی های مشتری </Typography>
+                    </Button>
+                </div>
+
             </div>
         </>
     )

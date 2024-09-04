@@ -13,7 +13,7 @@ import FormikInput from "../../../_cloner/components/FormikInput"
 import FormikAmount from "../../../_cloner/components/FormikAmount"
 import SwitchComponent from "../../../_cloner/components/Switch"
 import Backdrop from "../../../_cloner/components/Backdrop"
-import FormikProductBrand from "../../../_cloner/components/FormikProductBrandComboSelect"
+import FormikSearchableProductBrand from "../../../_cloner/components/FormikSearchableProductBrand"
 
 const initialValues = {
     price: "",
@@ -51,7 +51,7 @@ const ProductPriceForm = (props: Props) => {
         const { type, ...rest } = fields;
         switch (type) {
             case "productBrandId":
-                return <FormikProductBrand  {...rest} />
+                return <FormikSearchableProductBrand  {...rest} />
             case "price":
                 return <FormikAmount {...rest} />;
             default:

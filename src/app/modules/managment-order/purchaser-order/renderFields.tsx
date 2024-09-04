@@ -20,8 +20,8 @@ import FormikAmount from '../../../../_cloner/components/FormikAmount';
 
 import { ISalesOrder, IOrderItems, IOrderPayment, IOrderService, IPurchaserOrder } from '../core/_models';
 import { ICustomer } from '../../customer/core/_models';
-import FormikProductBrand from '../../../../_cloner/components/FormikProductBrandComboSelect';
 import FormikSearchableCustomer from '../../../../_cloner/components/FormikSearchableCustomer';
+import FormikSearchableProductBrand from '../../../../_cloner/components/FormikSearchableProductBrand';
 
 
 
@@ -100,7 +100,7 @@ const orderDetailParseFields = (
         case "product":
             return (
                 <div key={index} className="flex gap-x-2 w-full">
-                    <FormikProductBrand disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} onChange={(value: any) => changeProductFunction(value, setFieldValue)} {...rest} />
+                    <FormikSearchableProductBrand disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} onChange={(value: any) => changeProductFunction(value, setFieldValue)} {...rest} />
                 </div>
             );
         case "purchaserCustomer":

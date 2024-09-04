@@ -20,6 +20,7 @@ import { NumericFormat } from "react-number-format";
 import { dropdownProductType, dropdownWarehouseType } from "../../../../../_cloner/helpers/dropdowns";
 import { ModalProductColumn, SelectProductMuiTableColumn } from "../../../../../_cloner/helpers/columns";
 import Pagination from "../../../../../_cloner/components/Pagination";
+import { WarehouseType } from "../../../../../_cloner/helpers/Enums";
 
 interface IProps {
     setOrders?: any
@@ -67,7 +68,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentFilter, setCurrentFilter] = useState<IFilter>({
         ByBrand: true,
-        WarehouseTypeId: 1,
+        WarehouseTypeId: WarehouseType.Addi,
         ProductTypeId: -1,
         PageNumber: currentPage,
         PageSize: pageSize,
@@ -384,7 +385,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 </Formik>
             </div>
             <div className="col-span-2 mx-4 my-2">
-                <Formik initialValues={{ warehouseTypeId: "1" }} onSubmit={() => { }}>
+                <Formik initialValues={{ warehouseTypeId: WarehouseType.Addi.toString() }} onSubmit={() => { }}>
                     {() => {
                         return <Form>
                             <FormikRadioGroup

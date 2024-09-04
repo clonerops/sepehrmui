@@ -18,11 +18,11 @@ import { useGetInvoiceType } from "../../generic/_hooks";
 import { useGetCustomerCompaniesMutate } from "../../customerCompany/_hooks";
 import { FieldType } from "../../../../_cloner/components/globalTypes";
 import { saleOrderFieldConfirm } from "./fields";
-import FormikProductBrand from "../../../../_cloner/components/FormikProductBrandComboSelect";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import FileUpload from "../../../../_cloner/components/FileUpload";
 import { dropdownCustomerCompanies, dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
+import FormikSearchableProductBrand from "../../../../_cloner/components/FormikSearchableProductBrand";
 
 const initialValues = {
     productName: "",
@@ -104,7 +104,7 @@ const SalesOrderConfirm = () => {
             case "product":
                 return (
                     <div key={index} className="flex gap-x-2 w-full">
-                        <FormikProductBrand
+                        <FormikSearchableProductBrand
                             disabled={!values.productName}
                             onChange={(value: any) => handleChangeProduct(value, setFieldValue)}
                             {...rest}

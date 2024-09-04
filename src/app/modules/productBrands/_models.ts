@@ -6,6 +6,7 @@ export interface IProductBrand {
 }
 
 export interface IProductBrandFilter {
-    PageNumber: number
-    PageSize: number
+    PageNumber?: number
+    PageSize?: number
+    Keyword?: string
 }
