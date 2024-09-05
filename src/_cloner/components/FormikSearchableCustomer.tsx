@@ -17,7 +17,7 @@ const FormikSearchableCustomer = (props: any) => {
                     keyword: keyword && keyword?.trim()
                 }
                 customerTools.mutate(filter);
-            }, 1000)
+            }, 500)
     
             return () => clearTimeout(delayDebounceFn)
         } 

@@ -86,12 +86,13 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
     ]
     const paymentAfterSubmit = [
         { id: 1, header: "مبلغ(ریال)", accessor: "orderPaymentAmount", render: (params: any) => {
-            return <Typography variant="h4" className='text-green-500'>{params.orderPaymentAmoun}</Typography>
+            return <Typography variant="h4" className='text-green-500'>{params.orderPaymentAmount}</Typography>
         } },
         { id: 3, header: "روز", accessor: "orderPaymentDaysAfterExit" },
         { id: 2, header: "تاریخ تسویه", accessor: "orderPaymentDate" },
     ]
 
+    console.log("orderPayment", orderPayment)
 
     let renderColumns = postSaleOrder?.data?.succeeded ? paymentAfterSubmit : paymentBeforSubmit
 

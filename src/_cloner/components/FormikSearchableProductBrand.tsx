@@ -16,7 +16,7 @@ const FormikSearchableProductBrand = (props: any) => {
                     Keyword: keyword && keyword?.trim()
                 }
                 productBrandTools.mutate(filter);
-            }, 1000)
+            }, 500)
     
             return () => clearTimeout(delayDebounceFn)
         } 

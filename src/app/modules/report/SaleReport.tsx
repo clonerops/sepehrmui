@@ -14,8 +14,7 @@ import { ISaleReportFilter } from './_models'
 const initialValues: ISaleReportFilter = {
     FromDate: "",
     ToDate: "",
-    OrderAmount: "",
-    ProductTypeId: 0
+    ProductTypeId: ""
 }
 
 const SaleReport = () => {
@@ -30,23 +29,24 @@ const SaleReport = () => {
         const filters = {
             FromDate: "",
             ToDate: "",
-            OrderAmount: "",
-            ProductTypeId: 0        
+            ProductTypeId: ""        
         }
         reportTools.mutate(filters)
          // eslint-disable-next-line
     }, [])
 
 
+    if(reportTools.isLoading) {
+        return <Typography variant='h3'>درحال بارگزاری ...</Typography>
+    }
 
     return (
         <>
             <Formik initialValues={initialValues} onSubmit={FilteredTools}>
                 {({ handleSubmit }) => <form onSubmit={handleSubmit}>
-                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                    <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
                         <FormikDatepicker name="FromDate" label='از تاریخ' />
                         <FormikDatepicker name="ToDate" label='تا تاریخ' />
-                        <FormikAmount name="OrderAmount" label='مقدار' />
                         <FormikType name="ProductTypeId" label="نوع کالا" />
                     </div>
                     <div className='flex justify-end items-end my-4'>

@@ -1762,12 +1762,6 @@ const ReadyToLadingColumn = (renderAction: any) => {
             headerName: 'شماره سفارش', headerClassName: "headerClassName", minWidth: 100, maxWidth: 100, flex: 1
         },
         {
-            field: 'orderStatusId', renderCell: (params: any) => {
-                return params.row.order.orderStatusId === 1 ? <Typography className="border-2 border-[#272862] text-[#272862] rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography> : <Typography className="border-2 border-green-500 text-green-500 rounded-[4px] px-3 py-1">{params.row.order.orderStatusDesc}</Typography>
-            },
-            headerName: 'وضعیت سفارش', headerClassName: "headerClassName", minWidth: 140, flex: 1
-        },
-        {
             field: 'createdBy', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.row.createdBy}</Typography>;
             },
