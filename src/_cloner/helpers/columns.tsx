@@ -1,9 +1,10 @@
-import { Button, Checkbox, OutlinedInput, Typography } from "@mui/material";
+import { Button, Checkbox, OutlinedInput, TextField, Typography } from "@mui/material";
 import { separateAmountWithCommas } from "./seprateAmount";
 import { CallMade, CallReceived } from "@mui/icons-material";
 import { IProducts } from "../../app/modules/products/_models";
 
 import ActiveText from "../components/ActiveText";
+import { NumericFormat } from "react-number-format";
 
 const ProductBrandsColumn = (renderSwitch: any) => {
     const col = [
@@ -1867,7 +1868,7 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             flex: 1,
             headerClassName: "headerClassName",
             render: (params: any) => {
-                return <Typography sx={{ minWidth: 140 }}>{params.productName}</Typography>;
+                return <Typography sx={{ minWidth: 140 }}>{params.orderDetail.productName}</Typography>;
             },
         },
         {
@@ -1877,7 +1878,7 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             headerClassName: "headerClassName",
             flex: 1,
             render: (params: any) => {
-                return <Typography>{params.ladingAmount}</Typography>;
+                return <Typography variant="h3">{separateAmountWithCommas(params.ladingAmount)}</Typography>;
             },
         },
         {
@@ -1887,7 +1888,7 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             headerClassName: "headerClassName",
             flex: 1,
             render: (params: any) => {
-                return <Typography>{params.proximateAmount}</Typography>;
+                return <Typography variant="h3">{separateAmountWithCommas(params.proximateAmount)}</Typography>;
             },
         },
 
@@ -1899,6 +1900,25 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             headerClassName: "headerClassName",
             render: (params: any) => {
                 return (
+                    // <NumericFormat
+                    //     customInput={() => (
+                    //         <TextField
+                    //             fullWidth
+                    //             size="small"
+                    //             color="primary"
+                    //             variant={"outlined"}
+                    //         />
+                    //     )}
+                    //     thousandSeparator
+                    //     value={realAmount}
+                    //     onChange={(e) => {
+                    //         handleRealAmountChange(
+                    //             params,
+                    //             e.target.value
+                    //         );
+                    //     }}
+
+                    // />
                     <OutlinedInput
                         sx={{ minWidth: 140 }}
                         onChange={(e) => {
@@ -1920,7 +1940,7 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             flex: 1,
             headerClassName: "headerClassName",
             render: (params: any) => {
-                return <Typography>{params.productMainUnitDesc}</Typography>;
+                return <Typography>{params.orderDetail.productMainUnitDesc}</Typography>;
             },
         },
         {
@@ -1952,7 +1972,7 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             flex: 1,
             headerClassName: "headerClassName",
             render: (params: any) => {
-                return <Typography>{params.productSubUnitDesc}</Typography>;
+                return <Typography>{params.orderDetail.productSubUnitDesc}</Typography>;
             },
         },
     ];
@@ -4466,13 +4486,13 @@ const PaymentRequestColumn = (renderAction: any) => {
             field: 'createdDate', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'تاریخ درخواست', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+            headerName: 'تاریخ درخواست', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'paymentRequestStatusDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+            headerName: 'وضعیت', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
             field: 'creatorName', renderCell: (params: any) => {
@@ -4484,9 +4504,9 @@ const PaymentRequestColumn = (renderAction: any) => {
             field: 'paymentRequestReasonDesc', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
-            headerName: 'بابت', headerClassName: "headerClassName", minWidth: 120,  flex: 1
+            headerName: 'بابت', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
-        { field: "Action", headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 420, maxWidth: 420  },
+        { field: "Action", headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 420, maxWidth: 420 },
 
     ]
     return col

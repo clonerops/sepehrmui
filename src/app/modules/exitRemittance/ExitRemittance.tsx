@@ -81,10 +81,14 @@ const ExitRemiitance = () => {
                         productSubUnitId:
                             item?.orderDetail?.productSubUnitId,
                         productSubUnitAmount: 0,
-                        realAmount: 0,
+                        realAmount: item?.realAmount ? item?.realAmount : ""
                     };
                 }
             );
+            if (realAmount.current) {
+                realAmount.current.value = destructureData[0]?.realAmount || "";
+            }
+            
             if (destructureData) {
                 setLadingList(destructureData);
             }
@@ -152,6 +156,8 @@ const ExitRemiitance = () => {
         });
     };
 
+    console.log(cargoDetailTools?.data?.data?.cargoAnnounceDetails)
+
     if (cargoDetailTools.isLoading)
         return <Backdrop loading={cargoDetailTools.isLoading} />
 
@@ -190,7 +196,8 @@ const ExitRemiitance = () => {
                     onDoubleClick={() => { }}
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
-                    data={ladingList}
+                    // data={ladingList}
+                    data={cargoDetailTools?.data?.data?.cargoAnnounceDetails}
                     columns={OrderDetailForExitRemittanceColumn(realAmount, productSubUnitAmount, handleRealAmountChange, handleProductSubUnitAmountChange)}
                 />
             </ReusableCard>
