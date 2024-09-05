@@ -1,5 +1,5 @@
 import FormikComboBox from "./FormikComboBox";
-import { useGetProductBrands, useGetProductBrandsByMutation } from "../../app/modules/productBrands/_hooks";
+import { useGetProductBrandsByMutation } from "../../app/modules/productBrands/_hooks";
 import { dropdownProductBrand } from "../helpers/dropdowns";
 import { useEffect, useState } from "react";
 
