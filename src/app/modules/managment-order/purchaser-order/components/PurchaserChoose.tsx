@@ -32,12 +32,18 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState,
         if (item?.value) {
             detailCustomer?.mutate(item?.value, {
                 onSuccess: (result) => {
-                    formikRef.current?.setFieldValue("customerID", result.data.id)
-                    formikRef.current?.setFieldValue("number", result.data.settlementDay)
-                    formikRef.current?.setFieldValue("settlement", moment(Date.now()).add(+result.data.settlementDay, "days").format('jYYYY/jMM/jDD'))
+                    // formikRef.current?.setFieldValue("customerID", result.data.id)
+                    formikRef.current?.setFieldValue("customerId", result.data.id)
+                    // formikRef.current?.setFieldValue("number", result.data.settlementDay)
+                    // formikRef.current?.setFieldValue("settlement", moment(Date.now()).add(+result.data.settlementDay, "days").format('jYYYY/jMM/jDD'))
+                    formikRef.current?.setFieldValue("orderPaymentDaysAfterExit", result.data.settlementDay)
+                    formikRef.current?.setFieldValue("orderPaymentDate", moment(Date.now()).add(+result.data.settlementDay, "days").format('jYYYY/jMM/jDD'))
+
                     if (!result?.data) {
-                        formikRef.current?.setFieldValue("number", "")
-                        formikRef.current?.setFieldValue("settlement", "")
+                        // formikRef.current?.setFieldValue("number", "")
+                        // formikRef.current?.setFieldValue("settlement", "")
+                        formikRef.current?.setFieldValue("orderPaymentDaysAfterExit", "")
+                        formikRef.current?.setFieldValue("orderPaymentDate", "")
                     }
                 }
             })

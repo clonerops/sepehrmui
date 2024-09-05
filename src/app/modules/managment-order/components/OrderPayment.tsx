@@ -92,8 +92,6 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
         { id: 2, header: "تاریخ تسویه", accessor: "orderPaymentDate" },
     ]
 
-    console.log("orderPayment", orderPayment)
-
     let renderColumns = postSaleOrder?.data?.succeeded ? paymentAfterSubmit : paymentBeforSubmit
 
 
