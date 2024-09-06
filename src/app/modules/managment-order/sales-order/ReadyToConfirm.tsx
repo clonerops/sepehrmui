@@ -12,6 +12,7 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
+import { InvoiceType } from "../../../../_cloner/helpers/Enums";
 
 
 const ReadyToSalesOrderConfirm = () => {
@@ -22,7 +23,7 @@ const ReadyToSalesOrderConfirm = () => {
 
     useEffect(() => {
         const formData = {
-            InvoiceTypeId: [1],
+            InvoiceTypeId: [InvoiceType.Mahfam, InvoiceType.Sepehr],
             OrderStatusId: 1
         }
         orderTools.mutate(formData, {
@@ -59,7 +60,7 @@ const ReadyToSalesOrderConfirm = () => {
         if (+values === -1) {
             const formData = {
                 // InvoiceTypeId: [1, 2],
-                InvoiceTypeId: [1],
+                InvoiceTypeId: [InvoiceType.Mahfam, InvoiceType.Sepehr],
             };
             orderTools.mutate(formData, {
                 onSuccess: (message) => {
@@ -70,7 +71,7 @@ const ReadyToSalesOrderConfirm = () => {
         } else {
             const formData = {
                 // InvoiceTypeId: [1, 2],
-                InvoiceTypeId: [1],
+                InvoiceTypeId: [InvoiceType.Mahfam, InvoiceType.Sepehr],
                 OrderStatusId: +values,
             };
             orderTools.mutate(formData, {

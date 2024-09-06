@@ -7,6 +7,7 @@ import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { PurchaserOrderConfirmColumn } from "../../../../_cloner/helpers/columns";
+import { InvoiceType } from "../../../../_cloner/helpers/Enums";
 
 
 const ReadyToPurchaserOrderConfirm = () => {
@@ -16,7 +17,7 @@ const ReadyToPurchaserOrderConfirm = () => {
 
     useEffect(() => {
         const formData = {
-            InvoiceTypeId: [1],
+            InvoiceTypeId: [InvoiceType.Mahfam, InvoiceType.Sepehr],
         }
         mutate(formData)
         // eslint-disable-next-line
@@ -44,14 +45,14 @@ const ReadyToPurchaserOrderConfirm = () => {
     const handleFilterBasedofStatus = (values: any) => {
         if (+values === -1) {
             const formData = {
-                InvoiceTypeId: [1],
+                InvoiceTypeId: [InvoiceType.Mahfam, InvoiceType.Sepehr],
                 OrderCode: +values?.orderCode
             };
             mutate(formData);
 
         } else {
             const formData = {
-                InvoiceTypeId: [1],
+                InvoiceTypeId: [InvoiceType.Mahfam, InvoiceType.Sepehr],
                 OrderStatusId: +values,
                 OrderCode: +values?.orderCode
             };
