@@ -97,30 +97,31 @@ const PurchaserOrder = () => {
                         }
                     })
                 };
-                if(formikRef.current?.values?.invoiceTypeId === InvoiceType.Rasmi && (
-                    formikRef.current?.values.customerOfficialCompanyId === "" || 
+                // if(formikRef.current?.values?.invoiceTypeId === InvoiceType.Rasmi && (
+                if ([InvoiceType.Mahfam, InvoiceType.Sepehr].includes(formikRef.current?.values?.invoiceTypeId) && (
+                    formikRef.current?.values.customerOfficialCompanyId === "" ||
                     formikRef.current?.values.customerOfficialCompanyId === null ||
                     formikRef.current?.values.customerOfficialCompanyId === 0 ||
                     formikRef.current?.values.customerOfficialCompanyId === undefined)) {
-                        EnqueueSnackbar("در سفارشات رسمی باید شرکت رسمی مشتری انتخاب گردد", "warning")
-                    } else {
-                        postSaleOrder.mutate(formData, {
-                            onSuccess: (response) => {
-        
-                                if (response.data.Errors && response.data.Errors.length > 0) {
-                                    response.data.Errors.forEach((item: any) => {
-                                        EnqueueSnackbar(item, "error")
-                                    })
+                    EnqueueSnackbar("در سفارشات رسمی باید شرکت رسمی مشتری انتخاب گردد", "warning")
+                } else {
+                    postSaleOrder.mutate(formData, {
+                        onSuccess: (response) => {
+
+                            if (response.data.Errors && response.data.Errors.length > 0) {
+                                response.data.Errors.forEach((item: any) => {
+                                    EnqueueSnackbar(item, "error")
+                                })
+                            } else {
+                                if (response.succeeded) {
+                                    renderAlert(response.message)
                                 } else {
-                                    if (response.succeeded) {
-                                        renderAlert(response.message)
-                                    } else {
-                                        EnqueueSnackbar(response?.data.Message, "error")
-                                    }
+                                    EnqueueSnackbar(response?.data.Message, "error")
                                 }
                             }
-                        });
-                    }
+                        }
+                    });
+                }
 
             } catch (error) {
                 EnqueueSnackbar("خطای در ثبت، لطفا با پشتیبان تماس بگیرید.", "error")
@@ -161,8 +162,8 @@ const PurchaserOrder = () => {
                             <ReusableCard>
                                 <PurchaserChoose
                                     formikRef={formikRef}
-                                    openModalState={setIsOpen} 
-                                    openModalStateCustomerFeatcure={setIsOpenCustomerFeacture} 
+                                    openModalState={setIsOpen}
+                                    openModalStateCustomerFeatcure={setIsOpenCustomerFeacture}
                                     postSaleOrder={postSaleOrder}
                                     detailCustomer={detailCustomer} />
                             </ReusableCard>

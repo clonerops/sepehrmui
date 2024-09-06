@@ -51,7 +51,7 @@ const SalesOrderList = () => {
                     </Link>
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>فاکتور</Typography>}>
-                    <a target='_blank'  href={`/dashboard/${item.row.invoiceTypeId ===  InvoiceType.Rasmi ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
+                    <a target='_blank'  href={`/dashboard/${[InvoiceType.Mahfam, InvoiceType.Sepehr].includes(item.row.invoiceTypeId) ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
                         <Print color="primary" />
                     </a>
                 </Tooltip>

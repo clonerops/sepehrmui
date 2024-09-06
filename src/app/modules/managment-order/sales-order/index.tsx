@@ -123,7 +123,8 @@ const SalesOrder = () => {
                     })
                 }
 
-                if(formikRef.current?.values?.invoiceTypeId === InvoiceType.Rasmi && (
+                // if(formikRef.current?.values?.invoiceTypeId === InvoiceType.Rasmi && (
+                if([InvoiceType.Mahfam, InvoiceType.Sepehr].includes(formikRef.current?.values?.invoiceTypeId) && (
                     formikRef.current?.values.customerOfficialCompanyId === "" || 
                     formikRef.current?.values.customerOfficialCompanyId === null ||
                     formikRef.current?.values.customerOfficialCompanyId === 0 ||

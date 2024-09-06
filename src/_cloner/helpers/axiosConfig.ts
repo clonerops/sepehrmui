@@ -3,8 +3,8 @@ import Cookies from "js-cookie";
 
 export const http = axios.create({
     // baseURL: "https://iraniansepehr.com/api/",
-    baseURL: "http://devbama.ir/api/",
-    // baseURL: "http://192.168.10.125/api/",
+    // baseURL: "http://devbama.ir/api/",
+    baseURL: "http://192.168.10.125/api/",
     headers: {        
         // "Access-Control-Allow-Origin": '*',
         "Content-Type": "application/json",
@@ -15,8 +15,8 @@ export const http = axios.create({
 
 export const httpAuth = axios.create({
     // baseURL: "https://iraniansepehr.com/api/",
-    baseURL: "http://devbama.ir/api/",
-    // baseURL: "http://192.168.10.125/api/",
+    // baseURL: "http://devbama.ir/api/",
+    baseURL: "http://192.168.10.125/api/",
     headers: {
         // "Access-Control-Allow-Origin": '*',
         "Content-Type": "application/json",
@@ -25,8 +25,8 @@ export const httpAuth = axios.create({
 });
 export const httpFormData = axios.create({
     // baseURL: "https://iraniansepehr.com/api/",
-    baseURL: "http://devbama.ir/api/",
-    // baseURL: "http://192.168.10.125/api/",
+    // baseURL: "http://devbama.ir/api/",
+    baseURL: "http://192.168.10.125/api/",
     headers: {
         "Content-Type": "multipart/form-data",
         // "Access-Control-Allow-Origin": '*',

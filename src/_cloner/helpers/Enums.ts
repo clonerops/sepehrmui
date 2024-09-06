@@ -8,6 +8,7 @@ export enum WarehouseType {
     Karkhaneh = 7,
 }
 export enum InvoiceType {
-    Rasmi = 1,
-    NoRasmi = 2,
+    Mahfam = 1,
+    Bazargani = 2,
+    Sepehr = 3,
 }
