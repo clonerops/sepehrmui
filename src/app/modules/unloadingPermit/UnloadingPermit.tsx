@@ -76,14 +76,14 @@ const UnloadingPermit = () => {
                         productName: item?.productName,
                         unloadedAmount: item?.unloadedAmount ? item?.unloadedAmount : "",
                         // realAmount: item?.unloadedAmount ? item?.unloadedAmount : ""
-                        realAmount:  ""
+                        realAmount: ""
                     };
                 }
             );
-                // if (realAmount.current) {
-                //     realAmount.current.value = destructureData[0]?.realAmount || "";
-                // }
-        
+            // if (realAmount.current) {
+            //     realAmount.current.value = destructureData[0]?.realAmount || "";
+            // }
+
             if (destructureData) {
                 setUnloadingList(destructureData);
             }
@@ -146,7 +146,7 @@ const UnloadingPermit = () => {
         // const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
         const updatedLadingList = UnloadingList.map((item: { id: any; }) => {
             if (params.id === item.id) {
-                return { ...item, realAmount: +value.replace(/,/g, "")}
+                return { ...item, realAmount: +value.replace(/,/g, "") }
             } else {
                 return item
             }
@@ -192,7 +192,7 @@ const UnloadingPermit = () => {
             })),
         };
 
-        if(UnloadingList.every((item: {realAmount: ""}) => item.realAmount === "" || item.realAmount === null || item.realAmount === undefined)) {
+        if (UnloadingList.every((item: { realAmount: "" }) => item.realAmount === "" || item.realAmount === null || item.realAmount === undefined)) {
             EnqueueSnackbar("وزن واقعی باسکول  مشخص نگردیده است", "warning")
         } else {
             postUnloading.mutate(formData, {
@@ -281,9 +281,9 @@ const UnloadingPermit = () => {
                                 </div>
                                 <div className="mt-8">
                                     <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white hover:!bg-green-800">
-                                        <Typography className='px-32 py-2'>
+                                        <Typography className='text-black px-32 py-2 flex flex-row gap-x-4' variant='h2'>
                                             <AdsClick className="text-black" />
-                                            ثبت مجوز
+                                            ثبت مجوز تخلیه
                                         </Typography>
                                     </Button>
                                 </div>

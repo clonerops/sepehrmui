@@ -16,6 +16,7 @@ import FormikPrice from '../../../_cloner/components/FormikPrice'
 import FormikCompany from '../../../_cloner/components/FormikCompany'
 import FileUpload from '../../../_cloner/components/FileUpload'
 import PaymentOriginType from '../../../_cloner/components/PaymentOriginType'
+import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 
 const initialValues = {
     ReceivedFrom: "",
