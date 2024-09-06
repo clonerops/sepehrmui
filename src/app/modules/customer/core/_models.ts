@@ -40,3 +40,11 @@ export interface ICustomerFilter {
     PageNumber?: number
     PageSize?: number
 }
+
+
+export interface ICustomerAccountFilter {
+    customerId: string | null |undefined
+    fromDate: string | null | undefined
+    toDate: string | null | undefined
+    billingReportType: number | null |undefined
+}

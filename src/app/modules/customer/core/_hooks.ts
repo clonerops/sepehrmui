@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ICustomer, ICustomerFilter } from "./_models";
+import { ICustomer, ICustomerAccountFilter, ICustomerFilter } from "./_models";
 import * as api from "./_requests";
 
 const useCreateCustomer = () => {
@@ -41,6 +41,13 @@ const useDeleteCustomer = () => {
     });
 };
 
+const useGetCustomersAccountReport = () => {
+    return useMutation((filters: ICustomerAccountFilter) => {
+        return api.getCustomerAccountReport(filters);
+    });
+};
+
+
 export {
     useCreateCustomer,
     useGetCustomers,
@@ -48,4 +55,5 @@ export {
     useGetCustomer,
     useUpdateCustomer,
     useDeleteCustomer,
+    useGetCustomersAccountReport
 };

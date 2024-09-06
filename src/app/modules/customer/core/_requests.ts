@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { ICustomer, ICustomerFilter } from "./_models";
+import { ICustomer, ICustomerAccountFilter, ICustomerFilter } from "./_models";
 
 const createCustomer = async (formData: ICustomer) => {
     try {
@@ -62,11 +62,22 @@ const deleteCustomer = async (id: string) => {
     }
 }
 
+const getCustomerAccountReport = async (filters: ICustomerAccountFilter) => {
+    try {
+        const { data } = await http.get(`${generateURLQueryParam('/v1/Customer/GetCustomerBillingReport', filters)}`)
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 export { 
     createCustomer, 
     getCustomers, 
     getCustomersByMutation,
     getCustomer,
     updateCustomer,
-    deleteCustomer 
+    deleteCustomer,
+    getCustomerAccountReport
 };

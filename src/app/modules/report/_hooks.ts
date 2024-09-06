@@ -1,13 +1,19 @@
 import { useMutation } from '@tanstack/react-query'
 import * as api from './_requests'
-import { ISaleReportFilter } from './_models'
+import { IReportFilter } from './_models'
 
-const useGetSaleReport = () => {
-    return useMutation((filters: ISaleReportFilter) => {
-        return api.getSaleReport(filters);
+const useGetSaleReportByProductType = () => {
+    return useMutation((filters: IReportFilter) => {
+        return api.getSaleReportByProductType(filters);
+    })
+}
+const useGetSaleStatusDiagram = () => {
+    return useMutation((filters: IReportFilter) => {
+        return api.getSaleStatusDiagram(filters);
     })
 }
 
 export {
-    useGetSaleReport
+    useGetSaleReportByProductType,
+    useGetSaleStatusDiagram
 }

@@ -8,20 +8,21 @@ import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 
 import { Typography } from '@mui/material'
 import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
-import { useGetSaleReport } from './_hooks'
-import { ISaleReportFilter } from './_models'
+import { useGetSaleReportByProductType } from './_hooks'
+import { IReportFilter } from './_models'
+import Backdrop from '../../../_cloner/components/Backdrop'
 
-const initialValues: ISaleReportFilter = {
+const initialValues: IReportFilter = {
     FromDate: "",
     ToDate: "",
     ProductTypeId: ""
 }
 
-const SaleReport = () => {
+const SaleReportByProductType = () => {
     
-    const reportTools = useGetSaleReport()
+    const reportTools = useGetSaleReportByProductType()
 
-    const FilteredTools = (values: ISaleReportFilter) => {
+    const FilteredTools = (values: IReportFilter) => {
         reportTools.mutate(values)
     }
 
@@ -36,12 +37,13 @@ const SaleReport = () => {
     }, [])
 
 
-    if(reportTools.isLoading) {
-        return <Typography variant='h3'>درحال بارگزاری ...</Typography>
-    }
+    // if(reportTools.isLoading) {
+    //     return <Typography variant='h3'>درحال بارگزاری ...</Typography>
+    // }
 
     return (
         <>
+            {reportTools.isLoading && <Backdrop loading={reportTools.isLoading} />}
             <Formik initialValues={initialValues} onSubmit={FilteredTools}>
                 {({ handleSubmit }) => <form onSubmit={handleSubmit}>
                     <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
@@ -69,4 +71,4 @@ const SaleReport = () => {
     )
 }
 
-export default SaleReport
+export default SaleReportByProductType

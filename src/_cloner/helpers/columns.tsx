@@ -2464,104 +2464,115 @@ const CustomerColumn = (renderAction: any) => {
 const CustomerAccountColumn = () => {
     const col = [
         {
-            field: "customerCode",
+            field: "created_Shamsi",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
             },
             headerName: "تاریخ",
             align: "center",
             headerClassName: "headerClassName",
+            minWidth: 120,
             flex: 1
         },
         {
-            field: "firstName",
+            field: "weightingDate_Shamsi",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
             },
             headerName: "تاریخ وزن",
             headerClassName: "headerClassName",
+            minWidth: 120,
             flex: 1
         },
         {
-            field: "lastName",
+            field: "docType",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
             },
             headerName: "نوع سند",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 140,
         },
         {
-            field: "representative1",
+            field: "proximateAmount",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography >;
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "مقدار",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 110,
         },
         {
-            field: "representative2",
+            field: "price",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography >;
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "قیمت",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 140,
         },
         {
-            field: "representative3",
+            field: "debitAmount",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography >;
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "بدهکار",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 140,
         },
         {
-            field: "representative4",
+            field: "creditAmount",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography >;
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "بستانکار",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 140,
         },
         {
-            field: "representative5",
+            field: "recognizing",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography >;
+                return params.value === "0" ? <Typography variant="h2">بد</Typography > : <Typography variant="h2">بس</Typography >;
             },
             headerName: "تشخیص",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 80,
         },
         {
-            field: "representative6",
+            field: "balanceAmoount",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
             },
             headerName: "مانده",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 140,
         },
         {
-            field: "representative7",
+            field: "dueAmount",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
             },
-            headerName: "مانده موعود شده تا این تاریخ",
+            headerName: "مانده موعود شده",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 120,
         },
         {
-            field: "representative8",
+            field: "docDesc",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
             },
             headerName: "توضیحات",
             headerClassName: "headerClassName",
-            flex: 1
+            flex: 1,
+            minWidth: 120,
         },
     ];
     return col;

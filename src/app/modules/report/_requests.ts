@@ -1,10 +1,19 @@
 import { http } from "../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../_cloner/helpers/queryStringUrl";
-import { ISaleReportFilter } from "./_models";
+import { IReportFilter } from "./_models";
 
-const getSaleReport = async (filters: ISaleReportFilter) => {
+const getSaleReportByProductType = async (filters: IReportFilter) => {
     try {
-        const { data } = await http.get(`${generateURLQueryParam('/v1/SaleReport', filters)}`)
+        const { data } = await http.get(`${generateURLQueryParam('/v1/SaleReport/GetSaleReportByProductType', filters)}`)
+        return data
+
+    } catch (error: any) {
+        return error.response;
+    }
+}
+const getSaleStatusDiagram = async (filters: IReportFilter) => {
+    try {
+        const { data } = await http.get(`${generateURLQueryParam('/v1/SaleReport/GetSaleStatusDiagram', filters)}`)
         return data
 
     } catch (error: any) {
@@ -13,5 +22,6 @@ const getSaleReport = async (filters: ISaleReportFilter) => {
 }
 
 export {
-    getSaleReport
+    getSaleReportByProductType,
+    getSaleStatusDiagram,
 }
