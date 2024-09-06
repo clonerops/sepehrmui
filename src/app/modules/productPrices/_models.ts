@@ -5,7 +5,7 @@ export interface IProductPrice {
     price: number | undefined
     productId?: string | undefined
     productName?: string | undefined
-    productBrandId: number | undefined
+    productBrandId: any
     brandName?: number | undefined
     product?: IProducts | undefined
     isActive?: boolean | undefined

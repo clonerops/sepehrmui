@@ -12,7 +12,7 @@ import FormikDescription from "../../../_cloner/components/FormikDescription";
 import CardTitleValue from "../../../_cloner/components/CardTitleValue";
 
 import { Button, Typography } from "@mui/material";
-import { DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, TypeSpecimenTwoTone } from "@mui/icons-material";
+import { AdsClick, DateRangeRounded, Description, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, TypeSpecimenTwoTone } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { Formik, FormikErrors } from "formik";
 import { enqueueSnackbar } from "notistack";
@@ -75,14 +75,15 @@ const UnloadingPermit = () => {
                         productCode: item?.productCode,
                         productName: item?.productName,
                         unloadedAmount: item?.unloadedAmount ? item?.unloadedAmount : "",
-                        realAmount: item?.unloadedAmount ? item?.unloadedAmount : ""
+                        // realAmount: item?.unloadedAmount ? item?.unloadedAmount : ""
+                        realAmount:  ""
                     };
                 }
             );
-            if (realAmount.current) {
-                realAmount.current.value = destructureData[0]?.realAmount || "";
-            }
-    
+                // if (realAmount.current) {
+                //     realAmount.current.value = destructureData[0]?.realAmount || "";
+                // }
+        
             if (destructureData) {
                 setUnloadingList(destructureData);
             }
@@ -145,7 +146,7 @@ const UnloadingPermit = () => {
         // const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
         const updatedLadingList = UnloadingList.map((item: { id: any; }) => {
             if (params.id === item.id) {
-                return { ...item, realAmount: +value }
+                return { ...item, realAmount: +value.replace(/,/g, "")}
             } else {
                 return item
             }
@@ -156,7 +157,7 @@ const UnloadingPermit = () => {
     const handleProductSubUnitAmountChange = (params: any, value: string) => {
         const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
             if (params.id === item.id) {
-                return { ...item, productSubUnitAmount: +value }
+                return { ...item, productSubUnitAmount: +value.replace(/,/g, "") }
             } else {
                 return item
             }
@@ -279,8 +280,9 @@ const UnloadingPermit = () => {
                                     </div>
                                 </div>
                                 <div className="mt-8">
-                                    <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white">
-                                        <Typography className="py-1">
+                                    <Button onClick={() => handleSubmit()} className="!bg-green-500 !text-white hover:!bg-green-800">
+                                        <Typography className='px-32 py-2'>
+                                            <AdsClick className="text-black" />
                                             ثبت مجوز
                                         </Typography>
                                     </Button>

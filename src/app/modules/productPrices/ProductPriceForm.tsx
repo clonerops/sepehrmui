@@ -77,8 +77,13 @@ const ProductPriceForm = (props: Props) => {
 
 
     const onUpdate = (values: IProductPrice) => {
+        const formData = {
+            ...values,
+            productBrandId: values.productBrandId.value
+        }
+
         try {
-            return updateTools.mutate(values, {
+            return updateTools.mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")
@@ -98,8 +103,12 @@ const ProductPriceForm = (props: Props) => {
 
 
     const onAdd = (values: IProductPrice) => {
+        const formData = {
+            ...values,
+            productBrandId: values.productBrandId.value
+        }
         try {
-            return mutate(values, {
+            return mutate(formData, {
                 onSuccess: (response) => {
                     if (response.succeeded) {
                         EnqueueSnackbar(response.message || "ویرایش با موفقیت انجام شد", "success")

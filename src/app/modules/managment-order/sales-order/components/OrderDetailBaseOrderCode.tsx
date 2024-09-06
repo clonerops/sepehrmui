@@ -58,6 +58,7 @@ const OrderDetailBaseOrderCode: FC<IProps> = ({
             <div className="mt-8 space-y-8">
                 <RenderInfo value={detailTools?.data?.data.orderCode ? detailTools?.data?.data.orderCode : "------------------"} title="شماره سفارش" />
                 <RenderInfo value={detailTools?.data?.data.customerName ? detailTools?.data?.data.customerName : "------------------"} title="مشتری" />
+                <RenderInfo value={detailTools?.data?.data?.customerOfficialCompany?.companyName ? detailTools?.data?.data?.customerOfficialCompany?.companyName : "------------------"} title="شرکت رسمی" />
                 <RenderInfo value={detailTools?.data?.data.registerDate ? detailTools?.data?.data.registerDate : "------------------"} title="تاریخ سفارش" />
                 <RenderInfo value={sliceNumberPriceRial(calculateTotalAmount(orders, orderServices))} title="قیمت کل" />
                 

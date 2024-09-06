@@ -10,10 +10,12 @@ type Props = {
     maxVisibleRows?: number;
     getRowClassName?: any;
     columnTypes?: any;
+    getRowId?: any
+
 };
 
 export default function MuiDataGridCustomRowStyle(props: Props) {
-    const { columns, rows, data, width, maxVisibleRows = 12, getRowClassName, columnTypes } = props;
+    const { columns, rows, data, width, maxVisibleRows = 12, getRowClassName, columnTypes, getRowId } = props;
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
@@ -27,6 +29,10 @@ export default function MuiDataGridCustomRowStyle(props: Props) {
             ? calculatedHeight
             : maxVisibleRows * defaultRowHeight;
     }, [data, maxVisibleRows]);
+
+
+    const uniqueData = rows?.map((row: any, index: number) => ({ ...row, uniqueId: `${row.id}${index}` }));
+    const getRowIdFunc = (row: any) => row.uniqueId;
 
     return (
         <div style={{ width: width }}>
@@ -44,15 +50,16 @@ export default function MuiDataGridCustomRowStyle(props: Props) {
                     },
                     overflowX: "scroll",
                 }}
-                rows={rows ? rows : []}
+                // rows={rows ? rows : []}
+                rows={uniqueData ? uniqueData : []}
                 columns={columns}
                 columnTypes={columnTypes}
                 localeText={{ noRowsLabel: "داده ای برای نمایش وجود ندارد" }}
-                getRowId={(row) => `${row.id}_${row.warehouseName}_${row.productBrandName}`}
                 rowHeight={42}
                 autoPageSize={false}
                 onRowDoubleClick={props.onDoubleClick}
                 getRowClassName={getRowClassName}
+                getRowId={getRowId ? getRowId : getRowIdFunc}
                 hideFooter={true}
                 hideFooterPagination={true}
                 hideFooterSelectedRowCount={true}

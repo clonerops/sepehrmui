@@ -1,5 +1,5 @@
-import { AddTask, CarCrash, DateRange, DateRangeRounded, Description, DesignServices, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
-import { Typography } from "@mui/material"
+import { AddTask, AdsClick, CarCrash, DateRange, DateRangeRounded, Description, DesignServices, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
+import { Button, Typography } from "@mui/material"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import moment from "moment-jalaali"
@@ -17,6 +17,7 @@ import { useGetTransferRemitanceById } from "../transferRemittance/_hooks"
 import { convertFilesToBase64 } from "../../../_cloner/helpers/convertToBase64"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 import { usePostEntrancePermits } from "./_hooks"
+import { render } from "@testing-library/react"
 
 const EntrancePermit = () => {
     const { id }: any = useParams()
@@ -31,7 +32,7 @@ const EntrancePermit = () => {
         if (files.length > 0) {
             convertFilesToBase64(files, setBase64Attachments);
         }
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [files]);
 
 
@@ -51,8 +52,10 @@ const EntrancePermit = () => {
     ]
 
     const detailTransfer = [
-        { id: 1, header: "کد کالا", accessor: "productCode" },
+        { id: 1, header: "کد کالا", accessor: "productCode", render: (params: any) => params.product.productCode },
         { id: 2, header: "نام کالا", accessor: "productName" },
+        { id: 2, header: "واحد اصلی", accessor: "productMainUnitDesc", render: (params: any) => params.product.productMainUnitDesc },
+        { id: 2, header: "واحد فرعی", accessor: "productSubUnitDesc", render: (params: any) => params.product.productSubUnitDesc },
         { id: 3, header: "برند", accessor: "brandName" },
         {
             id: 4, header: "مقدار انتفال", accessor: "transferAmount", render: (params: any) => {
@@ -135,9 +138,12 @@ const EntrancePermit = () => {
 
             <MuiTable data={detailTools?.data?.data?.details} columns={detailTransfer} />
             <div className="flex justify-end items-end my-4">
-                <ButtonComponent onClick={() => setApprove(true)}>
-                    <Typography className="text-white px-4 py-2" variant="h4">ثبت مجوز ورود</Typography>
-                </ButtonComponent>
+                <Button className="!bg-green-500 !text-white hover:!bg-green-800" onClick={() => setApprove(true)}>
+                    <Typography className="text-black px-32 py-2 flex flex-row gap-x-4" variant="h2">
+                        <AdsClick className="text-black" />
+                        ثبت مجوز ورود
+                    </Typography>
+                </Button>
             </div>
 
             <ConfirmDialog

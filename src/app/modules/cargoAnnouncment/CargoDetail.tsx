@@ -8,10 +8,17 @@ import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount
 import Backdrop from "../../../_cloner/components/Backdrop"
 import CardWithIcons from "../../../_cloner/components/CardWithIcons"
 import ImagePreview from "../../../_cloner/components/ImagePreview"
+import ReusableCard from "../../../_cloner/components/ReusableCard"
+import MuiTable from "../../../_cloner/components/MuiTable"
+import { useState } from "react"
+import TransitionsModal from "../../../_cloner/components/ReusableModal"
 
 const CargoDetail = () => {
-    const {id}: any = useParams()
-    
+    const { id }: any = useParams()
+
+    const [cargoAnnounceDetails, setCargoAnnounceDetails] = useState<any>({})
+    const [isOpenDetail, setIsOpenDetail] = useState<boolean>(false)
+
     const cargoTools = useCargoById(id)
 
     const fieldsValue = [
@@ -51,8 +58,18 @@ const CargoDetail = () => {
             icon: <Phone className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
-      
+
     ]
+
+    const lastCargoDetail: any = [
+        { id: 1, header: "کالا", accessor: "productName", render: (params: { orderDetail: { productName: string } }) => params.orderDetail.productName },
+        { id: 2, header: "برند", accessor: "brandName", render: (params: { orderDetail: { brandName: string } }) => params.orderDetail.brandName },
+        { id: 3, header: "مقدار اولیه", accessor: "realAmount", render: (params: { realAmount: number }) => <Typography variant="h3">{separateAmountWithCommas(params.realAmount)}</Typography> },
+        { id: 4, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: { ladingAmount: number }) => <Typography variant="h3">{separateAmountWithCommas(params.ladingAmount)}</Typography> },
+    ]
+
+
+    console.log("cargoTools?.data?.data?.cargoAnnounceDetails", cargoTools?.data?.data?.cargoAnnounceDetails)
 
     return (
         <>
@@ -75,6 +92,12 @@ const CargoDetail = () => {
                     />
                 )}
             </div>
+
+            <ReusableCard cardClassName="p-4 mt-4">
+                <Typography variant="h2" color="primary" className="pb-4">لیست اعلام بار</Typography>
+                <MuiTable onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargoTools?.data?.data?.cargoAnnounceDetails?.length > 0 ? cargoTools?.data?.data?.cargoAnnounceDetails : []} columns={lastCargoDetail} />
+            </ReusableCard>
+
             <div className="mt-4">
                 <ImagePreview base64Strings={cargoTools?.data?.data?.attachments || []} />
             </div>

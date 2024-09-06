@@ -1,7 +1,7 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
 import { FormikErrors, FormikProps } from "formik"
-import {Button, InputAdornment, Typography} from '@mui/material'
+import { Button, InputAdornment, Typography } from '@mui/material'
 import OrderProductList from './OrderProductList'
 import { ISaleOrderDetail, IOrderItems, IOrderPayment, IOrderService } from '../../core/_models'
 import { calculateTotalAmount } from '../../helpers/functions'
@@ -65,10 +65,10 @@ const OrderProductDetail = (props: Props) => {
             ByBrand: true,
         }
         products.mutate(filter)
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [])
 
-    const changeProductFunction = (value: any) => { 
+    const changeProductFunction = (value: any) => {
         const fieldValue = [
             { title: "productBrandName", value: value?.productBrandName },
             { title: "warehouseName", value: value?.warehouseName },
@@ -132,10 +132,11 @@ const OrderProductDetail = (props: Props) => {
                 return;
             }
 
-                if (isDuplicate) {
-                    EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error");
-                    return;
-                }
+            if (isDuplicate) {
+                EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error");
+                return;
+            }
+
 
             setOrders([...orders, productOrder]);
             setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount([...orders, productOrder], orderServices)));
@@ -161,6 +162,7 @@ const OrderProductDetail = (props: Props) => {
                 return;
             }
 
+
             setOrders(updatedOrders);
             setFieldValue("orderPaymentAmount", sliceNumberPriceRial(calculateTotalAmount(updatedOrders, orderServices)))
 
@@ -178,8 +180,8 @@ const OrderProductDetail = (props: Props) => {
                     <FormikSearchableProductBrand
                         name={!isUpdate ? "productId" : "productName"}
                         label="کالا/محصول"
-                        disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0} 
-                        onChange={changeProductFunction} 
+                        disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                        onChange={changeProductFunction}
                     />
                     <FormikProximateAmount
                         name="proximateAmount"
@@ -191,7 +193,10 @@ const OrderProductDetail = (props: Props) => {
                                     {values?.productId?.productMainUnitDesc || ""}
                                 </InputAdornment>
                             ),
-                    }} />
+                            classes: {
+                                input: "!font-bold !text-[14px]",
+                            }
+                        }} />
                     <FormikInput
                         name="productSubUnitAmount"
                         label="مقدار واحد فرعی"
@@ -202,9 +207,17 @@ const OrderProductDetail = (props: Props) => {
                                     {values?.productId?.productSubUnitDesc || ""}
                                 </InputAdornment>
                             ),
+                            classes: {
+                                input: "!font-bold !text-[14px]",
+                            }
                         }} />
                     <FormikPrice
                         name="price"
+                        InputProps={{
+                            classes: {
+                                input: "!font-bold !text-[14px]",
+                            }
+                        }}
                         label="قیمت (ریال)"
                         disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} />
                     <FormikInput
@@ -213,26 +226,26 @@ const OrderProductDetail = (props: Props) => {
                         disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} />
                     <FormikDatepicker
                         name="deliverDate"
-                        label="تاریخ تحویل" 
-                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0} 
-                     />
+                        label="تاریخ تحویل"
+                        disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                    />
 
                 </div>
                 <div className='flex justify-end items-end mb-4'>
                     {isUpdate ? (
-                            <Button
-                                onClick={handleOrder} className="!bg-yellow-500">
-                                <Edit />
-                                <Typography>ویرایش سفارش انتخاب شده</Typography>
-                            </Button>
-                        ) : (
-                            <Button
-                                onClick={handleOrder}
-                                disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
-                                className={postSaleOrder.data?.succeeded || orderPayment.length > 0 ? "!bg-gray-200" : "!bg-green-500"} >
-                                <Add />
-                                <Typography>افزودن به لیست سفارشات</Typography>
-                            </Button>
+                        <Button
+                            onClick={handleOrder} className="!bg-yellow-500">
+                            <Edit />
+                            <Typography>ویرایش سفارش انتخاب شده</Typography>
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={handleOrder}
+                            disabled={postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                            className={postSaleOrder.data?.succeeded || orderPayment.length > 0 ? "!bg-gray-200" : "!bg-green-500"} >
+                            <Add />
+                            <Typography>افزودن به لیست سفارشات</Typography>
+                        </Button>
                     )}
                 </div>
                 <OrderProductList

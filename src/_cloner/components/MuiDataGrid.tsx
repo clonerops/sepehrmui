@@ -14,6 +14,7 @@ type Props = {
     isLoading?: boolean;
     hideFooter?: boolean;
     getRowId?: any
+    
 };
 
 const MuiDataGrid = (props: Props) => {

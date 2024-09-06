@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import { Button, Typography } from "@mui/material";
-import { MobileFriendly, MoneyOff, Numbers, Person, Print, TimeToLeave, TimeToLeaveOutlined } from "@mui/icons-material";
+import { AccessTimeSharp, AdsClick, ApprovalTwoTone, MobileFriendly, MoneyOff, Numbers, Person, Print, TimeToLeave, TimeToLeaveOutlined } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MuiTable from "../../../_cloner/components/MuiTable";
@@ -81,13 +81,14 @@ const ExitRemiitance = () => {
                         productSubUnitId:
                             item?.orderDetail?.productSubUnitId,
                         productSubUnitAmount: 0,
-                        realAmount: item?.realAmount ? item?.realAmount : ""
+                        // realAmount: item?.realAmount ? item?.realAmount : ""
+                        realAmount: ""
                     };
                 }
             );
-            if (realAmount.current) {
-                realAmount.current.value = destructureData[0]?.realAmount || "";
-            }
+            // if (realAmount.current) {
+            //     realAmount.current.value = destructureData[0]?.realAmount || "";
+            // }
             
             if (destructureData) {
                 setLadingList(destructureData);
@@ -99,7 +100,7 @@ const ExitRemiitance = () => {
     const handleRealAmountChange = (params: any, value: string) => {
         const updatedLadingList = ladingList.map((item) => {
             if (params.id === item.id) {
-                return { ...item, realAmount: +value }
+                return { ...item, realAmount: +value.replace(/,/g, "")}
             } else {
                 return item
             }
@@ -110,7 +111,7 @@ const ExitRemiitance = () => {
     const handleProductSubUnitAmountChange = (params: any, value: string) => {
         const updatedLadingList = ladingList.map((item) => {
             if (params.id === item.id) {
-                return { ...item, productSubUnitAmount: +value }
+                return { ...item, productSubUnitAmount: +value.replace(/,/g, "") }
             } else {
                 return item
             }
@@ -154,9 +155,8 @@ const ExitRemiitance = () => {
                 }
             },
         });
+    
     };
-
-    console.log(cargoDetailTools?.data?.data?.cargoAnnounceDetails)
 
     if (cargoDetailTools.isLoading)
         return <Backdrop loading={cargoDetailTools.isLoading} />
@@ -168,9 +168,11 @@ const ExitRemiitance = () => {
 
             <Typography color="primary" variant="h1" className="pb-8">ثبت مجوز خروج</Typography>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 gap-y-4">
                 <CardTitleValue icon={<Person color="secondary" />} title="شماره مجوز بارگیری" value={ladingCode} />
                 <CardTitleValue icon={<TimeToLeave color="secondary" />} title="تاریخ ثبت مجوز بارگیری" value={`${ladingDateYear}/${ladingDateMonth}/${ladingDateDay}`} />
+                <CardTitleValue icon={<Numbers color="secondary" />} title="شماره سفارش" value={cargoDetailTools?.data?.data?.order?.orderCode} />
+                <CardTitleValue icon={<Numbers color="secondary" />} title="مشتری" value={cargoDetailTools?.data?.data?.order?.customerName} />
                 <CardTitleValue icon={<Numbers color="secondary" />} title="شماره اعلام بار" value={cargoDetailTools?.data?.data?.cargoAnnounceNo} />
                 <CardTitleValue icon={<MoneyOff color="secondary" />} title="کرایه(ریال)" value={separateAmountWithCommas(cargoDetailTools?.data?.data?.fareAmount)} />
                 <CardTitleValue icon={<Person color="secondary" />} title="نوع پرداخت کرایه" value={cargoDetailTools?.data?.data?.order?.paymentTypeDesc} />
@@ -196,8 +198,8 @@ const ExitRemiitance = () => {
                     onDoubleClick={() => { }}
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
-                    // data={ladingList}
-                    data={cargoDetailTools?.data?.data?.cargoAnnounceDetails}
+                    data={ladingList}
+                    // data={cargoDetailTools?.data?.data?.cargoAnnounceDetails}
                     columns={OrderDetailForExitRemittanceColumn(realAmount, productSubUnitAmount, handleRealAmountChange, handleProductSubUnitAmountChange)}
                 />
             </ReusableCard>
@@ -233,9 +235,10 @@ const ExitRemiitance = () => {
                                     </div>
                                 </div>
                                 <div className="mt-8 flex gap-x-4">
-                                    <Button onClick={() => onSubmit(values)} className="!bg-green-500 !text-white">
-                                        <Typography className="py-1">
-                                            ثبت مجوز
+                                    <Button onClick={() => onSubmit(values)} className="!bg-green-500 !text-white hover:!bg-green-800">
+                                        <Typography className='px-32 py-2 text-black flex flex-row gap-x-4' variant='h2'>
+                                            <AdsClick className="text-black" />
+                                            ثبت مجوز خروج
                                         </Typography>
                                     </Button>
                                     {postExitRemittance?.data?.data?.id &&
@@ -246,7 +249,7 @@ const ExitRemiitance = () => {
                                         </Link>
                                     }
                                     {postExitRemittance?.data?.data?.id &&
-                                        <Button onClick={() => setIsOpen(true)} className="flex gap-x-4" variant="contained" color="secondary">
+                                        <Button onClick={() => setIsOpen(true)} className="flex px-8 py-2 gap-x-4" variant="contained" color="secondary">
                                             <Typography>افزودن رسید راننده</Typography>
                                         </Button>
                                     }

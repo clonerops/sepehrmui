@@ -1868,7 +1868,7 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             flex: 1,
             headerClassName: "headerClassName",
             render: (params: any) => {
-                return <Typography sx={{ minWidth: 140 }}>{params.orderDetail.productName}</Typography>;
+                return <Typography sx={{ minWidth: 140 }}>{params.productName}</Typography>;
             },
         },
         {
@@ -1900,36 +1900,28 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             headerClassName: "headerClassName",
             render: (params: any) => {
                 return (
-                    // <NumericFormat
-                    //     customInput={() => (
-                    //         <TextField
-                    //             fullWidth
-                    //             size="small"
-                    //             color="primary"
-                    //             variant={"outlined"}
-                    //         />
-                    //     )}
-                    //     thousandSeparator
-                    //     value={realAmount}
-                    //     onChange={(e) => {
-                    //         handleRealAmountChange(
-                    //             params,
-                    //             e.target.value
-                    //         );
-                    //     }}
-
-                    // />
-                    <OutlinedInput
-                        sx={{ minWidth: 140 }}
+                    <NumericFormat
+                        className="numeric-input"
+                        thousandSeparator
+                        getInputRef={realAmount}
                         onChange={(e) => {
                             handleRealAmountChange(
                                 params,
                                 e.target.value
                             );
                         }}
-                        inputRef={realAmount}
-                        size="small"
                     />
+                    // <OutlinedInput
+                    //     sx={{ minWidth: 140 }}
+                    //     onChange={(e) => {
+                    //         handleRealAmountChange(
+                    //             params,
+                    //             e.target.value
+                    //         );
+                    //     }}
+                    //     inputRef={realAmount}
+                    //     size="small"
+                    // />
                 );
             },
         },
@@ -1940,7 +1932,7 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             flex: 1,
             headerClassName: "headerClassName",
             render: (params: any) => {
-                return <Typography>{params.orderDetail.productMainUnitDesc}</Typography>;
+                return <Typography>{params.productMainUnitDesc}</Typography>;
             },
         },
         {
@@ -1951,17 +1943,29 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             headerClassName: "headerClassName",
             render: (params: any) => {
                 return (
-                    <OutlinedInput
-                        inputRef={productSubUnitAmount}
-                        sx={{ minWidth: 140 }}
+                    <NumericFormat
+                        className="numeric-input"
+                        thousandSeparator
+                        getInputRef={productSubUnitAmount}
                         onChange={(e) => {
                             handleProductSubUnitAmountChange(
                                 params,
                                 e.target.value
                             );
                         }}
-                        size="small"
+
                     />
+                    // <OutlinedInput
+                    //     inputRef={productSubUnitAmount}
+                    //     sx={{ minWidth: 140 }}
+                    //     onChange={(e) => {
+                    //         handleProductSubUnitAmountChange(
+                    //             params,
+                    //             e.target.value
+                    //         );
+                    //     }}
+                    //     size="small"
+                    // />
                 );
             },
         },
@@ -1972,7 +1976,7 @@ const OrderDetailForExitRemittanceColumn = (realAmount: React.RefObject<HTMLInpu
             flex: 1,
             headerClassName: "headerClassName",
             render: (params: any) => {
-                return <Typography>{params.orderDetail.productSubUnitDesc}</Typography>;
+                return <Typography>{params.productSubUnitDesc}</Typography>;
             },
         },
     ];
@@ -2078,7 +2082,7 @@ const OrderDetailForUnloadingColumn = (realAmount: React.RefObject<HTMLInputElem
             headerClassName: "headerClassName",
             flex: 1,
             render: (params: any) => {
-                return <Typography variant="h4">{params.transferAmount}</Typography>;
+                return <Typography variant="h4">{separateAmountWithCommas(params.transferAmount)}</Typography>;
             },
         },
         // {
@@ -2100,17 +2104,29 @@ const OrderDetailForUnloadingColumn = (realAmount: React.RefObject<HTMLInputElem
             headerClassName: "headerClassName",
             render: (params: any) => {
                 return (
-                    <OutlinedInput
-                        sx={{ minWidth: 140 }}
+                    <NumericFormat
+                        className="numeric-input"
+                        thousandSeparator
+                        getInputRef={realAmount}
                         onChange={(e) => {
                             handleRealAmountChange(
                                 params,
                                 e.target.value
                             );
                         }}
-                        inputRef={realAmount}
-                        size="small"
                     />
+
+                    // <OutlinedInput
+                    //     sx={{ minWidth: 140 }}
+                    //     onChange={(e) => {
+                    //         handleRealAmountChange(
+                    //             params,
+                    //             e.target.value
+                    //         );
+                    //     }}
+                    //     inputRef={realAmount}
+                    //     size="small"
+                    // />
                 );
             },
         },
@@ -2126,6 +2142,40 @@ const OrderDetailForUnloadingColumn = (realAmount: React.RefObject<HTMLInputElem
         },
         {
             id: 4,
+            header: "مقدار واقعی باسکول (واحد فرعی)",
+            accessor: "productSubUnitAmount",
+            flex: 1,
+            headerClassName: "headerClassName",
+            render: (params: any) => {
+                return (
+                    <NumericFormat
+                        className="numeric-input"
+                        thousandSeparator
+                        getInputRef={productSubUnitAmount}
+                        onChange={(e) => {
+                            handleProductSubUnitAmountChange(
+                                params,
+                                e.target.value
+                            );
+                        }}
+                    />
+
+                    // <OutlinedInput
+                    //     inputRef={productSubUnitAmount}
+                    //     sx={{ minWidth: 140 }}
+                    //     onChange={(e) => {
+                    //         handleProductSubUnitAmountChange(
+                    //             params,
+                    //             e.target.value
+                    //         );
+                    //     }}
+                    //     size="small"
+                    // />
+                );
+            },
+        },
+        {
+            id: 10,
             header: "واحد فرعی",
             accessor: "productSubUnitDesc",
             flex: 1,
@@ -2134,28 +2184,7 @@ const OrderDetailForUnloadingColumn = (realAmount: React.RefObject<HTMLInputElem
                 return <Typography variant="h4">{params.product.productSubUnitDesc}</Typography>;
             },
         },
-        // {
-        //     id: 4,
-        //     header: "مقدار واقعی باسکول (واحد فرعی)",
-        //     accessor: "productSubUnitAmount",
-        //     flex: 1,
-        //     headerClassName: "headerClassName",
-        //     render: (params: any) => {
-        //         return (
-        //             <OutlinedInput
-        //                 inputRef={productSubUnitAmount}
-        //                 sx={{ minWidth: 140 }}
-        //                 onChange={(e) => {
-        //                     handleProductSubUnitAmountChange(
-        //                         params,
-        //                         e.target.value
-        //                     );
-        //                 }}
-        //                 size="small"
-        //             />
-        //         );
-        //     },
-        // },
+
         // {
         //     id: 4,
         //     header: "واحد فرعی",
@@ -2495,7 +2524,7 @@ const CustomerAccountColumn = () => {
             minWidth: 140,
         },
         {
-            field: "proximateAmount",
+            field: "amount",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
@@ -2557,7 +2586,7 @@ const CustomerAccountColumn = () => {
         {
             field: "dueAmount",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography >;
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "مانده موعود شده",
             headerClassName: "headerClassName",
@@ -3461,13 +3490,13 @@ const ModalProductColumn = () => {
             maxWidth: 100,
         },
         {
-            field: "price",
+            field: "productPrice",
             headerName: "قیمت",
             flex: 1,
             minWidth: 80,
             // maxWidth: 100,
             renderCell: (value: any) =>
-                <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.price)}</Typography>,
+                <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.productPrice)}</Typography>,
             headerClassName: "headerClassName",
         },
     ];
@@ -4348,7 +4377,7 @@ const TransferRemittanceDetailColumn = (setIsOpen: (value: React.SetStateAction<
                     setIsOpen(true)
                     setItemSelected(params.row)
                 }}>
-                    <Typography>انتقال</Typography>
+                    <Typography>حواله</Typography>
                 </Button>
             }, headerClassName: "headerClassName", minWidth: 160
         }

@@ -6,15 +6,19 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
+import { UseMutationResult } from "@tanstack/react-query";
 
 interface IProps {
     item: any
     productForTransferRemittance: any[]
     setProductForTransferRemittance: React.Dispatch<React.SetStateAction<any[]>>
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+    purchaseOrderDetail?:  UseMutationResult<any, unknown, number, unknown>
 }
 
-const TransferAmount:FC<IProps> = ({item, setIsOpen, productForTransferRemittance, setProductForTransferRemittance}) => {
+const TransferAmount:FC<IProps> = ({item, setIsOpen, productForTransferRemittance, setProductForTransferRemittance, purchaseOrderDetail}) => {
+    console.log("item", item)
+    console.log("purchaseOrderDetail", purchaseOrderDetail)
     const handleSetAmountForTransferRemittance = (values: any) => {
         const cpProductForTransferRemittance = [...productForTransferRemittance]
         const newValue = {
@@ -26,7 +30,7 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForTransferRemittanc
             transferAmount: +values.transferAmount,
         }
 
-        if(+values.transferAmount > +item.purchaseInventory){
+        if(+values.transferAmount > +item.approximateInventory){
             EnqueueSnackbar("مقدار واردشده بیشتر از موجودی می باشد", "error")
             return;
         }

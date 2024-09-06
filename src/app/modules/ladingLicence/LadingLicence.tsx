@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Typography } from '@mui/material'
-import { Person, Print } from '@mui/icons-material'
+import { AdsClick, Person, Print } from '@mui/icons-material'
 import { Link, useParams } from 'react-router-dom'
 import { enqueueSnackbar } from 'notistack'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
@@ -18,13 +18,13 @@ import moment from 'moment-jalaali'
 const orderOrderColumnMain = [
     { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params?.orderDetail?.product?.productCode },
     { id: 3, header: "نام کالا", accessor: "productName", render: (params: any) => `${params?.orderDetail?.product?.productName} ${params?.orderDetail?.brandName}` },
-    { id: 4, header: "مقدار اولیه", accessor: "realAmount", render: (params: any) => `${separateAmountWithCommas(params.realAmount)} ${params?.orderDetail?.product?.productMainUnitDesc}`  },
+    { id: 4, header: "مقدار اولیه", accessor: "realAmount", render: (params: any) => `${separateAmountWithCommas(params.realAmount)} ${params?.orderDetail?.product?.productMainUnitDesc}` },
     { id: 5, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: any) => <Typography variant="h3" className='text-green-500'>{`${separateAmountWithCommas(params.ladingAmount)} ${params?.orderDetail?.product?.productMainUnitDesc}`} </Typography> },
 ]
 
 const LadingLicence = () => {
     const { id }: any = useParams()
-    
+
     const cargoTools = useCargoById(id)
     const postLadingLicence = usePostLadingLicence()
 
@@ -36,7 +36,7 @@ const LadingLicence = () => {
         }
         postLadingLicence.mutate(formData, {
             onSuccess: (res) => {
-                if(res.succeeded) {
+                if (res.succeeded) {
                     enqueueSnackbar(res.message, {
                         variant: "success",
                         anchorOrigin: { vertical: "top", horizontal: "center" }
@@ -51,7 +51,10 @@ const LadingLicence = () => {
             }
         })
     }
+    console.log("moment(new Date()).format('jYYYY/jMM/jDD')", moment(new Date()).format('jYYYY/jMM/jDD'))
+    console.log("moment(new Date(cargoTools?.data?.data?.deliveryDate)).format('YYYY/MM/DD')", moment(new Date(cargoTools?.data?.data?.deliveryDate)).format('YYYY/MM/DD'))
 
+    const isDeliverDateCheck = moment(new Date()).format('jYYYY/jMM/jDD') < cargoTools?.data?.data?.deliveryDate
     return (
         <>
             {cargoTools.isLoading && <Backdrop loading={cargoTools.isLoading} />}
@@ -75,8 +78,11 @@ const LadingLicence = () => {
                 <Typography variant="h2" color="primary" className="pb-4">اقلام اعلام بارشده</Typography>
                 <MuiTable tooltipTitle={cargoTools?.data?.data?.order.description ? <Typography>{cargoTools?.data?.data?.order.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={cargoTools?.data?.data?.cargoAnnounceDetails} columns={orderOrderColumnMain} />
                 <div className='mt-4 flex gap-x-4'>
-                    <Button onClick={() => setApprove(true)} variant='contained' color='primary'>
-                        <Typography>ثبت مجوز بارگیری</Typography>
+                    <Button onClick={() => setApprove(true)} variant='contained' className="!bg-green-500 !text-white hover:!bg-green-800">
+                        <Typography className='text-black px-32 py-2 flex flex-row gap-x-4' variant='h2'>
+                            <AdsClick className="text-black" />
+                            ثبت مجوز بارگیری
+                        </Typography>
                     </Button>
                     {postLadingLicence?.data?.data?.cargoAnnounceId &&
                         <Button variant='contained' color='secondary' className="flex gap-x-4">
@@ -89,7 +95,7 @@ const LadingLicence = () => {
             </ReusableCard>
             <ConfirmDialog
                 open={approve}
-                hintTitle="آیا از ثبت مجوز مطمئن هستید؟"
+                hintTitle={`${isDeliverDateCheck ? "هنوز موعد تاریخ تحویل نرسیده آیا از ثبت مجوز مطمئن هستید؟" : "آیا از ثبت مجوز مطمئن هستید؟"}`}
                 notConfirmText="لغو"
                 confirmText={postLadingLicence.isLoading ? "درحال پردازش ..." : "تایید"}
                 onCancel={() => setApprove(false)}

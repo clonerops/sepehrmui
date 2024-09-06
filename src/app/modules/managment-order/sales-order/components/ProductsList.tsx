@@ -51,6 +51,7 @@ interface IFilter {
     WarehouseTypeId?: number
     ProductTypeId?: number
     ProductName?: string
+    Keyword?: string
     PageNumber?: number
     PageSize?: number
 }
@@ -99,16 +100,16 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [currentPage])
 
     useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
+        // const delayDebounceFn = setTimeout(() => {
             const filter = {
                 ...currentFilter,
-                ProductName: searchTerm
+                Keyword: searchTerm
             }
             filterTools.mutate(filter);
 
-        }, 1000)
+        // }, 500)
 
-        return () => clearTimeout(delayDebounceFn)
+        // return () => clearTimeout(delayDebounceFn)
         // eslint-disable-next-line
     }, [searchTerm])
 
@@ -121,7 +122,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         const isDuplicate = productData.selectedProduct.some((item) => {
             return item?.productBrandId === selectedRow?.productBrandId;
         });
-        if (!isDuplicate) {
+        if (!isDuplicate) { 
             setProductData((prevState) => ({
                 ...prevState,
                 selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
@@ -334,6 +335,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
 
+    console.log("filterTools?.data?.data", filterTools?.data?.data)
+
     return (
         <>
             <div className="mx-1 hidden lg:block">
@@ -425,7 +428,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
                 <div className="lg:col-span-2">
                     <div className="my-2">
-                        <SearchBackendInput label="جستجو" name="productName" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
+                        <SearchBackendInput label="جستجو" name="keyword" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
                     </div>
                     <MuiDataGrid
                         onDoubleClick={handleSelectProduct}

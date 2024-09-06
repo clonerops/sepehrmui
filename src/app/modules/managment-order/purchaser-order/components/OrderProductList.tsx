@@ -1,4 +1,4 @@
-import {Delete} from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 
 import { calculateTotalAmount } from "../../helpers/functions";
 
@@ -9,10 +9,11 @@ import { separateAmountWithCommas } from "../../../../../_cloner/helpers/seprate
 import { IProducts } from "../../../products/_models";
 import { FormikErrors } from "formik";
 import { OrderPurchaserListColumn } from "../../../../../_cloner/helpers/columns";
+import MuiDataGrid from "../../../../../_cloner/components/MuiDataGrid";
 
 type ProductProps = {
-    orders?: IOrderItems[] ;
-    orderServices?: IOrderService[] ;
+    orders?: IOrderItems[];
+    orderServices?: IOrderService[];
     setOrders?: React.Dispatch<React.SetStateAction<IOrderItems[]>>;
     setOrderPayment?: React.Dispatch<React.SetStateAction<IOrderPayment[]>>;
     selectedOrderIndex?: number;
@@ -26,12 +27,12 @@ type ProductProps = {
 }
 
 const OrderProductList = (props: ProductProps) => {
-    const { orders, orderServices, setOrders, setOrderPayment, disabled ,setOrderIndex, setIsUpdate, setFieldValue } = props;
-    
+    const { orders, orderServices, setOrders, setOrderPayment, disabled, setOrderIndex, setIsUpdate, setFieldValue } = props;
+
     const handleDeleteFromList = (indexToDelete: any) => {
         if (orders) {
             const updatedOrders = orders.filter((order) =>
-                    order.id+String(order.productBrandName)+String(order.warehouseName) !== indexToDelete.row.id+indexToDelete.row.productBrandName+indexToDelete.row.warehouseName
+                order.id + String(order.productBrandName) + String(order.warehouseName) !== indexToDelete.row.id + indexToDelete.row.productBrandName + indexToDelete.row.warehouseName
             );
             if (setOrders) setOrders(updatedOrders);
             if (setOrderPayment) setOrderPayment([]);
@@ -61,39 +62,39 @@ const OrderProductList = (props: ProductProps) => {
 
             setOrderIndex(rowIndex)
             const fieldValue = [
-                {title: "productName", value: params.row.productName},
-                {title: "id", value: params.row.id},
-                {title: "productId", value: params.row.productId},
-                {title: "price", value: params.row.price.toString()},
-                {title: "productBrandId", value: params.row.productBrandId},
-                {title: "productBrandName", value: params.row.productBrandName},
-                {title: "warehouseId", value: params.row.warehouseId},
-                {title: "warehouseTypeId", value: params.row.warehouseTypeId},
-                {title: "proximateAmount", value: params.row.proximateAmount},
-                {title: "warehouseName", value: params.row.warehouseName},
-                {title: "proximateSubUnit", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
-                {title: "productSubUnitAmount", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit},
-                {title: "purchasePrice", value: separateAmountWithCommas(params.row.purchasePrice)},
-                {title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc},
-                {title: "purchaseInvoiceTypeId", value: params.row.purchaseInvoiceTypeId},
-                {title: "purchaseSettlementDate", value: params.row.purchaseSettlementDate},
-                {title: "purchaserCustomerId", value: params.row.purchaserCustomerId},
-                {title: "purchaserCustomerName", value: params.row.purchaserCustomerName},
-                {title: "rowId", value: params.row.rowId},
-                {title: "detailDescription", value: params.row.description},
-                {title: "productMainUnitDesc", value: params.row.productMainUnitDesc},
-                {title: "productSubUnitDesc", value: params.row.productSubUnitDesc},
-                {title: "productSubUnitId", value: params.row.productSubUnitId},
-                {title: "exchangeRate", value: params.row.exchangeRate},
-                {title: "deliverDate", value: params.row.deliverDate},
+                { title: "productName", value: params.row.productName },
+                { title: "id", value: params.row.id },
+                { title: "productId", value: params.row.productId },
+                { title: "price", value: params.row.price.toString() },
+                { title: "productBrandId", value: params.row.productBrandId },
+                { title: "productBrandName", value: params.row.productBrandName },
+                { title: "warehouseId", value: params.row.warehouseId },
+                { title: "warehouseTypeId", value: params.row.warehouseTypeId },
+                { title: "proximateAmount", value: params.row.proximateAmount },
+                { title: "warehouseName", value: params.row.warehouseName },
+                { title: "proximateSubUnit", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit },
+                { title: "productSubUnitAmount", value: params.row.exchangeRate ? Math.ceil(+params.row.proximateAmount.replace(/,/g, "") / params.row.exchangeRate) : params.row.proximateSubUnit },
+                { title: "purchasePrice", value: separateAmountWithCommas(params.row.purchasePrice) },
+                { title: "purchaseInvoiceTypeDesc", value: params.row.purchaseInvoiceTypeDesc },
+                { title: "purchaseInvoiceTypeId", value: params.row.purchaseInvoiceTypeId },
+                { title: "purchaseSettlementDate", value: params.row.purchaseSettlementDate },
+                { title: "purchaserCustomerId", value: params.row.purchaserCustomerId },
+                { title: "purchaserCustomerName", value: params.row.purchaserCustomerName },
+                { title: "rowId", value: params.row.rowId },
+                { title: "detailDescription", value: params.row.description },
+                { title: "productMainUnitDesc", value: params.row.productMainUnitDesc },
+                { title: "productSubUnitDesc", value: params.row.productSubUnitDesc },
+                { title: "productSubUnitId", value: params.row.productSubUnitId },
+                { title: "exchangeRate", value: params.row.exchangeRate },
+                { title: "deliverDate", value: params.row.deliverDate },
             ];
 
             if (setFieldValue) {
-                fieldValue.forEach((i: {title: string, value: any}) => (
+                fieldValue.forEach((i: { title: string, value: any }) => (
                     setFieldValue(i.title, i.value)
                 ))
             }
-                        
+
             setIsUpdate(true)
         }
     };
@@ -108,13 +109,12 @@ const OrderProductList = (props: ProductProps) => {
         column.field !== "purchaseInvoiceTypeId" &&
         column.field !== "purchaseInvoiceTypeDesc" &&
         column.field !== "rowId" &&
-        column.field !== "productDesc" );
-
+        column.field !== "productDesc");
     return (
         <>
             <MuiDataGridCustomRowStyle
                 columns={filteredColumns}
-                columnTypes={{ hidden: { width: 0 }}}
+                columnTypes={{ hidden: { width: 0 } }}
                 rows={orders}
                 data={orders}
                 getRowClassName={(params: any) => {

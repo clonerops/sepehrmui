@@ -249,8 +249,8 @@ const SalesOrder = () => {
                                     postSaleOrder.isLoading ||
                                     orderPayment.length <= 0 ||
                                     formikRef.current?.values.customerId === "" ||
-                                    formikRef.current?.values.invoiceTypeId === "" ||
-                                    formikRef.current?.values.deliverDate === "" ||
+                                    // formikRef.current?.values.invoiceTypeId === "" ||
+                                    // formikRef.current?.values.deliverDate === "" ||
                                     postSaleOrder?.data?.succeeded ||
                                     !orderValid
                                 }

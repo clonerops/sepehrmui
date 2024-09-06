@@ -265,7 +265,7 @@ const TransferRemittance = () => {
                     width="50%"
                     title="مقدار انتقال"
                 >
-                    <TransferAmount productForTransferRemittance={productForTransferRemittance} setProductForTransferRemittance={setProductForTransferRemittance} setIsOpen={setIsOpen} item={itemSelected} />
+                    <TransferAmount purchaseOrderDetail={purchaseOrderDetail} productForTransferRemittance={productForTransferRemittance} setProductForTransferRemittance={setProductForTransferRemittance} setIsOpen={setIsOpen} item={itemSelected} />
                 </TransitionsModal>
             }
 

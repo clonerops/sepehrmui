@@ -51,6 +51,7 @@ const SalesOrderDetail = (props: Props) => {
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode || "ثبت نشده"},
         { id: 11, title: "کد سفارش", icon: <Person color="secondary" />, value: data?.data?.businessCode || "ثبت نشده"},
+        { id: 12, title: "تاریخ سفارش", icon: <Person color="secondary" />, value: data?.data?.registerDate || "ثبت نشده"},
         { id: 2, title: "مشتری", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName || "ثبت نشده"},
         { id: 9, title: "نوع سفارش", icon: <AttachMoney color="secondary" />, value: data?.data?.orderTypeDesc || "ثبت نشده"},
         { id: 10, title: "تاریخ تحویل", icon: <AttachMoney color="secondary" />, value: data?.data?.deliverDate || "ثبت نشده"},
@@ -154,7 +155,7 @@ const SalesOrderDetail = (props: Props) => {
                                 return <CardTitleValue key={index} title={item.title} value={item.value} icon={item.icon} />
                             })}
                             {!props.isCargo &&
-                                <CardTitleValue key={renderOrderInfo.length + 1} className="md:col-span-4" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
+                                <CardTitleValue key={renderOrderInfo.length + 1} className="md:col-span-3" title={"توضیحات"} value={data?.data?.description ? data?.data?.description : "ندارد"} icon={<Description color="secondary" />} />
                             }
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4">
