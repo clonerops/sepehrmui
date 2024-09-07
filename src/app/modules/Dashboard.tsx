@@ -5,6 +5,7 @@ import CardInformation from "../../_cloner/components/CardInformation";
 import SaleReport from "./report/SaleReportByProductType";
 import SaleReportByProductType from "./report/SaleReportByProductType";
 import SaleStatusDiagram from "./report/SaleStatusDiagram";
+import ReportViewer from "../../_cloner/components/ReportViewer";
 
 const Dashboard = () => {
 
@@ -30,6 +31,11 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
                     <ReusableCard cardClassName="col-span-3 w-full">
                         <SaleStatusDiagram />
+                    </ReusableCard>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
+                    <ReusableCard cardClassName="col-span-3 w-full">
+                        <ReportViewer />
                     </ReusableCard>
                 </div>
             </div>
