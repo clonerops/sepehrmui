@@ -2,29 +2,9 @@ import ReusableCard from "../../_cloner/components/ReusableCard";
 import CardInformation from "../../_cloner/components/CardInformation";
 import SaleReportByProductType from "./report/SaleReportByProductType";
 import SaleStatusDiagram from "./report/SaleStatusDiagram";
-import { Stimulsoft } from 'stimulsoft-reports-js/Scripts/stimulsoft.viewer';
-import { useEffect } from "react";
-import 'stimulsoft-reports-js/Css/stimulsoft.viewer.office2013.whiteblue.css';
-
+import ReportViewer from "../../_cloner/components/ReportViewer";
 
 const Dashboard = () => {
-
-    const viewer = new Stimulsoft.Viewer.StiViewer(undefined, 'StiViewer', false);
-    const report = new Stimulsoft.Report.StiReport();
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch('/reports/Report.mdc');
-            const data = await response.json();
-            report.loadDocument(data);
-            viewer.report = report;
-            viewer.renderHtml('viewer');
-        }
-        fetchData();
-
-    }, []);
-
-
     return (
         <>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 space-y-4 md:space-y-0 my-4">
@@ -42,6 +22,11 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
                     <ReusableCard cardClassName="col-span-3 w-full">
                         <SaleStatusDiagram />
+                    </ReusableCard>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
+                    <ReusableCard cardClassName="col-span-3 w-full">
+                        <ReportViewer />
                     </ReusableCard>
                 </div>
             </div>

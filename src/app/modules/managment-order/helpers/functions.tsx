@@ -1,8 +1,11 @@
 import _ from 'lodash'
 
 export const calculateTotalAmount = (data: any, orderService: any) => {
+    // const prices = data?.map((obj: any) =>
+    //     Number(obj.price) * Number(obj.proximateAmount?.replace(/,/g, ""))
+    // );
     const prices = data?.map((obj: any) =>
-        Number(obj.price) * Number(obj.proximateAmount?.replace(/,/g, ""))
+        Number(obj.productPrice) * Number(obj.proximateAmount?.replace(/,/g, ""))
     );
 
     const sericePrices = orderService?.map((obj: any) => Number(obj.orderServiceDescription?.replace(/,/g, "")))
@@ -14,7 +17,8 @@ export const calculateTotalAmount = (data: any, orderService: any) => {
 }
 
 export const calculateTotalAmountOptimized = (data: any, orderServices: any) => {
-    const prices = _.map(data, (obj: {price: number, proximateAmount: number}) => +obj.price + +obj.proximateAmount)
+    // const prices = _.map(data, (obj: {price: number, proximateAmount: number}) => +obj.price + +obj.proximateAmount)
+    const prices = _.map(data, (obj: {productPrice: number, proximateAmount: number}) => +obj.productPrice + +obj.proximateAmount)
     const servicePrices = _.map(orderServices, (obj: {orderServiceDescription: number}) => obj.orderServiceDescription)
 
     const newPrices = [...prices];
@@ -29,7 +33,8 @@ export const calculateTotalAmountOptimized = (data: any, orderServices: any) => 
 
 export const calculateProximateAmount = (data: any, orderPayment: any, orderService: any) => {
     const prices = data?.map((obj: any) =>
-        Number(obj.price) * Number(obj.proximateAmount?.replace(/,/g, ""))
+        // Number(obj.price) * Number(obj.proximateAmount?.replace(/,/g, ""))
+        Number(obj.productPrice) * Number(obj.proximateAmount?.replace(/,/g, ""))
     );
 
     const orderPrices = orderPayment?.map((obj: any) => Number(obj.orderPaymentAmount?.replace(/,/g, "")))

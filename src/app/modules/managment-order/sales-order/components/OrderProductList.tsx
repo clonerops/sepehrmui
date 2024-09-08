@@ -86,7 +86,9 @@ const OrderProductList: FC<IProps> = ({
                 { title: "productName", value: params.row.productName },
                 { title: "id", value: params.row.id },
                 { title: "productId", value: params.row.productId },
-                { title: "price", value: params.row.price.toString() },
+                // { title: "price", value: params.row.price.toString() },
+                // { title: "productPrice", value: params.row.productPrice.toString() },
+                { title: "productPrice", value: separateAmountWithCommas(params.row.productPrice) },
                 { title: "productBrandId", value: params.row.productBrandId },
                 { title: "productBrandName", value: params.row.productBrandName },
                 { title: "warehouseId", value: params.row.warehouseId },
@@ -153,7 +155,8 @@ const OrderProductList: FC<IProps> = ({
                 proximateAmount,
                 purchaseInvoiceTypeId,
                 purchaserCustomerName,
-                price,
+                // price,
+                productPrice,
             },
         } = params;
 
@@ -164,14 +167,16 @@ const OrderProductList: FC<IProps> = ({
                 !proximateAmount ||
                 !purchaseInvoiceTypeId ||
                 !purchaserCustomerName ||
-                !price || price === "0" || price === 0)
+                // !price || price === "0" || price === 0)
+                !productPrice || productPrice === "0" || productPrice === 0)
         ) {
             return "custom-row-style";
         }
 
         if (
             !BUY_WAREHOUSE_TYPES.includes(warehouseTypeId) &&
-            (!proximateAmount || !price || price === "0" || price === 0)
+            // (!proximateAmount || !price || price === "0" || price === 0)
+            (!proximateAmount || !productPrice || productPrice === "0" || productPrice === 0)
         ) {
             return "custom-row-style";
         }
@@ -188,7 +193,8 @@ const OrderProductList: FC<IProps> = ({
                 proximateAmount,
                 purchaseInvoiceTypeId,
                 purchaserCustomerName,
-                price,
+                // price,
+                productPrice,
             } = order;
 
             if (
@@ -198,14 +204,16 @@ const OrderProductList: FC<IProps> = ({
                     !proximateAmount ||
                     !purchaseInvoiceTypeId ||
                     !purchaserCustomerName ||
-                    !price || price === "0" || price === 0)
+                    // !price || price === "0" || price === 0)
+                    !productPrice || productPrice === "0" || productPrice === 0)
             ) {
                 return false;
             }
 
             if (
                 !BUY_WAREHOUSE_TYPES.includes(warehouseTypeId) &&
-                (!proximateAmount || !price || price === "0" || price === 0)
+                // (!proximateAmount || !price || price === "0" || price === 0)
+                (!proximateAmount || !productPrice || productPrice === "0" || productPrice === 0)
             ) {
                 return false;
             }

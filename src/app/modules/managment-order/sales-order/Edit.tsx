@@ -79,7 +79,8 @@ const SalesOrderEdit = () => {
                     deliverDate: i.purchaseSettlementDate,
                     purchasePrice: +i.purchasePrice,
                     warehouseId: warehouse.find((item: any) => item.name === i.warehouseName).id,
-                    price: ~~i.price,
+                    // price: ~~i.price,
+                    productPrice: ~~i.price,
                     proximateAmount: separateAmountWithCommas(i.proximateAmount),
                     productBrandName: i.brandName,
                     purchaserCustomerId: i.purchaserCustomerId,
@@ -129,7 +130,8 @@ const SalesOrderEdit = () => {
                         productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
                         productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
                         numberInPackage: item.numberInPackage ? Number(item.numberInPackage) : 0,
-                        price: item.price ? Number(item.price) : null, //ok
+                        // price: item.price ? Number(item.price) : null, //ok
+                        price: item.productPrice ? Number(item.productPrice) : null, //ok
                         cargoSendDate: "1402/01/01",
                         description: item.description,
                         purchasePrice: item.purchasePrice ? Number(item.purchasePrice) : 0,

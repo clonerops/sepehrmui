@@ -29,7 +29,8 @@ const fields = [
     "proximateAmount",
     "productSubUnitAmount",
     "warehouseTypeId",
-    "price",
+    // "price",
+    "productPrice",
     "rowId",
     "purchaserCustomerId",
     "purchasePrice",
@@ -82,7 +83,8 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
             warehouseId: values?.productId?.warehouseId ? values?.productId?.warehouseId : values.warehouseId,
             warehouseTypeId: values?.productId?.warehouseTypeId ? values?.productId?.warehouseTypeId : values.warehouseTypeId,
             proximateAmount: values.proximateAmount,
-            price: values?.price.replace(/,/g, ""),
+            // price: values?.price.replace(/,/g, ""),
+            productPrice: values?.productPrice.replace(/,/g, ""),
             productName: values?.productId?.label ? values?.productId?.label : values?.productName,
             purchasePrice: values?.purchasePrice.replace(/,/g, ""),
             productBrandId: values.productId.productBrandId ? values.productId.productBrandId : values.productBrandId,
@@ -120,7 +122,11 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                 return;
             }
 
-            if (values?.price === "") {
+            // if (values?.price === "") {
+            //     EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error");
+            //     return;
+            // }
+            if (values?.productPrice === "") {
                 EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error");
                 return;
             }
@@ -151,7 +157,11 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                 EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
                 return;
             }
-            if (values?.price === "") {
+            // if (values?.price === "") {
+            //     EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
+            //     return;
+            // }
+            if (values?.productPrice === "") {
                 EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
                 return;
             }
@@ -217,8 +227,12 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                                 </InputAdornment>
                             ),
                         }} />
-                    <FormikPrice
+                    {/* <FormikPrice
                         name="price"
+                        label="قیمت (ریال)"
+                        disabled={!isUpdate || postSaleOrder.data?.succeeded} /> */}
+                    <FormikPrice
+                        name="productPrice"
                         label="قیمت (ریال)"
                         disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                     <FormikInput

@@ -36,7 +36,8 @@ interface IProductData {
     productSubUnitId: { [key: string]: string };
     proximateAmounts: { [key: string]: string };
     proximateSubAmounts: { [key: string]: string };
-    price: { [key: string]: string };
+    // price: { [key: string]: string };
+    productPrice: { [key: string]: string };
 
     selectedProduct: any[];
     selectionModel: any;
@@ -81,7 +82,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         productSubUnitId: {},
         proximateAmounts: {},
         proximateSubAmounts: {},
-        price: {},
+        // price: {},
+        productPrice: {},
 
         selectedProduct: [],
         selectionModel: {},
@@ -101,11 +103,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     useEffect(() => {
         // const delayDebounceFn = setTimeout(() => {
-            const filter = {
-                ...currentFilter,
-                Keyword: searchTerm
-            }
-            filterTools.mutate(filter);
+        const filter = {
+            ...currentFilter,
+            Keyword: searchTerm
+        }
+        filterTools.mutate(filter);
 
         // }, 500)
 
@@ -118,16 +120,18 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         setProductData((prevState) => ({
             ...prevState,
             productSubUnitDesc: { ...prevState.productSubUnitDesc, [selectedRow?.productBrandId]: newSelectionModel.row.productSubUnitId },
+            productPrice: { ...prevState.productPrice, [selectedRow?.productBrandId]: newSelectionModel.row.productPrice },
         }))
         const isDuplicate = productData.selectedProduct.some((item) => {
             return item?.productBrandId === selectedRow?.productBrandId;
         });
-        if (!isDuplicate) { 
+        if (!isDuplicate) {
             setProductData((prevState) => ({
                 ...prevState,
                 selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
                 selectionModel: newSelectionModel
             }))
+            console.log("productData", productData)
             EnqueueSnackbar("کالا به لیست اضافه گردید", 'success')
 
         } else {
@@ -166,7 +170,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     id={`outlined-adornment-weight-${productId}`}
                     className="numeric-input"
                     value={productData.proximateAmounts[productId] || ""}
-                    onChange={(e: any) =>{
+                    onChange={(e: any) => {
                         console.log("e.ta", e.target.value)
                         setProductData((prevState) => ({
                             ...prevState,
@@ -264,11 +268,13 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 <NumericFormat
                     id={`outlined-adornment-weight-${productId}`}
                     className="numeric-input"
-                    value={productData.price[productId] || ""}
+                    // value={productData.price[productId] || ""}
+                    value={productData.productPrice[productId] || ""}
                     onChange={(e: any) =>
                         setProductData((prevState) => ({
                             ...prevState,
-                            price: { ...prevState.price, [productId]: e.target.value },
+                            // price: { ...prevState.price, [productId]: e.target.value },
+                            productPrice: { ...prevState.productPrice, [productId]: e.target.value },
                         }))
                     }
                     thousandSeparator
@@ -276,9 +282,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
             </>
         );
         // eslint-disable-next-line
-    }, [productData.price])
+        // }, [productData.price])
+    }, [productData.productPrice])
 
     const handleSubmitSelectedProduct = () => {
+
         const selectedProductWithAmounts = productData.selectedProduct.map((product) => {
             const { id, warehouseId, productBrandId, productName, exchangeRate, productBrandName, warehouseName, productDesc = "", purchasePrice = "", purchaseSettlementDate = "", purchaseInvoiceTypeId = 0, sellerCompanyRow = "string", productMainUnitDesc, rowId = 0, proximateAmount = productData.proximateAmounts[product.productBrandId] || "", warehouseTypeId = 0 } = product;
 
@@ -290,7 +298,13 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 ? units.find((i: any) => i.id === productData.productSubUnitId[product.productBrandId]).unitName
                 : product.productSubUnitId;
 
-            const price = productData.price[product.productBrandId] ? productData.price[product.productBrandId].replace(/,/g, "") : ""
+            // const price = productData.price[product.productBrandId] ? productData.price[product.productBrandId].replace(/,/g, "") : ""
+            // const productPrice = productData.productPrice[product.productBrandId] ? productData.productPrice[product.productBrandId]: ""
+            const productPrice =
+                (productData.productPrice[product.productBrandId] && typeof (productData.productPrice[product.productBrandId]) === "string") ?
+                    productData.productPrice[product.productBrandId].replace(/,/g, "") :
+                    (productData.productPrice[product.productBrandId] && typeof (productData.productPrice[product.productBrandId]) === "number") ?
+                        productData.productPrice[product.productBrandId] : ""
 
             const proximateSubUnit =
                 productData.proximateSubAmounts[product.productBrandId] === undefined
@@ -301,8 +315,10 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     ? 0
                     : productData.proximateSubAmounts[product.productBrandId];
 
-            return { id, productId: id, warehouseId, productBrandId, productName, productBrandName, warehouseName, productDesc, purchasePrice, exchangeRate, purchaseSettlementDate, purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId), purchaseInvoiceTypeDesc: "", sellerCompanyRow, purchaserCustomerId: "", purchaserCustomerName: "", productMainUnitDesc, productSubUnitDesc, productSubUnitId, rowId, proximateAmount, warehouseTypeId, price, proximateSubUnit, productSubUnitAmount };
+            return { id, productId: id, warehouseId, productBrandId, productName, productBrandName, warehouseName, productDesc, purchasePrice, exchangeRate, purchaseSettlementDate, purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId), purchaseInvoiceTypeDesc: "", sellerCompanyRow, purchaserCustomerId: "", purchaserCustomerName: "", productMainUnitDesc, productSubUnitDesc, productSubUnitId, rowId, proximateAmount, warehouseTypeId, productPrice, proximateSubUnit, productSubUnitAmount };
         });
+
+        console.log("selectedProductWithAmounts", selectedProductWithAmounts)
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
             orders.some((existingProduct: any) => existingProduct.productBrandId === newProduct.productBrandId)
@@ -311,9 +327,9 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
         if (!duplicatesExist) {
             const updatedOrders = [...orders, ...selectedProductWithAmounts];
-            console.log("updatedOrders", updatedOrders)
 
             setOrders(updatedOrders);
+            console.log("updatedOrders", updatedOrders)
             setOrderPayment([]);
             setFieldValue(
                 "orderPaymentAmount",
@@ -334,8 +350,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     if (warehouseTypeTools?.isLoading || productTypeTools?.isLoading) {
         return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
     }
-
-    console.log("filterTools?.data?.data", filterTools?.data?.data)
 
     return (
         <>

@@ -73,6 +73,7 @@ const SalesOrder = () => {
                         cargoSendDate: "1402/01/01",
                         proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
                         proximateSubUnit: item.proximateSubUnit ? +item.proximateSubUnit : null,
+                        price: item.productPrice,
                         purchasePrice: item.purchasePrice ? +item.purchasePrice : 0,
                         purchaserCustomerId: item.purchaserCustomerName && item.purchaserCustomerName?.value ? item.purchaserCustomerName?.value : null,
                         purchaserCustomerName: item.purchaserCustomerName && item.purchaserCustomerName?.label ? item.purchaserCustomerName?.label : null,

@@ -158,6 +158,7 @@ export interface IOrderItems {
     productSubUnitDesc?: string | null | undefined;
     productSubUnitId?: number | null | undefined;
     price?: string | null | undefined;
+    productPrice?: string | null | undefined;
     exchangeRate?: string | null | undefined;
     rowId?: string | null | undefined;
     description?: string | null | undefined;
