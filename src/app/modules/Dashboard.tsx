@@ -1,17 +1,29 @@
-import { VariableRadiusPieChart3D } from "../../_cloner/components/VariableRadiusPieChart3D";
-
 import ReusableCard from "../../_cloner/components/ReusableCard";
 import CardInformation from "../../_cloner/components/CardInformation";
-import SaleReport from "./report/SaleReportByProductType";
 import SaleReportByProductType from "./report/SaleReportByProductType";
 import SaleStatusDiagram from "./report/SaleStatusDiagram";
+import { Stimulsoft } from 'stimulsoft-reports-js/Scripts/stimulsoft.viewer';
+import { useEffect } from "react";
+import 'stimulsoft-reports-js/Css/stimulsoft.viewer.office2013.whiteblue.css';
+
 
 const Dashboard = () => {
 
-    const data = [
-        { name: "نبشی 8", y: 10, z: 10 },
-        { name: "میلگرد 10", y: 20, z: 20 },
-    ];
+    const viewer = new Stimulsoft.Viewer.StiViewer(undefined, 'StiViewer', false);
+    const report = new Stimulsoft.Report.StiReport();
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch('/reports/Report.mdc');
+            const data = await response.json();
+            report.loadDocument(data);
+            viewer.report = report;
+            viewer.renderHtml('viewer');
+        }
+        fetchData();
+
+    }, []);
+
 
     return (
         <>
