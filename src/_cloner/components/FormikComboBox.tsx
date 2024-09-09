@@ -6,7 +6,7 @@ import TextField, {
 } from "@mui/material/TextField/TextField";
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
-import { normalizeDigits } from "../helpers/normalizeDigits";
+import { normalizeDigitsAndWords } from "../helpers/normalizeDigits";
 
 type Props = {
     label: string;
@@ -86,13 +86,13 @@ const FormikComboBox = (props: Props) => {
                 onChange={handleSelectChange}
                 noOptionsText={noOptionsText}
                 filterOptions={(optionData, { inputValue }) => {
-                    const normalizedInput = normalizeDigits(inputValue)
+                    const normalizedInput = normalizeDigitsAndWords(inputValue)
                         .trim()
                         .toLowerCase()
                         .split(/\s+/);
 
                     return optionData.filter((item: any) => {
-                        const normalizedLabel = normalizeDigits(item.label.toLowerCase());
+                        const normalizedLabel = normalizeDigitsAndWords(item.label.toLowerCase());
                         return normalizedInput.every((word) => normalizedLabel.includes(word));
                     });
                 }}

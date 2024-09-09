@@ -102,16 +102,16 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     }, [currentPage])
 
     useEffect(() => {
-        // const delayDebounceFn = setTimeout(() => {
+        const delayDebounceFn = setTimeout(() => {
         const filter = {
             ...currentFilter,
             Keyword: searchTerm
         }
         filterTools.mutate(filter);
 
-        // }, 500)
+        }, 300)
 
-        // return () => clearTimeout(delayDebounceFn)
+        return () => clearTimeout(delayDebounceFn)
         // eslint-disable-next-line
     }, [searchTerm])
 
@@ -317,8 +317,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
             return { id, productId: id, warehouseId, productBrandId, productName, productBrandName, warehouseName, productDesc, purchasePrice, exchangeRate, purchaseSettlementDate, purchaseInvoiceTypeId: Number(purchaseInvoiceTypeId), purchaseInvoiceTypeDesc: "", sellerCompanyRow, purchaserCustomerId: "", purchaserCustomerName: "", productMainUnitDesc, productSubUnitDesc, productSubUnitId, rowId, proximateAmount, warehouseTypeId, productPrice, proximateSubUnit, productSubUnitAmount };
         });
-
-        console.log("selectedProductWithAmounts", selectedProductWithAmounts)
 
         const duplicatesExist = selectedProductWithAmounts.some((newProduct) =>
             orders.some((existingProduct: any) => existingProduct.productBrandId === newProduct.productBrandId)

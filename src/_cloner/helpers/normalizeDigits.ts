@@ -1,5 +1,5 @@
-// Function to normalize Persian and Arabic digits to Latin digits
-export const normalizeDigits = (input: string) => {
+export const normalizeDigitsAndWords = (input: string): string => {
+    // Mapping of Persian digits to Latin digits
     const persianToLatinMap: { [key: string]: string } = {
         '۰': '0',
         '۱': '1',
@@ -13,5 +13,24 @@ export const normalizeDigits = (input: string) => {
         '۹': '9',
     };
 
-    return input.replace(/[۰-۹]/g, (match) => persianToLatinMap[match] || match);
+    // Mapping of Arabic letters to Persian letters
+    const arabicToPersianMap: { [key: string]: string } = {
+        'ك': 'ک',
+        'ي': 'ی',
+        'ى': 'ی',
+        'ة': 'ه',
+        'إ': 'ا',
+        'أ': 'ا',
+        'ؤ': 'و',
+        'ئ': 'ی',
+        'ﻻ': 'لا',
+    };
+
+    // Replace Persian digits with Latin digits
+    const normalizedDigits = input.replace(/[۰-۹]/g, (match) => persianToLatinMap[match] || match);
+
+    // Replace Arabic letters with Persian letters
+    const normalizedWords = normalizedDigits.replace(/[كيىةإأؤئﻻ]/g, (match) => arabicToPersianMap[match] || match);
+
+    return normalizedWords;
 };

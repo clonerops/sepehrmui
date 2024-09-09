@@ -72,30 +72,36 @@ const CustomerAccount = () => {
             <div className="my-4">
               <MuiDataGrid
                 columns={CustomerAccountColumn()}
-                rows={customerAccountTools?.data?.data}
-                data={customerAccountTools?.data?.data}
+                rows={customerAccountTools?.data?.data?.details}
+                data={customerAccountTools?.data?.data?.details}
                 onDoubleClick={() => { }}
               />
             </div>
-            {/* <Alert variant="outlined" color="info">
+            <Alert variant="outlined" color="info">
               <div className="flex flex-col space-y-4">
-                <div className="flex flex-row justify-start items-center gap-x-4">
-                  <Typography variant="h3" className="text-gray-500">مانده حساب (ریال): </Typography>
-                  <Typography variant="h1" color="primary">{separateAmountWithCommas(0)}</Typography>
+                <div className="flex flex-row justify-between items-center">
+                  <div className="flex flex-row items-center gap-x-4">
+                    <Typography variant="h3" className="text-gray-500">مانده حساب (ریال): </Typography>
+                    <Typography variant="h1" color="primary">{separateAmountWithCommas(customerAccountTools?.data?.data?.remainingAmount || 0)}</Typography>
+                  </div>
+                  {/* <div className="flex flex-row gap-x-4">
+                    <Typography variant="h3" className="text-gray-500">نوع</Typography>
+                    <Typography variant="h1" color="primary">{customerAccountTools?.data?.data?.recognize}</Typography>
+                  </div> */}
                 </div>
                 <div className="lg:pr-36">
-                  <Typography variant="h3" color="primary">{convertToPersianWord(0)} تومان</Typography>
+                  <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.remainingAmount || 0)} تومان</Typography>
                 </div>
 
               </div>
-            </Alert> */}
+            </Alert>
             {/* {customerAccountTools?.data?.data.length > 0 &&
               <ReportViewer  />
             } */}
           </form>}
         </Formik>
       </ReusableCard>
-      <ReportViewer path={"../reports/CustomerBillingReport.mrt"} data={customerAccountTools?.data?.data} />
+      {/* <ReportViewer path={"../reports/CustomerBillingReport.mrt"} data={customerAccountTools?.data?.data} /> */}
     </>
   )
 }

@@ -6,7 +6,6 @@ interface IProps {
   onChange?: any;
   name: string,
   id: string;
-  key: string;
   disabled?: boolean;
   categories: {
     value: any,
@@ -15,7 +14,7 @@ interface IProps {
   }[]
 }
 
-const RadioGroup: FC<IProps> = ({ onChange, name, id, key, categories, disabled, ...rest }) => {
+const RadioGroup: FC<IProps> = ({ onChange, name, id, categories, disabled, ...rest }) => {
   const [field] = useField({ name });
   const formikProps = useFormikContext();
 
@@ -28,15 +27,14 @@ const RadioGroup: FC<IProps> = ({ onChange, name, id, key, categories, disabled,
   };
 
   return (
-    <div 
+    <div
       {...field}
       {...rest}
       {...getFormikFieldValidationProps(formikProps, name)}
-      key={key} 
-      id={id} 
-      onChange={handleSelectChange}  className='bg-[#F5F8FA] rounded-md w-fit'>
-      {categories.map((category) => (
-        <label className="mx-1 my-4">
+      id={id}
+      onChange={handleSelectChange} className='bg-[#F5F8FA] rounded-md w-fit'>
+      {categories.map((category, index) => (
+        <label key={index + 1} className="mx-1 my-4">
           <input disabled={disabled} type='radio' className='hidden' name={id} value={category.value} defaultChecked={category.defaultChecked} />
           <span className="cursor-pointer inline-block px-4 py-2 my-1 rounded-sm bg-[#F5F8FA]">
             {category.title}
