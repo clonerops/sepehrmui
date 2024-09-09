@@ -39,6 +39,8 @@ const CustomerAccount = () => {
     customerAccountTools.mutate(filters)
   }
 
+  console.log("customerAccountTools?.data?.data.length", customerAccountTools?.data?.data?.details?.length)
+
   return (
     <>
       {customerAccountTools.isLoading && <Backdrop loading={customerAccountTools.isLoading} />}
@@ -69,14 +71,14 @@ const CustomerAccount = () => {
               </ButtonComponent>
             </div>
 
-            <div className="my-4">
+            {/* <div className="my-4">
               <MuiDataGrid
                 columns={CustomerAccountColumn()}
                 rows={customerAccountTools?.data?.data?.details}
                 data={customerAccountTools?.data?.data?.details}
                 onDoubleClick={() => { }}
               />
-            </div>
+            </div> */}
             <Alert variant="outlined" color="info">
               <div className="flex flex-col space-y-4">
                 <div className="flex flex-row justify-between items-center">
@@ -101,7 +103,9 @@ const CustomerAccount = () => {
           </form>}
         </Formik>
       </ReusableCard>
-      {/* <ReportViewer path={"../reports/CustomerBillingReport.mrt"} data={customerAccountTools?.data?.data} /> */}
+      {customerAccountTools?.data?.data?.details?.length > 0 && 
+        <ReportViewer path={"../reports/CustomerAccountReport1.mrt"} data={customerAccountTools?.data?.data?.details} />
+      }
     </>
   )
 }
