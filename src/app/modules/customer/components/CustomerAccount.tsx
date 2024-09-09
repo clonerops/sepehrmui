@@ -12,6 +12,7 @@ import { convertToPersianWord } from "../../../../_cloner/helpers/convertPersian
 import FormikSearchableCustomer from "../../../../_cloner/components/FormikSearchableCustomer"
 import { useGetCustomersAccountReport } from "../core/_hooks"
 import Backdrop from "../../../../_cloner/components/Backdrop"
+import ReportViewer from "../../../../_cloner/components/ReportViewer"
 
 const initialValues = {
   customerId: "",
@@ -67,6 +68,7 @@ const CustomerAccount = () => {
                 <Typography className="text-white">جستجو</Typography>
               </ButtonComponent>
             </div>
+
             <div className="my-4">
               <MuiDataGrid
                 columns={CustomerAccountColumn()}
@@ -75,7 +77,7 @@ const CustomerAccount = () => {
                 onDoubleClick={() => { }}
               />
             </div>
-            <Alert variant="outlined" color="info">
+            {/* <Alert variant="outlined" color="info">
               <div className="flex flex-col space-y-4">
                 <div className="flex flex-row justify-start items-center gap-x-4">
                   <Typography variant="h3" className="text-gray-500">مانده حساب (ریال): </Typography>
@@ -86,13 +88,14 @@ const CustomerAccount = () => {
                 </div>
 
               </div>
-            </Alert>
+            </Alert> */}
             {/* {customerAccountTools?.data?.data.length > 0 &&
               <ReportViewer  />
             } */}
           </form>}
         </Formik>
       </ReusableCard>
+      <ReportViewer path={"../reports/CustomerBillingReport.mrt"} data={customerAccountTools?.data?.data} />
     </>
   )
 }
