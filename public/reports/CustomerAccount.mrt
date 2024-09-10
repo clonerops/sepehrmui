@@ -630,256 +630,14 @@ SUVORK5CYII=</ImageBytes>
         <HeaderBand2 Ref="14" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,7,27.7,2</ClientRectangle>
-          <Components isList="true" count="14">
-            <Text7 Ref="15" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>25.2,0,2.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text7</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>:نام
-</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text7>
-            <Text8 Ref="16" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>20.8,0,4.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text8</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>ابوالفضل</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text8>
-            <Text9 Ref="17" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>17,0,3.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text9</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>نام خانوادگی</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text9>
-            <Text10 Ref="18" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>10,0,7,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text10</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text> معصومی</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text10>
-            <Text11 Ref="19" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>6.6,0,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text11</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>معرف</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text11>
-            <Text12 Ref="20" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0,6.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text12</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text> معصومی</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text12>
-            <Text13 Ref="21" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>23.2,0.6,4.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text13</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>کدملی</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text13>
-            <Text14 Ref="22" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>16.4,0.6,6.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text14</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>6660089985</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text14>
-            <Text15 Ref="23" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>14,0.6,2.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text15</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>:معرف
-</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text15>
-            <Text16 Ref="24" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>10,0.6,4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text16</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>ابوالفضل</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text16>
-            <Text17 Ref="25" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>6.6,0.6,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text17</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>کداقتصادی</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text17>
-            <Text18 Ref="26" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,0.6,6.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text18</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>546584514567468
-</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text18>
-            <Text19 Ref="27" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>23.2,1.2,4.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text19</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>:نشانی</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text19>
-            <Text20 Ref="28" type="Text" isKey="true">
-              <Border>All;[0:0:0];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,1.2,23.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Peyda(FaNum),8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text20</Name>
-              <Page isRef="3" />
-              <Parent isRef="14" />
-              <Text>تهران نسیم شهر خیابان سوم کوچه صدوقی </Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text20>
-          </Components>
+          <Components isList="true" count="0" />
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
           <Name>HeaderBand2</Name>
           <Page isRef="3" />
           <Parent isRef="3" />
         </HeaderBand2>
-        <HeaderBand3 Ref="29" type="HeaderBand" isKey="true">
+        <HeaderBand3 Ref="15" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,9.8,27.7,0.8</ClientRectangle>
           <Components isList="true" count="0" />
@@ -889,11 +647,11 @@ SUVORK5CYII=</ImageBytes>
           <Page isRef="3" />
           <Parent isRef="3" />
         </HeaderBand3>
-        <HeaderCustomerAccount Ref="30" type="HeaderBand" isKey="true">
+        <HeaderCustomerAccount Ref="16" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,11.4,27.7,0.8</ClientRectangle>
           <Components isList="true" count="11">
-            <Text21 Ref="31" type="Text" isKey="true">
+            <Text21 Ref="17" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>25.2,0,2.4,0.8</ClientRectangle>
@@ -904,13 +662,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text21</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>تاریخ</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text21>
-            <Text22 Ref="32" type="Text" isKey="true">
+            <Text22 Ref="18" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>22.8,0,2.4,0.8</ClientRectangle>
@@ -921,13 +679,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text22</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>تاریخ وزن</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text22>
-            <Text23 Ref="33" type="Text" isKey="true">
+            <Text23 Ref="19" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>21.2,0,1.6,0.8</ClientRectangle>
@@ -938,13 +696,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text23</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>نوع سند</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
-            <Text24 Ref="34" type="Text" isKey="true">
+            <Text24 Ref="20" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>18,0,3.2,0.8</ClientRectangle>
@@ -955,13 +713,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text24</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>مقدار</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text24>
-            <Text25 Ref="35" type="Text" isKey="true">
+            <Text25 Ref="21" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>15.2,0,2.8,0.8</ClientRectangle>
@@ -972,13 +730,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text25</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>قیمت</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text25>
-            <Text26 Ref="36" type="Text" isKey="true">
+            <Text26 Ref="22" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>12,0,3.2,0.8</ClientRectangle>
@@ -989,13 +747,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text26</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>بدهکار</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text26>
-            <Text27 Ref="37" type="Text" isKey="true">
+            <Text27 Ref="23" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>9,0,3,0.8</ClientRectangle>
@@ -1006,13 +764,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text27</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>بستانکار</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text27>
-            <Text28 Ref="38" type="Text" isKey="true">
+            <Text28 Ref="24" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>7.4,0,1.6,0.8</ClientRectangle>
@@ -1023,13 +781,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text28</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>تشخیص</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text28>
-            <Text29 Ref="39" type="Text" isKey="true">
+            <Text29 Ref="25" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>5.2,0,2.2,0.8</ClientRectangle>
@@ -1040,13 +798,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text29</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>مانده</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text29>
-            <Text30 Ref="40" type="Text" isKey="true">
+            <Text30 Ref="26" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>2.2,0,3,0.8</ClientRectangle>
@@ -1057,14 +815,14 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text30</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>مانده موعد شده
 </Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text30>
-            <Text31 Ref="41" type="Text" isKey="true">
+            <Text31 Ref="27" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
               <Brush>[3:81:103]</Brush>
               <ClientRectangle>0,0,2.2,0.8</ClientRectangle>
@@ -1075,7 +833,7 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text31</Name>
               <Page isRef="3" />
-              <Parent isRef="30" />
+              <Parent isRef="16" />
               <Text>توضیحات</Text>
               <TextBrush>White</TextBrush>
               <Type>Expression</Type>
@@ -1088,12 +846,12 @@ SUVORK5CYII=</ImageBytes>
           <Page isRef="3" />
           <Parent isRef="3" />
         </HeaderCustomerAccount>
-        <DataCustomerAccount Ref="42" type="DataBand" isKey="true">
+        <DataCustomerAccount Ref="28" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,13,27.7,0.8</ClientRectangle>
           <Components isList="true" count="11">
-            <Text32 Ref="43" type="Text" isKey="true">
+            <Text32 Ref="29" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>25.4,0,2.2,0.8</ClientRectangle>
@@ -1104,13 +862,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text32</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.created_Shamsi}</Text>
               <TextBrush>[0:0:0]</TextBrush>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text32>
-            <Text33 Ref="44" type="Text" isKey="true">
+            <Text33 Ref="30" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>22.8,0,2.6,0.8</ClientRectangle>
@@ -1121,13 +879,13 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text33</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.weightingDate_Shamsi}</Text>
               <TextBrush>[0:0:0]</TextBrush>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text33>
-            <Text34 Ref="45" type="Text" isKey="true">
+            <Text34 Ref="31" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>21.2,0,1.6,0.8</ClientRectangle>
@@ -1138,14 +896,14 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text34</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.docType}</Text>
               <TextBrush>[0:0:0]</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text34>
-            <Text35 Ref="46" type="Text" isKey="true">
+            <Text35 Ref="32" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>18,0,3.4,0.8</ClientRectangle>
@@ -1156,10 +914,10 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text35</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.amount}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="47" type="NumberFormat" isKey="true">
+              <TextFormat Ref="33" type="NumberFormat" isKey="true">
                 <DecimalDigits>2</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -1169,7 +927,7 @@ SUVORK5CYII=</ImageBytes>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text35>
-            <Text36 Ref="48" type="Text" isKey="true">
+            <Text36 Ref="34" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>15.2,0,2.8,0.8</ClientRectangle>
@@ -1180,10 +938,10 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text36</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.price}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="49" type="NumberFormat" isKey="true">
+              <TextFormat Ref="35" type="NumberFormat" isKey="true">
                 <DecimalDigits>2</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -1193,7 +951,7 @@ SUVORK5CYII=</ImageBytes>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text36>
-            <Text37 Ref="50" type="Text" isKey="true">
+            <Text37 Ref="36" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>12,0,3.2,0.8</ClientRectangle>
@@ -1204,10 +962,10 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text37</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.debitAmount}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="51" type="NumberFormat" isKey="true">
+              <TextFormat Ref="37" type="NumberFormat" isKey="true">
                 <DecimalDigits>2</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -1217,7 +975,7 @@ SUVORK5CYII=</ImageBytes>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text37>
-            <Text38 Ref="52" type="Text" isKey="true">
+            <Text38 Ref="38" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>9.2,0,2.8,0.8</ClientRectangle>
@@ -1228,10 +986,10 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text38</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.creditAmount}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="53" type="NumberFormat" isKey="true">
+              <TextFormat Ref="39" type="NumberFormat" isKey="true">
                 <DecimalDigits>2</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -1241,7 +999,7 @@ SUVORK5CYII=</ImageBytes>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text38>
-            <Text39 Ref="54" type="Text" isKey="true">
+            <Text39 Ref="40" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>7.4,0,1.8,0.8</ClientRectangle>
@@ -1252,14 +1010,14 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text39</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{Line == 0 ? "بس" : "بد" }</Text>
               <TextBrush>[0:0:0]</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text39>
-            <Text40 Ref="55" type="Text" isKey="true">
+            <Text40 Ref="41" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>5,0,2.4,0.8</ClientRectangle>
@@ -1270,10 +1028,10 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text40</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.balanceAmoount}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="56" type="NumberFormat" isKey="true">
+              <TextFormat Ref="42" type="NumberFormat" isKey="true">
                 <DecimalDigits>2</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -1283,7 +1041,7 @@ SUVORK5CYII=</ImageBytes>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text40>
-            <Text41 Ref="57" type="Text" isKey="true">
+            <Text41 Ref="43" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>1.6,0,3.4,0.8</ClientRectangle>
@@ -1294,10 +1052,10 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text41</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.dueAmount}</Text>
               <TextBrush>[0:0:0]</TextBrush>
-              <TextFormat Ref="58" type="NumberFormat" isKey="true">
+              <TextFormat Ref="44" type="NumberFormat" isKey="true">
                 <DecimalDigits>2</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>,</GroupSeparator>
@@ -1307,7 +1065,7 @@ SUVORK5CYII=</ImageBytes>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text41>
-            <Text42 Ref="59" type="Text" isKey="true">
+            <Text42 Ref="45" type="Text" isKey="true">
               <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
               <Brush>[219:245:249]</Brush>
               <ClientRectangle>0,0,1.6,0.8</ClientRectangle>
@@ -1318,7 +1076,7 @@ SUVORK5CYII=</ImageBytes>
               <Margins>0,0,0,0</Margins>
               <Name>Text42</Name>
               <Page isRef="3" />
-              <Parent isRef="42" />
+              <Parent isRef="28" />
               <Text>{CustomerAccount.docDesc}</Text>
               <TextBrush>[0:0:0]</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
@@ -1360,10 +1118,10 @@ SUVORK5CYII=</ImageBytes>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/10/2024 1:49:59 PM</ReportChanged>
+  <ReportChanged>9/10/2024 1:56:56 PM</ReportChanged>
   <ReportCreated>9/10/2024 11:07:03 AM</ReportCreated>
   <ReportFile>D:\myself\web\react\sepehrmui\public\reports\CustomerAccount.mrt</ReportFile>
-  <ReportGuid>b990302815884cd282734922af595cad</ReportGuid>
+  <ReportGuid>3be39084d5da48a29452452d8a390438</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2023.1.1.0</ReportVersion>
@@ -1392,197 +1150,197 @@ namespace Reports
 </Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="12">
-    <Moray_Report_Title1 Ref="60" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Report_Title1 Ref="46" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item54 Ref="61" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item40 Ref="47" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>ReportTitle</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item54>
+        </Item40>
       </Conditions>
       <Font>Arial,14,Bold</Font>
       <Name>Moray_Report_Title1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[3:81:103]</TextBrush>
     </Moray_Report_Title1>
-    <Moray_Report_Title2 Ref="62" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Report_Title2 Ref="48" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item56 Ref="63" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item42 Ref="49" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>ReportTitle</Placement>
           <PlacementNestedLevel>2</PlacementNestedLevel>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item56>
+        </Item42>
       </Conditions>
       <Font>Arial,10,Bold</Font>
       <Name>Moray_Report_Title2</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[3:81:103]</TextBrush>
     </Moray_Report_Title2>
-    <Moray_Report_Summary Ref="64" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Report_Summary Ref="50" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item58 Ref="65" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item44 Ref="51" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>ReportSummary</Placement>
           <Type>ComponentType, Placement</Type>
-        </Item58>
+        </Item44>
       </Conditions>
       <Font>Arial,10,Bold</Font>
       <Name>Moray_Report_Summary</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[3:81:103]</TextBrush>
     </Moray_Report_Summary>
-    <Moray_Page_Header Ref="66" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Page_Header Ref="52" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item60 Ref="67" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item46 Ref="53" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>PageHeader</Placement>
           <Type>ComponentType, Placement</Type>
-        </Item60>
+        </Item46>
       </Conditions>
       <Font>Arial,10</Font>
       <Name>Moray_Page_Header</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[3:81:103]</TextBrush>
     </Moray_Page_Header>
-    <Moray_Page_Footer Ref="68" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Page_Footer Ref="54" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item62 Ref="69" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item48 Ref="55" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>PageFooter</Placement>
           <Type>ComponentType, Placement</Type>
-        </Item62>
+        </Item48>
       </Conditions>
       <Font>Arial,10</Font>
       <Name>Moray_Page_Footer</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[3:81:103]</TextBrush>
     </Moray_Page_Footer>
-    <Moray_Group_Header1 Ref="70" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Group_Header1 Ref="56" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item64 Ref="71" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item50 Ref="57" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>GroupHeader</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item64>
+        </Item50>
       </Conditions>
       <Font>Arial,13,Bold</Font>
       <Name>Moray_Group_Header1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[3:81:103]</TextBrush>
     </Moray_Group_Header1>
-    <Moray_Group_Footer1 Ref="72" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Group_Footer1 Ref="58" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item66 Ref="73" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item52 Ref="59" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>GroupFooter</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item66>
+        </Item52>
       </Conditions>
       <Font>Arial,13,Bold</Font>
       <Name>Moray_Group_Footer1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[3:81:103]</TextBrush>
     </Moray_Group_Footer1>
-    <Moray_Header1 Ref="74" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Header1 Ref="60" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black;True</Border>
       <Brush>[3:81:103]</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item68 Ref="75" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item54 Ref="61" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>Header</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item68>
+        </Item54>
       </Conditions>
       <Font>Arial,8,Bold</Font>
       <Name>Moray_Header1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>White</TextBrush>
     </Moray_Header1>
-    <Moray_Data1 Ref="76" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Data1 Ref="62" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item70 Ref="77" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item56 Ref="63" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image, CheckBox</ComponentType>
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>Data</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item70>
+        </Item56>
       </Conditions>
       <Font>Arial,8</Font>
       <Name>Moray_Data1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[0:0:0]</TextBrush>
     </Moray_Data1>
-    <Moray_Data1_Odd_x0020_Style Ref="78" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Data1_Odd_x0020_Style Ref="64" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>[219:245:249]</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item72 Ref="79" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item58 Ref="65" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>DataOddStyle</Placement>
           <Type>Placement, PlacementNestedLevel</Type>
-        </Item72>
+        </Item58>
       </Conditions>
       <Font>Arial,8</Font>
       <Name>Moray_Data1_Odd Style</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[0:0:0]</TextBrush>
     </Moray_Data1_Odd_x0020_Style>
-    <Moray_Data1_Even_x0020_Style Ref="80" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Data1_Even_x0020_Style Ref="66" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:31:53];1;Solid;False;4;Black</Border>
       <Brush>[120:219:230]</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item74 Ref="81" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item60 Ref="67" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>DataEvenStyle</Placement>
           <Type>Placement, PlacementNestedLevel</Type>
-        </Item74>
+        </Item60>
       </Conditions>
       <Font>Arial,8</Font>
       <Name>Moray_Data1_Even Style</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[0:0:0]</TextBrush>
     </Moray_Data1_Even_x0020_Style>
-    <Moray_Footer1 Ref="82" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Moray_Footer1 Ref="68" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>Top;[0:31:53];3;Solid;False;4;Black</Border>
       <Brush>[219:245:249]</Brush>
       <CollectionName>Moray</CollectionName>
       <Conditions isList="true" count="1">
-        <Item76 Ref="83" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item62 Ref="69" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>Footer</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item76>
+        </Item62>
       </Conditions>
       <Font>Arial,8</Font>
       <Name>Moray_Footer1</Name>
