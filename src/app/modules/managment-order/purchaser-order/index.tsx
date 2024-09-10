@@ -50,7 +50,6 @@ const PurchaserOrder = () => {
 
 
     const onSubmit = (values: any) => {
-        console.log(values)
         if (orders?.length === 0) {
             EnqueueSnackbar("هیچ سفارشی در لیست سفارشات موجود نمی باشد", "error")
         } else {

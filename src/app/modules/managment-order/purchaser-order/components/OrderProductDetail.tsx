@@ -111,13 +111,14 @@ const OrderProductDetail = (props: Props) => {
         };
 
         if (!isUpdate) {
-            const isDuplicate = orders.some(
-                (order: any) =>
-                    order.id === productOrder.id &&
-                    order.warehouseId === productOrder.warehouseId &&
-                    order.productName === productOrder.productName &&
-                    order.productBrandId === productOrder.productBrandId
-            );
+            
+            // const isDuplicate = orders.some(
+            //     (order: any) =>
+            //         order.id === productOrder.id &&
+            //         order.warehouseId === productOrder.warehouseId &&
+            //         order.productName === productOrder.productName &&
+            //         order.productBrandId === productOrder.productBrandId
+            // );
 
             if (values.productId === "" || values.productId.label === "") {
                 EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error");
@@ -138,10 +139,10 @@ const OrderProductDetail = (props: Props) => {
                 return;
             }
 
-            if (isDuplicate) {
-                EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error");
-                return;
-            }
+            // if (isDuplicate) {
+            //     EnqueueSnackbar("کالا انتخاب شده در لیست سفارشات موجود و تکراری می باشد", "error");
+            //     return;
+            // }
 
 
             setOrders([...orders, productOrder]);

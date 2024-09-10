@@ -69,7 +69,7 @@ const CustomerAccount = () => {
               </ButtonComponent>
             </div>
 
-            <div className="my-4">
+            {/* <div className="my-4">
               <MuiDataGrid
                 columns={CustomerAccountColumn()}
                 rows={customerAccountTools?.data?.data?.details}
@@ -84,23 +84,19 @@ const CustomerAccount = () => {
                     <Typography variant="h3" className="text-gray-500">مانده حساب (ریال): </Typography>
                     <Typography variant="h1" color="primary">{separateAmountWithCommas(customerAccountTools?.data?.data?.remainingAmount || 0)}</Typography>
                   </div>
-                  {/* <div className="flex flex-row gap-x-4">
-                    <Typography variant="h3" className="text-gray-500">نوع</Typography>
-                    <Typography variant="h1" color="primary">{customerAccountTools?.data?.data?.recognize}</Typography>
-                  </div> */}
                 </div>
                 <div className="lg:pr-36">
                   <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.remainingAmount || 0)} تومان</Typography>
                 </div>
 
               </div>
-            </Alert>
+            </Alert> */}
             {/* {customerAccountTools?.data?.data.length > 0 &&
               <ReportViewer  />
             } */}
-            {/* {customerAccountTools?.data?.data?.details?.length > 0 &&
+            {customerAccountTools?.data?.data?.details?.length > 0 &&
               <ReportViewer path={"../reports/CustomerAccount.mrt"} data={customerAccountTools?.data?.data?.details} />
-            } */}
+            }
           </form>}
         </Formik>
       </ReusableCard>

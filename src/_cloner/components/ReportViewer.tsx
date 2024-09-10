@@ -1,3 +1,4 @@
+import moment from 'moment-jalaali';
 import React, { useEffect, useRef } from 'react';
 import { Stimulsoft } from 'stimulsoft-reports-js/Scripts/stimulsoft.viewer';
 
@@ -47,7 +48,7 @@ const ReportViewer: React.FC<ReportViewerProps> = ({ path, data }) => {
 			report.regData("CustomerAccount", "CustomerAccount", dataSet);
 
 			// Set a variable to the report if needed
-			report.setVariable("sepehrtest", data[0].created_Shamsi);
+			report.setVariable("NowDateTime", moment(new Date()).format('jYYYY/jMM/jDD'));
 
 			// Set the report to the viewer and render it
 			viewer.report = report;
