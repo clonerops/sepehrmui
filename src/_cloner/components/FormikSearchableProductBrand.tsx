@@ -26,6 +26,7 @@ const FormikSearchableProductBrand = (props: any) => {
     
     return <FormikComboBox
         disabled={props.disabled}
+        placeholder={"jlkcsjaljad"}
         onInputChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e?.target.value)}
         noOptionsText={"جهت انتخاب کالابرند جستجو کنید ..."}
         options={dropdownProductBrand(productBrandTools?.data?.data) || []}

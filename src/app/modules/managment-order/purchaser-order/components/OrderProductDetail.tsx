@@ -19,7 +19,8 @@ const fields = [
     "productId",
     "proximateAmount",
     "productSubUnitAmount",
-    "price",
+    // "price",
+    "productPrice",
     "rowId",
     "purchaserCustomerId",
     "purchasePrice",
@@ -87,7 +88,8 @@ const OrderProductDetail = (props: Props) => {
             warehouseId: values?.productId?.warehouseId ? values?.productId?.warehouseId : values.warehouseId,
             warehouseTypeId: values?.productId?.warehouseTypeId ? values?.productId?.warehouseTypeId : values.warehouseTypeId,
             proximateAmount: values.proximateAmount,
-            price: values?.price.replace(/,/g, ""),
+            // price: values?.price.replace(/,/g, ""),
+            productPrice: values?.productPrice.replace(/,/g, ""),
             productName: values?.productId?.label ? values?.productId?.label : values?.productName,
             purchasePrice: values?.purchasePrice.replace(/,/g, ""),
             productBrandId: values.productId.productBrandId ? values.productId.productBrandId : values.productBrandId,
@@ -122,7 +124,11 @@ const OrderProductDetail = (props: Props) => {
                 return;
             }
 
-            if (values?.price === "") {
+            // if (values?.price === "") {
+            //     EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error");
+            //     return;
+            // }
+            if (values?.productPrice === "") {
                 EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error");
                 return;
             }
@@ -153,7 +159,11 @@ const OrderProductDetail = (props: Props) => {
                 EnqueueSnackbar("وارد نمودن کالا الزامی می باشد", "error")
                 return;
             }
-            if (values?.price === "") {
+            // if (values?.price === "") {
+            //     EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
+            //     return;
+            // }
+            if (values?.productPrice === "") {
                 EnqueueSnackbar("وارد نمودن قیمت الزامی می باشد", "error")
                 return;
             }
@@ -177,12 +187,20 @@ const OrderProductDetail = (props: Props) => {
         <>
             <form>
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">
-                    <FormikSearchableProductBrand
-                        name={!isUpdate ? "productId" : "productName"}
-                        label="کالا/محصول"
-                        disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
-                        onChange={changeProductFunction}
-                    />
+                    {isUpdate ? (
+                        <FormikInput
+                            name="productName"
+                            label="توضیحات"
+                            disabled={true} />
+                    ) : (
+                        <FormikSearchableProductBrand
+                            name={!isUpdate ? "productId" : "productName"}
+                            placeholder={isUpdate && values?.productName}
+                            label="کالا/محصول"
+                            disabled={isUpdate || postSaleOrder.data?.succeeded || orderPayment.length > 0}
+                            onChange={changeProductFunction}
+                        />
+                    )}
                     <FormikProximateAmount
                         name="proximateAmount"
                         label="مقدار"
@@ -212,7 +230,8 @@ const OrderProductDetail = (props: Props) => {
                             }
                         }} />
                     <FormikPrice
-                        name="price"
+                        // name="price"
+                        name="productPrice"
                         InputProps={{
                             classes: {
                                 input: "!font-bold !text-[14px]",

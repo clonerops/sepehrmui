@@ -3215,8 +3215,14 @@ const OrderPurchaserListColumn = (renderActions: any) => {
                 return <Typography variant="h4">{combinedValue}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
         },
+        // {
+        //     headerName: "قیمت(ریال)", field: "price",
+        //     renderCell: (params: any) => {
+        //         return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
+        //     }, headerClassName: "headerClassName", flex: 1, minWidth: 120,
+        // },
         {
-            headerName: "قیمت(ریال)", field: "price",
+            headerName: "قیمت(ریال)", field: "productPrice",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography>
             }, headerClassName: "headerClassName", flex: 1, minWidth: 120,

@@ -46,6 +46,7 @@ const PurchaserOrderEdit = () => {
     calculateTotalAmount(orders, orderServices)
      // eslint-disable-next-line 
   }, [orders, orderServices]);
+  console.log("detailTools?.data?.data?.details", detailTools?.data?.data?.details)
   useEffect(() => {
     if (detailTools?.data?.data) {
 
@@ -79,7 +80,8 @@ const PurchaserOrderEdit = () => {
           exchangeRate: +i.productBrand.product.exchangeRate,
           purchaseSettlementDate: i.deliverDate,
           purchasePrice: +i.purchasePrice,
-          price: i.price,
+          // price: i.price,
+          productPrice: i.price,
           proximateAmount: separateAmountWithCommas(i.proximateAmount),
           productBrandName: i.productBrand.brandName,
           purchaserCustomerId: i.purchaserCustomerId,
@@ -126,7 +128,8 @@ const PurchaserOrderEdit = () => {
             productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
             productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
             numberInPackage: item.numberInPackage ? +item.numberInPackage : 0,
-            price: typeof item.price === "number" ? item.price : +item.price?.replace(/,/g, ""),
+            // price: typeof item.price === "number" ? item.price : +item.price?.replace(/,/g, ""),
+            price: typeof item.productPrice === "number" ? item.productPrice : +item.productPrice?.replace(/,/g, ""),
             description: item.description,
             deliverDate: item.purchaseSettlementDate ? item.purchaseSettlementDate : item.deliverDate,
           };

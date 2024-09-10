@@ -75,7 +75,8 @@ const PurchaserOrder = () => {
                         productSubUnitAmount: item.proximateSubUnit ? +item.proximateSubUnit : 0,
                         productSubUnitId: item.productSubUnitId ? +item.productSubUnitId : null,
                         proximateAmount: item.proximateAmount ? +item.proximateAmount?.replace(/,/g, "") : 0,
-                        price: item.price ? +item.price?.replace(/,/g, "") : null,
+                        // price: item.price ? +item.price?.replace(/,/g, "") : null,
+                        price: item.productPrice ? +item.productPrice?.replace(/,/g, "") : null,
                         description: item.description,
                         deliverDate: item.deliverDate,
 

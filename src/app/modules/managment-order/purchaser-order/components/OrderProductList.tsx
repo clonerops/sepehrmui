@@ -57,7 +57,8 @@ const OrderProductList = (props: ProductProps) => {
 
     const onDoubleClick = (params: any) => {
         if (orders) {
-            const selectedRow: any = orders.find(order => order.id === params.row.id);
+            // const selectedRow: any = orders.find(order => order.id === params.row.id);
+            const selectedRow: any = orders.find(order => order.productBrandId === params.row.productBrandId);
             const rowIndex = orders.indexOf(selectedRow);
 
             setOrderIndex(rowIndex)
@@ -65,7 +66,8 @@ const OrderProductList = (props: ProductProps) => {
                 { title: "productName", value: params.row.productName },
                 { title: "id", value: params.row.id },
                 { title: "productId", value: params.row.productId },
-                { title: "price", value: params.row.price.toString() },
+                // { title: "price", value: params.row.price.toString() },
+                { title: "productPrice", value: separateAmountWithCommas(params.row.productPrice) },
                 { title: "productBrandId", value: params.row.productBrandId },
                 { title: "productBrandName", value: params.row.productBrandName },
                 { title: "warehouseId", value: params.row.warehouseId },

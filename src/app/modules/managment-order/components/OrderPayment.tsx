@@ -14,6 +14,7 @@ import { calculateProximateAmount, calculateTotalAmount } from "../helpers/funct
 import { FormikProps } from "formik";
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar";
 import { FC, memo, useMemo } from "react";
+import { render } from "@testing-library/react";
 
 interface IProps {
     postSaleOrder: any,
@@ -73,7 +74,8 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
         { id: 1, header: "مبلغ(ریال)", accessor: "orderPaymentAmount", render: (params: any) => {
             return <Typography variant="h4" className='text-green-500'>{params.orderPaymentAmount}</Typography>
         } },
-        { id: 4, header: "روز", accessor: "orderPaymentDaysAfterExit" },
+        // { id: 4, header: "روز", accessor: "orderPaymentDaysAfterExit" },
+        { id: 4, header: "روز", accessor: "orderPaymentDaysAfterExit", render: (params: any) => params.orderPaymentDaysAfterExit ? params.orderPaymentDaysAfterExit : 0 },
 
         { id: 2, header: "تاریخ تسویه", accessor: "orderPaymentDate" },
         {
@@ -88,7 +90,7 @@ const OrderPayment:FC<IProps> = ({ postSaleOrder, orderPayment, orderService, fo
         { id: 1, header: "مبلغ(ریال)", accessor: "orderPaymentAmount", render: (params: any) => {
             return <Typography variant="h4" className='text-green-500'>{params.orderPaymentAmount}</Typography>
         } },
-        { id: 3, header: "روز", accessor: "orderPaymentDaysAfterExit" },
+        { id: 3, header: "روز", accessor: "orderPaymentDaysAfterExit", render: (params: any) => params.orderPaymentDaysAfterExit ? params.orderPaymentDaysAfterExit : 0 },
         { id: 2, header: "تاریخ تسویه", accessor: "orderPaymentDate" },
     ]
 
