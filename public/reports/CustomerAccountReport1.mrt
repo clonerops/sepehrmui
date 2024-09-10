@@ -1,7 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StiSerializer version="1.02" type="Net" application="StiReport">
   <Dictionary Ref="1" type="Dictionary" isKey="true">
-    <BusinessObjects isList="true" count="0" />
+    <BusinessObjects isList="true" count="1">
+      <CustomerAccount Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>CustomerAccount</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>CustomerAccount</Category>
+        <Columns isList="true" count="11">
+          <value>created_Shamsi,System.String</value>
+          <value>weightingDate_Shamsi,System.String</value>
+          <value>docType,System.String</value>
+          <value>amount,System.String</value>
+          <value>price,System.String</value>
+          <value>debitAmount,System.String</value>
+          <value>creditAmount,System.String</value>
+          <value>recognizing,System.String</value>
+          <value>balanceAmoount,System.String</value>
+          <value>dueAmount,System.String</value>
+          <value>docDesc,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>fc4eff61638f4ea7a257a77012695ec5</Guid>
+        <Key>97b2ac0853c748f393768cbce892c32c</Key>
+        <Name>CustomerAccount</Name>
+      </CustomerAccount>
+    </BusinessObjects>
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="0" />
     <Relations isList="true" count="0" />
@@ -16,15 +39,15 @@
   <Key>a2cfc1d6e58f4500bb7e3c19ae643de1</Key>
   <MetaTags isList="true" count="0" />
   <Pages isList="true" count="1">
-    <Page1 Ref="2" type="Page" isKey="true">
+    <Page1 Ref="3" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="3">
-        <PageHeaderBand1 Ref="3" type="PageHeaderBand" isKey="true">
+      <Components isList="true" count="4">
+        <PageHeaderBand1 Ref="4" type="PageHeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,19,2.6</ClientRectangle>
           <Components isList="true" count="2">
-            <Text1 Ref="4" type="Text" isKey="true">
+            <Text1 Ref="5" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>7.2,0.6,4.2,1.4</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -33,15 +56,15 @@
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
-              <Page isRef="2" />
-              <Parent isRef="3" />
+              <Page isRef="3" />
+              <Parent isRef="4" />
               <Text>گزارش مشتریان
 </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text1>
-            <Text16 Ref="5" type="Text" isKey="true">
+            <Text16 Ref="6" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.6,0.6,5.4,1.4</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -50,8 +73,8 @@
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
-              <Page isRef="2" />
-              <Parent isRef="3" />
+              <Page isRef="3" />
+              <Parent isRef="4" />
               <Text>{sepehrtest}</Text>
               <TextBrush>Black</TextBrush>
               <VertAlignment>Center</VertAlignment>
@@ -60,408 +83,389 @@
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
           <Name>PageHeaderBand1</Name>
-          <Page isRef="2" />
-          <Parent isRef="2" />
+          <Page isRef="3" />
+          <Parent isRef="3" />
         </PageHeaderBand1>
-        <GroupHeaderBand1 Ref="6" type="GroupHeaderBand" isKey="true">
+        <Header Ref="7" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,3.8,19,0.8</ClientRectangle>
           <Components isList="true" count="11">
-            <HeaderCustomerAccount_created_Shamsi Ref="7" type="Text" isKey="true">
+            <HeaderCustomerAccount_created_Shamsi2 Ref="8" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_created_Shamsi</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>تاریخ</Text>
+              <Name>HeaderCustomerAccount_created_Shamsi2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>created_Shamsi</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_created_Shamsi>
-            <HeaderCustomerAccount_weightingDate_Shamsi Ref="8" type="Text" isKey="true">
+            </HeaderCustomerAccount_created_Shamsi2>
+            <HeaderCustomerAccount_weightingDate_Shamsi2 Ref="9" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.8,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_weightingDate_Shamsi</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>تاریخ وزن</Text>
+              <Name>HeaderCustomerAccount_weightingDate_Shamsi2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>weightingDate_Shamsi</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_weightingDate_Shamsi>
-            <HeaderCustomerAccount_docType Ref="9" type="Text" isKey="true">
+            </HeaderCustomerAccount_weightingDate_Shamsi2>
+            <HeaderCustomerAccount_docType2 Ref="10" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_docType</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>نوع سند</Text>
+              <Name>HeaderCustomerAccount_docType2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>docType</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_docType>
-            <HeaderCustomerAccount_amount Ref="10" type="Text" isKey="true">
+            </HeaderCustomerAccount_docType2>
+            <HeaderCustomerAccount_amount2 Ref="11" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.4,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_amount</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>مقدار</Text>
+              <Name>HeaderCustomerAccount_amount2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>amount</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_amount>
-            <HeaderCustomerAccount_price Ref="11" type="Text" isKey="true">
+            </HeaderCustomerAccount_amount2>
+            <HeaderCustomerAccount_price2 Ref="12" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>7.2,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_price</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>مبلغ</Text>
+              <Name>HeaderCustomerAccount_price2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>price</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_price>
-            <HeaderCustomerAccount_debitAmount Ref="12" type="Text" isKey="true">
+            </HeaderCustomerAccount_price2>
+            <HeaderCustomerAccount_debitAmount2 Ref="13" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>9,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_debitAmount</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>بدهکار</Text>
+              <Name>HeaderCustomerAccount_debitAmount2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>debitAmount</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_debitAmount>
-            <HeaderCustomerAccount_creditAmount Ref="13" type="Text" isKey="true">
+            </HeaderCustomerAccount_debitAmount2>
+            <HeaderCustomerAccount_creditAmount2 Ref="14" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>10.8,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_creditAmount</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>بستانکار</Text>
+              <Name>HeaderCustomerAccount_creditAmount2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>creditAmount</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_creditAmount>
-            <HeaderCustomerAccount_recognizing Ref="14" type="Text" isKey="true">
+            </HeaderCustomerAccount_creditAmount2>
+            <HeaderCustomerAccount_recognizing2 Ref="15" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>12.6,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_recognizing</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>تشخیص</Text>
+              <Name>HeaderCustomerAccount_recognizing2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>recognizing</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_recognizing>
-            <HeaderCustomerAccount_balanceAmoount Ref="15" type="Text" isKey="true">
+            </HeaderCustomerAccount_recognizing2>
+            <HeaderCustomerAccount_balanceAmoount2 Ref="16" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>14.4,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_balanceAmoount</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>مانده</Text>
+              <Name>HeaderCustomerAccount_balanceAmoount2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>balanceAmoount</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_balanceAmoount>
-            <HeaderCustomerAccount_dueAmount Ref="16" type="Text" isKey="true">
+            </HeaderCustomerAccount_balanceAmoount2>
+            <HeaderCustomerAccount_dueAmount2 Ref="17" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>15.4,0,2.4,0.8</ClientRectangle>
+              <ClientRectangle>16.2,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_dueAmount</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>مانده موعد شده</Text>
+              <Name>HeaderCustomerAccount_dueAmount2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>dueAmount</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_dueAmount>
-            <HeaderCustomerAccount_docDesc Ref="17" type="Text" isKey="true">
+            </HeaderCustomerAccount_dueAmount2>
+            <HeaderCustomerAccount_docDesc2 Ref="18" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>17.6,0,1.4,0.8</ClientRectangle>
+              <ClientRectangle>18,0,1,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>HeaderCustomerAccount_docDesc</Name>
-              <Page isRef="2" />
-              <Parent isRef="6" />
-              <Text>توضیحات</Text>
+              <Name>HeaderCustomerAccount_docDesc2</Name>
+              <Page isRef="3" />
+              <Parent isRef="7" />
+              <Text>docDesc</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </HeaderCustomerAccount_docDesc>
+            </HeaderCustomerAccount_docDesc2>
           </Components>
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
-          <Name>GroupHeaderBand1</Name>
-          <Page isRef="2" />
-          <Parent isRef="2" />
-        </GroupHeaderBand1>
-        <DataBand1 Ref="18" type="DataBand" isKey="true">
+          <Name>Header</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+        </Header>
+        <Data Ref="19" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <BusinessObjectGuid isNull="true" />
+          <BusinessObjectGuid>fc4eff61638f4ea7a257a77012695ec5</BusinessObjectGuid>
           <ClientRectangle>0,5.4,19,0.8</ClientRectangle>
-          <Components isList="true" count="14">
-            <Text2 Ref="19" type="Text" isKey="true">
+          <Components isList="true" count="11">
+            <DataCustomerAccount_created_Shamsi Ref="20" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>0,0,1.2,0.8</ClientRectangle>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,8</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>Text2</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
+              <Name>DataCustomerAccount_created_Shamsi</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
               <Text>{CustomerAccount.created_Shamsi}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text2>
-            <Text3 Ref="20" type="Text" isKey="true">
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_created_Shamsi>
+            <DataCustomerAccount_weightingDate_Shamsi Ref="21" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>1.2,0,1.6,0.8</ClientRectangle>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>1.8,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,8</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>Text3</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
+              <Name>DataCustomerAccount_weightingDate_Shamsi</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
               <Text>{CustomerAccount.weightingDate_Shamsi}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text3>
-            <Text4 Ref="21" type="Text" isKey="true">
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_weightingDate_Shamsi>
+            <DataCustomerAccount_docType Ref="22" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>2.8,0,2.2,0.8</ClientRectangle>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>3.6,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,8</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>Text4</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
+              <Name>DataCustomerAccount_docType</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
+              <Text>{CustomerAccount.docType}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_docType>
+            <DataCustomerAccount_amount Ref="23" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>5.4,0,1.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataCustomerAccount_amount</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
+              <Text>{CustomerAccount.amount}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_amount>
+            <DataCustomerAccount_price Ref="24" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>7.2,0,1.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataCustomerAccount_price</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
+              <Text>{CustomerAccount.price}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_price>
+            <DataCustomerAccount_debitAmount Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>9,0,1.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataCustomerAccount_debitAmount</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
+              <Text>{CustomerAccount.debitAmount}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_debitAmount>
+            <DataCustomerAccount_creditAmount Ref="26" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>10.8,0,1.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataCustomerAccount_creditAmount</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
+              <Text>{CustomerAccount.creditAmount}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_creditAmount>
+            <DataCustomerAccount_recognizing Ref="27" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>12.6,0,1.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataCustomerAccount_recognizing</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
               <Text>{CustomerAccount.recognizing}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text4>
-            <Text5 Ref="22" type="Text" isKey="true">
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_recognizing>
+            <DataCustomerAccount_balanceAmoount Ref="28" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5,0,1.6,0.8</ClientRectangle>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>14.4,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,8</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>Text5</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
+              <Name>DataCustomerAccount_balanceAmoount</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
+              <Text>{CustomerAccount.balanceAmoount}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text5>
-            <Text6 Ref="23" type="Text" isKey="true">
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_balanceAmoount>
+            <DataCustomerAccount_dueAmount Ref="29" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>6.6,0,1.6,0.8</ClientRectangle>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>16.2,0,1.8,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,8</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>Text6</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
+              <Name>DataCustomerAccount_dueAmount</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
+              <Text>{CustomerAccount.dueAmount}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text6>
-            <Text7 Ref="24" type="Text" isKey="true">
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_dueAmount>
+            <DataCustomerAccount_docDesc Ref="30" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.2,0,1.6,0.8</ClientRectangle>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>18,0,1,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,8</Font>
               <Margins>0,0,0,0</Margins>
-              <Name>Text7</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
+              <Name>DataCustomerAccount_docDesc</Name>
+              <Page isRef="3" />
+              <Parent isRef="19" />
+              <Text>{CustomerAccount.docDesc}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text7>
-            <Text9 Ref="25" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>9.8,0,1.6,0.8</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text9</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text9>
-            <Text10 Ref="26" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>11.4,0,1.6,0.8</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text10</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text10>
-            <Text11 Ref="27" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>13,0,1.6,0.8</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text11</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text11>
-            <Text12 Ref="28" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>14.6,0,1.6,0.8</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text12</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text12>
-            <Text13 Ref="29" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>16.2,0,1.6,0.8</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text13</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text13>
-            <Text15 Ref="30" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>17.8,0,1.2,0.8</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text15</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text15>
-            <Text8 Ref="31" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>8.2,0,1.6,0.8</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text8</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text8>
-            <Text14 Ref="32" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>16.2,0,1.6,0.8</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text14</Name>
-              <Page isRef="2" />
-              <Parent isRef="18" />
-              <Text>{CustomerAccount.amount}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </Text14>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataCustomerAccount_docDesc>
           </Components>
           <Conditions isList="true" count="0" />
-          <DataRelationName isNull="true" />
-          <DataSourceName>CustomerAccount</DataSourceName>
+          <DataSourceName isNull="true" />
           <Expressions isList="true" count="0" />
           <Filters isList="true" count="0" />
-          <Name>DataBand1</Name>
-          <Page isRef="2" />
-          <Parent isRef="2" />
+          <Name>Data</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
           <Sort isList="true" count="0" />
-        </DataBand1>
+        </Data>
+        <Text2 Ref="31" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>-2,-1.4,1.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Expressions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text2</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>docDesc</Text>
+          <TextBrush>Black</TextBrush>
+        </Text2>
       </Components>
       <Conditions isList="true" count="0" />
       <Expressions isList="true" count="0" />
@@ -484,10 +488,10 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/9/2024 12:29:39 PM</ReportChanged>
+  <ReportChanged>9/10/2024 9:24:20 AM</ReportChanged>
   <ReportCreated>9/9/2024 10:31:34 AM</ReportCreated>
-  <ReportFile>D:\webs\react\sepehrmui\public\reports\CustomerAccountReport1.mrt</ReportFile>
-  <ReportGuid>128136ccc2134aebadf7d78c5135f401</ReportGuid>
+  <ReportFile>D:\myself\web\react\sepehrmui\public\reports\CustomerAccountReport1.mrt</ReportFile>
+  <ReportGuid>1fb4b6240ed64f99994f240905ada63f</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2023.1.1.0</ReportVersion>

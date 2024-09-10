@@ -39,8 +39,6 @@ const CustomerAccount = () => {
     customerAccountTools.mutate(filters)
   }
 
-  console.log("customerAccountTools?.data?.data.length", customerAccountTools?.data?.data?.details?.length)
-
   return (
     <>
       {customerAccountTools.isLoading && <Backdrop loading={customerAccountTools.isLoading} />}
@@ -79,33 +77,33 @@ const CustomerAccount = () => {
                 onDoubleClick={() => { }}
               />
             </div> */}
-            <Alert variant="outlined" color="info">
+            {/* <Alert variant="outlined" color="info">
               <div className="flex flex-col space-y-4">
                 <div className="flex flex-row justify-between items-center">
                   <div className="flex flex-row items-center gap-x-4">
                     <Typography variant="h3" className="text-gray-500">مانده حساب (ریال): </Typography>
                     <Typography variant="h1" color="primary">{separateAmountWithCommas(customerAccountTools?.data?.data?.remainingAmount || 0)}</Typography>
                   </div>
-                  {/* <div className="flex flex-row gap-x-4">
+                  <div className="flex flex-row gap-x-4">
                     <Typography variant="h3" className="text-gray-500">نوع</Typography>
                     <Typography variant="h1" color="primary">{customerAccountTools?.data?.data?.recognize}</Typography>
-                  </div> */}
+                  </div>
                 </div>
                 <div className="lg:pr-36">
                   <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.remainingAmount || 0)} تومان</Typography>
                 </div>
 
               </div>
-            </Alert>
+            </Alert> */}
             {/* {customerAccountTools?.data?.data.length > 0 &&
               <ReportViewer  />
             } */}
+            {customerAccountTools?.data?.data?.details?.length > 0 &&
+              <ReportViewer path={"../reports/CustomerAccount.mrt"} data={customerAccountTools?.data?.data?.details} />
+            }
           </form>}
         </Formik>
       </ReusableCard>
-      {customerAccountTools?.data?.data?.details?.length > 0 && 
-        <ReportViewer path={"../reports/CustomerAccountReport1.mrt"} data={customerAccountTools?.data?.data?.details} />
-      }
     </>
   )
 }
