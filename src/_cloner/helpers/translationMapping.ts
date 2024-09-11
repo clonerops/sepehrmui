@@ -4,6 +4,7 @@ export const translationMapping: any = {
     dashboard: 'داشبورد',
     order: 'سفارش',
     list: 'لیست',
+    draft: 'پیش نویس سفارش',
     lists: 'لیست',
     confirm: 'تایید',
     customers: 'مدیریت اطلاعات مشتری',

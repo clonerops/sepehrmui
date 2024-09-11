@@ -42,6 +42,7 @@ import ReadyToApproveRentPayment from "../modules/exitRemittance/ReadyToApproveE
 import ReadyToApproveRents from "../modules/rent-payment/ReadyToApproveRents";
 import RecievePaymentList from "../modules/payment/RecievePaymentList";
 import CustomerAccount from "../modules/customer/components/CustomerAccount";
+import Draft from "../modules/managment-order/sales-order/Draft";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -216,6 +217,7 @@ const RoleGroups = React.lazy(() => import("../modules/groups/Groups"));
 export const routes: RouteProps[] = [
     { path: "auth/*", element: <Navigate to="/dashboard" /> },
     { path: "dashboard", element: <Dashboard /> },
+    { path: "dashboard/order/draft", element: <Draft /> },
     { path: "dashboard/sales_order", element: <SalesOrder /> },
     { path: "dashboard/purchaser_order", element: <PurchaserOrder /> },
     { path: "dashboard/sales_order/lists", element: <SalesOrderList /> },
