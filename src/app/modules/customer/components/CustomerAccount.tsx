@@ -95,7 +95,7 @@ const CustomerAccount = () => {
               <ReportViewer  />
             } */}
             {customerAccountTools?.data?.data?.details?.length > 0 &&
-              <ReportViewer path={"../reports/CustomerAccount.mrt"} data={customerAccountTools?.data?.data?.details} />
+              <ReportViewer path={"/reports/CustomerAccount.mrt"} data={customerAccountTools?.data?.data?.details} />
             }
           </form>}
         </Formik>

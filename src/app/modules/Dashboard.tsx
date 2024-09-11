@@ -14,8 +14,17 @@ const Dashboard = () => {
                 <CardInformation cardClassName="!bg-[#F8B30E]" title="میانگین قیمت" value={77754} />
                 <CardInformation cardClassName="!bg-[#EB5553]" title="درآمد" value={77754} />
             </div>
-            <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 space-y-4 md:space-y-0">
+                <ReusableCard>
+                    <></>
+                </ReusableCard>
+                <ReusableCard>
+                    <></>
+                </ReusableCard>
+                <ReusableCard>
+                    <></>
+                </ReusableCard>
+                {/* <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
                     <ReusableCard cardClassName="col-span-3 w-full">
                         <SaleReportByProductType />
                     </ReusableCard>
@@ -24,7 +33,7 @@ const Dashboard = () => {
                     <ReusableCard cardClassName="col-span-3 w-full">
                         <SaleStatusDiagram />
                     </ReusableCard>
-                </div>
+                </div> */}
             </div>
 
         </>

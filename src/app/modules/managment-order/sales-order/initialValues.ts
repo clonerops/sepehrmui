@@ -9,7 +9,7 @@ export const saleOrderInitialValues = {
     deliverDate: "",
     invoiceTypeId: "",
     freightName: "",
-    isTemporary: 1,
+    isTemporary: 2,
     dischargePlaceAddress: "",
     freightDriverName: "",
     carPlaque: "",

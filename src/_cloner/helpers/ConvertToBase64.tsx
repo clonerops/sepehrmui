@@ -45,7 +45,7 @@ const convertFileToBase64 = (file: File): Promise<string> => {
             byteNumbers[j] = byteCharacters.charCodeAt(j);
         }
         const byteArray = new Uint8Array(byteNumbers);
-        const file: any = new Blob([byteArray], { type: 'application/octet-stream' });
+        const file: any  = new Blob([byteArray], { type: 'application/octet-stream' });
         file.name = fileNames[i]; // If you have filenames associated with base64 strings
         files.push(file);
     }

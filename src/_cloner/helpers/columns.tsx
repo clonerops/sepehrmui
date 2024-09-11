@@ -4620,6 +4620,50 @@ const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) =
     return col;
 };
 
+const DraftListColumn = (renderAction: any) => {
+    const col = [
+        {
+            field: "id",
+            headerName: "شماره سریال",
+            sortable: false,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1
+        },
+        {
+            field: "createdDate",
+            headerName: "تاریخ ثبت پیش نویس",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "creatorName",
+            headerName: "ثبت کننده پیش نویس",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
+            field: "detail",
+            renderCell: renderAction,
+            headerName: "",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+    ];
+    return col;
+}
+
+
+
 const ExitDetailColumn = [
     { id: 1, header: "کالا", accessor: "productName" },
     { id: 2, header: "برند", accessor: "productBrandName" },
@@ -4700,6 +4744,7 @@ export {
     ReadyToApproveRentsColumn,
     RecievePaymentListColumn,
     CustomerAccountColumn,
+    DraftListColumn,
     ExitDetailColumn
     // OrderConfirmColumn
 }
