@@ -5,17 +5,19 @@ import { DraftListColumn } from "../../../../_cloner/helpers/columns"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import ImagePreview from "../../../../_cloner/components/ImagePreview"
-import FuzzySearch from "../../../../_cloner/helpers/fuse"
-import { useGetAllDraftOrder } from "./core/_hooks"
+import { useGetAllDraftOrder, useGetDraftOrderDetail } from "./core/_hooks"
 import Pagination from "../../../../_cloner/components/Pagination"
+import { IDraftDetail } from "./core/_models"
 
 const pageSize = 100;
 
 const DraftList = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [selectedDraft, setSelectedDraft] = useState<IDraftDetail>({})
 
     const draftOrderTools = useGetAllDraftOrder()
+    const draftOrderDetailTools = useGetDraftOrderDetail()
 
     useEffect(() => {
         const filter = {
@@ -26,10 +28,17 @@ const DraftList = () => {
 
     }, [currentPage])
 
+    useEffect(() => {
+        draftOrderDetailTools.mutate(selectedDraft.id || 0)
+    }, [selectedDraft.id])
 
+    const handleSelectedDraft = (item: any) => {
+        setSelectedDraft(item)
+        setIsOpen(true)
+    }
 
-    const renderAction = () => {
-        return <Button variant="contained" color="secondary" onClick={() => setIsOpen(true)}>
+    const renderAction = (params: any) => {
+        return <Button variant="contained" color="secondary" onClick={() => handleSelectedDraft(params.row)}>
             <Typography>نمایش پیش نویس</Typography>
         </Button>
     }
@@ -38,20 +47,21 @@ const DraftList = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
+    console.log("selectedDraft", selectedDraft)
 
     return (
         <>
             <MuiDataGrid
                 columns={DraftListColumn(renderAction)}
-                data={[]}
-                rows={[]}
-                onDoubleClick={() => { }}
+                data={draftOrderTools?.data?.data}
+                rows={draftOrderTools?.data?.data}
+                onDoubleClick={(params: any) => handleSelectedDraft(params.row)}
             />
             <Pagination pageCount={+draftOrderTools?.data?.totalCount / +pageSize || 0} onPageChange={handlePageChange} />
 
-            <TransitionsModal width="80%" open={isOpen} isClose={() => setIsOpen(false)} title="مشاهده پیش نویس سریال 1254789">
+            <TransitionsModal width="80%" open={isOpen} isClose={() => setIsOpen(false)} title={`مشاهده پیش نویس سریال ${selectedDraft.id}`}>
                 <div className="mt-4">
-                    <ImagePreview base64Strings={[]} />
+                    <ImagePreview base64Strings={draftOrderTools?.data?.data?.attachments || []} />
                 </div>
             </TransitionsModal>
         </>

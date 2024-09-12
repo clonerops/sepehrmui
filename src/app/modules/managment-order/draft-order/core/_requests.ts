@@ -25,7 +25,20 @@ const getAllDraftOrder = async (filters: IDraftOrderFilter) => {
 
 }
 
+const getDraftOrderDetail = async (id: number) => {
+    try {
+    
+        const { data } = await http.get(`/v1/DraftOrder/${id}`)
+        return data
+    
+    } catch (error: any) {
+        return error.response
+    }
+
+}
+
 export {
     postDraftOrder,
-    getAllDraftOrder
+    getAllDraftOrder,
+    getDraftOrderDetail
 }
