@@ -18,12 +18,18 @@ import FormikInput from "../../../../_cloner/components/FormikInput"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { Search } from "@mui/icons-material"
 
+const initialValues = {
+    CreatorId: "",
+    Converted: 0,
+    FromDate: "",
+    ToDate: ""
+}
+
 const pageSize = 100;
 
 const allOption = [
-    { value: 1, label: "تایید نشده" },
-    { value: 2, label: "تایید شده" },
-    { value: -1, label: "همه" }];
+    { value: 0, label: "تایید نشده" },
+    { value: 1, label: "تایید شده" }];
 
 
 const DraftList = () => {
@@ -67,7 +73,15 @@ const DraftList = () => {
         </div>
     }
     
-    const onSubmit = () => { }
+    const onSubmit = (values: any) => { 
+        const filter = {
+            ...values,
+            Converted: values.Converted === 0 ? false : true,
+            PageNumber: currentPage,
+            PageSize: pageSize,
+        }
+        draftOrderTools.mutate(filter)
+    }
 
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
@@ -75,16 +89,16 @@ const DraftList = () => {
 
     return (
         <ReusableCard>
-            <Formik initialValues={{}} onSubmit={onSubmit}>
+            <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 {({ handleSubmit }) => {
                     return <form className="mb-4" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 space-y-4 lg:space-y-0">
-                            <FormikInput name="CreatorName" label="مسئول فروش" />
+                            <FormikInput name="CreatorId" label="مسئول فروش" />
                             <FormikDatepicker name="FromDate" label="از تاریخ" />
                             <FormikDatepicker name="ToDate" label="تا تاریخ" />
                         </div>
                         <div className="mx-4 mt-4">
-                            <FormikRadioGroup radioData={allOption} name="StatusId" />
+                            <FormikRadioGroup radioData={allOption} name="Converted" />
                         </div>
                         <div className="flex justify-end items-end">
                             <ButtonComponent onClick={() => handleSubmit()}>
