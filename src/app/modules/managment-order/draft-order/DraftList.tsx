@@ -5,7 +5,6 @@ import { DraftListColumn } from "../../../../_cloner/helpers/columns"
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import ImagePreview from "../../../../_cloner/components/ImagePreview"
-import FuzzySearch from "../../../../_cloner/helpers/fuse"
 import { useGetAllDraftOrder } from "./core/_hooks"
 import Pagination from "../../../../_cloner/components/Pagination"
 
