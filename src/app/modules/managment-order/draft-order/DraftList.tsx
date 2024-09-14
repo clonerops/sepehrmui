@@ -8,6 +8,7 @@ import ImagePreview from "../../../../_cloner/components/ImagePreview"
 import { useGetAllDraftOrder, useGetDraftOrderDetail } from "./core/_hooks"
 import Pagination from "../../../../_cloner/components/Pagination"
 import { IDraftDetail } from "./core/_models"
+import Backdrop from "../../../../_cloner/components/Backdrop"
 
 const pageSize = 100;
 
@@ -47,8 +48,6 @@ const DraftList = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
-    console.log("selectedDraft", selectedDraft)
-
     return (
         <>
             <MuiDataGrid
@@ -61,7 +60,7 @@ const DraftList = () => {
 
             <TransitionsModal width="80%" open={isOpen} isClose={() => setIsOpen(false)} title={`مشاهده پیش نویس سریال ${selectedDraft.id}`}>
                 <div className="mt-4">
-                    <ImagePreview base64Strings={draftOrderTools?.data?.data?.attachments || []} />
+                    {draftOrderDetailTools.isLoading ? <Backdrop loading={draftOrderDetailTools.isLoading} /> : <ImagePreview base64Strings={draftOrderDetailTools?.data?.data?.attachments || []} />}
                 </div>
             </TransitionsModal>
         </>

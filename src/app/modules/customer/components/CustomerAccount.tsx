@@ -88,7 +88,6 @@ const CustomerAccount = () => {
                 <div className="lg:pr-36">
                   <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.remainingAmount || 0)} تومان</Typography>
                 </div>
-
               </div>
             </Alert>
             {/* {customerAccountTools?.data?.data.length > 0 &&

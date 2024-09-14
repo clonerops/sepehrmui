@@ -9,10 +9,11 @@ interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')
   files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  capture?: any
   title?: string
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل های ضمیمه را انتخاب کنید" }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles, capture, title="فایل های ضمیمه را انتخاب کنید" }) => {
 
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -21,9 +22,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
     } else {
         setFiles([...files, ...acceptedFiles]);
 
-        if (acceptedFiles.length === 0) {
-          EnqueueSnackbar("سایز فایل بیش از 1.5 مگابایت می باشد", "error")
-        }    
+        // if (acceptedFiles.length === 0) {
+        //   EnqueueSnackbar("سایز فایل بیش از 1.5 مگابایت می باشد", "error")
+        // }    
     }
 
   };
@@ -37,11 +38,12 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
     maxFiles: 2,
     onDrop,
     accept: {
-      'image/jpeg': ['.jpeg', '.jpg', '.Jpeg', '.JPG'],
-      'image/png': ['.png', '.Png', '.PNG'],
+      // 'image/jpeg': ['.jpeg', '.jpg', '.Jpeg', '.JPG'],
+      // 'image/png': ['.png', '.Png', '.PNG'],
+      'image/*': [],
       'application/pdf': ['.pdf']
     },
-    maxSize: 1000000, // 60KB in bytes (1KB = 1024 bytes)
+    // maxSize: 1000000, // 60KB in bytes (1KB = 1024 bytes)
   });
 
   return (
@@ -50,7 +52,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
         {...getRootProps()}
         className="border-2 border-dashed p-4 border-gray-300"
       >
-        <input {...getInputProps()} />
+        <input {...getInputProps({capture: capture || false})} />
         <Typography>{title}</Typography>
       </div>
       <div>

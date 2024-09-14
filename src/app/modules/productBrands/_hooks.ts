@@ -43,6 +43,13 @@ const useDeleteProductBrands = () => {
     })
 }
 
+const useGetProductPricesByProductType = () => {
+    return useMutation((formData: IProductBrandFilter) => {
+        return api.getProductPricesByProductType    (formData)
+    })
+}
+
+
 export {
     useGetProductBrands,
     useGetProductBrandsByProductId,
@@ -50,5 +57,6 @@ export {
     useGetProductBrand,
     useUpdateProductBrands,
     useDeleteProductBrands,
-    useGetProductBrandsByMutation
+    useGetProductBrandsByMutation,
+    useGetProductPricesByProductType
 }
