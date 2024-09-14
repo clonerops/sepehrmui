@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import * as api from './_requests'
 import { IDraftOrderFilter, IPostDraftOrder } from './_models'
 
@@ -12,10 +12,16 @@ const useGetAllDraftOrder = () => {
     return useMutation((formData: IDraftOrderFilter) => {
         return api.getAllDraftOrder(formData)
     })
+}
 
+const useGetDraftOrderDetail = () => {
+    return useMutation((id: number) => {
+        return api.getDraftOrderDetail(id)
+    })
 }
 
 export {
     usePostDraftOrder,
-    useGetAllDraftOrder
+    useGetAllDraftOrder,
+    useGetDraftOrderDetail
 }

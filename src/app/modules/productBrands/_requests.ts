@@ -79,6 +79,18 @@ const deleteProductBrand = async (id: number) => {
     }
 }
 
+const getProductPricesByProductType = async (formData: IProductBrandFilter) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/ProductBrand/GetProductPricesByProductType', formData)}`)
+        return data;
+
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 export {
     getProductBrands,
     getProductBrandsByMutation,
@@ -86,5 +98,6 @@ export {
     postProductBrands,
     getProductBrand,
     updateProductBrands,
-    deleteProductBrand
+    deleteProductBrand,
+    getProductPricesByProductType
 }

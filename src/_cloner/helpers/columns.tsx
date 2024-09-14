@@ -4623,7 +4623,18 @@ const TransferWarehouseInventoryColumn = (renderAction: (values: any) => void) =
 const DraftListColumn = (renderAction: any) => {
     const col = [
         {
+            field: "detail",
+            renderCell: renderAction,
+            headerName: "",
+            headerClassName: "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+        {
             field: "id",
+            renderCell: (params: any) => {
+                return <Typography variant="h2">{params.value || 0}</Typography>;
+            },
             headerName: "شماره سریال",
             sortable: false,
             headerClassName: "headerClassName",
@@ -4642,7 +4653,7 @@ const DraftListColumn = (renderAction: any) => {
         },
         {
             field: "creatorName",
-            headerName: "ثبت کننده پیش نویس",
+            headerName: "مسئول فروش",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -4651,13 +4662,16 @@ const DraftListColumn = (renderAction: any) => {
             flex: 1,
         },
         {
-            field: "detail",
-            renderCell: renderAction,
-            headerName: "",
+            field: "description",
+            headerName: "توضیحات",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
             headerClassName: "headerClassName",
             minWidth: 120,
             flex: 1,
         },
+       
     ];
     return col;
 }

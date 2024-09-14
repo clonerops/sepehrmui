@@ -1,31 +1,43 @@
 import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
-// import ReactPanZoom from "react-image-pan-zoom-rotate";
-import Zoom from 'react-medium-image-zoom'
+import Zoom from 'react-medium-image-zoom';
+import imageCompression from 'browser-image-compression';
 import { EnqueueSnackbar } from '../helpers/snackebar';
 
 interface FileUploadProps {
   acceptedFileTypes?: string; // Accepted file types (e.g., 'image/*')
   files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
-  title?: string
+  capture?: any;
+  title?: string;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل های ضمیمه را انتخاب کنید" }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles, capture, title = "فایل های ضمیمه را انتخاب کنید" }) => {
 
-
-  const onDrop = (acceptedFiles: File[]) => {
-    if (files.length > 3) {
-      EnqueueSnackbar("امکان آپلود بیش از 4 ضمیمه وجود ندارد", "error")
-    } else {
-        setFiles([...files, ...acceptedFiles]);
-
-        if (acceptedFiles.length === 0) {
-          EnqueueSnackbar("سایز فایل بیش از 1.5 مگابایت می باشد", "error")
-        }    
+  const compressImage = async (file: File) => {
+    try {
+      const options = {
+        maxSizeMB: 0.5,  // حجم فایل کمتر از 0.5 مگابایت
+        maxWidthOrHeight: 800,  // حداکثر ارتفاع یا عرض تصویر
+        useWebWorker: true
+      };
+      const compressedFile = await imageCompression(file, options);
+      return compressedFile;
+    } catch (error) {
+      console.error("Error compressing image:", error);
+      return file; // اگر فشرده سازی شکست بخورد، فایل اصلی را برمی‌گرداند
     }
+  };
 
+  const onDrop = async (acceptedFiles: File[]) => {
+    if (files.length > 3) {
+      EnqueueSnackbar("امکان آپلود بیش از 4 ضمیمه وجود ندارد", "error");
+    } else {
+      const compressedFilesPromises = acceptedFiles.map(file => compressImage(file));
+      const compressedFiles = await Promise.all(compressedFilesPromises);
+      setFiles([...files, ...compressedFiles]);
+    }
   };
 
   const removeFile = (file: File) => {
@@ -37,11 +49,9 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
     maxFiles: 2,
     onDrop,
     accept: {
-      'image/jpeg': ['.jpeg', '.jpg', '.Jpeg', '.JPG'],
-      'image/png': ['.png', '.Png', '.PNG'],
+      'image/*': [],
       'application/pdf': ['.pdf']
-    },
-    maxSize: 1000000, // 60KB in bytes (1KB = 1024 bytes)
+    }
   });
 
   return (
@@ -50,7 +60,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
         {...getRootProps()}
         className="border-2 border-dashed p-4 border-gray-300"
       >
-        <input {...getInputProps()} />
+        <input {...getInputProps({ capture: capture || false })} />
         <Typography>{title}</Typography>
       </div>
       <div>
@@ -58,14 +68,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, setFiles,title="فایل
         <ul className="mt-8 flex gap-x-4">
           {files.map((file, index) => (
             <li className="text-xl " key={index}>
-              {/* {file.name} */}
-
-              {/* <div style={{ maxWidth: '50%', position:'relative' }}>
-                <ReactPanZoom 
-                      image={URL.createObjectURL(file)}
-                      alt={file.name}            
-                  />
-              </div> */}
               <Zoom>
                 <img
                   src={URL.createObjectURL(file)}

@@ -3,7 +3,7 @@ import { Typography } from "@mui/material"
 import { Formik } from "formik"
 import { AddCircleOutline } from '@mui/icons-material'
 import { IProductBrand, IProductBrandFilter } from "./_models"
-import { useGetProductBrandsByMutation, usePostProductBrands, useUpdateProductBrands } from './_hooks'
+import { useGetProductBrandsByMutation, useGetProductPricesByProductType, usePostProductBrands, useUpdateProductBrands } from './_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 // import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
 import { ProductBrandsColumn } from '../../../_cloner/helpers/columns'
@@ -33,6 +33,9 @@ const ProductBrands = () => {
   const productBrandTools = useGetProductBrandsByMutation()
   const postProductBrandTools = usePostProductBrands()
   const updateProductBrandTools = useUpdateProductBrands()
+  // const productPricesType = useGetProductPricesByProductType()
+
+  // console.log("productPricesType?.data?.data", productPricesType?.data?.data)
 
   const [results, setResults] = useState<IProductBrand[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -48,6 +51,11 @@ const ProductBrands = () => {
     })
     // eslint-disable-next-line
   }, [currentPage]);
+  
+  // useEffect(() => {
+  //   productPricesType.mutate({})
+  //   // eslint-disable-next-line
+  // }, []);
 
 
   const onUpdateStatus = (rowData: any) => {
@@ -92,6 +100,7 @@ const ProductBrands = () => {
 
   return (
     <>
+      {/* {productPricesType.isLoading && <Backdrop loading={productPricesType.isLoading} />} */}
       {productBrandTools.isLoading && <Backdrop loading={productBrandTools.isLoading} />}
       {postProductBrandTools.isLoading && <Backdrop loading={postProductBrandTools.isLoading} />}
       {updateProductBrandTools.isLoading && <Backdrop loading={updateProductBrandTools.isLoading} />}

@@ -74,7 +74,7 @@ const Draft = () => {
                             <Typography variant="h2" color="primary" className="pb-4">
                                 افزودن پیوست
                             </Typography>
-                            <FileUpload files={files} setFiles={setFiles} />
+                            <FileUpload capture={"environment"} files={files} setFiles={setFiles} />
                         </div>
 
                         <FormikInput minRows={3} multiline name="description" label="توضیحات" />

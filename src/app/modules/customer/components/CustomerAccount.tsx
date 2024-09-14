@@ -69,7 +69,7 @@ const CustomerAccount = () => {
               </ButtonComponent>
             </div>
 
-            {/* <div className="my-4">
+            <div className="my-4">
               <MuiDataGrid
                 columns={CustomerAccountColumn()}
                 rows={customerAccountTools?.data?.data?.details}
@@ -88,15 +88,14 @@ const CustomerAccount = () => {
                 <div className="lg:pr-36">
                   <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.remainingAmount || 0)} تومان</Typography>
                 </div>
-
               </div>
-            </Alert> */}
+            </Alert>
             {/* {customerAccountTools?.data?.data.length > 0 &&
               <ReportViewer  />
             } */}
-            {customerAccountTools?.data?.data?.details?.length > 0 &&
+            {/* {customerAccountTools?.data?.data?.details?.length > 0 &&
               <ReportViewer path={"/reports/CustomerAccount.mrt"} data={customerAccountTools?.data?.data?.details} />
-            }
+            } */}
           </form>}
         </Formik>
       </ReusableCard>

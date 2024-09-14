@@ -51,6 +51,7 @@ const SalesOrder = () => {
         } else {
             try {
                 const formData = {
+                    draftOrderId: values.customerId,
                     customerId: values.customerId,
                     totalAmount: calculateTotalAmount(orders, orderServices),
                     description: values.description,
@@ -251,7 +252,7 @@ const SalesOrder = () => {
                                     postSaleOrder.isLoading ||
                                     orderPayment.length <= 0 ||
                                     formikRef.current?.values.customerId === "" ||
-                                    // formikRef.current?.values.invoiceTypeId === "" ||
+                                    // formikRef.current?.values.invoiceTypeId === "" ||P
                                     // formikRef.current?.values.deliverDate === "" ||
                                     postSaleOrder?.data?.succeeded ||
                                     !orderValid
