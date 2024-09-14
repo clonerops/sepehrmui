@@ -44,6 +44,7 @@ import RecievePaymentList from "../modules/payment/RecievePaymentList";
 import CustomerAccount from "../modules/customer/components/CustomerAccount";
 import Draft from "../modules/managment-order/draft-order/Draft";
 import DraftList from "../modules/managment-order/draft-order/DraftList";
+import OrderTemporaryLists from "../modules/managment-order/sales-order/OrderTemporaryLists";
 
 const MasterLayout = React.lazy(() => import("../modules/layout/MasterLayout"));
 const OrganizationBank = React.lazy(() => import("../modules/organizationBank/OrganizationBank"));
@@ -223,6 +224,7 @@ export const routes: RouteProps[] = [
     { path: "dashboard/sales_order", element: <SalesOrder /> },
     { path: "dashboard/purchaser_order", element: <PurchaserOrder /> },
     { path: "dashboard/sales_order/lists", element: <SalesOrderList /> },
+    { path: "dashboard/order/orderTemporaryLists", element: <OrderTemporaryLists /> },
     { path: "dashboard/sales_order/presale", element: <PreSaleLists /> },
     { path: "dashboard/purchaser_order/lists", element: <PurchaserOrderList /> },
     { path: "dashboard/sales_order/lists/:id", element: <SalesOrderDetail /> },

@@ -66,10 +66,8 @@ const DraftList = () => {
             </Link>
         </div>
     }
-
+    
     const onSubmit = () => { }
-
-    const handleFilterBasedofStatus = () => { }
 
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
@@ -103,6 +101,7 @@ const DraftList = () => {
                 columns={DraftListColumn(renderAction)}
                 data={draftOrderTools?.data?.data}
                 rows={draftOrderTools?.data?.data}
+                getRowId={(params: {id: number}) => params.id}
                 onDoubleClick={(params: any) => handleSelectedDraft(params.row)}
             />
             <Pagination pageCount={+draftOrderTools?.data?.totalCount / +pageSize || 0} onPageChange={handlePageChange} />

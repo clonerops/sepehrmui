@@ -6,6 +6,7 @@ export const translationMapping: any = {
     list: 'لیست',
     draft: 'پیش نویس سفارش',
     draftList: 'لیست پیش نویس سفارش',
+    orderTemporaryLists: 'لیست سفارشات موقت',
     lists: 'لیست',
     confirm: 'تایید',
     customers: 'مدیریت اطلاعات مشتری',

@@ -24,6 +24,7 @@ import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useGetProductList } from '../../products/_hooks'
 import { useGetCustomer } from '../../customer/core/_hooks'
 import { InvoiceType, WarehouseType } from '../../../../_cloner/helpers/Enums'
+import { useSearchParams } from 'react-router-dom'
 
 const categories = [
     { value: 2, title: "پیش فروش", defaultChecked: false },
@@ -31,6 +32,10 @@ const categories = [
 ]
 
 const SalesOrder = () => {
+
+    const [searchParams] = useSearchParams()
+    const draftOrderIdParams = searchParams.get('draftOrderId')
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOpenCustomerFeacture, setIsOpenCustomerFeacture] = useState<boolean>(false);
     const [orders, setOrders] = useState<IOrderItems[]>([]);
@@ -51,7 +56,7 @@ const SalesOrder = () => {
         } else {
             try {
                 const formData = {
-                    draftOrderId: values.customerId,
+                    draftOrderId: draftOrderIdParams ? draftOrderIdParams : null,
                     customerId: values.customerId,
                     totalAmount: calculateTotalAmount(orders, orderServices),
                     description: values.description,

@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 
 import { Alert, Typography } from '@mui/material'
 import { Formik, FormikProps } from "formik"
-import Swal from 'sweetalert2'
 
 import { saleOrderEditInitialValues } from "./initialValues"
 
@@ -25,9 +24,15 @@ import OrderDetailBaseOrderCode from './components/OrderDetailBaseOrderCode'
 import { useGetProductList } from '../../products/_hooks'
 import { WarehouseType } from '../../../../_cloner/helpers/Enums'
 import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
+import { useSearchParams } from 'react-router-dom'
 
 const SalesOrderEdit = () => {
 
+    const [searchParams] = useSearchParams();
+    let orderCodeSearchParams = searchParams.get("orderCode")
+
+    console.log("orderCodeSearchParams", orderCodeSearchParams)
+    
     let formikRef = useRef<FormikProps<any>>(null);
 
     const [orders, setOrders] = useState<IOrderItems[]>([]); // OK
@@ -40,6 +45,40 @@ const SalesOrderEdit = () => {
 
     const products = useGetProductList();
     const detailTools = useGetOrderDetailByCode()
+
+    const onGetOrderDetailByCode = (value: any) => {
+        detailTools.mutate(value, {
+            onSuccess: () => {
+                if (formikRef.current?.values?.searchOrderCode !== 0) {
+                    formikRef.current?.setFieldValue("searchOrderCode", 0);
+                }
+            },
+        });
+    };
+
+    useEffect(() => {
+        if (orderCodeSearchParams !== undefined && orderCodeSearchParams !== null) {
+            onGetOrderDetailByCode(orderCodeSearchParams);
+        } else {
+                    // Reset Formik fields when orderCodeSearchParams is null
+        detailTools.reset()
+        if (formikRef.current) {
+            formikRef.current.resetForm({
+                values: saleOrderEditInitialValues // Reset to initial values
+            });
+        }
+        // Clear data in case of null orderCodeSearchParams
+        setOrders([]);
+        setOrderPayment([]);
+        setOrderServices([]);
+        setCategories([]);
+
+        }
+        
+    }, [orderCodeSearchParams]);
+    
+
+
     const { data: warehouse } = useGetWarehouses();
 
     useEffect(() => {
@@ -246,9 +285,8 @@ const SalesOrderEdit = () => {
             } onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {
                     return <>
-                        {/*The design of the header section of the order module includes order information and customer information */}
                         <div className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
-                            <OrderDetailBaseOrderCode postSaleOrder={postSaleOrder} detailTools={detailTools} formikRef={formikRef} orderCode={values.searchOrderCode} orderServices={orderServices} orders={orders} />
+                            <OrderDetailBaseOrderCode onGetOrderDetailByCode={onGetOrderDetailByCode} orderCodeSearchParams={orderCodeSearchParams} postSaleOrder={postSaleOrder} detailTools={detailTools} formikRef={formikRef} orderCode={values.searchOrderCode} orderServices={orderServices} orders={orders} />
                             <div className='col-span-3'>
                                 <OrderFeature categories={categories} postOrder={postSaleOrder} />
                             </div>
@@ -256,7 +294,6 @@ const SalesOrderEdit = () => {
                                 <img alt="sepehriranian" src={toAbsoulteUrl('/media/logos/3610632.jpg')} width={300} />
                             </ReusableCard>
                         </div>
-                        {/*The design of the main section of the order module order */}
                         <div className="md:space-y-0 space-y-4 md:gap-x-4">
                             <ReusableCard cardClassName="col-span-3">
                                 <OrderProductDetail
