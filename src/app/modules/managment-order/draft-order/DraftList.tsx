@@ -14,7 +14,6 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard"
 import { Formik } from "formik"
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker"
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup"
-import FormikInput from "../../../../_cloner/components/FormikInput"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { Search } from "@mui/icons-material"
 import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole"
@@ -30,8 +29,8 @@ const initialValues = {
 const pageSize = 100;
 
 const allOption = [
-    { value: 0, label: "تایید نشده" },
-    { value: 1, label: "تایید شده" }];
+    { value: 0, label: "ثبت نشده" },
+    { value: 1, label: "ثبت شده" }];
 
 
 const DraftList = () => {
@@ -52,7 +51,7 @@ const DraftList = () => {
     }, [currentPage])
 
     useEffect(() => {
-        draftOrderDetailTools.mutate(selectedDraft.id || 0)
+        draftOrderDetailTools.mutate(selectedDraft.id || "")
     }, [selectedDraft.id])
 
     const handleSelectedDraft = (item: any) => {
@@ -67,7 +66,7 @@ const DraftList = () => {
                     <Typography>نمایش پیش نویس</Typography>
                 </Button>
             </div>
-            <Link to={`/dashboard/sales_order?draftOrderId=${params.row.draftOrderCode}`} >
+            <Link to={`/dashboard/sales_order?draftOrderId=${params.row.id}`} >
                 <Button size="small" variant="contained" color="primary">
                     <Typography>ثبت سفارش</Typography>
                 </Button>
@@ -78,6 +77,7 @@ const DraftList = () => {
     const onSubmit = (values: any) => {
         const filter = {
             ...values,
+            CreatorId: values.CreatorId.value,
             Converted: +values.Converted === 0 ? false : true,
             PageNumber: currentPage,
             PageSize: pageSize,
@@ -122,7 +122,7 @@ const DraftList = () => {
             />
             <Pagination pageCount={+draftOrderTools?.data?.totalCount / +pageSize || 0} onPageChange={handlePageChange} />
 
-            <TransitionsModal width="80%" open={isOpen} isClose={() => setIsOpen(false)} title={`مشاهده پیش نویس سریال ${selectedDraft.id}`}>
+            <TransitionsModal width="80%" open={isOpen} isClose={() => setIsOpen(false)} title={`مشاهده پیش نویس سریال ${selectedDraft.draftOrderCode}`}>
                 <div className="mt-4">
                     {draftOrderDetailTools.isLoading ?
                         <Backdrop loading={draftOrderDetailTools.isLoading} /> :

@@ -12,7 +12,8 @@ export interface IDraftOrderFilter {
 }
 
 export interface IDraftDetail {
-    id?: number | undefined | null,
+    id?: string | undefined | null,
+    draftOrderCode?: number | undefined | null,
     creatorName?: string | undefined | null,
     createdDate?: string | undefined | null,
     converted?: boolean | undefined | null,

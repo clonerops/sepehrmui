@@ -15,7 +15,7 @@ const useGetAllDraftOrder = () => {
 }
 
 const useGetDraftOrderDetail = () => {
-    return useMutation((id: number) => {
+    return useMutation((id: string) => {
         return api.getDraftOrderDetail(id)
     })
 }

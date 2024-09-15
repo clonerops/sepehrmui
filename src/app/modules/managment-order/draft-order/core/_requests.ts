@@ -25,7 +25,7 @@ const getAllDraftOrder = async (filters: IDraftOrderFilter) => {
 
 }
 
-const getDraftOrderDetail = async (id: number) => {
+const getDraftOrderDetail = async (id: string) => {
     try {
     
         const { data } = await http.get(`/v1/DraftOrder/${id}`)

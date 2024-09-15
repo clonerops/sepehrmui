@@ -153,7 +153,7 @@ const SalesOrderEdit = () => {
                 customerOfficialName: "string",
                 customerOfficialCompanyId: values.customerOfficialCompanyId ? +values.customerOfficialCompanyId : null, //NOTOK
                 invoiceTypeId: values.invoiceTypeId ? values.invoiceTypeId : detailTools?.data?.data.invoiceTypeId, //ok
-                isTemporary: values.isTemorary && values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
+                isTemporary: values.isTemporary === 1 ? false : values.isTemporary === 2 ? true : detailTools?.data?.data.isTemporary,
                 freightName: "string", //ok
                 settlementDate: "1402/02/02", //ok
                 dischargePlaceAddress: "string", //ok
