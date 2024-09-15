@@ -1,24 +1,18 @@
 import { Button, Typography } from "@mui/material"
-import { memo } from "react";
+import { FC, memo } from "react";
+import { ICustomButtonProps } from "../helpers/_models";
 
-type Props = {
-    title: string;
-    onClick: any
-    disabled?: boolean
-    color?: any
-    isLoading?: boolean
-}
 
-const CustomButton = (props: Props) => {
-    const { title, onClick, disabled, color, isLoading } = props
+const CustomButton:FC<ICustomButtonProps> = ({title, className, onClick, disabled, color, isLoading, fullWidth, ...rest}) => {
+
     return (
-        <Button type='submit' onClick={onClick} variant="contained" color={color} disabled={disabled}>
+        <Button className={className} type='submit' onClick={onClick} variant="contained" color={color} disabled={disabled} fullWidth={fullWidth} {...rest}>
             {isLoading ? (
-                <Typography variant="h3" className="px-8 py-1">
+                <Typography variant="h3" className="px-8 py-2">
                     درحال پردازش ...
                 </Typography>
             ) : (
-                <Typography variant="h3" className="px-8 py-1">
+                <Typography variant="h3" className="px-8 py-2">
                     {title}
                 </Typography>
             )}

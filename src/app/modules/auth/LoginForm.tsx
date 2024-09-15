@@ -1,9 +1,10 @@
-import { Button, IconButton, TextField, Typography } from "@mui/material";
+import { IconButton, TextField, Typography } from "@mui/material";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import Captcha from "./components/Captcha";
 import { Autorenew } from "@mui/icons-material";
 import { UseQueryResult } from "@tanstack/react-query";
 import { FC } from "react";
+import CustomButton from "../../../_cloner/components/CustomButton";
 
 interface IProps {
     formik: any;
@@ -67,21 +68,16 @@ const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha }) => {
       </div>
 
       <div className="w-[60%] md:w-[80%] my-4 mb-8">
-        <Button
+        <CustomButton
           fullWidth
-          variant="contained"
-          type="submit"
-          color="secondary"
           disabled={
             !formik.values.captchaCode ||
             !formik.values.password ||
             !formik.values.userName
           }
-        >
-          <Typography variant="h4" className="py-2">
-            {loading ? "درحال پردارش ..." : "ورود به حساب کاربری"}
-          </Typography>
-        </Button>
+          color={"secondary"}
+          title="ورود به حساب کاربری"
+        />
       </div>
     </form>
   );
