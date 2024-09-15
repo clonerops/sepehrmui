@@ -1,26 +1,15 @@
 import { Typography } from "@mui/material";
+import { FC } from "react";
+import { IActiveTextProps } from "../helpers/_models";
 
-type Props = {
-    params: any;
-    successTitle: any;
-    dangerTitle: any;
-}
-
-const ActiveText = (props: Props) => {
-    const { params, successTitle, dangerTitle } = props;
+const ActiveText:FC<IActiveTextProps> = ({params, successTitle, dangerTitle}) => {
         return (
             params?.value === true ? (
-                <Typography
-                    className=" text-green-600 px-4 py-1 rounded-md"
-                    variant="h4"
-                >
+                <Typography className=" text-green-600 px-4 py-1 rounded-md" variant="h4">
                     {successTitle}
                 </Typography>
             ) : (
-                <Typography
-                    className=" text-red-600 px-4 py-1 rounded-md"
-                    variant="h4"
-                >
+                <Typography className=" text-red-600 px-4 py-1 rounded-md" variant="h4">
                     {dangerTitle}
                 </Typography>
             )

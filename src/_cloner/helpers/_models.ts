@@ -3,9 +3,9 @@ import React from "react"
 export interface ICustomButtonProps {
     title: string
     className?: string
-    onClick?: any
+    onClick?: () => void
     disabled?: boolean
-    color?: any
+    color?: "secondary" | "primary"
     isLoading?: boolean
     fullWidth?: boolean
 }
@@ -15,4 +15,11 @@ export interface IAccordionProps {
     content: React.ReactNode
     title: string
     deleteOnClick: () => void
+}
+
+
+export interface IActiveTextProps {
+    params: { value: boolean }
+    successTitle: string;
+    dangerTitle: string;
 }
