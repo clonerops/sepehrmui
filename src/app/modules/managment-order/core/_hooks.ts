@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IApproveInvoice, IPurchaserOrder } from "./_models";
+import { IApproveInvoice, IPurchaserOrder, ISaleOrderFilter } from "./_models";
 import * as api from "./_requests";
 
 // Sales Order
@@ -15,14 +15,7 @@ const useRetrieveOrders = (formData: { pageNumber?: number; pageSize?: number; I
     });
 };
 
-const useRetrieveOrdersByMutation = () => useMutation((formData: { 
-    pageNumber?: number; 
-    pageSize?: number; 
-    InvoiceTypeId?: number[]; 
-    OrderStatusId?: number;
-    OrderCode?: number;
-    IsTemporary?: boolean;
-}) => api.retrieveOrdersMutation(formData));
+const useRetrieveOrdersByMutation = () => useMutation((formData: ISaleOrderFilter) => api.retrieveOrdersMutation(formData));
 
 const useRetrieveOrder = (id: string | undefined) => {
     return useQuery(["order", id], () => api.retrieveOrder(id), {

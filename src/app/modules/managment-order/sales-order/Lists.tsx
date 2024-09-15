@@ -4,7 +4,7 @@ import { Tooltip, Typography } from '@mui/material'
 
 import { useRetrieveOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { Print, Visibility } from "@mui/icons-material";
+import { Print, Search, Visibility } from "@mui/icons-material";
 import { OrderColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
@@ -13,6 +13,16 @@ import Pagination from "../../../../_cloner/components/Pagination";
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import { InvoiceType } from "../../../../_cloner/helpers/Enums";
+import { Formik } from "formik";
+import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+
+const initialValues = {
+    orderCode: "",
+    SaleManagerId: "",
+    Roles: ""
+}
 
 const pageSize = 100
 
@@ -27,8 +37,8 @@ const SalesOrderList = () => {
 
     useEffect(() => {
         const formData = {
-            pageNumber: currentPage,
-            pageSize: pageSize,
+            PageNumber: currentPage,
+            PageSize: pageSize,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -51,7 +61,7 @@ const SalesOrderList = () => {
                     </Link>
                 </Tooltip>
                 <Tooltip title={<Typography variant='h3'>فاکتور</Typography>}>
-                    <a target='_blank'  href={`/dashboard/${[InvoiceType.Mahfam, InvoiceType.Sepehr].includes(item.row.invoiceTypeId) ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
+                    <a target='_blank' href={`/dashboard/${[InvoiceType.Mahfam, InvoiceType.Sepehr].includes(item.row.invoiceTypeId) ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
                         <Print color="primary" />
                     </a>
                 </Tooltip>
@@ -64,13 +74,12 @@ const SalesOrderList = () => {
     };
 
     const onSubmit = (values: any) => {
-        const formData = values?.orderCode ? {
-            pageNumber: currentPage,
-            pageSize: pageSize,
-            OrderCode: +values?.orderCode
-        } : {
-            pageNumber: currentPage,
-            pageSize: pageSize,
+        const formData = {
+            ...values,
+            PageNumber: currentPage,
+            PageSize: pageSize, 
+            SaleManagerId: values?.SaleManagerId?.value
+
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -83,7 +92,25 @@ const SalesOrderList = () => {
         <>
             {orderLists.isLoading && <Backdrop loading={orderLists.isLoading} />}
             <ReusableCard>
-                <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
+                <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                    {({ handleSubmit, values }) => {
+                        return <form onSubmit={handleSubmit}>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 space-y-4 lg:space-y-0">
+                                <FormikInput name="orderCode" label="شماره سفارش" />
+                                <FormikUserByRole name="SaleManagerId" label="مسئول فروش" values={values} />
+                            </div>
+                            <div className="flex justify-end items-end">
+                                <ButtonComponent onClick={() => handleSubmit()}>
+                                    <div className="flex flex-row gap-x-4">
+                                        <Search className="text-white" />
+                                        <Typography className="text-white">جستجو</Typography>
+                                    </div>
+                                </ButtonComponent>
+                            </div>
+
+                        </form>
+                    }}
+                </Formik>
                 <MuiDataGrid
                     columns={OrderColumn(renderAction)}
                     rows={results}

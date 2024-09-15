@@ -139,6 +139,7 @@ const SalesOrder = () => {
                     formikRef.current?.values.customerOfficialCompanyId === undefined)) {
                         EnqueueSnackbar("در سفارشات رسمی باید شرکت رسمی مشتری انتخاب گردد", "warning")
                     } else {
+                        console.log(JSON.stringify(formData))
                         postSaleOrder.mutate(formData, {
                             onSuccess: (response) => {
                                 if (response.data.Errors&&response.data.Errors.length > 0) {

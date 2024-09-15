@@ -1,6 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { IApproveInvoice, IApprovePurchaserInvoice, IPurchaserOrder, IPurchaserTransferBetweenWarehouse, ISalesOrder } from "./_models";
+import { IApproveInvoice, IApprovePurchaserInvoice, IPurchaserOrder, IPurchaserTransferBetweenWarehouse, ISaleOrderFilter, ISalesOrder } from "./_models";
 
 // Sales Order
 const createOrder = async (formData: ISalesOrder) => {
@@ -36,25 +36,10 @@ const retrieveOrders = async (formData: { pageNumber?: number; pageSize?: number
 }
 
 
-const retrieveOrdersMutation = async (formData: { 
-    pageNumber?: number; 
-    pageSize?: number; 
-    InvoiceTypeId?: number[]; 
-    OrderStatusId?: number
-    OrderCode?: number
-    IsTemporary?: boolean
- }) => {
-    const filter = {
-        pageNumber: formData.pageNumber,
-        pageSize: formData.pageSize,
-        InvoiceTypeId: formData.InvoiceTypeId,
-        OrderStatusId: formData.OrderStatusId,
-        OrderCode: formData.OrderCode,
-        IsTemporary: formData.IsTemporary,
-      };
+const retrieveOrdersMutation = async (filters: ISaleOrderFilter) => {
 
     try {
-        const { data } = await http.get(`${generateURLQueryParam("/v1/Order", filter)}`)
+        const { data } = await http.get(`${generateURLQueryParam("/v1/Order", filters)}`)
         return data
     } catch (error: any) {
         return error.response

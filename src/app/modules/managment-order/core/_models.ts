@@ -184,6 +184,17 @@ export interface ISaleOrderDetail extends IOrder {
     purchaserCustomerName: string | null | undefined;
 }
 
+export interface ISaleOrderFilter {
+    PageNumber?: number; 
+    PageSize?: number; 
+    InvoiceTypeId?: number[]; 
+    OrderStatusId?: number;
+    OrderCode?: number;
+    IsTemporary?: boolean;
+    CreatorId?: string | null | undefined
+    SaleManagerId?: string | null | undefined
+}
+
 // Purchaser Models
 
 export interface IPurchaserOrderDetails {

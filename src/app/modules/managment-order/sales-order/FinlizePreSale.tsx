@@ -4,20 +4,31 @@ import { Button, Tooltip, Typography } from '@mui/material'
 
 import { useRetrieveOrdersByMutation } from "../core/_hooks";
 import { IOrder } from "../core/_models";
-import { ConvertPreSaleColumn, OrderColumn } from "../../../../_cloner/helpers/columns";
+import { ConvertPreSaleColumn } from "../../../../_cloner/helpers/columns";
 
 import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
-import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
 import Backdrop from "../../../../_cloner/components/Backdrop";
 import ConfirmDialog from "../../../../_cloner/components/ConfirmDialog";
+import { Formik } from "formik";
+import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole";
+import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
+import { Search } from "@mui/icons-material";
+import FormikInput from "../../../../_cloner/components/FormikInput";
+
+const initialValues = {
+    orderCode: "",
+    SaleManagerId: "",
+    Roles: ""
+}
+
 
 const pageSize = 100
 
 const FinlizePreSale = () => {
     const navigate = useNavigate()
-    
+
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [approve, setApprove] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<any>({})
@@ -28,8 +39,8 @@ const FinlizePreSale = () => {
 
     useEffect(() => {
         const formData = {
-            pageNumber: currentPage,
-            pageSize: pageSize,
+            PageNumber: currentPage,
+            PageSize: pageSize,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -74,13 +85,12 @@ const FinlizePreSale = () => {
     };
 
     const onSubmit = (values: any) => {
-        const formData = values?.orderCode ? {
-            pageNumber: currentPage,
-            pageSize: pageSize,
-            OrderCode: +values?.orderCode
-        } : {
-            pageNumber: currentPage,
-            pageSize: pageSize,
+        const formData = {
+            ...values,
+            PageNumber: currentPage,
+            PageSize: pageSize,
+            SaleManagerId: values?.SaleManagerId?.value
+
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -93,7 +103,26 @@ const FinlizePreSale = () => {
         <>
             {orderLists.isLoading && <Backdrop loading={orderLists.isLoading} />}
             <ReusableCard>
-                <SearchFromBack inputName='orderCode' initialValues={{ orderCode: "" }} onSubmit={onSubmit} label="شماره سفارش" />
+                <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                    {({ handleSubmit, values }) => {
+                        return <form onSubmit={handleSubmit}>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 space-y-4 lg:space-y-0">
+                                <FormikInput name="orderCode" label="شماره سفارش" />
+                                <FormikUserByRole name="SaleManagerId" label="مسئول فروش" values={values} />
+                            </div>
+                            <div className="flex justify-end items-end">
+                                <ButtonComponent onClick={() => handleSubmit()}>
+                                    <div className="flex flex-row gap-x-4">
+                                        <Search className="text-white" />
+                                        <Typography className="text-white">جستجو</Typography>
+                                    </div>
+                                </ButtonComponent>
+                            </div>
+
+                        </form>
+                    }}
+                </Formik>
+
                 <MuiDataGrid
                     columns={ConvertPreSaleColumn(renderAction)}
                     rows={results}
@@ -110,7 +139,7 @@ const FinlizePreSale = () => {
                 confirmText={"تایید"}
                 onCancel={() => setApprove(false)}
                 // onConfirm={() => handleConfirmOrder(values, 2)}
-                onConfirm={() => {}}
+                onConfirm={() => { }}
             />
 
         </>
