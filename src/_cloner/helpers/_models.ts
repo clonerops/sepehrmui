@@ -44,3 +44,15 @@ export interface IBottomDrawerProps {
 }
 
 
+export interface ICardInformationProps {
+    title: string
+    cardClassName: string
+    value: any
+}
+
+
+export interface IBubbleChartProps {
+    data?: any;
+    isLoading?: boolean;
+    isError?: boolean;
+}
