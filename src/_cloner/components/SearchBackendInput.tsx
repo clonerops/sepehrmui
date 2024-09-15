@@ -1,5 +1,4 @@
 import { TextField } from "@mui/material";
-import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
   TextFieldProps,
@@ -7,7 +6,6 @@ import {
 } from "@mui/material/TextField/TextField";
 import { memo } from "react";
 
-export type Label = keyof typeof translation;
 
 type Props = {
   label: string;

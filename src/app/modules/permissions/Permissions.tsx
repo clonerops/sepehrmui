@@ -157,7 +157,7 @@ const Permissions = () => {
                     <Box component="div" className="lg:col-span-2">
                         <PermissionForm refetch={Permissions.refetch} />
                         <FuzzySearch<Item>
-                            keys={["permissionName", "description"]}
+                            keys={["name", "description"]}
                             data={Permissions?.data?.data || []}
                             setResults={setResults}
                         />

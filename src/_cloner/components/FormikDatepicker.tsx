@@ -5,11 +5,9 @@ import MultiDatepicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
-import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import moment from "moment-jalaali";
 
-export type Label = keyof typeof translation;
 
 type Props = {
     boxClassName?: string;

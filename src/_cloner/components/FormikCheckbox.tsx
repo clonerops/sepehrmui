@@ -1,5 +1,4 @@
 import { Checkbox } from "@mui/material";
-import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
   CheckboxProps,
@@ -7,7 +6,6 @@ import {
 import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 
-export type Label = keyof typeof translation;
 
 type Props = {
   label: string;

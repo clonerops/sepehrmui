@@ -105,7 +105,7 @@ const PermissionForm = (props: {
                 initialValues={
                     isNew
                         ? initialValues
-                        : { ...initialValues, ...detailTools?.data?.data, name: detailTools?.data?.data.permissionName }
+                        : { ...initialValues, ...detailTools?.data?.data, name: detailTools?.data?.data.name }
                 }
                 // validationSchema={createPermissionValidation}
                 onSubmit={handleSubmit}

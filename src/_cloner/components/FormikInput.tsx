@@ -1,5 +1,4 @@
 import { TextField, Typography } from "@mui/material";
-import * as translation from "../../../public/assets/locales/en/translation.json";
 import cx from "classnames";
 import {
   TextFieldProps,
@@ -9,7 +8,6 @@ import { useField, useFormikContext } from "formik";
 import { getFormikFieldValidationProps } from "../helpers/getFormikFieldValidationProps";
 import { memo } from "react";
 
-export type Label = keyof typeof translation;
 
 type Props = {
   label: string;
