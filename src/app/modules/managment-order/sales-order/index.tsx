@@ -49,6 +49,7 @@ const SalesOrder = () => {
 
 
     let formikRef = useRef<FormikProps<any>>(null);
+    
 
     const onSubmit = (values: any) => {
         if (orders?.length === 0) {
@@ -161,12 +162,12 @@ const SalesOrder = () => {
 
     const handleReset = (resetForm: (nextState?: Partial<FormikState<any>> | undefined) => void, 
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<any>>) => {
-        window.location.reload()
-        // resetForm()
-        // setOrderPayment([])
-        // setOrderServices([])
-        // setOrders([])
-        // detailCustomer.reset()
+        // window.location.reload()
+        resetForm()
+        setOrderPayment([])
+        setOrderServices([])
+        setOrders([])
+        detailCustomer.reset()
     }
 
     useEffect(() => {

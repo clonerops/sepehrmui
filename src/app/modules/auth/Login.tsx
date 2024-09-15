@@ -59,11 +59,9 @@ const Login = () => {
 
   return (
     <>
-      <div
-        className="h-screen  lg:block hidden "
+      <div className="h-screen  lg:block hidden "
         style={{
           backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
-          // backgroundImage: `url(${toAbsoulteUrl("/1.jpg")})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "left top ",
@@ -79,20 +77,14 @@ const Login = () => {
       <div
         className={"lg:hidden h-screen"}
         style={{
-          backgroundImage: `url(${toAbsoulteUrl(
-            "/media/logos/mobile-login-bg.png"
-          )})`,
+          backgroundImage: `url(${toAbsoulteUrl("/media/logos/mobile-login-bg.png")})`,
           backgroundRepeat: "repeat-y",
           backgroundSize: "cover",
           backgroundPosition: "center center ",
         }}
       >
-        <div
-          className={"w-full h-full mr-auto flex items-center justify-center"}
-        >
-          <div
-            className="bg-white flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] hadow-[#4E68C2] w-[80%] shrink-0  py-8 h-fit"
-          >
+        <div className={"w-full h-full mr-auto flex items-center justify-center"}>
+          <div className="bg-white flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] hadow-[#4E68C2] w-[80%] shrink-0  py-8 h-fit">
             <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} />
           </div>
         </div>
