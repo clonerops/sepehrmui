@@ -1,15 +1,9 @@
-import {useState, ReactNode} from 'react'
+import {useState, FC} from 'react'
 import { Typography, IconButton, Button } from '@mui/material'
 import { DeleteOutline, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
+import { IAccordionProps } from '../helpers/_models';
 
-type Props = {
-    content: ReactNode
-    title: string
-    deleteOnClick: () => void
-}
-
-const Accordion = (props: Props) => {
-    const { content, title, deleteOnClick } = props;
+const Accordion:FC<IAccordionProps> = ({content, title, deleteOnClick}) => {
 
     const [state, setState] = useState<{show: boolean, showDelete: boolean}>({
         show: false,
