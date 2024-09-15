@@ -51,7 +51,7 @@ export interface ICardInformationProps {
 }
 
 
-export interface IBubbleChartProps {
+export interface IChartProps {
     data?: any
     isLoading?: boolean
     isError?: boolean
@@ -70,8 +70,21 @@ export interface ICardTitleValueProps {
 export interface ICardWithIconsProps {
     icon: React.ReactNode
     title: string
-    value: string | number,
+    value: string | number | React.ReactNode,
     iconClassName: string
     textClassName?: string
+}
+
+
+export interface IOption {
+    value: string;
+    label: string;
+}
+
+export interface ICheckboxGroupProps {
+    name: string;
+    label: string;
+    boxClassName?: string;
+    options: IOption[];
 }
 

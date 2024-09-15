@@ -3,15 +3,11 @@ import { FC } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import HC_exporting from "highcharts/modules/exporting";
+import { IChartProps } from "../helpers/_models";
 HC_exporting(Highcharts);
 
-interface IProps {
-    data?: any;
-    isLoading?: boolean;
-    isError?: boolean;
-}
 
-const ColumnChart: FC<IProps> = ({ data, isLoading, isError }) => {
+const ColumnChart: FC<IChartProps> = ({ data, isLoading, isError }) => {
     if (isLoading) {
         return <div>درحال بارگزاری...</div>;
     }

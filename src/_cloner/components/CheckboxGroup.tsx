@@ -1,20 +1,10 @@
 import React from 'react';
 import { Checkbox, FormControl, FormControlLabel } from '@mui/material';
 import { useFormikContext } from 'formik';
+import { ICheckboxGroupProps } from '../helpers/_models';
 
-interface Option {
-    value: string;
-    label: string;
-}
 
-interface CheckboxGroupProps {
-    name: string;
-    label: string;
-    boxClassName?: string;
-    options: Option[];
-}
-
-const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ name, label, boxClassName, options }) => {
+const CheckboxGroup: React.FC<ICheckboxGroupProps> = ({ name, label, boxClassName, options }) => {
     const { setFieldValue, values }: any = useFormikContext();
 
     const handleCheckboxChange = (optionValue: string) => {

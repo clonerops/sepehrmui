@@ -3,10 +3,10 @@ import { FC } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import HC_exporting from "highcharts/modules/exporting";
-import { IBubbleChartProps } from "../helpers/_models";
+import { IChartProps } from "../helpers/_models";
 HC_exporting(Highcharts);
 
-const BubbleChart: FC<IBubbleChartProps> = ({ data, isLoading, isError }) => {
+const BubbleChart: FC<IChartProps> = ({ data, isLoading, isError }) => {
   if (isLoading) {
     return <div>درحال بارگزاری...</div>;
   }
