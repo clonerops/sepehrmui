@@ -23,3 +23,16 @@ export interface IActiveTextProps {
     successTitle: string;
     dangerTitle: string;
 }
+
+export interface IFileUploadProps {
+    files: File[]
+    setFiles: React.Dispatch<React.SetStateAction<File[]>>
+}
+
+
+export interface IBottomDrawerProps {
+    open: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
+    title: string;
+}

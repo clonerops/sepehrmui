@@ -1,32 +1,13 @@
-import React, { ReactNode } from 'react';
-import {
-    Drawer,
-    Divider,
-    Typography,
-} from '@mui/material';
+import { FC } from 'react';
+import { Drawer, Divider, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { IBottomDrawerProps } from '../helpers/_models';
 
-interface BottomDrawerProps {
-    open: boolean;
-    onClose: () => void;
-    children: ReactNode;
-    title: string;
-}
-
-const BottomDrawer: React.FC<BottomDrawerProps> = ({ open, onClose, children, title }) => {
+const BottomDrawer:FC<IBottomDrawerProps> = ({ open, onClose, children, title }) => {
 
     return (
-        <Drawer
-            anchor="bottom"
-            open={open}
-            onClose={onClose}
-            className='w-full'
-            style={{
-                height: 600,
-                zIndex: 9999,
-                backgroundColor: "transparent"
-            }}
-        >
+        <Drawer anchor="bottom" open={open} onClose={onClose} className='w-full'
+            style={{ height: 600, zIndex: 9999, backgroundColor: "transparent" }}>
 
             <div style={{ height: "90vh", backgroundColor: "white", color: "black", overflow: "auto" }}>
                 <div className='flex justify-between items-center'>
@@ -40,6 +21,7 @@ const BottomDrawer: React.FC<BottomDrawerProps> = ({ open, onClose, children, ti
                     {children}
                 </div>
             </div>
+            
         </Drawer>
     );
 };
