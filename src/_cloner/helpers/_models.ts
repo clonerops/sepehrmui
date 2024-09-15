@@ -20,8 +20,8 @@ export interface IAccordionProps {
 
 export interface IActiveTextProps {
     params: { value: boolean }
-    successTitle: string;
-    dangerTitle: string;
+    successTitle: string
+    dangerTitle: string
 }
 
 
@@ -37,10 +37,10 @@ export interface IBackdropProps {
 
 
 export interface IBottomDrawerProps {
-    open: boolean;
-    onClose: () => void;
-    children: React.ReactNode;
-    title: string;
+    open: boolean
+    onClose: () => void
+    children: React.ReactNode
+    title: string
 }
 
 
@@ -52,7 +52,26 @@ export interface ICardInformationProps {
 
 
 export interface IBubbleChartProps {
-    data?: any;
-    isLoading?: boolean;
-    isError?: boolean;
+    data?: any
+    isLoading?: boolean
+    isError?: boolean
 }
+
+
+export interface ICardTitleValueProps {
+    title: string
+    className?: string
+    index?: string | number
+    icon: React.ReactNode
+    value: string | number
+}
+
+
+export interface ICardWithIconsProps {
+    icon: React.ReactNode
+    title: string
+    value: string | number,
+    iconClassName: string
+    textClassName?: string
+}
+

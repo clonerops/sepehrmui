@@ -1,16 +1,9 @@
 import { Typography } from "@mui/material";
 import ReusableCard from "./ReusableCard";
-import React, { FC } from "react";
+import { FC } from "react";
+import { ICardWithIconsProps } from "../helpers/_models";
 
-interface IProps {
-    icon: React.ReactNode
-    title: string
-    value: any,
-    iconClassName: string
-    textClassName?: string
-}
-
-const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName, textClassName}) => {
+const CardWithIcons:FC<ICardWithIconsProps> = ({icon, title, value, iconClassName, textClassName}) => {
     return (
         <>
             <ReusableCard cardClassName="w-full">
@@ -18,9 +11,7 @@ const CardWithIcons:FC<IProps> = ({icon, title, value, iconClassName, textClassN
                     <Typography variant="h4" color="primary">
                         {title}
                     </Typography>
-                    <div
-                        className={`flex justify-center items-center ${iconClassName} w-[50px] h-[50px] rounded-lg`}
-                    >
+                    <div className={`flex justify-center items-center ${iconClassName} w-[50px] h-[50px] rounded-lg`}>
                         {icon}
                     </div>
                 </div>
