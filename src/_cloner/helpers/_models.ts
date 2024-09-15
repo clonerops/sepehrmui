@@ -24,9 +24,15 @@ export interface IActiveTextProps {
     dangerTitle: string;
 }
 
+
 export interface IFileUploadProps {
     files: File[]
     setFiles: React.Dispatch<React.SetStateAction<File[]>>
+}
+
+
+export interface IBackdropProps {
+    loading: boolean
 }
 
 
@@ -36,3 +42,5 @@ export interface IBottomDrawerProps {
     children: React.ReactNode;
     title: string;
 }
+
+

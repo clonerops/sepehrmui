@@ -4,8 +4,7 @@ import { Breadcrumbs, Link, Typography } from '@mui/material';
 import { Outlet, Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import { translationMapping } from '../helpers/translationMapping';
 
-function DynamicBreadcrumbs(props: any) {
-    const { customTypography } = props;
+function DynamicBreadcrumbs() {
     const location = useLocation();
     const param = useParams();
 
@@ -30,7 +29,7 @@ function DynamicBreadcrumbs(props: any) {
                     const translatedPathname = translationMapping[pathname] || pathname;
 
                     return isLast ? (
-                        <Typography key={index} color="primary" variant='h3' className='!no-underline' component={customTypography}>
+                        <Typography key={index} color="primary" variant='h3' className='!no-underline'>
                             {translatedPathname}
                         </Typography>
                     ) : (

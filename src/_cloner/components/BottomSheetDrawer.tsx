@@ -9,19 +9,17 @@ const BottomDrawer:FC<IBottomDrawerProps> = ({ open, onClose, children, title })
         <Drawer anchor="bottom" open={open} onClose={onClose} className='w-full'
             style={{ height: 600, zIndex: 9999, backgroundColor: "transparent" }}>
 
-            <div style={{ height: "90vh", backgroundColor: "white", color: "black", overflow: "auto" }}>
+            <div className='h-[90vh] bg-white text-black overflow-auto'>
                 <div className='flex justify-between items-center'>
                     <Typography variant="h2" className='p-4'>{title}</Typography>
                     <div onClick={onClose} className='pl-8 cursor-pointer'>
-                        <CloseIcon style={{ color: "red" }} />
+                        <CloseIcon  className='!text-red-500' />
                     </div>
                 </div>
                 <Divider />
-                <div className='p-4'>
-                    {children}
-                </div>
+                <div className='p-4'> {children} </div>
             </div>
-            
+
         </Drawer>
     );
 };
