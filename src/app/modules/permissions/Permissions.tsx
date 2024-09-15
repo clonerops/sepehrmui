@@ -69,7 +69,7 @@ const Permissions = () => {
             //     flex: 1,
             // },
             {
-                field: "permissionName",
+                field: "name",
                 renderCell: (params: any) => {
                     return <Typography variant="h4">{params.value}</Typography>;
                 },

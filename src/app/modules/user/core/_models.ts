@@ -11,3 +11,8 @@ export interface IUser {
     }[]
     roleId?: string[]
 }
+
+
+export interface IUserFilter {
+    UserRoles?: string[]
+}

@@ -1,5 +1,16 @@
 import { separateAmountWithCommas } from "./seprateAmount";
 
+const dropdownUser = (data: any) => {
+    return (
+        data &&
+        data?.map((obj: { id: any; firstName: string, lastName: string, }): any => {
+            const { id, firstName, lastName } = obj;
+            return { value: id, label: `${firstName} ${lastName}` };
+        })
+    );
+};
+
+
 const dropdownBrand = (data: any) => {
     return (
         data &&
@@ -448,6 +459,7 @@ const dropdownPaymentRequestReason = (data: any) => {
 
 
 export {
+    dropdownUser,
     dropdownBrand,
     dropdownCustomer,
     dropdownPersonnel,

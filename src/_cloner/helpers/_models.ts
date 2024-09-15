@@ -88,3 +88,13 @@ export interface ICheckboxGroupProps {
     options: IOption[];
 }
 
+
+export interface IConfirmDialogProps  {
+    onConfirm?: (index?: any) => void;
+    onCancel?: () => void;
+    hintTitle?: string;
+    confirmText?: string;
+    notConfirmText?: string;
+    isEdit?: boolean
+
+}

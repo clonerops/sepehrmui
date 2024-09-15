@@ -42,6 +42,7 @@ const retrieveOrdersMutation = async (formData: {
     InvoiceTypeId?: number[]; 
     OrderStatusId?: number
     OrderCode?: number
+    IsTemporary?: boolean
  }) => {
     const filter = {
         pageNumber: formData.pageNumber,
@@ -49,6 +50,7 @@ const retrieveOrdersMutation = async (formData: {
         InvoiceTypeId: formData.InvoiceTypeId,
         OrderStatusId: formData.OrderStatusId,
         OrderCode: formData.OrderCode,
+        IsTemporary: formData.IsTemporary,
       };
 
     try {

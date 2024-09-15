@@ -17,8 +17,10 @@ import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { Search } from "@mui/icons-material"
+import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole"
 
 const initialValues = {
+    Roles: "",
     CreatorId: "",
     Converted: 0,
     FromDate: "",
@@ -65,7 +67,7 @@ const DraftList = () => {
                     <Typography>نمایش پیش نویس</Typography>
                 </Button>
             </div>
-            <Link to={`/dashboard/sales_order?draftOrderId=${params.row.id}`} >
+            <Link to={`/dashboard/sales_order?draftOrderId=${params.row.draftOrderCode}`} >
                 <Button size="small" variant="contained" color="primary">
                     <Typography>ثبت سفارش</Typography>
                 </Button>
@@ -73,10 +75,10 @@ const DraftList = () => {
         </div>
     }
     
-    const onSubmit = (values: any) => { 
+    const onSubmit = (values: any) => {
         const filter = {
             ...values,
-            Converted: values.Converted === 0 ? false : true,
+            Converted: +values.Converted === 0 ? false : true,
             PageNumber: currentPage,
             PageSize: pageSize,
         }
@@ -89,11 +91,11 @@ const DraftList = () => {
 
     return (
         <ReusableCard>
-            <Formik initialValues={initialValues} onSubmit={onSubmit}>
-                {({ handleSubmit }) => {
+            <Formik  initialValues={initialValues} onSubmit={onSubmit}>
+                {({ handleSubmit, values }) => {
                     return <form className="mb-4" onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 space-y-4 lg:space-y-0">
-                            <FormikInput name="CreatorId" label="مسئول فروش" />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 space-y-4 lg:space-y-0">
+                            <FormikUserByRole name="CreatorId" label="مسئول فروش" values={values} />
                             <FormikDatepicker name="FromDate" label="از تاریخ" />
                             <FormikDatepicker name="ToDate" label="تا تاریخ" />
                         </div>

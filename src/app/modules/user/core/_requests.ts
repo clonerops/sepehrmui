@@ -1,5 +1,6 @@
 import { http } from "../../../../_cloner/helpers/axiosConfig";
-import { IUser } from "./_models";
+import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
+import { IUser, IUserFilter } from "./_models";
 
 const registerUser = async (formData: IUser) => {
     try {
@@ -14,6 +15,19 @@ const registerUser = async (formData: IUser) => {
 const fetchUsers = async () => {
   return await http.get("/v1/ApplicationUser").then((res) => res?.data);
 };
+
+const getUsersByMutation = async (filters: IUserFilter) => {
+    try {
+
+        const { data } = await http.get(`${generateURLQueryParam('/v1/ApplicationUser', filters)}`)
+        return data
+
+    } catch (error: any) {
+        return error.data
+    }
+  };
+  
+
 const fetchUserInfo = async () => {
   return await http.get("/v1/ApplicationUser/GetUserInfo").then((res) => res?.data);
 };
@@ -48,4 +62,4 @@ const deleteUser = async (id: string) => {
 }
 
 
-export { registerUser, fetchUsers, getUserDetail, updateUser, deleteUser, fetchUserInfo }
+export { registerUser, fetchUsers, getUsersByMutation, getUserDetail, updateUser, deleteUser, fetchUserInfo }

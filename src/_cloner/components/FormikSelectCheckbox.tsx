@@ -68,7 +68,7 @@ const FormikSelectCheckbox = <Value,>(props: FormikSelectPropsType<Value>) => {
               {options
                 .filter((option) => selected.includes(option.value))
                 .map((option) => (
-                  <Chip key={option.value} label={<Typography>{option.label}</Typography>} />
+                  <Chip size="small" key={option.value} label={<Typography>{option.label}</Typography>} />
                   // <Typography key={option.value}>{option.label}, </Typography>
                 ))}
             </div>

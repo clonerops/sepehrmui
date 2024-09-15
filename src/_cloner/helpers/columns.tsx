@@ -2884,6 +2884,12 @@ const OrderColumn = (renderAction: any) => {
             headerName: 'نوع سفارش', headerClassName: "headerClassName", minWidth: 120, flex: 1
         },
         {
+            field: 'isTemporary', renderCell: (params: any) => {
+                return params.value === true ? <Typography variant="h4">ثبت موقت</Typography> : <Typography variant="h4">ثبت نهایی</Typography>;
+            },
+            headerName: 'نوع ثبت', headerClassName: "headerClassName", minWidth: 120, flex: 1
+        },
+        {
             field: 'customerName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -4631,7 +4637,7 @@ const DraftListColumn = (renderAction: any) => {
             flex: 1,
         },
         {
-            field: "id",
+            field: "draftOrderCode",
             renderCell: (params: any) => {
                 return <Typography variant="h2">{params.value || 0}</Typography>;
             },

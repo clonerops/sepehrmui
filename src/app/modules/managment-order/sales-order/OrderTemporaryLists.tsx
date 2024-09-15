@@ -29,6 +29,7 @@ const OrderTemporaryLists = () => {
         const formData = {
             pageNumber: currentPage,
             pageSize: pageSize,
+            IsTemporary: true,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {
@@ -59,10 +60,12 @@ const OrderTemporaryLists = () => {
         const formData = values?.orderCode ? {
             pageNumber: currentPage,
             pageSize: pageSize,
-            OrderCode: +values?.orderCode
+            OrderCode: +values?.orderCode,
+            IsTemporary: true,
         } : {
             pageNumber: currentPage,
             pageSize: pageSize,
+            IsTemporary: true,
         }
         orderLists.mutate(formData, {
             onSuccess: (response) => {

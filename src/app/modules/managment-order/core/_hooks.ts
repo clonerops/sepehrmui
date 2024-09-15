@@ -21,6 +21,7 @@ const useRetrieveOrdersByMutation = () => useMutation((formData: {
     InvoiceTypeId?: number[]; 
     OrderStatusId?: number;
     OrderCode?: number;
+    IsTemporary?: boolean;
 }) => api.retrieveOrdersMutation(formData));
 
 const useRetrieveOrder = (id: string | undefined) => {

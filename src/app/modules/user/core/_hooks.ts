@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
-import { IUser } from "./_models";
+import { IUser, IUserFilter } from "./_models";
 
 const useRegisterUser = () => {
     return useMutation((formData: IUser) => {
@@ -13,6 +13,11 @@ const useUsers = () => useQuery(["users"], () => api.fetchUsers(), {
     refetchOnWindowFocus: false,
     refetchIntervalInBackground: false
 });
+const useGetUsersByMutation = () => {
+    return useMutation((filters: IUserFilter) => {
+        return api.getUsersByMutation(filters)
+    })
+};
 const useUserInfo = () => useQuery(["userInfo"], () => api.fetchUserInfo(), {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
@@ -37,4 +42,4 @@ const useGetDeleteUser = () => {
     })
 }
 
-export { useRegisterUser, useUsers, useGetUserDetail, useGetUpdateUser, useGetDeleteUser, useUserInfo };
+export { useRegisterUser, useUsers,useGetUsersByMutation, useGetUserDetail, useGetUpdateUser, useGetDeleteUser, useUserInfo };
