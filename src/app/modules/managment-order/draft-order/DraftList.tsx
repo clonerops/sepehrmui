@@ -66,7 +66,7 @@ const DraftList = () => {
                     <Typography>نمایش پیش نویس</Typography>
                 </Button>
             </div>
-            <Link to={`/dashboard/sales_order?draftOrderId=${params.row.id}`} >
+            <Link target="_blank" to={`/dashboard/sales_order?draftOrderId=${params.row.id}`} >
                 <Button size="small" variant="contained" color="primary">
                     <Typography>ثبت سفارش</Typography>
                 </Button>
@@ -94,7 +94,7 @@ const DraftList = () => {
             <Formik  initialValues={initialValues} onSubmit={onSubmit}>
                 {({ handleSubmit, values }) => {
                     return <form className="mb-4" onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 space-y-4 lg:space-y-0">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 space-y-4 lg:space-y-0">
                             <FormikUserByRole name="CreatorId" label="مسئول فروش" values={values} />
                             <FormikDatepicker name="FromDate" label="از تاریخ" />
                             <FormikDatepicker name="ToDate" label="تا تاریخ" />

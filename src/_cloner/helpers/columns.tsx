@@ -2850,6 +2850,9 @@ const SuppliersColumn = (renderAction: any) => {
 const OrderColumn = (renderAction: any) => {
     const col = [
         {
+            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 140, maxWidth: 140
+        },
+        {
             field: 'orderCode', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
@@ -2872,9 +2875,6 @@ const OrderColumn = (renderAction: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'ثبت کننده', headerClassName: "headerClassName", minWidth: 160, maxWidth: 160, flex: 1
-        },
-        {
-            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 140, maxWidth: 140
         },
 
         {
@@ -4689,7 +4689,7 @@ const DraftListColumn = (renderAction: any) => {
             minWidth: 120,
             flex: 1,
         },
-       
+
     ];
     return col;
 }

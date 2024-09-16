@@ -92,7 +92,7 @@ const OrderTemporaryLists = () => {
                                 <FormikInput name="orderCode" label="شماره سفارش" />
                                 <FormikUserByRole name="SaleManagerId" label="مسئول فروش" values={values} />
                             </div>
-                            <div className="flex justify-end items-end">
+                            <div className="flex justify-end items-end my-4">
                                 <ButtonComponent onClick={() => handleSubmit()}>
                                     <div className="flex flex-row gap-x-4">
                                         <Search className="text-white" />
@@ -108,6 +108,7 @@ const OrderTemporaryLists = () => {
                     columns={OrderColumn(renderAction)}
                     rows={results}
                     data={orderLists?.data?.data}
+                    hideFooter={true}
                     onDoubleClick={(item: any) => navigate(`/dashboard/sales_order/lists/${item?.row?.id}`)}
                 />
                 <Pagination pageCount={+orderLists?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
