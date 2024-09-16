@@ -16,3 +16,8 @@ export interface IUser {
 export interface IUserFilter {
     UserRoles?: string[]
 }
+
+
+export interface IForgetPasswordRequest {
+    userName: string
+}

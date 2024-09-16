@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
-import { IUser, IUserFilter } from "./_models";
+import { IForgetPasswordRequest, IUser, IUserFilter } from "./_models";
 
 const useRegisterUser = () => {
     return useMutation((formData: IUser) => {
@@ -42,4 +42,10 @@ const useGetDeleteUser = () => {
     })
 }
 
-export { useRegisterUser, useUsers,useGetUsersByMutation, useGetUserDetail, useGetUpdateUser, useGetDeleteUser, useUserInfo };
+const useForgetPasswordRequest = () => {
+    return useMutation((formData: IForgetPasswordRequest) => {
+        return api.forgetPasswordRequest(formData)
+    })
+}
+
+export { useRegisterUser, useUsers, useGetUsersByMutation, useGetUserDetail, useGetUpdateUser, useGetDeleteUser, useUserInfo, useForgetPasswordRequest };

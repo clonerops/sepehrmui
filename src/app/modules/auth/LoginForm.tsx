@@ -5,6 +5,8 @@ import { Autorenew } from "@mui/icons-material";
 import { UseQueryResult } from "@tanstack/react-query";
 import { FC } from "react";
 import CustomButton from "../../../_cloner/components/CustomButton";
+import { useForgetPasswordRequest } from "../user/core/_hooks";
+import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 
 interface IProps {
     formik: any;
@@ -14,7 +16,10 @@ interface IProps {
 }
 
 const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha }) => {
+  const forgetPasswordHandler = useForgetPasswordRequest()
+
   const renderTextField = (id: string, label: string, type = "text", additionalProps = {}) => (
+    
     <TextField
       fullWidth
       id={id}
@@ -30,6 +35,22 @@ const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha }) => {
       {...additionalProps}
     />
   );
+
+  const handleForgetPasswordRequest = () => {
+    if(formik.values.userName === "" || formik.values.userName === null) {
+      EnqueueSnackbar("برای ارسال فراموشی کلمه عبور لطفا نام کاربری خود را وارد کنید", "warning")
+    } else {
+      forgetPasswordHandler.mutate({userName: formik.values.userName}, {
+        onSuccess: (response) => {
+          if(response.succeeded) {
+            EnqueueSnackbar(response.message, "success")
+          } else {
+            EnqueueSnackbar(response.data.Message, "error")
+          }
+        }
+      })
+    }
+  }
 
   return (
     <form
@@ -66,7 +87,9 @@ const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha }) => {
         </div>
         <div className="my-4">{renderTextField("captchaCode", "کد امنیتی")}</div>
       </div>
-
+      <div className="mt-4 cursor-pointer" onClick={handleForgetPasswordRequest}>
+        <Typography variant="h4" className="text-green-600">رمز عبور خود را فراموش کرده ام!</Typography>
+      </div>
       <div className="w-[60%] md:w-[80%] my-4 mb-8">
         <CustomButton
           fullWidth
