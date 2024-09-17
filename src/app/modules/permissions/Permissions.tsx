@@ -169,20 +169,15 @@ const Permissions = () => {
                                 isLoading={Permissions.isLoading}
                                 onDoubleClick={(item: any) => handleEdit(item?.row)}
                             />
-                            <Pagination pageCount={+Permissions?.data?.data.length / +pageSize || 200} onPageChange={handlePageChange} />
+                            {/* <Pagination pageCount={+Permissions?.data?.data.length / +pageSize || 100} onPageChange={handlePageChange} /> */}
                         </Box>
 
                     </Box>
                     <Box component="div">
-                        <Box
-                            component="div"
-                            className="hidden md:flex md:justify-center md:items-center"
-                        >
+                        <Box component="div" className="hidden md:flex md:justify-center md:items-center">
                             <Box
                                 component="img"
-                                src={toAbsoulteUrl(
-                                    "/media/logos/34313.jpg"
-                                )}
+                                src={toAbsoulteUrl( "/media/logos/34313.jpg" )}
                                 width={400}
                             />
                         </Box>

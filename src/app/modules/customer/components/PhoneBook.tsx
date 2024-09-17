@@ -47,7 +47,7 @@ const PhoneBook: FC<IProps> = ({ phoneBooks, setPhoneBooks }) => {
         <div className="w-full">
             <Formik initialValues={{ phoneNumber: "", phoneNumberType: { label: "تلفن همراه", value: 1 } }} onSubmit={handleAdd}>
                 {({ handleSubmit }) => <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 items-center gap-x-4">
-                    <FormikInput name="phoneNumber" label="شما  ره تماس" />
+                    <FormikInput name="phoneNumber" label="شماره تماس" />
                     <FormikPhoneBookType name="phoneNumberType" label="نوع شماره تماس" />
                     <div onClick={() => handleSubmit()}  color="primary" className="flex justify-center items-center lg:!w-[78px] lg:!h-[34px] !bg-cyan-700 lg:!rounded-full w-full cursor-pointer" >
                         <Add className="text-white" />
