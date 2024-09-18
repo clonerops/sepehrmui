@@ -17,6 +17,8 @@ import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
 import { SatelliteSharp, Search, ShoppingCart, Visibility } from "@mui/icons-material"
 import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole"
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../../routing/AccessDenied"
 
 const initialValues = {
     Roles: "",
@@ -34,6 +36,8 @@ const allOption = [
 
 
 const DraftList = () => {
+    const { hasPermission } = useAuth()
+
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [selectedDraft, setSelectedDraft] = useState<IDraftDetail>({})
@@ -46,12 +50,14 @@ const DraftList = () => {
             PageNumber: currentPage,
             PageSize: pageSize,
         }
-        draftOrderTools.mutate(filter)
+        if (hasPermission("GetAllDraftOrders"))
+            draftOrderTools.mutate(filter)
 
     }, [currentPage])
 
     useEffect(() => {
-        draftOrderDetailTools.mutate(selectedDraft.id || "")
+        if (hasPermission("GetAllDraftOrders") && hasPermission("GetDraftOrderById"))
+            draftOrderDetailTools.mutate(selectedDraft.id || "")
     }, [selectedDraft.id])
 
     const handleSelectedDraft = (item: any) => {
@@ -61,20 +67,24 @@ const DraftList = () => {
 
     const renderAction = (params: any) => {
         return <div className="flex flex-row gap-x-2">
-            <div>
-                <Tooltip title={<Typography variant='h3'>نمایش پیش نویس</Typography>}>
-                    <div onClick={() => handleSelectedDraft(params.row)} className="cursor-pointer">
-                        <Visibility className="text-yellow-500" />
-                    </div>
-                </Tooltip>
-            </div>
-            <Link target="_blank" to={`/dashboard/sales_order?draftOrderId=${params.row.id}`} >
-                <Tooltip title={<Typography variant='h3'>ثبت سفارش</Typography>}>
-                    <div className="cursor-pointer">
-                        <ShoppingCart className="text-green-500" />
-                    </div>
-                </Tooltip>
-            </Link>
+            {hasPermission("GetDraftOrderById") &&
+                <div>
+                    <Tooltip title={<Typography variant='h3'>نمایش پیش نویس</Typography>}>
+                        <div onClick={() => handleSelectedDraft(params.row)} className="cursor-pointer">
+                            <Visibility className="text-yellow-500" />
+                        </div>
+                    </Tooltip>
+                </div>
+            }
+            {hasPermission("CreateOrder") &&
+                <Link target="_blank" to={`/dashboard/sales_order?draftOrderId=${params.row.id}`} >
+                    <Tooltip title={<Typography variant='h3'>ثبت سفارش</Typography>}>
+                        <div className="cursor-pointer">
+                            <ShoppingCart className="text-green-500" />
+                        </div>
+                    </Tooltip>
+                </Link>
+            }
         </div>
     }
 
@@ -92,6 +102,9 @@ const DraftList = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
+
+    if (!hasPermission("GetAllDraftOrders"))
+        return <AccessDenied />
 
     return (
         <ReusableCard>
@@ -127,11 +140,13 @@ const DraftList = () => {
             <Pagination pageCount={+draftOrderTools?.data?.totalCount / +pageSize || 0} onPageChange={handlePageChange} />
 
             <TransitionsModal width="80%" open={isOpen} isClose={() => setIsOpen(false)} title={`مشاهده پیش نویس سریال ${selectedDraft.draftOrderCode}`}>
-                <div className="mt-4">
-                    {draftOrderDetailTools.isLoading ?
-                        <Backdrop loading={draftOrderDetailTools.isLoading} /> :
-                        <ImagePreview base64Strings={draftOrderDetailTools?.data?.data?.attachments || []} />}
-                </div>
+                {hasPermission("GetDraftOrderById") ?
+                    <div className="mt-4">
+                        {draftOrderDetailTools.isLoading ?
+                            <Backdrop loading={draftOrderDetailTools.isLoading} /> :
+                            <ImagePreview base64Strings={draftOrderDetailTools?.data?.data?.attachments || []} />}
+                    </div> : <Typography>شما دسترسی های لازم جهت استفاده از این صفحه را ندارید</Typography>
+                }
             </TransitionsModal>
         </ReusableCard>
     )

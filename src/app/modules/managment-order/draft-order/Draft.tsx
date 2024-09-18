@@ -11,8 +11,12 @@ import { usePostDraftOrder } from "./core/_hooks"
 import { convertFilesToBase64 } from "../../../../_cloner/helpers/convertToBase64"
 import { EnqueueSnackbar } from "../../../../_cloner/helpers/snackebar"
 import Backdrop from "../../../../_cloner/components/Backdrop"
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../../routing/AccessDenied"
 
 const Draft = () => {
+    const { hasPermission } = useAuth()
+
     const [files, setFiles] = useState<File[]>([]);
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
     const [serialNumber, setSerialNumber] = useState<number>(0)
@@ -50,6 +54,9 @@ const Draft = () => {
             }
         })
     }
+
+    if (!hasPermission("CreateDraftOrder"))
+        return <AccessDenied />
 
     return (
         <>
