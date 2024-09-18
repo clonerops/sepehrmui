@@ -23,6 +23,7 @@ import FormikInvoiceType from '../../../../../_cloner/components/FormikInvoiceTy
 import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
 import { WarehouseType } from '../../../../../_cloner/helpers/Enums'
 import { useAuth } from '../../../../../_cloner/helpers/checkUserPermissions'
+import TypographyAccessDenied from '../../../../../_cloner/components/TypographyAccessDenied'
 
 const fields = [
     "warehouseId",
@@ -194,7 +195,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                         name={!isUpdate ? "productId" : "productName"}
                         label="کالا/محصول"
                         disabled={true} />
-                        
+
                     <FormikProximateAmount
                         name="proximateAmount"
                         label="مقدار"
@@ -235,10 +236,13 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                         disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                     {values.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseId?.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseTypeId === WarehouseType.Vaseteh ?
                         <>
-                            <FormikSearchableCustomer
-                                name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
-                                label="خرید از"
-                                disabled={!isUpdate || postSaleOrder.data?.succeeded} />
+                            {hasPermission("GetAllCustomers") ?
+                                <FormikSearchableCustomer
+                                    name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
+                                    label="خرید از"
+                                    disabled={!isUpdate || postSaleOrder.data?.succeeded} /> : 
+                                    <TypographyAccessDenied />
+                            }
                             <FormikPrice
                                 name="purchasePrice"
                                 label="قیمت خرید (ریال)"
