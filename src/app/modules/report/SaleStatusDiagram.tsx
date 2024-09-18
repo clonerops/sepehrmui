@@ -13,6 +13,8 @@ import { IReportFilter } from './_models'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import { LineCharts } from '../../../_cloner/components/LineChart'
 import moment from 'moment-jalaali'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues: IReportFilter = {
     FromDate: moment(new Date()).subtract(1, 'months').format('jYYYY/jMM/jDD'),
@@ -21,6 +23,7 @@ const initialValues: IReportFilter = {
 }
 
 const SaleStatusDiagram = () => {
+    const { hasPermission } = useAuth()
     
     const reportTools = useGetSaleStatusDiagram()
 
@@ -38,6 +41,8 @@ const SaleStatusDiagram = () => {
          // eslint-disable-next-line
     }, [])
 
+    if(!hasPermission("GetSaleStatusDiagram"))
+        return <AccessDenied />
 
     // if(reportTools.isLoading) {
     //     return <Typography variant='h3'>درحال بارگزاری ...</Typography>

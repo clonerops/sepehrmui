@@ -22,11 +22,13 @@ const Dashboard = () => {
                     </ReusableCard>
                 </div>
             }
-            <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
-                <ReusableCard cardClassName="col-span-3 w-full">
-                    <SaleStatusDiagram />
-                </ReusableCard>
-            </div>
+            {hasPermission("GetSaleStatusDiagram") && 
+                <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
+                    <ReusableCard cardClassName="col-span-3 w-full">
+                        <SaleStatusDiagram />
+                    </ReusableCard>
+                </div>
+            }
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 space-y-4 md:space-y-0">
                 {/* <ReusableCard>
