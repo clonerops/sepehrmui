@@ -2,9 +2,10 @@ import ReusableCard from "../../_cloner/components/ReusableCard";
 import CardInformation from "../../_cloner/components/CardInformation";
 import SaleReportByProductType from "./report/SaleReportByProductType";
 import SaleStatusDiagram from "./report/SaleStatusDiagram";
-import ReportViewer from "../../_cloner/components/ReportViewer";
+import { useAuth } from "../../_cloner/helpers/checkUserPermissions";
 
 const Dashboard = () => {
+    const { hasPermission } = useAuth();
 
     return (
         <>
@@ -14,11 +15,13 @@ const Dashboard = () => {
                 <CardInformation cardClassName="!bg-[#F8B30E]" title="میانگین قیمت" value={77754} />
                 <CardInformation cardClassName="!bg-[#EB5553]" title="درآمد" value={77754} />
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
-                <ReusableCard cardClassName="col-span-3 w-full">
-                    <SaleReportByProductType />
-                </ReusableCard>
-            </div>
+            {hasPermission("GetSaleReportByProductType") &&
+                <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
+                    <ReusableCard cardClassName="col-span-3 w-full">
+                        <SaleReportByProductType />
+                    </ReusableCard>
+                </div>
+            }
             <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 space-y-4 lg:space-y-0">
                 <ReusableCard cardClassName="col-span-3 w-full">
                     <SaleStatusDiagram />

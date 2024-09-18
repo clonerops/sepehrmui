@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Typography } from "@mui/material"
+import { Button, Tooltip, Typography } from "@mui/material"
 import { DraftListColumn } from "../../../../_cloner/helpers/columns"
 
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid"
@@ -15,7 +15,7 @@ import { Formik } from "formik"
 import FormikDatepicker from "../../../../_cloner/components/FormikDatepicker"
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup"
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent"
-import { Search } from "@mui/icons-material"
+import { SatelliteSharp, Search, ShoppingCart, Visibility } from "@mui/icons-material"
 import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole"
 
 const initialValues = {
@@ -62,18 +62,22 @@ const DraftList = () => {
     const renderAction = (params: any) => {
         return <div className="flex flex-row gap-x-2">
             <div>
-                <Button size="small" variant="contained" color="secondary" onClick={() => handleSelectedDraft(params.row)}>
-                    <Typography>نمایش پیش نویس</Typography>
-                </Button>
+                <Tooltip title={<Typography variant='h3'>نمایش پیش نویس</Typography>}>
+                    <div onClick={() => handleSelectedDraft(params.row)} className="cursor-pointer">
+                        <Visibility className="text-yellow-500" />
+                    </div>
+                </Tooltip>
             </div>
             <Link target="_blank" to={`/dashboard/sales_order?draftOrderId=${params.row.id}`} >
-                <Button size="small" variant="contained" color="primary">
-                    <Typography>ثبت سفارش</Typography>
-                </Button>
+                <Tooltip title={<Typography variant='h3'>ثبت سفارش</Typography>}>
+                    <div className="cursor-pointer">
+                        <ShoppingCart className="text-green-500" />
+                    </div>
+                </Tooltip>
             </Link>
         </div>
     }
-    
+
     const onSubmit = (values: any) => {
         const filter = {
             ...values,
@@ -91,7 +95,7 @@ const DraftList = () => {
 
     return (
         <ReusableCard>
-            <Formik  initialValues={initialValues} onSubmit={onSubmit}>
+            <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 {({ handleSubmit, values }) => {
                     return <form className="mb-4" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 space-y-4 lg:space-y-0">
@@ -117,7 +121,7 @@ const DraftList = () => {
                 columns={DraftListColumn(renderAction)}
                 data={draftOrderTools?.data?.data}
                 rows={draftOrderTools?.data?.data}
-                getRowId={(params: {id: number}) => params.id}
+                getRowId={(params: { id: number }) => params.id}
                 onDoubleClick={(params: any) => handleSelectedDraft(params.row)}
             />
             <Pagination pageCount={+draftOrderTools?.data?.totalCount / +pageSize || 0} onPageChange={handlePageChange} />

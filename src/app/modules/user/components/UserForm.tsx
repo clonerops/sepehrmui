@@ -18,7 +18,7 @@ const registerValidation = Yup.object().shape({
         .email("فرمت ایمیل نمی باشد")
         .required("ایمیل الزامی است"),
     userName: Yup.string().min(6).required("نام کاربری الزامی است"),
-    mobileNo: Yup.string().min(11).max(11).required("موبایل الزامی است"),
+    mobile: Yup.string().min(11).max(11).required("موبایل الزامی است"),
     password: Yup.string()
         .matches(
             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
@@ -38,7 +38,7 @@ const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
-    mobileNo: "",
+    mobile: "",
     userName: "",
     password: "",
     confirmPassword: "",
@@ -71,7 +71,7 @@ const UserForm = (props: Props) => {
         ],
         [
             { label: "ایمیل", name: "email", type: "email" },
-            { label: "موبایل", name: "mobileNo", type: "mobile" },
+            { label: "موبایل", name: "mobile", type: "mobile" },
             { label: "نام کاربری", name: "userName", type: "username" }
         ],
         [

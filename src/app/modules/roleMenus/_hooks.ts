@@ -16,7 +16,8 @@ const useGetRoleMenusById = (roleId: string) => {
         {
             refetchOnMount: false,
             refetchOnWindowFocus: false,
-            refetchIntervalInBackground: false    
+            refetchIntervalInBackground: false,
+            retry: false    
         }
     );
 };

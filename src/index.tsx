@@ -39,19 +39,19 @@ const queryClient = new QueryClient();
 
 root.render(
     <React.StrictMode>
-        <SnackbarProvider maxSnack={3}>
-            <QueryClientProvider client={queryClient}>
-                <StyledEngineProvider injectFirst>
-                    <ThemeProvider theme={theme}>
-                        <StylesProvider jss={jss}>
-                            <CacheProvider value={cacheRtl}>
-                                <AppRoutes />
-                                <ReactQueryDevtools initialIsOpen={false} />
-                            </CacheProvider>
-                        </StylesProvider>
-                    </ThemeProvider>
-                </StyledEngineProvider>
-            </QueryClientProvider>
-        </SnackbarProvider>
+            <SnackbarProvider maxSnack={3}>
+                <QueryClientProvider client={queryClient}>
+                    <StyledEngineProvider injectFirst>
+                        <ThemeProvider theme={theme}>
+                            <StylesProvider jss={jss}>
+                                <CacheProvider value={cacheRtl}>
+                                    <AppRoutes />
+                                    <ReactQueryDevtools initialIsOpen={false} />
+                                </CacheProvider>
+                            </StylesProvider>
+                        </ThemeProvider>
+                    </StyledEngineProvider>
+                </QueryClientProvider>
+            </SnackbarProvider>
     </React.StrictMode>
 );

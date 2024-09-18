@@ -15,6 +15,7 @@ import { TreeItem, SimpleTreeView } from "@mui/x-tree-view";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { dropdownPermissionsByMenu } from "../../../_cloner/helpers/dropdowns";
 import RoleMenus from "../roleMenus/RoleMenus";
+import FuzzySearch from "../../../_cloner/helpers/fuse";
 
 type Props = {
     itemData: { id: string; name: string };
@@ -60,6 +61,8 @@ const GroupEditForm = (props: Props) => {
             },
         });
     };
+
+    console.log("appAllMenu", appAllMenu)
 
     if (detailApplicationRole?.isLoading) {
         return <Backdrop loading={detailApplicationRole.isLoading} />;
@@ -118,8 +121,8 @@ const GroupEditForm = (props: Props) => {
                                     <>
                                         <SimpleTreeView
                                             aria-label="file system navigator"
-                                            // defaultCollapseIcon={<ExpandMore />}
-                                            // defaultExpandIcon={<ChevronRight />}
+                                        // defaultCollapseIcon={<ExpandMore />}
+                                        // defaultExpandIcon={<ChevronRight />}
                                         >
                                             {appAllMenu?.data?.map(
                                                 (item: {

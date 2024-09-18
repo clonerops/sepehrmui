@@ -18,16 +18,20 @@ const RoleMenus = (props: Props) => {
     const deleteMenu = useDeleteRoleMenu();
     const roleMenuTools = useGetRoleMenusById(id);
 
+    console.log("roleMenuTools", roleMenuTools?.data?.data)
+
     const [roleIds, setRoleIds] = useState<string[]>([]);
 
     useEffect(() => {
         let roleId = roleMenuTools?.data?.data.map((item: { applicationMenuId: string }) => item.applicationMenuId);
-        setRoleIds(roleId);
+        console.log("RoleIdUseEffect", roleId)
+        setRoleIds(roleId ? roleId : []);
     }, [id, roleMenuTools?.data]);
 
     const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean) => {
         if (checked) {
             setRoleIds((prevIds) => [...prevIds, subId]);
+            console.log("subId", subId)
             const formData = {
                 roleId: id,
                 applicationMenuId: [...roleIds, subId],

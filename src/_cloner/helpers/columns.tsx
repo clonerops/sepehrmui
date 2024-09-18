@@ -4645,7 +4645,8 @@ const DraftListColumn = (renderAction: any) => {
             renderCell: renderAction,
             headerName: "",
             headerClassName: "headerClassName",
-            minWidth: 240,
+            minWidth: 120,
+            maxWidth: 120,
             flex: 1,
         },
         {

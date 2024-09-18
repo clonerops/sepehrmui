@@ -11,6 +11,8 @@ import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
 import { useGetSaleReportByProductType } from './_hooks'
 import { IReportFilter } from './_models'
 import Backdrop from '../../../_cloner/components/Backdrop'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues: IReportFilter = {
     FromDate: "",
@@ -19,7 +21,8 @@ const initialValues: IReportFilter = {
 }
 
 const SaleReportByProductType = () => {
-    
+    const { hasPermission } = useAuth();
+
     const reportTools = useGetSaleReportByProductType()
 
     const FilteredTools = (values: IReportFilter) => {
@@ -37,6 +40,8 @@ const SaleReportByProductType = () => {
     }, [])
 
 
+    if(!hasPermission("GetSaleReportByProductType"))
+        return <AccessDenied />
     // if(reportTools.isLoading) {
     //     return <Typography variant='h3'>درحال بارگزاری ...</Typography>
     // }
