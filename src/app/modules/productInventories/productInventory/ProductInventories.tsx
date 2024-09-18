@@ -13,9 +13,12 @@ import { useGetWarehousesByFilter } from "../../warehouse/_hooks";
 import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import { InventoryColumn } from "../../../../_cloner/helpers/columns";
 import Backdrop from "../../../../_cloner/components/Backdrop";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
 
 const ProductInventories = () => {
-    const filterTools = useGetProductList();
+    const { hasPermission } = useAuth()
+
+    const filterTools = useGetProductList(hasPermission("GetAllProducts"));
     const filterWarehouse = useGetWarehousesByFilter()
     
     let formikRef = useRef<FormikProps<any>>(null);

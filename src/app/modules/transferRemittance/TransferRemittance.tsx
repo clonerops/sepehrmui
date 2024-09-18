@@ -31,6 +31,7 @@ import { usePostTransferRemittance } from "./_hooks";
 import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
 import { useGetPurchaserOrderDetailByCode } from "../managment-order/core/_hooks";
 import { WarehouseType } from "../../../_cloner/helpers/Enums";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
 
 const initialValues = {
     originWarehouseId: "",
@@ -66,11 +67,13 @@ const fields: FieldType[][] = [
 
 
 const TransferRemittance = () => {
+    const { hasPermission } = useAuth()
+
     let formikRef = useRef<FormikProps<any>>(null);
 
     const vehicleList = useGetVehicleTypes()
     const warehouse = useGetWarehouses()
-    const productsInventory = useGetProductList()
+    const productsInventory = useGetProductList(hasPermission("GetAllProducts"))
     const transfer = usePostTransferRemittance()
     const purchaseOrderDetail = useGetPurchaserOrderDetailByCode()
 

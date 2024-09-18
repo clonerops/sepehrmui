@@ -28,6 +28,7 @@ import CardWithIcons from "../../../_cloner/components/CardWithIcons";
 import moment from "moment-jalaali";
 import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColumn } from "../../../_cloner/helpers/columns";
 import { WarehouseType } from "../../../_cloner/helpers/Enums";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
 
 const initialValues = {
     originWarehouseId: "",
@@ -56,11 +57,13 @@ const fields: FieldType[][] = [
 
 
 const TransferRemittanceEdit = () => {
+    const { hasPermission } = useAuth()
+
     const { id }: any = useParams()
 
     const vehicleList = useGetVehicleTypes()
     const warehouse = useGetWarehouses()
-    const productsInventory = useGetProductList()
+    const productsInventory = useGetProductList(hasPermission("GetAllProducts"))
     const detailTools = useGetTransferRemitanceByIdByMutation()
     const updateTools = useUpdateTransferRemitance()
 

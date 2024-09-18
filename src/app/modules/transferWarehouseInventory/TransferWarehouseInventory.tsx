@@ -21,6 +21,7 @@ import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import TransferAmount from "../transferRemittance/TransferAmount";
 import { usePostTransferWarehouseInventory } from "./_hooks";
 import { WarehouseType } from "../../../_cloner/helpers/Enums";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
 
 const initialValues = {
     originWarehouseId: "",
@@ -31,9 +32,11 @@ const initialValues = {
 
 
 const TransferWarehouseInventory = () => {
+    const { hasPermission } = useAuth()
+
     // From Warehouse Module
     const warehouse = useGetWarehouses()
-    const productsInventory = useGetProductList()
+    const productsInventory = useGetProductList(hasPermission("GetAllProducts"))
 
     //From This Module
     const transfer = usePostTransferWarehouseInventory()

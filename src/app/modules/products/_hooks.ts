@@ -12,9 +12,13 @@ const useGetProducts = () => {
     })
 };
 
-const useGetProductList = () => {
-    return useMutation((formdata: IProductFilters) =>
-        api.getProductList(formdata));
+const useGetProductList = (hasPermission: boolean) => {
+    return useMutation((formdata: IProductFilters) => {
+        if (hasPermission) {
+            return api.getProductList(formdata);
+        }
+        return Promise.resolve(null);
+    });
 };
 
 const useGetProductsByType = () => {

@@ -22,6 +22,7 @@ import { dropdownProductByBrandName } from '../../../../../_cloner/helpers/dropd
 import FormikInvoiceType from '../../../../../_cloner/components/FormikInvoiceType'
 import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
 import { WarehouseType } from '../../../../../_cloner/helpers/Enums'
+import { useAuth } from '../../../../../_cloner/helpers/checkUserPermissions'
 
 const fields = [
     "warehouseId",
@@ -56,24 +57,11 @@ interface IProps {
 }
 
 const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, orderValid, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
+    const { hasPermission } = useAuth()
+    
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
     const [orderIndex, setOrderIndex] = useState<number>(0);
-
-    const changeWarehouseFunction = (value: any) => {
-        try {
-            const filter = {
-                ByBrand: true,
-                WarehouseId: value.value
-            };
-            products.mutate(filter);
-            fields.forEach((element) => {
-                setFieldValue(element, "");
-            });
-        } catch (error) {
-            console.error("Error handling warehouse change:", error);
-        }
-    }
 
     const handleOrder = () => {
         const productOrder: any = {
@@ -178,33 +166,35 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
             fields.forEach((element) => setFieldValue(element, ""));
         }
     };
+    
 
     return (
         <>
             {products.isLoading && <Backdrop loading={products.isLoading} />}
             <form>
-                <div className='flex justify-end items-end'>
-                    <Button
-                        className="!w-[160px] !h-[36px]"
-                        onClick={() => setIsOpen(true)}
-                        variant="contained"
-                        color="primary"
-                        disabled={postSaleOrder.data?.succeeded}>
-                        <Typography>انتخاب کالا</Typography>
-                    </Button>
-                </div>
+                {hasPermission("GetAllProducts") && 
+                    <div className='flex justify-end items-end'>
+                        <Button
+                            className="!w-[160px] !h-[36px]"
+                            onClick={() => setIsOpen(true)}
+                            variant="contained"
+                            color="primary"
+                            disabled={postSaleOrder.data?.succeeded}>
+                            <Typography>انتخاب کالا</Typography>
+                        </Button>
+                    </div>
+                }
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">
 
-                    <FormikWarehouse
+                    <FormikInput
                         name={!isUpdate ? "warehouseId" : "warehouseName"}
                         label="انبار"
-                        disabled={true}
-                        onChange={changeWarehouseFunction} />
-                    <FormikProduct
+                        disabled={true} />
+                    <FormikInput
                         name={!isUpdate ? "productId" : "productName"}
                         label="کالا/محصول"
-                        disabled={true}
-                        options={dropdownProductByBrandName(products?.data?.data)} />
+                        disabled={true} />
+                        
                     <FormikProximateAmount
                         name="proximateAmount"
                         label="مقدار"

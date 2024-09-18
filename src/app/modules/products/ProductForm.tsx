@@ -16,6 +16,7 @@ import FormikStandard from "../../../_cloner/components/FormikStandard";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { dropdownUnit } from "../../../_cloner/helpers/dropdowns";
 import { useGetUnits } from "../generic/_hooks";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
 
 const initialValues = {
     productName: "",
@@ -43,9 +44,11 @@ const ProductForm = (props: {
     ) => Promise<QueryObserverResult<any, unknown>>;
     // productTools:  UseMutationResult<any, unknown, IProductFilters, unknown>;
 }) => {
+    const { hasPermission } = useAuth()
+
     // Fetchig
     const { mutate, isLoading: postLoading } = useCreateProduct();
-    const { data: productUnit } = useGetUnits();
+    const { data: productUnit } = useGetUnits(hasPermission("GetProductUnits"));
     const updateTools = useUpdateProduct();
     const detailTools = useRetrieveProduct()
 

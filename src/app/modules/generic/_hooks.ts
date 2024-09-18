@@ -50,8 +50,9 @@ const useGetCustomerValidities = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetWarehouseTypes = () => {
+const useGetWarehouseTypes = (hasPermission: boolean) => {
     return useQuery(["warehouseTypes"], () => api.getWarehouseTypes(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -82,8 +83,10 @@ const useGetServices = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetProductTypes = () => {
+const useGetProductTypes = (hasPermission: boolean) => {
+
     return useQuery(["productTypes"], () => api.getProductTypes(), {
+        enabled: hasPermission, 
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -118,8 +121,9 @@ const useGetOrderExitTypes = () => {
     });
 };
 
-const useGetUnits = () => {
+const useGetUnits = (hasPermission: boolean) => {
     return useQuery(['units'], () => api.getUnits(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false

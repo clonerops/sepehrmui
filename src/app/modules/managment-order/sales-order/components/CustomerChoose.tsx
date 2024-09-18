@@ -13,6 +13,8 @@ import { separateAmountWithCommas } from '../../../../../_cloner/helpers/seprate
 import Backdrop from '../../../../../_cloner/components/Backdrop'
 import { Add, Person } from '@mui/icons-material'
 import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
+import { useAuth } from '../../../../../_cloner/helpers/checkUserPermissions'
+import TypographyAccessDenied from '../../../../../_cloner/components/TypographyAccessDenied'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>
@@ -38,6 +40,7 @@ const RenderInformation: FC<IRenderInfoProps> = ({ title, value, valueClassName 
 }
 
 const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, openModalStateCustomerFeatcure,  detailCustomer }) => {
+    const { hasPermission } = useAuth()
 
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
         if (item?.value) {
@@ -61,6 +64,9 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
     let customerCurrentDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerCurrentDept), [detailCustomer.data?.data])
     let customerDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerDept), [detailCustomer.data?.data])
 
+    if(!hasPermission("GetAllCustomers")) 
+        return <TypographyAccessDenied />
+
     return (
         <>
             {detailCustomer.isLoading && <Backdrop loading={detailCustomer.isLoading} />}
@@ -78,14 +84,18 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
                         <FormikCompany disabled={postSaleOrder?.data?.succeeded} customerid={formikRef.current?.values.customerId} name="customerOfficialCompanyId" label="اسم رسمی شرکت مشتری" />
                     </div>
                     <div className='mt-4 flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-end items-end gap-x-8'>
-                        <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalState(true)} variant="contained" className="w-full">
-                            <Add />
-                            <Typography>ایجاد مشتری جدید</Typography>
-                        </Button>
-                        <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
-                            <Person />
-                            <Typography>نمایش ویژگی های مشتری </Typography>
-                        </Button>
+                        {hasPermission("CreateCustomer") &&
+                            <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalState(true)} variant="contained" className="w-full">
+                                <Add />
+                                <Typography>ایجاد مشتری جدید</Typography>
+                            </Button>
+                        }
+                        {hasPermission("GetCustomerById") &&
+                            <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
+                                <Person />
+                                <Typography>نمایش ویژگی های مشتری </Typography>
+                            </Button>
+                        }
                     </div>
                     <div className='flex flex-col space-y-4 mt-8'>
                         <div className='flex flex-row justify-between items-center'>

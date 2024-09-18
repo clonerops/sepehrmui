@@ -25,13 +25,14 @@ import { useGetProductList } from '../../products/_hooks'
 import { WarehouseType } from '../../../../_cloner/helpers/Enums'
 import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useSearchParams } from 'react-router-dom'
+import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
 
 const SalesOrderEdit = () => {
+    const { hasPermission } = useAuth()
 
     const [searchParams] = useSearchParams();
     let orderCodeSearchParams = searchParams.get("orderCode")
 
-    console.log("orderCodeSearchParams", orderCodeSearchParams)
     
     let formikRef = useRef<FormikProps<any>>(null);
 
@@ -43,7 +44,7 @@ const SalesOrderEdit = () => {
 
     const postSaleOrder = useUpdateOrder();
 
-    const products = useGetProductList();
+    const products = useGetProductList(hasPermission("GetAllProducts"));
     const detailTools = useGetOrderDetailByCode()
 
     const onGetOrderDetailByCode = (value: any) => {

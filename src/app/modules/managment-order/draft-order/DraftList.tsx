@@ -19,6 +19,7 @@ import { SatelliteSharp, Search, ShoppingCart, Visibility } from "@mui/icons-mat
 import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole"
 import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions"
 import AccessDenied from "../../../routing/AccessDenied"
+import TypographyAccessDenied from "../../../../_cloner/components/TypographyAccessDenied"
 
 const initialValues = {
     Roles: "",
@@ -145,7 +146,7 @@ const DraftList = () => {
                         {draftOrderDetailTools.isLoading ?
                             <Backdrop loading={draftOrderDetailTools.isLoading} /> :
                             <ImagePreview base64Strings={draftOrderDetailTools?.data?.data?.attachments || []} />}
-                    </div> : <Typography>شما دسترسی های لازم جهت استفاده از این صفحه را ندارید</Typography>
+                    </div> : <TypographyAccessDenied />
                 }
             </TransitionsModal>
         </ReusableCard>

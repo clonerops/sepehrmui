@@ -9,10 +9,13 @@ import FormikPeoductType from "./FormikProductType";
 import Backdrop from "./Backdrop";
 import SearchBackendInput from "./SearchBackendInput";
 import { ModalProductColumn } from "../helpers/columns";
+import { useAuth } from "../helpers/checkUserPermissions";
 
 
 const MonitoringProdcuct = () => {
-    const filterTools = useGetProductList();
+    const { hasPermission } = useAuth()
+
+    const filterTools = useGetProductList(hasPermission("GetAllProducts"));
     const filterWarehouse = useGetWarehousesByFilter()
     const [searchTerm, setSearchTerm] = useState<any>("")
     let formikRef = useRef<FormikProps<any>>(null);

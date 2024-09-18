@@ -25,6 +25,9 @@ import { useGetProductList } from '../../products/_hooks'
 import { useGetCustomer } from '../../customer/core/_hooks'
 import { InvoiceType, WarehouseType } from '../../../../_cloner/helpers/Enums'
 import { useSearchParams } from 'react-router-dom'
+import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../../routing/AccessDenied'
+import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
 
 const categories = [
     { value: 2, title: "پیش فروش", defaultChecked: false },
@@ -32,6 +35,7 @@ const categories = [
 ]
 
 const SalesOrder = () => {
+    const { hasPermission } = useAuth()
 
     const [searchParams] = useSearchParams()
     const draftOrderIdParams = searchParams.get('draftOrderId')
@@ -44,7 +48,7 @@ const SalesOrder = () => {
     const [orderValid, setOrderValid] = useState<boolean>(false)
 
     const postSaleOrder = useCreateOrder();
-    const products = useGetProductList();
+    const products = useGetProductList(hasPermission("GetAllProducts"));
     const detailCustomer = useGetCustomer();
 
 
@@ -176,6 +180,9 @@ const SalesOrder = () => {
          // eslint-disable-next-line
     }, [orders, orderServices]);
 
+    if(!hasPermission("CreateOrder"))
+        return <AccessDenied />
+
     return (
         <>
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
@@ -207,21 +214,23 @@ const SalesOrder = () => {
 
                         <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
                             <ReusableCard cardClassName='lg:col-span-4'>
-                                <OrderProductDetail
-                                    postSaleOrder={postSaleOrder}
-                                    products={products}
-                                    orders={orders}
-                                    setOrders={setOrders}
-                                    orderPayment={orderPayment}
-                                    setOrderPayment={setOrderPayment}
-                                    orderServices={orderServices}
-                                    setOrderServices={setOrderServices}
-                                    formikRef={formikRef}
-                                    orderValid={orderValid}
-                                    setOrderValid={setOrderValid}
-                                    values={values}
-                                    setFieldValue={setFieldValue}
-                                />
+                                {hasPermission("GetAllProducts")  ?
+                                    <OrderProductDetail
+                                        postSaleOrder={postSaleOrder}
+                                        products={products}
+                                        orders={orders}
+                                        setOrders={setOrders}
+                                        orderPayment={orderPayment}
+                                        setOrderPayment={setOrderPayment}
+                                        orderServices={orderServices}
+                                        setOrderServices={setOrderServices}
+                                        formikRef={formikRef}
+                                        orderValid={orderValid}
+                                        setOrderValid={setOrderValid}
+                                        values={values}
+                                        setFieldValue={setFieldValue}
+                                    /> : <TypographyAccessDenied />
+                                }
                             </ReusableCard>
                         </div>
                         <div className="lg:grid lg:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">

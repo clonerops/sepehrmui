@@ -26,8 +26,10 @@ import { useGetProductList } from '../../products/_hooks'
 import FormikWarehouseBasedOfType from '../../../../_cloner/components/FormikWarehouseBasedOfType'
 import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
 import { WarehouseType } from '../../../../_cloner/helpers/Enums'
+import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
 
 const PurchaserOrderEdit = () => {
+  const { hasPermission } = useAuth()
 
   let formikRef = useRef<FormikProps<any>>(null);
 
@@ -37,7 +39,7 @@ const PurchaserOrderEdit = () => {
 
   const postSaleOrder = useUpdatePurchaserOrder();
 
-  const products = useGetProductList();
+  const products = useGetProductList(hasPermission("GetAllProducts"));
   const detailTools = useGetPurchaserOrderDetailByCode()
   const warehouse = useGetWarehouses()
 

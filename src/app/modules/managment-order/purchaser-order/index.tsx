@@ -26,9 +26,11 @@ import { useGetProductList } from '../../products/_hooks'
 import CustomerFeatcure from '../sales-order/components/CustomerFeatcure'
 import { useGetCustomer } from '../../customer/core/_hooks'
 import { InvoiceType } from '../../../../_cloner/helpers/Enums'
+import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
 
 
 const PurchaserOrder = () => {
+    const { hasPermission } = useAuth()
 
     let formikRef = useRef<FormikProps<any>>(null);
 
@@ -39,7 +41,7 @@ const PurchaserOrder = () => {
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
 
     const postSaleOrder = useCreatePurchaserOrder();
-    const products = useGetProductList();
+    const products = useGetProductList(hasPermission("GetAllProducts"));
     const detailCustomer = useGetCustomer();
 
 

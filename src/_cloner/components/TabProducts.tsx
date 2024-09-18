@@ -6,6 +6,7 @@ import FormikRadioGroup from "./FormikRadioGroup";
 
 import { useGetProductTypes, useGetWarehouseTypes } from "../../app/modules/generic/_hooks";
 import { dropdownWarehouseType } from "../helpers/dropdowns";
+import { useAuth } from "../helpers/checkUserPermissions";
 
 
 type Props = {
@@ -25,9 +26,11 @@ type Image = {
 }
 
 const TabProducts = (props: Props) => {
+    const { hasPermission } = useAuth()
+
     const { tabResult, selectedTab, onSelectTab, onFilterProductByWarehouse, setResults, } = props
-    const productTypeTools = useGetProductTypes();
-    const warehouseTypeTools = useGetWarehouseTypes();
+    const productTypeTools = useGetProductTypes(hasPermission("GetProductTypes"));
+    const warehouseTypeTools = useGetWarehouseTypes(hasPermission("GetWarehouseTypes"));
 
     return (
         <>

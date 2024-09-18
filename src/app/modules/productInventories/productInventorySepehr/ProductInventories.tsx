@@ -17,10 +17,13 @@ import TransitionsModal from "../../../../_cloner/components/ReusableModal";
 import CreateProductInventories from "./CreateProductInventories";
 import UploadFileInventorySepehr from "./UploadFileInventorySepehr";
 import DownloadInventory from "./DownloadInventory";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
 
 const ProductInventoriesSepehr = () => {
+    const { hasPermission } = useAuth()
+
     const uploadFileMethode = useUploadFileProductInventories();
-    const filterTools = useGetProductList();
+    const filterTools = useGetProductList(hasPermission("GetAllProducts"));
     // State
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isUploadpen, setIsUploadOpen] = useState<boolean>(false);

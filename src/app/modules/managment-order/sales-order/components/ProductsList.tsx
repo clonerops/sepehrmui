@@ -21,6 +21,8 @@ import { dropdownProductType, dropdownWarehouseType } from "../../../../../_clon
 import { ModalProductColumn, SelectProductMuiTableColumn } from "../../../../../_cloner/helpers/columns";
 import Pagination from "../../../../../_cloner/components/Pagination";
 import { WarehouseType } from "../../../../../_cloner/helpers/Enums";
+import { useAuth } from "../../../../../_cloner/helpers/checkUserPermissions";
+import TypographyAccessDenied from "../../../../../_cloner/components/TypographyAccessDenied";
 
 interface IProps {
     setOrders?: any
@@ -60,12 +62,15 @@ interface IFilter {
 const pageSize = 100;
 
 const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderService, setIsOpen, setFieldValue }) => {
-    const filterTools = useGetProductList();
-    const warehouseTypeTools = useGetWarehouseTypes();
-    const productTypeTools = useGetProductTypes();
+    const { hasPermission } = useAuth()
+
+    const filterTools =  useGetProductList(hasPermission("GetAllProducts"));
+    const warehouseTypeTools = useGetWarehouseTypes(hasPermission("GetWarehouseTypes"));
+    const productTypeTools = useGetProductTypes(hasPermission("GetProductTypes"));
+
     const [searchTerm, setSearchTerm] = useState<any>("")
 
-    const { data: units } = useGetUnits();
+    const { data: units } = useGetUnits(hasPermission("GetProductUnits"));
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentFilter, setCurrentFilter] = useState<IFilter>({
@@ -103,11 +108,11 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-        const filter = {
-            ...currentFilter,
-            Keyword: searchTerm
-        }
-        filterTools.mutate(filter);
+            const filter = {
+                ...currentFilter,
+                Keyword: searchTerm
+            }
+            filterTools.mutate(filter);
 
         }, 300)
 
@@ -345,12 +350,15 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
         setCurrentPage(selectedItem.selected + 1);
     };
 
-    if (warehouseTypeTools?.isLoading || productTypeTools?.isLoading) {
-        return <Backdrop loading={warehouseTypeTools?.isLoading || productTypeTools?.isLoading} />
-    }
+
+    if (!hasPermission("GetProductTypes") || !hasPermission("GetProductUnits") || !hasPermission("GetWarehouseTypes"))
+        return <Typography variant="h4" className="flex justify-center items-center">جهت استفاده از این بخش باید دسترسی به لیست تمامی نوع کالاها، واحدهای کالا و نوع انبار ها داشته باشید</Typography>
 
     return (
         <>
+            {warehouseTypeTools.isLoading && <Backdrop loading={warehouseTypeTools.isLoading} />}
+            {productTypeTools.isLoading && <Backdrop loading={productTypeTools.isLoading} />}
+
             <div className="mx-1 hidden lg:block">
                 <Button
                     className={`${currentFilter.ProductTypeId === -1 ? "!bg-[#fcc615] !text-black" : ""
@@ -431,7 +439,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                                         WarehouseTypeId: +value
                                     })
                                 }}
-                                radioData={dropdownWarehouseType(warehouseTypeTools?.data.filter((item: { id: number }) => item.id !== 4))}
+                                radioData={dropdownWarehouseType(warehouseTypeTools?.data?.filter((item: { id: number }) => item.id !== 4))}
                                 name="warehouseTypeId" />
                         </Form>
                     }}
