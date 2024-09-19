@@ -98,3 +98,8 @@ export interface IConfirmDialogProps  {
     isEdit?: boolean
 
 }
+
+export interface ITypographyAccessDenied {
+    title?: string
+  }
+  

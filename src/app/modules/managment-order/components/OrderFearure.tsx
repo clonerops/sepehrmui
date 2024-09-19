@@ -19,6 +19,8 @@ import FormikOrderExitType from '../../../../_cloner/components/FormikOrderExitT
 import FormikPurchaseOrderSend from '../../../../_cloner/components/FormikPurchaseOrderSend'
 import FormikPurchasePaymentType from '../../../../_cloner/components/FormikPurchasePaymentType'
 import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType'
+import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
+import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
 
 interface IProps {
     postOrder: any,
@@ -37,6 +39,7 @@ interface IProps {
 
 
 const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
+    const { hasPermission } = useAuth()
 
     const orderFeatureRenderFields = (
         index: number | string,
@@ -76,6 +79,9 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
     };
     
     let renderFields = isPurchaser ? purchaseOrderFeatureFields : orderFeatureFields
+
+    if(!hasPermission("GetOrderSendTypes") || !hasPermission("GetInvoiceTypes") || !hasPermission("GetRentPaymentTypes") || !hasPermission("GetOrderExitTypes"))
+        return <TypographyAccessDenied title=" کاربر گرامی دسترسی به لیست نوع ارسال سفارش فروش، نوع فاکتور، لیست نوع پرداخت کرایه و لیست نوع خروج سفارش فروش الزامی می باشد" />
 
     return (
     // <ReusableCard cardClassName='bg-gradient-to-r from-gray-100'>

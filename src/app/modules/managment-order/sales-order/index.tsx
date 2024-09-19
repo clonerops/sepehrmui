@@ -259,7 +259,7 @@ const SalesOrder = () => {
                                 color="secondary"
                                 isLoading={postSaleOrder.isLoading}
                             />
-
+                            
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}
