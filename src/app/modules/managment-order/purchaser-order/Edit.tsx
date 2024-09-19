@@ -27,6 +27,8 @@ import FormikWarehouseBasedOfType from '../../../../_cloner/components/FormikWar
 import SearchFromBack from '../../../../_cloner/components/SearchFromBack'
 import { WarehouseType } from '../../../../_cloner/helpers/Enums'
 import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../../routing/AccessDenied'
+import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
 
 const PurchaserOrderEdit = () => {
   const { hasPermission } = useAuth()
@@ -44,9 +46,9 @@ const PurchaserOrderEdit = () => {
   const warehouse = useGetWarehouses(hasPermission("GetWarehouses"))
 
 
-  useEffect(() => { 
+  useEffect(() => {
     calculateTotalAmount(orders, orderServices)
-     // eslint-disable-next-line 
+    // eslint-disable-next-line 
   }, [orders, orderServices]);
   console.log("detailTools?.data?.data?.details", detailTools?.data?.data?.details)
   useEffect(() => {
@@ -58,7 +60,7 @@ const PurchaserOrderEdit = () => {
           serviceName: i?.serviceDesc,
           orderServiceId: i?.serviceId,
           orderServiceDescription: i?.description,
-          
+
         })) || []
       ]);
 
@@ -92,7 +94,7 @@ const PurchaserOrderEdit = () => {
       ]);
 
     }
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [detailTools?.data?.data])
 
   const onGetOrderDetailByCode = (values: any) => {
@@ -113,7 +115,7 @@ const PurchaserOrderEdit = () => {
         totalAmount: calculateTotalAmount(orders, orderServices),
         description: values.description ? values.description : detailTools?.data?.data.description, //ok
         orderExitTypeId: values.exitType ? +values.exitType : detailTools?.data?.data.exitType, //ok
-        purchaseOrderSendTypeId: values.purchaseOrderSendTypeId ? +values.purchaseOrderSendTypeId : detailTools?.data?.data.orderSendTypeId ,
+        purchaseOrderSendTypeId: values.purchaseOrderSendTypeId ? +values.purchaseOrderSendTypeId : detailTools?.data?.data.orderSendTypeId,
         paymentTypeId: values.paymentTypeId ? +values.paymentTypeId : detailTools?.data?.data.purchaseOrderSendTypeId, //ok
         productBrandId: 40,
         originWarehouseId: values.originWarehouseId ? +values.originWarehouseId : detailTools?.data?.data?.originWarehouseId,
@@ -182,6 +184,10 @@ const PurchaserOrderEdit = () => {
       }
     }
   }
+
+  if (!hasPermission("UpdatePurchaseOrder"))
+    return <AccessDenied />
+
   return (
     <>
       {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
@@ -202,7 +208,7 @@ const PurchaserOrderEdit = () => {
             <div className="grid grid-cols-1 md:grid-cols-8 md:space-y-0 space-y-4 gap-x-4 my-4">
               <ReusableCard cardClassName="col-span-2">
                 {!postSaleOrder?.data?.succeeded &&
-                    <SearchFromBack inputName='orderCode' initialValues={{searchOrderCode: ""}} onSubmit={onGetOrderDetailByCode} label="شماره سفارش" />
+                  <SearchFromBack inputName='orderCode' initialValues={{ searchOrderCode: "" }} onSubmit={onGetOrderDetailByCode} label="شماره سفارش" />
                   // <form onSubmit={(e: any) => onGetOrderDetailByCode(e, values.searchOrderCode)} className="flex mt-4 gap-4">
                   //   <FormikInput label="شماره سفارش" name="searchOrderCode" />
                   //   <IconButton type="submit">
@@ -247,30 +253,34 @@ const PurchaserOrderEdit = () => {
             {/*The design of the main section of the order module order */}
             <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
               <ReusableCard cardClassName='lg:col-span-3'>
-                <OrderProductDetail
-                  setFieldValue={setFieldValue}
-                  values={values}
-                  postSaleOrder={postSaleOrder}
-                  products={products}
-                  orders={orders}
-                  setOrders={setOrders}
-                  orderPayment={orderPayment}
-                  setOrderPayment={setOrderPayment}
-                  orderServices={orderServices}
-                  setOrderServices={setOrderServices}
-                  formikRef={formikRef}
-                />
+                {hasPermission("GetAllProductBrands") ?
+                  <OrderProductDetail
+                    setFieldValue={setFieldValue}
+                    values={values}
+                    postSaleOrder={postSaleOrder}
+                    products={products}
+                    orders={orders}
+                    setOrders={setOrders}
+                    orderPayment={orderPayment}
+                    setOrderPayment={setOrderPayment}
+                    orderServices={orderServices}
+                    setOrderServices={setOrderServices}
+                    formikRef={formikRef}
+                  /> : <TypographyAccessDenied title='دسترسی به لیست کالابرندها الزامی می باشد' />
+                }
               </ReusableCard>
               <ReusableCard>
                 <Typography variant="h2">انبار مبدا و مقصد</Typography>
-                <div className="flex flex-col space-y-4 mt-8">
-                  <FormikWarehouseBasedOfType
-                    name="originWarehouseId"
-                    label="انبار مبدا"
-                    warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
-                  />
-                  <FormikWarehouseBasedOfType name="destinationWarehouseId" label="انبار مقصد" warehouse={warehouse?.data} />
-                </div>
+                {hasPermission("GetWarehouses") ?
+                  <div className="flex flex-col space-y-4 mt-8">
+                    <FormikWarehouseBasedOfType
+                      name="originWarehouseId"
+                      label="انبار مبدا"
+                      warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
+                    />
+                    <FormikWarehouseBasedOfType name="destinationWarehouseId" label="انبار مقصد" warehouse={warehouse?.data} />
+                  </div> : <TypographyAccessDenied title='دسترسی به لیست انبارها الزامی می باشد' />
+                } 
               </ReusableCard>
             </div>
             <div className="lg:grid lg:grid-cols-2 gap-x-4 mt-4">
@@ -299,7 +309,7 @@ const PurchaserOrderEdit = () => {
                   postSaleOrder.isLoading ||
                   orderPayment.length <= 0 ||
                   postSaleOrder?.data?.succeeded === ""
-              }
+                }
                 onClick={() => handleSubmit()}
                 color="primary"
                 isLoading={postSaleOrder.isLoading}
