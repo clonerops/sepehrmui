@@ -30,6 +30,7 @@ import { useCreateCargo, useGetCargosList } from "./_hooks"
 import { ICargo, ICargoFilter } from "./_models"
 import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns"
 import TransitionsModal from "../../../_cloner/components/ReusableModal"
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions"
 
 const initialValues = {
     driverName: "",
@@ -48,10 +49,12 @@ const initialValues = {
 
 
 const CargoForm = () => {
+    const {hasPermission} = useAuth()
+
     const { id } = useParams()
 
     const postCargoTools = useCreateCargo()
-    const orderTools = useRetrieveOrder(id)
+    const orderTools = useRetrieveOrder(id, hasPermission("GetOrderById"))
     const cargosList = useGetCargosList()
     const vehicleList = useGetVehicleTypes()
 

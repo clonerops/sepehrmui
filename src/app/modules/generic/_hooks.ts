@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
 
-const useGetSendTypes = () => {
+const useGetSendTypes = (hasPermission: boolean) => {
     return useQuery(["sendTypes"], () => api.getSendTypes(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
     });
 };
-const useGetPurchaseSendTypes = () => {
+const useGetPurchaseSendTypes = (hasPermission: boolean) => {
     return useQuery(["purchaseSendTypes"], () => api.getPurchaseSendTypes(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -22,8 +24,9 @@ const useGetPaymentTypes = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetPurchasePaymentTypes = () => {
+const useGetPurchasePaymentTypes = (hasPermission: boolean) => {
     return useQuery(["purchasePaymentTypes"], () => api.getPurchasePaymentTypes(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -36,8 +39,9 @@ const useGetPurchaseInvoice = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetInvoiceType = () => {
+const useGetInvoiceType = (hasPermission: boolean) => {
     return useQuery(["invoiceType"], () => api.getInvoiceType(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -76,8 +80,9 @@ const useGetReceivePaymentSources = () => {
         }
     );
 };
-const useGetServices = () => {
+const useGetServices = (hasPermission: boolean) => {
     return useQuery(["services"], () => api.getServices(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -113,8 +118,9 @@ const useGetOfficialBank = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetOrderExitTypes = () => {
+const useGetOrderExitTypes = (hasPermission: boolean) => {
     return useQuery(["orderExitTypes"], () => api.getOrderExitTypes(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,

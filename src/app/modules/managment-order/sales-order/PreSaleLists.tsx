@@ -9,11 +9,14 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { OrderColumn } from "../../../../_cloner/helpers/columns";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../../routing/AccessDenied";
 // import Pagination from "../../../../_cloner/components/Pagination";
 
 const pageSize = 100
 
 const PreSaleLists = () => {
+    const { hasPermission } = useAuth()
     // const [currentPage, setCurrentPage] = useState<number>(1);
 
     let formData = {
@@ -48,6 +51,9 @@ const PreSaleLists = () => {
     // const handlePageChange = (selectedItem: { selected: number }) => {
     //     setCurrentPage(selectedItem.selected + 1);
     // };
+
+    if(!hasPermission("ConvertPreSaleOrder"))
+        return <AccessDenied />
     
     return (
         <ReusableCard>

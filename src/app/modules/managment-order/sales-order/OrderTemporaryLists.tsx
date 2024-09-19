@@ -15,6 +15,8 @@ import { Formik } from "formik";
 import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import FormikInput from "../../../../_cloner/components/FormikInput";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../../routing/AccessDenied";
 
 const initialValues = {
     orderCode: "",
@@ -26,6 +28,8 @@ const initialValues = {
 const pageSize = 100
 
 const OrderTemporaryLists = () => {
+    const { hasPermission } = useAuth()
+
     const navigate = useNavigate()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -52,11 +56,13 @@ const OrderTemporaryLists = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex flex-row gap-x-4">
-                <Link to={`/dashboard/sales_order/edit?orderCode=${item.row.orderCode}`}>
-                    <Button variant="contained" color="secondary">
-                        <Typography >تایید نهایی</Typography>
-                    </Button>
-                </Link>
+                {hasPermission("FinalApprovalOfTheTemporaryOrder") &&
+                    <Link to={`/dashboard/sales_order/edit?orderCode=${item.row.orderCode}`}>
+                        <Button variant="contained" color="secondary">
+                            <Typography >تایید نهایی</Typography>
+                        </Button>
+                    </Link>
+                }
             </div>
         );
     };
@@ -80,6 +86,9 @@ const OrderTemporaryLists = () => {
             }
         })
     }
+
+    if(!hasPermission("GetAllOrders"))
+        return <AccessDenied />
 
     return (
         <>

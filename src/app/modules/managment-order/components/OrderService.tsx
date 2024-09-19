@@ -28,7 +28,7 @@ interface IProps {
 
 const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders}) => {
     const { hasPermission } = useAuth()
-    const { data: productService } = useGetServices();
+    const { data: productService } = useGetServices(hasPermission("GetAllServices"));;
 
     const handleSetServices = () => {
         const orderServices = [...orderService]

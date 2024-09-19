@@ -229,7 +229,7 @@ const SalesOrder = () => {
                                         setOrderValid={setOrderValid}
                                         values={values}
                                         setFieldValue={setFieldValue}
-                                    /> : <TypographyAccessDenied />
+                                    /> : <TypographyAccessDenied title='دسترسی به لیست تمامی کالاها الزامی می باشد' />
                                 }
                             </ReusableCard>
                         </div>
@@ -259,7 +259,7 @@ const SalesOrder = () => {
                                 color="secondary"
                                 isLoading={postSaleOrder.isLoading}
                             />
-                            
+
                             <CustomButton
                                 title={postSaleOrder.isLoading ? "در حال پردازش ...." : "ثبت سفارش"}
                                 onClick={() => handleSubmit()}

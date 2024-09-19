@@ -13,9 +13,13 @@ import FuzzySearch from "../../../../_cloner/helpers/fuse";
 import FormikRadioGroup from "../../../../_cloner/components/FormikRadioGroup";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { InvoiceType } from "../../../../_cloner/helpers/Enums";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../../routing/AccessDenied";
 
 
 const ReadyToSalesOrderConfirm = () => {
+    const { hasPermission } = useAuth() 
+
     const navigate = useNavigate()
     
     const orderTools = useRetrieveOrdersByMutation();
@@ -81,6 +85,9 @@ const ReadyToSalesOrderConfirm = () => {
             });
         }
     };
+
+    if(!hasPermission("ApproveOrderInvoiceType"))
+        return <AccessDenied />
 
     return (
         <ReusableCard>

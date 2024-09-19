@@ -2,9 +2,10 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
 import { IService } from "./_models"
 
-const useGetServices = () => {
-    return useQuery(['Services'], () => 
+const useGetServices = (hasPermission: boolean) => {
+    return useQuery(['Services'], () =>
         api.getServices(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
@@ -19,7 +20,7 @@ const usePostServices = () => {
 
 
 const useGetService = (id: string) => {
-    return useQuery(['Services', id], () => 
+    return useQuery(['Services', id], () =>
         api.getService(id))
 }
 

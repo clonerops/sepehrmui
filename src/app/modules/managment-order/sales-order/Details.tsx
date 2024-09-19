@@ -14,6 +14,7 @@ import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmo
 import { useGetCargosList } from "../../cargoAnnouncment/_hooks";
 import { useEffect, useState } from "react";
 import TransitionsModal from "../../../../_cloner/components/ReusableModal";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
 
 
 type Props = {
@@ -33,8 +34,9 @@ const initialValues = {
 }
 
 const SalesOrderDetail = (props: Props) => {
+    const { hasPermission } = useAuth()
     const { id } = useParams()
-    const { data, isLoading } = useRetrieveOrder(id)
+    const { data, isLoading } = useRetrieveOrder(id, hasPermission("GetOrderById"))
     const cargosList = useGetCargosList()
     const [cargoAnnounceDetails, setCargoAnnounceDetails] = useState<any>({})
     const [isOpenDetail, setIsOpenDetail] = useState<boolean>(false)
@@ -135,12 +137,9 @@ const SalesOrderDetail = (props: Props) => {
 
     let renderOrderInfo = !props.isCargo ? orderAndAmountInfo : orderAndAmountInfoInCargo
 
-    if (isLoading) {
-        return <Backdrop loading={isLoading} />
-    }
-
     return (
         <>
+            {isLoading && <Backdrop loading={isLoading} />}
             {/* <ReusableTab /> */}
             <Typography color="primary" variant="h1" className="pb-8">جزئیات سفارش فروش</Typography>
             <Formik initialValues={initialValues} onSubmit={() => { }}>

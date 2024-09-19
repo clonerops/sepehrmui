@@ -17,6 +17,8 @@ import { Formik } from "formik";
 import FormikUserByRole from "../../../../_cloner/components/FormikUserByRole";
 import ButtonComponent from "../../../../_cloner/components/ButtonComponent";
 import FormikInput from "../../../../_cloner/components/FormikInput";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../../routing/AccessDenied";
 
 const initialValues = {
     orderCode: "",
@@ -27,6 +29,8 @@ const initialValues = {
 const pageSize = 100
 
 const SalesOrderList = () => {
+    const { hasPermission } = useAuth()
+
     const navigate = useNavigate()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -87,6 +91,9 @@ const SalesOrderList = () => {
             }
         })
     }
+
+    if(!hasPermission("GetAllOrders"))
+        return <AccessDenied />
 
     return (
         <>

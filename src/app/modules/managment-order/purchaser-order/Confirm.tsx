@@ -23,6 +23,7 @@ import FileUpload from "../../../../_cloner/components/FileUpload";
 import { dropdownInvoiceType } from "../../../../_cloner/helpers/dropdowns";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
 import FormikSearchableProductBrand from "../../../../_cloner/components/FormikSearchableProductBrand";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
 
 const initialValues = {
     productName: "",
@@ -36,10 +37,11 @@ const initialValues = {
 }
 
 const PurchaserOrderConfirm = () => {
+    const { hasPermission } = useAuth()
     const { id } = useParams()
     const { data, isLoading } = useRetrievePurchaserOrder(id)
     // const { data: productsByBrand, } = useRetrieveProductsByBrand();
-    const { data: factor } = useGetInvoiceType();
+    const { data: factor } = useGetInvoiceType(hasPermission("GetInvoiceTypes"));
     const customerCompaniesTools = useGetCustomerCompaniesMutate();
 
     const approveTools = useApprovePurchaserInvoiceType()

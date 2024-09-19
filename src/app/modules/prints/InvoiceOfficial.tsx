@@ -8,6 +8,7 @@ import { useRetrieveOrder } from "../managment-order/core/_hooks";
 import { useParams } from "react-router-dom";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
 
 const RendertextValue = (props: { title: string; value: any }) => {
     return (
@@ -21,8 +22,10 @@ const RendertextValue = (props: { title: string; value: any }) => {
 };
 
 const InvoiceOfficial = () => {
+    const {hasPermission} = useAuth()
+
     const { id } = useParams()
-    const { data, isLoading } = useRetrieveOrder(id)
+    const { data, isLoading } = useRetrieveOrder(id, hasPermission("GetOrderById"))
 
     const printComponentRef = useRef<HTMLDivElement>(null);
 

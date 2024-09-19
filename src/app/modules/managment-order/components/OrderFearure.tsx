@@ -18,7 +18,6 @@ import FormikDatepicker from '../../../../_cloner/components/FormikDatepicker'
 import FormikOrderExitType from '../../../../_cloner/components/FormikOrderExitType'
 import FormikPurchaseOrderSend from '../../../../_cloner/components/FormikPurchaseOrderSend'
 import FormikPurchasePaymentType from '../../../../_cloner/components/FormikPurchasePaymentType'
-import FormikPurchaserInvoiceType from '../../../../_cloner/components/FormikPurchaserInvoiceType'
 import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
 import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
 
@@ -84,7 +83,6 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
         return <TypographyAccessDenied title=" کاربر گرامی دسترسی به لیست نوع ارسال سفارش فروش، نوع فاکتور، لیست نوع پرداخت کرایه و لیست نوع خروج سفارش فروش الزامی می باشد" />
 
     return (
-    // <ReusableCard cardClassName='bg-gradient-to-r from-gray-100'>
     <ReusableCard cardClassName=''>
         <div className="">
             <Typography variant="h2" color="primary">خصوصیات سفارش</Typography>

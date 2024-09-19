@@ -2865,7 +2865,7 @@ const OrderColumn = (renderAction: any) => {
             headerName: 'کد سفارش', headerClassName: "headerClassName", minWidth: 140, maxWidth: 180, flex: 1
         },
         {
-            field: 'saleManagerName', renderCell: (params: any) => {
+            field: 'saleAgentName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'مسئول فروش', headerClassName: "headerClassName", minWidth: 160, maxWidth: 160, flex: 1
@@ -2938,7 +2938,7 @@ const ConvertPreSaleColumn = (renderAction: any) => {
             headerName: 'کد سفارش', headerClassName: "headerClassName", minWidth: 140, maxWidth: 180, flex: 1
         },
         {
-            field: 'saleManagerName', renderCell: (params: any) => {
+            field: 'saleAgentName', renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>;
             },
             headerName: 'مسئول فروش', headerClassName: "headerClassName", minWidth: 160, maxWidth: 160, flex: 1

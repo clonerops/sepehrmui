@@ -18,6 +18,7 @@ import { IService } from "./_models"
 import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { ProductServicesColumn } from '../../../_cloner/helpers/columns'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
 
 const initialValues = {
   id: 0,
@@ -29,7 +30,9 @@ const validation = Yup.object({
 })
 
 const ProductService = () => {
-  const serviceTools = useGetServices()
+  const { hasPermission } = useAuth()
+
+  const serviceTools = useGetServices(hasPermission("GetAllServices"));
   const postServiceTools = usePostServices()
   const updateServiceTools = useUpdateServices()
 

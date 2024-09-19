@@ -26,6 +26,7 @@ import { WarehouseType } from '../../../../_cloner/helpers/Enums'
 import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../../routing/AccessDenied'
 
 const SalesOrderEdit = () => {
     const { hasPermission } = useAuth()
@@ -262,12 +263,13 @@ const SalesOrderEdit = () => {
         }
     }
 
-    if (detailTools.isLoading) {
-        return <Backdrop loading={detailTools.isLoading} />
-    }
+
+    if(!hasPermission("UpdateOrder"))
+        return <AccessDenied />
 
     return (
         <>
+            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
             {postSaleOrder?.data?.succeeded &&
                 <Alert>
