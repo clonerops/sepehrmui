@@ -9,11 +9,14 @@ import FuzzySearch from "../../../_cloner/helpers/fuse";
 import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import { TransferBetweenWarehouseColumn } from "../../../_cloner/helpers/columns";
 import Pagination from "../../../_cloner/components/Pagination";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 
 const pageSize = 20;
 
 const TransferBetweenWarehouse = () => {
+    const { hasPermission } = useAuth()
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     let formData = {
@@ -22,17 +25,17 @@ const TransferBetweenWarehouse = () => {
         IsNotTransferedToWarehouse: true
     };
 
-    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
+    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation(hasPermission("GetAllPurchaseOrders"));
 
-    const renderOrders = (isNotTransferedToWarehouse=true) => {
+    const renderOrders = (isNotTransferedToWarehouse = true) => {
         let formData = {
             pageNumber: currentPage,
             pageSize: pageSize,
-            IsNotTransferedToWarehouse: !isNotTransferedToWarehouse ? null : true ,
+            IsNotTransferedToWarehouse: !isNotTransferedToWarehouse ? null : true,
             PurchaseOrderStatusId: isNotTransferedToWarehouse ? null : 4
         }
 
-        mutate(formData,{
+        mutate(formData, {
             onSuccess: (response) => {
                 setResults(response?.data);
             }
@@ -53,14 +56,14 @@ const TransferBetweenWarehouse = () => {
     const renderAction = (item: any) => {
         return (
             <Link
-            to={ item.row.purchaseOrderStatusId === 4 ? '' : `/dashboard/transferBetweenWarehouse/${item?.row?.id}`}
-        >
+                to={item.row.purchaseOrderStatusId === 4 ? '' : `/dashboard/transferBetweenWarehouse/${item?.row?.id}`}
+            >
 
-            <ButtonComponent disabled={item.row.purchaseOrderStatusId === 4} onClick={() => {}}>
-                <Typography className="px-2 text-white">
-                    اقدام به نقل و انتقال
-                </Typography>
-            </ButtonComponent>
+                <ButtonComponent disabled={item.row.purchaseOrderStatusId === 4} onClick={() => { }}>
+                    <Typography className="px-2 text-white">
+                        اقدام به نقل و انتقال
+                    </Typography>
+                </ButtonComponent>
             </Link>
         );
     };
@@ -68,6 +71,9 @@ const TransferBetweenWarehouse = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
+
+    if(!hasPermission("GetAllPurchaseOrders"))
+        return <AccessDenied />
 
     return (
         <>
@@ -93,20 +99,20 @@ const TransferBetweenWarehouse = () => {
                     </Box>
                     <Box className="flex flex-col lg:flex-row gap-4">
                         <Button onClick={() => renderOrders(true)
-                        //  {
-                        //     setIsNotTransferedToWarehouse(false)
-                        //     renderOrders()
-                        // }
+                            //  {
+                            //     setIsNotTransferedToWarehouse(false)
+                            //     renderOrders()
+                            // }
                         } variant="contained" className={"!bg-pink-800"}>
                             <Typography>سفارشات آماده انتقال</Typography>
                         </Button>
                         <Button onClick={() => renderOrders(false)
-                                
-                        // {
-                        //     setIsNotTransferedToWarehouse(true)
-                        //     renderOrders()
-                        // }
-                        } variant="contained" className={"!bg-sky-800" }>
+
+                            // {
+                            //     setIsNotTransferedToWarehouse(true)
+                            //     renderOrders()
+                            // }
+                        } variant="contained" className={"!bg-sky-800"}>
                             <Typography>سفارشات انتقال داده شده</Typography>
                         </Button>
                     </Box>
@@ -118,7 +124,7 @@ const TransferBetweenWarehouse = () => {
                     rows={results || [{}]}
                     data={orders?.data || [{}]}
                     isLoading={isLoading}
-                    onDoubleClick={() => {}}
+                    onDoubleClick={() => { }}
                 />
                 <Pagination
                     pageCount={+orders?.totalCount / +pageSize || 100}

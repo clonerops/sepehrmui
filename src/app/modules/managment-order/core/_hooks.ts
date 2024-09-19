@@ -5,9 +5,9 @@ import * as api from "./_requests";
 // Sales Order
 const useCreateOrder = () => useMutation((formData: any) => api.createOrder(formData))
 
-const useUpdateOrder = () => useMutation((formData: any) =>  api.updateOrder(formData))
+const useUpdateOrder = () => useMutation((formData: any) => api.updateOrder(formData))
 
-const useRetrieveOrders = (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number}) => {
+const useRetrieveOrders = (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number }) => {
     return useQuery(["orders", formData], () => api.retrieveOrders(formData), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -26,16 +26,16 @@ const useRetrieveOrder = (id: string | undefined, hasPermission: boolean) => {
     });
 };
 
-const useConfirmOrder = () =>  useMutation((id: string) => api.confirmOrder(id))
-const useConvertPreSaleOrder = () =>  useMutation((id: string) => api.convertPreSaleOrder(id))
+const useConfirmOrder = () => useMutation((id: string) => api.confirmOrder(id))
+const useConvertPreSaleOrder = () => useMutation((id: string) => api.convertPreSaleOrder(id))
 
-const useApproveInvoiceType = () =>  useMutation((formData: IApproveInvoice) => api.approveInvoiceType(formData))
+const useApproveInvoiceType = () => useMutation((formData: IApproveInvoice) => api.approveInvoiceType(formData))
 
 const useGetOrderDetailByCode = () => useMutation((orderCode: number) => api.getOrderDetailByCode(orderCode))
 
 // Purchase Order
 const useCreatePurchaserOrder = () => useMutation((formData: any) => api.createPurchaserOrder(formData))
-const useRetrievePurchaserOrders = (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number, IsNotTransferedToWarehouse?: boolean}) => {
+const useRetrievePurchaserOrders = (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number, IsNotTransferedToWarehouse?: boolean }) => {
     return useQuery(["purchaserOrders", formData], () => api.retrievePurchaserOrders(formData), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -50,18 +50,26 @@ const useRetrievePurchaserOrder = (id: string | undefined) => {
     });
 };
 
-const useRetrievePurchaserOrdersByMutation = () => useMutation((formData: { 
-    pageNumber?: number; 
-    pageSize?: number; 
-    InvoiceTypeId?: number[]; 
-    PurchaseOrderStatusId?: number | null; 
-    IsNotTransferedToWarehouse?: boolean | null
-    OrderCode?: number | null; 
+const useRetrievePurchaserOrdersByMutation = (hasPermission: boolean) => {
+    return useMutation((formData: {
+        pageNumber?: number;
+        pageSize?: number;
+        InvoiceTypeId?: number[];
+        PurchaseOrderStatusId?: number | null;
+        IsNotTransferedToWarehouse?: boolean | null,
+        OrderCode?: number | null;
+    }) => {
+        if(hasPermission) {
+            return api.retrievePurchaserOrdersMutation(formData)
+        } else {
+            return Promise.resolve(null);
+        }
+    })
+}
 
-}) => api.retrievePurchaserOrdersMutation(formData));
-const useApprovePurchaserInvoiceType = () =>  useMutation((formData: IApproveInvoice) => api.approvePurchaserInvoiceType(formData))
+const useApprovePurchaserInvoiceType = () => useMutation((formData: IApproveInvoice) => api.approvePurchaserInvoiceType(formData))
 const useGetPurchaserOrderDetailByCode = () => useMutation((orderCode: number) => api.getPurchaserOrderDetailByCode(orderCode))
-const useUpdatePurchaserOrder = () => useMutation((formData: IPurchaserOrder) =>  api.updatePurchaserOrder(formData))
+const useUpdatePurchaserOrder = () => useMutation((formData: IPurchaserOrder) => api.updatePurchaserOrder(formData))
 const usePurchaseOrderTransfer = () => useMutation((formData: any) => api.purchaseOrderTransfer(formData))
 
 

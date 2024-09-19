@@ -11,15 +11,18 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import Pagination from "../../../../_cloner/components/Pagination";
 import SearchFromBack from "../../../../_cloner/components/SearchFromBack";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../../routing/AccessDenied";
 
 const pageSize = 100
 
 const PurchaserOrderList = () => {
+    const { hasPermission } = useAuth()
     const navigate = useNavigate()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const orderLists = useRetrievePurchaserOrdersByMutation()
+    const orderLists = useRetrievePurchaserOrdersByMutation(hasPermission("GetAllPurchaseOrders"))
 
     const [results, setResults] = useState<IOrder[]>([]);
 
@@ -71,6 +74,8 @@ const PurchaserOrderList = () => {
         })
     }
 
+    if(!hasPermission("GetAllPurchaseOrders"))
+        return <AccessDenied />
 
     return (
         <ReusableCard>

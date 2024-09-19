@@ -8,12 +8,15 @@ import ReusableCard from "../../../../_cloner/components/ReusableCard";
 import MuiDataGrid from "../../../../_cloner/components/MuiDataGrid";
 import { PurchaserOrderConfirmColumn } from "../../../../_cloner/helpers/columns";
 import { InvoiceType } from "../../../../_cloner/helpers/Enums";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../../routing/AccessDenied";
 
 
 const ReadyToPurchaserOrderConfirm = () => {
+    const { hasPermission } = useAuth()
     const navigate = useNavigate()
 
-    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
+    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation(hasPermission("GetAllPurchaseOrders"));
 
     useEffect(() => {
         const formData = {
@@ -59,6 +62,10 @@ const ReadyToPurchaserOrderConfirm = () => {
             mutate(formData);
         }
     };
+
+    if(!hasPermission("GetAllPurchaseOrders"))
+        return <AccessDenied />
+
 
     return (
         <ReusableCard>
