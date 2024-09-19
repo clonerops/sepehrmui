@@ -62,7 +62,7 @@ const TransferRemittanceEdit = () => {
     const { id }: any = useParams()
 
     const vehicleList = useGetVehicleTypes()
-    const warehouse = useGetWarehouses()
+    const warehouse = useGetWarehouses(hasPermission("GetWarehouses"))
     const productsInventory = useGetProductList(hasPermission("GetAllProducts"))
     const detailTools = useGetTransferRemitanceByIdByMutation()
     const updateTools = useUpdateTransferRemitance()

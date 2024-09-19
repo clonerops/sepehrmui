@@ -27,6 +27,8 @@ import CustomerFeatcure from '../sales-order/components/CustomerFeatcure'
 import { useGetCustomer } from '../../customer/core/_hooks'
 import { InvoiceType } from '../../../../_cloner/helpers/Enums'
 import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../../routing/AccessDenied'
+import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
 
 
 const PurchaserOrder = () => {
@@ -139,6 +141,9 @@ const PurchaserOrder = () => {
         // setOrders([])
     }
 
+    if(!hasPermission("CreatePurchaseOrder"))
+        return <AccessDenied />
+
     return (
         <>
             {postSaleOrder.isLoading && <Backdrop loading={postSaleOrder.isLoading} />}
@@ -173,19 +178,21 @@ const PurchaserOrder = () => {
 
                         <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
                             <ReusableCard cardClassName='lg:col-span-4'>
-                                <OrderProductDetail
-                                    setFieldValue={setFieldValue}
-                                    values={values}
-                                    postSaleOrder={postSaleOrder}
-                                    products={products}
-                                    orders={orders}
-                                    setOrders={setOrders}
-                                    orderPayment={orderPayment}
-                                    setOrderPayment={setOrderPayment}
-                                    orderServices={orderServices}
-                                    setOrderServices={setOrderServices}
-                                    formikRef={formikRef}
-                                />
+                                {hasPermission("GetAllProductBrands") ? 
+                                    <OrderProductDetail
+                                        setFieldValue={setFieldValue}
+                                        values={values}
+                                        postSaleOrder={postSaleOrder}
+                                        products={products}
+                                        orders={orders}
+                                        setOrders={setOrders}
+                                        orderPayment={orderPayment}
+                                        setOrderPayment={setOrderPayment}
+                                        orderServices={orderServices}
+                                        setOrderServices={setOrderServices}
+                                        formikRef={formikRef}
+                                    /> : <TypographyAccessDenied title='دسترسی به لیست کالابرندها الزامی می باشد' />
+                                }
                             </ReusableCard>
                         </div>
                         <div className="lg:grid lg:grid-cols-3 space-y-4 lg:space-y-0 gap-4 mt-4">

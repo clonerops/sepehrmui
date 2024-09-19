@@ -15,6 +15,7 @@ import { ICustomerWarehouse } from './_models'
 import { usePostCustomerWarehouses } from './_hooks'
 import { useGetWarehouses } from '../generic/_hooks'
 import FormikSearchableCustomer from '../../../_cloner/components/FormikSearchableCustomer'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
 
 const initialValues: any = {
     id: 0,
@@ -22,9 +23,11 @@ const initialValues: any = {
 }
 
 const CustomerWarehouseV2 = () => {
+    const { hasPermission } = useAuth()
+
     const customers = useGetCustomers()
     const customerDetailTools = useGetCustomer()
-    const warehouseTools = useGetWarehouses();
+    const warehouseTools = useGetWarehouses(hasPermission("GetWarehouses"));
 
 
     const { mutate: postCustomerWarehouse, isLoading: postLoading } = usePostCustomerWarehouses();

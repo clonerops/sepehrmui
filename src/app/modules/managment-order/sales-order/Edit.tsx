@@ -81,7 +81,7 @@ const SalesOrderEdit = () => {
     
 
 
-    const { data: warehouse } = useGetWarehouses();
+    const { data: warehouse } = useGetWarehouses(hasPermission("GetWarehouses"));
 
     useEffect(() => {
         calculateTotalAmount(orders, orderServices)

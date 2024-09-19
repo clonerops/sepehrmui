@@ -1,9 +1,11 @@
 import { useGetWarehouses } from '../../app/modules/generic/_hooks';
+import { useAuth } from '../helpers/checkUserPermissions';
 import { dropdownWarehouses } from '../helpers/dropdowns';
 import FormikComboBox from './FormikComboBox';
 
 const FormikWarehouse = (props: any) => {
-    const { data: warehouse } = useGetWarehouses();
+    const { hasPermission } = useAuth()
+    const { data: warehouse } = useGetWarehouses(hasPermission("GetWarehouses"));
 
     return (
         // <FormikSelect

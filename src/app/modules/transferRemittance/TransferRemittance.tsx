@@ -72,7 +72,7 @@ const TransferRemittance = () => {
     let formikRef = useRef<FormikProps<any>>(null);
 
     const vehicleList = useGetVehicleTypes()
-    const warehouse = useGetWarehouses()
+    const warehouse = useGetWarehouses(hasPermission("GetWarehouses"))
     const productsInventory = useGetProductList(hasPermission("GetAllProducts"))
     const transfer = usePostTransferRemittance()
     const purchaseOrderDetail = useGetPurchaserOrderDetailByCode()

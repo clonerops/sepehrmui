@@ -15,6 +15,8 @@ import { useGetWarehouses } from '../../../generic/_hooks'
 import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
 import { WarehouseType } from '../../../../../_cloner/helpers/Enums'
 import { Add, Person } from '@mui/icons-material'
+import { useAuth } from '../../../../../_cloner/helpers/checkUserPermissions'
+import TypographyAccessDenied from '../../../../../_cloner/components/TypographyAccessDenied'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, IPurchaserOrder, unknown>
@@ -25,8 +27,9 @@ interface IProps {
 }
 
 const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, openModalStateCustomerFeatcure, detailCustomer }) => {
+    const { hasPermission } = useAuth()
 
-    const warehouse = useGetWarehouses()
+    const warehouse = useGetWarehouses(hasPermission("GetWarehouses"))
 
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
         if (item?.value) {
@@ -53,6 +56,9 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState,
         }
     };
 
+    if (!hasPermission("GetAllCustomers") || !hasPermission("GetWarehouses"))
+        return <TypographyAccessDenied title='دسترسی به لیست مشتریان و لیست انبارها الزامی می باشد' />
+
 
     return (
         <>
@@ -78,14 +84,18 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState,
                     <FormikWarehouse name="destinationWarehouseId" label="انبار مقصد" />
                 </div>
                 <div className='mt-4 flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-end items-end gap-x-8'>
-                    <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalState(true)} variant="contained" className="w-full">
-                        <Add />
-                        <Typography>ایجاد مشتری جدید</Typography>
-                    </Button>
-                    <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
-                        <Person />
-                        <Typography>نمایش ویژگی های مشتری </Typography>
-                    </Button>
+                    {hasPermission("CreateCustomer") &&
+                        <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalState(true)} variant="contained" className="w-full">
+                            <Add />
+                            <Typography>ایجاد مشتری جدید</Typography>
+                        </Button>
+                    }
+                    {hasPermission("GetCustomerById") &&
+                        <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
+                            <Person />
+                            <Typography>نمایش ویژگی های مشتری </Typography>
+                        </Button>
+                    }
                 </div>
 
             </div>

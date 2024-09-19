@@ -41,7 +41,7 @@ const PurchaserOrderEdit = () => {
 
   const products = useGetProductList(hasPermission("GetAllProducts"));
   const detailTools = useGetPurchaserOrderDetailByCode()
-  const warehouse = useGetWarehouses()
+  const warehouse = useGetWarehouses(hasPermission("GetWarehouses"))
 
 
   useEffect(() => { 

@@ -62,8 +62,9 @@ const useGetWarehouseTypes = (hasPermission: boolean) => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetWarehouses = () => {
+const useGetWarehouses = (hasPermission: boolean) => {
     return useQuery(["warehouses"], () => api.getWarehouses(), {
+        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,

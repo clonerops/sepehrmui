@@ -79,8 +79,11 @@ const OrderFeature:FC<IProps> = ({postOrder, categories, isPurchaser}) => {
     
     let renderFields = isPurchaser ? purchaseOrderFeatureFields : orderFeatureFields
 
-    if(!hasPermission("GetOrderSendTypes") || !hasPermission("GetInvoiceTypes") || !hasPermission("GetRentPaymentTypes") || !hasPermission("GetOrderExitTypes"))
+    if(!isPurchaser && (!hasPermission("GetOrderSendTypes") || !hasPermission("GetInvoiceTypes") || !hasPermission("GetRentPaymentTypes") || !hasPermission("GetOrderExitTypes"))) {
         return <TypographyAccessDenied title=" کاربر گرامی دسترسی به لیست نوع ارسال سفارش فروش، نوع فاکتور، لیست نوع پرداخت کرایه و لیست نوع خروج سفارش فروش الزامی می باشد" />
+    } else if(isPurchaser && (!hasPermission("GetPurchaseOrderSendTypes") || !hasPermission("GetInvoiceTypes") || !hasPermission("GetPurchaseFarePaymentTypes") )) {
+        return <TypographyAccessDenied title=" کاربر گرامی دسترسی به لیست نوع ارسال سفارش خرید نوع فاکتور، لیست  نوع پرداخت کرایه سفارش خرید الزامی می باشد" />
+    }
 
     return (
     <ReusableCard cardClassName=''>
