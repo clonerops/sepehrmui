@@ -11,6 +11,8 @@ import ImagePreview from "../../../../_cloner/components/ImagePreview";
 
 import { useRetrievePurchaserOrder } from "../core/_hooks";
 import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount";
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../../routing/AccessDenied";
 
 
 type Props = {
@@ -30,21 +32,22 @@ const initialValues = {
 }
 
 const PurchaserOrderDetail = (props: Props) => {
+    const { hasPermission } = useAuth()
     const { id } = useParams()
     const { data, isLoading } = useRetrievePurchaserOrder(id)
     // const cargosList = useRetrieveCargos(id)
 
     const orderAndAmountInfo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode || "ثبت نشده" },
-        { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName || "ثبت نشده"},
-        { id: 3, title: "تاریخ ثبت سفارش", icon: <ExitToApp color="secondary" />, value: data?.data?.registerDate || "ثبت نشده"},
-        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc  || "ثبت نشده"},
-        { id: 4, title: "مبدا", icon: <LocalShipping color="secondary" />, value: data?.data?.originWarehouseDesc  || "ثبت نشده"},
-        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc  || "ثبت نشده"},
-        { id: 6, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc  || "ثبت نشده"},
-        { id: 7, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc  || "ثبت نشده"},
-        { id: 8, title: "وضعیت تایید حسابداری", icon: <CheckBox color="secondary" />, value: data?.data?.confirmedStatus === false ? "تایید نشده" : "تایید شده"  || "ثبت نشده"},
-        { id: 8, title: "مقصد", icon: <CheckBox color="secondary" />, value: data?.data?.destinationWarehouseDesc || "ثبت نشده"},
+        { id: 2, title: "فروشنده", icon: <Person color="secondary" />, value: data?.data?.customerFirstName + " " + data?.data?.customerLastName || "ثبت نشده" },
+        { id: 3, title: "تاریخ ثبت سفارش", icon: <ExitToApp color="secondary" />, value: data?.data?.registerDate || "ثبت نشده" },
+        { id: 4, title: "نوع ارسال", icon: <LocalShipping color="secondary" />, value: data?.data?.orderSendTypeDesc || "ثبت نشده" },
+        { id: 4, title: "مبدا", icon: <LocalShipping color="secondary" />, value: data?.data?.originWarehouseDesc || "ثبت نشده" },
+        { id: 5, title: "وضعیت", icon: <CheckBox color="secondary" />, value: data?.data?.orderStatusDesc || "ثبت نشده" },
+        { id: 6, title: "نوع فاکتور", icon: <Newspaper color="secondary" />, value: data?.data?.invoiceTypeDesc || "ثبت نشده" },
+        { id: 7, title: "نوع کرایه", icon: <AttachMoney color="secondary" />, value: data?.data?.paymentTypeDesc || "ثبت نشده" },
+        { id: 8, title: "وضعیت تایید حسابداری", icon: <CheckBox color="secondary" />, value: data?.data?.confirmedStatus === false ? "تایید نشده" : "تایید شده" || "ثبت نشده" },
+        { id: 8, title: "مقصد", icon: <CheckBox color="secondary" />, value: data?.data?.destinationWarehouseDesc || "ثبت نشده" },
     ]
     const orderAndAmountInfoInCargo = [
         { id: 1, title: "شماره سفارش", icon: <Person color="secondary" />, value: data?.data?.orderCode },
@@ -82,7 +85,7 @@ const PurchaserOrderDetail = (props: Props) => {
         { id: 4, header: "آدرس محل تخلیه", accessor: "unloadingPlaceAddress" },
     ]
 
-    if(props.isLading) {
+    if (props.isLading) {
         const appendActionLading = {
             id: 10, header: "صدور مجوز", accessor: "", render: (params: any) => {
                 return <Button onClick={() => props.ladingStateModal(true)}>
@@ -93,21 +96,20 @@ const PurchaserOrderDetail = (props: Props) => {
         lastCargoList.push(appendActionLading)
     }
 
-
-    if (isLoading) {
-        return <Backdrop loading={isLoading} />
-    }
+    if (!hasPermission("GetPurchaseOrderById"))
+        return <AccessDenied />
 
     let renderOrderInfo = !props.isCargo ? orderAndAmountInfo : orderAndAmountInfoInCargo
 
     return (
         <>
+            {isLoading && <Backdrop loading={isLoading} />}
             {/* <ReusableTab /> */}
             <Typography color="primary" variant="h1" className="pb-8">جزئیات سفارش خرید</Typography>
             <Formik initialValues={initialValues} onSubmit={() => { }}>
                 {() => {
                     return <>
-                        <div className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-5"} gap-4 my-4`}>
+                        <div className={`grid grid-cols-1 ${props.isCargo ? "md:grid-cols-5" : "md:grid-cols-5"} gap-4 my-4`}>
                             {renderOrderInfo.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
@@ -131,7 +133,7 @@ const PurchaserOrderDetail = (props: Props) => {
                                 <MuiTable tooltipTitle={data?.data?.description ? <Typography>{data?.data?.description}</Typography> : ""} onDoubleClick={() => { }} headClassName="bg-[#272862]" headCellTextColor="!text-white" data={data?.data?.details} columns={orderOrderColumnMain} />
                             </ReusableCard>
                         </div>
-                        {!props.isCargo && !props.isLading && 
+                        {!props.isCargo && !props.isLading &&
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 my-4">
                                 <ReusableCard>
                                     <Typography variant="h2" color="primary" className="pb-4">تسویه حساب</Typography>

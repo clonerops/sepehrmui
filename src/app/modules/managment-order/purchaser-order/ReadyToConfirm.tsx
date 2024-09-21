@@ -16,7 +16,7 @@ const ReadyToPurchaserOrderConfirm = () => {
     const { hasPermission } = useAuth()
     const navigate = useNavigate()
 
-    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation(hasPermission("GetAllPurchaseOrders"));
+    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
 
     useEffect(() => {
         const formData = {
@@ -63,9 +63,8 @@ const ReadyToPurchaserOrderConfirm = () => {
         }
     };
 
-    if(!hasPermission("GetAllPurchaseOrders"))
+    if(!hasPermission("ApprovePurchaseOrder"))
         return <AccessDenied />
-
 
     return (
         <ReusableCard>

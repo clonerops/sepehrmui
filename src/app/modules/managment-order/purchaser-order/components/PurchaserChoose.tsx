@@ -55,10 +55,6 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState,
         }
     };
 
-    if (!hasPermission("GetAllCustomers") || !hasPermission("GetWarehouses"))
-        return <TypographyAccessDenied title='دسترسی به لیست مشتریان و لیست انبارها الزامی می باشد' />
-
-
     return (
         <>
             {detailCustomer.isLoading && <Backdrop loading={detailCustomer.isLoading} />}
@@ -89,12 +85,10 @@ const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState,
                             <Typography>ایجاد مشتری جدید</Typography>
                         </Button>
                     }
-                    {hasPermission("GetCustomerById") &&
-                        <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
-                            <Person />
-                            <Typography>نمایش ویژگی های مشتری </Typography>
-                        </Button>
-                    }
+                    <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
+                        <Person />
+                        <Typography>نمایش ویژگی های مشتری </Typography>
+                    </Button>
                 </div>
 
             </div>

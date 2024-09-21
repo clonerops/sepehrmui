@@ -22,7 +22,7 @@ const PurchaserOrderList = () => {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const orderLists = useRetrievePurchaserOrdersByMutation(hasPermission("GetAllPurchaseOrders"))
+    const orderLists = useRetrievePurchaserOrdersByMutation()
 
     const [results, setResults] = useState<IOrder[]>([]);
 
@@ -43,14 +43,18 @@ const PurchaserOrderList = () => {
 
     const renderAction = (item: any) => {
         return (
-                <Link
-                    to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
-                    state={{ isConfirmed: false }}
-                >
-                    <Button variant="contained" color="secondary">
-                        <Visibility color="primary" /> <Typography variant="h5">جزئیات</Typography>
-                    </Button>
-                </Link>
+            <div>
+                {hasPermission("GetPurchaseOrderById") &&
+                    <Link
+                        to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
+                        state={{ isConfirmed: false }}
+                    >
+                        <Button variant="contained" color="secondary">
+                            <Visibility color="primary" /> <Typography variant="h5">جزئیات</Typography>
+                        </Button>
+                    </Link>
+                }
+            </div>
         );
     };
 
@@ -74,12 +78,12 @@ const PurchaserOrderList = () => {
         })
     }
 
-    if(!hasPermission("GetAllPurchaseOrders"))
+    if (!hasPermission("GetAllPurchaseOrders"))
         return <AccessDenied />
 
     return (
         <ReusableCard>
-            <SearchFromBack inputName='orderCode' initialValues={{orderCode: ""}} onSubmit={onSubmit} label="شماره سفارش" />
+            <SearchFromBack inputName='orderCode' initialValues={{ orderCode: "" }} onSubmit={onSubmit} label="شماره سفارش" />
             <MuiDataGrid
                 columns={PurchaserOrderColumn(renderAction)}
                 rows={results || [{}]}

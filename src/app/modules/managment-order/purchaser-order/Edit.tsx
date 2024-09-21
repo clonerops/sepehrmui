@@ -251,7 +251,6 @@ const PurchaserOrderEdit = () => {
             {/*The design of the main section of the order module order */}
             <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
               <ReusableCard cardClassName='lg:col-span-3'>
-                {hasPermission("GetAllProductBrands") ?
                   <OrderProductDetail
                     setFieldValue={setFieldValue}
                     values={values}
@@ -264,12 +263,10 @@ const PurchaserOrderEdit = () => {
                     orderServices={orderServices}
                     setOrderServices={setOrderServices}
                     formikRef={formikRef}
-                  /> : <TypographyAccessDenied title='دسترسی به لیست کالابرندها الزامی می باشد' />
-                }
+                  />
               </ReusableCard>
               <ReusableCard>
                 <Typography variant="h2">انبار مبدا و مقصد</Typography>
-                {hasPermission("GetWarehouses") ?
                   <div className="flex flex-col space-y-4 mt-8">
                     <FormikWarehouseBasedOfType
                       name="originWarehouseId"
@@ -277,8 +274,7 @@ const PurchaserOrderEdit = () => {
                       warehouse={warehouse?.data?.filter((item: { warehouseTypeId: number }) => item.warehouseTypeId === WarehouseType.Mabadi)}
                     />
                     <FormikWarehouseBasedOfType name="destinationWarehouseId" label="انبار مقصد" warehouse={warehouse?.data} />
-                  </div> : <TypographyAccessDenied title='دسترسی به لیست انبارها الزامی می باشد' />
-                } 
+                  </div> 
               </ReusableCard>
             </div>
             <div className="lg:grid lg:grid-cols-2 gap-x-4 mt-4">

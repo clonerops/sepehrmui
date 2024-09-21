@@ -49,7 +49,7 @@ const useRetrievePurchaserOrder = (id: string | undefined) => {
     });
 };
 
-const useRetrievePurchaserOrdersByMutation = (hasPermission: boolean) => {
+const useRetrievePurchaserOrdersByMutation = () => {
     return useMutation((formData: {
         pageNumber?: number;
         pageSize?: number;
@@ -58,11 +58,7 @@ const useRetrievePurchaserOrdersByMutation = (hasPermission: boolean) => {
         IsNotTransferedToWarehouse?: boolean | null,
         OrderCode?: number | null;
     }) => {
-        if(hasPermission) {
-            return api.retrievePurchaserOrdersMutation(formData)
-        } else {
-            return Promise.resolve(null);
-        }
+        return api.retrievePurchaserOrdersMutation(formData)
     })
 }
 

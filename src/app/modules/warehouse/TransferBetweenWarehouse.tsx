@@ -25,7 +25,7 @@ const TransferBetweenWarehouse = () => {
         IsNotTransferedToWarehouse: true
     };
 
-    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation(hasPermission("GetAllPurchaseOrders"));
+    const { mutate, data: orders, isLoading } = useRetrievePurchaserOrdersByMutation();
 
     const renderOrders = (isNotTransferedToWarehouse = true) => {
         let formData = {
