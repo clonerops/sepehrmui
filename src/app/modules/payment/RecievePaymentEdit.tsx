@@ -22,8 +22,11 @@ import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import FormikCompany from '../../../_cloner/components/FormikCompany'
 import FileUpload from '../../../_cloner/components/FileUpload'
 import PaymentOriginType from '../../../_cloner/components/PaymentOriginType'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
 
 const RecievePaymentEdit = () => {
+    const { hasPermission } = useAuth()
+
     const { id }: any = useParams()
     const formikRef = useRef<FormikProps<any>>(null)
 
@@ -211,15 +214,21 @@ const RecievePaymentEdit = () => {
                                     <FileUpload files={files} setFiles={setFiles} />
                                 </div>
                                 <div className='flex gap-x-4'>
-                                    <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 2} onClick={() => handleSubmit()} variant="contained" color="secondary">
-                                        <Typography variant="h3" className="px-8 py-2">ویرایش دریافت و پرداخت</Typography>
-                                    </Button>
-                                    <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 2} variant="contained" onClick={() => setApprove(true)} className='mb-2' color="primary">
-                                        <Typography variant="h3">{isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
-                                    </Button>
-                                    <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
-                                        <Typography>{rejectLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
-                                    </Button>
+                                    {hasPermission("UpdateReceivePay") &&
+                                        <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 2} onClick={() => handleSubmit()} variant="contained" color="secondary">
+                                            <Typography variant="h3" className="px-8 py-2">ویرایش دریافت و پرداخت</Typography>
+                                        </Button>
+                                    }
+                                    {hasPermission("ReceivePayApprove") &&
+                                        <Button disabled={detailTools?.data?.data?.receivePayStatusId >= 2} variant="contained" onClick={() => setApprove(true)} className='mb-2' color="primary">
+                                            <Typography variant="h3">{isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
+                                        </Button>
+                                    }
+                                    {hasPermission("ReceivePayAccReject") &&
+                                        <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
+                                            <Typography>{rejectLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
+                                        </Button>
+                                    }
                                 </div>
 
                             </form>

@@ -17,6 +17,8 @@ import FormikCompany from '../../../_cloner/components/FormikCompany'
 import FileUpload from '../../../_cloner/components/FileUpload'
 import PaymentOriginType from '../../../_cloner/components/PaymentOriginType'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues = {
     ReceivedFrom: "",
@@ -39,13 +41,16 @@ const initialValues = {
 }
 
 const RecievePayment = () => {
+    const {hasPermission} = useAuth()
     const [trachingCode, setTrachingCode] = useState<any>(0)
 
     const postRecievePayTools = usePostRecievePayment()
 
     const [files, setFiles] = useState<File[]>([]);
 
-
+    if(!hasPermission("CreateReceivePay"))
+        return <AccessDenied />
+        
     return (
         <>
             {postRecievePayTools.isLoading && <Backdrop loading={postRecievePayTools.isLoading} />}

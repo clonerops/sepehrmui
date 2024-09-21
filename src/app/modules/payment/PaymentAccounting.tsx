@@ -17,6 +17,8 @@ import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import moment from "moment-jalaali";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100
 
@@ -29,6 +31,7 @@ const initialValues = {
 }
 
 const PaymentAccounting = () => {
+    const { hasPermission } = useAuth()
     // Fetching
     const recievePaymentTools = useGetRecievePayments();
     const approveReceivePay = useUpdatePaymentApproved();
@@ -165,6 +168,9 @@ const PaymentAccounting = () => {
             })
         }
     }
+
+    if (!hasPermission("ReceivePayApprove"))
+        return <AccessDenied />
 
     return (
         <>
