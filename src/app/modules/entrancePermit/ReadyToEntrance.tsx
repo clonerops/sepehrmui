@@ -14,12 +14,16 @@ import RadioGroup from "../../../_cloner/components/RadioGroup"
 import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/dropdowns"
 import { useGetTransferRemitancesByMutation } from "../transferRemittance/_hooks"
 import { ReadyToEntranceColumn } from "../../../_cloner/helpers/columns"
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../routing/AccessDenied"
 
 
 const pageSize = 100
 
 
 const ReadyToEntrance = () => {
+  const { hasPermission } = useAuth()
+
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -63,6 +67,9 @@ const ReadyToEntrance = () => {
     };
     transferList.mutate(formData);
   }
+
+  if(!hasPermission("CreateEntrancePermit"))
+    return <AccessDenied />
 
   return (
     <>

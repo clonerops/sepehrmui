@@ -22,6 +22,7 @@ import TransferAmount from "../transferRemittance/TransferAmount";
 import { usePostTransferWarehouseInventory } from "./_hooks";
 import { WarehouseType } from "../../../_cloner/helpers/Enums";
 import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const initialValues = {
     originWarehouseId: "",
@@ -85,6 +86,9 @@ const TransferWarehouseInventory = () => {
             }
         })
     }
+
+    if(!hasPermission("CreateTransferWarehouseInventory"))
+        return <AccessDenied />
 
     return (
         <>

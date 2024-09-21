@@ -32,6 +32,7 @@ import { TransferRemittanceDetailColumn, TransferRemittanceDetailForTransferColu
 import { useGetPurchaserOrderDetailByCode } from "../managment-order/core/_hooks";
 import { WarehouseType } from "../../../_cloner/helpers/Enums";
 import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const initialValues = {
     originWarehouseId: "",
@@ -168,6 +169,9 @@ const TransferRemittance = () => {
         })
     }
 
+    if(!hasPermission("TransferRemittance"))
+        return <AccessDenied />
+        
     return (
         <>
             {transfer.isLoading && <Backdrop loading={transfer.isLoading} />}

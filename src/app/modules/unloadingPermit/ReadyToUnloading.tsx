@@ -12,10 +12,14 @@ import RadioGroup from '../../../_cloner/components/RadioGroup'
 import { useGetTransferRemittanceStatus } from '../generic/_hooks'
 import { dropdownTransferRemittanceStatus } from '../../../_cloner/helpers/dropdowns'
 import { Formik } from 'formik'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const pageSize = 100
 
 const ReadyToUnloading = () => {
+    const { hasPermission } = useAuth()
+
     const navigate = useNavigate()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -67,6 +71,9 @@ const ReadyToUnloading = () => {
 
     const filteredTransferRemittacneStatus = transferRemittanceStatus?.data?.filter((item: {id: number}) => [2,3].includes(+item.id))
 
+    if(!hasPermission("CreateUnloadingPermit"))
+        return <AccessDenied />
+        
     return (
         <>
             <ReusableCard>

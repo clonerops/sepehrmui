@@ -17,9 +17,12 @@ import { useGetTransferRemitanceById } from "../transferRemittance/_hooks"
 import { convertFilesToBase64 } from "../../../_cloner/helpers/convertToBase64"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
 import { usePostEntrancePermits } from "./_hooks"
-import { render } from "@testing-library/react"
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../routing/AccessDenied"
 
 const EntrancePermit = () => {
+    const { hasPermission } = useAuth()
+
     const { id }: any = useParams()
     const detailTools = useGetTransferRemitanceById(id)
     const entranceTools = usePostEntrancePermits()
@@ -89,8 +92,8 @@ const EntrancePermit = () => {
 
     }
 
-
-
+    if(!hasPermission("CreateEntrancePermit"))
+        return <AccessDenied />
     return (
         <>
             {entranceTools.isLoading && <Backdrop loading={entranceTools.isLoading} />}

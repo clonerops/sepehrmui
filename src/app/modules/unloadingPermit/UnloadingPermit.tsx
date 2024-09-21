@@ -27,6 +27,8 @@ import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns";
 import { FieldType } from "../../../_cloner/components/globalTypes";
 import { unloadingValidation } from "./_validation";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const initialValues = {
     id: 0,
@@ -45,6 +47,8 @@ const initialValues = {
 };
 
 const UnloadingPermit = () => {
+    const { hasPermission } = useAuth()
+
     const { id, entranceId }: any = useParams();
     const detailTools = useGetTransferRemitanceById(id)
     const postUnloading = usePostUnloadingPermit();
@@ -210,6 +214,8 @@ const UnloadingPermit = () => {
         }
     };
 
+    if(!hasPermission("CreateUnloadingPermit"))
+        return <AccessDenied />
 
     if (detailTools.isLoading) {
         return <Backdrop loading={detailTools.isLoading} />
