@@ -12,6 +12,8 @@ import Backdrop from '../../../_cloner/components/Backdrop';
 import { Formik } from 'formik';
 import { IProccedRequestPayment } from './_models';
 import PaymentOriginType from '../../../_cloner/components/PaymentOriginType';
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions';
+import AccessDenied from '../../routing/AccessDenied';
 
 const initialValues = {
     paymentOriginTypeId: 0,
@@ -19,6 +21,8 @@ const initialValues = {
 }
 
 const ProceedPaymentRequest = () => {
+    const { hasPermission } = useAuth()
+
     const { id }: any = useParams()
     const [files, setFiles] = useState<File[]>([]);
     const [base64Attachments, setBase64Attachments] = useState<string[]>([])
@@ -57,6 +61,9 @@ const ProceedPaymentRequest = () => {
             }
         })
     }
+
+    if (!hasPermission("ProceedToPaymentRequest"))
+        return <AccessDenied />
 
     return (
         <>

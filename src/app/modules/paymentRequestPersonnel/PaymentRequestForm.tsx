@@ -20,6 +20,8 @@ import FormikPersonnel from '../../../_cloner/components/FormikPersonnel'
 import { useUserInfo } from '../user/core/_hooks'
 import RadioGroup from '../../../_cloner/components/RadioGroup'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues: IRequestPayment = {
     personnelId: {
@@ -37,6 +39,7 @@ const initialValues: IRequestPayment = {
 interface IProps { }
 
 const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
+    const { hasPermission } = useAuth()
 
     const { id } = useParams()
     const [trachingCode, setTrachingCode] = useState<any>(0)
@@ -108,6 +111,9 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
         if (id) onUpdate(values);
         else onAdd(values);
     };
+
+    if(!hasPermission("CreatePersonnelPaymentRequest"))
+        return <AccessDenied />
 
     if (detailPaymentRequestTools.isLoading) {
         return <Backdrop loading={detailPaymentRequestTools.isLoading} />

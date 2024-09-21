@@ -10,18 +10,20 @@ import Pagination from "../../../_cloner/components/Pagination"
 import { useApprovePaymentRequest, useGetPaymentRequests, useRejectPaymentRequest } from "./_hooks"
 import Backdrop from "../../../_cloner/components/Backdrop"
 import SearchFromBack from "../../../_cloner/components/SearchFromBack"
-import ConfirmDialog from "../../../_cloner/components/ConfirmDialog"
-import { renderAlert } from "../../../_cloner/helpers/sweetAlert"
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar"
 import TransitionsModal from "../../../_cloner/components/ReusableModal"
 import FormikInput from "../../../_cloner/components/FormikInput"
 import { rejectReasonValidation } from "./_validation"
 import FormikPrice from "../../../_cloner/components/FormikPrice"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../routing/AccessDenied"
 
 const pageSize = 100
 
 const ListOfPaymentRequestPersonnel = () => {
+  const { hasPermission } = useAuth()
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [approve, setApprove] = useState<boolean>(false);
   const [reject, setReject] = useState<boolean>(false);
@@ -103,35 +105,49 @@ const ListOfPaymentRequestPersonnel = () => {
     })
   }
 
+
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
-      <Link to={`${params.row.paymentRequestStatusId > 2 ? "" : `/dashboard/personnelProceedPaymentRequest/${params.row.id}`}`}>
-        <Button disabled={params.row.paymentRequestStatusId > 2} className={`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-fuchsia-500 hover:!bg-fuchsia-700"}!bg-fuchsia-500 hover:!bg-fuchsia-700`}>
-          <Typography className="text-white">پرداخت</Typography>
-        </Button>
-      </Link>
-      <Link to={`/dashboard/personnelPaymentRequestDetail/${params.row.id}`}>
-        <Button className="!bg-indigo-500 hover:!bg-indigo-700">
-          <Typography className="text-white">جزئیات</Typography>
-        </Button>
-      </Link>
-      <Link to={`${params.row.paymentRequestStatusId > 1 ? "" : `/dashboard/personnelPaymentRequestEdit/${params.row.id}`} `}>
-        <Button disabled={params.row.paymentRequestStatusId > 1} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-yellow-500 hover:!bg-yellow-700"}`}>
-          <Typography className="">ویرایش</Typography>
-        </Button>
-      </Link>
-      <div>
-        <Button disabled={params.row.paymentRequestStatusId > 1} onClick={() => handleOpenApprove(params?.row)} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-green-500 hover:!bg-green-700"} `}>
-          <Typography className="">تایید</Typography>
-        </Button>
-      </div>
-      <div>
-        <Button disabled={params.row.paymentRequestStatusId > 2} onClick={() => handleOpenReject(params?.row)} className= {`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-red-500 hover:!bg-red-700"}`}>
-          <Typography className="text-white">عدم تایید</Typography>
-        </Button>
-      </div>
+      {hasPermission("ProceedToPersonnelPaymentRequest") &&
+        <Link to={`${params.row.paymentRequestStatusId > 2 ? "" : `/dashboard/personnelProceedPaymentRequest/${params.row.id}`}`}>
+          <Button disabled={params.row.paymentRequestStatusId > 2} className={`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-fuchsia-500 hover:!bg-fuchsia-700"}!bg-fuchsia-500 hover:!bg-fuchsia-700`}>
+            <Typography className="text-white">پرداخت</Typography>
+          </Button>
+        </Link>
+      }
+      {hasPermission("GetPersonnelPaymentRequestById") &&
+        <Link to={`/dashboard/personnelPaymentRequestDetail/${params.row.id}`}>
+          <Button className="!bg-indigo-500 hover:!bg-indigo-700">
+            <Typography className="text-white">جزئیات</Typography>
+          </Button>
+        </Link>
+      }
+      {hasPermission("UpdatePersonnelPaymentRequest") &&
+        <Link to={`${params.row.paymentRequestStatusId > 1 ? "" : `/dashboard/personnelPaymentRequestEdit/${params.row.id}`} `}>
+          <Button disabled={params.row.paymentRequestStatusId > 1} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-yellow-500 hover:!bg-yellow-700"}`}>
+            <Typography className="">ویرایش</Typography>
+          </Button>
+        </Link>
+      }
+      {hasPermission("ApprovePersonnelPaymentRequest") &&
+        <div>
+          <Button disabled={params.row.paymentRequestStatusId > 1} onClick={() => handleOpenApprove(params?.row)} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-green-500 hover:!bg-green-700"} `}>
+            <Typography className="">تایید</Typography>
+          </Button>
+        </div>
+      }
+      {hasPermission("RejectPersonnelPaymentRequest") &&
+        <div>
+          <Button disabled={params.row.paymentRequestStatusId > 2} onClick={() => handleOpenReject(params?.row)} className={`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-red-500 hover:!bg-red-700"}`}>
+            <Typography className="text-white">عدم تایید</Typography>
+          </Button>
+        </div>
+      }
     </div>
   }
+
+  if (!hasPermission("GetAllPersonnelPaymentRequests"))
+    return <AccessDenied />
 
   return (
     <>

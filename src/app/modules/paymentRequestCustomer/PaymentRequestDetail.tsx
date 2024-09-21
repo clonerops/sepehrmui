@@ -10,11 +10,11 @@ import { useGetPaymentRequestByIdMutation } from "./_hooks"
 import ImagePreview from "../../../_cloner/components/ImagePreview"
 import { downloadAttachments } from "../../../_cloner/helpers/downloadAttachments"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../routing/AccessDenied"
 
 const PaymentRequestDetail = () => {
-    const [files, setFiles] = useState<File[]>([])
-    const [base64Attachments, setBase64Attachments] = useState<string[]>([])
-
+    const { hasPermission } = useAuth()
     const { id }: any = useParams()
 
     const paymentRequestDetailTools = useGetPaymentRequestByIdMutation()
@@ -86,13 +86,8 @@ const PaymentRequestDetail = () => {
         },
     ]
 
-    useEffect(() => {
-        if (files.length > 0) {
-            convertFilesToBase64(files, setBase64Attachments);
-        }
-        // eslint-disable-next-line
-    }, [files]);
-
+    if(!hasPermission("GetPaymentRequestById"))
+        return <AccessDenied />
 
     return (
         <>

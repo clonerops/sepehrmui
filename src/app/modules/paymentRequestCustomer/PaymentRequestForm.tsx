@@ -22,6 +22,8 @@ import { useParams } from 'react-router-dom'
 import RadioGroup from '../../../_cloner/components/RadioGroup'
 import { separateAmountWithCommas } from '../../../_cloner/helpers/seprateAmount'
 import FormikSearchableCustomer from '../../../_cloner/components/FormikSearchableCustomer'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues: IRequestPayment = {
     customerId: {
@@ -39,6 +41,8 @@ const initialValues: IRequestPayment = {
 interface IProps { }
 
 const PaymentRequestForm: FC<IProps> = ({ }) => {
+    const { hasPermission } = useAuth()
+
     const { id } = useParams()
 
     const [trachingCode, setTrachingCode] = useState<any>(0)
@@ -109,6 +113,9 @@ const PaymentRequestForm: FC<IProps> = ({ }) => {
         if (id) onUpdate(values);
         else onAdd(values);
     };
+
+    if(!hasPermission("CreatePaymentRequest"))
+        return <AccessDenied />
 
     if (detailPaymentRequestTools.isLoading) {
         return <Backdrop loading={detailPaymentRequestTools.isLoading} />

@@ -16,10 +16,14 @@ import FormikInput from "../../../_cloner/components/FormikInput"
 import { rejectReasonValidation } from "./_validation"
 import FormikPrice from "../../../_cloner/components/FormikPrice"
 import { separateAmountWithCommas } from "../../../_cloner/helpers/seprateAmount"
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../routing/AccessDenied"
 
 const pageSize = 100
 
 const ListOfPaymentRequest = () => {
+  const { hasPermission } = useAuth()
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [approve, setApprove] = useState<boolean>(false);
   const [reject, setReject] = useState<boolean>(false);
@@ -100,34 +104,46 @@ const ListOfPaymentRequest = () => {
     })
   }
 
+  if (!hasPermission("GetAllPaymentRequests"))
+    return <AccessDenied />
 
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
-      <Link to={`${params.row.paymentRequestStatusId > 2 ? "" : `/dashboard/proceedPaymentRequest/${params.row.id}`}`}>
-        <Button disabled={params.row.paymentRequestStatusId > 2} className={`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-fuchsia-500 hover:!bg-fuchsia-700"}!bg-fuchsia-500 hover:!bg-fuchsia-700`}>
-          <Typography className="text-white">پرداخت</Typography>
-        </Button>
-      </Link>
-      <Link to={`/dashboard/paymentRequestDetail/${params.row.id}`}>
-        <Button className="!bg-indigo-500 hover:!bg-indigo-700">
-          <Typography className="text-white">جزئیات</Typography>
-        </Button>
-      </Link>
-      <Link to={`${params.row.paymentRequestStatusId > 1 ? "" : `/dashboard/paymentRequestEdit/${params.row.id}`} `}>
-        <Button disabled={params.row.paymentRequestStatusId > 1} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-yellow-500 hover:!bg-yellow-700"}`}>
-          <Typography className="">ویرایش</Typography>
-        </Button>
-      </Link>
-      <div>
-        <Button disabled={params.row.paymentRequestStatusId > 1} onClick={() => handleOpenApprove(params?.row)} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-green-500 hover:!bg-green-700"} `}>
-          <Typography className="">تایید</Typography>
-        </Button>
-      </div>
-      <div>
-        <Button disabled={params.row.paymentRequestStatusId > 2} onClick={() => handleOpenReject(params?.row)} className= {`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-red-500 hover:!bg-red-700"}`}>
-          <Typography className="text-white">عدم تایید</Typography>
-        </Button>
-      </div>
+      {hasPermission("ProceedToPaymentRequest") &&
+        <Link to={`${params.row.paymentRequestStatusId > 2 ? "" : `/dashboard/proceedPaymentRequest/${params.row.id}`}`}>
+          <Button disabled={params.row.paymentRequestStatusId > 2} className={`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-fuchsia-500 hover:!bg-fuchsia-700"}!bg-fuchsia-500 hover:!bg-fuchsia-700`}>
+            <Typography className="text-white">پرداخت</Typography>
+          </Button>
+        </Link>
+      }
+      {hasPermission("GetPaymentRequestById") &&
+        <Link to={`/dashboard/paymentRequestDetail/${params.row.id}`}>
+          <Button className="!bg-indigo-500 hover:!bg-indigo-700">
+            <Typography className="text-white">جزئیات</Typography>
+          </Button>
+        </Link>
+      }
+      {hasPermission("UpdatePaymentRequest") &&
+        <Link to={`${params.row.paymentRequestStatusId > 1 ? "" : `/dashboard/paymentRequestEdit/${params.row.id}`} `}>
+          <Button disabled={params.row.paymentRequestStatusId > 1} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-yellow-500 hover:!bg-yellow-700"}`}>
+            <Typography className="">ویرایش</Typography>
+          </Button>
+        </Link>
+      }
+      {hasPermission("ApprovePaymentRequest") &&
+        <div>
+          <Button disabled={params.row.paymentRequestStatusId > 1} onClick={() => handleOpenApprove(params?.row)} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-green-500 hover:!bg-green-700"} `}>
+            <Typography className="">تایید</Typography>
+          </Button>
+        </div>
+      }
+      {hasPermission("RejectPaymentRequest") &&
+        <div>
+          <Button disabled={params.row.paymentRequestStatusId > 2} onClick={() => handleOpenReject(params?.row)} className={`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-red-500 hover:!bg-red-700"}`}>
+            <Typography className="text-white">عدم تایید</Typography>
+          </Button>
+        </div>
+      }
     </div>
   }
 
@@ -152,7 +168,7 @@ const ListOfPaymentRequest = () => {
         <Pagination pageCount={+paymentRequests?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
       </ReusableCard>
       <TransitionsModal width="50%" open={approve} isClose={() => setApprove(false)} title={` تایید درخواست پرداخت به شماره ${selecetdItem?.paymentRequestCode}`}>
-        <Formik initialValues={{  amount: separateAmountWithCommas(selecetdItem?.amount)}} onSubmit={handleApprovePaymentRequest}>
+        <Formik initialValues={{ amount: separateAmountWithCommas(selecetdItem?.amount) }} onSubmit={handleApprovePaymentRequest}>
           {({ handleSubmit }) => {
             return <div className="mt-4">
               <Typography variant="h4" className="text-red-500 !mb-4">درصورتی که نیاز به ویرایش مبلغ درخواست شده دارید از طریق فرم زیر می تواندی اقدام به ویرایش و سپس ثبت تایید نمایید</Typography>
