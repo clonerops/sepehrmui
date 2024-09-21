@@ -12,8 +12,11 @@ import { useDeleteOrganizationBank, useGetOrganizationBankList } from "./_hooks"
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { OrganizationBankColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const OrganizationBank = () => {
+    const { hasPermission } = useAuth()
     const organizationBankTools = useGetOrganizationBankList();
     const deleteOrganizationBankTools = useDeleteOrganizationBank();
 
@@ -21,7 +24,7 @@ const OrganizationBank = () => {
 
     useEffect(() => {
         setResults(organizationBankTools?.data?.data);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [organizationBankTools?.data?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
@@ -44,11 +47,18 @@ const OrganizationBank = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
-                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                {hasPermission("UpdateOrganizationBank") &&
+                    <EditGridButton onClick={() => handleEdit(item?.row)} />
+                }
+                {hasPermission("DeleteOrganizationBank") &&
+                    <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                }
             </div>
         );
     };
+
+    if (!hasPermission("CreateOrganizationBank"))
+        return <AccessDenied />
 
     return (
         <>

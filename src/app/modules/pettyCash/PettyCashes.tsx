@@ -16,8 +16,12 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import DeleteGridButton from "../../../_cloner/components/DeleteGridButton";
 import PettyCashForm from "./PettyCashForm";
 import SwitchComponent from "../../../_cloner/components/Switch";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const PettyCashs = () => {
+    const { hasPermission } = useAuth()
+
     const pettyCashTools = useGetPettyCashList();
     const deletePettyCashTools = useDeletePettyCash();
     const updatePettyCashTools = usePutPettyCash();
@@ -26,7 +30,7 @@ const PettyCashs = () => {
 
     useEffect(() => {
         setResults(pettyCashTools?.data?.data);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [pettyCashTools?.data?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
@@ -40,7 +44,7 @@ const PettyCashs = () => {
     const handleDelete = (id: string | undefined) => {
         if (id) deletePettyCashTools.mutate(id, {
             onSuccess: (response) => {
-                if(response.message) {
+                if (response.message) {
                     EnqueueSnackbar(response.message, "success")
                 } else {
                     EnqueueSnackbar(response.data.Message, "error")
@@ -52,95 +56,104 @@ const PettyCashs = () => {
 
     const onUpdateStatus = (rowData: any) => {
         try {
-          const formData = {
-            id: rowData.row.id,
-            mobileNo: rowData.row.mobileNo,
-            pettyCashDescription: rowData.row.pettyCashDescription,
-            isActive: !rowData.row.isActive
-          }
-          updatePettyCashTools.mutate(formData, {
-            onSuccess: (response) => {
-              if (response.succeeded) {
-                EnqueueSnackbar(response.message, "success")
-              } else {
-                EnqueueSnackbar(response.data.Message, "error")
-              }
-              pettyCashTools.refetch()
+            const formData = {
+                id: rowData.row.id,
+                mobileNo: rowData.row.mobileNo,
+                pettyCashDescription: rowData.row.pettyCashDescription,
+                isActive: !rowData.row.isActive
             }
-          })
+            updatePettyCashTools.mutate(formData, {
+                onSuccess: (response) => {
+                    if (response.succeeded) {
+                        EnqueueSnackbar(response.message, "success")
+                    } else {
+                        EnqueueSnackbar(response.data.Message, "error")
+                    }
+                    pettyCashTools.refetch()
+                }
+            })
         } catch (e) {
-          return e;
+            return e;
         }
-      };
-    
+    };
+
 
     const renderAction = (item: any) => {
         return (
             <div className="flex justify-center items-center gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
-                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
-                <SwitchComponent
-                    checked={item?.row.isActive}
-                    onChange={(_) => onUpdateStatus(item)}
-                />
+                {hasPermission("UpdatePettyCash") &&
+                    <EditGridButton onClick={() => handleEdit(item?.row)} />
+                }
+                {hasPermission("DeletePettyCash") &&
+                    <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                }
+                {hasPermission("UpdatePettyCash") &&
+                    <SwitchComponent
+                        checked={item?.row.isActive}
+                        onChange={(_) => onUpdateStatus(item)}
+                    />
+                }
             </div>
         );
     };
-    
+
+    if (!hasPermission("CreatePettyCash"))
+        return <AccessDenied />
+
 
     return (
         <>
             {pettyCashTools.isLoading && <Backdrop loading={pettyCashTools.isLoading} />}
             {deletePettyCashTools.isLoading && <Backdrop loading={deletePettyCashTools.isLoading} />}
             {updatePettyCashTools.isLoading && <Backdrop loading={updatePettyCashTools.isLoading} />}
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <ReusableCard cardClassName="col-span-2">
-                <div className="md:flex md:justify-between md:items-center space-y-2 mb-4">
-                    <div className="w-auto md:w-[40%]">
-                        <FuzzySearch
-                            keys={[
-                                "mobileNo",
-                                "PettyCashDescription",
-                            ]}
-                            data={pettyCashTools?.data?.data}
-                            setResults={setResults}
-                        />
+                    <div className="md:flex md:justify-between md:items-center space-y-2 mb-4">
+                        <div className="w-auto md:w-[40%]">
+                            <FuzzySearch
+                                keys={[
+                                    "mobileNo",
+                                    "PettyCashDescription",
+                                ]}
+                                data={pettyCashTools?.data?.data}
+                                setResults={setResults}
+                            />
+                        </div>
+                        <ButtonComponent
+                            onClick={() => setIsCreateOpen(true)}
+                        >
+                            <Typography variant="h4" className="px-4 py-1 text-white">ایجاد تنخواه گردان</Typography>
+                        </ButtonComponent>
                     </div>
-                    <ButtonComponent
-                        onClick={() => setIsCreateOpen(true)}
-                    >
-                        <Typography variant="h4" className="px-4 py-1 text-white">ایجاد تنخواه گردان</Typography>
-                    </ButtonComponent>
-                </div>
-                <MuiDataGrid
-                    columns={PettyCashColumn(renderAction)}
-                    getRowId={(row: { id: string }) => row.id}
-                    rows={results}
-                    data={pettyCashTools?.data?.data}
-                    onDoubleClick={(item: any) => handleEdit(item?.row)}
-                />
+                    <MuiDataGrid
+                        columns={PettyCashColumn(renderAction)}
+                        getRowId={(row: { id: string }) => row.id}
+                        rows={results}
+                        data={pettyCashTools?.data?.data}
+                        onDoubleClick={(item: any) => handleEdit(item?.row)}
+                    />
                 </ReusableCard>
                 <ReusableCard cardClassName='lg:flex gap-4 hidden'>
                     <div>
                         <div className="hidden md:flex md:justify-center md:items-center">
-                          <div className="flex flex-col flex-wrap gap-4">
-                            <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
-                            <Typography>از طریق فرم مقابل می توانید تمامی تنخواه گردان ها را تعریف کرده و ثبت نمایید</Typography>
-                            <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
-                            <Typography>امکان حذف تنخواه گردان کالا وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
-                            <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
-                            <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
-                          </div>
+                            <div className="flex flex-col flex-wrap gap-4">
+                                <Typography variant="h3" className="text-yellow-500">راهنما</Typography>
+                                <Typography>از طریق فرم مقابل می توانید تمامی تنخواه گردان ها را تعریف کرده و ثبت نمایید</Typography>
+                                <Typography variant="h3" className="text-red-500">نکته اول: </Typography>
+                                <Typography>امکان حذف تنخواه گردان کالا وجود ندارد اما می توانید اقدام به غیرفعاسازی کالابرند کنید</Typography>
+                                <Typography variant="h3" className="text-red-500">نکته دوم: </Typography>
+                                <Typography>جهت دسترسی به ثبت و فعال/غیرفعالسازی کالابرند با پشتیبانی تماس بگیرید</Typography>
+                            </div>
                         </div>
                     </div>
                     <div>
-                      <div className="hidden md:flex md:justify-center md:items-center">
-                        <img alt="sepehriranian"
-                          src={toAbsoulteUrl("/media/logos/fund.png")}
-                          width={400}
-                        />
-                      </div>
+                        <div className="hidden md:flex md:justify-center md:items-center">
+                            <img alt="sepehriranian"
+                                src={toAbsoulteUrl("/media/logos/fund.png")}
+                                width={400}
+                            />
+                        </div>
                     </div>
                 </ReusableCard>
             </div>

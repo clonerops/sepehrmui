@@ -17,6 +17,8 @@ import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import { CashDeskColumn } from '../../../_cloner/helpers/columns'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues = {
   id: 0,
@@ -28,6 +30,7 @@ const validation = Yup.object({
 })
 
 const CashDesks = () => {
+  const {hasPermission} = useAuth()
   const cashDeskTools = useGetCashDesks()
   const postCashDeskTools = usePostCashDesks()
   const updateCashDeskTools = useUpdateCashDesks()
@@ -69,6 +72,9 @@ const CashDesks = () => {
     );
   };
 
+  if(!hasPermission("CreateCashDesk"))
+    return <AccessDenied />
+
   return (
     <>
       {cashDeskTools.isLoading && <Backdrop loading={cashDeskTools.isLoading} />}
@@ -78,7 +84,6 @@ const CashDesks = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ReusableCard>
           <div>
-
             <Formik initialValues={initialValues} validationSchema={validation} onSubmit={
               async (values, { setStatus, setSubmitting, setFieldValue }) => {
                 try {

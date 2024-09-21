@@ -17,6 +17,8 @@ import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import { IncomeColumn } from '../../../_cloner/helpers/columns'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues = {
   id: 0,
@@ -28,6 +30,7 @@ const validation = Yup.object({
 })
 
 const InComs = () => {
+  const {hasPermission} = useAuth()
   const incomeTools = useGetIncomes()
   const postIncomeTools = usePostIncomes()
   const updateIncomeTools = useUpdateIncomes()
@@ -71,6 +74,10 @@ const InComs = () => {
       />
     );
   };
+
+  if(!hasPermission("CreateIncome"))
+    return <AccessDenied />
+
 
   return (
     <>

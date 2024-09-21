@@ -16,13 +16,17 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import Pagination from "../../../_cloner/components/Pagination";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { ShareholdersColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100
 
 const Shareholders = () => {
+    const { hasPermission } = useAuth()
+
     const shareHolderTools = useGetShareholderList();
     const deleteShareHolderTools = useDeleteShareHolder();
-    
+
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<IShareholder>();
@@ -33,14 +37,14 @@ const Shareholders = () => {
         const filter = {
             pageNumber: currentPage,
             pageSize: pageSize,
-          }
-          shareHolderTools.mutate(filter)
-  
+        }
+        shareHolderTools.mutate(filter)
+
     }
 
     useEffect(() => {
         getLists()
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [currentPage])
 
     const handleEdit = (item: IShareholder) => {
@@ -63,8 +67,12 @@ const Shareholders = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
-                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                {hasPermission("UpdateShareHolder") &&
+                    <EditGridButton onClick={() => handleEdit(item?.row)} />
+                }
+                {hasPermission("DeleteShareHolder") &&
+                    <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                }
             </div>
         );
     };
@@ -72,19 +80,21 @@ const Shareholders = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
-    
+
     const handleFilter = (values: any) => {
-        let formData =  values.shareHolderCode ? {
-          pageNumber: currentPage,
-          pageSize: pageSize,
-          shareHolderCode: +values.shareHolderCode
+        let formData = values.shareHolderCode ? {
+            pageNumber: currentPage,
+            pageSize: pageSize,
+            shareHolderCode: +values.shareHolderCode
         } : {
             pageNumber: currentPage,
-            pageSize: pageSize,  
+            pageSize: pageSize,
         };
         shareHolderTools.mutate(formData);
-      }
-    
+    }
+
+    if (!hasPermission("CreateShareHolder"))
+        return <AccessDenied />
 
     return (
         <>
@@ -94,7 +104,7 @@ const Shareholders = () => {
                 <div
                     className="flex lg:flex-row flex-col lg:justify-between lg:items-center space-y-2 mb-4"
                 >
-                    <Formik initialValues={{shareHolderCode: ""}} onSubmit={handleFilter}>
+                    <Formik initialValues={{ shareHolderCode: "" }} onSubmit={handleFilter}>
                         {({ values }) => (
                             <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-[50%]">
                                 <FormikInput
@@ -102,15 +112,15 @@ const Shareholders = () => {
                                     label="شماره سهامداری"
                                 />
                                 <ButtonComponent onClick={() => handleFilter(values)}>
-                                <Search className="text-white" />
-                                <Typography className="px-2 text-white">جستجو</Typography>
+                                    <Search className="text-white" />
+                                    <Typography className="px-2 text-white">جستجو</Typography>
                                 </ButtonComponent>
                             </div>
                         )}
                     </Formik>
 
                     <Button onClick={() => setIsCreateOpen(true)} className="!bg-indigo-500">
-                        <Add className="text-white"  />
+                        <Add className="text-white" />
                         <Typography variant="h4" className="px-4 py-1 text-white">ایجاد سهامدار جدید</Typography>
                     </Button>
                 </div>
@@ -134,7 +144,7 @@ const Shareholders = () => {
                 <ShareholdersForm
                     getLists={getLists}
                     setIsCreateOpen={setIsCreateOpen}
-                    />
+                />
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}
@@ -142,7 +152,7 @@ const Shareholders = () => {
                 title="ویرایش سهامدار جدید"
                 width="60%"
                 description=" درصورتی که اطلاعتی که ثبت کرده اید نیاز به ویرایش داشته باشد ازطریق فرم زیر اقدام کنید"
-                >
+            >
                 <ShareholdersForm
                     id={itemForEdit?.id}
                     getLists={getLists}

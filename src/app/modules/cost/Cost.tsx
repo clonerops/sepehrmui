@@ -17,6 +17,8 @@ import { useGetCosts, usePostCosts, useUpdateCosts } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { CostsColumn } from '../../../_cloner/helpers/columns'
+import AccessDenied from '../../routing/AccessDenied'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
 
 const initialValues = {
   id: 0,
@@ -28,6 +30,8 @@ const validation = Yup.object({
 })
 
 const Costs = () => {
+  const {hasPermission} = useAuth()
+
   const costTools = useGetCosts()
   const potsCostTools = usePostCosts()
   const updateCostTools = useUpdateCosts()
@@ -69,6 +73,10 @@ const Costs = () => {
       />
     );
   }
+
+  if(!hasPermission("CreateCost"))
+    return <AccessDenied />
+
 
   return (
     <>

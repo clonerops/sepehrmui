@@ -31,9 +31,12 @@ const getAllApplicationMenus = async () => {
     return data;
 };
 
-const deleteRoleMenu = async (id: string) => {
+const deleteRoleMenu = async (id: string, roleIds: string[]) => {
     try {
-        return await http.delete(`/v1/RoleMenu/${id}`).then((res) => res?.data);
+        const { data } = await http.delete(`/v1/RoleMenu/${id}`, {
+            params: { roleIds }
+        });
+        // return await http.delete(`/v1/RoleMenu/${id}`).then((res) => res?.data);
     } catch (error: any) {
         return error.response;
     }
