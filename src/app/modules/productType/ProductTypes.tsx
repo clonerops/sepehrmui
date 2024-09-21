@@ -20,8 +20,11 @@ import Backdrop from '../../../_cloner/components/Backdrop'
 import ProductTypeForm from './ProductTypeForm'
 import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import CardWithIcons from '../../../_cloner/components/CardWithIcons'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const ProductTypes = () => {
+  const { hasPermission } = useAuth()
 
   const typeTools = useGetTypes()
   const updateTypeTools = useUpdateTypes()
@@ -35,7 +38,7 @@ const ProductTypes = () => {
 
   useEffect(() => {
     setResults(typeTools?.data?.data);
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [typeTools?.data?.data]);
 
 
@@ -83,21 +86,32 @@ const ProductTypes = () => {
 
   const renderSwitch = (item: any) => {
     return (
-      <SwitchComponent
-        checked={item?.row.isActive}
-        onChange={(_) => onUpdateStatus(item)}
-      />
+      <>
+        {hasPermission("UpdateProductType") &&
+          <SwitchComponent
+            checked={item?.row.isActive}
+            onChange={(_) => onUpdateStatus(item)}
+          />
+        }
+      </>
     );
   };
 
   const renderAction = (item: any) => {
     return (
       <Box component="div" className="flex gap-4">
-        <EditGridButton onClick={() => handleEdit(item?.row)} />
-        <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
+        {hasPermission("UpdateProductType") &&
+          <EditGridButton onClick={() => handleEdit(item?.row)} />
+        }
+        {hasPermission("DeleteProductType") &&
+          <DeleteGridButton onClick={() => handleDelete(item?.row.id)} />
+        }
       </Box>
     );
   };
+
+  if (!hasPermission("CreateProductType"))
+    return <AccessDenied />
 
   return (
     <>

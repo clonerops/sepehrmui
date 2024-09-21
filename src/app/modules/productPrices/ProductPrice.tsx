@@ -20,17 +20,21 @@ import { useDeleteProductPrice, useRetrieveProductPrice, useUploadFileProductPri
 import { IProductPrice } from "./_models";
 import { exportProductPrices } from "./_requests";
 import { ProductPricesColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const radioOption: {
     label: string;
     value: any;
 }[] = [
-    { label: "همه", value: "" },
-    { label: "فعال", value: true },
-    { label: "غیر فعال", value: false },
-];
+        { label: "همه", value: "" },
+        { label: "فعال", value: true },
+        { label: "غیر فعال", value: false },
+    ];
 
 const ProductPrice = () => {
+    const { hasPermission } = useAuth()
+
     const {
         mutate: deleteMutate,
         isLoading: deleteLoading,
@@ -56,7 +60,7 @@ const ProductPrice = () => {
 
     useEffect(() => {
         setResults(productPrice?.data);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [productPrice]);
 
 
@@ -69,13 +73,13 @@ const ProductPrice = () => {
         if (id)
             deleteMutate(id, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "حذف با موفقیت انجام شد", "success")
                         setApprove(false)
                         refetch();
-                      } else {
+                    } else {
                         EnqueueSnackbar(response.data.Message, "error")
-                      }
+                    }
                 },
             });
     };
@@ -83,8 +87,12 @@ const ProductPrice = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
-                <DeleteGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
+                {hasPermission("UpdateProductPrice") &&
+                    <EditGridButton onClick={() => handleEdit(item?.row)} />
+                }
+                {hasPermission("DeleteProductPrice") &&
+                    <DeleteGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
+                }
             </div>
         );
     };
@@ -92,7 +100,7 @@ const ProductPrice = () => {
     const handleOpenApprove = (id: string) => {
         setApprove(true)
         setDeletedId(id)
-      }    
+    }
 
     const handleDownloadExcel = async () => {
         try {
@@ -107,6 +115,9 @@ const ProductPrice = () => {
     const handleChangeRadio = (value: any) => {
         setIsActiveValue(value);
     };
+
+    if (!hasPermission("CreateProductPrice"))
+        return <AccessDenied />
 
     return (
         <>
@@ -142,17 +153,21 @@ const ProductPrice = () => {
                         />
                     </div>
                     <div className="flex flex-wrap gap-x-4">
-                        <FileUploadButton
-                            refetch={refetch}
-                            uploadFileMethode={uploadFileMethode}
-                        />
-                        <Button
-                            onClick={handleDownloadExcel}
-                            variant="outlined"
-                            color="primary"
-                        >
-                            <Typography variant="h4">خروجی اکسل</Typography>
-                        </Button>
+                        {hasPermission("CreateProductPriceFromFile") &&
+                            <FileUploadButton
+                                refetch={refetch}
+                                uploadFileMethode={uploadFileMethode}
+                            />
+                        }
+                        {hasPermission("ExportProductPrices") &&
+                            <Button
+                                onClick={handleDownloadExcel}
+                                variant="outlined"
+                                color="primary"
+                            >
+                                <Typography variant="h4">خروجی اکسل</Typography>
+                            </Button>
+                        }
                         <ButtonComponent
                             onClick={() => setIsCreateOpen(true)}
                         >
@@ -183,8 +198,8 @@ const ProductPrice = () => {
                     title="ایجاد قیمت محصول"
                 >
                     <ProductPriceForm refetch={refetch}
-                    setIsCreateOpen={setIsCreateOpen}
-                />
+                        setIsCreateOpen={setIsCreateOpen}
+                    />
                 </TransitionsModal>
                 <TransitionsModal
                     open={isOpen}
@@ -192,7 +207,7 @@ const ProductPrice = () => {
                     width="30%"
                     title="ویرایش قیمت محصول"
                 >
-                    <ProductPriceForm 
+                    <ProductPriceForm
                         id={itemForEdit?.id}
                         items={itemForEdit}
                         refetch={refetch}

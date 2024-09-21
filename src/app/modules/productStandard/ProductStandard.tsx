@@ -17,6 +17,8 @@ import { useGetStandards, usePostStandards, useUpdateStandards } from './_hooks'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { ProductStandardsColumn } from '../../../_cloner/helpers/columns'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues = {
   id: 0,
@@ -28,7 +30,8 @@ const validation = Yup.object({
 })
 
 const ProductStandards = () => {
-  
+  const {hasPermission} = useAuth()
+
   const standardTools = useGetStandards()
   const postStandardTools = usePostStandards()
   const updateStandardTools = useUpdateStandards()
@@ -70,6 +73,10 @@ const ProductStandards = () => {
       />
     );
   };
+
+  if(!hasPermission("CreateProductStandard"))
+    return <AccessDenied />
+
 
   return (
     <>

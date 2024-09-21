@@ -20,6 +20,8 @@ import Pagination from '../../../_cloner/components/Pagination'
 
 import _ from 'lodash'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues: any = {
   id: 0,
@@ -30,6 +32,8 @@ const initialValues: any = {
 let pageSize = 100
 
 const ProductBrands = () => {
+  const { hasPermission } = useAuth()
+
   const productBrandTools = useGetProductBrandsByMutation()
   const postProductBrandTools = usePostProductBrands()
   const updateProductBrandTools = useUpdateProductBrands()
@@ -51,7 +55,7 @@ const ProductBrands = () => {
     })
     // eslint-disable-next-line
   }, [currentPage]);
-  
+
   // useEffect(() => {
   //   productPricesType.mutate({})
   //   // eslint-disable-next-line
@@ -83,10 +87,14 @@ const ProductBrands = () => {
 
   const renderSwitch = (item: any) => {
     return (
-      <SwitchComponent
-        checked={item?.row.isActive}
-        onChange={(_) => onUpdateStatus(item)}
-      />
+      <>
+        {hasPermission("UpdateProductBrand") &&
+          <SwitchComponent
+            checked={item?.row.isActive}
+            onChange={(_) => onUpdateStatus(item)}
+          />
+        }
+      </>
     );
   };
 
@@ -94,7 +102,8 @@ const ProductBrands = () => {
     setCurrentPage(selectedItem.selected + 1);
   };
 
-
+  if (!hasPermission("CreateProductBran"))
+    return <AccessDenied />
 
   // let groupedProductBrand = _.groupBy(productBrandTools?.data?.data, "productName")
 

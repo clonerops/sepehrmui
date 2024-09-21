@@ -5,8 +5,7 @@ import { dropdownServices } from '../helpers/dropdowns';
 import { useAuth } from '../helpers/checkUserPermissions';
 
 const FormikService = (props: any) => {
-    const { hasPermission } = useAuth()
-    const { data: productService } = useGetServices(hasPermission("GetAllServices"));
+    const { data: productService } = useGetServices();
     
 
     return (

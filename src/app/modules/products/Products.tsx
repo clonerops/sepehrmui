@@ -12,14 +12,17 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
 import CardWithIcons from "../../../_cloner/components/CardWithIcons";
 
-import {  IProducts } from "./_models";
-import {  useGetProducts } from "./_hooks";
+import { IProducts } from "./_models";
+import { useGetProducts } from "./_hooks";
 import { AddTask, AdfScanner, DesignServices, TextDecrease } from "@mui/icons-material";
 
 import _ from 'lodash'
 import { ProductsColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const Products = () => {
+    const { hasPermission } = useAuth()
     // const productTools = useRetrieveProducts()
     // const productTools = useGetProductList()
     const productTools = useGetProducts()
@@ -43,13 +46,20 @@ const Products = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Fab size="small" color="secondary">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
-            </Fab>
+            <>
+                {hasPermission("UpdateProduct") &&
+                    <Fab size="small" color="secondary">
+                        <EditGridButton onClick={() => handleEdit(item?.row)} />
+                    </Fab>
+                }
+            </>
         );
     };
 
-    if(productTools?.isLoading) 
+    if (!hasPermission("CreateProduct"))
+        return <AccessDenied />
+
+    if (productTools?.isLoading)
         return <Backdrop loading={productTools.isLoading} />
 
     return (
@@ -125,19 +135,21 @@ const Products = () => {
                     setIsCreateOpen={setIsCreateOpen}
                 />
             </TransitionsModal>
-            <TransitionsModal
-                open={isEditOpen}
-                isClose={() => setIsEditOpen(false)}
-                title="ویرایش محصول جدید"
-                width="60%"
-                description=" درصورتی که محصولی نیاز به ویرایش داشته باشد می توانید از طریق فرم زیر اقدام به ویرایش محصول نمایید"
-            >
-                <ProductForm
-                    id={itemForEdit?.id}
-                    refetch={productTools.refetch}
-                    setIsCreateOpen={setIsCreateOpen}
-                />
-            </TransitionsModal>
+            {hasPermission("UpdateProduct") &&
+                <TransitionsModal
+                    open={isEditOpen}
+                    isClose={() => setIsEditOpen(false)}
+                    title="ویرایش محصول جدید"
+                    width="60%"
+                    description=" درصورتی که محصولی نیاز به ویرایش داشته باشد می توانید از طریق فرم زیر اقدام به ویرایش محصول نمایید"
+                >
+                    <ProductForm
+                        id={itemForEdit?.id}
+                        refetch={productTools.refetch}
+                        setIsCreateOpen={setIsCreateOpen}
+                    />
+                </TransitionsModal>
+            }
         </>
     );
 };

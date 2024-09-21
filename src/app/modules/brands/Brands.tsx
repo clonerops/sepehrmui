@@ -19,6 +19,8 @@ import { useGetBrands, usePostBrands, useUpdateBrands } from "./_hooks";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import { BrandsColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const initialValues = {
     id: 0,
@@ -30,6 +32,8 @@ const validation = Yup.object({
 });
 
 const Brands = () => {
+    const {hasPermission} = useAuth()
+
     const brandTools = useGetBrands()
     const postBrandTools = usePostBrands()
     const updateBrandTools = useUpdateBrands()
@@ -72,7 +76,9 @@ const Brands = () => {
         );
     };
 
-
+    if(!hasPermission("CreateBrand"))
+        return <AccessDenied />
+        
     return (
         <>
             {brandTools.isLoading && <Backdrop loading={brandTools.isLoading} />}

@@ -19,6 +19,7 @@ import { useGetServices, usePostServices, useUpdateServices } from './_hooks'
 import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { ProductServicesColumn } from '../../../_cloner/helpers/columns'
 import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues = {
   id: 0,
@@ -32,7 +33,7 @@ const validation = Yup.object({
 const ProductService = () => {
   const { hasPermission } = useAuth()
 
-  const serviceTools = useGetServices(hasPermission("GetAllServices"));
+  const serviceTools = useGetServices();
   const postServiceTools = usePostServices()
   const updateServiceTools = useUpdateServices()
 
@@ -75,6 +76,8 @@ const ProductService = () => {
     );
   };
 
+  if(!hasPermission("CreateService"))
+    return <AccessDenied />
 
   return (
     <>
