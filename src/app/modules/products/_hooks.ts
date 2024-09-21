@@ -12,12 +12,9 @@ const useGetProducts = () => {
     })
 };
 
-const useGetProductList = (hasPermission: boolean) => {
+const useGetProductList = () => {
     return useMutation((formdata: IProductFilters) => {
-        if (hasPermission) {
             return api.getProductList(formdata);
-        }
-        return Promise.resolve(null);
     });
 };
 

@@ -23,8 +23,7 @@ const ProductInventoriesSepehr = () => {
     const { hasPermission } = useAuth()
 
     const uploadFileMethode = useUploadFileProductInventories();
-    const filterTools = useGetProductList(hasPermission("GetAllProducts"));
-    // State
+    const filterTools = useGetProductList();    // State
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isUploadpen, setIsUploadOpen] = useState<boolean>(false);
     const [isDownloadOpen, setIsDownloadOpen] = useState<boolean>(false);

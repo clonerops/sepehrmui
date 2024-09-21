@@ -15,8 +15,7 @@ import { useAuth } from "../helpers/checkUserPermissions";
 const MonitoringProdcuct = () => {
     const { hasPermission } = useAuth()
 
-    const filterTools = useGetProductList(hasPermission("GetAllProducts"));
-    const filterWarehouse = useGetWarehousesByFilter()
+    const filterTools = useGetProductList();    const filterWarehouse = useGetWarehousesByFilter()
     const [searchTerm, setSearchTerm] = useState<any>("")
     let formikRef = useRef<FormikProps<any>>(null);
 

@@ -36,8 +36,7 @@ const TransferWarehouseInventory = () => {
 
     // From Warehouse Module
     const warehouse = useGetWarehouses()
-    const productsInventory = useGetProductList(hasPermission("GetAllProducts"))
-
+    const productsInventory = useGetProductList();
     //From This Module
     const transfer = usePostTransferWarehouseInventory()
 

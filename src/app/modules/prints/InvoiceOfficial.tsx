@@ -25,7 +25,7 @@ const InvoiceOfficial = () => {
     const {hasPermission} = useAuth()
 
     const { id } = useParams()
-    const { data, isLoading } = useRetrieveOrder(id, hasPermission("GetOrderById"))
+    const { data, isLoading } = useRetrieveOrder(id)
 
     const printComponentRef = useRef<HTMLDivElement>(null);
 

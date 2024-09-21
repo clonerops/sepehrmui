@@ -14,8 +14,8 @@ import { calculateTotalAmount } from '../helpers/functions'
 import { sliceNumberPriceRial } from '../../../../_cloner/helpers/sliceNumberPrice'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import { FC, memo } from 'react'
-import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
-import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
+// import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
+// import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
 
 interface IProps {
     postSaleOrder: any,
@@ -27,8 +27,8 @@ interface IProps {
 }
 
 const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, setOrderPayment, formikRef, orders}) => {
-    const { hasPermission } = useAuth()
-    const { data: productService } = useGetServices(hasPermission("GetAllServices"));;
+    // const { hasPermission } = useAuth()
+    const { data: productService } = useGetServices();;
 
     const handleSetServices = () => {
         const orderServices = [...orderService]
@@ -103,8 +103,8 @@ const OrderService:FC<IProps> = ({postSaleOrder, orderService, setOrderService, 
 
     let renderColumns = postSaleOrder?.data?.succeeded ? serviceAfterSubmit : serviceBeforSubmit
 
-    if(!hasPermission("GetAllServices"))
-        return <TypographyAccessDenied title='کاربر گرامی دسترسی به لیست بسته های خدمت به شما اعطا نشده است.' />
+    // if(!hasPermission("GetAllServices"))
+    //     return <TypographyAccessDenied title='کاربر گرامی دسترسی به لیست بسته های خدمت به شما اعطا نشده است.' />
 
   return (
     <ReusableCard cardClassName="mt-4 md:mt-0 bg-gradient-to-r from-gray-100">

@@ -36,10 +36,8 @@ const ProductsList = (props: {
 }) => {
     const { hasPermission } = useAuth()
 
-    const filterTools = useGetProductList(hasPermission("GetAllProducts"));
-
-    const { data: units } = useGetUnits(hasPermission("GetProductUnits"));
-
+    const filterTools = useGetProductList();
+    const { data: units } = useGetUnits();
     const [results, setResults] = useState<IProducts[]>([]);
 
     const [productData, setProductData] = useState<{

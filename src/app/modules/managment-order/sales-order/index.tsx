@@ -27,7 +27,6 @@ import { InvoiceType, WarehouseType } from '../../../../_cloner/helpers/Enums'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
 import AccessDenied from '../../../routing/AccessDenied'
-import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
 
 const categories = [
     { value: 2, title: "پیش فروش", defaultChecked: false },
@@ -48,7 +47,7 @@ const SalesOrder = () => {
     const [orderValid, setOrderValid] = useState<boolean>(false)
 
     const postSaleOrder = useCreateOrder();
-    const products = useGetProductList(hasPermission("GetAllProducts"));
+    const products = useGetProductList();
     const detailCustomer = useGetCustomer();
 
 
@@ -214,7 +213,7 @@ const SalesOrder = () => {
 
                         <div className='grid grid-cols-1 lg:grid-cols-4 gap-y-4 lg:gap-4  mt-4'>
                             <ReusableCard cardClassName='lg:col-span-4'>
-                                {hasPermission("GetAllProducts")  ?
+                                {/* {hasPermission("GetAllProducts")  ? */}
                                     <OrderProductDetail
                                         postSaleOrder={postSaleOrder}
                                         products={products}
@@ -229,8 +228,9 @@ const SalesOrder = () => {
                                         setOrderValid={setOrderValid}
                                         values={values}
                                         setFieldValue={setFieldValue}
-                                    /> : <TypographyAccessDenied title='دسترسی به لیست تمامی کالاها الزامی می باشد' />
-                                }
+                                    /> 
+                                    {/* : <TypographyAccessDenied title='دسترسی به لیست تمامی کالاها الزامی می باشد' />
+                                } */}
                             </ReusableCard>
                         </div>
                         <div className="lg:grid lg:grid-cols-3 space-y-4 md:space-y-0 gap-4 mt-4">

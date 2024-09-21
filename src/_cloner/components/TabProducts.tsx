@@ -29,9 +29,7 @@ const TabProducts = (props: Props) => {
     const { hasPermission } = useAuth()
 
     const { tabResult, selectedTab, onSelectTab, onFilterProductByWarehouse, setResults, } = props
-    const productTypeTools = useGetProductTypes(hasPermission("GetProductTypes"));
-    const warehouseTypeTools = useGetWarehouseTypes(hasPermission("GetWarehouseTypes"));
-
+    const productTypeTools = useGetProductTypes();    const warehouseTypeTools = useGetWarehouseTypes();
     return (
         <>
             <Button

@@ -64,7 +64,7 @@ const RoleUser = () => {
                     <Typography variant="h2" className="pb-8">
                         گروه ها
                     </Typography>
-                    <Stack direction="row" spacing={2}>
+                    <Stack direction="row" spacing={2} className="flex flex-wrap gap-y-4">
                     {groups?.data?.data.map((item: { id: string; name: string }) => {
                         const hasRole = userRoles?.data?.data.some((node: IUserRole) => node.roleId === item?.id && node.userId === id);
                         return (

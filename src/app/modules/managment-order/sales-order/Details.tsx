@@ -34,9 +34,8 @@ const initialValues = {
 }
 
 const SalesOrderDetail = (props: Props) => {
-    const { hasPermission } = useAuth()
     const { id } = useParams()
-    const { data, isLoading } = useRetrieveOrder(id, hasPermission("GetOrderById"))
+    const { data, isLoading } = useRetrieveOrder(id)
     const cargosList = useGetCargosList()
     const [cargoAnnounceDetails, setCargoAnnounceDetails] = useState<any>({})
     const [isOpenDetail, setIsOpenDetail] = useState<boolean>(false)
@@ -146,7 +145,7 @@ const SalesOrderDetail = (props: Props) => {
                 {() => {
                     return <>
                         <div className={`grid grid-cols-1 ${props.isCargo? "md:grid-cols-5" : "md:grid-cols-5"} gap-4 my-4`}>
-                            {renderOrderInfo.map((item: {
+                            {renderOrderInfo?.map((item: {
                                 title: string,
                                 icon: React.ReactNode,
                                 value: any
@@ -178,7 +177,7 @@ const SalesOrderDetail = (props: Props) => {
 
                                 <ReusableCard cardClassName="col-span-2">
                                     <Typography variant="h2" color="primary" className="pb-4">ضمیمه ها</Typography>
-                                    <ImagePreview base64Strings={data?.data?.attachments.map((i: any) => i.fileData)} />
+                                    <ImagePreview base64Strings={data?.data?.attachments?.map((i: any) => i.fileData)} />
                                 </ReusableCard>
                             </div>
                         }

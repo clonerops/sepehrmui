@@ -29,8 +29,7 @@ interface IProps {
 const PurchaserChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, openModalStateCustomerFeatcure, detailCustomer }) => {
     const { hasPermission } = useAuth()
 
-    const warehouse = useGetWarehouses(hasPermission("GetWarehouses"))
-
+    const warehouse = useGetWarehouses();
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
         if (item?.value) {
             detailCustomer?.mutate(item?.value, {

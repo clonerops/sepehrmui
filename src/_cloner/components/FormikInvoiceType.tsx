@@ -5,8 +5,7 @@ import { dropdownInvoiceType } from '../helpers/dropdowns';
 import { useAuth } from '../helpers/checkUserPermissions';
 
 const FormikInvoiceType = (props: any) => {
-    const { hasPermission } = useAuth()
-    const { data: factor } = useGetInvoiceType(hasPermission("GetInvoiceTypes"));
+    const { data: factor } = useGetInvoiceType();
 
     return (
         <FormikSelect

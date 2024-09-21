@@ -5,9 +5,8 @@ import { dropdownPurchaseOrderSendType } from '../helpers/dropdowns';
 import { useAuth } from '../helpers/checkUserPermissions';
 
 const FormikPurchaseOrderSend = (props: any) => {
-    const { hasPermission } = useAuth()
 
-    const { data: orderSendType, isLoading } = useGetPurchaseSendTypes(hasPermission("GetPurchaseOrderSendTypes"));
+    const { data: orderSendType, isLoading } = useGetPurchaseSendTypes();
 
     if(isLoading) {
         return <span>درحال بارگزاری ....</span>

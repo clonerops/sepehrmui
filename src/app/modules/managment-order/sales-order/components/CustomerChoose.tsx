@@ -14,7 +14,6 @@ import Backdrop from '../../../../../_cloner/components/Backdrop'
 import { Add, Person } from '@mui/icons-material'
 import FormikSearchableCustomer from '../../../../../_cloner/components/FormikSearchableCustomer'
 import { useAuth } from '../../../../../_cloner/helpers/checkUserPermissions'
-import TypographyAccessDenied from '../../../../../_cloner/components/TypographyAccessDenied'
 
 interface IProps {
     postSaleOrder: UseMutationResult<any, unknown, ISalesOrder, unknown>
@@ -39,12 +38,12 @@ const RenderInformation: FC<IRenderInfoProps> = ({ title, value, valueClassName 
 
 }
 
-const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, openModalStateCustomerFeatcure,  detailCustomer }) => {
+const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, openModalStateCustomerFeatcure, detailCustomer }) => {
     const { hasPermission } = useAuth()
 
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
-        if (item?.value) {
-            detailCustomer?.mutate(item?.value, {
+        if (item.value) {
+            detailCustomer?.mutate(item.value, {
                 onSuccess: (result) => {
                     formikRef.current?.setFieldValue("customerId", result.data.id)
                     formikRef.current?.setFieldValue("orderPaymentDaysAfterExit", result.data.settlementDay)
@@ -64,8 +63,8 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
     let customerCurrentDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerCurrentDept), [detailCustomer.data?.data])
     let customerDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerDept), [detailCustomer.data?.data])
 
-    if(!hasPermission("GetAllCustomers")) 
-        return <TypographyAccessDenied />
+    // if(!hasPermission("GetAllCustomers")) 
+    //     return <TypographyAccessDenied />
 
     return (
         <>
@@ -90,12 +89,12 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
                                 <Typography>ایجاد مشتری جدید</Typography>
                             </Button>
                         }
-                        {hasPermission("GetCustomerById") &&
-                            <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
-                                <Person />
-                                <Typography>نمایش ویژگی های مشتری </Typography>
-                            </Button>
-                        }
+                        {/* {hasPermission("GetCustomerById") && */}
+                        <Button disabled={postSaleOrder?.data?.succeeded} onClick={() => openModalStateCustomerFeatcure(true)} variant="contained" className="w-full" color='secondary'>
+                            <Person />
+                            <Typography>نمایش ویژگی های مشتری </Typography>
+                        </Button>
+                        {/* } */}
                     </div>
                     <div className='flex flex-col space-y-4 mt-8'>
                         <div className='flex flex-row justify-between items-center'>

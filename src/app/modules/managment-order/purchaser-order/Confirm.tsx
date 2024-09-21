@@ -41,8 +41,7 @@ const PurchaserOrderConfirm = () => {
     const { id } = useParams()
     const { data, isLoading } = useRetrievePurchaserOrder(id)
     // const { data: productsByBrand, } = useRetrieveProductsByBrand();
-    const { data: factor } = useGetInvoiceType(hasPermission("GetInvoiceTypes"));
-    const customerCompaniesTools = useGetCustomerCompaniesMutate();
+    const { data: factor } = useGetInvoiceType();    const customerCompaniesTools = useGetCustomerCompaniesMutate();
 
     const approveTools = useApprovePurchaserInvoiceType()
     const [cpData, setCpData] = useState(data?.data?.details)

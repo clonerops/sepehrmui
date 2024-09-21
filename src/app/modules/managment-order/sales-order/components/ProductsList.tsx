@@ -62,15 +62,15 @@ interface IFilter {
 const pageSize = 100;
 
 const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderService, setIsOpen, setFieldValue }) => {
-    const { hasPermission } = useAuth()
+    // const { hasPermission } = useAuth()
 
-    const filterTools =  useGetProductList(hasPermission("GetAllProducts"));
-    const warehouseTypeTools = useGetWarehouseTypes(hasPermission("GetWarehouseTypes"));
-    const productTypeTools = useGetProductTypes(hasPermission("GetProductTypes"));
+    const filterTools =  useGetProductList();
+    const warehouseTypeTools = useGetWarehouseTypes();
+    const productTypeTools = useGetProductTypes();
 
     const [searchTerm, setSearchTerm] = useState<any>("")
 
-    const { data: units } = useGetUnits(hasPermission("GetProductUnits"));
+    const { data: units } = useGetUnits();
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentFilter, setCurrentFilter] = useState<IFilter>({
@@ -351,8 +351,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
     };
 
 
-    if (!hasPermission("GetProductTypes") || !hasPermission("GetProductUnits") || !hasPermission("GetWarehouseTypes"))
-        return <Typography variant="h4" className="flex justify-center items-center">جهت استفاده از این بخش باید دسترسی به لیست تمامی نوع کالاها، واحدهای کالا و نوع انبار ها داشته باشید</Typography>
+    // if (!hasPermission("GetProductTypes") || !hasPermission("GetProductUnits") || !hasPermission("GetWarehouseTypes"))
+    //     return <Typography variant="h4" className="flex justify-center items-center">جهت استفاده از این بخش باید دسترسی به لیست تمامی نوع کالاها، واحدهای کالا و نوع انبار ها داشته باشید</Typography>
 
     return (
         <>

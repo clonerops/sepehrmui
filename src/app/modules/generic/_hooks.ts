@@ -1,17 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import * as api from "./_requests";
 
-const useGetSendTypes = (hasPermission: boolean) => {
+const useGetSendTypes = () => {
     return useQuery(["sendTypes"], () => api.getSendTypes(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
     });
 };
-const useGetPurchaseSendTypes = (hasPermission: boolean) => {
+const useGetPurchaseSendTypes = () => {
     return useQuery(["purchaseSendTypes"], () => api.getPurchaseSendTypes(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -24,9 +22,8 @@ const useGetPaymentTypes = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetPurchasePaymentTypes = (hasPermission: boolean) => {
+const useGetPurchasePaymentTypes = () => {
     return useQuery(["purchasePaymentTypes"], () => api.getPurchasePaymentTypes(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -39,9 +36,8 @@ const useGetPurchaseInvoice = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetInvoiceType = (hasPermission: boolean) => {
+const useGetInvoiceType = () => {
     return useQuery(["invoiceType"], () => api.getInvoiceType(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -54,17 +50,15 @@ const useGetCustomerValidities = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetWarehouseTypes = (hasPermission: boolean) => {
+const useGetWarehouseTypes = () => {
     return useQuery(["warehouseTypes"], () => api.getWarehouseTypes(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
     });
 };
-const useGetWarehouses = (hasPermission: boolean) => {
+const useGetWarehouses = () => {
     return useQuery(["warehouses"], () => api.getWarehouses(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -81,18 +75,16 @@ const useGetReceivePaymentSources = () => {
         }
     );
 };
-const useGetServices = (hasPermission: boolean) => {
+const useGetServices = () => {
     return useQuery(["services"], () => api.getServices(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
     });
 };
-const useGetProductTypes = (hasPermission: boolean) => {
+const useGetProductTypes = () => {
 
-    return useQuery(["productTypes"], () => api.getProductTypes(), {
-        enabled: hasPermission, 
+    return useQuery(["productTypes"], () => api.getProductTypes(), { 
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
@@ -119,18 +111,16 @@ const useGetOfficialBank = () => {
         refetchIntervalInBackground: false,
     });
 };
-const useGetOrderExitTypes = (hasPermission: boolean) => {
+const useGetOrderExitTypes = () => {
     return useQuery(["orderExitTypes"], () => api.getOrderExitTypes(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false,
     });
 };
 
-const useGetUnits = (hasPermission: boolean) => {
+const useGetUnits = () => {
     return useQuery(['units'], () => api.getUnits(), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false

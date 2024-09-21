@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useGetUsersByMutation } from "../../app/modules/user/core/_hooks";
 import { dropdownUser } from "../helpers/dropdowns";
 import FormikComboBox from "./FormikComboBox";
-import { useAuth } from "../helpers/checkUserPermissions";
+// import { useAuth } from "../helpers/checkUserPermissions";
 import TypographyAccessDenied from "./TypographyAccessDenied";
 // import FormikSelectCheckbox from "./FormikSelectCheckbox";
 // import { useGetApplicationRoles } from "../../app/modules/groups/_hooks";
 
 const FormikUserByRole = (props: any) => {
-    const { hasPermission } = useAuth()
+    // const { hasPermission } = useAuth()
     // const roles = useGetApplicationRoles()
     const saleManagers = useGetUsersByMutation()
 
@@ -22,8 +22,8 @@ const FormikUserByRole = (props: any) => {
 
     }, [])
 
-    if(!hasPermission("GetAllUsers"))
-        return <TypographyAccessDenied title="جهت فیلتر لیست مسئولان، دسترسی به لیست تمامی کاربران الزامی است" />
+    // if(!hasPermission("GetAllUsers"))
+    //     return <TypographyAccessDenied title="جهت فیلتر لیست مسئولان، دسترسی به لیست تمامی کاربران الزامی است" />
 
     return (
         <>

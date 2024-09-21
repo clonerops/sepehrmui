@@ -54,7 +54,7 @@ const CargoForm = () => {
     const { id } = useParams()
 
     const postCargoTools = useCreateCargo()
-    const orderTools = useRetrieveOrder(id, hasPermission("GetOrderById"))
+    const orderTools = useRetrieveOrder(id, )
     const cargosList = useGetCargosList()
     const vehicleList = useGetVehicleTypes()
 

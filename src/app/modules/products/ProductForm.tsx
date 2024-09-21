@@ -48,8 +48,7 @@ const ProductForm = (props: {
 
     // Fetchig
     const { mutate, isLoading: postLoading } = useCreateProduct();
-    const { data: productUnit } = useGetUnits(hasPermission("GetProductUnits"));
-    const updateTools = useUpdateProduct();
+    const { data: productUnit } = useGetUnits();    const updateTools = useUpdateProduct();
     const detailTools = useRetrieveProduct()
 
     const isNew = !props.id

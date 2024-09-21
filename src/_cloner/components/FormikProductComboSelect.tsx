@@ -6,9 +6,8 @@ import { useAuth } from "../helpers/checkUserPermissions";
 
 
 const FormikProduct = (props: any) => {
-    const {hasPermission} = useAuth()
     // const { data } = useRetrieveProducts()
-    const productTools = useGetProductList(hasPermission("GetAllProducts"))
+    const productTools = useGetProductList()
     useEffect(() => {
         const filter = {}
         productTools.mutate(filter)

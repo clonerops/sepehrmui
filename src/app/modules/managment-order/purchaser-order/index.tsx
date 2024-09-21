@@ -43,8 +43,7 @@ const PurchaserOrder = () => {
     const [orderServices, setOrderServices] = useState<IOrderService[]>([]); //OK
 
     const postSaleOrder = useCreatePurchaserOrder();
-    const products = useGetProductList(hasPermission("GetAllProducts"));
-    const detailCustomer = useGetCustomer();
+    const products = useGetProductList();    const detailCustomer = useGetCustomer();
 
 
     useEffect(() => {

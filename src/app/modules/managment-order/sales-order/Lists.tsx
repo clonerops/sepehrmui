@@ -56,14 +56,16 @@ const SalesOrderList = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex flex-row gap-x-4">
-                <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-                    <Link
-                        to={`/dashboard/sales_order/lists/${item?.row?.id}`}
-                        state={{ isConfirmed: false }}
-                    >
-                        <Visibility color="secondary" />
-                    </Link>
-                </Tooltip>
+                {hasPermission("GetOrderById") &&
+                    <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                        <Link
+                            to={`/dashboard/sales_order/lists/${item?.row?.id}`}
+                            state={{ isConfirmed: false }}
+                        >
+                            <Visibility color="secondary" />
+                        </Link>
+                    </Tooltip>
+                }
                 <Tooltip title={<Typography variant='h3'>فاکتور</Typography>}>
                     <a target='_blank' href={`/dashboard/${[InvoiceType.Mahfam, InvoiceType.Sepehr].includes(item.row.invoiceTypeId) ? "invoiceOfficial" : "invoiceNotOfficial"}/${item?.row?.id}`}>
                         <Print color="primary" />
@@ -81,7 +83,7 @@ const SalesOrderList = () => {
         const formData = {
             ...values,
             PageNumber: currentPage,
-            PageSize: pageSize, 
+            PageSize: pageSize,
             SaleManagerId: values?.SaleManagerId?.value
 
         }
@@ -92,7 +94,7 @@ const SalesOrderList = () => {
         })
     }
 
-    if(!hasPermission("GetAllOrders"))
+    if (!hasPermission("GetAllOrders"))
         return <AccessDenied />
 
     return (

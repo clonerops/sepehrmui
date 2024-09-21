@@ -45,8 +45,7 @@ const SalesOrderEdit = () => {
 
     const postSaleOrder = useUpdateOrder();
 
-    const products = useGetProductList(hasPermission("GetAllProducts"));
-    const detailTools = useGetOrderDetailByCode()
+    const products = useGetProductList();    const detailTools = useGetOrderDetailByCode()
 
     const onGetOrderDetailByCode = (value: any) => {
         detailTools.mutate(value, {
@@ -81,7 +80,7 @@ const SalesOrderEdit = () => {
     
 
 
-    const { data: warehouse } = useGetWarehouses(hasPermission("GetWarehouses"));
+    const { data: warehouse } = useGetWarehouses();
 
     useEffect(() => {
         calculateTotalAmount(orders, orderServices)

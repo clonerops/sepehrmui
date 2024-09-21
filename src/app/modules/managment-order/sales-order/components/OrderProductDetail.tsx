@@ -58,7 +58,7 @@ interface IProps {
 }
 
 const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, orderValid, setOrders, orderPayment, setOrderPayment, orderServices, setOrderServices, formikRef, setOrderValid, values, setFieldValue }) => {
-    const { hasPermission } = useAuth()
+    // const { hasPermission } = useAuth()
     
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -173,7 +173,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
         <>
             {products.isLoading && <Backdrop loading={products.isLoading} />}
             <form>
-                {hasPermission("GetAllProducts") && 
+                {/* {hasPermission("GetAllProducts") &&  */}
                     <div className='flex justify-end items-end'>
                         <Button
                             className="!w-[160px] !h-[36px]"
@@ -184,7 +184,7 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                             <Typography>انتخاب کالا</Typography>
                         </Button>
                     </div>
-                }
+                {/* } */}
                 <div className="lg:grid lg:grid-cols-3 lg:gap-4 my-4 space-y-4 lg:space-y-0">
 
                     <FormikInput
@@ -236,13 +236,14 @@ const OrderProductDetail: FC<IProps> = ({ postSaleOrder, products, orders, order
                         disabled={!isUpdate || postSaleOrder.data?.succeeded} />
                     {values.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseId?.warehouseTypeId === WarehouseType.Karkhaneh || values.warehouseTypeId === WarehouseType.Vaseteh ?
                         <>
-                            {hasPermission("GetAllCustomers") ?
+                            {/* {hasPermission("GetAllCustomers") ? */}
                                 <FormikSearchableCustomer
                                     name={!isUpdate ? "purchaserCustomerId" : "purchaserCustomerName"}
                                     label="خرید از"
-                                    disabled={!isUpdate || postSaleOrder.data?.succeeded} /> : 
+                                    disabled={!isUpdate || postSaleOrder.data?.succeeded} />
+                                     {/* : 
                                     <TypographyAccessDenied />
-                            }
+                            } */}
                             <FormikPrice
                                 name="purchasePrice"
                                 label="قیمت خرید (ریال)"

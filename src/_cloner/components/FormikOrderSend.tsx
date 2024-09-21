@@ -2,11 +2,9 @@ import FormikSelect from './FormikSelect'
 
 import { useGetSendTypes } from '../../app/modules/generic/_hooks';
 import { dropdownOrderSendType } from '../helpers/dropdowns';
-import { useAuth } from '../helpers/checkUserPermissions';
 
 const FormikOrderSend = (props: any) => {
-    const { hasPermission } = useAuth()
-    const { data: orderSendType, isLoading } = useGetSendTypes(hasPermission("GetOrderSendTypes"));
+    const { data: orderSendType, isLoading } = useGetSendTypes();
 
     if(isLoading) {
         return <span>درحال بارگزاری ....</span>

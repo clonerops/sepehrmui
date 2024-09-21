@@ -9,7 +9,7 @@ interface ImagePreviewProps {
 const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
     const [imageSrcs, setImageSrcs] = useState<string[]>([]);
 
-    const dataURLs = base64Strings.map(
+    const dataURLs = base64Strings?.map(
         (base64String: any) => `data:image/png;base64,${base64String.fileData}`
     );
 
@@ -31,7 +31,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ base64Strings }) => {
 
         <div className="flex flex-wrap gap-x-8">
             {/* Display the image previews */}
-            {dataURLs.map((dataURL, index) => (
+            {dataURLs?.map((dataURL, index) => (
                 <div key={index}>
                     {imageSrcs[index] ? (
                         <Zoom>

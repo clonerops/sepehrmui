@@ -27,7 +27,7 @@ const CustomerWarehouseV2 = () => {
 
     const customers = useGetCustomers()
     const customerDetailTools = useGetCustomer()
-    const warehouseTools = useGetWarehouses(hasPermission("GetWarehouses"));
+    const warehouseTools = useGetWarehouses();
 
 
     const { mutate: postCustomerWarehouse, isLoading: postLoading } = usePostCustomerWarehouses();

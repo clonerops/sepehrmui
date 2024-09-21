@@ -17,9 +17,8 @@ const useRetrieveOrders = (formData: { pageNumber?: number; pageSize?: number; I
 
 const useRetrieveOrdersByMutation = () => useMutation((formData: ISaleOrderFilter) => api.retrieveOrdersMutation(formData));
 
-const useRetrieveOrder = (id: string | undefined, hasPermission: boolean) => {
+const useRetrieveOrder = (id: string | undefined) => {
     return useQuery(["order", id], () => api.retrieveOrder(id), {
-        enabled: hasPermission,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false

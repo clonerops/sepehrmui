@@ -41,10 +41,8 @@ const PurchaserOrderEdit = () => {
 
   const postSaleOrder = useUpdatePurchaserOrder();
 
-  const products = useGetProductList(hasPermission("GetAllProducts"));
-  const detailTools = useGetPurchaserOrderDetailByCode()
-  const warehouse = useGetWarehouses(hasPermission("GetWarehouses"))
-
+  const products = useGetProductList();  const detailTools = useGetPurchaserOrderDetailByCode()
+  const warehouse = useGetWarehouses();
 
   useEffect(() => {
     calculateTotalAmount(orders, orderServices)

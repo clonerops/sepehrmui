@@ -46,7 +46,7 @@ const Draft = () => {
         postDraftOrder.mutate(formData, {
             onSuccess: (response) => {
                 if (response.succeeded) {
-                    setSerialNumber(response.data.id)
+                    setSerialNumber(response.data.draftOrderCode)
                     EnqueueSnackbar(response.message, "success")
                 } else {
                     EnqueueSnackbar(response.data.Message, "error")

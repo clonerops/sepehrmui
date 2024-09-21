@@ -62,9 +62,7 @@ const TransferRemittanceEdit = () => {
     const { id }: any = useParams()
 
     const vehicleList = useGetVehicleTypes()
-    const warehouse = useGetWarehouses(hasPermission("GetWarehouses"))
-    const productsInventory = useGetProductList(hasPermission("GetAllProducts"))
-    const detailTools = useGetTransferRemitanceByIdByMutation()
+    const warehouse = useGetWarehouses();    const productsInventory = useGetProductList();    const detailTools = useGetTransferRemitanceByIdByMutation()
     const updateTools = useUpdateTransferRemitance()
 
     const [categories, setCategoies] = useState<any>([])

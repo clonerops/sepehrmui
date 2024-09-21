@@ -51,13 +51,13 @@ const DraftList = () => {
             PageNumber: currentPage,
             PageSize: pageSize,
         }
-        if (hasPermission("GetAllDraftOrders"))
+        // if (hasPermission("GetAllDraftOrders"))
             draftOrderTools.mutate(filter)
 
     }, [currentPage])
 
     useEffect(() => {
-        if (hasPermission("GetAllDraftOrders") && hasPermission("GetDraftOrderById"))
+        // if (hasPermission("GetAllDraftOrders") && hasPermission("GetDraftOrderById"))
             draftOrderDetailTools.mutate(selectedDraft.id || "")
     }, [selectedDraft.id])
 
