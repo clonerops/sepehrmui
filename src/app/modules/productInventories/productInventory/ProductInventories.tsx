@@ -18,7 +18,8 @@ import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions";
 const ProductInventories = () => {
     const { hasPermission } = useAuth()
 
-    const filterTools = useGetProductList();    const filterWarehouse = useGetWarehousesByFilter()
+    const filterTools = useGetProductList();    
+    const filterWarehouse = useGetWarehousesByFilter()
     
     let formikRef = useRef<FormikProps<any>>(null);
 

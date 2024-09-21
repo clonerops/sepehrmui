@@ -24,10 +24,11 @@ const ProductInventoriesSepehr = () => {
 
     const uploadFileMethode = useUploadFileProductInventories();
     const filterTools = useGetProductList();    // State
+
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
     const [isUploadpen, setIsUploadOpen] = useState<boolean>(false);
     const [isDownloadOpen, setIsDownloadOpen] = useState<boolean>(false);
-    const [productItem, setProductItem] = useState<{row: IProducts}>()
+    const [productItem, setProductItem] = useState<{ row: IProducts }>()
     const [results, setResults] = useState<any[]>([]);
 
     useEffect(() => {
@@ -37,7 +38,7 @@ const ProductInventoriesSepehr = () => {
                 setResults(res?.data)
             }
         });
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
 
@@ -52,15 +53,15 @@ const ProductInventoriesSepehr = () => {
         }
     };
 
-    const renderIncreaseInventory = (item: {row: IProducts}) => {
+    const renderIncreaseInventory = (item: { row: IProducts }) => {
         return <Tooltip title={<Typography variant='h3'>افزایش موجودی</Typography>}>
             <Fab size="small" color="secondary" onClick={() => handleOpenModal(item)}>
-                <Add /> 
+                <Add />
             </Fab>
         </Tooltip>
     }
 
-    const handleOpenModal = (item: {row: IProducts}) => {
+    const handleOpenModal = (item: { row: IProducts }) => {
         setProductItem(item)
         setIsCreateOpen(true)
     }
@@ -94,20 +95,24 @@ const ProductInventoriesSepehr = () => {
                         >
                             <Typography>آپلود فایل</Typography>
                         </Button>
-                        <Button
-                            onClick={handleDownloadExcel}
-                            variant="outlined"
-                            color="success"
-                        >
-                            <Typography>خروجی اکسل</Typography>
-                        </Button>
-                        <Button
-                            onClick={() => setIsDownloadOpen(true)}
-                            variant="outlined"
-                            color="primary"
-                        >
-                            <Typography>خروجی اکسل براساس تاریخ</Typography>
-                        </Button>
+                        {hasPermission("GetProductInventoriesExcelReport") &&
+                            <Button
+                                onClick={handleDownloadExcel}
+                                variant="outlined"
+                                color="success"
+                            >
+                                <Typography>خروجی اکسل</Typography>
+                            </Button>
+                        }
+                        {hasPermission("GetInventoryUploadInstanceByHistory") &&
+                            <Button
+                                onClick={() => setIsDownloadOpen(true)}
+                                variant="outlined"
+                                color="primary"
+                            >
+                                <Typography>خروجی اکسل براساس تاریخ</Typography>
+                            </Button>
+                        }
                     </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 mt-4">
@@ -123,7 +128,7 @@ const ProductInventoriesSepehr = () => {
                     </div>
                     <div>
                         <div
-                        
+
                             className="hidden md:flex md:justify-center md:items-center"
                         >
                             <img alt="sepehriranian"

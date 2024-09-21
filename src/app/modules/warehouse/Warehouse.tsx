@@ -23,6 +23,8 @@ import { EnqueueSnackbar } from '../../../_cloner/helpers/snackebar'
 import { WarehousesColumn } from '../../../_cloner/helpers/columns'
 import { VerticalCharts } from '../../../_cloner/components/VerticalCharts'
 import _ from 'lodash'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues = {
   id: 0,
@@ -31,6 +33,8 @@ const initialValues = {
 }
 
 const Warehouse = () => {
+  const { hasPermission } = useAuth()
+
   const warehouseTools = useGetWarehouses()
   const postWarehouseTools = usePostWarehouses()
   const deleteWarehouseTools = useDeleteWarehouses()
@@ -45,7 +49,7 @@ const Warehouse = () => {
 
   useEffect(() => {
     setResults(warehouseTools?.data?.data);
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [warehouseTools?.data?.data]);
 
   const handleDelete = (id: number) => {
@@ -76,8 +80,12 @@ const Warehouse = () => {
   const renderAction = (item: any) => {
     return (
       <div className="flex gap-4">
-        <EditGridButton onClick={() => handleEdit(item?.row)} />
-        <DeleteGridButton onClick={() => handleOpenApprove(item?.row.id)} />
+        {hasPermission("UpdateWarehouse") &&
+          <EditGridButton onClick={() => handleEdit(item?.row)} />
+        }
+        {hasPermission("DeleteWarehouse") &&
+          <DeleteGridButton onClick={() => handleOpenApprove(item?.row.id)} />
+        }
       </div>
     );
   };
@@ -105,12 +113,15 @@ const Warehouse = () => {
       console.log(error)
     }
   }
-  
+
+  if (!hasPermission("CreateWarehouse"))
+    return <AccessDenied />
+
   return (
     <>
-      {warehouseTools.isLoading  && <Backdrop loading={warehouseTools.isLoading} />}
-      {postWarehouseTools.isLoading  && <Backdrop loading={postWarehouseTools.isLoading} />}
-      {deleteWarehouseTools.isLoading  && <Backdrop loading={deleteWarehouseTools.isLoading} />}
+      {warehouseTools.isLoading && <Backdrop loading={warehouseTools.isLoading} />}
+      {postWarehouseTools.isLoading && <Backdrop loading={postWarehouseTools.isLoading} />}
+      {deleteWarehouseTools.isLoading && <Backdrop loading={deleteWarehouseTools.isLoading} />}
 
       <div className="lg:grid lg:grid-cols-2 lg:gap-4">
         <ReusableCard>
@@ -152,7 +163,7 @@ const Warehouse = () => {
                 columns={WarehousesColumn(renderAction)}
                 rows={results}
                 data={warehouseTools?.data?.data}
-                getRowId={(row: {id: number}) => row.id}
+                getRowId={(row: { id: number }) => row.id}
                 onDoubleClick={(item: any) => handleEdit(item?.row)}
               />
             </div>
