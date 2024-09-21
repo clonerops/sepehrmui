@@ -9,8 +9,11 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import GroupForm from "./GroupForm";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const RoleGroups = () => {
+    const { hasPermission } = useAuth()
     const [approve, setApprove] = useState<boolean>(false);
     const [deletedId, setDeletedId] = useState<string>("");
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
@@ -37,6 +40,9 @@ const RoleGroups = () => {
         setApprove(true);
         setDeletedId(id);
     };
+
+    if (!hasPermission("CreateApplicationRole"))
+        return <AccessDenied />
 
     if (groups.isLoading) {
         return <Backdrop loading={groups.isLoading} />;
@@ -176,7 +182,7 @@ const RoleGroups = () => {
                                             variant="h4"
                                             className=""
                                         >
-                                          برای اینکه منوها به کاربر نمایش داده شود باید از قسمت دسترسی به مجوز ها ---- کاربران -----منوهای کاربر، دریافت جزئیات کاربر و دریافت جزئیات کاربر براساس کد یونیک را ثبت نمائید
+                                            برای اینکه منوها به کاربر نمایش داده شود باید از قسمت دسترسی به مجوز ها ---- کاربران -----منوهای کاربر، دریافت جزئیات کاربر و دریافت جزئیات کاربر براساس کد یونیک را ثبت نمائید
                                         </Typography>
                                     </div>
                                 </div>

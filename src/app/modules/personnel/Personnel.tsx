@@ -17,8 +17,12 @@ import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import MuiTable from "../../../_cloner/components/MuiTable";
 import PhonebookGridButton from "../../../_cloner/components/PhonebookGridButton";
 import { PersonnelColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const Personnel = () => {
+    const { hasPermission } = useAuth()
+
     const PersonnelTools = useGetPersonnels();
     const deletePersonnelTools = useDeletePersonnel();
 
@@ -33,7 +37,7 @@ const Personnel = () => {
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [isPhoneBookOpen, setIsPhoneBookOpen] = useState<boolean>(false);
     const [itemForEdit, setItemForEdit] = useState<IPersonnel>();
-        const [itemPersonnel, setItemPersonnel] = useState<IPersonnel>();
+    const [itemPersonnel, setItemPersonnel] = useState<IPersonnel>();
     const [approve, setApprove] = useState<boolean>(false);
     const [deletedId, setDeletedId] = useState<string>("")
 
@@ -72,8 +76,12 @@ const Personnel = () => {
         return (
             <div className="flex gap-4">
                 <PhonebookGridButton onClick={() => handleItemPersonnel(item?.row)} />
-                <DeleteGridButton onClick={() => handleEdit(item?.row)} />
-                <EditGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
+                {hasPermission("UpdatePersonnel") &&
+                    <DeleteGridButton onClick={() => handleEdit(item?.row)} />
+                }
+                {hasPermission("DeletePersonnel") &&
+                    <EditGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
+                }
             </div>
         );
     };
@@ -82,6 +90,9 @@ const Personnel = () => {
         { id: 1, header: "شماره تماس", accessor: "phoneNumber" },
         { id: 2, header: "نوع شماره تماس", accessor: "phoneNumberType", render: (params: { phoneNumberType: { label: string } }) => <Typography>{params.phoneNumberType.label}</Typography> },
     ]
+
+    if (!hasPermission("CreatePersonnel"))
+        return <AccessDenied />
 
     return (
         <>
