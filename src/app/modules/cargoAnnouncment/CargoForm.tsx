@@ -31,6 +31,7 @@ import { ICargo, ICargoFilter } from "./_models"
 import { dropdownVehicleType } from "../../../_cloner/helpers/dropdowns"
 import TransitionsModal from "../../../_cloner/components/ReusableModal"
 import { useAuth } from "../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../routing/AccessDenied"
 
 const initialValues = {
     driverName: "",
@@ -292,6 +293,9 @@ const CargoForm = () => {
         }
 
     }
+
+    if(!hasPermission("CreateCargoAnnouncement"))
+        return <AccessDenied />
 
     return (
         <>

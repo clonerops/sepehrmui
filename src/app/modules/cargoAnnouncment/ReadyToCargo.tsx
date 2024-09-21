@@ -9,9 +9,13 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import { useRetrievesNotSendedOrder } from "./_hooks";
 import { ICargo } from "./_models";
 import { ReadyToCargoColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 
 const ReadyToCargo = () => {
+    const { hasPermission } = useAuth()
+
     const navigate = useNavigate()
     const readyToCargoOrder = useRetrievesNotSendedOrder();
 
@@ -31,6 +35,9 @@ const ReadyToCargo = () => {
             </Link>
         );
     };
+
+    if(!hasPermission("CreateCargoAnnouncement"))
+        return <AccessDenied />
 
     return (
         <>

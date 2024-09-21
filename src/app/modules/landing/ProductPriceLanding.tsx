@@ -61,6 +61,8 @@ const ProductPriceLanding = () => {
             ),
         };
     });
+
+        
     return (
         <>
             {productTypeTools.isLoading && <Backdrop loading={productTypeTools.isLoading} />}

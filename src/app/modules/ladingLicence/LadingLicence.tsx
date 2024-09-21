@@ -14,6 +14,8 @@ import CardTitleValue from '../../../_cloner/components/CardTitleValue'
 import Backdrop from '../../../_cloner/components/Backdrop'
 import ConfirmDialog from '../../../_cloner/components/ConfirmDialog'
 import moment from 'moment-jalaali'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const orderOrderColumnMain = [
     { id: 2, header: "کد کالا", accessor: "productCode", render: (params: any) => params?.orderDetail?.product?.productCode },
@@ -23,6 +25,8 @@ const orderOrderColumnMain = [
 ]
 
 const LadingLicence = () => {
+    const { hasPermission } = useAuth()
+
     const { id }: any = useParams()
 
     const cargoTools = useCargoById(id)
@@ -51,10 +55,12 @@ const LadingLicence = () => {
             }
         })
     }
-    console.log("moment(new Date()).format('jYYYY/jMM/jDD')", moment(new Date()).format('jYYYY/jMM/jDD'))
-    console.log("moment(new Date(cargoTools?.data?.data?.deliveryDate)).format('YYYY/MM/DD')", moment(new Date(cargoTools?.data?.data?.deliveryDate)).format('YYYY/MM/DD'))
 
     const isDeliverDateCheck = moment(new Date()).format('jYYYY/jMM/jDD') < cargoTools?.data?.data?.deliveryDate
+
+    if (!hasPermission("CreateLadingPermit"))
+        return <AccessDenied />
+
     return (
         <>
             {cargoTools.isLoading && <Backdrop loading={cargoTools.isLoading} />}

@@ -18,25 +18,144 @@ const RoleMenus = (props: Props) => {
     const deleteMenu = useDeleteRoleMenu();
     const roleMenuTools = useGetRoleMenusById(id);
 
-    console.log("roleMenuTools", roleMenuTools?.data?.data)
-
     const [roleIds, setRoleIds] = useState<string[]>([]);
 
     useEffect(() => {
         let roleId = roleMenuTools?.data?.data.map((item: { applicationMenuId: string }) => item.applicationMenuId);
-        console.log("RoleIdUseEffect", roleId)
         setRoleIds(roleId ? roleId : []);
     }, [id, roleMenuTools?.data]);
 
-    const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean) => {
+    const findParentIds = (menuId: string, nodes: any, parentIds: string[] = []): string[] => {
+        if (!nodes) return parentIds;
+        for (const node of nodes) {
+            if (node.id === menuId) {
+                return [...parentIds, node.id];
+            }
+            if (node.children) {
+                const found = findParentIds(menuId, node.children, [...parentIds, node.id]);
+                if (found.length > 0) return found;
+            }
+        }
+        return [];
+    };
+
+
+    // const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean, parentIds: string[]) => {
+    //     const allIds = [...parentIds, subId]; // لیست والدین + فرزند
+
+    //     if (checked) {
+    //         setRoleIds((prevIds) => [...prevIds, ...allIds]);
+    //         const formData = {
+    //             roleId: id,
+    //             applicationMenuId: [...roleIds, ...allIds],
+    //         };
+
+    //         postMenu.mutate(formData, {
+    //             onSuccess: (res) => {
+    //                 if (res.succeeded) {
+    //                     EnqueueSnackbar("دسترسی منو با موفقیت انجام شد", "success");
+    //                 } else {
+    //                     EnqueueSnackbar(res?.data.Message, "error");
+    //                 }
+    //                 roleMenuTools.refetch();
+    //             },
+    //         });
+    //     } else {
+    //         setRoleIds((prevIds) => prevIds.filter((id) => !allIds.includes(id)));
+    //         const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId);
+    //         deleteMenu.mutate(filterRoleMenuId?.id, {
+    //             onSuccess: (message) => {
+    //                 if (message.succeeded) {
+    //                     EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info");
+    //                 } else {
+    //                     EnqueueSnackbar(message?.data.Message, "error");
+    //                 }
+    //                 roleMenuTools.refetch();
+    //             },
+    //         });
+    //     }
+    // };
+
+    // const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean, parentIds: string[]) => {
+    //     const allIds = [...parentIds, subId]; // لیست والدین + فرزند
+
+    //     console.log("[...roleIds, ...allIds]", [...roleIds, ...allIds])
+
+    //     if (checked) {
+    //         setRoleIds((prevIds) => [...prevIds, ...allIds]);
+    //         const formData = {
+    //             roleId: id,
+    //             applicationMenuId: [...roleIds, ...allIds],
+    //         };
+
+    //         postMenu.mutate(formData, {
+    //             onSuccess: (res) => {
+    //                 if (res.succeeded) {
+    //                     EnqueueSnackbar("دسترسی منو با موفقیت انجام شد", "success");
+    //                 } else {
+    //                     EnqueueSnackbar(res?.data.Message, "error");
+    //                 }
+    //                 roleMenuTools.refetch();
+    //             },
+    //         });
+    //     } else {
+    //         const updatedRoleIds = roleIds.filter((id) => !allIds.includes(id));
+    //         setRoleIds(updatedRoleIds);
+
+    //         const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId);
+    //         deleteMenu.mutate(filterRoleMenuId?.id, {
+    //             onSuccess: (message) => {
+    //                 if (message.succeeded) {
+    //                     EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info");
+
+    //                     // بررسی و حذف منوی والد در صورتی که هیچ فرزندی دسترسی نداشته باشد
+    //                     parentIds.forEach((parentId) => {
+    //                         const parentNode = appAllMenu?.data.find((node: any) => node.id === parentId);
+    //                         if (parentNode) {
+    //                             const remainingChildren = parentNode.children.filter((child: any) =>
+    //                                 updatedRoleIds.includes(child.id)
+    //                             );
+    //                             if (remainingChildren.length === 0) {
+    //                                 // والد را هم حذف کن
+    //                                 setRoleIds((prevIds) => prevIds.filter((id) => id !== parentId));
+    //                                 const parentRoleMenu = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === parentId);
+    //                                 if (parentRoleMenu) {
+    //                                     deleteMenu.mutate(parentRoleMenu.id, {
+    //                                         onSuccess: (msg) => {
+    //                                             if (msg.succeeded) {
+    //                                                 EnqueueSnackbar(`منوی ${parentId} نیز حذف شد`, "info");
+    //                                             } else {
+    //                                                 EnqueueSnackbar(msg?.data.Message, "error");
+    //                                             }
+    //                                         },
+    //                                     });
+    //                                 }
+    //                             }
+    //                         }
+    //                     });
+
+    //                 } else {
+    //                     EnqueueSnackbar(message?.data.Message, "error");
+    //                 }
+    //                 roleMenuTools.refetch();
+    //             },
+    //         });
+    //     }
+    // };
+
+    const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean, parentIds: string[]) => {
+        const allIds = [...parentIds, subId]; // لیست والدین + فرزند
+
         if (checked) {
-            setRoleIds((prevIds) => [...prevIds, subId]);
-            console.log("subId", subId)
+            // استفاده از Set برای حذف مقادیر تکراری
+            const updatedRoleIds = new Set([...roleIds, ...allIds]);
+            setRoleIds(Array.from(updatedRoleIds));
+
             const formData = {
                 roleId: id,
-                applicationMenuId: [...roleIds, subId],
+                applicationMenuId: Array.from(updatedRoleIds),
             };
-
+            console.log("formDataPost", formData)
             postMenu.mutate(formData, {
                 onSuccess: (res) => {
                     if (res.succeeded) {
@@ -48,12 +167,43 @@ const RoleMenus = (props: Props) => {
                 },
             });
         } else {
-            setRoleIds((prevIds) => prevIds.filter((id) => id !== subId));
+            // حذف همه `allIds` از `roleIds`
+            const updatedRoleIds = roleIds.filter((id) => !allIds.includes(id));
+            setRoleIds(updatedRoleIds);
+
             const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId);
+            console.log("filterRoleMenuId", filterRoleMenuId)
             deleteMenu.mutate(filterRoleMenuId?.id, {
                 onSuccess: (message) => {
                     if (message.succeeded) {
                         EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info");
+
+                        // بررسی و حذف منوی والد در صورتی که هیچ فرزندی دسترسی نداشته باشد
+                        parentIds.forEach((parentId) => {
+                            const parentNode = appAllMenu?.data.find((node: any) => node.id === parentId);
+                            if (parentNode) {
+                                const remainingChildren = parentNode.children.filter((child: any) =>
+                                    updatedRoleIds.includes(child.id)
+                                );
+                                if (remainingChildren.length === 0) {
+                                    // والد را هم حذف کن
+                                    setRoleIds((prevIds) => prevIds.filter((id) => id !== parentId));
+                                    const parentRoleMenu = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === parentId);
+                                    if (parentRoleMenu) {
+                                        deleteMenu.mutate(parentRoleMenu.id, {
+                                            onSuccess: (msg) => {
+                                                if (msg.succeeded) {
+                                                    EnqueueSnackbar(`منوی ${parentId} نیز حذف شد`, "info");
+                                                } else {
+                                                    EnqueueSnackbar(msg?.data.Message, "error");
+                                                }
+                                            },
+                                        });
+                                    }
+                                }
+                            }
+                        });
+
                     } else {
                         EnqueueSnackbar(message?.data.Message, "error");
                     }
@@ -63,11 +213,12 @@ const RoleMenus = (props: Props) => {
         }
     };
 
+
     if (isLoading) {
         return <Backdrop loading={isLoading} />;
     }
 
-    const renderTreeItems = (nodes: any) => (
+    const renderTreeItems = (nodes: any, parentIds: string[] = []) => (
         <TreeItem key={nodes.id} itemId={nodes.id} label={
             <div className="flex items-center">
                 {Array.isArray(nodes.children) && nodes.children.length === 0 && (
@@ -77,7 +228,8 @@ const RoleMenus = (props: Props) => {
                                 name="applicationMenuId"
                                 onChange={(event) => {
                                     const checked = event.target.checked;
-                                    handleCheckboxChange(nodes.id, nodes.id, checked);
+                                    const parents = findParentIds(nodes.id, appAllMenu?.data);
+                                    handleCheckboxChange(nodes.id, nodes.id, checked, parents);
                                 }}
                                 checked={roleIds?.includes(nodes.id)}
                             />
@@ -89,7 +241,7 @@ const RoleMenus = (props: Props) => {
             </div>
         }>
             {Array.isArray(nodes.children) && nodes.children.length > 0 ? (
-                nodes.children.map((sub: any) => renderTreeItems(sub))
+                nodes.children.map((sub: any) => renderTreeItems(sub, [...parentIds, nodes.id]))
             ) : null}
         </TreeItem>
     );

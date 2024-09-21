@@ -12,10 +12,14 @@ import Pagination from "../../../_cloner/components/Pagination";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import { ReadyToLadingColumn } from "../../../_cloner/helpers/columns";
 import FormikSearchableCustomer from "../../../_cloner/components/FormikSearchableCustomer";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100;
 
 const ReadyToLading = () => {
+    const { hasPermission } = useAuth()
+
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -53,6 +57,10 @@ const ReadyToLading = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
+
+    if (!hasPermission("CreateLadingPermit"))
+        return <AccessDenied />
+
 
     return (
         <>

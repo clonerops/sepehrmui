@@ -5,8 +5,12 @@ import { Button, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGetLadingLicenceList } from '../ladingLicence/_hooks'
 import { LadingListColumn } from '../../../_cloner/helpers/columns'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const ReadyToExit = () => {
+    const {hasPermission} = useAuth()
+
     const navigate = useNavigate()
 
     const ladingList = useGetLadingLicenceList();
@@ -20,6 +24,9 @@ const ReadyToExit = () => {
             </Link>
         );
     };
+
+    if(!hasPermission("CreateLadingExitPermit"))
+        return <AccessDenied />
     
   return (
     <>
