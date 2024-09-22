@@ -14,6 +14,8 @@ import { useGetCustomer, useGetCustomers } from '../customer/core/_hooks'
 import { AssignCustomerLabelsCheckboxColumn } from '../../../_cloner/helpers/columns'
 import { toAbsoulteUrl } from '../../../_cloner/helpers/assetsHelper'
 import FormikSearchableCustomer from '../../../_cloner/components/FormikSearchableCustomer'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues: any = {
   id: 0,
@@ -21,6 +23,8 @@ const initialValues: any = {
 }
 
 const AssignCustomerLabelV2 = () => {
+  const { hasPermission } = useAuth()
+
   const customers = useGetCustomers()
   const customerDetailTools = useGetCustomer()
   const customerLabelsTools = useGetCustomerLabels()
@@ -90,6 +94,10 @@ const AssignCustomerLabelV2 = () => {
       setSelectedIds([])
     }
   }
+
+  
+  if(!hasPermission("AssignCustomerLabels"))
+    return <AccessDenied />
 
 
   if (customers.isLoading) {

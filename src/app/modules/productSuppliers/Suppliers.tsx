@@ -15,8 +15,11 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import SupplierForm from "./SupplierForm";
 import { SuppliersColumn } from "../../../_cloner/helpers/columns";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const Suppliers = () => {
+    const { hasPermission } = useAuth()
     const supplierTools = useRetrieveSuppliers();
     const deleteTools = useDeleteSupplier();
 
@@ -24,7 +27,7 @@ const Suppliers = () => {
 
     useEffect(() => {
         setResults(supplierTools?.data?.data);
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [supplierTools?.data?.data]);
 
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
@@ -39,12 +42,12 @@ const Suppliers = () => {
         if (id)
             deleteTools.mutate(id, {
                 onSuccess: (response) => {
-                    if(response.succeeded) {
+                    if (response.succeeded) {
                         EnqueueSnackbar(response.message || "حذفبا موفقیت انجام شد", "success")
                         supplierTools.refetch();
-                      } else {
+                    } else {
                         EnqueueSnackbar(response.data.Message, "error")
-                      }
+                    }
                 },
             });
     };
@@ -53,12 +56,18 @@ const Suppliers = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex gap-4">
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
-                <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                {hasPermission("UpdateProductSupplier") &&
+                    <EditGridButton onClick={() => handleEdit(item?.row)} />
+                }
+                {hasPermission("DeleteProductSupplier") &&
+                    <DeleteGridButton onClick={() => handleDelete(item?.row?.id)} />
+                }
             </div>
         );
     };
 
+    if (!hasPermission("CreateProductSupplier"))
+        return <AccessDenied />
     return (
         <>
             {deleteTools.isLoading && <Backdrop loading={deleteTools.isLoading} />}
@@ -98,14 +107,14 @@ const Suppliers = () => {
                 isClose={() => setIsCreateOpen(false)}
                 title="ایجاد تامین کننده جدید"
             >
-                <SupplierForm  refetch={supplierTools.refetch} setIsCreateOpen={setIsCreateOpen} />
+                <SupplierForm refetch={supplierTools.refetch} setIsCreateOpen={setIsCreateOpen} />
             </TransitionsModal>
             <TransitionsModal
                 open={isEditOpen}
                 isClose={() => setIsEditOpen(false)}
                 title="ویرایش تامین کننده جدید"
             >
-                <SupplierForm  refetch={supplierTools.refetch} setIsCreateOpen={setIsCreateOpen} id={itemForEdit?.id} items={itemForEdit} />
+                <SupplierForm refetch={supplierTools.refetch} setIsCreateOpen={setIsCreateOpen} id={itemForEdit?.id} items={itemForEdit} />
             </TransitionsModal>
         </>
     );

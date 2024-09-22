@@ -11,10 +11,14 @@ import Pagination from "../../../_cloner/components/Pagination";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
 import { useGetExitPermitListByMutation, useRevokeExitById } from "./_hooks";
 import { ExitRemittanceColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100;
 
 const ExitList = () => {
+    const { hasPermission } = useAuth()
+
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [approve, setApprove] = useState<boolean>(false);
     const [selecetdId, setSelectedId] = useState<number>(0)
@@ -35,8 +39,8 @@ const ExitList = () => {
     const handleOpenApprove = (id: number) => {
         setApprove(true)
         setSelectedId(id)
-      }
-    
+    }
+
 
     const handleRevokeExit = (id: number) => {
         revokeExit.mutate(id, {
@@ -63,16 +67,20 @@ const ExitList = () => {
                         </Link>
                     </div>
                 </Tooltip>
-                <Tooltip title={<Typography variant='h3'>ابطال خروج</Typography>}>
-                    <div className="flex gap-x-4">
-                        <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
-                    </div>
-                </Tooltip>
-                <Tooltip title={<Typography variant='h3'>تایید کرایه</Typography>}>
-                    <Link to={`/dashboard/approveDriverFareAmount/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
-                        <Approval className="text-green-500" />
-                    </Link>
-                </Tooltip>
+                {hasPermission("RevokeLadingExitPermit") &&
+                    <Tooltip title={<Typography variant='h3'>ابطال خروج</Typography>}>
+                        <div className="flex gap-x-4">
+                            <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
+                        </div>
+                    </Tooltip>
+                }
+                {hasPermission("ApproveDriverFareAmount") &&
+                    <Tooltip title={<Typography variant='h3'>تایید کرایه</Typography>}>
+                        <Link to={`/dashboard/approveDriverFareAmount/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                            <Approval className="text-green-500" />
+                        </Link>
+                    </Tooltip>
+                }
                 <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
                     <Link to={`/dashboard/ladingExitPermitDetail/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                         <Visibility className="text-yellow-500" />
@@ -91,7 +99,10 @@ const ExitList = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
-    if(exitListTools.isLoading) {
+    if (hasPermission("GetAllLadingExitPermits"))
+        return <AccessDenied />
+
+    if (exitListTools.isLoading) {
         return <Backdrop loading={exitListTools.isLoading} />
     }
 
@@ -104,7 +115,7 @@ const ExitList = () => {
                     rows={exitListTools?.data?.data}
                     data={exitListTools?.data?.data}
                     isLoading={exitListTools?.isLoading}
-                    onDoubleClick={() => {}}
+                    onDoubleClick={() => { }}
                     hideFooter
                 />
                 <Pagination

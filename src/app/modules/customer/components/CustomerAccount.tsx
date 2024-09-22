@@ -13,6 +13,8 @@ import FormikSearchableCustomer from "../../../../_cloner/components/FormikSearc
 import { useGetCustomersAccountReport } from "../core/_hooks"
 import Backdrop from "../../../../_cloner/components/Backdrop"
 import ReportViewer from "../../../../_cloner/components/ReportViewer"
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../../routing/AccessDenied"
 
 const initialValues = {
   customerId: "",
@@ -28,6 +30,8 @@ const categories = [
 
 const CustomerAccount = () => {
 
+  const { hasPermission } = useAuth()
+
   const customerAccountTools = useGetCustomersAccountReport()
 
   const onSubmit = (values: any) => {
@@ -38,6 +42,9 @@ const CustomerAccount = () => {
     }
     customerAccountTools.mutate(filters)
   }
+
+  if (!hasPermission("GetCustomerBillingReport"))
+    return <AccessDenied />
 
   return (
     <>

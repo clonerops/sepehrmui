@@ -12,20 +12,25 @@ import ButtonComponent from '../../../_cloner/components/ButtonComponent'
 import { Print, Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import { RentListsColumn } from '../../../_cloner/helpers/columns'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 let pageSize = 100;
 
 const initialValues = {
-    rentPaymentCode: "",
-    referenceCode: "",
-    driverName: "",
-    fromDate: "",
-    toDate: "",
-    orderType: ""
+  rentPaymentCode: "",
+  referenceCode: "",
+  driverName: "",
+  fromDate: "",
+  toDate: "",
+  orderType: ""
 }
 
 
 const RentPaymentList = () => {
+  const { hasPermission } = useAuth()
+
+
   const navigate = useNavigate()
   const rentPayments = useGetAllRents()
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -33,14 +38,14 @@ const RentPaymentList = () => {
 
 
   useEffect(() => {
-    const formData ={
-        pageSize: pageSize,
-        pageNumber: currentPage,
-        fromDate: "",
-        toDate: "",        
+    const formData = {
+      pageSize: pageSize,
+      pageNumber: currentPage,
+      fromDate: "",
+      toDate: "",
     }
     rentPayments.mutate(formData)
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [currentPage]);
 
 
@@ -48,59 +53,62 @@ const RentPaymentList = () => {
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected + 1);
-};
+  };
 
-const handleFilterBasedofStatus = (values: any) => {
+  const handleFilterBasedofStatus = (values: any) => {
     rentPayments.mutate(values, {
-        onSuccess: (response) => {
-        },
+      onSuccess: (response) => {
+      },
     });
-};
+  };
 
-const renderPrint = (item: any) => {
-  return <div>
-    <Link to={`/dashboard/rent_print/${item.row.id}`}>
-      <Print />
-    </Link>
-  </div>
-}
+  const renderPrint = (item: any) => {
+    return <div>
+      <Link to={`/dashboard/rent_print/${item.row.id}`}>
+        <Print />
+      </Link>
+    </div>
+  }
+
+  if (hasPermission("GetAllRents"))
+    return <AccessDenied />
 
   return (
     <>
-        {rentPayments?.isLoading && <Backdrop loading={rentPayments?.isLoading} />}
-        <ReusableCard>
-            <div className="mb-4">
-                    <Formik initialValues={initialValues} onSubmit={handleFilterBasedofStatus}>
-                        {({handleSubmit}) => {
-                            return <>
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                                    <FormikInput name='rentPaymentCode' label="شماره پرداخت" />
-                                    <FormikInput name='referenceCode' label="شماره مرجع" />
-                                    <FormikInput name='driverName' label="نام راننده" />
-                                    <FormikDatepicker name='fromDate' label="از تاریخ" />
-                                    <FormikDatepicker name='toDate' label="تا تاریخ" />
-                                    <ButtonComponent onClick={() => handleSubmit()}>
-                                        <Search className="text-white" />
-                                        <Typography className="text-white">جستجو</Typography>
-                                    </ButtonComponent>
-                                </div>
-                            </>
-                        }}
-                    </Formik>
+      {rentPayments?.isLoading && <Backdrop loading={rentPayments?.isLoading} />}
+      <ReusableCard>
+        <div className="mb-4">
+          <Formik initialValues={initialValues} onSubmit={handleFilterBasedofStatus}>
+            {({ handleSubmit }) => {
+              return <>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <FormikInput name='rentPaymentCode' label="شماره پرداخت" />
+                  <FormikInput name='referenceCode' label="شماره مرجع" />
+                  <FormikInput name='driverName' label="نام راننده" />
+                  <FormikDatepicker name='fromDate' label="از تاریخ" />
+                  <FormikDatepicker name='toDate' label="تا تاریخ" />
+                  <ButtonComponent onClick={() => handleSubmit()}>
+                    <Search className="text-white" />
+                    <Typography className="text-white">جستجو</Typography>
+                  </ButtonComponent>
                 </div>
+              </>
+            }}
+          </Formik>
+        </div>
 
-          <div>
-            <MuiDataGrid
-              columns={RentListsColumn(renderPrint)}
-              rows={rentPayments?.data?.data}
-              data={rentPayments?.data?.data}
-              onDoubleClick={(item: any) => navigate(`/dashboard/rent_print/${item.row.id}`)}
-              hideFooter
-            />
-          </div>
-          <Pagination pageCount={+rentPayments?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
+        <div>
+          <MuiDataGrid
+            columns={RentListsColumn(renderPrint)}
+            rows={rentPayments?.data?.data}
+            data={rentPayments?.data?.data}
+            onDoubleClick={(item: any) => navigate(`/dashboard/rent_print/${item.row.id}`)}
+            hideFooter
+          />
+        </div>
+        <Pagination pageCount={+rentPayments?.data?.totalCount / +pageSize || 100} onPageChange={handlePageChange} />
 
-        </ReusableCard>
+      </ReusableCard>
     </>
   )
 }

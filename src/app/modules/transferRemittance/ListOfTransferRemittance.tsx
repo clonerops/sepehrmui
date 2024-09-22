@@ -15,10 +15,13 @@ import FormikInput from "../../../_cloner/components/FormikInput"
 import Pagination from "../../../_cloner/components/Pagination"
 import RadioGroup from "../../../_cloner/components/RadioGroup"
 import { dropdownTransferRemittanceStatus } from "../../../_cloner/helpers/dropdowns"
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions"
+import AccessDenied from "../../routing/AccessDenied"
 
 const pageSize = 100
 
 const ListOfTransferRemittance = () => {
+  const { hasPermission } = useAuth()
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -42,13 +45,15 @@ const ListOfTransferRemittance = () => {
           </IconButton>
         </Link>
       </Tooltip>
-      <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
-        <Link to={`/dashboard/BilllandingEdit/${params.row.id}`}>
-          <IconButton size="small" color="secondary">
-            <Edit />
-          </IconButton>
-        </Link>
-      </Tooltip>
+      {hasPermission("TransferRemittance") &&
+        <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
+          <Link to={`/dashboard/BilllandingEdit/${params.row.id}`}>
+            <IconButton size="small" color="secondary">
+              <Edit />
+            </IconButton>
+          </Link>
+        </Tooltip>
+      }
     </div>
   }
   const handleFilter = (values: any) => {
@@ -72,6 +77,9 @@ const ListOfTransferRemittance = () => {
     };
     transferList.mutate(formData);
   }
+
+  if (!hasPermission("GetAllTransferRemittances"))
+    return <AccessDenied />
 
   return (
     <>

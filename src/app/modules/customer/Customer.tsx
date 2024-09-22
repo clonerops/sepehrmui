@@ -19,10 +19,14 @@ import MuiTable from "../../../_cloner/components/MuiTable";
 import PhonebookGridButton from "../../../_cloner/components/PhonebookGridButton";
 import SearchBackendInput from "../../../_cloner/components/SearchBackendInput";
 import Pagination from "../../../_cloner/components/Pagination";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100
 
 const Customer = () => {
+    const { hasPermission } = useAuth()
+
     const customerTools = useGetCustomersByMutation()
     const deleteCustomerTools = useDeleteCustomer();
 
@@ -95,8 +99,12 @@ const Customer = () => {
         return (
             <div className="flex gap-4">
                 <PhonebookGridButton onClick={() => handleItemCustomer(item?.row)} />
-                <DeleteGridButton onClick={() => handleEdit(item?.row)} />
-                <EditGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
+                {hasPermission("UpdateCustomer") &&
+                    <DeleteGridButton onClick={() => handleEdit(item?.row)} />
+                }
+                {hasPermission("DeleteCustomer") &&
+                    <EditGridButton onClick={() => handleOpenApprove(item?.row?.id)} />
+                }
             </div>
         );
     };
@@ -109,6 +117,9 @@ const Customer = () => {
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected + 1);
     };
+
+    if (!hasPermission("CreateCustomer"))
+        return <AccessDenied />
 
     return (
         <>

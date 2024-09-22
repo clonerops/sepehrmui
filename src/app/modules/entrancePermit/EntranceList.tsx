@@ -11,10 +11,14 @@ import Pagination from '../../../_cloner/components/Pagination'
 import { EntranceReportColumn } from '../../../_cloner/helpers/columns'
 import FormikWarehouse from '../../../_cloner/components/FormikWarehouse'
 import { useGetEntrancePermitsByMutation } from './_hooks'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const pageSize = 100
 
 const EntranceReport = () => {
+    const {hasPermission} = useAuth()
+
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -54,6 +58,9 @@ const EntranceReport = () => {
         };
         entranceTools.mutate(formData);
     }
+
+    if(!hasPermission("GetAllEntrancePermits"))
+        return <AccessDenied />
     
     return (
         <>

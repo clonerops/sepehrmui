@@ -14,10 +14,14 @@ import { useGetUnloadingPermitListByMutation, useRevokeUnloadingById } from "./_
 import { Formik } from "formik";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import FormikInput from "../../../_cloner/components/FormikInput";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100;
 
 const UnloadingPermitList = () => {
+    const {hasPermission} = useAuth()
+
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [approve, setApprove] = useState<boolean>(false);
     const [selecetdId, setSelectedId] = useState<number>(0)
@@ -99,6 +103,9 @@ const UnloadingPermitList = () => {
         unloadingListTools.mutate(formData);
 
     }
+
+    if(!hasPermission("GetAllUnloadingPermits"))
+        return <AccessDenied />
 
     if (unloadingListTools.isLoading) {
         return <Backdrop loading={unloadingListTools.isLoading} />

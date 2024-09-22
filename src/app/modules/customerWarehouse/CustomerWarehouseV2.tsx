@@ -16,6 +16,7 @@ import { usePostCustomerWarehouses } from './_hooks'
 import { useGetWarehouses } from '../generic/_hooks'
 import FormikSearchableCustomer from '../../../_cloner/components/FormikSearchableCustomer'
 import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 const initialValues: any = {
     id: 0,
@@ -95,6 +96,9 @@ const CustomerWarehouseV2 = () => {
             setSelectedIds([])
         }
     }
+
+    if(!hasPermission("AllocateCustomerWarehouses"))
+        return <AccessDenied />
 
     if (customers.isLoading) {
         return <Backdrop loading={customers.isLoading} />;

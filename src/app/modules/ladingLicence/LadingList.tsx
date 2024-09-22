@@ -11,13 +11,16 @@ import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import Pagination from "../../../_cloner/components/Pagination";
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100;
 
 const LadingList = () => {
+    const { hasPermission } = useAuth()
     const ladingList = useGetLadingLicenceListByMutation();
     const revokeLading = useRevokeLadingById()
-    
+
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [approve, setApprove] = useState<boolean>(false);
     const [selecetdId, setSelectedId] = useState<number>(0)
@@ -36,8 +39,8 @@ const LadingList = () => {
     const handleOpenApprove = (id: number) => {
         setApprove(true)
         setSelectedId(id)
-      }
-    
+    }
+
 
     const handleRevokeLading = (id: number) => {
         revokeLading.mutate(id, {
@@ -64,11 +67,13 @@ const LadingList = () => {
                         </Link>
                     </div>
                 </Tooltip>
-                <Tooltip title={<Typography variant='h3'>ابطال بارگیری</Typography>}>
-                    <div className="flex gap-x-4">
-                        <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
-                    </div>
-                </Tooltip>
+                {hasPermission("RevokeLadingPermit") &&
+                    <Tooltip title={<Typography variant='h3'>ابطال بارگیری</Typography>}>
+                        <div className="flex gap-x-4">
+                            <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
+                        </div>
+                    </Tooltip>
+                }
             </div>
         );
     };
@@ -77,6 +82,8 @@ const LadingList = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
+    if (!hasPermission("GetAllLadingPermits"))
+        return <AccessDenied />
     return (
         <>
             {revokeLading?.isLoading && <Backdrop loading={revokeLading?.isLoading} />}
@@ -86,7 +93,7 @@ const LadingList = () => {
                     rows={ladingList?.data?.data}
                     data={ladingList?.data?.data}
                     isLoading={ladingList?.isLoading}
-                    onDoubleClick={() => {}}
+                    onDoubleClick={() => { }}
                     hideFooter
                 />
                 <Pagination

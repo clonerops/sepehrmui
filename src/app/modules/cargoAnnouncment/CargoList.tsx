@@ -16,10 +16,13 @@ import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { useGetCargosList, useRevokeCargoById } from "./_hooks";
 import { ReadyToLadingColumn } from "../../../_cloner/helpers/columns";
 import FormikSearchableCustomer from "../../../_cloner/components/FormikSearchableCustomer";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100
 
 const CargoList = () => {
+    const { hasPermission } = useAuth()
     const navigate = useNavigate()
 
     const cargoList = useGetCargosList();
@@ -46,16 +49,16 @@ const CargoList = () => {
         };
         cargoList.mutate(formData);
     }
-    
+
     const handleOpenApprove = (id: string) => {
         setApprove(true)
         setSelectedId(id)
-      }
+    }
 
     const handleRevokeCargo = (id: string) => {
         revokeCargo.mutate(id, {
             onSuccess: (response) => {
-                if(response.succeeded) {
+                if (response.succeeded) {
                     EnqueueSnackbar("ابطال بارنامه با موفقیت انجام پذیرفت", 'success')
                     handleFilter({})
                     setApprove(false)
@@ -74,18 +77,22 @@ const CargoList = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
-                <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
-                    <div className="flex gap-x-4">
-                        <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
-                            <Edit color="secondary" />
-                        </Link>
-                    </div>
-                </Tooltip>
-                <Tooltip title={<Typography variant='h3'>ابطال اعلام بار</Typography>}>
-                    <div className="flex gap-x-4">
-                        <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
-                    </div>
-                </Tooltip>
+                {hasPermission("UpdateCargoAnnouncement") &&
+                    <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
+                        <div className="flex gap-x-4">
+                            <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
+                                <Edit color="secondary" />
+                            </Link>
+                        </div>
+                    </Tooltip>
+                }
+                {hasPermission("RevokeCargoAnnouncement") &&
+                    <Tooltip title={<Typography variant='h3'>ابطال اعلام بار</Typography>}>
+                        <div className="flex gap-x-4">
+                            <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
+                        </div>
+                    </Tooltip>
+                }
                 <Tooltip title={<Typography variant='h3'>جزئیات اعلام بار</Typography>}>
                     <Link to={`/dashboard/cargoAnnouncment/${item?.row?.id}`} className="flex gap-x-4">
                         <Visibility className="text-primary" />
@@ -93,7 +100,10 @@ const CargoList = () => {
                 </Tooltip>
             </div>
         );
-    };    
+    };
+
+    if (!hasPermission("GetAllCargoAnnouncements"))
+        return <AccessDenied />
 
     return (
         <>

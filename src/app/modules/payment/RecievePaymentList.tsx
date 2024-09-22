@@ -13,6 +13,8 @@ import ReusableCard from "../../../_cloner/components/ReusableCard";
 import Pagination from "../../../_cloner/components/Pagination";
 import FormikDatepicker from "../../../_cloner/components/FormikDatepicker";
 import ButtonComponent from "../../../_cloner/components/ButtonComponent";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100
 
@@ -23,6 +25,7 @@ const initialValues = {
 }
 
 const RecievePaymentList = () => {
+    const {hasPermission} = useAuth()
     // Fetching
     const recievePaymentTools = useGetRecievePayments();
     // States
@@ -81,6 +84,8 @@ const RecievePaymentList = () => {
         getReceivePayments(filters)
     }
 
+    if(!hasPermission("GetAllReceivePays"))
+        return<AccessDenied />
 
     return (
         <>

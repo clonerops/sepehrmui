@@ -15,9 +15,13 @@ import { CustomerLabelsColumn } from '../../../_cloner/helpers/columns'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import CustomerLabelForm from './CustomerLabelForm'
 import EditGridButton from '../../../_cloner/components/EditGridButton'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 
 const CustomerLabels = () => {
+  const { hasPermission } = useAuth()
+
   const { data: CustomerLabels, refetch, isLoading: CustomerLabelLoading } = useGetCustomerLabels()
 
   const [results, setResults] = useState<ICustomerLabel[]>([]);
@@ -34,17 +38,21 @@ const CustomerLabels = () => {
   const handleEdit = (item: ICustomerLabel) => {
     setItemForEdit(item);
     setIsEditOpen(true);
-};
+  };
 
 
   const renderAction = (item: any) => {
     return (
       <div>
-        <EditGridButton onClick={() => handleEdit(item?.row)} />
+        {hasPermission("UpdateCustomerLabel") &&
+          <EditGridButton onClick={() => handleEdit(item?.row)} />
+        }
       </div>
     );
   };
 
+  if (!hasPermission("CreateCustomerLabel"))
+    return <AccessDenied />
 
   if (CustomerLabelLoading) {
     return <Backdrop loading={CustomerLabelLoading} />;

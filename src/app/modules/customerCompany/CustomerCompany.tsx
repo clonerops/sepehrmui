@@ -15,8 +15,12 @@ import SwitchComponent from "../../../_cloner/components/Switch";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
 import { CustomerCompaniesColumn } from "../../../_cloner/helpers/columns";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const CustomerCompanies = () => {
+    const { hasPermission } = useAuth()
+
     const customerCompanyTools = useGetCustomerCompanies("");
     const updateTools = useUpdateCustomerCompanies()
 
@@ -57,15 +61,21 @@ const CustomerCompanies = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex gap-4">
-                <SwitchComponent
-                    checked={item?.row.isActive}
-                    onChange={(_) => onUpdateStatus(item)}
-                />
-                <EditGridButton onClick={() => handleEdit(item?.row)} />
+                {hasPermission("UpdateCustomerOfficialCompany") &&
+                    <>
+                        <SwitchComponent
+                            checked={item?.row.isActive}
+                            onChange={(_) => onUpdateStatus(item)}
+                        />
+                        <EditGridButton onClick={() => handleEdit(item?.row)} />
+                    </>
+                }
             </div>
         );
     };
 
+    if (!hasPermission("CreateCustomerOfficialCompany"))
+        return <AccessDenied />
     return (
         <>
             {customerCompanyTools.isLoading && <Backdrop loading={customerCompanyTools.isLoading} />}
