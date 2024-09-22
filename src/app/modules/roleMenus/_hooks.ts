@@ -44,8 +44,8 @@ const useGetAllApplicationMenus = () => {
 };
 
 const useDeleteRoleMenu = () => {
-    return useMutation((formData: {id: string, roleIds: string[]}) => {
-        return api.deleteRoleMenu(formData.id, formData.roleIds);
+    return useMutation((roleIds: string[]) => {
+        return api.deleteRoleMenu(roleIds);
     });
 };
 

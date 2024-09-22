@@ -18,80 +18,46 @@ const RoleMenus = (props: Props) => {
     const deleteMenu = useDeleteRoleMenu();
     const roleMenuTools = useGetRoleMenusById(id);
 
-    console.log("roleMenuTools", roleMenuTools?.data?.data)
 
     const [roleIds, setRoleIds] = useState<string[]>([]);
 
     useEffect(() => {
         let roleId = roleMenuTools?.data?.data.map((item: { applicationMenuId: string }) => item.applicationMenuId);
-        console.log("RoleIdUseEffect", roleId)
         setRoleIds(roleId ? roleId : []);
     }, [id, roleMenuTools?.data]);
 
-    // const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean) => {
-    //     if (checked) {
-    //         setRoleIds((prevIds) => [...prevIds, subId]);
-    //         const formData = {
-    //             roleId: id,
-    //             applicationMenuId: [...roleIds, subId],
-    //         };
-
-    //         postMenu.mutate(formData, {
-    //             onSuccess: (res) => {
-    //                 if (res.succeeded) {
-    //                     EnqueueSnackbar("دسترسی منو با موفقیت انجام شد", "success");
-    //                 } else {
-    //                     EnqueueSnackbar(res?.data.Message, "error");
-    //                 }
-    //                 roleMenuTools.refetch();
-    //             },
-    //         });
-    //     } else {
-    //         setRoleIds((prevIds) => prevIds.filter((id) => id !== subId));
-    //         const filterRoleMenuId = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === subId);
-    //         const formdata = {
-    //             id: filterRoleMenuId?.id,
-    //             roleIds: 
-    //         }
-    //         deleteMenu.mutate(filterRoleMenuId?.id, {
-    //             onSuccess: (message) => {
-    //                 if (message.succeeded) {
-    //                     EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info");
-    //                 } else {
-    //                     EnqueueSnackbar(message?.data.Message, "error");
-    //                 }
-    //                 roleMenuTools.refetch();
-    //             },
-    //         });
-    //     }
-    // };
-
-    const findParentIds = (menuId: string, nodes: any, parentIds: string[] = []): string[] => {
-        if (!nodes) return parentIds;
-        for (const node of nodes) {
-            if (node.id === menuId) {
-                return [...parentIds, node.id];
-            }
-            if (node.children) {
-                const found = findParentIds(menuId, node.children, [...parentIds, node.id]);
-                if (found.length > 0) return found;
-            }
-        }
-        return [];
-    };
-
-    const handleCheckboxChange = (roleMenuId: string, subId: string, checked: boolean, parentIds: string[]) => {
-        const allIds = [...parentIds, subId]; // لیست والدین + فرزند
+    const handleCheckboxChange = (
+        subId: string, // applicationMenuId فعلی
+        checked: boolean,
+        directParentId: string | null // applicationMenuId والد
+    ) => {
+        // پیدا کردن roleMenuId مربوط به subId از لیست roleMenuTools
+        const roleMenuItem = roleMenuTools?.data?.data.find(
+            (item: { applicationMenuId: string }) => item.applicationMenuId === subId
+        );
+        const roleMenuId = roleMenuItem ? roleMenuItem.id : null;
 
         if (checked) {
-            // استفاده از Set برای حذف مقادیر تکراری
-            const updatedRoleIds = new Set([...roleIds, ...allIds]);
+            // وقتی سوئیچ روشن می‌شود
+            const updatedRoleIds = new Set([...roleIds, subId]);
+
+            // والد مستقیم را اضافه کن اگر وجود داشته باشد
+            if (directParentId) {
+                const parentRoleMenuItem = roleMenuTools?.data?.data.find(
+                    (item: { applicationMenuId: string }) => item.applicationMenuId === directParentId
+                );
+                if (parentRoleMenuItem) {
+                    updatedRoleIds.add(directParentId);
+                }
+            }
+
             setRoleIds(Array.from(updatedRoleIds));
 
             const formData = {
                 roleId: id,
                 applicationMenuId: Array.from(updatedRoleIds),
             };
+
             postMenu.mutate(formData, {
                 onSuccess: (res) => {
                     if (res.succeeded) {
@@ -103,58 +69,78 @@ const RoleMenus = (props: Props) => {
                 },
             });
         } else {
-            // حذف همه `allIds` از `roleIds`
-            const updatedRoleIds = roleIds.filter((id) => !allIds.includes(id));
+            let updatedRoleIds = roleIds.filter((id) => id !== subId);
+            let removeIds = roleMenuId ? [roleMenuId] : []; 
+
+            if (directParentId) {
+                const parentRoleMenuItem = roleMenuTools?.data?.data.find(
+                    (item: { applicationMenuId: string }) => item.applicationMenuId === directParentId
+                );
+                const parentRoleMenuId = parentRoleMenuItem ? parentRoleMenuItem.id : null;
+
+                const hasOtherCheckedChildren = roleIds.some((id) => id !== subId && isChildOf(id, directParentId));
+
+                if (parentRoleMenuId && !hasOtherCheckedChildren) {
+                    removeIds.push(parentRoleMenuId); 
+                    updatedRoleIds = updatedRoleIds.filter((id) => id !== directParentId); 
+                }
+            }
+
+            deleteMenu.mutate(removeIds, {
+                onSuccess: (message) => {
+                    if (message.succeeded) {
+                        EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info");
+                        setRoleIds(updatedRoleIds); 
+                    } else {
+                        EnqueueSnackbar(message?.data.Message, "error");
+                    }
+                    roleMenuTools.refetch();
+                },
+            });
+
             setRoleIds(updatedRoleIds);
-
-            const filterRoleMenuIds = roleMenuTools?.data?.data?.filter((i: any) => allIds.includes(i.applicationMenuId));
-            console.log("filterRoleMenuIds", filterRoleMenuIds);
-
-            // آرایه‌ای از id‌ها را برای حذف ارسال کنید
-            const idsToDelete = filterRoleMenuIds.map((item: any) => item.id);
-            console.log("idsToDelete", idsToDelete)
-            // deleteMenu.mutate(idsToDelete, {
-            //     onSuccess: (message) => {
-            //         if (message.succeeded) {
-            //             EnqueueSnackbar("عدم دسترسی منو با موفقیت انجام شد", "info");
-
-            //             // بررسی و حذف منوی والد در صورتی که هیچ فرزندی دسترسی نداشته باشد
-            //             parentIds.forEach((parentId) => {
-            //                 const parentNode = appAllMenu?.data.find((node: any) => node.id === parentId);
-            //                 if (parentNode) {
-            //                     const remainingChildren = parentNode.children.filter((child: any) =>
-            //                         updatedRoleIds.includes(child.id)
-            //                     );
-            //                     if (remainingChildren.length === 0) {
-            //                         // والد را هم حذف کن
-            //                         setRoleIds((prevIds) => prevIds.filter((id) => id !== parentId));
-            //                         const parentRoleMenu = roleMenuTools?.data?.data?.find((i: any) => i.applicationMenuId === parentId);
-            //                         if (parentRoleMenu) {
-            //                             const formdata = {
-            //                                 id: 
-            //                                 roleIds: [parentRoleMenu.id]
-            //                             }
-            //                             deleteMenu.mutate(formdata, {
-            //                                 onSuccess: (msg) => {
-            //                                     if (msg.succeeded) {
-            //                                         EnqueueSnackbar(`منوی ${parentId} نیز حذف شد`, "info");
-            //                                     } else {
-            //                                         EnqueueSnackbar(msg?.data.Message, "error");
-            //                                     }
-            //                                 },
-            //                             });
-            //                         }
-            //                     }
-            //                 }
-            //             });
-
-            //         } else {
-            //             EnqueueSnackbar(message?.data.Message, "error");
-            //         }
-            //         roleMenuTools.refetch();
-            //     },
-            // });
         }
+    };
+
+    // Helper function to check if a given childId is a child of a parentId
+    const isChildOf = (childId: string, parentId: string): boolean => {
+        // Recursive function to search for the child in the parent's subtree
+        const searchChild = (nodes: any[]): boolean => {
+            for (let node of nodes) {
+                if (node.id === parentId) {
+                    // If the parentId matches the current node, search its children
+                    return node.children?.some((child: any) => {
+                        if (child.id === childId) {
+                            return true; // childId is directly under parentId
+                        }
+                        // Recursively check in deeper levels of the tree
+                        return searchChild(child.children || []);
+                    });
+                }
+                // Continue searching through the entire tree
+                if (node.children) {
+                    if (searchChild(node.children)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+
+        return searchChild(appAllMenu?.data || []); // Start searching from the root of the menu tree
+    };
+
+
+    // Helper function to recursively get all child IDs
+    const getAllChildIds = (children: any[]): string[] => {
+        let childIds: string[] = [];
+        children.forEach((child) => {
+            childIds.push(child.id);
+            if (child.children && child.children.length > 0) {
+                childIds = childIds.concat(getAllChildIds(child.children));
+            }
+        });
+        return childIds;
     };
 
 
@@ -162,34 +148,8 @@ const RoleMenus = (props: Props) => {
         return <Backdrop loading={isLoading} />;
     }
 
-    // const renderTreeItems = (nodes: any) => (
-    //     <TreeItem key={nodes.id} itemId={nodes.id} label={
-    //         <div className="flex items-center">
-    //             {Array.isArray(nodes.children) && nodes.children.length === 0 && (
-    //                 <FormControlLabel
-    //                     control={
-    //                         <Switch
-    //                             name="applicationMenuId"
-    //                             onChange={(event) => {
-    //                                 const checked = event.target.checked;
-    //                                 handleCheckboxChange(nodes.id, nodes.id, checked, parents);
-    //                             }}
-    //                             checked={roleIds?.includes(nodes.id)}
-    //                         />
-    //                     }
-    //                     label=""
-    //                 />
-    //             )}
-    //             <Typography>{nodes.description}</Typography>
-    //         </div>
-    //     }>
-    //         {Array.isArray(nodes.children) && nodes.children.length > 0 ? (
-    //             nodes.children.map((sub: any) => renderTreeItems(sub))
-    //         ) : null}
-    //     </TreeItem>
-    // );
 
-    const renderTreeItems = (nodes: any, parentIds: string[] = []) => (
+    const renderTreeItems = (nodes: any, directParentId: string | null = null) => (
         <TreeItem key={nodes.id} itemId={nodes.id} label={
             <div className="flex items-center">
                 {Array.isArray(nodes.children) && nodes.children.length === 0 && (
@@ -199,8 +159,11 @@ const RoleMenus = (props: Props) => {
                                 name="applicationMenuId"
                                 onChange={(event) => {
                                     const checked = event.target.checked;
-                                    const parents = findParentIds(nodes.id, appAllMenu?.data);
-                                    handleCheckboxChange(nodes.id, nodes.id, checked, parents);
+                                    handleCheckboxChange(
+                                        nodes.id,
+                                        checked,
+                                        directParentId
+                                    );
                                 }}
                                 checked={roleIds?.includes(nodes.id)}
                             />
@@ -212,11 +175,11 @@ const RoleMenus = (props: Props) => {
             </div>
         }>
             {Array.isArray(nodes.children) && nodes.children.length > 0 ? (
-                nodes.children.map((sub: any) => renderTreeItems(sub, [...parentIds, nodes.id]))
+                nodes.children.map((sub: any) => renderTreeItems(sub, nodes.id)) // ارسال applicationMenuId والد
             ) : null}
         </TreeItem>
     );
-
+    
     return (
         <>
             {postMenu.isLoading && <Backdrop loading={postMenu.isLoading} />}
