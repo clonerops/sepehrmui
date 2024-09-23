@@ -44,6 +44,8 @@ const RoleGroups = () => {
     if (!hasPermission("CreateApplicationRole"))
         return <AccessDenied />
 
+    console.log("groups?.data?.data", groups?.data?.data)
+
     if (groups.isLoading) {
         return <Backdrop loading={groups.isLoading} />;
     }
@@ -65,7 +67,7 @@ const RoleGroups = () => {
                         </Button>
                     </div>
                     {groups?.data?.data.map(
-                        (item: { id: string; name: string }) => {
+                        (item: { id: string; name: string, description: string, rolePermissions: any }) => {
                             return (
                                 <CustomizedAccordions
                                     deleteOnClick={() =>

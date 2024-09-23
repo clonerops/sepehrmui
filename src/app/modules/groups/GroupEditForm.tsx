@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Checkbox, Typography } from "@mui/material";
 
 import { useGetApplicationRole, usePutApplicationRoles } from "./_hooks";
 import {
@@ -9,16 +9,24 @@ import {
 } from "../permissions/_hooks";
 
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import CheckboxGroup from "../../../_cloner/components/CheckboxGroup";
 import Backdrop from "../../../_cloner/components/Backdrop";
-import { TreeItem, SimpleTreeView } from "@mui/x-tree-view";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
-import { dropdownPermissionsByMenu } from "../../../_cloner/helpers/dropdowns";
 import RoleMenus from "../roleMenus/RoleMenus";
+import MuiDataGrid from "../../../_cloner/components/MuiDataGrid";
+import { AssignPermissionToRole } from "../../../_cloner/helpers/columns";
 import FuzzySearch from "../../../_cloner/helpers/fuse";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
+
+interface IMenuItem {
+    applicationMenuId: string;
+    applicationMenuName: string;
+    description: string;
+    permissions: any[];
+}
 
 type Props = {
-    itemData: { id: string; name: string };
+    itemData: { id: string; name: string, description: string, rolePermissions: any };
 };
 
 const initialValues = {
@@ -28,6 +36,8 @@ const initialValues = {
 };
 
 const GroupEditForm = (props: Props) => {
+    const {hasPermission} = useAuth()
+
     const { itemData } = props;
     const putApplicationRoles = usePutApplicationRoles();
     const detailApplicationRole = useGetApplicationRole();
@@ -35,20 +45,48 @@ const GroupEditForm = (props: Props) => {
     const { data: appAllMenu } = useGetAllPermissionByMenus();
 
     const [mode, setMode] = useState<boolean>(false);
+    const [results, setResults] = useState<any>([]);
+    const [selectedIds, setSelectedIds] = useState<any>([]);
+
+    let allPermissions = [].concat(...appAllMenu?.data?.map((item: IMenuItem) => item.permissions || []) || [])
 
     useEffect(() => {
-        detailApplicationRole.mutate(itemData.id);
+        detailApplicationRole.mutate(itemData.id, {
+            onSuccess: (response) => {
+                if(response.succeeded) {
+                    const ids = response.data.rolePermissions.map((item: { permissionId: string }) => item.permissionId)
+                    setSelectedIds(ids)
+            
+                } else {
+                    setSelectedIds([])
+                }
+            }
+        });
         // eslint-disable-next-line
     }, [itemData.id]);
 
-    const onSubmit = (values: any) => {
+    useEffect(() => {
+        setResults(allPermissions);
+        // eslint-disable-next-line
+    }, [appAllMenu?.data]);
+
+    const handleCheckboxClick = (item: any) => {
+        const currentIndex = selectedIds.indexOf(item?.id);
+        const newSelectedIds = [...selectedIds];
+
+        if (currentIndex === -1) {
+            newSelectedIds.push(item?.id);
+        } else {
+            newSelectedIds.splice(currentIndex, 1);
+        }
+
         const formData = {
-            name: values.name,
-            description: values.description,
-            id: values.id,
-            rolePermissions: values.rolePermissions.map((item: string) => ({
-                permissionId: item,
-                roleId: itemData.id,
+            name: itemData.name,
+            description: itemData.description,
+            id: itemData.id,
+            rolePermissions: newSelectedIds.map((i: string) => ({
+                permissionId: i,
+                roleId: itemData.id
             })),
         };
         putApplicationRoles.mutate(formData, {
@@ -60,9 +98,25 @@ const GroupEditForm = (props: Props) => {
                 }
             },
         });
+
+        setSelectedIds(newSelectedIds);
+    }
+
+    const renderCheckbox = (item: any) => {
+        const isChecked = selectedIds.includes(item.row.id);
+
+        return (
+            <div className="flex justify-center items-center gap-x-4">
+                <Checkbox
+                    checked={isChecked}
+                    onChange={() => handleCheckboxClick(item.row)}
+                />
+            </div>
+        );
     };
 
-    console.log("appAllMenu", appAllMenu)
+    if(!hasPermission("CreateApplicationRole"))
+        return <AccessDenied />
 
     if (detailApplicationRole?.isLoading) {
         return <Backdrop loading={detailApplicationRole.isLoading} />;
@@ -70,46 +124,26 @@ const GroupEditForm = (props: Props) => {
 
     return (
         <>
-            {(putApplicationRoles.isLoading || permissions.isLoading) && (
-                <Backdrop
-                    loading={
-                        putApplicationRoles.isLoading || permissions.isLoading
-                    }
-                />
-            )}
+            {putApplicationRoles.isLoading && <Backdrop loading={putApplicationRoles.isLoading} />}
+            {permissions.isLoading && <Backdrop loading={permissions.isLoading} />}
+
             <Formik
                 enableReinitialize
-                initialValues={{
-                    ...initialValues,
-                    ...detailApplicationRole?.data?.data,
-                    rolePermissions:
-                        detailApplicationRole?.data?.data.rolePermissions.map(
-                            (item: { permissionId: string }) =>
-                                item.permissionId
-                        ),
-                }}
-                onSubmit={onSubmit}
+                initialValues={initialValues}
+                onSubmit={() => { }}
             >
-                {({ handleSubmit }) => {
+                {() => {
                     return (
                         <>
                             <ReusableCard>
                                 <div className="py-4 flex flex-row justify-between items-center">
                                     <div className="flex justify-end items-center gap-x-4 mt-4 w-full">
-                                        <Button
-                                            onClick={() => setMode(false)}
-                                            variant="contained"
-                                            color="primary"
-                                        >
+                                        <Button onClick={() => setMode(false)} variant="contained" color="primary">
                                             <Typography>
                                                 دسترسی مجوزها
                                             </Typography>
                                         </Button>
-                                        <Button
-                                            onClick={() => setMode(true)}
-                                            variant="contained"
-                                            color="secondary"
-                                        >
+                                        <Button onClick={() => setMode(true)} variant="contained" color="secondary">
                                             <Typography>
                                                 دسترسی منوها
                                             </Typography>
@@ -119,66 +153,26 @@ const GroupEditForm = (props: Props) => {
 
                                 {!mode ? (
                                     <>
-                                        <SimpleTreeView
-                                            aria-label="file system navigator"
-                                        // defaultCollapseIcon={<ExpandMore />}
-                                        // defaultExpandIcon={<ChevronRight />}
-                                        >
-                                            {appAllMenu?.data?.map(
-                                                (item: {
-                                                    applicationMenuId: string;
-                                                    applicationMenuName: string;
-                                                    description: string;
-                                                    permissions: any[];
-                                                }) => (
-                                                    <TreeItem
-                                                        className="!my-4 !p-4 !bg-gray-100 !rounded-lg"
-                                                        itemId={
-                                                            item.applicationMenuId
-                                                        }
-                                                        label={`${item.applicationMenuName}`}
-                                                    >
-                                                        <div>
-                                                            <div className="w-full !p-4">
-                                                                <div className="flex flex-col items-center">
-                                                                    <CheckboxGroup
-                                                                        options={dropdownPermissionsByMenu(
-                                                                            item?.permissions
-                                                                        )}
-                                                                        label=""
-                                                                        name="rolePermissions"
-                                                                        boxClassName="grid grid-cols-2 md:grid-cols-3 gap-x-4"
-                                                                    />
-                                                                    <div className="flex flex-row justify-end items-end gap-x-4 w-full">
-                                                                        <Button
-                                                                            onClick={() =>
-                                                                                handleSubmit()
-                                                                            }
-                                                                            className="!bg-yellow-500 !text-white"
-                                                                        >
-                                                                            <Typography>
-                                                                                ثبت
-                                                                                مجوز
-                                                                            </Typography>
-                                                                        </Button>
-                                                                    </div>
+                                        <div className="mb-4">
+                                            <FuzzySearch
+                                                keys={[
+                                                    "description",
+                                                    "name",
+                                                    "applicationMenuName",
+                                                ]}
+                                                data={allPermissions}
+                                                setResults={setResults}
+                                            />
+                                        </div>
 
-                                                                    {/* <FileSystemNavigator content={<div>
-                                                            </div>
-                                                            } /> */}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </TreeItem>
-                                                )
-                                            )}
-                                        </SimpleTreeView>
+                                        <MuiDataGrid
+                                            columns={AssignPermissionToRole(renderCheckbox)}
+                                            rows={results}
+                                            data={allPermissions}
+                                            height={520}
+                                            onDoubleClick={() => { }}
+                                        />
 
-                                        {/* <div className="flex flex-row justify-end items-center gap-x-4">
-                                        <Button onClick={() => handleSubmit()} className="!bg-yellow-500 !text-white">
-                                            <Typography>ثبت مجوز</Typography>
-                                        </Button>
-                                    </div> */}
                                     </>
                                 ) : (
                                     <>

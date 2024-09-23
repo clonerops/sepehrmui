@@ -4695,7 +4695,52 @@ const DraftListColumn = (renderAction: any) => {
     return col;
 }
 
-
+const AssignPermissionToRole = (renderCheckbox: any) => {
+    const col = [
+        {
+            field: "id",
+            headerName: "",
+            sortable: false,
+            renderCell: renderCheckbox,
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            maxWidth: 80,
+            flex: 1
+        },
+        {
+            field: "description",
+            headerName: "نام فارسی دسترسی",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "name",
+            headerName: "نام لاتین دسترسی",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName: "headerClassName",
+            minWidth: 80,
+            flex: 1,
+        },
+        {
+            field: "applicationMenuName",
+            headerName: "منوی ثبت شده دسترسی",
+            renderCell: (params: any) => {
+                return <Typography variant="h4">{params.value}</Typography>;
+            },
+            headerClassName:
+                "headerClassName",
+            minWidth: 120,
+            flex: 1,
+        },
+    ];
+    return col;
+}
 
 const ExitDetailColumn = [
     { id: 1, header: "کالا", accessor: "productName" },
@@ -4778,6 +4823,7 @@ export {
     RecievePaymentListColumn,
     CustomerAccountColumn,
     DraftListColumn,
+    AssignPermissionToRole,
     ExitDetailColumn
     // OrderConfirmColumn
 }
