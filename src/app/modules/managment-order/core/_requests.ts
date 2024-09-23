@@ -20,11 +20,12 @@ const updateOrder = async (formData: ISalesOrder) => {
     }
 }
 
-const retrieveOrders = async (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[] }) => {
+const retrieveOrders = async (formData: { pageNumber?: number; pageSize?: number; orderType?: number, InvoiceTypeId?: number[] }) => {
     const filter = {
         pageNumber: formData.pageNumber,
         pageSize: formData.pageSize,
-        InvoiceTypeId: formData.InvoiceTypeId
+        InvoiceTypeId: formData.InvoiceTypeId,
+        orderType: formData.orderType
       };
     
     try {

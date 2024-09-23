@@ -52,13 +52,13 @@ const DraftList = () => {
             PageSize: pageSize,
         }
         // if (hasPermission("GetAllDraftOrders"))
-            draftOrderTools.mutate(filter)
+        draftOrderTools.mutate(filter)
 
     }, [currentPage])
 
     useEffect(() => {
         // if (hasPermission("GetAllDraftOrders") && hasPermission("GetDraftOrderById"))
-            draftOrderDetailTools.mutate(selectedDraft.id || "")
+        draftOrderDetailTools.mutate(selectedDraft.id || "")
     }, [selectedDraft.id])
 
     const handleSelectedDraft = (item: any) => {
@@ -92,7 +92,7 @@ const DraftList = () => {
     const onSubmit = (values: any) => {
         const filter = {
             ...values,
-            CreatorId: values.CreatorId.value,
+            CreatorId: values?.CreatorId?.value ? values?.CreatorId?.value : null,
             Converted: +values.Converted === 0 ? false : true,
             PageNumber: currentPage,
             PageSize: pageSize,
@@ -109,7 +109,7 @@ const DraftList = () => {
 
     return (
         <ReusableCard>
-            <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            <Formik enableReinitialize initialValues={initialValues} onSubmit={onSubmit}>
                 {({ handleSubmit, values }) => {
                     return <form className="mb-4" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 space-y-4 lg:space-y-0">

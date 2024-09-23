@@ -21,7 +21,9 @@ const PreSaleLists = () => {
 
     let formData = {
         pageNumber: 1,
-        pageSize: pageSize,    
+        pageSize: pageSize,
+        orderType: 3
+            
     }
 
     const { data: orders, isLoading } = useRetrieveOrders(formData);

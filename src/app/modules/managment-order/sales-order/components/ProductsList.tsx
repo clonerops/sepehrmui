@@ -445,8 +445,8 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     }}
                 </Formik>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-                <div className="lg:col-span-2">
+            <div className="grid grid-cols-1 lg:grid-cols-7 gap-4">
+                <div className="lg:col-span-3">
                     <div className="my-2">
                         <SearchBackendInput label="جستجو" name="keyword" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e?.target.value)} />
                     </div>
@@ -465,7 +465,7 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     />
 
                 </div>
-                <div className="lg:col-span-3">
+                <div className="lg:col-span-4">
                     <MuiTable
                         columns={SelectProductMuiTableColumn(
                             renderAction,

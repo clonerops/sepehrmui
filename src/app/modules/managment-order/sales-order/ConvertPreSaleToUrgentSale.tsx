@@ -8,8 +8,11 @@ import { Params, useParams } from 'react-router-dom'
 import { renderAlert } from '../../../../_cloner/helpers/sweetAlert'
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 import Backdrop from '../../../../_cloner/components/Backdrop'
+import { useAuth } from '../../../../_cloner/helpers/checkUserPermissions'
+import TypographyAccessDenied from '../../../../_cloner/components/TypographyAccessDenied'
 
 const ConvertPreSaleToUrgentSale = () => {
+  const { hasPermission } = useAuth()
 
   const { id }: Readonly<Params<string>> = useParams()
 
@@ -32,10 +35,17 @@ const ConvertPreSaleToUrgentSale = () => {
   return (
     <>
       {convertOrder.isLoading && <Backdrop loading={convertOrder.isLoading} />}
-      <SalesOrderDetail />
-      <ButtonComponent onClick={() => setApprove(true)}>
-        <Typography variant='h3' className='text-white py-2 px-4'>تبدیل سفارش به فروش فوری</Typography>
-      </ButtonComponent>
+      <>
+        {hasPermission("GetOrderById") ?
+          <>
+            <SalesOrderDetail />
+            <ButtonComponent onClick={() => setApprove(true)}>
+              <Typography variant='h3' className='text-white py-2 px-4'>تبدیل سفارش به فروش فوری</Typography>
+            </ButtonComponent>
+          </>
+          : <TypographyAccessDenied title='جهت تبدیل وضعیت سفارش نیاز به دسترسی جزئیات سفارش نیز می باشد' />
+        }
+      </>
       <ConfirmDialog
         open={approve}
         hintTitle="آیا از تبدیل سفارش موردنظر به سفارش فروش فوری مطمئن هستید؟"

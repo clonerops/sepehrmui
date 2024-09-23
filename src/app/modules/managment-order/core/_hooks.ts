@@ -7,7 +7,7 @@ const useCreateOrder = () => useMutation((formData: any) => api.createOrder(form
 
 const useUpdateOrder = () => useMutation((formData: any) => api.updateOrder(formData))
 
-const useRetrieveOrders = (formData: { pageNumber?: number; pageSize?: number; InvoiceTypeId?: number[]; OrderStatusId?: number }) => {
+const useRetrieveOrders = (formData: { pageNumber?: number; pageSize?: number; orderType?: number, InvoiceTypeId?: number[]; OrderStatusId?: number }) => {
     return useQuery(["orders", formData], () => api.retrieveOrders(formData), {
         refetchOnMount: false,
         refetchOnWindowFocus: false,

@@ -2850,7 +2850,7 @@ const SuppliersColumn = (renderAction: any) => {
 const OrderColumn = (renderAction: any) => {
     const col = [
         {
-            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 140, maxWidth: 140
+            field: "Action", headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 140, maxWidth: 140
         },
         {
             field: 'orderCode', renderCell: (params: any) => {
@@ -3527,6 +3527,26 @@ const ModalProductColumn = () => {
             // maxWidth: 100,
             renderCell: (value: any) =>
                 <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(value.row.productPrice)}</Typography>,
+            headerClassName: "headerClassName",
+        },
+        {
+            field: "proximateWeightedAverage",
+            headerName: "میانگین تقریبی",
+            flex: 1,
+            minWidth: 120,
+            // maxWidth: 100,
+            renderCell: (value: any) =>
+                <Typography variant="h4">{separateAmountWithCommas(value.row.proximateWeightedAverage)}</Typography>,
+            headerClassName: "headerClassName",
+        },
+        {
+            field: "actualWeightedAverage",
+            headerName: "میانگین واقعی",
+            flex: 1,
+            minWidth: 120,
+            // maxWidth: 100,
+            renderCell: (value: any) =>
+                <Typography variant="h4">{separateAmountWithCommas(value.row.actualWeightedAverage)}</Typography>,
             headerClassName: "headerClassName",
         },
     ];
