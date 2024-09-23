@@ -18,6 +18,8 @@ import ButtonComponent from "../../../_cloner/components/ButtonComponent";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
+import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
+import AccessDenied from "../../routing/AccessDenied";
 
 const pageSize = 100
 
@@ -31,6 +33,7 @@ const initialValues = {
 
 
 const PaymentAccountingRegister = () => {
+    const {hasPermission} = useAuth()
     // Fetching
     const recievePaymentTools = useGetRecievePayments();
     const putRecievePayRegister = usePutRecievePaymentRegister()
@@ -160,6 +163,9 @@ const PaymentAccountingRegister = () => {
             })
         }
     }
+
+    if(!hasPermission("ReceivePayAccRegister"))
+        return <AccessDenied />
 
     return (
         <>

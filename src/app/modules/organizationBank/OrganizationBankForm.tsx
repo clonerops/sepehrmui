@@ -16,8 +16,8 @@ import FormikOfficialBank from "../../../_cloner/components/FormikOfficialBank";
 import { useGetOrganizationBankById, usePostOrganizationBank, usePutOrganizationBank } from "./_hooks";
 
 const initialValues = {
-    bankId: "", 
-    accountOwner: "", 
+    bankId: "",
+    accountOwner: "",
     accountNo: "",
     branchName: "",
 };
@@ -31,7 +31,7 @@ const OrganizationBankForm = (props: {
 }) => {
     // Fetchig
     const postTools = usePostOrganizationBank();
-    
+
     const updateTools = usePutOrganizationBank();
     const detailTools = useGetOrganizationBankById()
 
@@ -46,7 +46,7 @@ const OrganizationBankForm = (props: {
             { label: "شماره حساب", name: "accountNo", type: "input" },
             { label: "شعبه", name: "branchName", type: "input" },
         ],
-       
+
     ];
 
     const parseFields = (fields: FieldType) => {
@@ -70,7 +70,7 @@ const OrganizationBankForm = (props: {
 
     useEffect(() => {
         getDetail();
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [props.id]);
 
 
@@ -95,6 +95,7 @@ const OrganizationBankForm = (props: {
     };
 
     const onAdd = (values: IOrganizationBank) => {
+        console.log("jkahdfkahdkahs")
         try {
             return postTools.mutate(values, {
                 onSuccess: (response) => {
@@ -123,12 +124,15 @@ const OrganizationBankForm = (props: {
         else onAdd(values);
     };
 
+    if(detailTools.isLoading)
+        return <Backdrop loading={detailTools.isLoading} />
+
     return (
         <>
-            {detailTools.isLoading && <Backdrop loading={detailTools.isLoading} />}
             {postTools.isLoading && <Backdrop loading={postTools.isLoading} />}
             {updateTools.isLoading && <Backdrop loading={updateTools.isLoading} />}
             <Formik
+                enableReinitialize
                 initialValues={
                     isNew
                         ? initialValues
@@ -141,12 +145,12 @@ const OrganizationBankForm = (props: {
                     return (
                         <form onSubmit={handleSubmit}>
                             {fields.map((rowFields) => (
-                                <div  className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4">
+                                <div className="md:flex md:justify-between md:items-start gap-4 md:space-y-0 space-y-4 my-4">
                                     {rowFields.map((field) => parseFields(field))}
                                 </div>
                             ))}
                             <Button
-                                onSubmit={() => handleSubmit()}
+                                onClick={() => handleSubmit()}
                                 variant="contained"
                                 color="secondary"
                             >
