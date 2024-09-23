@@ -56,7 +56,7 @@ const useRetrievePurchaserOrdersByMutation = () => {
         InvoiceTypeId?: number[];
         PurchaseOrderStatusId?: number | null;
         IsNotTransferedToWarehouse?: boolean | null,
-        OrderCode?: number | null;
+        OrderCode?: number | string |  null;
     }) => {
         return api.retrievePurchaserOrdersMutation(formData)
     })

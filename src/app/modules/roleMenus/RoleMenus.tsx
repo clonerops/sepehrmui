@@ -42,21 +42,30 @@ const RoleMenus = (props: Props) => {
             const updatedRoleIds = new Set([...roleIds, subId]);
 
             // والد مستقیم را اضافه کن اگر وجود داشته باشد
+            // if (directParentId) {
+            //     const parentRoleMenuItem = roleMenuTools?.data?.data.find(
+            //         (item: { applicationMenuId: string }) => item.applicationMenuId === directParentId
+            //     );
+            //     if (parentRoleMenuItem) {
+            //         updatedRoleIds.add(directParentId);
+            //     }
+            // }
+
             if (directParentId) {
-                const parentRoleMenuItem = roleMenuTools?.data?.data.find(
-                    (item: { applicationMenuId: string }) => item.applicationMenuId === directParentId
-                );
-                if (parentRoleMenuItem) {
-                    updatedRoleIds.add(directParentId);
+                // ابتدا بررسی می‌کنیم که آیا والد در لیست وجود دارد یا نه
+                if (!roleIds.includes(directParentId)) {
+                    updatedRoleIds.add(directParentId); // اضافه کردن والد به لیست
                 }
             }
-
+    
             setRoleIds(Array.from(updatedRoleIds));
 
             const formData = {
                 roleId: id,
                 applicationMenuId: Array.from(updatedRoleIds),
             };
+
+            console.log(formData)
 
             postMenu.mutate(formData, {
                 onSuccess: (res) => {
@@ -68,6 +77,7 @@ const RoleMenus = (props: Props) => {
                     roleMenuTools.refetch();
                 },
             });
+
         } else {
             let updatedRoleIds = roleIds.filter((id) => id !== subId);
             let removeIds = roleMenuId ? [roleMenuId] : []; 

@@ -49,7 +49,7 @@ const ReadyToPurchaserOrderConfirm = () => {
         if (+values === -1) {
             const formData = {
                 InvoiceTypeId: [InvoiceType.Mahfam, InvoiceType.Sepehr],
-                OrderCode: +values?.orderCode
+                OrderCode: +values?.orderCode || ""
             };
             mutate(formData);
 
@@ -57,7 +57,7 @@ const ReadyToPurchaserOrderConfirm = () => {
             const formData = {
                 InvoiceTypeId: [InvoiceType.Mahfam, InvoiceType.Sepehr],
                 OrderStatusId: +values,
-                OrderCode: +values?.orderCode
+                OrderCode: +values?.orderCode || ""
             };
             mutate(formData);
         }
