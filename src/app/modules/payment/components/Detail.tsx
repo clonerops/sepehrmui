@@ -12,14 +12,16 @@ import { useState } from "react"
 import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import { Formik } from "formik"
 import FormikDescription from "../../../../_cloner/components/FormikDescription"
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions"
 
-const Detail = () => {   
+const Detail = () => {
+    const { hasPermission } = useAuth()
     const { id }: any = useParams()
 
     const receivePayTools = useGetRecievePaymentById(id)
     const updateReceivePayTools = useUpdatePaymentApproved()
     const rejectReceivePayTools = useDisApprovePaymentApproved()
-    
+
     const [approve, setApprove] = useState<boolean>(false);
     const [disApprove, setDisApprove] = useState<boolean>(false);
 
@@ -68,7 +70,7 @@ const Detail = () => {
             value: receivePayTools?.data?.data?.trachingCode,
             icon: <Source className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
-        },        
+        },
         {
             title: "شماره قرارداد",
             value: receivePayTools?.data?.data?.contractCode,
@@ -137,7 +139,7 @@ const Detail = () => {
 
 
     const handleConfirm = () => {
-        const formData ={
+        const formData = {
             ids: [id]
         }
         updateReceivePayTools.mutate(formData, {
@@ -217,9 +219,11 @@ const Detail = () => {
                 <Button variant="contained" onClick={() => setApprove(true)} className='mb-2' color="secondary">
                     <Typography>{receivePayTools.isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
                 </Button>
-                <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
-                    <Typography>{rejectReceivePayTools.isLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
-                </Button>
+                {hasPermission("ReceivePayAccReject") &&
+                    <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
+                        <Typography>{rejectReceivePayTools.isLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
+                    </Button>
+                }
             </div>
             <ConfirmDialog
                 open={approve}
@@ -238,8 +242,8 @@ const Detail = () => {
             >
                 <div className="flex flex-col space-y-4 mt-4">
                     <Typography variant="h3"> شماره دریافت پرداخت: {receivePayTools?.data?.data?.receivePayCode}</Typography>
-                    <Formik initialValues={{accountingDescription: ""}} onSubmit={handleDisApproveConfirm}>
-                        {({handleSubmit}) => (
+                    <Formik initialValues={{ accountingDescription: "" }} onSubmit={handleDisApproveConfirm}>
+                        {({ handleSubmit }) => (
                             <form>
                                 <FormikDescription name="accountingDescription" label="توضیحات حسابداری" />
                                 <div className="flex gap-x-4 justify-end items-end mt-2">
