@@ -112,7 +112,7 @@ const PaymentRequestFormPersonnel: FC<IProps> = ({ }) => {
         else onAdd(values);
     };
 
-    if(!hasPermission("CreatePersonnelPaymentRequest"))
+    if(!hasPermission("CreatePersonnelPaymentRequest") && !hasPermission("UpdatePersonnelPaymentRequest"))
         return <AccessDenied />
 
     if (detailPaymentRequestTools.isLoading) {

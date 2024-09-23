@@ -114,7 +114,7 @@ const PaymentRequestForm: FC<IProps> = ({ }) => {
         else onAdd(values);
     };
 
-    if(!hasPermission("CreatePaymentRequest"))
+    if(!hasPermission("CreatePaymentRequest") && !hasPermission("UpdatePaymentRequest"))
         return <AccessDenied />
 
     if (detailPaymentRequestTools.isLoading) {

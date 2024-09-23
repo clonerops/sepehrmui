@@ -72,8 +72,8 @@ const ProceedPaymentRequest = () => {
             <ReusableCard cardClassName="flex flex-col w-full" >
                 <Formik initialValues={initialValues} onSubmit={handleProceedPaymentRequest}>
                     {({ values }) => <div>
-                        <div className='flex flex-row gap-4 mb-4'>
-                            <PaymentOriginType className='flex flex-row gap-x-4' label="نوع پرداخت به" officialLabel="پرداخت به" typeName="paymentOriginTypeId" officialName="paymentOriginId" typeId={values.paymentOriginTypeId} />
+                        <div className='flex flex-row gap-4 mb-4 '>
+                            <PaymentOriginType className='flex flex-row gap-x-4 w-full' label="نوع پرداخت به" officialLabel="پرداخت به" typeName="paymentOriginTypeId" officialName="paymentOriginId" typeId={values.paymentOriginTypeId} />
                         </div>
                         <FileUpload files={files} setFiles={setFiles} />
                         <div className='flex justify-end items-end my-4'>

@@ -17,8 +17,6 @@ interface IProps {
 }
 
 const TransferAmount:FC<IProps> = ({item, setIsOpen, productForTransferRemittance, setProductForTransferRemittance, purchaseOrderDetail}) => {
-    console.log("item", item)
-    console.log("purchaseOrderDetail", purchaseOrderDetail)
     const handleSetAmountForTransferRemittance = (values: any) => {
         const cpProductForTransferRemittance = [...productForTransferRemittance]
         const newValue = {
@@ -30,19 +28,19 @@ const TransferAmount:FC<IProps> = ({item, setIsOpen, productForTransferRemittanc
             transferAmount: +values.transferAmount,
         }
 
-        if(+values.transferAmount > +item.approximateInventory){
-            EnqueueSnackbar("مقدار واردشده بیشتر از موجودی می باشد", "error")
-            return;
-        }
+        // if(+values.transferAmount > +item.approximateInventory){
+        //     EnqueueSnackbar("مقدار واردشده بیشتر از موجودی می باشد", "error")
+        //     return;
+        // }
         
-        let isExist = productForTransferRemittance.some((obj) => {
-            return  item.productBrandId === obj.productBrandId
-        })
+        // let isExist = productForTransferRemittance.some((obj) => {
+        //     return  item.productBrandId === obj.productBrandId
+        // })
         
-        if(isExist){
-            EnqueueSnackbar("کالای انتخاب شده در لیست انتقالی ها وجود دارد", "error")
-            return;
-        }
+        // if(isExist){
+        //     EnqueueSnackbar("کالای انتخاب شده در لیست انتقالی ها وجود دارد", "error")
+        //     return;
+        // }
 
         setProductForTransferRemittance([...cpProductForTransferRemittance, newValue])
         setIsOpen(false)

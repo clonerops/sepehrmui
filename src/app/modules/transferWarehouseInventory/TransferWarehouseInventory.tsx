@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Formik } from "formik";
+import { useRef, useState } from "react";
+import { Formik, FormikProps } from "formik";
 import { Typography } from "@mui/material";
 
-import { AddTask, DesignServices } from "@mui/icons-material";
+import { AddTask, DesignServices, Sell } from "@mui/icons-material";
 
 import moment from "moment-jalaali";
 import _ from "lodash";
@@ -23,6 +23,8 @@ import { usePostTransferWarehouseInventory } from "./_hooks";
 import { WarehouseType } from "../../../_cloner/helpers/Enums";
 import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
 import AccessDenied from "../../routing/AccessDenied";
+import FormikInput from "../../../_cloner/components/FormikInput";
+import { useGetPurchaserOrderDetailByCode } from "../managment-order/core/_hooks";
 
 const initialValues = {
     originWarehouseId: "",
@@ -35,11 +37,13 @@ const initialValues = {
 const TransferWarehouseInventory = () => {
     const { hasPermission } = useAuth()
 
+    let formikRef = useRef<FormikProps<any>>(null);
     // From Warehouse Module
     const warehouse = useGetWarehouses()
     const productsInventory = useGetProductList();
     //From This Module
     const transfer = usePostTransferWarehouseInventory()
+    const purchaseOrderDetail = useGetPurchaserOrderDetailByCode()
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [itemSelected, setItemSelected] = useState<any>({})
@@ -62,9 +66,33 @@ const TransferWarehouseInventory = () => {
         productsInventory.mutate(filter)
     }
 
+    const handleGetPurchaseOderDetail = (values: any) => {
+        purchaseOrderDetail.mutate(formikRef?.current?.values?.purchaseOrderCode, {
+            onSuccess: (response) => {
+                if(response.succeeded) {
+                    formikRef?.current?.setFieldValue("originWarehouseId", +response?.data?.originWarehouseId)
+                    formikRef?.current?.setFieldValue("destinationWarehouseId", {value: response?.data?.destinationWarehouseId, label: response?.data?.destinationWarehouseDesc})
+                    const filter = {
+                        ByBrand: true,
+                        HasPurchaseInventory: true,
+                        WarehouseId: +response?.data?.originWarehouseId,
+                        OrderCode: formikRef?.current?.values?.purchaseOrderCode
+                    }
+                    productsInventory.mutate(filter)
+            
+                } else {
+                    EnqueueSnackbar(response.data.Message, "warning")
+                }
+            }
+        })
+    }
+
+
+
     const handleTransferRemittance = (values: any) => {
         const formData: any = {
             originWarehouseId: +values.originWarehouseId,
+            purchaseOrderId: purchaseOrderDetail?.data?.data?.id,
             details: _.map(productForTransferRemittance, (item) => {
                 return {
                     productBrandId: +item.productBrandId,
@@ -87,7 +115,7 @@ const TransferWarehouseInventory = () => {
         })
     }
 
-    if(!hasPermission("CreateTransferWarehouseInventory"))
+    if (!hasPermission("CreateTransferWarehouseInventory"))
         return <AccessDenied />
 
     return (
@@ -97,11 +125,17 @@ const TransferWarehouseInventory = () => {
             {productsInventory.isLoading && <Backdrop loading={productsInventory.isLoading} />}
 
 
-            <Formik initialValues={initialValues} onSubmit={handleTransferRemittance}>
-                {({ handleSubmit, setFieldValue, values }) => {
+            <Formik enableReinitialize innerRef={formikRef} initialValues={initialValues} onSubmit={handleTransferRemittance}>
+                {({ handleSubmit }) => {
                     return (
                         <form onSubmit={handleSubmit}>
-                            <div className="grid grid-cols-1 lg:grid-cols-3 mb-4 gap-4">
+                            <div className="grid grid-cols-1 lg:grid-cols-4 mb-4 gap-4">
+                                <CardWithIcons
+                                    title='شماره سفارش خرید'
+                                    icon={<Sell className="text-white" />}
+                                    value={<FormikInput name="purchaseOrderCode" label="شماره سفارش" onBlur={handleGetPurchaseOderDetail} />}
+                                    iconClassName='bg-[#5836A5]'
+                                    textClassName="!mt-4" />
                                 <CardWithIcons
                                     title='شماره انتقال'
                                     icon={<DesignServices className="text-white" />}

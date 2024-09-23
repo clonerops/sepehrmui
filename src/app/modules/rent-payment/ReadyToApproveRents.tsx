@@ -13,6 +13,8 @@ import { Search } from '@mui/icons-material'
 import { ReadyToApproveRentsColumn } from '../../../_cloner/helpers/columns'
 import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import ApproveRentForm from './components/ApproveRentForm'
+import { useAuth } from '../../../_cloner/helpers/checkUserPermissions'
+import AccessDenied from '../../routing/AccessDenied'
 
 let pageSize = 100;
 
@@ -26,6 +28,8 @@ const initialValues = {
 }
 
 const ReadyToApproveRents = () => {
+    const { hasPermission } = useAuth()
+
     const rents = useGetAllRents()
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -59,9 +63,11 @@ const ReadyToApproveRents = () => {
     const renderAction = (item: any) => {
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
-                <Button onClick={() => handleOpen(item.row)} variant="contained" size="small" color="secondary">
-                    <Typography>اقدام به تایید کرایه</Typography>
-                </Button>
+                {(hasPermission("ApproveDriverFareAmount") && hasPermission("ApprovePurOrderTransRemittFareAmount"))  &&
+                    <Button onClick={() => handleOpen(item.row)} variant="contained" size="small" color="secondary">
+                        <Typography>اقدام به تایید کرایه</Typography>
+                    </Button>
+                }
             </div>
         );
     };
@@ -77,6 +83,8 @@ const ReadyToApproveRents = () => {
     };
 
 
+    if (!hasPermission("GetAllRents"))
+        return <AccessDenied />
 
     return (
         <>

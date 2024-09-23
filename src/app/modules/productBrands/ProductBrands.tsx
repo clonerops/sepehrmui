@@ -39,7 +39,6 @@ const ProductBrands = () => {
   const updateProductBrandTools = useUpdateProductBrands()
   // const productPricesType = useGetProductPricesByProductType()
 
-  // console.log("productPricesType?.data?.data", productPricesType?.data?.data)
 
   const [results, setResults] = useState<IProductBrand[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);

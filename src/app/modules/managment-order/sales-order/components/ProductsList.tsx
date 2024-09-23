@@ -136,7 +136,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                 selectedProduct: [...productData.selectedProduct, newSelectionModel.row],
                 selectionModel: newSelectionModel
             }))
-            console.log("productData", productData)
             EnqueueSnackbar("کالا به لیست اضافه گردید", 'success')
 
         } else {
@@ -176,7 +175,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
                     className="numeric-input"
                     value={productData.proximateAmounts[productId] || ""}
                     onChange={(e: any) => {
-                        console.log("e.ta", e.target.value)
                         setProductData((prevState) => ({
                             ...prevState,
                             proximateAmounts: { ...prevState.proximateAmounts, [productId]: e.target.value },
@@ -332,7 +330,6 @@ const ProductsList: FC<IProps> = ({ setOrders, setOrderPayment, orders, orderSer
             const updatedOrders = [...orders, ...selectedProductWithAmounts];
 
             setOrders(updatedOrders);
-            console.log("updatedOrders", updatedOrders)
             setOrderPayment([]);
             setFieldValue(
                 "orderPaymentAmount",

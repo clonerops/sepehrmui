@@ -68,9 +68,6 @@ const CargoDetail = () => {
         { id: 4, header: "مقدار بارگیری", accessor: "ladingAmount", render: (params: { ladingAmount: number }) => <Typography variant="h3">{separateAmountWithCommas(params.ladingAmount)}</Typography> },
     ]
 
-
-    console.log("cargoTools?.data?.data?.cargoAnnounceDetails", cargoTools?.data?.data?.cargoAnnounceDetails)
-
     return (
         <>
             {cargoTools.isLoading && <Backdrop loading={cargoTools.isLoading} />}

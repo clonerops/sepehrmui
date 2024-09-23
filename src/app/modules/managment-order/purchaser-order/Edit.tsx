@@ -48,7 +48,6 @@ const PurchaserOrderEdit = () => {
     calculateTotalAmount(orders, orderServices)
     // eslint-disable-next-line 
   }, [orders, orderServices]);
-  console.log("detailTools?.data?.data?.details", detailTools?.data?.data?.details)
   useEffect(() => {
     if (detailTools?.data?.data) {
 

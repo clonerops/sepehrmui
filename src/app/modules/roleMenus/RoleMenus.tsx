@@ -65,8 +65,6 @@ const RoleMenus = (props: Props) => {
                 applicationMenuId: Array.from(updatedRoleIds),
             };
 
-            console.log(formData)
-
             postMenu.mutate(formData, {
                 onSuccess: (res) => {
                     if (res.succeeded) {
