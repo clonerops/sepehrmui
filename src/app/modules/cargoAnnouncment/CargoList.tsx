@@ -93,11 +93,13 @@ const CargoList = () => {
                         </div>
                     </Tooltip>
                 }
-                <Tooltip title={<Typography variant='h3'>جزئیات اعلام بار</Typography>}>
-                    <Link to={`/dashboard/cargoAnnouncment/${item?.row?.id}`} className="flex gap-x-4">
-                        <Visibility className="text-primary" />
-                    </Link>
-                </Tooltip>
+                {hasPermission("GetCargoAnnouncementById") &&
+                    <Tooltip title={<Typography variant='h3'>جزئیات اعلام بار</Typography>}>
+                        <Link to={`/dashboard/cargoAnnouncment/${item?.row?.id}`} className="flex gap-x-4">
+                            <Visibility className="text-primary" />
+                        </Link>
+                    </Tooltip>
+                }
             </div>
         );
     };

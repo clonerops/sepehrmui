@@ -70,7 +70,7 @@ const RentPaymentList = () => {
     </div>
   }
 
-  if (hasPermission("GetAllRents"))
+  if (!hasPermission("GetAllRents"))
     return <AccessDenied />
 
   return (

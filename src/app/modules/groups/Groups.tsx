@@ -9,12 +9,17 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import GroupForm from "./GroupForm";
 import ReusableCard from "../../../_cloner/components/ReusableCard";
-import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
 import AccessDenied from "../../routing/AccessDenied";
+import { useQueryClient } from "@tanstack/react-query";
 
 const RoleGroups = () => {
-    const { hasPermission } = useAuth()
-    const [approve, setApprove] = useState<boolean>(false);
+    const queryClient = useQueryClient()
+    const userInfo: any = queryClient.getQueryData(['userInfo']);
+
+    let userRoles: string[] = []
+    userRoles = [].concat(...userInfo.data.userRoles.map((item: {roleName: string}) => item.roleName) || [])
+
+      const [approve, setApprove] = useState<boolean>(false);
     const [deletedId, setDeletedId] = useState<string>("");
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
 
@@ -41,9 +46,9 @@ const RoleGroups = () => {
         setDeletedId(id);
     };
 
-    if (!hasPermission("CreateApplicationRole"))
-        return <AccessDenied />
-
+    if (!userRoles.includes("Admin")) {
+        return <AccessDenied />;
+    }
 
     if (groups.isLoading) {
         return <Backdrop loading={groups.isLoading} />;

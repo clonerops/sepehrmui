@@ -27,6 +27,7 @@ const ListOfTransferRemittance = () => {
 
   const transferRemittanceStatus = useGetTransferRemittanceStatus()
   const transferList = useGetTransferRemitancesByMutation()
+  
   useEffect(() => {
     const filter = {
       PageNumber: currentPage,

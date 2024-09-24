@@ -20,7 +20,7 @@ import AccessDenied from "../../routing/AccessDenied";
 const pageSize = 100;
 
 const UnloadingPermitList = () => {
-    const {hasPermission} = useAuth()
+    const { hasPermission } = useAuth()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [approve, setApprove] = useState<boolean>(false);
@@ -75,12 +75,14 @@ const UnloadingPermitList = () => {
                         <LayersClear onClick={() => handleOpenApprove(item?.row?.id)} className="text-red-500" />
                     </div>
                 </Tooltip> */}
-                <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-                    {/* <Link to={`/dashboard/ladingUnloadingPermitDetail/${item?.row?.id}/${item?.row?.unloadingPermitCode}/${item?.row?.createdDate}`}> */}
-                    <Link to={`/dashboard/unloadingDetail/${item?.row?.id}`}>
-                        <Visibility className="text-yellow-500" />
-                    </Link>
-                </Tooltip>
+                {hasPermission("GetUnloadingPermitById") &&
+                    <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                        {/* <Link to={`/dashboard/ladingUnloadingPermitDetail/${item?.row?.id}/${item?.row?.unloadingPermitCode}/${item?.row?.createdDate}`}> */}
+                        <Link to={`/dashboard/unloadingDetail/${item?.row?.id}`}>
+                            <Visibility className="text-yellow-500" />
+                        </Link>
+                    </Tooltip>
+                }
                 {/* <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
                     <Link to={`/dashboard/UnloadingEdit/${item?.row?.id}/${item?.row?.ladingUnloadingPermitCode}/${item?.row?.createdDate}`}>
                         <Edit className="text-yellow-500" />
@@ -104,7 +106,7 @@ const UnloadingPermitList = () => {
 
     }
 
-    if(!hasPermission("GetAllUnloadingPermits"))
+    if (!hasPermission("GetAllUnloadingPermits"))
         return <AccessDenied />
 
     if (unloadingListTools.isLoading) {

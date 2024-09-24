@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import { Button,  Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import ReusableCard from '../../../_cloner/components/ReusableCard'
@@ -17,7 +17,7 @@ import AccessDenied from '../../routing/AccessDenied'
 const pageSize = 100
 
 const EntranceReport = () => {
-    const {hasPermission} = useAuth()
+    const { hasPermission } = useAuth()
 
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -35,13 +35,17 @@ const EntranceReport = () => {
 
     const renderAction = (item: any) => {
         return (
-                <Link
-                    to={`/dashboard/billlandingList/${item?.row?.transferRemitance?.id}`}
-                >
-                    <Button variant='contained' color="secondary">
-                        <Typography variant='h5'>جزئیات</Typography> 
-                    </Button>
-                </Link>
+            <>
+                {hasPermission("GetEntrancePermitById") &&
+                    <Link
+                        to={`/dashboard/billlandingList/${item?.row?.transferRemitance?.id}`}
+                    >
+                        <Button variant='contained' color="secondary">
+                            <Typography variant='h5'>جزئیات</Typography>
+                        </Button>
+                    </Link>
+                }
+            </>
         );
     };
 
@@ -59,13 +63,13 @@ const EntranceReport = () => {
         entranceTools.mutate(formData);
     }
 
-    if(!hasPermission("GetAllEntrancePermits"))
+    if (!hasPermission("GetAllEntrancePermits"))
         return <AccessDenied />
-    
+
     return (
         <>
             <ReusableCard>
-            <Formik initialValues={{ id: "", originWarehouseId: "", entrancePermitNo: ""}} onSubmit={() => { }}>
+                <Formik initialValues={{ id: "", originWarehouseId: "", entrancePermitNo: "" }} onSubmit={() => { }}>
                     {({ values }) => {
                         return (
                             <div className="flex flex-col lg:flex-row gap-4 w-full mb-4" >
@@ -85,7 +89,7 @@ const EntranceReport = () => {
                     rows={entranceTools?.data?.data}
                     data={entranceTools?.data?.data}
                     isLoading={entranceTools.isLoading}
-                    onDoubleClick={(item: any) => navigate(`/dashboard/transferRemittance/${item?.row?.id}/entrance`)}
+                    onDoubleClick={(item: any) => hasPermission("GetEntrancePermitById") ? navigate(`/dashboard/transferRemittance/${item?.row?.id}/entrance`) : {}}
                 />
                 <Pagination pageCount={entranceTools?.data?.data?.totalCount / pageSize} onPageChange={handlePageChange} />
 

@@ -81,11 +81,13 @@ const ExitList = () => {
                         </Link>
                     </Tooltip>
                 }
-                <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-                    <Link to={`/dashboard/ladingExitPermitDetail/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
-                        <Visibility className="text-yellow-500" />
-                    </Link>
-                </Tooltip>
+                {hasPermission("GetLadingExitPermitById") &&
+                    <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
+                        <Link to={`/dashboard/ladingExitPermitDetail/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                            <Visibility className="text-yellow-500" />
+                        </Link>
+                    </Tooltip>
+                }
                 {/* <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
                     <Link to={`/dashboard/exitEdit/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                         <Edit className="text-yellow-500" />
@@ -99,7 +101,7 @@ const ExitList = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
-    if (hasPermission("GetAllLadingExitPermits"))
+    if (!hasPermission("GetAllLadingExitPermits"))
         return <AccessDenied />
 
     if (exitListTools.isLoading) {

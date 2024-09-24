@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as api from './_requests'
 import { IEntrancePermit, IEntrancePermitFilter } from "./_models"
+import { identifier } from "stylis"
 
 const useGetEntrancePermits = () => {
     return useQuery(['EntrancePermits'], () => 
@@ -25,7 +26,9 @@ const usePostEntrancePermits = () => {
 
 
 const useGetEntrancePermit = (id: string) => {
-    return useQuery(['EntrancePermits', id], () => api.getEntrancePermit(id))
+    return useQuery(['EntrancePermits', id], () => api.getEntrancePermit(id), {
+        enabled: id ? true : false
+    })
 }
 
 const useUpdateEntrancePermits = () => {
