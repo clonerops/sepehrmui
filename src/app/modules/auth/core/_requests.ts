@@ -14,6 +14,8 @@ const loginUser = async (formData: ILoginUser) => {
     }
 };
 
+
+
 const getCaptcha = async () => {
     try {
         const { data } = await httpAuth.get('/v1/Captcha')

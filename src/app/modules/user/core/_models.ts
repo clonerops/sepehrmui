@@ -21,3 +21,10 @@ export interface IUserFilter {
 export interface IForgetPasswordRequest {
     userName: string
 }
+
+export interface IChangePassword {
+    userName: string,
+    newPassword: string,
+    verificationCode: string
+
+}

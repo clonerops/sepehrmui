@@ -1,6 +1,6 @@
 import { http, httpAuth } from "../../../../_cloner/helpers/axiosConfig";
 import { generateURLQueryParam } from "../../../../_cloner/helpers/queryStringUrl";
-import { IForgetPasswordRequest, IUser, IUserFilter } from "./_models";
+import { IChangePassword, IForgetPasswordRequest, IUser, IUserFilter } from "./_models";
 
 const registerUser = async (formData: IUser) => {
     try {
@@ -70,6 +70,16 @@ const forgetPasswordRequest = async (formData: IForgetPasswordRequest) => {
     }
 }
 
+const changePasswordRequest = async (formData: IChangePassword) => {
+    try {
+        const { data } = await httpAuth.post('/v1/ApplicationUser/ChangePasswordRequest', JSON.stringify(formData))
+        return data
+    } catch (error: any) {
+        return error.response
+    }
+}
+
+
 
 export {
     registerUser,
@@ -79,5 +89,6 @@ export {
     updateUser,
     deleteUser,
     fetchUserInfo,
-    forgetPasswordRequest
+    forgetPasswordRequest,
+    changePasswordRequest
 }

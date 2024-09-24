@@ -13,9 +13,11 @@ interface IProps {
     loading: boolean
     refetch: () => void 
     captcha: UseQueryResult<any, unknown>
-}
+    isOpenChangePassword: boolean
+    setIsOpenChangePassword: React.Dispatch<React.SetStateAction<boolean>>
+  }
 
-const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha }) => {
+const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha, isOpenChangePassword, setIsOpenChangePassword }) => {
   const forgetPasswordHandler = useForgetPasswordRequest()
 
   const renderTextField = (id: string, label: string, type = "text", additionalProps = {}) => (
@@ -40,6 +42,7 @@ const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha }) => {
     if(formik.values.userName === "" || formik.values.userName === null) {
       EnqueueSnackbar("برای ارسال فراموشی کلمه عبور لطفا نام کاربری خود را وارد کنید", "warning")
     } else {
+      setIsOpenChangePassword(true)
       forgetPasswordHandler.mutate({userName: formik.values.userName}, {
         onSuccess: (response) => {
           if(response.succeeded) {
