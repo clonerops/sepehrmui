@@ -6,6 +6,7 @@ import { useGetCaptcha, useLoginUser } from "./core/_hooks";
 import { useFormik } from "formik";
 import { Card } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Backdrop from "../../../_cloner/components/Backdrop";
 
 const initialValues = {
   // userName: "clonerops",
@@ -59,6 +60,7 @@ const Login = () => {
 
   return (
     <>
+    {isLoading && <Backdrop loading={isLoading} />}
       <div className="h-screen  lg:block hidden "
         style={{
           backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
