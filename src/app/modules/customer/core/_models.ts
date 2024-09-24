@@ -47,4 +47,5 @@ export interface ICustomerAccountFilter {
     fromDate: string | null | undefined
     toDate: string | null | undefined
     billingReportType: number | null |undefined
+    dateFilter: number | null |undefined
 }

@@ -2,11 +2,12 @@ import { IconButton, TextField, Typography } from "@mui/material";
 import { toAbsoulteUrl } from "../../../_cloner/helpers/assetsHelper";
 import Captcha from "./components/Captcha";
 import { Autorenew } from "@mui/icons-material";
-import { UseQueryResult } from "@tanstack/react-query";
+import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { FC } from "react";
 import CustomButton from "../../../_cloner/components/CustomButton";
 import { useForgetPasswordRequest } from "../user/core/_hooks";
 import { EnqueueSnackbar } from "../../../_cloner/helpers/snackebar";
+import { IForgetPasswordRequest } from "../user/core/_models";
 
 interface IProps {
     formik: any;
@@ -15,10 +16,11 @@ interface IProps {
     captcha: UseQueryResult<any, unknown>
     isOpenChangePassword: boolean
     setIsOpenChangePassword: React.Dispatch<React.SetStateAction<boolean>>
+    forgetPasswordHandler: UseMutationResult<any, unknown, IForgetPasswordRequest, unknown>
+
   }
 
-const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha, isOpenChangePassword, setIsOpenChangePassword }) => {
-  const forgetPasswordHandler = useForgetPasswordRequest()
+const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha, forgetPasswordHandler, setIsOpenChangePassword }) => {
 
   const renderTextField = (id: string, label: string, type = "text", additionalProps = {}) => (
     
@@ -42,11 +44,11 @@ const LoginForm:FC<IProps> = ({ formik, loading, refetch, captcha, isOpenChangeP
     if(formik.values.userName === "" || formik.values.userName === null) {
       EnqueueSnackbar("برای ارسال فراموشی کلمه عبور لطفا نام کاربری خود را وارد کنید", "warning")
     } else {
-      setIsOpenChangePassword(true)
       forgetPasswordHandler.mutate({userName: formik.values.userName}, {
         onSuccess: (response) => {
           if(response.succeeded) {
             EnqueueSnackbar(response.message, "success")
+            setIsOpenChangePassword(true)
           } else {
             EnqueueSnackbar(response.data.Message, "error")
           }

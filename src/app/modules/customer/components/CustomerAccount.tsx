@@ -37,6 +37,7 @@ const CustomerAccount = () => {
   const onSubmit = (values: any) => {
     const filters = {
       ...values,
+      dateFilter: 1,
       customerId: values.customerId.value,
       billingReportType: +values.billingReportType
     }
@@ -54,7 +55,7 @@ const CustomerAccount = () => {
           {({ handleSubmit, values }) => <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <FormikSearchableCustomer name="customerId" label="مشتری" />
-
+              
               <FormikDatepicker name='fromDate' label="از تاریخ" />
               <FormikDatepicker name='toDate' label="تا تاریخ" />
 
@@ -76,7 +77,7 @@ const CustomerAccount = () => {
               </ButtonComponent>
             </div>
 
-            {/* <div className="my-4">
+            <div className="my-4">
               <MuiDataGrid
                 columns={CustomerAccountColumn()}
                 rows={customerAccountTools?.data?.data?.details}
@@ -96,13 +97,13 @@ const CustomerAccount = () => {
                   <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.remainingAmount || 0)} تومان</Typography>
                 </div>
               </div>
-            </Alert> */}
+            </Alert>
             {/* {customerAccountTools?.data?.data.length > 0 &&
               <ReportViewer  />
             } */}
-            {customerAccountTools?.data?.data?.details?.length > 0 &&
+            {/* {customerAccountTools?.data?.data?.details?.length > 0 &&
               <ReportViewer path={"/reports/CustomerAccount.mrt"} data={customerAccountTools?.data?.data?.details} />
-            }
+            } */}
           </form>}
         </Formik>
       </ReusableCard>
