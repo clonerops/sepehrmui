@@ -10,6 +10,7 @@ import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import { useState } from "react";
 import ChangePassword from "./components/ChangePassword";
+import { useForgetPasswordRequest } from "../user/core/_hooks";
 
 const initialValues = {
   // userName: "clonerops",
@@ -22,6 +23,8 @@ const initialValues = {
 const Login = () => {
   const { mutate, isLoading } = useLoginUser();
   const { data: captcha, refetch } = useGetCaptcha()
+  const forgetPasswordHandler = useForgetPasswordRequest()
+
   const navigate = useNavigate()
 
   const [isOpenChangePassword, setIsOpenChangePassword] = useState<boolean>(false)
@@ -66,6 +69,7 @@ const Login = () => {
   return (
     <>
       {isLoading && <Backdrop loading={isLoading} />}
+      {forgetPasswordHandler.isLoading && <Backdrop loading={forgetPasswordHandler.isLoading} />}
       <div className="h-screen  lg:block hidden "
         style={{
           backgroundImage: `url(${toAbsoulteUrl("/media/logos/login-bg.png")})`,
@@ -76,7 +80,7 @@ const Login = () => {
       >
         <div className={"md:w-[70%] xl:w-[50%] mr-auto h-full flex items-center justify-center"}>
           <Card className="flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] shadow-[#4E68C2] w-[80%] shrink-0 md:max-w-[500px] min-w-[500px] py-8 h-fit">
-            <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} isOpenChangePassword={isOpenChangePassword} setIsOpenChangePassword={setIsOpenChangePassword} />
+            <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} isOpenChangePassword={isOpenChangePassword} setIsOpenChangePassword={setIsOpenChangePassword} forgetPasswordHandler={forgetPasswordHandler} />
           </Card>
         </div>
       </div>
@@ -92,13 +96,13 @@ const Login = () => {
       >
         <div className={"w-full h-full mr-auto flex items-center justify-center"}>
           <div className="bg-white flex justify-center items-center flex-col border-[1px] box-shadow shadow-sm rounded-[10px] hadow-[#4E68C2] w-[80%] shrink-0  py-8 h-fit">
-            <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} isOpenChangePassword={isOpenChangePassword} setIsOpenChangePassword={setIsOpenChangePassword} />
+            <LoginForm formik={formik} loading={isLoading} refetch={refetch} captcha={captcha} isOpenChangePassword={isOpenChangePassword} setIsOpenChangePassword={setIsOpenChangePassword} forgetPasswordHandler={forgetPasswordHandler} />
           </div>
         </div>
       </div>
 
       <TransitionsModal width="30%" title="تغییر کلمه عبور" open={isOpenChangePassword} isClose={() => setIsOpenChangePassword(false)}>
-        <ChangePassword />
+        <ChangePassword setIsOpenChangePassword={setIsOpenChangePassword} />
       </TransitionsModal>
 
     </>

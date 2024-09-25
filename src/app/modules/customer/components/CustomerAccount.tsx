@@ -37,6 +37,7 @@ const CustomerAccount = () => {
   const onSubmit = (values: any) => {
     const filters = {
       ...values,
+      dateFilter: 1,
       customerId: values.customerId.value,
       billingReportType: +values.billingReportType
     }
@@ -54,7 +55,7 @@ const CustomerAccount = () => {
           {({ handleSubmit, values }) => <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <FormikSearchableCustomer name="customerId" label="مشتری" />
-
+              
               <FormikDatepicker name='fromDate' label="از تاریخ" />
               <FormikDatepicker name='toDate' label="تا تاریخ" />
 
