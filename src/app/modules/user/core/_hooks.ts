@@ -19,7 +19,7 @@ const useGetUsersByMutation = () => {
     })
 };
 const useUserInfo = () => useQuery(["userInfo"], () => api.fetchUserInfo(), {
-    refetchOnMount: true,
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchIntervalInBackground: false
 });

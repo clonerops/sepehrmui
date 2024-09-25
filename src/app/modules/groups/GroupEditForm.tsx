@@ -115,9 +115,6 @@ const GroupEditForm = (props: Props) => {
         );
     };
 
-    if(!hasPermission("CreateApplicationRole"))
-        return <AccessDenied />
-
     if (detailApplicationRole?.isLoading) {
         return <Backdrop loading={detailApplicationRole.isLoading} />;
     }

@@ -8,7 +8,7 @@ import FormikCompany from '../../../../../_cloner/components/FormikCompany'
 
 import { UseMutationResult } from '@tanstack/react-query'
 import { ISalesOrder } from '../../core/_models'
-import { useGetCustomer } from '../../../customer/core/_hooks'
+import { useGetCustomer, useGetCustomersAccountReport } from '../../../customer/core/_hooks'
 import { separateAmountWithCommas } from '../../../../../_cloner/helpers/seprateAmount'
 import Backdrop from '../../../../../_cloner/components/Backdrop'
 import { Add, Person } from '@mui/icons-material'
@@ -40,11 +40,21 @@ const RenderInformation: FC<IRenderInfoProps> = ({ title, value, valueClassName 
 
 const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, openModalStateCustomerFeatcure, detailCustomer }) => {
     const { hasPermission } = useAuth()
+    const customerAccountTools = useGetCustomersAccountReport()
+
 
     const changeCustomerFunction = (item: { value: string, label: string, customerValidityColorCode: string }) => {
         if (item.value) {
             detailCustomer?.mutate(item.value, {
                 onSuccess: (result) => {
+                    const filters = {
+                        dateFilter: -1,
+                        customerId: result.data.id,
+                        billingReportType: 2,
+                        fromDate: "",
+                        toDate: ""
+                      }                  
+                    customerAccountTools.mutate(filters)
                     formikRef.current?.setFieldValue("customerId", result.data.id)
                     formikRef.current?.setFieldValue("orderPaymentDaysAfterExit", result.data.settlementDay)
                     formikRef.current?.setFieldValue("orderPaymentDate", moment(Date.now()).add(+result.data.settlementDay, "days").format('jYYYY/jMM/jDD'))
@@ -62,6 +72,8 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
 
     let customerCurrentDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerCurrentDept), [detailCustomer.data?.data])
     let customerDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerDept), [detailCustomer.data?.data])
+
+    console.log("customerAccountTools", customerAccountTools?.data?.data)
 
     // if(!hasPermission("GetAllCustomers")) 
     //     return <TypographyAccessDenied />
@@ -116,10 +128,6 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
                                 title='بدهی جاری(ریال)'
                                 valueClassName={postSaleOrder?.data?.succeeded ? "!text-gray-300" : "text-red-500"}
                                 value={detailCustomer.data?.data?.customerCurrentDept ? customerCurrentDept : 0} />
-                            <RenderInformation
-                                title='بدهی کل(ریال)'
-                                valueClassName={postSaleOrder?.data?.succeeded ? "!text-gray-300" : "text-red-500"}
-                                value={detailCustomer.data?.data?.customerDept ? customerDept : 0} />
                         </div>
                     </div>
                 </div>
