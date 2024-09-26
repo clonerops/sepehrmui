@@ -70,10 +70,6 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
         }
     };
 
-    let customerCurrentDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerCurrentDept), [detailCustomer.data?.data])
-    let customerDept = useMemo(() => separateAmountWithCommas(+detailCustomer.data?.data?.customerDept), [detailCustomer.data?.data])
-
-    console.log("customerAccountTools", customerAccountTools?.data?.data)
 
     // if(!hasPermission("GetAllCustomers")) 
     //     return <TypographyAccessDenied />
@@ -127,7 +123,7 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
                             <RenderInformation
                                 title='بدهی جاری(ریال)'
                                 valueClassName={postSaleOrder?.data?.succeeded ? "!text-gray-300" : "text-red-500"}
-                                value={detailCustomer.data?.data?.customerCurrentDept ? customerCurrentDept : 0} />
+                                value={0} />
                         </div>
                     </div>
                 </div>
