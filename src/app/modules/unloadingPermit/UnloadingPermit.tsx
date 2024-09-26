@@ -195,23 +195,22 @@ const UnloadingPermit = () => {
                 unloadedAmount: +item.realAmount,
             })),
         };
-
+        
         if (UnloadingList.every((item: { realAmount: "" }) => item.realAmount === "" || item.realAmount === null || item.realAmount === undefined)) {
             EnqueueSnackbar("وزن واقعی باسکول  مشخص نگردیده است", "warning")
         } else {
-            console.log("formData", formData)
-            // postUnloading.mutate(formData, {
-            //     onSuccess: (res) => {
-            //         if (res.succeeded) {
-            //             renderAlert(`مجوز تخلیه بارنامه با شماره ${res.data.unloadingPermitCode} با موفقیت ثبت شد`)
-            //         } else {
-            //             enqueueSnackbar(res.data.Message, {
-            //                 variant: "error",
-            //                 anchorOrigin: { vertical: "top", horizontal: "center" },
-            //             });
-            //         }
-            //     },
-            // });
+            postUnloading.mutate(formData, {
+                onSuccess: (res) => {
+                    if (res.succeeded) {
+                        renderAlert(`مجوز تخلیه بارنامه با شماره ${res.data.unloadingPermitCode} با موفقیت ثبت شد`)
+                    } else {
+                        enqueueSnackbar(res.data.Message, {
+                            variant: "error",
+                            anchorOrigin: { vertical: "top", horizontal: "center" },
+                        });
+                    }
+                },
+            });
         }
     };
 

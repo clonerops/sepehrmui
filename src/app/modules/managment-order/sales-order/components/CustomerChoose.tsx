@@ -33,7 +33,7 @@ interface IRenderInfoProps {
 const RenderInformation: FC<IRenderInfoProps> = ({ title, value, valueClassName }) => {
     return <div className="flex flex-row pt-2 ">
         <Typography variant="h4" className="text-gray-500">{title}: </Typography>
-        <Typography variant="h3" className={`px-4 ${valueClassName}`}>{value} </Typography>
+        <Typography variant="h3" style={{direction: "ltr"}} className={`px-4 ${valueClassName}`}>{separateAmountWithCommas(value)} </Typography>
     </div>
 
 }
@@ -51,8 +51,8 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
                         dateFilter: -1,
                         customerId: result.data.id,
                         billingReportType: 2,
-                        fromDate: "",
-                        toDate: ""
+                        fromDate: "1403/01/01",
+                        toDate: "1403/12/29"
                       }                  
                     customerAccountTools.mutate(filters)
                     formikRef.current?.setFieldValue("customerId", result.data.id)
@@ -121,9 +121,15 @@ const CustomerChoose: FC<IProps> = ({ postSaleOrder, formikRef, openModalState, 
                         </div>
                         <div className='flex flex-col space-y-4 w-full'>
                             <RenderInformation
-                                title='بدهی جاری(ریال)'
+                                title='مبلغ مانده(ریال)'
                                 valueClassName={postSaleOrder?.data?.succeeded ? "!text-gray-300" : "text-red-500"}
-                                value={0} />
+                                value={customerAccountTools?.data?.data?.remainingAmount || 0} />
+                        </div>
+                        <div className='flex flex-col space-y-4 w-full'>
+                            <RenderInformation
+                                title='مبلغ مانده موعد شده(ریال)'
+                                valueClassName={postSaleOrder?.data?.succeeded ? "!text-gray-300" : "text-red-500"}
+                                value={customerAccountTools?.data?.data?.totalDueRemainingAmount || 0} />
                         </div>
                     </div>
                 </div>
