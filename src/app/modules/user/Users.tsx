@@ -81,7 +81,7 @@ const Users = () => {
             </Button>
           </div>
           <div className="md:grid grid-cols-1 md:grid-cols-3 gap-x-4">
-            <div className="md:col-span-2">
+            <div className="md:col-span-3">
               <MuiDataGrid
                 columns={UserListColumn(renderActions)}
                 rows={results}
@@ -90,9 +90,9 @@ const Users = () => {
                 onDoubleClick={(item: any) => onHandleUpdateModal(item.row.id)}
               />
             </div>
-            <div className="md:flex md:justify-center md:items-center hidden">
+            {/* <div className="md:flex md:justify-center md:items-center hidden">
               <img alt="sepehriranian" src={toAbsoulteUrl('/media/images/566.jpg')} width={400} height={400} />
-            </div>
+            </div> */}
           </div>
         </>
         {/* Create User Modal */}

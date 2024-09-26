@@ -3839,6 +3839,7 @@ const PurchaserOrderConfirmColumn = (renderAction: any) => {
 
 const UserListColumn = (renderAction: any) => {
     const col = [
+        { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 240 },
         {
             field: 'firstName', flex: 1, headerName: 'نام', headerClassName: "headerClassName", renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
@@ -3864,7 +3865,6 @@ const UserListColumn = (renderAction: any) => {
                 return <Typography variant="h4">{params.value}</Typography>
             }, minWidth: 120
         },
-        { headerName: 'عملیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 80 }
     ]
     return col
 };
