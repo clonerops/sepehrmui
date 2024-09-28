@@ -18,7 +18,7 @@ import CardWithIcons from '../../../_cloner/components/CardWithIcons'
 import FormikDescription from '../../../_cloner/components/FormikDescription'
 import useBase64toFile from '../../../_cloner/helpers/convertBaseToFile'
 import ConfirmDialog from '../../../_cloner/components/ConfirmDialog'
-import TransitionsModal from '../../../_cloner/components/ReusableModal'
+// import TransitionsModal from '../../../_cloner/components/ReusableModal'
 import FormikCompany from '../../../_cloner/components/FormikCompany'
 import FileUpload from '../../../_cloner/components/FileUpload'
 import PaymentOriginType from '../../../_cloner/components/PaymentOriginType'
@@ -31,14 +31,11 @@ const RecievePaymentEdit = () => {
     const formikRef = useRef<FormikProps<any>>(null)
 
     const [approve, setApprove] = useState<boolean>(false);
-    const [disApprove, setDisApprove] = useState<boolean>(false);
 
     const convertBase64ToFile = useBase64toFile()
 
     const { mutate, isLoading } = useUpdateRecievePaymentById()
     const updateApprove = useUpdatePaymentApproved()
-
-    const { mutate: reject, isLoading: rejectLoading } = useDisApprovePaymentApproved()
 
     const detailTools = useGetRecievePaymentById(id)
     const initialValues = {
@@ -127,25 +124,6 @@ const RecievePaymentEdit = () => {
         })
     }
 
-    const handleDisApproveConfirm = (values: any) => {
-        const formData = {
-            id: id,
-            accountingDescription: values.accountingDescription
-        }
-        if (id)
-            reject(formData, {
-                onSuccess: (response) => {
-                    if (response?.succeeded) {
-                        EnqueueSnackbar(response.message, "success")
-                        setApprove(false)
-
-                    } else {
-                        EnqueueSnackbar(response.data.Message, "warning")
-                    }
-                }
-            })
-
-    }
 
     useEffect(() => {
         if (detailTools.isLoading) {
@@ -180,6 +158,8 @@ const RecievePaymentEdit = () => {
                         ...initialValues,
                         ...detailTools?.data?.data,
                         amount: detailTools?.data?.data?.amount ? separateAmountWithCommas(detailTools?.data?.data?.amount) : "",
+                        receiveFromId: detailTools?.data?.data?.receivePaymentTypeFromId === 1 ? {value: detailTools?.data?.data?.receiveFromId, label: detailTools?.data?.data?.receiveFromDesc} : detailTools?.data?.data?.receiveFromId,
+                        payToId: detailTools?.data?.data?.receivePaymentTypeToId === 1 ? {value: detailTools?.data?.data?.payToId, label: detailTools?.data?.data?.payToDesc} : detailTools?.data?.data?.payToId
 
                     }} onSubmit={onSubmit}>
                         {({ handleSubmit, values }) => {
@@ -224,11 +204,6 @@ const RecievePaymentEdit = () => {
                                             <Typography variant="h3">{isLoading ? "در حال پردازش..." : "ثبت تایید"}</Typography>
                                         </Button>
                                     }
-                                    {hasPermission("ReceivePayAccReject") &&
-                                        <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
-                                            <Typography>{rejectLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
-                                        </Button>
-                                    }
                                 </div>
 
                             </form>
@@ -244,33 +219,6 @@ const RecievePaymentEdit = () => {
                 onCancel={() => setApprove(false)}
                 onConfirm={() => handleConfirm()}
             />
-            <TransitionsModal
-                open={disApprove}
-                isClose={() => setDisApprove(false)}
-                title="عدم تایید دریافت و پرداخت"
-                width="60%"
-                description=" درصورتی که دریافت و پرداخت مورد تایید نمی باشد می توانید از طریق فرم زیر اقدام به عدم تایید آن نمایید"
-            >
-                <div className="flex flex-col space-y-4 mt-4">
-                    <Typography variant="h3"> شماره دریافت پرداخت: {detailTools?.data?.data?.receivePayCode}</Typography>
-                    <Formik initialValues={{ accountingDescription: "" }} onSubmit={handleDisApproveConfirm}>
-                        {({ handleSubmit }) => (
-                            <form>
-                                <FormikDescription name="accountingDescription" label="توضیحات حسابداری" />
-                                <div className="flex gap-x-4 justify-end items-end mt-2">
-                                    <Button onClick={() => handleSubmit()} className='!bg-red-500 hover:!bg-red-700'>
-                                        <Typography variant="h3" className="text-white">عدم تایید حسابداری</Typography>
-                                    </Button>
-                                    <Button onClick={() => setDisApprove(false)} variant="outlined" color="secondary">
-                                        <Typography variant="h4">لغو</Typography>
-                                    </Button>
-                                </div>
-                            </form>
-                        )}
-                    </Formik>
-                </div>
-            </TransitionsModal>
-
         </>
     )
 }

@@ -172,6 +172,8 @@ const PaymentAccounting = () => {
     if (!hasPermission("ReceivePayApprove"))
         return <AccessDenied />
 
+    console.log("recievePaymentTools", recievePaymentTools?.data?.totalCount)
+
     return (
         <>
             {recievePaymentTools.isLoading && <Backdrop loading={recievePaymentTools.isLoading} />}
@@ -205,7 +207,7 @@ const PaymentAccounting = () => {
                         <Typography className="text-white">ثبت تایید</Typography>
                     </Button>
                 </div>
-                <Pagination pageCount={+1000 / +pageSize || 100} onPageChange={handlePageChange} />
+                <Pagination pageCount={+recievePaymentTools?.data?.totalCount / +pageSize || 0} onPageChange={handlePageChange} />
             </ReusableCard>
             <ConfirmDialog
                 open={isOpen}
