@@ -8,7 +8,6 @@ import { useState } from "react";
 import Backdrop from "../../../_cloner/components/Backdrop";
 import TransitionsModal from "../../../_cloner/components/ReusableModal";
 import GroupForm from "./GroupForm";
-import ReusableCard from "../../../_cloner/components/ReusableCard";
 import AccessDenied from "../../routing/AccessDenied";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -59,7 +58,7 @@ const RoleGroups = () => {
             {deleteGroup.isLoading && (
                 <Backdrop loading={deleteGroup.isLoading} />
             )}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
                 <div>
                     <div className="flex justify-end mb-4">
                         <Button
@@ -77,14 +76,14 @@ const RoleGroups = () => {
                                     deleteOnClick={() =>
                                         handleOpenApprove(item.id)
                                     }
-                                    title={item.name}
+                                    title={`${item.name} (${item.description})`}
                                     content={<GroupEditForm itemData={item} />}
                                 />
                             );
                         }
                     )}
                 </div>
-                <div>
+                {/* <div>
                     <ReusableCard>
                         <div>
                             <div className="hidden md:flex md:justify-center md:items-center">
@@ -195,7 +194,7 @@ const RoleGroups = () => {
                             </div>
                         </div>
                     </ReusableCard>
-                </div>
+                </div> */}
             </div>
 
             <TransitionsModal
