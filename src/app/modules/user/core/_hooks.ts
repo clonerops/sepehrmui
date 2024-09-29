@@ -21,7 +21,8 @@ const useGetUsersByMutation = () => {
 const useUserInfo = () => useQuery(["userInfo"], () => api.fetchUserInfo(), {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    refetchIntervalInBackground: false
+    refetchIntervalInBackground: false,
+    retry: false,
 });
 
 const useGetUserDetail = () => {
