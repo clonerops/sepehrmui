@@ -2595,7 +2595,7 @@ const CustomerAccountColumn = () => {
             minWidth: 80,
         },
         {
-            field: "remainigAmount",
+            field: "remainingAmount",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
             },
