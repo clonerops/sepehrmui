@@ -65,7 +65,7 @@ const UnloadingPermitList = () => {
             <div className="flex flex-row items-center justify-center gap-x-4">
                 {/* <Tooltip title={<Typography variant='h3'>پرینت</Typography>}>
                     <div className="flex gap-x-4">
-                        <Link to={`/dashboard/ladingUnloadingPermitOfficial_print/${item?.row?.id}/${item?.row?.ladingUnloadingPermitCode}/${item?.row?.createdDate}`}>
+                        <Link target="_blank" to={`/dashboard/ladingUnloadingPermitOfficial_print/${item?.row?.id}/${item?.row?.ladingUnloadingPermitCode}/${item?.row?.createdDate}`}>
                             <Print color="primary" />
                         </Link>
                     </div>
@@ -77,14 +77,14 @@ const UnloadingPermitList = () => {
                 </Tooltip> */}
                 {hasPermission("GetUnloadingPermitById") &&
                     <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-                        {/* <Link to={`/dashboard/ladingUnloadingPermitDetail/${item?.row?.id}/${item?.row?.unloadingPermitCode}/${item?.row?.createdDate}`}> */}
-                        <Link to={`/dashboard/unloadingDetail/${item?.row?.id}`}>
+                        {/* <Link target="_blank" to={`/dashboard/ladingUnloadingPermitDetail/${item?.row?.id}/${item?.row?.unloadingPermitCode}/${item?.row?.createdDate}`}> */}
+                        <Link target="_blank" to={`/dashboard/unloadingDetail/${item?.row?.id}`}>
                             <Visibility className="text-yellow-500" />
                         </Link>
                     </Tooltip>
                 }
                 {/* <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
-                    <Link to={`/dashboard/UnloadingEdit/${item?.row?.id}/${item?.row?.ladingUnloadingPermitCode}/${item?.row?.createdDate}`}>
+                    <Link target="_blank" to={`/dashboard/UnloadingEdit/${item?.row?.id}/${item?.row?.ladingUnloadingPermitCode}/${item?.row?.createdDate}`}>
                         <Edit className="text-yellow-500" />
                     </Link>
                 </Tooltip> */}

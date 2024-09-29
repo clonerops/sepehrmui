@@ -40,7 +40,7 @@ const ReadyToEntrance = () => {
   }, [currentPage])
 
   const renderAction = (params: any) => {
-    return <Link to={params.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${params.row.id}/entrance`}>
+    return <Link target="_blank" to={params.row.transferRemittanceStatusId >= 2 ? "" : `/dashboard/transferRemittance/${params.row.id}/entrance`}>
       <Button variant="contained" color="secondary" disabled={params.row.transferRemittanceStatusId >= 2} onClick={() => { }}>
         <Typography className="px-2" color="primary">صدور مجوز ورود</Typography>
       </Button>

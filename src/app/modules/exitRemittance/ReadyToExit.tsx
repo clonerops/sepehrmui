@@ -17,7 +17,7 @@ const ReadyToExit = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/exit/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createdDate}`}>
+            <Link target="_blank" to={`/dashboard/exit/${item?.row?.cargoAnnounceId}/${item?.row?.id}/${item?.row?.createdDate}`}>
                 <Button variant="contained" color="secondary">
                     <Typography>صدور مجوز</Typography>
                 </Button>

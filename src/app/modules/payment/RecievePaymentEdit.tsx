@@ -3,7 +3,7 @@ import { Formik, FormikProps } from 'formik'
 import { Button, Typography } from '@mui/material'
 import moment from 'moment-jalaali'
 
-import { useDisApprovePaymentApproved, useGetRecievePaymentById, useUpdatePaymentApproved, useUpdateRecievePaymentById } from './core/_hooks'
+import { useGetRecievePaymentById, useUpdatePaymentApproved, useUpdateRecievePaymentById } from './core/_hooks'
 import { convertToPersianWord } from '../../../_cloner/helpers/convertPersian'
 import { useParams } from 'react-router-dom'
 import { DateRange, Paid } from '@mui/icons-material'

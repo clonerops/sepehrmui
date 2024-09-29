@@ -135,28 +135,28 @@ const LadingExitPermitPrint = () => {
 
                             <tr className="!border-[1px] !border-black">
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{index + 1}</span>
+                                    <span className="text-[12px] py-2">{index + 1}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.productCode}</span>
+                                    <span className="text-[12px] py-2">{item?.productCode}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.productName}</span>
+                                    <span className="text-[12px] py-2">{item?.productName}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.productBrandName}</span>
+                                    <span className="text-[12px] py-2">{item?.productBrandName}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{separateAmountWithCommas(+item?.ladingAmount)}</span>
+                                    <span className="text-[12px] py-2">{separateAmountWithCommas(+item?.ladingAmount)}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.productMainUnitDesc}</span>
+                                    <span className="text-[12px] py-2">{item?.productMainUnitDesc}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{separateAmountWithCommas(item?.realAmount)}</span>
+                                    <span className="text-[12px] py-2">{separateAmountWithCommas(item?.realAmount)}</span>
                                 </td>
                                 <td className="text-center">
-                                    <span className="text-[12px]">{separateAmountWithCommas(item?.productSubUnitAmount)}</span>
+                                    <span className="text-[12px] py-2">{separateAmountWithCommas(item?.productSubUnitAmount)}</span>
                                 </td>
                             </tr>
                         ))}

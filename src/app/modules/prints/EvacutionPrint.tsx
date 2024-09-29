@@ -101,16 +101,16 @@ const EvacutionPrint = () => {
                         {detailTools?.data?.data?.ladingExitPermitDetails?.map((item: any, index: number) => (
                             <tr className="!border-[1px] !border-black">
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{index + 1}</span>
+                                    <span className="text-[12px] py-2">{index + 1}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{item?.productName}</span>
+                                    <span className="text-[12px] py-2">{item?.productName}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]">{separateAmountWithCommas(item?.realAmount)}</span>
+                                    <span className="text-[12px] py-2">{separateAmountWithCommas(item?.realAmount)}</span>
                                 </td>
                                 <td className="border-l-[1px] border-black text-center">
-                                    <span className="text-[12px]"></span>
+                                    <span className="text-[12px] py-2"></span>
                                 </td>
                             </tr>
                         ))}

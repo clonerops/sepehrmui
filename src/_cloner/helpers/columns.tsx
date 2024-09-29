@@ -539,6 +539,27 @@ const InventoryColumn = () => {
 
             headerClassName: "headerClassName",
         },
+        {
+            field: "proximateWeightedAverage",
+            headerName: "میانگین تقریبی",
+            flex: 1,
+            minWidth: 120,
+            // maxWidth: 100,
+            renderCell: (value: any) =>
+                <Typography variant="h4">{separateAmountWithCommas(value.row.proximateWeightedAverage)}</Typography>,
+            headerClassName: "headerClassName",
+        },
+        {
+            field: "actualWeightedAverage",
+            headerName: "میانگین واقعی",
+            flex: 1,
+            minWidth: 120,
+            // maxWidth: 100,
+            renderCell: (value: any) =>
+                <Typography variant="h4">{separateAmountWithCommas(value.row.actualWeightedAverage)}</Typography>,
+            headerClassName: "headerClassName",
+        },
+
     ];
     return col;
 };
@@ -2574,7 +2595,7 @@ const CustomerAccountColumn = () => {
             minWidth: 80,
         },
         {
-            field: "balanceAmoount",
+            field: "remainigAmount",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{params.value}</Typography >;
             },
@@ -2584,7 +2605,7 @@ const CustomerAccountColumn = () => {
             minWidth: 140,
         },
         {
-            field: "dueAmount",
+            field: "dueRemainingAmount",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },

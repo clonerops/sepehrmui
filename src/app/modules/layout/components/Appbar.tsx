@@ -66,7 +66,7 @@ const AppbarComponent: FC<IProps> = ({ open, isMobile, handleDrawerOpen }) => {
                             <img alt="sepehriranian" className="text-primary" src={toAbsoulteUrl('/media/icons/duotune/general/gen063.svg')} width={24} />
                         </div>
                     </IconButton>
-                    <Link to="/dashboard" className="flex items-center">
+                    <Link target="_blank" to="/dashboard" className="flex items-center">
                         <div className="mx-4 hidden md:block">
                             <img alt="sepehriranian"
                                 src={toAbsoulteUrl("/media/mainlogo/logo-no-background.png")}

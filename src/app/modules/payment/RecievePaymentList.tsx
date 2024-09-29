@@ -58,7 +58,7 @@ const RecievePaymentList = () => {
         return (
             <div className="flex justify-center items-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-                    <Link to={`/dashboard/payment/accounting/${item?.row?.id}`}>
+                    <Link target="_blank" to={`/dashboard/payment/accounting/${item?.row?.id}`}>
                         <Typography variant="h4">
                             <Visibility color="primary" />
                         </Typography>

@@ -46,7 +46,7 @@ const ReadyToLading = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/lading/${item?.row?.id}`}>
+            <Link target="_blank" to={`/dashboard/lading/${item?.row?.id}`}>
                 <Button variant="contained" color="secondary">
                     <Typography>صدور مجوز</Typography>
                 </Button>

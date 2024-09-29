@@ -80,7 +80,7 @@ const CargoList = () => {
                 {hasPermission("UpdateCargoAnnouncement") &&
                     <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
                         <div className="flex gap-x-4">
-                            <Link to={`/dashboard/cargoList/${item?.row?.id}`}>
+                            <Link target="_blank" to={`/dashboard/cargoList/${item?.row?.id}`}>
                                 <Edit color="secondary" />
                             </Link>
                         </div>
@@ -95,7 +95,7 @@ const CargoList = () => {
                 }
                 {hasPermission("GetCargoAnnouncementById") &&
                     <Tooltip title={<Typography variant='h3'>جزئیات اعلام بار</Typography>}>
-                        <Link to={`/dashboard/cargoAnnouncment/${item?.row?.id}`} className="flex gap-x-4">
+                        <Link target="_blank" to={`/dashboard/cargoAnnouncment/${item?.row?.id}`} className="flex gap-x-4">
                             <Visibility className="text-primary" />
                         </Link>
                     </Tooltip>

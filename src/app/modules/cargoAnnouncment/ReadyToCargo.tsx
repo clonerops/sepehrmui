@@ -28,7 +28,7 @@ const ReadyToCargo = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link to={`/dashboard/order_ready_cargo/${item?.row?.id}`}>
+            <Link target="_blank" to={`/dashboard/order_ready_cargo/${item?.row?.id}`}>
                 <Button variant="contained" color="secondary">
                     <Typography variant="h5">صدور اعلام بار</Typography>
                 </Button>
