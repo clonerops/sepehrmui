@@ -31,7 +31,7 @@ const ReadyToApproveExitFareAmount = () => {
         return (
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>تایید کرایه</Typography>}>
-                    <Link to={`/dashboard/approveDriverFareAmount/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                    <Link target="_blank" to={`/dashboard/approveDriverFareAmount/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                         <Button variant="contained" size="small" color="secondary">
                             <Typography>اقدام به تایید کرایه</Typography>
                         </Button>

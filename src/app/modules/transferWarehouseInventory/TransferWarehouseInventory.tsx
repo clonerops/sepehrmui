@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Formik, FormikProps } from "formik";
 import { Typography } from "@mui/material";
 
@@ -25,6 +25,7 @@ import { useAuth } from "../../../_cloner/helpers/checkUserPermissions";
 import AccessDenied from "../../routing/AccessDenied";
 import FormikInput from "../../../_cloner/components/FormikInput";
 import { useGetPurchaserOrderDetailByCode } from "../managment-order/core/_hooks";
+import { useSearchParams } from "react-router-dom";
 
 const initialValues = {
     originWarehouseId: "",
@@ -36,6 +37,8 @@ const initialValues = {
 
 const TransferWarehouseInventory = () => {
     const { hasPermission } = useAuth()
+    const [searchParams] = useSearchParams();
+    let orderCodeSearchParams = searchParams.get("orderCode")
 
     let formikRef = useRef<FormikProps<any>>(null);
     // From Warehouse Module
@@ -69,9 +72,9 @@ const TransferWarehouseInventory = () => {
     const handleGetPurchaseOderDetail = (values: any) => {
         purchaseOrderDetail.mutate(formikRef?.current?.values?.purchaseOrderCode, {
             onSuccess: (response) => {
-                if(response.succeeded) {
+                if (response.succeeded) {
                     formikRef?.current?.setFieldValue("originWarehouseId", +response?.data?.originWarehouseId)
-                    formikRef?.current?.setFieldValue("destinationWarehouseId", {value: response?.data?.destinationWarehouseId, label: response?.data?.destinationWarehouseDesc})
+                    formikRef?.current?.setFieldValue("destinationWarehouseId", { value: response?.data?.destinationWarehouseId, label: response?.data?.destinationWarehouseDesc })
                     const filter = {
                         ByBrand: true,
                         HasPurchaseInventory: true,
@@ -79,7 +82,7 @@ const TransferWarehouseInventory = () => {
                         OrderCode: formikRef?.current?.values?.purchaseOrderCode
                     }
                     productsInventory.mutate(filter)
-            
+
                 } else {
                     EnqueueSnackbar(response.data.Message, "warning")
                 }
@@ -87,7 +90,29 @@ const TransferWarehouseInventory = () => {
         })
     }
 
+    useEffect(() => {
+        if (orderCodeSearchParams) {
+            purchaseOrderDetail.mutate(formikRef?.current?.values?.purchaseOrderCode, {
+                onSuccess: (response) => {
+                    if (response.succeeded) {
+                        formikRef?.current?.setFieldValue("originWarehouseId", +response?.data?.originWarehouseId)
+                        formikRef?.current?.setFieldValue("destinationWarehouseId", { value: response?.data?.destinationWarehouseId, label: response?.data?.destinationWarehouseDesc })
+                        const filter = {
+                            ByBrand: true,
+                            HasPurchaseInventory: true,
+                            WarehouseId: +response?.data?.originWarehouseId,
+                            OrderCode: formikRef?.current?.values?.purchaseOrderCode
+                        }
+                        productsInventory.mutate(filter)
 
+                    } else {
+                        EnqueueSnackbar(response.data.Message, "warning")
+                    }
+                }
+            })
+
+        }
+    }, [orderCodeSearchParams])
 
     const handleTransferRemittance = (values: any) => {
         const formData: any = {
@@ -115,6 +140,8 @@ const TransferWarehouseInventory = () => {
         })
     }
 
+    console.log("orderCodeSearchParams", orderCodeSearchParams)
+
     if (!hasPermission("CreateTransferWarehouseInventory"))
         return <AccessDenied />
 
@@ -125,7 +152,10 @@ const TransferWarehouseInventory = () => {
             {productsInventory.isLoading && <Backdrop loading={productsInventory.isLoading} />}
 
 
-            <Formik enableReinitialize innerRef={formikRef} initialValues={initialValues} onSubmit={handleTransferRemittance}>
+            <Formik enableReinitialize innerRef={formikRef} initialValues={{
+                ...initialValues,
+                purchaseOrderCode: orderCodeSearchParams ? orderCodeSearchParams : ""
+            }} onSubmit={handleTransferRemittance}>
                 {({ handleSubmit }) => {
                     return (
                         <form onSubmit={handleSubmit}>
@@ -133,7 +163,7 @@ const TransferWarehouseInventory = () => {
                                 <CardWithIcons
                                     title='شماره سفارش خرید'
                                     icon={<Sell className="text-white" />}
-                                    value={<FormikInput name="purchaseOrderCode" label="شماره سفارش" onBlur={handleGetPurchaseOderDetail} />}
+                                    value={<FormikInput disabled={orderCodeSearchParams !== null} name="purchaseOrderCode" label="شماره سفارش" onBlur={handleGetPurchaseOderDetail} />}
                                     iconClassName='bg-[#5836A5]'
                                     textClassName="!mt-4" />
                                 <CardWithIcons

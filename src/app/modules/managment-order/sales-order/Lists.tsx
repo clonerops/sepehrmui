@@ -59,6 +59,7 @@ const SalesOrderList = () => {
                 {hasPermission("GetOrderById") &&
                     <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
                         <Link
+                            target="_blank"
                             to={`/dashboard/sales_order/lists/${item?.row?.id}`}
                             state={{ isConfirmed: false }}
                         >

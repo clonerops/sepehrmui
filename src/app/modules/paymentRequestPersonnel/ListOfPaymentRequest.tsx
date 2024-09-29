@@ -109,21 +109,21 @@ const ListOfPaymentRequestPersonnel = () => {
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
       {hasPermission("ProceedToPersonnelPaymentRequest") &&
-        <Link to={`${params.row.paymentRequestStatusId > 2 ? "" : `/dashboard/personnelProceedPaymentRequest/${params.row.id}`}`}>
+        <Link target="_blank" to={`${params.row.paymentRequestStatusId > 2 ? "" : `/dashboard/personnelProceedPaymentRequest/${params.row.id}`}`}>
           <Button disabled={params.row.paymentRequestStatusId > 2} className={`${params.row.paymentRequestStatusId > 2 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-fuchsia-500 hover:!bg-fuchsia-700"}!bg-fuchsia-500 hover:!bg-fuchsia-700`}>
             <Typography className="text-white">پرداخت</Typography>
           </Button>
         </Link>
       }
       {hasPermission("GetPersonnelPaymentRequestById") &&
-        <Link to={`/dashboard/personnelPaymentRequestDetail/${params.row.id}`}>
+        <Link target="_blank" to={`/dashboard/personnelPaymentRequestDetail/${params.row.id}`}>
           <Button className="!bg-indigo-500 hover:!bg-indigo-700">
             <Typography className="text-white">جزئیات</Typography>
           </Button>
         </Link>
       }
       {hasPermission("UpdatePersonnelPaymentRequest") &&
-        <Link to={`${params.row.paymentRequestStatusId > 1 ? "" : `/dashboard/personnelPaymentRequestEdit/${params.row.id}`} `}>
+        <Link target="_blank" to={`${params.row.paymentRequestStatusId > 1 ? "" : `/dashboard/personnelPaymentRequestEdit/${params.row.id}`} `}>
           <Button disabled={params.row.paymentRequestStatusId > 1} className={`${params.row.paymentRequestStatusId > 1 ? "!bg-gray-300 hover:!bg-gray-300" : "!bg-yellow-500 hover:!bg-yellow-700"}`}>
             <Typography className="">ویرایش</Typography>
           </Button>

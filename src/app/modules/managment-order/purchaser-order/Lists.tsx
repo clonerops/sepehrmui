@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Visibility } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { Add, ArrowCircleDownRounded, Visibility } from "@mui/icons-material";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Typography } from '@mui/material'
 
 import { useRetrievePurchaserOrdersByMutation } from "../core/_hooks";
@@ -18,6 +18,9 @@ const pageSize = 100
 
 const PurchaserOrderList = () => {
     const { hasPermission } = useAuth()
+    const [searchParams] = useSearchParams();
+    let orderCodeSearchParams = searchParams.get("orderCode")
+
     const navigate = useNavigate()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -43,14 +46,25 @@ const PurchaserOrderList = () => {
 
     const renderAction = (item: any) => {
         return (
-            <div>
+            <div className="flex flex-row gap-x-4">
                 {hasPermission("GetPurchaseOrderById") &&
                     <Link
+                        target="_blank"
                         to={`/dashboard/purchaser_order/lists/${item?.row?.id}`}
                         state={{ isConfirmed: false }}
                     >
                         <Button variant="contained" color="secondary">
                             <Visibility color="primary" /> <Typography variant="h5">جزئیات</Typography>
+                        </Button>
+                    </Link>
+                }
+                {hasPermission("CreateTransferWarehouseInventory") &&
+                    <Link
+                        target="_blank"
+                        to={`/dashboard/transferToWarehouse?orderCode=${item.row.orderCode}`}
+                    >
+                        <Button variant="contained" color="primary">
+                            <ArrowCircleDownRounded color="secondary" /> <Typography variant="h5">انتقال به انبار</Typography>
                         </Button>
                     </Link>
                 }

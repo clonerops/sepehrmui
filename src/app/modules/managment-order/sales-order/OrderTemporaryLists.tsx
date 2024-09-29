@@ -57,7 +57,7 @@ const OrderTemporaryLists = () => {
         return (
             <div className="flex flex-row gap-x-4">
                 {hasPermission("FinalApprovalOfTheTemporaryOrder") &&
-                    <Link to={`/dashboard/sales_order/edit?orderCode=${item.row.orderCode}`}>
+                    <Link target="_blank" to={`/dashboard/sales_order/edit?orderCode=${item.row.orderCode}`}>
                         <Button variant="contained" color="secondary">
                             <Typography >تایید نهایی</Typography>
                         </Button>

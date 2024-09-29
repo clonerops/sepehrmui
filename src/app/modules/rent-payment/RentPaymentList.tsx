@@ -64,7 +64,7 @@ const RentPaymentList = () => {
 
   const renderPrint = (item: any) => {
     return <div>
-      <Link to={`/dashboard/rent_print/${item.row.id}`}>
+      <Link target="_blank" to={`/dashboard/rent_print/${item.row.id}`}>
         <Print />
       </Link>
     </div>

@@ -256,7 +256,9 @@ const CargoForm = () => {
         })
 
         const formData: ICargo = {
-            ...values, orderId: id,
+            ...values, 
+            orderId: id,
+            vehicleTypeId: values.vehicleTypeId ? values.vehicleTypeId : null,
             fareAmount: values?.fareAmount.includes(',') ? +values?.fareAmount.replace(/,/g, "") : +values?.fareAmount,
             attachments: attachments,
             cargoAnnounceDetails: ladingOrderDetail.map((item: any) => ({

@@ -62,7 +62,7 @@ const ExitList = () => {
             <div className="flex flex-row items-center justify-center gap-x-4">
                 <Tooltip title={<Typography variant='h3'>پرینت</Typography>}>
                     <div className="flex gap-x-4">
-                        <Link to={`/dashboard/ladingExitPermitOfficial_print/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                        <Link target="_blank" to={`/dashboard/ladingExitPermitOfficial_print/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                             <Print color="primary" />
                         </Link>
                     </div>
@@ -76,20 +76,20 @@ const ExitList = () => {
                 }
                 {hasPermission("ApproveDriverFareAmount") &&
                     <Tooltip title={<Typography variant='h3'>تایید کرایه</Typography>}>
-                        <Link to={`/dashboard/approveDriverFareAmount/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                        <Link target="_blank" to={`/dashboard/approveDriverFareAmount/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                             <Approval className="text-green-500" />
                         </Link>
                     </Tooltip>
                 }
                 {hasPermission("GetLadingExitPermitById") &&
                     <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-                        <Link to={`/dashboard/ladingExitPermitDetail/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                        <Link target="_blank" to={`/dashboard/ladingExitPermitDetail/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                             <Visibility className="text-yellow-500" />
                         </Link>
                     </Tooltip>
                 }
                 {/* <Tooltip title={<Typography variant='h3'>ویرایش مجوز خروج</Typography>}>
-                    <Link to={`/dashboard/exitEdit/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
+                    <Link target="_blank" to={`/dashboard/exitEdit/${item?.row?.id}/${item?.row?.ladingExitPermitCode}/${item?.row?.createdDate}`}>
                         <Edit className="text-yellow-500" />
                     </Link>
                 </Tooltip> */}

@@ -63,7 +63,7 @@ const PaymentAccountingRegisterList = () => {
         return (
             <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
                 <div className="flex justify-center items-center gap-x-4">
-                    <Link to={`/dashboard/payment/accounting/register/${item?.row?.id}`}>
+                    <Link target="_blank" to={`/dashboard/payment/accounting/register/${item?.row?.id}`}>
                         <Typography variant="h4">
                             <Visibility color="primary" />
                         </Typography>

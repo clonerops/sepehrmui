@@ -15,8 +15,7 @@ const FormikUserByRole = (props: any) => {
     useEffect(() => {
         
         const filters = {
-            // UserRoles: ["80d1aa8e-7fba-4ac0-a739-08dcd483a5fe"]
-            UserRoles: ["F731900D-2B06-4DCA-30B6-08DCDD80EF4E", "14C716B8-EE03-42FA-30B7-08DCDD80EF4E"]
+            UserRoles: ["A123BC9A-F817-46ED-BBDE-08DCDF813343"]
         }
 
         saleManagers.mutate(filters)

@@ -17,7 +17,7 @@ const registerValidation = Yup.object().shape({
     email: Yup.string()
         .email("فرمت ایمیل نمی باشد")
         .required("ایمیل الزامی است"),
-    userName: Yup.string().min(6).required("نام کاربری الزامی است"),
+    userName: Yup.string().required("نام کاربری الزامی است"),
     mobile: Yup.string().min(11).max(11).required("موبایل الزامی است"),
     password: Yup.string()
         .matches(

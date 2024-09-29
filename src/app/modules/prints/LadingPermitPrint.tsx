@@ -129,28 +129,28 @@ const LadingPermitPrint = () => {
 
                                     <tr className="!border-[1px] !border-black">
                                         <td className="border-l-[1px] border-black text-center">
-                                            <span className="text-[12px]">{index + 1}</span>
+                                            <span className="text-[12px] py-2">{index + 1}</span>
                                         </td>
                                         <td className="border-l-[1px] border-black text-center">
-                                            <span className="text-[12px]">{item?.orderDetail?.product?.productCode}</span>
+                                            <span className="text-[12px] py-2">{item?.orderDetail?.product?.productCode}</span>
                                         </td>
                                         <td className="border-l-[1px] border-black text-center">
-                                            <span className="text-[12px]">{item?.orderDetail?.product?.productName}</span>
+                                            <span className="text-[12px] py-2">{item?.orderDetail?.product?.productName}</span>
                                         </td>
                                         <td className="border-l-[1px] border-black text-center">
-                                            <span className="text-[12px]">{item?.orderDetail?.brandName}</span>
+                                            <span className="text-[12px] py-2">{item?.orderDetail?.brandName}</span>
                                         </td>
                                         <td className="border-l-[1px] border-black text-center">
-                                            <span className="text-[12px]">{separateAmountWithCommas(+item?.orderDetail?.totalLoadedAmount)}</span>
+                                            <span className="text-[12px] py-2">{separateAmountWithCommas(+item?.orderDetail?.totalLoadedAmount)}</span>
                                         </td>
                                         <td className="border-l-[1px] border-black text-center">
-                                            <span className="text-[12px]">{item?.orderDetail?.product?.productMainUnitDesc}</span>
+                                            <span className="text-[12px] py-2">{item?.orderDetail?.product?.productMainUnitDesc}</span>
                                         </td>
                                         <td className="border-l-[1px] border-black text-center">
-                                            <span className="text-[12px]"></span>
+                                            <span className="text-[12px] py-2"></span>
                                         </td>
                                         <td className="text-center">
-                                            <span className="text-[12px]"></span>
+                                            <span className="text-[12px] py-2"></span>
                                         </td>
                                     </tr>
                                 ))}

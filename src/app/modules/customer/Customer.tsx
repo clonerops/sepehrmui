@@ -118,7 +118,7 @@ const Customer = () => {
         setCurrentPage(selectedItem.selected + 1);
     };
 
-    if (!hasPermission("CreateCustomer"))
+    if (!hasPermission("CreateCustomer") || !hasPermission("GetAllCustomers"))
         return <AccessDenied />
 
     return (

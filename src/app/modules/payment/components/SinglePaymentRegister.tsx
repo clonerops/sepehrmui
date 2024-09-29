@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import { useParams } from "react-router-dom"
 import { Badge, Button, Typography } from "@mui/material"
-import { useGetRecievePaymentById, usePutRecievePaymentRegister } from "../core/_hooks"
+import { useDisApprovePaymentApproved, useGetRecievePaymentById, usePutRecievePaymentRegister } from "../core/_hooks"
 import { DownloadFileJPEG, DownloadFileJPG, DownloadFilePDF, DownloadFilePNG } from "../../../../_cloner/helpers/downloadFiles"
 import { EnqueueSnackbar } from '../../../../_cloner/helpers/snackebar'
 
@@ -13,11 +13,19 @@ import TransitionsModal from "../../../../_cloner/components/ReusableModal"
 import { Formik, FormikProps } from "formik"
 import FormikInput from "../../../../_cloner/components/FormikInput"
 import { renderAlert } from "../../../../_cloner/helpers/sweetAlert"
+import { separateAmountWithCommas } from "../../../../_cloner/helpers/seprateAmount"
+import { useAuth } from "../../../../_cloner/helpers/checkUserPermissions"
+import FormikDescription from "../../../../_cloner/components/FormikDescription"
 
 const SinglePaymentRegister = () => {
+    const {hasPermission} = useAuth()
+
     const putRecievePayRegister = usePutRecievePaymentRegister()
+    const rejectReceivePayTools = useDisApprovePaymentApproved()
+
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [disApprove, setDisApprove] = useState<boolean>(false);
 
     const { id }: any = useParams()
     const { data, isLoading: fetchingLaoding, refetch } = useGetRecievePaymentById(id)
@@ -33,8 +41,15 @@ const SinglePaymentRegister = () => {
         },
         {
             title: "دریافت از",
+            // value: data?.data?.receivePaymentSourceFromDesc + " " + (data?.data?.receiveFromCustomerName === null ? "" : data?.data?.receiveFromCustomerName),
             value: data?.data?.receiveFromDesc,
             icon: <Apps className="text-black" />,
+            bgColor: "bg-[#ECEFF3]"
+        },
+        {
+            title: "شرکت دریافت از",
+            value: data?.data?.receiveFromCompanyName,
+            icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
@@ -45,8 +60,20 @@ const SinglePaymentRegister = () => {
             bgColor: "bg-[#ECEFF3]"
         },
         {
+            title: "شرکت پرداخت به",
+            value: data?.data?.payToCompanyName,
+            icon: <AddHomeWork className="text-black" />,
+            bgColor: "bg-[#ECEFF3]"
+        },
+        {
             title: "صاحب حساب",
             value: data?.data?.accountOwner,
+            icon: <Person className="text-black" />,
+            bgColor: "bg-[#ECEFF3]"
+        },
+        {
+            title: "مبلغ(ریال)",
+            value: separateAmountWithCommas(data?.data?.amount),
             icon: <Person className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
@@ -54,12 +81,6 @@ const SinglePaymentRegister = () => {
             title: "کد پیگیری",
             value: data?.data?.trachingCode,
             icon: <Source className="text-black" />,
-            bgColor: "bg-[#ECEFF3]"
-        },
-        {
-            title: "صاحب شرکت",
-            value: data?.data?.companyName,
-            icon: <AddHomeWork className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
         {
@@ -80,7 +101,15 @@ const SinglePaymentRegister = () => {
             icon: <CheckCircleOutline className="text-black" />,
             bgColor: "bg-[#ECEFF3]"
         },
+        {
+            title: "توضیحات حسابداری",
+            value: data?.data?.accountingDescription,
+            icon: <Description className="text-black" />,
+            bgColor: "bg-[#ECEFF3]"
+        },
+
     ]
+
 
     var signatures: any = {
         JVBERi0: "application/pdf",
@@ -120,7 +149,7 @@ const SinglePaymentRegister = () => {
                         const outputFilenamePdf = `filesattachments${Date.now()}.pdf`;
                         DownloadFilePDF(element.fileData, outputFilenamePdf)
                         break;
-    
+
                     default:
                         break;
                 }
@@ -149,6 +178,27 @@ const SinglePaymentRegister = () => {
         }
 
     }
+
+    const handleDisApproveConfirm = (values: any) => {
+        const formData = {
+            id: id,
+            accountingDescription: values.accountingDescription
+        }
+        if (id)
+            rejectReceivePayTools.mutate(formData, {
+                onSuccess: (response) => {
+                    if (response?.succeeded) {
+                        EnqueueSnackbar(response.message, "success")
+                        refetch()
+                        setDisApprove(false)
+                    } else {
+                        EnqueueSnackbar(response.data.Message, "warning")
+                    }
+                }
+            })
+
+    }
+
 
     return (
         <>
@@ -184,6 +234,12 @@ const SinglePaymentRegister = () => {
                 <Button variant="contained" disabled={data?.data?.receivePayStatusId >= 3} onClick={() => setIsOpen(true)} className='mb-2' color="secondary">
                     <Typography>{"ثبت سند حسابداری"}</Typography>
                 </Button>
+                {hasPermission("ReceivePayAccReject") &&
+                    <Button variant="contained" onClick={() => setDisApprove(true)} className='mb-2 !bg-red-500 hover:!bg-red-700' >
+                        <Typography>{rejectReceivePayTools.isLoading ? "در حال پردازش..." : "عدم تایید حسابداری"}</Typography>
+                    </Button>
+                }
+
             </div>
             <TransitionsModal
                 open={isOpen}
@@ -195,7 +251,7 @@ const SinglePaymentRegister = () => {
                     <Formik innerRef={formikRefAccountDocNo} initialValues={{ accountDocNo: "" }} onSubmit={
                         () => {
                         }
-                }>
+                    }>
                         {() => (
                             <div className="flex flex-col space-y-4">
                                 <div className="mt-8">
@@ -213,6 +269,32 @@ const SinglePaymentRegister = () => {
                         )}
                     </Formik>
                 </>
+            </TransitionsModal>
+            <TransitionsModal
+                open={disApprove}
+                isClose={() => setDisApprove(false)}
+                title="عدم تایید دریافت و پرداخت"
+                width="60%"
+                description=" درصورتی که دریافت و پرداخت مورد تایید نمی باشد می توانید از طریق فرم زیر اقدام به عدم تایید آن نمایید"
+            >
+                <div className="flex flex-col space-y-4 mt-4">
+                    <Typography variant="h3"> شماره دریافت پرداخت: {data?.data?.receivePayCode}</Typography>
+                    <Formik initialValues={{ accountingDescription: "" }} onSubmit={handleDisApproveConfirm}>
+                        {({ handleSubmit }) => (
+                            <form>
+                                <FormikDescription name="accountingDescription" label="توضیحات حسابداری" />
+                                <div className="flex gap-x-4 justify-end items-end mt-2">
+                                    <Button onClick={() => handleSubmit()} className='!bg-red-500 hover:!bg-red-700'>
+                                        <Typography variant="h3" className="text-white">عدم تایید حسابداری</Typography>
+                                    </Button>
+                                    <Button onClick={() => setDisApprove(false)} variant="outlined" color="secondary">
+                                        <Typography variant="h4">لغو</Typography>
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                </div>
             </TransitionsModal>
 
 

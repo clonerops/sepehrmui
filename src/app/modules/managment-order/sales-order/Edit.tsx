@@ -282,7 +282,8 @@ const SalesOrderEdit = () => {
                     ...saleOrderEditInitialValues,
                     ...detailTools?.data?.data,
                     paymentTypeId: detailTools?.data?.data.farePaymentTypeId,
-                    isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2,
+                    // isTemporary: !detailTools?.data?.data.isTemporary ? 1 : 2,
+                    isTemporary: orderCodeSearchParams ? 1 : detailTools?.data?.data.isTemporary,
                 }
             } onSubmit={onSubmit}>
                 {({ values, setFieldValue, handleSubmit }) => {

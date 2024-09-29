@@ -56,7 +56,7 @@ const UnloadingPermit = () => {
 
 
     let formikRef: any = useRef();
-    let realAmount = useRef<HTMLInputElement>(null);
+    let unloadedAmount = useRef<HTMLInputElement>(null);
     let productSubUnitAmount = useRef<HTMLInputElement>(null);
 
     const [UnloadingList, setUnloadingList] = useState<any[]>([]);
@@ -79,13 +79,12 @@ const UnloadingPermit = () => {
                         productCode: item?.productCode,
                         productName: item?.productName,
                         unloadedAmount: item?.unloadedAmount ? item?.unloadedAmount : "",
-                        // realAmount: item?.unloadedAmount ? item?.unloadedAmount : ""
-                        realAmount: ""
+                        // unloadedAmount: item?.unloadedAmount ? item?.unloadedAmount : ""
                     };
                 }
             );
-            // if (realAmount.current) {
-            //     realAmount.current.value = destructureData[0]?.realAmount || "";
+            // if (unloadedAmount.current) {
+            //     unloadedAmount.current.value = destructureData[0]?.unloadedAmount || "";
             // }
 
             if (destructureData) {
@@ -146,11 +145,12 @@ const UnloadingPermit = () => {
     };
 
 
-    const handleRealAmountChange = (params: any, value: string) => {
+    const handleunloadedAmountChange = (params: any, value: string) => {
         // const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
+        console.log("value", +value.replace(/,/g, ""))
         const updatedLadingList = UnloadingList.map((item: { id: any; }) => {
             if (params.id === item.id) {
-                return { ...item, realAmount: +value.replace(/,/g, "") }
+                return { ...item, unloadedAmount: +value.replace(/,/g, "") }
             } else {
                 return item
             }
@@ -159,7 +159,7 @@ const UnloadingPermit = () => {
     };
 
     const handleProductSubUnitAmountChange = (params: any, value: string) => {
-        const updatedLadingList = detailTools?.data?.data?.details.map((item: { id: any; }) => {
+        const updatedLadingList = UnloadingList.map((item: { id: any; }) => {
             if (params.id === item.id) {
                 return { ...item, productSubUnitAmount: +value.replace(/,/g, "") }
             } else {
@@ -192,11 +192,11 @@ const UnloadingPermit = () => {
             attachments: attachments,
             unloadingPermitDetails: UnloadingList.map((item: any) => ({
                 transferRemittanceDetailId: item.id,
-                unloadedAmount: +item.realAmount,
+                unloadedAmount: +item.unloadedAmount,
+                productSubUnitAmount: +item.productSubUnitAmount
             })),
         };
-        
-        if (UnloadingList.every((item: { realAmount: "" }) => item.realAmount === "" || item.realAmount === null || item.realAmount === undefined)) {
+        if (UnloadingList.every((item: { unloadedAmount: "" }) => item.unloadedAmount === "" || item.unloadedAmount === null || item.unloadedAmount === undefined)) {
             EnqueueSnackbar("وزن واقعی باسکول  مشخص نگردیده است", "warning")
         } else {
             postUnloading.mutate(formData, {
@@ -249,7 +249,7 @@ const UnloadingPermit = () => {
                     headClassName="bg-[#272862]"
                     headCellTextColor="!text-white"
                     data={detailTools?.data?.data?.details}
-                    columns={OrderDetailForUnloadingColumn(realAmount, productSubUnitAmount, handleRealAmountChange, handleProductSubUnitAmountChange)}
+                    columns={OrderDetailForUnloadingColumn(unloadedAmount, productSubUnitAmount, handleunloadedAmountChange, handleProductSubUnitAmountChange)}
                 />
             </ReusableCard>
             <ReusableCard cardClassName="mt-4">

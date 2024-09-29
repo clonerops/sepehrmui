@@ -40,7 +40,7 @@ const ListOfTransferRemittance = () => {
   const renderAction = (params: any) => {
     return <div className="flex gap-x-4">
       <Tooltip title={<Typography variant='h3'>مشاهده جزئیات</Typography>}>
-        <Link to={`/dashboard/BilllandingList/${params.row.id}`}>
+        <Link target="_blank" to={`/dashboard/BilllandingList/${params.row.id}`}>
           <IconButton size="small" color="primary">
             <Visibility />
           </IconButton>
@@ -48,7 +48,7 @@ const ListOfTransferRemittance = () => {
       </Tooltip>
       {hasPermission("TransferRemittance") &&
         <Tooltip title={<Typography variant='h3'>ویرایش</Typography>}>
-          <Link to={`/dashboard/BilllandingEdit/${params.row.id}`}>
+          <Link target="_blank" to={`/dashboard/BilllandingEdit/${params.row.id}`}>
             <IconButton size="small" color="secondary">
               <Edit />
             </IconButton>

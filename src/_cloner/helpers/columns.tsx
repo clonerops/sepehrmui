@@ -539,6 +539,27 @@ const InventoryColumn = () => {
 
             headerClassName: "headerClassName",
         },
+        {
+            field: "proximateWeightedAverage",
+            headerName: "میانگین تقریبی",
+            flex: 1,
+            minWidth: 120,
+            // maxWidth: 100,
+            renderCell: (value: any) =>
+                <Typography variant="h4">{separateAmountWithCommas(value.row.proximateWeightedAverage)}</Typography>,
+            headerClassName: "headerClassName",
+        },
+        {
+            field: "actualWeightedAverage",
+            headerName: "میانگین واقعی",
+            flex: 1,
+            minWidth: 120,
+            // maxWidth: 100,
+            renderCell: (value: any) =>
+                <Typography variant="h4">{separateAmountWithCommas(value.row.actualWeightedAverage)}</Typography>,
+            headerClassName: "headerClassName",
+        },
+
     ];
     return col;
 };
@@ -2563,20 +2584,11 @@ const CustomerAccountColumn = () => {
             flex: 1,
             minWidth: 140,
         },
+       
         {
-            field: "recognizing",
+            field: "remainingAmount",
             renderCell: (params: any) => {
-                return params.value === "0" ? <Typography variant="h2">بد</Typography > : <Typography variant="h2">بس</Typography >;
-            },
-            headerName: "تشخیص",
-            headerClassName: "headerClassName",
-            flex: 1,
-            minWidth: 80,
-        },
-        {
-            field: "balanceAmoount",
-            renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography >;
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "مانده",
             headerClassName: "headerClassName",
@@ -2584,7 +2596,7 @@ const CustomerAccountColumn = () => {
             minWidth: 140,
         },
         {
-            field: "dueAmount",
+            field: "dueRemainingAmount",
             renderCell: (params: any) => {
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
@@ -2602,6 +2614,16 @@ const CustomerAccountColumn = () => {
             headerClassName: "headerClassName",
             flex: 1,
             minWidth: 120,
+        },
+        {
+            field: "recognizing",
+            renderCell: (params: any) => {
+                return params.value === "بد" ? <Typography className="bg-red-500 text-white" variant="h2">بد</Typography > : <Typography className="bg-green-500" variant="h2">بس</Typography >;
+            },
+            headerName: "تشخیص",
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 80,
         },
     ];
     return col;
@@ -3068,7 +3090,7 @@ const PurchaserOrderColumn = (renderAction: any) => {
             headerName: 'تاریخ ثبت سفارش', headerClassName: "headerClassName", minWidth: 160, maxWidth: 160, flex: 1
         },
         {
-            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 120, maxWidth: 120
+            field: "Action", headerName: 'جزئیات', flex: 1, renderCell: renderAction, headerClassName: "headerClassName", minWidth: 240, maxWidth: 240
         },
         {
             field: 'originWarehouseDesc', renderCell: (params: any) => {

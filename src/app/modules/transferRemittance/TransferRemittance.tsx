@@ -51,7 +51,7 @@ const fields: FieldType[][] = [
     ],
     [
         { label: "شماره همراه راننده", name: "driverMobile", type: "input" },
-        { label: "تاریخ تحویل", name: "deliverDate", type: "datepicker" },
+        // { label: "تاریخ تحویل", name: "deliverDate", type: "datepicker" },
         { label: "مبلغ کرایه", name: "fareAmount", type: "amount" },
     ],
     [

@@ -232,26 +232,26 @@ const InvoiceOfficial = () => {
                                         <tbody>
                                             {data?.data?.details?.map((item: any, index: number) => (
                                                 <tr>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">{index + 1}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[5%]">{item?.product?.productCode}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[14%]">{`${item?.product?.productName}`}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{separateAmountWithCommas(item?.proximateAmount)}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]">{item?.product?.productMainUnitDesc}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[9%]">{separateAmountWithCommas(item?.price)}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[12%]">{separateAmountWithCommas((+item?.proximateAmount) * (+item?.price))}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%]"></td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[15%]"></td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[5%]">{index + 1}</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[5%]">{item?.product?.productCode}</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[14%]">{`${item?.product?.productName}`}</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[8%]">{separateAmountWithCommas(item?.proximateAmount)}</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[8%]">{item?.product?.productMainUnitDesc}</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[9%]">{separateAmountWithCommas(item?.price)}</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[12%]">{separateAmountWithCommas((+item?.proximateAmount) * (+item?.price))}</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[7%]"></td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[15%]"></td>
                                                 </tr>
                                             ))}
                                                 <tr>
-                                                    <td className="print:text-[10px] border border-black bg-white" rowSpan={6} colSpan={6}>جمع کل</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%] font-bold">{separateAmountWithCommas(+data?.data?.totalAmount)}</td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[7%]"></td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
-                                                    <td className="print:text-[10px] border border-black bg-white text-center w-[15%]"></td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white" rowSpan={6} colSpan={6}>جمع کل</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[7%] font-bold">{separateAmountWithCommas(+data?.data?.totalAmount)}</td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[7%]"></td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[8%]"></td>
+                                                    <td className="py-2 print:text-[10px] border border-black bg-white text-center w-[15%]"></td>
                                                 </tr>
 
                                         </tbody>

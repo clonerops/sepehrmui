@@ -39,7 +39,7 @@ const ReadyToUnloading = () => {
 
     const renderAction = (item: any) => {
         return (
-            <Link to={`${item.row.transferRemitance.transferRemittanceStatusId > 2 ? "" : `/dashboard/unloading/${item?.row?.transferRemitance?.id}/${item?.row?.id}`}`}>
+            <Link target="_blank" to={`${item.row.transferRemitance.transferRemittanceStatusId > 2 ? "" : `/dashboard/unloading/${item?.row?.transferRemitance?.id}/${item?.row?.id}`}`}>
                 <Button disabled={item.row.transferRemitance.transferRemittanceStatusId > 2} variant="contained" color="secondary">
                     <Typography>صدور مجوز تخلیه</Typography>
                 </Button>

@@ -20,7 +20,7 @@ const AccessDenied = () => {
 
       <Box component='div' className="flex flex-row gap-x-8">
         <Box component="div">
-          <Link to={"/dashboard"}>
+          <Link target="_blank" to={"/dashboard"}>
             <button
               type={"button"}
               className={
