@@ -2584,20 +2584,11 @@ const CustomerAccountColumn = () => {
             flex: 1,
             minWidth: 140,
         },
-        {
-            field: "recognizing",
-            renderCell: (params: any) => {
-                return params.value === "0" ? <Typography variant="h2">بد</Typography > : <Typography variant="h2">بس</Typography >;
-            },
-            headerName: "تشخیص",
-            headerClassName: "headerClassName",
-            flex: 1,
-            minWidth: 80,
-        },
+       
         {
             field: "remainingAmount",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{params.value}</Typography >;
+                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "مانده",
             headerClassName: "headerClassName",
@@ -2623,6 +2614,16 @@ const CustomerAccountColumn = () => {
             headerClassName: "headerClassName",
             flex: 1,
             minWidth: 120,
+        },
+        {
+            field: "recognizing",
+            renderCell: (params: any) => {
+                return params.value === "بد" ? <Typography className="bg-red-500 text-white" variant="h2">بد</Typography > : <Typography className="bg-green-500" variant="h2">بس</Typography >;
+            },
+            headerName: "تشخیص",
+            headerClassName: "headerClassName",
+            flex: 1,
+            minWidth: 80,
         },
     ];
     return col;
