@@ -15,16 +15,7 @@ const { PUBLIC_URL } = process.env;
 
 const AppRoutes: FC = () => {
 
-  const { data: userInfo } = useUserInfo()
-
-  const rolePermissions = userInfo?.data?.userRoles
-    ?.flatMap((item: any) =>
-      item?.role?.rolePermissions?.map((r: any) => r.permissionName) || []
-    ) || []
-
-
   return (
-    <AuthProvider permissions={rolePermissions || []}>
       <BrowserRouter basename={PUBLIC_URL}>
         <Routes>
           <Route element={<App />}>
@@ -46,7 +37,6 @@ const AppRoutes: FC = () => {
           </Route>
         </Routes>
       </BrowserRouter>
-    </AuthProvider>
   );
 };
 
