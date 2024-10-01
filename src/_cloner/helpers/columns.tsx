@@ -2618,7 +2618,7 @@ const CustomerAccountColumn = () => {
         {
             field: "recognizing",
             renderCell: (params: any) => {
-                return params.value === "بد" ? <Typography className="bg-red-500 text-white" variant="h2">بد</Typography > : <Typography className="bg-green-500" variant="h2">بس</Typography >;
+                return params.value === "بد" ? <Typography className="bg-red-500 text-white px-2 rounded-md" variant="h4">بد</Typography > : <Typography className="bg-green-500 px-2 rounded-md" variant="h4">بس</Typography >;
             },
             headerName: "تشخیص",
             headerClassName: "headerClassName",

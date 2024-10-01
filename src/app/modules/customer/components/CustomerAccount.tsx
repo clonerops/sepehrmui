@@ -55,7 +55,7 @@ const CustomerAccount = () => {
           {({ handleSubmit, values }) => <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <FormikSearchableCustomer name="customerId" label="مشتری" />
-              
+
               <FormikDatepicker name='fromDate' label="از تاریخ" />
               <FormikDatepicker name='toDate' label="تا تاریخ" />
 
@@ -91,10 +91,21 @@ const CustomerAccount = () => {
                   <div className="flex flex-row items-center gap-x-4">
                     <Typography variant="h3" className="text-gray-500">مانده حساب (ریال): </Typography>
                     <Typography variant="h1" color="primary">{separateAmountWithCommas(customerAccountTools?.data?.data?.remainingAmount || 0)}</Typography>
+                    <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.remainingAmount || 0)} تومان</Typography>
                   </div>
                 </div>
                 <div className="lg:pr-36">
-                  <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.remainingAmount || 0)} تومان</Typography>
+                </div>
+              </div>
+              <div className="flex flex-col space-y-4">
+                <div className="flex flex-row justify-between items-center">
+                  <div className="flex flex-row items-center gap-x-4">
+                    <Typography variant="h3" className="text-gray-500">مانده حساب موعد شده (ریال): </Typography>
+                    <Typography variant="h1" color="primary">{separateAmountWithCommas(customerAccountTools?.data?.data?.totalDueRemainingAmount || 0)}</Typography>
+                    <Typography variant="h3" color="primary">{convertToPersianWord(customerAccountTools?.data?.data?.totalDueRemainingAmount || 0)} تومان</Typography>
+                  </div>
+                </div>
+                <div className="lg:pr-36">
                 </div>
               </div>
             </Alert>
