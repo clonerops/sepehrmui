@@ -22,7 +22,7 @@ const MuiDataGrid = (props: Props) => {
 
     const gridHeight = useMemo(() => {
         const numRows = data?.length;
-        const defaultRowHeight = numRows  < 6 && numRows > 1 ? 76 : numRows < 2 ? 92 : 52;
+        const defaultRowHeight = numRows  < 4 && numRows > 1 ? 76 : numRows < 2 ? 92 : 42;
         const headerHeight = 56;
         const scrollbarHeight = 0;
         if (!data || data.length === 0) {

@@ -2567,7 +2567,7 @@ const CustomerAccountColumn = () => {
         {
             field: "debitAmount",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
+                return <Typography variant="h4" className="text-red-500">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "بدهکار",
             headerClassName: "headerClassName",
@@ -2577,7 +2577,7 @@ const CustomerAccountColumn = () => {
         {
             field: "creditAmount",
             renderCell: (params: any) => {
-                return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
+                return <Typography variant="h4" className="text-green-500">{separateAmountWithCommas(params.value)}</Typography >;
             },
             headerName: "بستانکار",
             headerClassName: "headerClassName",
