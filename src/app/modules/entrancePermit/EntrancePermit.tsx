@@ -1,6 +1,6 @@
-import { AddTask, AdsClick, CarCrash, DateRange, DateRangeRounded, Description, DesignServices, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
+import { AddTask, AdsClick, CarCrash, DateRange, DateRangeRounded, Description, DesignServices, HomeMaxRounded, HomeMiniOutlined, HomeOutlined, NumbersOutlined, Person, PhoneRounded, Place, PriceChange, Print, TypeSpecimen, TypeSpecimenTwoTone } from "@mui/icons-material"
 import { Button, Typography } from "@mui/material"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import moment from "moment-jalaali"
 import ConfirmDialog from "../../../_cloner/components/ConfirmDialog"
@@ -92,7 +92,7 @@ const EntrancePermit = () => {
 
     }
 
-    if(!hasPermission("CreateEntrancePermit"))
+    if (!hasPermission("CreateEntrancePermit"))
         return <AccessDenied />
     return (
         <>
@@ -140,13 +140,24 @@ const EntrancePermit = () => {
             </div>
 
             <MuiTable data={detailTools?.data?.data?.details} columns={detailTransfer} />
-            <div className="flex justify-end items-end my-4">
+            <div className="flex justify-end items-end my-4 gap-x-4">
+                {entranceTools?.data?.data?.id &&
+                    <Link target="_blank" to={`/dashboard/entranceAndUnloading_print/${entranceTools?.data?.data?.id}/${entranceTools?.data?.data?.permitCode}/${moment(entranceTools?.data?.data?.created).format('jYYYY/jMM/jDD')}`}>
+                        <Button className="flex gap-x-4 py-2" variant="contained" color="secondary">
+                            <Typography className="text-black px-32 py-2 flex flex-row gap-x-4" variant="h2">
+                                <Print className="text-black" />
+                                پرینت مجوز
+                            </Typography>
+                        </Button>
+                    </Link>
+                }
                 <Button className="!bg-green-500 !text-white hover:!bg-green-800" onClick={() => setApprove(true)}>
                     <Typography className="text-black px-32 py-2 flex flex-row gap-x-4" variant="h2">
                         <AdsClick className="text-black" />
                         ثبت مجوز ورود
                     </Typography>
                 </Button>
+
             </div>
 
             <ConfirmDialog
