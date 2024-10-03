@@ -55,6 +55,7 @@ const LineCharts: FC<IProps> = ({
             title: {
                 text: "",
             },
+            type: "logarithmic",
             labels: {
                 style: {
                     fontFamily: "Yekan_reqular",

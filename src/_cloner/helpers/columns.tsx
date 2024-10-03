@@ -2600,7 +2600,7 @@ const CustomerAccountColumn = () => {
             renderCell: (params: any) => {
                 return <Typography variant="h4">{separateAmountWithCommas(params.value)}</Typography >;
             },
-            headerName: "مانده موعود شده",
+            headerName: "مانده موعد شده",
             headerClassName: "headerClassName",
             flex: 1,
             minWidth: 120,
